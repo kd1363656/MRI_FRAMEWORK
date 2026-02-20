@@ -7,18 +7,174 @@
     <Filter Include="Source\Application">
       <UniqueIdentifier>{7fa3ab5d-763e-48f8-bd2d-1005653ec36d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework">
+      <UniqueIdentifier>{f5e6cffd-d062-4b38-acf9-37b22b50ce84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition">
+      <UniqueIdentifier>{5496a771-c209-4994-a7ba-a05fdf4cbced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type">
+      <UniqueIdentifier>{90b19788-8992-4ca0-b4f0-fa8cb1b96de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility">
+      <UniqueIdentifier>{518464bc-3dc8-45f5-97cd-42051e1a66d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\FileIO">
+      <UniqueIdentifier>{146dd954-21cb-484a-9632-04b413962b10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Singleton">
+      <UniqueIdentifier>{e9898350-3e0b-4fc2-8079-815ea7e4d229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant">
+      <UniqueIdentifier>{64bbb6ef-5924-4314-975e-830f6a586737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct">
+      <UniqueIdentifier>{7600d5df-dd8f-4a0b-97e5-da45602e51f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\StaticID">
+      <UniqueIdentifier>{6c7df0ec-5c4c-47c5-a1c4-e91b270a99bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo">
+      <UniqueIdentifier>{21038d26-4c26-4476-a8f2-f2ba0e6d3d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo\Registry">
+      <UniqueIdentifier>{cc7222bc-d23a-4074-b4d5-13c9506c62f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\TypeInfo">
+      <UniqueIdentifier>{0860351e-df7c-4482-afa1-0e207b21f16d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag">
+      <UniqueIdentifier>{52f78f9c-452d-4657-962f-b908a8bcabcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\WindowStyle">
+      <UniqueIdentifier>{6bd2c607-f1e8-4c75-98c2-f32578d1c5ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept">
+      <UniqueIdentifier>{c96ed94c-89be-414f-a626-c93591fdf229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase">
+      <UniqueIdentifier>{fb69f43a-559f-41c9-92ba-2b10621be9d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag">
+      <UniqueIdentifier>{b9152a08-6032-4fe6-bcec-16c4955ff39c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\Json">
+      <UniqueIdentifier>{cbd22122-1d58-4186-8374-d698f43771e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter">
+      <UniqueIdentifier>{89f04d7b-d54e-4db7-890f-da9f6b78eba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Window">
+      <UniqueIdentifier>{74be7919-48a5-41ef-8823-36341fce8bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\FPS">
+      <UniqueIdentifier>{908db057-d871-4033-b8d2-854ab7387da6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\FPS">
+      <UniqueIdentifier>{e3f3c1ef-ad39-4ad8-a33a-67192c7db72d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Window">
+      <UniqueIdentifier>{b9b481bc-08c7-41c0-8db2-d5f1d4c70a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\String">
+      <UniqueIdentifier>{431eb5b3-6825-4509-9c29-116956d7e4a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Application\ApplicationManager.cpp">
+    <ClCompile Include="Source\Application\Application.cpp">
       <Filter>Source\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Source\main.cpp">
+    <ClCompile Include="Source\PCH.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp">
+      <Filter>Source\Framework\TypeInfo\Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.cpp">
+      <Filter>Source\Framework\Utility\TypeInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\FPS\FPSController.cpp">
+      <Filter>Source\Framework\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Window\Window.cpp">
+      <Filter>Source\Framework\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Application\ApplicationManager.h">
+    <ClInclude Include="Source\Application\Application.h">
       <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PCH.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Framework.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\TypeDEF.h">
+      <Filter>Source\Framework\Definition\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\FileIO\FileIOUtility.h">
+      <Filter>Source\Framework\Utility\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Singleton\SingletonBase.h">
+      <Filter>Source\Framework\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\CommonConstant.h">
+      <Filter>Source\Framework\Definition\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\CommonStruct.h">
+      <Filter>Source\Framework\Definition\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\StaticID\StaticID.h">
+      <Filter>Source\Framework\StaticID</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\TypeInfo.h">
+      <Filter>Source\Framework\TypeInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.h">
+      <Filter>Source\Framework\TypeInfo\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.h">
+      <Filter>Source\Framework\Utility\TypeInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\TagBase.h">
+      <Filter>Source\Framework\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h">
+      <Filter>Source\Framework\Tag\WindowStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedWindowStyleTagBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h">
+      <Filter>Source\Framework\Utility\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h">
+      <Filter>Source\Framework\Converter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h">
+      <Filter>Source\Framework\Converter\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h">
+      <Filter>Source\Framework\Converter\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\FPS\FPSController.h">
+      <Filter>Source\Framework\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Window\Window.h">
+      <Filter>Source\Framework\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\String\StringUtility.h">
+      <Filter>Source\Framework\Utility\String</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

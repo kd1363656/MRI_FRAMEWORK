@@ -11,11 +11,44 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Application\ApplicationManager.cpp" />
-    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Application\Application.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
+    <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
+    <ClCompile Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.cpp" />
+    <ClCompile Include="Source\Framework\Window\Window.cpp" />
+    <ClCompile Include="Source\PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PCH.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PCH.h</PrecompiledHeaderFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Application\ApplicationManager.h" />
+    <ClInclude Include="Source\Application\Application.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedWindowStyleTagBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\CommonConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\CommonStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\TypeDEF.h" />
+    <ClInclude Include="Source\Framework\FPS\FPSController.h" />
+    <ClInclude Include="Source\Framework\Framework.h" />
+    <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
+    <ClInclude Include="Source\Framework\StaticID\StaticID.h" />
+    <ClInclude Include="Source\Framework\Tag\TagBase.h" />
+    <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h" />
+    <ClInclude Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.h" />
+    <ClInclude Include="Source\Framework\TypeInfo\TypeInfo.h" />
+    <ClInclude Include="Source\Framework\Utility\FileIO\FileIOUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\String\StringUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.h" />
+    <ClInclude Include="Source\Framework\Window\Window.h" />
+    <ClInclude Include="Source\PCH.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -65,9 +98,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>.\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -80,9 +117,13 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>.\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
