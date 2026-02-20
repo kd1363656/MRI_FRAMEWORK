@@ -79,6 +79,9 @@
     <Filter Include="Source\Framework\Utility\String">
       <UniqueIdentifier>{431eb5b3-6825-4509-9c29-116956d7e4a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Render">
+      <UniqueIdentifier>{be15d1d6-2dba-4222-a0a2-b3fd739b4ec0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
