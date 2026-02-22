@@ -127,6 +127,9 @@
     <Filter Include="Source\Framework\Render\DescriptorHeap">
       <UniqueIdentifier>{a882b0cd-81be-4e7c-8735-88a1e363dd63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Render\Fence">
+      <UniqueIdentifier>{bf58cd4e-81f5-4a57-a166-b167723fe1b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -194,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Render\DescriptorHeap\DescriptorHeap.cpp">
       <Filter>Source\Framework\Render\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Fence\Fence.cpp">
+      <Filter>Source\Framework\Render\Fence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Render\DescriptorHeap\DescriptorHeap.h">
       <Filter>Source\Framework\Render\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Fence\Fence.h">
+      <Filter>Source\Framework\Render\Fence</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

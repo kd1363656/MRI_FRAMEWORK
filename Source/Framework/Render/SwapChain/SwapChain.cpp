@@ -69,9 +69,9 @@ bool FWK::Render::SwapChain::CreateSwapChain(const HWND& a_hWND, const CommonStr
 		return false;
 	}
 
-	const auto& l_commandQueue = k_graphicsCommandQueue.GetCommandQueue();
+	const auto& l_graphicsCommandQueue = k_graphicsCommandQueue.GetCommandQueue();
 
-	if (!l_commandQueue)
+	if (!l_graphicsCommandQueue)
 	{
 		assert(false && "コマンドキューの作成がされていないためスワップチェインが作成できません。");
 		return false;
@@ -102,7 +102,7 @@ bool FWK::Render::SwapChain::CreateSwapChain(const HWND& a_hWND, const CommonStr
 	TypeDEF::ComPtr<IDXGISwapChain1> l_swapChain = nullptr;
 
 	// スワップチェイン作成
-	auto l_hr = l_factory->CreateSwapChainForHwnd(l_commandQueue.Get(), 
+	auto l_hr = l_factory->CreateSwapChainForHwnd(l_graphicsCommandQueue.Get(), 
 												  a_hWND, 
 												  &l_desc, 
 												  nullptr,
