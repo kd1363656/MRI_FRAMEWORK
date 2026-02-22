@@ -83,14 +83,14 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 	return true;
 }
 
-void FWK::Window::LoadConfig()
+void FWK::Window::LoadCONFIG()
 {
 	const auto& l_rootJson = Utility::FileIO::LoadJsonFile(k_configFileIOPath);
 
 	// ウィンドウの幅、高さ、ボーダーレスウィンドウかなどの値をDeserialize
 	m_windowJsonConverter.Deserialize(l_rootJson);
 }
-void FWK::Window::SaveConfig()
+void FWK::Window::SaveCONFIG()
 {
 	const auto& l_rootJson = m_windowJsonConverter.Serialize();
 

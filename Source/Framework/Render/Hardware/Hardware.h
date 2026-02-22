@@ -16,6 +16,8 @@ namespace FWK::Render
 		void           Deserialize(const nlohmann::json& a_rootJson);
 		nlohmann::json Serialize  ();
 
+		const auto& GetDevice() const { return m_device; }
+
 		UINT GetGPUNodeMask() const { return m_gpuNodeMask; }
 
 		void SetGPUNodeMask(const UINT a_set) { m_gpuNodeMask = a_set; }

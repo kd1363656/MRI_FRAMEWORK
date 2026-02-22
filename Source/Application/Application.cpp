@@ -1,6 +1,9 @@
 #include "Application.h"
 
-int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
+int WINAPI WinMain(_In_     HINSTANCE, 
+				   _In_opt_ HINSTANCE,
+				   _In_     LPSTR,
+				   _In_     int)
 {
 	// メモリリークを知らせる。
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -56,7 +59,10 @@ void Application::Init()
 
 	m_window.Init       ();
 	m_fpsController.Init();
-	
+
+	// 描画クラスの初期化
+	FWK::Render::Renderer::GetInstance().Init();
+
 	// ウィンドウ作成後すぐにFPSを表示
 	// (別にしなくてもいいがいきなりタイトルバーに変化があれば不快だと思ったので)
 	UpdateWindowTitleBar();
@@ -70,18 +76,29 @@ void Application::PostLoadInit()
 		return;
 	}
 
-	return;
+	auto& l_renderer = FWK::Render::Renderer::GetInstance();
+
+	if (!l_renderer.Create(GetHWND(), m_window.GetWindowConfig()))
+	{
+		assert(false && "レンダラーの必要クラス作成に失敗。");
+		return;
+	}
+
+	// Create処理が終わった後のレンダラーの初期化
+	l_renderer.PostCreateInit(GetHWND());
 }
 
 void Application::Load()
 {
-	m_window.LoadConfig       ();
-	m_fpsController.LoadConfig();
+	m_window.LoadCONFIG							   ();
+	FWK::Render::Renderer::GetInstance().LoadCONFIG();
+	m_fpsController.LoadCONFIG					   ();
 }
 void Application::Save()
 {
-	m_window.SaveConfig       ();
-	m_fpsController.SaveConfig();
+	m_window.SaveCONFIG							   ();
+	FWK::Render::Renderer::GetInstance().SaveCONFIG();
+	m_fpsController.SaveCONFIG					   ();
 }
 
 void Application::UpdateWindowTitleBar() const

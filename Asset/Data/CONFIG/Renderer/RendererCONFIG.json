@@ -2,8 +2,5 @@
     "Hardware": {
         "GPUNodeMask": 0
     },
-    "SwapChain": {
-        "BackBufferNum": 2
-    },
     "SyncInterval": 1
 }

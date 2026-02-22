@@ -61,6 +61,7 @@
 #include "Converter/Json/JsonConverterBase.h"
 #include "Converter/Json/FPS/FPSControllerJsonConverter.h"
 #include "Converter/Json/Window/WindowJsonConverter.h"
+#include "Converter/Json/Render/RendererJsonConverter.h"
 #include "Converter/Json/Render/Hardware/HardwareJsonConverter.h"
 
 //=========================================================
@@ -77,3 +78,5 @@
 // •`‰æŠÖŒWƒNƒ‰ƒX
 //=========================================================
 #include "Render/Hardware/Hardware.h"
+
+#include "Render/Renderer.h"

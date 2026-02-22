@@ -91,18 +91,6 @@
     <Filter Include="Source\Framework\Converter\Render\Hardware">
       <UniqueIdentifier>{3807e8a2-acd1-455c-be6f-e3be7c22cd45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Render\Command">
-      <UniqueIdentifier>{6eb348cd-d591-44e0-92ff-c975e39bef54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Render\Command\Allocator">
-      <UniqueIdentifier>{5090750c-07bd-4fed-a8e4-e34bdc89108e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Render\Command\List">
-      <UniqueIdentifier>{66e96156-748c-4efd-bd71-2d4ce6d830a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Render\Command\Queue">
-      <UniqueIdentifier>{034b42c2-0496-4e3e-bde2-13d84ab795ff}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -135,8 +123,11 @@
     <ClCompile Include="Source\Framework\Converter\Json\Render\Hardware\HardwareJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Render\Hardware</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Converter\Json\Render\Command\Queue\CommandQueue.cpp">
-      <Filter>Source\Framework\Render\Command\Queue</Filter>
+    <ClCompile Include="Source\Framework\Render\Renderer.cpp">
+      <Filter>Source\Framework\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Render\RendererJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,8 +206,11 @@
     <ClInclude Include="Source\Framework\Converter\Json\Render\Hardware\HardwareJsonConverter.h">
       <Filter>Source\Framework\Converter\Render\Hardware</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Converter\Json\Render\Command\Queue\CommandQueue.h">
-      <Filter>Source\Framework\Render\Command\Queue</Filter>
+    <ClInclude Include="Source\Framework\Render\Renderer.h">
+      <Filter>Source\Framework\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Render\RendererJsonConverter.h">
+      <Filter>Source\Framework\Converter\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
