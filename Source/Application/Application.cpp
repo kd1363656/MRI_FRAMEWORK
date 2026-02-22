@@ -26,6 +26,8 @@ void Application::Execute()
 	Load        ();
 	PostLoadInit();
 
+	auto& l_renderer = FWK::Render::Renderer::GetInstance();
+
 	while (true)
 	{
 		// FPSの計測
@@ -38,6 +40,10 @@ void Application::Execute()
 		{
 			break;
 		}
+
+		// 描画
+		l_renderer.BeginFrame();
+		l_renderer.EndFrame  ();
 
 		// フレームレート制御
 		m_fpsController.Update();

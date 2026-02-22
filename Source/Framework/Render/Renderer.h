@@ -15,11 +15,18 @@ namespace FWK::Render
 		void LoadCONFIG();
 		void SaveCONFIG();
 
+		void BeginFrame();
+		void EndFrame  ();
+
 		UINT GetSyncInterval() const { return m_syncInterval; }
 
 		void SetSyncInterval(const UINT a_set) { m_syncInterval = a_set; }
 
 	private:
+
+		static constexpr UINT k_sendRenderTargetBarrierStateNum = 1U;
+		static constexpr UINT k_executeRenderTargetNum          = 1U;
+		static constexpr UINT k_executeCommandListNum			= 1U;
 
 		const std::string k_configFileIOPath = "Asset/Data/CONFIG/Renderer/RendererCONFIG.json";
 
@@ -28,6 +35,7 @@ namespace FWK::Render
 		Hardware			   m_hardware;
 		GraphicsCommandContext m_graphicsCommandContext;
 		SwapChain              m_swapChain;
+		Fence				   m_fence;
 
 		Converter::RendererJsonConverter m_rendererJsonConverter;
 

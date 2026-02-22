@@ -52,6 +52,29 @@ nlohmann::json FWK::Render::SwapChain::Serialize()
 	return m_swapChainJsonConverter.Serialize();
 }
 
+void FWK::Render::SwapChain::Present(const UINT a_syncInterval) const
+{
+	if (!m_swapChain)
+	{
+		assert(false && "スワップチェインが作成されておらず、フリップ処理が出来ませんでした。");
+		return;
+	}
+
+	// 設定したバックバッファを画面に描画
+	m_swapChain->Present(a_syncInterval, 0U);
+}
+
+UINT FWK::Render::SwapChain::GetCurrentBackBufferIndex() const
+{
+	if (!m_swapChain)
+	{
+		assert(false && "スワップチェインが作成されておらず、現在のバックバッファのインデックスを取得出来ませんでした。");
+		return 0U;
+	}
+
+	return m_swapChain->GetCurrentBackBufferIndex();
+}
+
 bool FWK::Render::SwapChain::CreateSwapChain(const HWND& a_hWND, const CommonStruct::WindowConfig& a_windowConfig)
 {
 	const auto& l_factory = k_hardware.GetFactory();

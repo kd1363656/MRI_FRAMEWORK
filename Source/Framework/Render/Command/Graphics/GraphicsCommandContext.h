@@ -2,6 +2,13 @@
 
 namespace FWK::Render
 {
+	class FrameResource;
+	class SwapChain;
+	class Fence;
+}
+
+namespace FWK::Render
+{
 	class GraphicsCommandContext
 	{
 	public:
@@ -12,9 +19,14 @@ namespace FWK::Render
 		void Init  ();
 		bool Create();
 
+		void ResetCommandObjects(const std::vector<FrameResource>& a_frameResourceList, const SwapChain& a_swapChain) const;
+
+		void EndFrame(const Fence& a_fence, const UINT a_executeCommandListNum) const;
+
 		const auto& GetHardware() const { return k_hardware; }
 
 		const auto& GetGraphicsCommandQueue() const { return m_graphicsCommandQueue; }
+		const auto& GetGraphicsCommandList () const { return m_graphicsCommandList; }
 
 	private:
 

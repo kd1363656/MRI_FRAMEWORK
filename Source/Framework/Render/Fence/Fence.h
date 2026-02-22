@@ -12,6 +12,11 @@ namespace FWK::Render
 		void Init  ();
 		bool Create();
 
+		void BeginFrame(std::vector<FrameResource>& a_frameResourceList, const SwapChain& a_swapChain);
+		void EndFrame  (std::vector<FrameResource>& a_frameResourceList, const SwapChain& a_swapChain, const GraphicsCommandQueue& a_graphicsCommandQueue);
+
+		const auto& GetFence() const { return m_fence; }
+
 	private:
 
 		void WaitForGPUIdle();

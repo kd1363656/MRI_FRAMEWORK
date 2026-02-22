@@ -31,6 +31,7 @@
 #include <dxgi1_6.h>s
 #include <DirectXMath.h>
 #include <directx-dxc/dxcapi.h>
+#include <d3dx12.h>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")

@@ -12,6 +12,8 @@ namespace FWK::Render
 		void Init  ();
 		bool Create();
 
+		const auto& GetCommandList() const { return m_commandList; }
+
 	private:
 
 		const Hardware&				  k_hardware;

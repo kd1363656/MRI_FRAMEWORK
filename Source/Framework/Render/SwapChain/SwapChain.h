@@ -15,7 +15,14 @@ namespace FWK::Render
 		void           Deserialize(const nlohmann::json& a_rootJson);
 		nlohmann::json Serialize  ();
 
-		UINT GetBackBufferNum() const { return m_backBufferNum; }
+		void Present(const UINT a_syncInterval) const;
+
+		const auto& GetBackBufferList() const { return m_backBufferList; }
+
+		const auto& GetRTVHeap() const { return m_rtvHeap; }
+
+		UINT GetCurrentBackBufferIndex() const;
+		UINT GetBackBufferNum         () const { return m_backBufferNum; }
 
 		void SetBackBufferNum(const UINT a_set) { m_backBufferNum = a_set; }
 
