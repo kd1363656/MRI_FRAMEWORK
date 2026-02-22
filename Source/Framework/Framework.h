@@ -78,9 +78,10 @@
 // •`‰æŠÖŒWƒNƒ‰ƒX
 //=========================================================
 #include "Render/Hardware/Hardware.h"
-#include "Render/Command/Base/CommandContextBase.h"
 #include "Render/Command/Base/Queue/CommandQueueBase.h"
 #include "Render/Command/Base/Allocator/CommandAllocatorBase.h"
 #include "Render/Command/Base/List/CommandListBase.h"
+#include "Render/Command/Graphics/Queue/GraphicsCommandQueue.h"
+#include "Render/Command/Graphics/GraphicsCommandContext.h"
 
 #include "Render/Renderer.h"

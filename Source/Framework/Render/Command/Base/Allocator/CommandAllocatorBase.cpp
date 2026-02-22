@@ -1,7 +1,8 @@
 #include "CommandAllocatorBase.h"
 
-FWK::Render::CommandAllocatorBase::CommandAllocatorBase(const Hardware& a_hardware) : 
-	k_hardware(a_hardware)
+FWK::Render::CommandAllocatorBase::CommandAllocatorBase(const Hardware& a_hardware, const D3D12_COMMAND_LIST_TYPE a_createCommandListType) : 
+	k_hardware             (a_hardware),
+	k_createCommandListType(a_createCommandListType)
 {}
 FWK::Render::CommandAllocatorBase::~CommandAllocatorBase() = default;
 
@@ -9,7 +10,7 @@ void FWK::Render::CommandAllocatorBase::Init()
 {
 	m_commandAllocator.Reset();
 }
-bool FWK::Render::CommandAllocatorBase::Create(const D3D12_COMMAND_LIST_TYPE a_createCommandListType)
+bool FWK::Render::CommandAllocatorBase::Create()
 {
 	const auto& l_device = k_hardware.GetDevice();
 
@@ -19,7 +20,7 @@ bool FWK::Render::CommandAllocatorBase::Create(const D3D12_COMMAND_LIST_TYPE a_c
 		return false; 
 	}
 
-	auto l_hr = l_device->CreateCommandAllocator(a_createCommandListType, IID_PPV_ARGS(m_commandAllocator.ReleaseAndGetAddressOf()));
+	auto l_hr = l_device->CreateCommandAllocator(k_createCommandListType, IID_PPV_ARGS(m_commandAllocator.ReleaseAndGetAddressOf()));
 
 	if (FAILED(l_hr))
 	{

@@ -165,8 +165,8 @@
     <ClCompile Include="Source\Framework\Render\Command\Base\Allocator\CommandAllocatorBase.cpp">
       <Filter>Source\Framework\Render\Command\Base\Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Render\Command\Base\CommandContextBase.cpp">
-      <Filter>Source\Framework\Render\Command\Base</Filter>
+    <ClCompile Include="Source\Framework\Render\Command\Graphics\GraphicsCommandContext.cpp">
+      <Filter>Source\Framework\Render\Command\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.cpp">
       <Filter>Source\Framework\Render\Command\Graphics\Queue</Filter>
@@ -263,8 +263,8 @@
     <ClInclude Include="Source\Framework\Render\Command\Base\Allocator\CommandAllocatorBase.h">
       <Filter>Source\Framework\Render\Command\Base\Allocator</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Render\Command\Base\CommandContextBase.h">
-      <Filter>Source\Framework\Render\Command\Base</Filter>
+    <ClInclude Include="Source\Framework\Render\Command\Graphics\GraphicsCommandContext.h">
+      <Filter>Source\Framework\Render\Command\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.h">
       <Filter>Source\Framework\Render\Command\Graphics\Queue</Filter>
