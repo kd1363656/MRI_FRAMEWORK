@@ -91,6 +91,21 @@
     <Filter Include="Source\Framework\Converter\Render\Hardware">
       <UniqueIdentifier>{3807e8a2-acd1-455c-be6f-e3be7c22cd45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Render\Command">
+      <UniqueIdentifier>{108c2a64-7f42-4def-93e1-ef557cf82693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Graphics">
+      <UniqueIdentifier>{7d9698a2-918c-405f-8ebf-555352a8f094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Graphics\Queue">
+      <UniqueIdentifier>{c1163e91-77ed-494f-af7a-44a344c46056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Graphics\List">
+      <UniqueIdentifier>{c09dc820-747b-4758-b29c-070dea20290b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Graphics\Allocator">
+      <UniqueIdentifier>{52d99b1b-6d6d-421f-9e0c-a9a56eaabf33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
