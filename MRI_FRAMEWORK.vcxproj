@@ -17,6 +17,11 @@
     <ClCompile Include="Source\Framework\Converter\Json\Render\RendererJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
+    <ClCompile Include="Source\Framework\Render\Command\Base\Allocator\CommandAllocatorBase.cpp" />
+    <ClCompile Include="Source\Framework\Render\Command\Base\CommandContextBase.cpp" />
+    <ClCompile Include="Source\Framework\Render\Command\Base\List\CommandListBase.cpp" />
+    <ClCompile Include="Source\Framework\Render\Command\Base\Queue\CommandQueueBase.cpp" />
+    <ClCompile Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.cpp" />
     <ClCompile Include="Source\Framework\Render\Hardware\Hardware.cpp" />
     <ClCompile Include="Source\Framework\Render\Renderer.cpp" />
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
@@ -43,6 +48,11 @@
     <ClInclude Include="Source\Framework\Definition\Type\TypeDEF.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
+    <ClInclude Include="Source\Framework\Render\Command\Base\Allocator\CommandAllocatorBase.h" />
+    <ClInclude Include="Source\Framework\Render\Command\Base\CommandContextBase.h" />
+    <ClInclude Include="Source\Framework\Render\Command\Base\List\CommandListBase.h" />
+    <ClInclude Include="Source\Framework\Render\Command\Base\Queue\CommandQueueBase.h" />
+    <ClInclude Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.h" />
     <ClInclude Include="Source\Framework\Render\Hardware\Hardware.h" />
     <ClInclude Include="Source\Framework\Render\Renderer.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />

@@ -15,6 +15,7 @@ void FWK::Render::Hardware::Init()
 
 	m_gpuNodeMask = CommonConstant::k_defaultGPUNodeMask;
 }
+
 bool FWK::Render::Hardware::Create()
 {
 #if defined(_DEBUG)

@@ -94,17 +94,29 @@
     <Filter Include="Source\Framework\Render\Command">
       <UniqueIdentifier>{108c2a64-7f42-4def-93e1-ef557cf82693}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Render\Command\Base">
+      <UniqueIdentifier>{8d6b7c46-e756-4efa-8d26-7da18b58d34e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Base\List">
+      <UniqueIdentifier>{dfc8fb1b-3610-40f1-8df3-4eee83013e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Base\Allocator">
+      <UniqueIdentifier>{38d4f8a8-1ce0-4509-8eeb-1a39119db1c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Base\Queue">
+      <UniqueIdentifier>{6a82a23e-16e4-4d58-8c25-cb0cd05a2bef}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Framework\Render\Command\Graphics">
-      <UniqueIdentifier>{7d9698a2-918c-405f-8ebf-555352a8f094}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Render\Command\Graphics\Queue">
-      <UniqueIdentifier>{c1163e91-77ed-494f-af7a-44a344c46056}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Render\Command\Graphics\List">
-      <UniqueIdentifier>{c09dc820-747b-4758-b29c-070dea20290b}</UniqueIdentifier>
+      <UniqueIdentifier>{88e819ec-2d08-4d93-8cd4-0d9549891014}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Render\Command\Graphics\Allocator">
-      <UniqueIdentifier>{52d99b1b-6d6d-421f-9e0c-a9a56eaabf33}</UniqueIdentifier>
+      <UniqueIdentifier>{b2b6787f-44d5-4f25-851d-688f7fa7bbbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Graphics\List">
+      <UniqueIdentifier>{c988c2b4-b36d-4cb7-abfa-0b14d7dc2bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Graphics\Queue">
+      <UniqueIdentifier>{1d38727a-e74e-4078-b9c3-9d70162eafde}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +155,21 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Render\RendererJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Command\Base\Queue\CommandQueueBase.cpp">
+      <Filter>Source\Framework\Render\Command\Base\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Command\Base\List\CommandListBase.cpp">
+      <Filter>Source\Framework\Render\Command\Base\List</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Command\Base\Allocator\CommandAllocatorBase.cpp">
+      <Filter>Source\Framework\Render\Command\Base\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Command\Base\CommandContextBase.cpp">
+      <Filter>Source\Framework\Render\Command\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.cpp">
+      <Filter>Source\Framework\Render\Command\Graphics\Queue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +253,21 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Render\RendererJsonConverter.h">
       <Filter>Source\Framework\Converter\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Command\Base\Queue\CommandQueueBase.h">
+      <Filter>Source\Framework\Render\Command\Base\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Command\Base\List\CommandListBase.h">
+      <Filter>Source\Framework\Render\Command\Base\List</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Command\Base\Allocator\CommandAllocatorBase.h">
+      <Filter>Source\Framework\Render\Command\Base\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Command\Base\CommandContextBase.h">
+      <Filter>Source\Framework\Render\Command\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.h">
+      <Filter>Source\Framework\Render\Command\Graphics\Queue</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
