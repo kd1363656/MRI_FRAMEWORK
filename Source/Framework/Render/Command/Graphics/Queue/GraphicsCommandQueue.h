@@ -7,11 +7,12 @@ namespace FWK::Render
 
 namespace FWK::Render
 {
-	class GraphicsCommandQueue : public CommandQueueBase
+	class GraphicsCommandQueue final : public CommandQueueBase
 	{
 	public:
-		explicit GraphicsCommandQueue(const GraphicsCommandContext& a_graphicsCommandContext, const D3D12_COMMAND_LIST_TYPE a_createCommandListType);
-		~GraphicsCommandQueue        ()														 override;
+
+		explicit GraphicsCommandQueue(const GraphicsCommandContext& a_graphicsCommandContext);
+		~GraphicsCommandQueue        ()														  override;
 
 	private:
 

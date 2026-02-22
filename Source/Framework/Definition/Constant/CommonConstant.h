@@ -2,6 +2,8 @@
 
 namespace FWK::CommonConstant
 {
+	inline constexpr D3D12_COMMAND_LIST_TYPE k_createCommandListTypeDirect = D3D12_COMMAND_LIST_TYPE_DIRECT;
+
 	inline constexpr float k_defaultFPS = 60.0F;
 
 	inline constexpr std::uint32_t k_invalidStaticID = 0U;

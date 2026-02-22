@@ -171,6 +171,10 @@
     <ClCompile Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.cpp">
       <Filter>Source\Framework\Render\Command\Graphics\Queue</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Command\Graphics\Allocator\GraphicsCommandAllocator.cpp">
+      <Filter>Source\Framework\Render\Command\Graphics\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\Command\Graphics\List\GraphicsCommandList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -268,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.h">
       <Filter>Source\Framework\Render\Command\Graphics\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Command\Graphics\Allocator\GraphicsCommandAllocator.h">
+      <Filter>Source\Framework\Render\Command\Graphics\Allocator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
