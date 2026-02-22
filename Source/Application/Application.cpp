@@ -10,10 +10,7 @@ int WINAPI WinMain(_In_     HINSTANCE,
 
 	// COM初期化
 	// ウィンドウダイアログなどを使う際に必要
-	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
-	{
-		return -1;
-	}
+	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED))) { return -1; }
 
 	Application::GetInstance().Execute();
 
@@ -111,5 +108,5 @@ void Application::UpdateWindowTitleBar() const
 
 std::string Application::GenerateWindowTitleText() const
 {
-	return std::string();	return std::format("{} : {}", k_titleBar, static_cast<int>(GetNowFPS()));
+	return std::format("{} : {}", k_titleBar, static_cast<int>(GetNowFPS()));
 }

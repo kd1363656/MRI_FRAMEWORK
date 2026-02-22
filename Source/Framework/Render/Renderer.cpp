@@ -1,21 +1,29 @@
 #include "Renderer.h"
 
 FWK::Render::Renderer::Renderer() : 
-	m_hardware                (),
-	m_rendererJsonConverter   (*this),
-	m_syncInterval            (CommonConstant::k_defaultSyncInterval)
+	m_hardware              (),
+	m_graphicsCommandContext(m_hardware),
+	m_rendererJsonConverter (*this),
+	m_syncInterval          (CommonConstant::k_defaultSyncInterval)
 {}
 FWK::Render::Renderer::~Renderer() = default;
 
 void FWK::Render::Renderer::Init()
 {
-	m_hardware.Init();
+	m_hardware.Init				 ();
+	m_graphicsCommandContext.Init();
 }
 bool FWK::Render::Renderer::Create(const HWND& a_hWND, const CommonStruct::WindowConfig& a_windowConfig)
 {
 	if (!m_hardware.Create())
 	{
 		assert(false && "レンダーデバイスの作成に失敗しました。");
+		return false;
+	}
+
+	if (!m_graphicsCommandContext.Create())
+	{
+		assert(false && "コマンドオブジェクト(\"ID3D12_COMMAND_TYPE_DIRECT\")の作成に失敗しました。");
 		return false;
 	}
 

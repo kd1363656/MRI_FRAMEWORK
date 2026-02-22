@@ -112,11 +112,11 @@
     <Filter Include="Source\Framework\Render\Command\Graphics\Allocator">
       <UniqueIdentifier>{b2b6787f-44d5-4f25-851d-688f7fa7bbbe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Render\Command\Graphics\List">
-      <UniqueIdentifier>{c988c2b4-b36d-4cb7-abfa-0b14d7dc2bf4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Render\Command\Graphics\Queue">
       <UniqueIdentifier>{1d38727a-e74e-4078-b9c3-9d70162eafde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Render\Command\Graphics\List">
+      <UniqueIdentifier>{023ee530-1d69-4361-a2d4-63badc669a82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,7 +174,9 @@
     <ClCompile Include="Source\Framework\Render\Command\Graphics\Allocator\GraphicsCommandAllocator.cpp">
       <Filter>Source\Framework\Render\Command\Graphics\Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Render\Command\Graphics\List\GraphicsCommandList.cpp" />
+    <ClCompile Include="Source\Framework\Render\Command\Graphics\List\GraphicsCommandList.cpp">
+      <Filter>Source\Framework\Render\Command\Graphics\List</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -275,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Render\Command\Graphics\Allocator\GraphicsCommandAllocator.h">
       <Filter>Source\Framework\Render\Command\Graphics\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\Command\Graphics\List\GraphicsCommandList.h">
+      <Filter>Source\Framework\Render\Command\Graphics\List</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

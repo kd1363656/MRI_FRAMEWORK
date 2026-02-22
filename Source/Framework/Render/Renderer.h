@@ -25,7 +25,8 @@ namespace FWK::Render
 
 		const std::string k_configFileIOPath = "Asset/Data/CONFIG/Renderer/RendererCONFIG.json";
 
-		Hardware m_hardware;
+		Hardware			   m_hardware;
+		GraphicsCommandContext m_graphicsCommandContext;
 		
 		Converter::RendererJsonConverter m_rendererJsonConverter;
 

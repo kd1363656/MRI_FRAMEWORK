@@ -83,6 +83,7 @@
 #include "Render/Command/Base/List/CommandListBase.h"
 #include "Render/Command/Graphics/Queue/GraphicsCommandQueue.h"
 #include "Render/Command/Graphics/Allocator/GraphicsCommandAllocator.h"
+#include "Render/Command/Graphics/List/GraphicsCommandList.h"
 #include "Render/Command/Graphics/GraphicsCommandContext.h"
 
 #include "Render/Renderer.h"
