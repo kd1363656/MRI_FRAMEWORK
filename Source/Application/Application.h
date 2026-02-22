@@ -12,8 +12,8 @@ public:
 
 private:
 
-	void Init    ();
-	bool PostLoad();
+	void Init        ();
+	void PostLoadInit();
 
 	void Load();
 	void Save();

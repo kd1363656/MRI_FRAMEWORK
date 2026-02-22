@@ -8,14 +8,14 @@ FWK::Window::~Window()
 
 void FWK::Window::Init()
 {
-	// ウィンドウのデフォルト値を格納しておく("json"のロードが失敗してもプログラムが動くように)
+	// ウィンドウのデフォルト値を格納しておく(jsonのロードが失敗してもプログラムが動くように)
 	m_windowConfig.width    = CommonConstant::k_defaultWindowWidth;
 	m_windowConfig.height   = CommonConstant::k_defaultWindowHeight;
 	m_windowConfig.styleTag = FWK::GetTypeInfo<FWK::Tag::WindowStyleNormalTag>().k_id;
 }
 bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_windowClassName)
 {
-	// "DPI"対応("Windows10"以降)
+	// DPI対応(Windows10以降)
 	SetProcessDPIAware();
 
 	// ハンドル取得
@@ -41,7 +41,7 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 	l_wc.lpszMenuName  = nullptr;							               // メニューリソースの名前
 	l_wc.lpszClassName = l_windowClassName.c_str();			               // ウィンドウクラス名
 
-	// ウィンドウクラスを"OS"に登録
+	// ウィンドウクラスをOSに登録
 	if (!RegisterClassEx(&l_wc)) { return false; }
 
 	// 現在のスタイル用のタグからスタイルパラメータを取得
@@ -51,16 +51,16 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 	m_hWND = CreateWindow(l_windowClassName.c_str(), //	登録済みウィンドウクラス名、
 						  l_titleName.c_str(),		 // ウィンドウのタイトルバーの文字列、
 						  l_styleTag,				 // ウィンドウのタイトル、
-						  k_defaultWindowPosX,		 // ウィンドウ座標"X、
-						  k_defaultWindowPosY,		 // ウィンドウ座標"Y"、
+						  k_defaultWindowPosX,		 // ウィンドウ座標X、
+						  k_defaultWindowPosY,		 // ウィンドウ座標Y、
 						  m_windowConfig.width,		 // クライアント領域に幅、
 						  m_windowConfig.height,	 // クライアント領域の高さ、
 						  nullptr,					 // 親ウィンドウがない、
 						  nullptr,					 // メニューなし、
 						  l_hInstance,				 // アプリケーションのインスタンスハンドル、
-						  this);					 // 作製するウィンドウに"this"ポインタを渡す,"WM_CREATE"などで取り出せる	
+						  this);					 // 作製するウィンドウに"this"ポインタを渡す,WM_CREATEなどで取り出せる	
 
-	// 作製しが失敗したら"return"
+	// 作製しが失敗したらreturn
 	if (!m_hWND)
 	{
 		// メモリリーク防止
@@ -77,7 +77,7 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 	// ウィンドウのクライアント領域をすぐに再描画
 	UpdateWindow(m_hWND);
 
-	// "timeGetTime"関数の制度を'1ms'に設定(Sleep関数などに影響する)
+	// timeGetTime関数の制度を1msに設定(Sleep関数などに影響する)
 	timeBeginPeriod(k_timeResolutionMS);
 
 	return true;
@@ -87,14 +87,14 @@ void FWK::Window::LoadConfig()
 {
 	const auto& l_rootJson = Utility::FileIO::LoadJsonFile(k_configFileIOPath);
 
-	// ウィンドウの幅、高さ、ボーダーレスウィンドウかなどの値を"Deserialize"
+	// ウィンドウの幅、高さ、ボーダーレスウィンドウかなどの値をDeserialize
 	m_windowJsonConverter.Deserialize(l_rootJson);
 }
 void FWK::Window::SaveConfig()
 {
 	const auto& l_rootJson = m_windowJsonConverter.Serialize();
 
-	// ウィンドウの幅、高さ、ボーダーレスウィンドウかなどの値を"Serialize"
+	// ウィンドウの幅、高さ、ボーダーレスウィンドウかなどの値をSerialize
 	Utility::FileIO::SaveJsonFile(l_rootJson, k_configFileIOPath);
 }
 
@@ -103,7 +103,7 @@ bool FWK::Window::ProcessMessage() const
 	// メッセージ取得
 	MSG msg = {};
 
-	while(PeekMessage(&msg,            // メッセージ情報を格納する"MSG"構造体のアドレス
+	while(PeekMessage(&msg,            // メッセージ情報を格納するMSG構造体のアドレス
 					   nullptr,        // 全ウィンドウのメッセージを対象とする 
 					   k_msgFilterMIN, // メッセージフィルターの下限値
 					   k_msgFilterMAX, // メッセージフィルターの上限値
@@ -112,10 +112,10 @@ bool FWK::Window::ProcessMessage() const
 		// 終了メッセージが来たら
 		if (msg.message == WM_QUIT) { return false; }
 
-		// 押されたキーをもとに文字メッセージに変換("A"キー "->" 'A'が押された)
+		// 押されたキーをもとに文字メッセージに変換(Aキー -> Aが押された)
 		TranslateMessage(&msg);
 
-		// "GetMessage"や"PeekMessage"で取得したメッセージを対応するウィンドウプロシージャに転送
+		// GetMessageやPeekMessageで取得したメッセージを対応するウィンドウプロシージャに転送
 		DispatchMessage(&msg);
 	}
 
@@ -152,7 +152,7 @@ void FWK::Window::ApplyWindowConfig(const CommonStruct::WindowConfig& a_windowCo
 
 	RECT l_screenRect = {};
 
-	// "GetDesktopWindow"を使ってデスクトップ全体を
+	// GetDesktopWindowを使ってデスクトップ全体を
 	// 表すウィンドウハンドルを取得し画面サイズを取得
 	GetWindowRect(GetDesktopWindow(), &l_screenRect);
 
@@ -161,17 +161,17 @@ void FWK::Window::ApplyWindowConfig(const CommonStruct::WindowConfig& a_windowCo
 	// ウィンドウスタイルを変更
 	SetWindowLong(m_hWND, GWL_STYLE, l_style);
 
-	// ウィンドウの位置、サイズ、"Z"オーダーを制御する関数
-	// "SetWindowPos
+	// ウィンドウの位置、サイズ、Zオーダーを制御する関数
+	// SetWindowPos
 	// (
 	//		ウィンドウハンドル、
-	//		"Z"順に配置されたウィンドウの前にあるウィンドウへのハンドル、
+	//		Z順に配置されたウィンドウの前にあるウィンドウへのハンドル、
 	//		クライアント座標でのウィンドウの左側の新しい位置、
 	//		クライアント座標でのウィンドウの上部の新しい位置、
 	//		ウィンドウの新しい幅、
 	//		ウィンドウの新しい高さ、
 	//		ウィンドウのサイズ設定と配置フラグ
-	// );"
+	// );
 
 	// ウィンドウスタイルがフルスクリーンかそうじゃないかで切り替える
 	if (m_windowConfig.styleTag == GetTypeInfo<Tag::WindowStyleNormalTag>().k_id)
@@ -206,17 +206,17 @@ LRESULT FWK::Window::CallWindowProcedure(const HWND   a_hWND,
 {
 	auto* l_this = static_cast<FWK::Window*>(GetProp(a_hWND, L"GameWindowInstance"));
 
-	// "nullptr"の場合はデフォルト処理を実行
+	// nullptrの場合はデフォルト処理を実行
 	if (!l_this)
 	{
 		if (a_message == WM_CREATE)
 		{
-			// "CreateWindow"で渡したパラメータを取得
+			// CreateWindowで渡したパラメータを取得
 			auto* l_createStruct = (CREATESTRUCT*)a_lParam;
 			auto* l_window       = (FWK::Window*)l_createStruct->lpCreateParams;
 		
 			// ウィンドウプロパティにこのクラスのインスタンスアドレスを埋め込んでおく
-			// 次回から、"l_this->WindowProcedure"の方へ処理が流れていく
+			// 次回から、l_this->WindowProcedureの方へ処理が流れていく
 			SetProp(a_hWND, L"GameWindowInstance", l_window);
 
 			return 0U;
@@ -230,7 +230,7 @@ LRESULT FWK::Window::CallWindowProcedure(const HWND   a_hWND,
 		}
 	}
 
-	// インスタンス側の"Window"関数を実行する
+	// インスタンス側のWindow関数を実行する
 	return l_this->WindowProcedure(a_hWND,
 								   a_message,
 								   a_wParam,
@@ -245,7 +245,7 @@ LRESULT CALLBACK FWK::Window::WindowProcedure(const HWND   a_hWND,
 	// メッセージによって処理を選択
 	switch (a_message)
 	{
-		// ウィンドウの"X"ボタンが押された
+		// ウィンドウのXボタンが押された
 		case WM_CLOSE:
 		{
 			Release();
@@ -291,15 +291,15 @@ void FWK::Window::SetClientSize()
 	if (!m_hWND) { return; }
 
 	// ウィンドウの位置とサイズを同時に変更する関数
-	// "MoveWindow
+	// MoveWindow
 	// (
 	//		対象となるウィンドウのハンドル、
-	//		ウィンドウ左上の"X"座標、
-	//		ウィンドウ左上の"Y"座標、
+	//		ウィンドウ左上のX座標、
+	//		ウィンドウ左上のY座標、
 	//		ウィンドウの幅、
 	//		ウィンドウの高さ、
 	//		再描画を行うかどうか、
-	// );"
+	// );
 
 	if (m_windowConfig.styleTag == GetTypeInfo<Tag::WindowStyleFullScreenTag>().k_id)
 	{
@@ -332,8 +332,8 @@ void FWK::Window::SetClientSize()
 		const int l_frameHeight = (l_rcWND.bottom - l_rcWND.top)  - (l_rcClient.bottom - l_rcClient.top);  // 枠の高さ
 
 		MoveWindow(m_hWND,									                // 対象のウィンドウ
-				   l_rcWND.left,								                // 左上の"X座標"
-				   l_rcWND.top,								                // 左上の"Y"座標
+				   l_rcWND.left,								                // 左上のX座標
+				   l_rcWND.top,								                // 左上のY座標
 				   static_cast<int>(m_windowConfig.width)  + l_frameWidth,  // ウィンドウ全体の幅(枠含む)
 				   static_cast<int>(m_windowConfig.height) + l_frameHeight, // ウィンドウ残体の高さ(枠含む)
 				   TRUE);													// ウィンドウを再描画するかどうか

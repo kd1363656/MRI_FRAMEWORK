@@ -10,25 +10,25 @@ namespace FWK::Utility::FileIO
 	{
 		std::filesystem::path l_path{ a_filePath };
 
-		// そもそもファイルが存在しなければ"return"
+		// そもそもファイルが存在しなければreturn
 		if (!std::filesystem::exists(l_path))
 		{
 			return {};
 		}
 
-		// 拡張子が"json"でない場合"return"
+		// 拡張子が"json"でない場合return
 		if (l_path.extension() != k_jsonExtension)
 		{
 			return {};
 		}
 
-		// ファイルが空なら"return"
+		// ファイルが空ならreturn
 		if (std::filesystem::is_empty(l_path))
 		{
 			return {};
 		}
 
-		// "ifstream"から"json"を読み込む
+		// "ifstream"からjsonを読み込む
 		std::ifstream l_ifs(l_path);
 
 		if (l_ifs.fail())
@@ -36,7 +36,7 @@ namespace FWK::Utility::FileIO
 			return {};
 		}
 
-		// "json"をパースする
+		// jsonをパースする
 		auto l_loadedJson = nlohmann::json{};
 		l_ifs >> l_loadedJson; 
 
@@ -47,7 +47,7 @@ namespace FWK::Utility::FileIO
 	{
 		std::filesystem::path l_path{ a_filePath };
 
-		// 保存時、拡張子に".json"がついていなければ拡張子をつける
+		// 保存時、拡張子に.jsonがついていなければ拡張子をつける
 		if (l_path.extension() != k_jsonExtension)
 		{
 			l_path += k_jsonExtension;

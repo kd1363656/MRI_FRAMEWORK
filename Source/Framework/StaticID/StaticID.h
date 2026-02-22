@@ -2,12 +2,12 @@
 
 namespace FWK
 {
-	// "StaticID"の"ID"生成元にアクセスされたくないためクラス化
+	// StaticIDのID生成元関数にアクセスされたくないためクラス化
 	class StaticID final
 	{
 	public:
 
-		// テンプレートを使った関数の特殊化を用いて動的に一意な"ID"を生成している
+		// テンプレートを使った関数の特殊化を用いて動的に型ごとに一意なIDを生成している
 		template <typename Type>
 		static std::uint32_t GetTypeID()
 		{
@@ -25,7 +25,7 @@ namespace FWK
 			return l_id++;
 		}
 	
-		// "0"を明示的な無効な値として扱うため初めの値は"1"から行う
+		// 0を明示的な無効な値として扱うため初めの値は"1"から行う
 		static constexpr std::uint32_t k_initialID = 1u;
 		
 		// コンストラクタを削除することでこのクラスの生成を許さない

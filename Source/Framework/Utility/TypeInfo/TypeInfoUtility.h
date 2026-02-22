@@ -18,23 +18,23 @@ namespace FWK::Utility::TypeInfo
 	{
 		const FWK::TypeInfo* l_currentInfo = &a_typeInfo;
 
-		// 念のためヌルチェック(参照なので"nullptr"は絶対にありえないが)
+		// 念のためヌルチェック(参照なのでnullptrは絶対にありえないが)
 		if (!l_currentInfo)
 		{
 			assert(false && "型情報のアドレスが\"nullptr\"でした、型情報定義を見直してください");
 			return false;
 		}
 
-		// 自身が"nullptr"を示すつまり親を走査潮を得たら"while"を抜ける
+		// 自身がnullptrを示すつまり親を走査潮を得たらwhileを抜ける
 		while (l_currentInfo)
 		{
-			// 自身の現在の"ID"と親の"ID"が一致すれば"true"を返すす
+			// 自身の現在の"ID"と親の"ID"が一致すればtrueを返す
 			if (l_currentInfo->k_id == a_baseTypeInfo.k_id)
 			{
 				return true;
 			}
 
-			// 自身のメンバに含まれる親父を次の"while"で走査する対象として指定(継承ツリーを辿る)
+			// 自身のメンバに含まれる親父を次のwhileで走査する対象として指定(継承ツリーを辿る)
 			l_currentInfo = l_currentInfo->k_baseInfo;
 		}
 

@@ -27,7 +27,7 @@
 #include "Definition/Struct/CommonStruct.h"
 
 //=========================================================
-// 静的型"ID"管理クラス
+// 静的型ID管理クラス
 //=========================================================
 #include "StaticID/StaticID.h"
 
@@ -51,19 +51,20 @@
 #include "Definition/Concept/IsDerivedBase/Tag/IsDerivedWindowStyleTagBaseConcept.h"
 
 //=========================================================
-// "Json"のシリアライズ、デシリアライズ補助関数
+// Jsonのシリアライズ、デシリアライズ補助関数
 //=========================================================
 #include "Utility/Json/JsonUtility.h"
 
 //=========================================================
-// "json"コンバータークラス
+// jsonコンバータークラス
 //=========================================================
 #include "Converter/Json/JsonConverterBase.h"
 #include "Converter/Json/FPS/FPSControllerJsonConverter.h"
 #include "Converter/Json/Window/WindowJsonConverter.h"
+#include "Converter/Json/Render/Hardware/HardwareJsonConverter.h"
 
 //=========================================================
-// "FPS"計測クラス
+// FPS計測クラス
 //=========================================================
 #include "FPS/FPSController.h"
 
@@ -71,3 +72,8 @@
 // ウィンドウクラス
 //=========================================================
 #include "Window/Window.h"
+
+//=========================================================
+// 描画関係クラス
+//=========================================================
+#include "Render/Hardware/Hardware.h"

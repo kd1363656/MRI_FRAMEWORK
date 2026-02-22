@@ -2,7 +2,7 @@
 
 namespace FWK::Utility::Json
 {
-	// "json"に他の"json"の内容を加える
+	// jsonに他のjsonの内容をコピーする
 	inline void UpdateJson(nlohmann::json& a_targetJson, const nlohmann::json& a_patchJson)
 	{
 		if (a_patchJson.is_null()) { return; }

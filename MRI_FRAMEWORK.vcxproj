@@ -13,8 +13,11 @@
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Render\Command\Queue\CommandQueue.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Render\Hardware\HardwareJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
+    <ClCompile Include="Source\Framework\Render\Hardware\Hardware.cpp" />
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
     <ClCompile Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
@@ -29,6 +32,8 @@
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Render\Command\Queue\CommandQueue.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Render\Hardware\HardwareJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedWindowStyleTagBaseConcept.h" />
@@ -37,6 +42,7 @@
     <ClInclude Include="Source\Framework\Definition\Type\TypeDEF.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
+    <ClInclude Include="Source\Framework\Render\Hardware\Hardware.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\StaticID\StaticID.h" />
     <ClInclude Include="Source\Framework\Tag\TagBase.h" />
@@ -91,6 +97,9 @@
     <VcpkgUseStatic>true</VcpkgUseStatic>
     <VcpkgTriplet>$(Platform)-windows-static</VcpkgTriplet>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>false</VcpkgEnabled>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
@@ -101,12 +110,20 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>.\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source;$(SolutionDir)..\Library\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Library\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;DirectXTex.lib;dxcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if exist "$(SolutionDir)..\Library\bin" (
+  xcopy /y /d "$(SolutionDir)..\Library\Bin\*.dll" "$(OutDir)"
+)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -120,12 +137,20 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>.\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source;$(SolutionDir)..\Library\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Library\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;DirectXTex.lib;dxcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if exist "$(SolutionDir)..\Library\bin" (
+  xcopy /y /d "$(SolutionDir)..\Library\Bin\*.dll" "$(OutDir)"
+)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

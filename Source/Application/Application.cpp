@@ -5,7 +5,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	// メモリリークを知らせる。
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	// "COM"初期化
+	// COM初期化
 	// ウィンドウダイアログなどを使う際に必要
 	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
 	{
@@ -22,14 +22,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 
 void Application::Execute()
 {
-	Init();
-	Load();
-
-	if (!PostLoad())
-	{
-		assert(false && "\"PostLoad\"に失敗しました、アプリケーションの実行を中断します。");
-		return;
-	}
+	Init        ();
+	Load        ();
+	PostLoadInit();
 
 	while (true)
 	{
@@ -53,16 +48,6 @@ void Application::Execute()
 	// もしゲームデータがセーブされていなくても変更が適応されるべき項目をセーブする関数
 	Save();
 }
-bool Application::PostLoad()
-{
-	if (!m_window.Create(k_titleBar, k_windowClassName))
-	{
-		assert(false && "ウィンドウ作成に失敗。");
-		return false;
-	}
-
-	return true;
-}
 
 void Application::Init()
 {
@@ -72,9 +57,20 @@ void Application::Init()
 	m_window.Init       ();
 	m_fpsController.Init();
 	
-	// ウィンドウ作成後すぐに"FPS"を表示
+	// ウィンドウ作成後すぐにFPSを表示
 	// (別にしなくてもいいがいきなりタイトルバーに変化があれば不快だと思ったので)
 	UpdateWindowTitleBar();
+}
+
+void Application::PostLoadInit()
+{
+	if (!m_window.Create(k_titleBar, k_windowClassName))
+	{
+		assert(false && "ウィンドウ作成に失敗。");
+		return;
+	}
+
+	return;
 }
 
 void Application::Load()
@@ -90,7 +86,7 @@ void Application::Save()
 
 void Application::UpdateWindowTitleBar() const
 {
-	// タイトル名 + "FPS"の表示
+	// タイトル名 + FPSの表示
 	const std::string& l_titleBar = GenerateWindowTitleText();
 
 	SetWindowTextA(GetHWND(), l_titleBar.c_str());

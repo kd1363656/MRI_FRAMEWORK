@@ -12,7 +12,7 @@ namespace FWK::CommonStruct
 	{
 		using is_transparent = void;
 
-		// "std::hash<T>{}(key)"は、一時的に生成した関数オブジェクトを使ってハッシュ値を計算している
+		// std::hash<T>{}(key)は、一時的に生成した関数オブジェクトを使ってハッシュ値を計算している
 		std::size_t operator()(const std::string& a_key) const { return std::hash<std::string>     {}(a_key); }
 		std::size_t operator()(std::string_view   a_key) const { return std::hash<std::string_view>{}(a_key); }
 		std::size_t operator()(const char*        a_key) const { return std::hash<std::string_view>{}(a_key); }

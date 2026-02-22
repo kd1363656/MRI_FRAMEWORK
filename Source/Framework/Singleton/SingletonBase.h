@@ -31,7 +31,7 @@ namespace FWK
 		// 移動コンストラクタ削除
 		SingletonBase(SingletonBase<Type>&&) = delete;
 
-		// 移動だいにゅ演算子削除
+		// 移動代入演算子削除
 		SingletonBase<Type>& operator=(SingletonBase<Type>&&) = delete;
 	};
 }

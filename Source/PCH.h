@@ -28,7 +28,7 @@
 // ========================================
 #include <nlohmann/json.hpp>
 #include <d3d12.h>
-#include <dxgi1_6.h>
+#include <dxgi1_6.h>s
 #include <DirectXMath.h>
 #include <directx-dxc/dxcapi.h>
 
