@@ -25,7 +25,7 @@ namespace FWK
 			return l_id++;
 		}
 	
-		// 0を明示的な無効な値として扱うため初めの値は"1"から行う
+		// 0を明示的な無効な値として扱うため初めの値は1から行う
 		static constexpr std::uint32_t k_initialID = 1u;
 		
 		// コンストラクタを削除することでこのクラスの生成を許さない

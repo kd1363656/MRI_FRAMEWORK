@@ -6,8 +6,8 @@ namespace FWK
 	{
 	public:
 	
-		FPSController () = default;
-		~FPSController() = default;
+		FPSController ();
+		~FPSController();
 	
 		void Init();
 
@@ -33,16 +33,16 @@ namespace FWK
 
 		const std::string k_configFileIOPath = "Asset/Data/CONFIG/FPS/FPSCONFIG.json";
 	
-		Converter::FPSControllerJsonConverter m_fpsControllerJsonConverter = Converter::FPSControllerJsonConverter{ *this };
+		Converter::FPSControllerJsonConverter m_fpsControllerJsonConverter;
 
-		std::chrono::steady_clock::time_point m_previousTime   = std::chrono::steady_clock::now();
-		std::chrono::steady_clock::time_point m_frameBeginTime = std::chrono::steady_clock::now();
+		std::chrono::steady_clock::time_point m_previousTime;
+		std::chrono::steady_clock::time_point m_frameBeginTime;
 	
-		float m_deltaTime       = 0.0F;
-		float m_timeScale       = k_defaultTimeScale;
-		float m_scaledDeltaTime = 0.0F;
+		float m_deltaTime;
+		float m_timeScale;
+		float m_scaledDeltaTime;
 	
-		float m_nowFPS    = 0.0F;	
-		float m_targetFPS = CommonConstant::k_defaultFPS;
+		float m_nowFPS;	
+		float m_targetFPS;
 	};
 }

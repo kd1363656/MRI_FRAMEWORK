@@ -58,7 +58,7 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 						  nullptr,					 // 親ウィンドウがない、
 						  nullptr,					 // メニューなし、
 						  l_hInstance,				 // アプリケーションのインスタンスハンドル、
-						  this);					 // 作製するウィンドウに"this"ポインタを渡す,WM_CREATEなどで取り出せる	
+						  this);					 // 作製するウィンドウにthisポインタを渡す,WM_CREATEなどで取り出せる	
 
 	// 作製しが失敗したらreturn
 	if (!m_hWND)

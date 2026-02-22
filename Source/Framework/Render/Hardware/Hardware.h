@@ -16,7 +16,8 @@ namespace FWK::Render
 		void           Deserialize(const nlohmann::json& a_rootJson);
 		nlohmann::json Serialize  ();
 
-		const auto& GetDevice() const { return m_device; }
+		const auto& GetFactory() const { return m_factory; }
+		const auto& GetDevice () const { return m_device; }
 
 		UINT GetGPUNodeMask() const { return m_gpuNodeMask; }
 

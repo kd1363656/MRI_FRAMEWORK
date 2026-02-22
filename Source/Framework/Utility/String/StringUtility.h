@@ -8,14 +8,14 @@ namespace FWK::Utility::String
 
 	inline std::wstring StringToWString(const std::string& a_string)
 	{
-		// 空文字列だった場合空"std::wstring"を返す
+		// 空文字列だった場合空std::wstringを返す
 		if (a_string.empty()) { return std::wstring{}; }
 
 		// MultiByteToWideChar
 		// (
 		//		変換元文字コード（UTF-8）、
 		//		変換フラグ（デフォルト動作）、
-		//		入力"UTF-8"文字列の先頭ポインタ、
+		//		入力UTF-8文字列の先頭ポインタ、
 		//		入力文字列のバイト数、
 		//		出力バッファ（nullptr = サイズ問い合わせ）
 		//		出力バッファサイズ（0 = サイズ取得モード）

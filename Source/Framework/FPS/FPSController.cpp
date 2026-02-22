@@ -1,5 +1,17 @@
 #include "FPSController.h"
 
+FWK::FPSController::FPSController() :
+	m_fpsControllerJsonConverter(*this),
+	m_previousTime				(std::chrono::steady_clock::now()),
+	m_frameBeginTime            (m_previousTime),
+	m_deltaTime                 (0.0F),
+	m_timeScale                 (k_defaultTimeScale),
+	m_scaledDeltaTime           (0.0F),
+	m_nowFPS					(0.0F),
+	m_targetFPS					(CommonConstant::k_defaultFPS)
+{}
+FWK::FPSController::~FPSController() = default;
+
 void FWK::FPSController::Init()
 {
 	// ‰ß‹‚ÌŠÔ‚Æ‚µ‚ÄŒ»İ‚ÌŠÔ‚ğŠi”[

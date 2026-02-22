@@ -3,6 +3,8 @@
 namespace FWK::CommonConstant
 {
 	inline constexpr D3D12_COMMAND_LIST_TYPE k_createCommandListTypeDirect = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	
+	inline constexpr D3D12_DESCRIPTOR_HEAP_TYPE k_descriptorHeapTypeRTV = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 
 	inline constexpr float k_defaultFPS = 60.0F;
 

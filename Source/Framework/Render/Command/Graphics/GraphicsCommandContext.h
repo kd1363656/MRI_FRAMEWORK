@@ -14,6 +14,8 @@ namespace FWK::Render
 
 		const auto& GetHardware() const { return k_hardware; }
 
+		const auto& GetGraphicsCommandQueue() const { return m_graphicsCommandQueue; }
+
 	private:
 
 		const Hardware& k_hardware;

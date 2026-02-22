@@ -63,6 +63,7 @@
 #include "Converter/Json/Window/WindowJsonConverter.h"
 #include "Converter/Json/Render/RendererJsonConverter.h"
 #include "Converter/Json/Render/Hardware/HardwareJsonConverter.h"
+#include "Converter/Json/Render/SwapChain/SwapChainJsonConverter.h"
 
 //=========================================================
 // FPSŒv‘ªƒNƒ‰ƒX
@@ -85,5 +86,7 @@
 #include "Render/Command/Graphics/Allocator/GraphicsCommandAllocator.h"
 #include "Render/Command/Graphics/List/GraphicsCommandList.h"
 #include "Render/Command/Graphics/GraphicsCommandContext.h"
+#include "Render/DescriptorHeap/DescriptorHeap.h"
+#include "Render/SwapChain/SwapChain.h"
 
 #include "Render/Renderer.h"

@@ -144,7 +144,7 @@ bool FWK::Render::Hardware::CreateDevice()
 
 	if (!l_isFound)
 	{
-		assert(false && "対応する\"GPU\"が見つかっておらず、デバイスの作成に失敗しました。");
+		assert(false && "対応するGPUが見つかっておらず、デバイスの作成に失敗しました。");
 		return false;
 	}
 

@@ -16,7 +16,7 @@ namespace FWK::Utility::FileIO
 			return {};
 		}
 
-		// Šg’£q‚ª"json"‚Å‚È‚¢ê‡return
+		// Šg’£q‚ªjson‚Å‚È‚¢ê‡return
 		if (l_path.extension() != k_jsonExtension)
 		{
 			return {};
@@ -28,7 +28,7 @@ namespace FWK::Utility::FileIO
 			return {};
 		}
 
-		// "ifstream"‚©‚çjson‚ğ“Ç‚İ‚Ş
+		// ifstream‚©‚çjson‚ğ“Ç‚İ‚Ş
 		std::ifstream l_ifs(l_path);
 
 		if (l_ifs.fail())

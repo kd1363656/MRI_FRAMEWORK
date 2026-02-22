@@ -14,7 +14,7 @@ int WINAPI WinMain(_In_     HINSTANCE,
 
 	Application::GetInstance().Execute();
 
-	// "COM"解放
+	// COM解放
 	CoUninitialize();
 
 	return 0;
@@ -28,7 +28,7 @@ void Application::Execute()
 
 	while (true)
 	{
-		// "FPS"の計測
+		// FPSの計測
 		m_fpsController.UpdateStartTime();
 
 		// ウィンドウメッセージの処理
@@ -51,7 +51,7 @@ void Application::Execute()
 
 void Application::Init()
 {
-	// "TypeInfo"の登録
+	// TypeInfoの登録
 	FWK::Utility::TypeInfo::RegisterAll();
 
 	m_window.Init       ();

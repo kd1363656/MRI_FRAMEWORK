@@ -28,7 +28,7 @@ namespace FWK::Utility::TypeInfo
 		// 自身がnullptrを示すつまり親を走査潮を得たらwhileを抜ける
 		while (l_currentInfo)
 		{
-			// 自身の現在の"ID"と親の"ID"が一致すればtrueを返す
+			// 自身の現在のIDと親のIDが一致すればtrueを返す
 			if (l_currentInfo->k_id == a_baseTypeInfo.k_id)
 			{
 				return true;

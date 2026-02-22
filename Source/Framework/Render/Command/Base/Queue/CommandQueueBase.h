@@ -14,6 +14,8 @@ namespace FWK::Render
 
 		const auto& GetCommandQueue() const { return m_commandQueue; }
 
+		auto GetCreateCommandListType() const { return k_createCommandListType; }
+
 	private:
 
 		const Hardware&               k_hardware;

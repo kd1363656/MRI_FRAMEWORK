@@ -4,7 +4,7 @@ void FWK::TypeInfoRegistry::Register(const FWK::TypeInfo& a_info)
 {
 	if (a_info.k_id == FWK::CommonConstant::k_invalidStaticID)
 	{
-		assert(false && "無効な\"ID\"を検出、型情報登録の確認をしてください");
+		assert(false && "無効なIDを検出、型情報登録の確認をしてください");
 		return;
 	}
 

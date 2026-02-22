@@ -27,7 +27,8 @@ namespace FWK::Render
 
 		Hardware			   m_hardware;
 		GraphicsCommandContext m_graphicsCommandContext;
-		
+		SwapChain              m_swapChain;
+
 		Converter::RendererJsonConverter m_rendererJsonConverter;
 
 		UINT m_syncInterval;
