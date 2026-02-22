@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 FWK::Render::Renderer::Renderer() : 
+	m_frameResourceList     (),
 	m_hardware              (),
 	m_graphicsCommandContext(m_hardware),
 	m_swapChain             (m_hardware, m_graphicsCommandContext.GetGraphicsCommandQueue()),
@@ -11,6 +12,8 @@ FWK::Render::Renderer::~Renderer() = default;
 
 void FWK::Render::Renderer::Init()
 {
+	m_frameResourceList.clear();
+
 	m_hardware.Init				 ();
 	m_graphicsCommandContext.Init();
 	m_swapChain.Init             ();
@@ -37,6 +40,28 @@ bool FWK::Render::Renderer::Create(const HWND& a_hWND, const CommonStruct::Windo
 		return false;
 	}
 
+	// バックバッファの数を取得してその数に対応したフレームリソースを作成
+	auto l_backBufferNum = m_swapChain.GetBackBufferNum();
+
+	// 配列の要素数を予約してから追加
+	m_frameResourceList.reserve(l_backBufferNum);
+	for (UINT l_i = 0U; l_i < l_backBufferNum; ++l_i)
+	{
+		m_frameResourceList.emplace_back(m_graphicsCommandContext);
+	}
+
+	for (UINT l_i = 0U; l_i < l_backBufferNum; ++l_i)
+	{
+		// 一応初期化
+		m_frameResourceList[l_i].Init();
+
+		if (!m_frameResourceList[l_i].Create())
+		{
+			assert(false && "フレームリソースの作成に失敗。");
+			return false;
+		}
+	}
+
 	return true;
 }
 void FWK::Render::Renderer::PostCreateInit(const HWND& a_hWND)
@@ -50,6 +75,8 @@ void FWK::Render::Renderer::LoadCONFIG()
 	const auto& l_rootJson = Utility::FileIO::LoadJsonFile(k_configFileIOPath);
 	
 	if (l_rootJson.is_null()) { return; }
+
+	m_rendererJsonConverter.Deserialize(l_rootJson);
 
 	if (l_rootJson.contains("Hardware"))
 	{

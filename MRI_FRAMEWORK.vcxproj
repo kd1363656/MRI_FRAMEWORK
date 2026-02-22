@@ -27,6 +27,7 @@
     <ClCompile Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.cpp" />
     <ClCompile Include="Source\Framework\Render\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Render\Fence\Fence.cpp" />
+    <ClCompile Include="Source\Framework\Render\FrameResource\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Render\Hardware\Hardware.cpp" />
     <ClCompile Include="Source\Framework\Render\Renderer.cpp" />
     <ClCompile Include="Source\Framework\Render\SwapChain\SwapChain.cpp" />
@@ -64,6 +65,7 @@
     <ClInclude Include="Source\Framework\Render\Command\Graphics\Queue\GraphicsCommandQueue.h" />
     <ClInclude Include="Source\Framework\Render\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Render\Fence\Fence.h" />
+    <ClInclude Include="Source\Framework\Render\FrameResource\FrameResource.h" />
     <ClInclude Include="Source\Framework\Render\Hardware\Hardware.h" />
     <ClInclude Include="Source\Framework\Render\Renderer.h" />
     <ClInclude Include="Source\Framework\Render\SwapChain\SwapChain.h" />

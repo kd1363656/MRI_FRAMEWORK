@@ -21,9 +21,9 @@ namespace FWK::Render
 
 	private:
 
-		static constexpr D3D12_COMMAND_LIST_TYPE k_createCommandListType = D3D12_COMMAND_LIST_TYPE_DIRECT;
-
 		const std::string k_configFileIOPath = "Asset/Data/CONFIG/Renderer/RendererCONFIG.json";
+
+		std::vector<FrameResource> m_frameResourceList;
 
 		Hardware			   m_hardware;
 		GraphicsCommandContext m_graphicsCommandContext;

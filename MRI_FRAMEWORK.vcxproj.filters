@@ -130,6 +130,9 @@
     <Filter Include="Source\Framework\Render\Fence">
       <UniqueIdentifier>{bf58cd4e-81f5-4a57-a166-b167723fe1b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Render\FrameResource">
+      <UniqueIdentifier>{4d318164-4579-470e-93fb-44aec906ee29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -200,6 +203,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Render\Fence\Fence.cpp">
       <Filter>Source\Framework\Render\Fence</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Render\FrameResource\FrameResource.cpp">
+      <Filter>Source\Framework\Render\FrameResource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Render\Fence\Fence.h">
       <Filter>Source\Framework\Render\Fence</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Render\FrameResource\FrameResource.h">
+      <Filter>Source\Framework\Render\FrameResource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

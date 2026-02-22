@@ -88,6 +88,7 @@
 #include "Render/Command/Graphics/GraphicsCommandContext.h"
 #include "Render/DescriptorHeap/DescriptorHeap.h"
 #include "Render/SwapChain/SwapChain.h"
+#include "Render/FrameResource/FrameResource.h"
 #include "Render/Fence/Fence.h"
 
 #include "Render/Renderer.h"
