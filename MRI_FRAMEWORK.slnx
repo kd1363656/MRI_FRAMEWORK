@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="MRI_FRAMEWORK.vcxproj" Id="9c83c07f-da04-4adb-bbf5-b906c41ae0c7" />
+</Solution>
