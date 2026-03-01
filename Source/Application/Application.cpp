@@ -1,4 +1,4 @@
-#include "Application.h"
+﻿#include "Application.h"
 
 // SALアノテーション付きWinMain関数(各引数の意味や使用条件をコンパイラや静的解析ツールに伝えるための注釈)
 int WINAPI WinMain(_In_     HINSTANCE, 
@@ -61,12 +61,11 @@ void Application::Init()
 	// (別にしなくてもいいがいきなりタイトルバーに変化があれば不快だと思ったので)
 	UpdateWindowTitleBar();
 }
-
 void Application::PostLoadInit()
 {
 	if (!m_window.Create(k_titleBar, k_windowClassName))
 	{
-		assert(false && "Faile");
+		assert(false && "失敗");
 		return;
 	}
 }

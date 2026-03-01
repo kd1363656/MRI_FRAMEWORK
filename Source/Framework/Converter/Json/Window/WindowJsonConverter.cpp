@@ -1,4 +1,4 @@
-#include "WindowJsonConverter.h"
+﻿#include "WindowJsonConverter.h"
 
 FWK::Converter::WindowJsonConverter::WindowJsonConverter(Window& a_window) : 
 	m_window(a_window)
@@ -17,7 +17,6 @@ void FWK::Converter::WindowJsonConverter::Deserialize(const nlohmann::json& a_ro
 
 	m_window.SetWindowConfig(l_windowConfig);
 }
-
 nlohmann::json FWK::Converter::WindowJsonConverter::Serialize()
 {
 	auto		l_rootJson     = nlohmann::json          ();

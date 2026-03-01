@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class Application final : public FWK::SingletonBase<Application>
 {
@@ -25,7 +25,7 @@ private:
 	const std::string k_titleBar        = "MRI_FRAMEWORK";
 	const std::string k_windowClassName = "Window";
 
-	FWK::Window        m_window        = FWK::Window();
+	FWK::Window        m_window        = FWK::Window       ();
 	FWK::FPSController m_fpsController = FWK::FPSController();
 
 	//=========================

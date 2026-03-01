@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // 型情報登録マクロ(親なし)
 #define FWK_DEFINE_TYPE_INFO_ROOT(Type)												  \

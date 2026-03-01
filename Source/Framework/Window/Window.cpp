@@ -1,4 +1,4 @@
-#include "Window.h"
+﻿#include "Window.h"
 
 FWK::Window::Window() : 
 	m_windowJsonConverter(*this),
