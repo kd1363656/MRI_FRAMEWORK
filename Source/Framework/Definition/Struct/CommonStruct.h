@@ -1,0 +1,23 @@
+#pragma once
+
+namespace FWK::CommonStruct
+{
+	// 文字列キー用ハッシュ関数(透過比較対応)
+	struct StringHash final
+	{
+		// 透過ハッシュであることをSTLに通知するための宣言
+		using is_transparent = void;
+
+		// 関数オペレーターを呼び出すことで与えられた値をハッシュ値に変換する
+		std::size_t operator()(const std::string& a_key) const { return std::hash<std::string>     {}(a_key); }
+		std::size_t operator()(std::string_view   a_key) const { return std::hash<std::string_view>{}(a_key); }
+		std::size_t operator()(const char*        a_key) const { return std::hash<std::string_view>{}(a_key); }
+	};
+
+	struct WindowConfig
+	{
+		std::uint32_t width    = CommonConstant::k_defaultWindowWidth;
+		std::uint32_t height   = CommonConstant::k_defaultWindowHeight;
+		::Tag		  styleTag = CommonConstant::k_invalidStaticID;
+	};
+}

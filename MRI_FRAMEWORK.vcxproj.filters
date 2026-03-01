@@ -10,15 +10,162 @@
     <Filter Include="Source\Framework">
       <UniqueIdentifier>{8ee25e5f-8b8c-4295-8cac-26715969c63e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Window">
+      <UniqueIdentifier>{fb06287b-8312-4f1f-8ab0-e13812190e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition">
+      <UniqueIdentifier>{e61024c3-c554-40f0-a57a-3efa484764a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct">
+      <UniqueIdentifier>{9745039f-fbf9-4a32-bdfd-0c95e6864431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type">
+      <UniqueIdentifier>{346ba062-aece-4181-b2c5-84dcd3a2c17c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter">
+      <UniqueIdentifier>{94256fd0-88f5-4c81-822d-3e1e9b768f57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json">
+      <UniqueIdentifier>{e7030a50-d741-4c23-8eed-767a439ec870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Window">
+      <UniqueIdentifier>{02ca60bd-be5b-48c5-8e3a-81d595ee8813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant">
+      <UniqueIdentifier>{ae428787-fb6f-46d3-9449-3aef900f1e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo">
+      <UniqueIdentifier>{172bcc5a-c586-436f-a2a0-11256448b75a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo\StaticID">
+      <UniqueIdentifier>{ef60bbd2-0d39-4339-9710-9540a0671870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo\Register">
+      <UniqueIdentifier>{b3be6d44-23d2-43c8-96ed-8c9fb7d1953a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Singleton">
+      <UniqueIdentifier>{51ddb7d8-1428-46fc-9588-7fab39a4e3b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo\Macros">
+      <UniqueIdentifier>{1ec6dc59-dd76-4925-a2d1-0878873b1dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag">
+      <UniqueIdentifier>{da898617-abf0-40af-a783-2c43476238a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\WindowStyle">
+      <UniqueIdentifier>{d3c184fd-de06-4359-9191-097376cbd956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility">
+      <UniqueIdentifier>{b492ecd9-d00f-4c8b-8356-e17e5e4da45e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\Json">
+      <UniqueIdentifier>{fb44acdc-a859-48f0-bcc2-ba7d55d4e878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\String">
+      <UniqueIdentifier>{9cdfbfe4-9d6e-44ce-8c8a-503b8bdf115e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\FileIO">
+      <UniqueIdentifier>{053ad61a-813e-40ec-bac7-f04b300422ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\FPS">
+      <UniqueIdentifier>{9e2f5d92-318e-43e6-b7e6-a071b26cd098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\FPS">
+      <UniqueIdentifier>{c438828b-909b-44b0-adb8-73d5dfc97ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\TypeInfo">
+      <UniqueIdentifier>{bd0d8d4d-f044-477d-8a42-bf171dbfb4fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\Window\Window.cpp">
+      <Filter>Source\Framework\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\TypeInfo\Register\TypeInfoRegister.cpp">
+      <Filter>Source\Framework\TypeInfo\Register</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\FPS\FPSController.cpp">
+      <Filter>Source\Framework\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Application.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\PCH.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\CommonStruct.h">
+      <Filter>Source\Framework\Definition\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Framework.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\TypeAlias.h">
+      <Filter>Source\Framework\Definition\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Window\Window.h">
+      <Filter>Source\Framework\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h">
+      <Filter>Source\Framework\Converter\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\CommonConstant.h">
+      <Filter>Source\Framework\Definition\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\TypeInfo.h">
+      <Filter>Source\Framework\TypeInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\StaticID\StaticID.h">
+      <Filter>Source\Framework\TypeInfo\StaticID</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\Register\TypeInfoRegister.h">
+      <Filter>Source\Framework\TypeInfo\Register</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Singleton\SingletonBase.h">
+      <Filter>Source\Framework\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\Macros\TypeInfoMacros.h">
+      <Filter>Source\Framework\TypeInfo\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\TagBase.h">
+      <Filter>Source\Framework\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h">
+      <Filter>Source\Framework\Tag\WindowStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h">
+      <Filter>Source\Framework\Utility\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\String\StringUtility.h">
+      <Filter>Source\Framework\Utility\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\FileIO\FileIOUtility.h">
+      <Filter>Source\Framework\Utility\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Application.h">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\FPS\FPSController.h">
+      <Filter>Source\Framework\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.h">
+      <Filter>Source\Framework\Utility\TypeInfo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
