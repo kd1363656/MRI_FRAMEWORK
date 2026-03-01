@@ -17,8 +17,14 @@
 //================================================
 #include "TypeInfo/StaticID/StaticID.h"
 #include "TypeInfo/TypeInfo.h"
+
+// 型情報判別便利関数
 #include "Utility/TypeInfo/TypeInfoUtility.h"
-#include "TypeInfo/Register/TypeInfoRegister.h"
+
+// 型情報登録クラス
+#include "TypeInfo/Registry/TypeInfoRegistry.h"
+
+// 型情報定義マクロ
 #include "TypeInfo/Macros/TypeInfoMacros.h"
 
 //=========================================================

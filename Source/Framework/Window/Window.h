@@ -64,7 +64,7 @@ namespace FWK
 		static constexpr int k_defaultWindowPosX = 0;
 		static constexpr int k_defaultWindowPosY = 0;
 
-		const std::string k_configFileIOPath = "Asset/Data/CONFIG/Window/WindowCONFIG.json";
+		const std::string k_configFileIOPath = "Asset/Data/Config/Window/WindowConfig.json";
 
 		Converter::WindowJsonConverter m_windowJsonConverter;
 		

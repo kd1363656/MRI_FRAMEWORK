@@ -29,6 +29,12 @@ namespace FWK::Utility::String
 											   nullptr,
 											   k_queryBufferSize);
 		
+		if (l_size == 0)
+		{
+			assert(false && "MultiByteToWideChaer(UTF-8からUTF-16への変換)に失敗しました。");
+			return std::wstring();
+		}
+
 		// 出力バッファを確保し初期化
 		std::wstring l_result(l_size, L'\0');
 

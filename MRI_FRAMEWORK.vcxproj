@@ -147,7 +147,7 @@
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
-    <ClCompile Include="Source\Framework\TypeInfo\Register\TypeInfoRegister.cpp" />
+    <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -174,7 +174,7 @@
     <ClInclude Include="Source\Framework\Tag\TagBase.h" />
     <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h" />
     <ClInclude Include="Source\Framework\TypeInfo\Macros\TypeInfoMacros.h" />
-    <ClInclude Include="Source\Framework\TypeInfo\Register\TypeInfoRegister.h" />
+    <ClInclude Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.h" />
     <ClInclude Include="Source\Framework\TypeInfo\StaticID\StaticID.h" />
     <ClInclude Include="Source\Framework\TypeInfo\TypeInfo.h" />
     <ClInclude Include="Source\Framework\Utility\FileIO\FileIOUtility.h" />

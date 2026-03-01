@@ -2,7 +2,7 @@
 
 namespace FWK::CommonStruct
 {
-	// 文字列キー用ハッシュ関数(透過比較対応)
+	// 文字列キー用の透過ハッシュ構造体
 	struct StringHash final
 	{
 		// 透過ハッシュであることをSTLに通知するための宣言
@@ -14,7 +14,7 @@ namespace FWK::CommonStruct
 		std::size_t operator()(const char*        a_key) const { return std::hash<std::string_view>{}(a_key); }
 	};
 
-	struct WindowConfig
+	struct WindowConfig final
 	{
 		std::uint32_t width    = CommonConstant::k_defaultWindowWidth;
 		std::uint32_t height   = CommonConstant::k_defaultWindowHeight;

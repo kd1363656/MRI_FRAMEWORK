@@ -2,7 +2,7 @@
 
 namespace FWK
 {
-	// より安全なシングルトンを実装するための基底クラス
+	// コピー・ムーブを禁止したCRTPベースのシングルトン基底クラス
 	template <typename Type>
 	class SingletonBase
 	{

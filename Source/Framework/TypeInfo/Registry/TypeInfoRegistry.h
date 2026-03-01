@@ -7,8 +7,10 @@ namespace FWK
 	{
 	private:
 
-		using AllTypeInfoIDMap   = std::unordered_map<std::uint32_t,    const TypeInfo* const>;
-		using AllTypeInfoNameMap = std::unordered_map<std::string_view, const TypeInfo* const, FWK::CommonStruct::StringHash, std::equal_to<>>;
+		using AllTypeInfoIDMap = std::unordered_map<std::uint32_t, const TypeInfo* const>;
+
+		// k_nameは静的寿命であることを前提にstd::string_viewをキーとして使用
+		using AllTypeInfoNameMap = std::unordered_map<std::string_view, const TypeInfo* const, FWK::CommonStruct::StringHash, std::equal_to<>>; 
 
 	public:
 

@@ -2,7 +2,7 @@
 
 FWK::Window::Window() : 
 	m_windowJsonConverter(*this),
-	m_windowConfig       (),
+	m_windowConfig       (CommonStruct::WindowConfig()),
 	m_hWND				 (nullptr)
 {}
 FWK::Window::~Window()
@@ -146,7 +146,7 @@ DWORD FWK::Window::GetWindowStyle() const
 
 HINSTANCE FWK::Window::GetInstanceHandle() const
 {
-	return HINSTANCE();
+	return GetModuleHandle(nullptr);
 }
 
 void FWK::Window::ApplyWindowConfig(const CommonStruct::WindowConfig& a_windowConfig)

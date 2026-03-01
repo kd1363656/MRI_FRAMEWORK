@@ -31,7 +31,7 @@ namespace FWK
 		static constexpr float k_second           = 1.0F;
 		static constexpr float k_milliSecond      = 1000.0F;
 
-		const std::string k_configFileIOPath = "Asset/Data/CONFIG/FPS/FPSCONFIG.json";
+		const std::string k_configFileIOPath = "Asset/Data/Config/FPS/FPSConfig.json";
 	
 		Converter::FPSControllerJsonConverter m_fpsControllerJsonConverter;
 

@@ -37,9 +37,15 @@ namespace FWK::Utility::FileIO
 		}
 
 		// jsonをパースする
-		auto l_loadedJson = nlohmann::json();
+		auto l_loadedJson = nlohmann::json::parse(l_ifs, nullptr, false);
 
-		l_ifs >> l_loadedJson; 
+		// jsonオブジェクトがパース失敗などで無効状態になっているかを確認し
+		// 無効状態なら空のjsonを返す
+		if (l_loadedJson.is_discarded())
+		{
+			assert(false && "jsonのパースに失敗しました。");
+			return nlohmann::json();
+		}
 
 		return l_loadedJson;
 	}
@@ -67,7 +73,7 @@ namespace FWK::Utility::FileIO
 			return std::string();
 		}
 
-		const std::filesystem::path l_filePath (a_filePath);
+		const std::filesystem::path l_filePath					      (a_filePath);
 		const std::filesystem::path l_extension = l_filePath.extension();
 
 		if (l_extension.empty())

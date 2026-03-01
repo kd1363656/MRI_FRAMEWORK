@@ -1,4 +1,4 @@
-﻿#include "TypeInfoRegister.h"
+﻿#include "TypeInfoRegistry.h"
 
 void FWK::TypeInfoRegistry::Register(const FWK::TypeInfo& a_info)
 {

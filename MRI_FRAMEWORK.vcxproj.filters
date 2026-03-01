@@ -40,9 +40,6 @@
     <Filter Include="Source\Framework\TypeInfo\StaticID">
       <UniqueIdentifier>{ef60bbd2-0d39-4339-9710-9540a0671870}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\TypeInfo\Register">
-      <UniqueIdentifier>{b3be6d44-23d2-43c8-96ed-8c9fb7d1953a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Singleton">
       <UniqueIdentifier>{51ddb7d8-1428-46fc-9588-7fab39a4e3b3}</UniqueIdentifier>
     </Filter>
@@ -76,6 +73,9 @@
     <Filter Include="Source\Framework\Utility\TypeInfo">
       <UniqueIdentifier>{bd0d8d4d-f044-477d-8a42-bf171dbfb4fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\TypeInfo\Registry">
+      <UniqueIdentifier>{237f9cb3-4f93-40d7-9784-4309d8c0b9f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -83,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Window\Window.cpp">
       <Filter>Source\Framework\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\TypeInfo\Register\TypeInfoRegister.cpp">
-      <Filter>Source\Framework\TypeInfo\Register</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
@@ -98,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="Source\Application\Application.cpp">
       <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp">
+      <Filter>Source\Framework\TypeInfo\Registry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,9 +127,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\TypeInfo\StaticID\StaticID.h">
       <Filter>Source\Framework\TypeInfo\StaticID</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\TypeInfo\Register\TypeInfoRegister.h">
-      <Filter>Source\Framework\TypeInfo\Register</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h">
       <Filter>Source\Framework\Singleton</Filter>
@@ -166,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.h">
       <Filter>Source\Framework\Utility\TypeInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.h">
+      <Filter>Source\Framework\TypeInfo\Registry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
