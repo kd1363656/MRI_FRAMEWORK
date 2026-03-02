@@ -76,6 +76,27 @@
     <Filter Include="Source\Framework\TypeInfo\Registry">
       <UniqueIdentifier>{237f9cb3-4f93-40d7-9784-4309d8c0b9f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics">
+      <UniqueIdentifier>{61fdf6c4-c256-4c98-b570-bf19122ad260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Hardware">
+      <UniqueIdentifier>{a772ded5-e168-456e-9aab-3f68ea495f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Hardware\Factory">
+      <UniqueIdentifier>{b2fa90dd-2922-4555-9baf-5dd335b35d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Hardware\Device">
+      <UniqueIdentifier>{a8ae6a39-d2cf-467c-b7ca-882199e8fd22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics">
+      <UniqueIdentifier>{5529314a-bcdc-40f5-8f29-de52eb3597dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Hardware">
+      <UniqueIdentifier>{f8bd9817-7ba6-438f-9982-6308e8909e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Hardware\Device">
+      <UniqueIdentifier>{64e438f3-f79f-43ba-a04a-ebd3ef207acc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -98,6 +119,21 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp">
       <Filter>Source\Framework\TypeInfo\Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp">
+      <Filter>Source\Framework\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Hardware.cpp">
+      <Filter>Source\Framework\Graphics\Hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Factory\Factory.cpp">
+      <Filter>Source\Framework\Graphics\Hardware\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Device\Device.cpp">
+      <Filter>Source\Framework\Graphics\Hardware\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Hardware\Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +202,21 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.h">
       <Filter>Source\Framework\TypeInfo\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h">
+      <Filter>Source\Framework\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Hardware.h">
+      <Filter>Source\Framework\Graphics\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Factory\Factory.h">
+      <Filter>Source\Framework\Graphics\Hardware\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Device\Device.h">
+      <Filter>Source\Framework\Graphics\Hardware\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Hardware\Device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

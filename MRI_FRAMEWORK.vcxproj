@@ -81,6 +81,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,6 +101,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -117,6 +119,7 @@
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>.\Source;..\Library;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,6 +139,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PCH.h</ForcedIncludeFiles>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,8 +149,13 @@
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Device\Device.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Factory\Factory.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Hardware.cpp" />
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\PCH.cpp">
@@ -163,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\CommonConstant.h" />
@@ -170,6 +180,10 @@
     <ClInclude Include="Source\Framework\Definition\Type\TypeAlias.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
+    <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Device\Device.h" />
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Factory\Factory.h" />
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Hardware.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\TagBase.h" />
     <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h" />

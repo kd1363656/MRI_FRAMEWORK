@@ -23,9 +23,11 @@ int WINAPI WinMain(_In_     HINSTANCE,
 
 void Application::Execute()
 {
-	Init        ();
-	Load        ();
-	PostLoadInit();
+	Init         ();
+	Load         ();
+	PostLoadSetup();
+
+	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 
 	while (true)
 	{
@@ -42,6 +44,11 @@ void Application::Execute()
 			break; 
 		}
 
+		// 描画
+		l_graphicsManager.BeginFrame();
+		l_graphicsManager.Draw      ();
+		l_graphicsManager.EndFrame  ();
+
 		// フレームレート制御
 		m_fpsController.Update();
 
@@ -57,17 +64,29 @@ void Application::Init()
 	m_window.Init       ();
 	m_fpsController.Init();
 
+	FWK::Graphics::GraphicsManager::GetInstance().Init();
+	
 	// ウィンドウ作成後すぐにFPSを表示
 	// (別にしなくてもいいがいきなりタイトルバーに変化があれば不快だと思ったので)
 	UpdateWindowTitleBar();
 }
-void Application::PostLoadInit()
+void Application::PostLoadSetup()
 {
 	if (!m_window.Create(k_titleBar, k_windowClassName))
 	{
 		assert(false && "失敗");
 		return;
 	}
+
+	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
+
+	if (!l_graphicsManager.Create(GetHWND(), m_window.GetWindowConfig()))
+	{
+		assert(false && "グラフィックスマネージャーの作成に失敗しました。");
+		return;
+	}
+
+	l_graphicsManager.PostLoadSetup(GetHWND());
 }
 
 void Application::Load()

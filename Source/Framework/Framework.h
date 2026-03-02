@@ -54,6 +54,7 @@
 #include "Converter/Json/JsonConverterBase.h"
 #include "Converter/Json/Window/WindowJsonConverter.h"
 #include "Converter/Json/FPS/FPSJsonConverter.h"
+#include "Converter/Json/Graphics/Hardware/Device/DeviceJsonConverter.h"
 
 //=========================================================
 // FPS計測クラス
@@ -64,3 +65,11 @@
 // ウィンドウ
 //================================================
 #include "Window/Window.h"
+
+//================================================
+// 描画関係
+//================================================
+#include "Graphics/Hardware/Factory/Factory.h"
+#include "Graphics/Hardware/Device/Device.h"
+#include "Graphics/Hardware/Hardware.h"
+#include "Graphics/GraphicsManager.h"
