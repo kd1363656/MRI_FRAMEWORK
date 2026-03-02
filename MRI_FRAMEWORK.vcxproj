@@ -152,6 +152,12 @@
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.cpp" />
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Device\Device.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory\Factory.cpp" />
@@ -180,6 +186,12 @@
     <ClInclude Include="Source\Framework\Definition\Type\TypeAlias.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.h" />
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device\Device.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory\Factory.h" />

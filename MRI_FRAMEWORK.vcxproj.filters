@@ -97,6 +97,27 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\Hardware\Device">
       <UniqueIdentifier>{64e438f3-f79f-43ba-a04a-ebd3ef207acc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Command">
+      <UniqueIdentifier>{15c32c1f-bef7-4ca0-8895-f6ae16170f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Queue">
+      <UniqueIdentifier>{5798b51b-3aa4-409c-a22b-cf9720a257a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Allocator">
+      <UniqueIdentifier>{5e34476d-67f5-456f-8ff4-10280b708d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\List">
+      <UniqueIdentifier>{cd17140b-7278-4973-8440-a9b55771ff75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Queue\Direct">
+      <UniqueIdentifier>{78a83e44-1966-44b5-b4d2-03a15084fb61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Allocator\Direct">
+      <UniqueIdentifier>{4433ac04-19a3-47d5-8e81-da8af33b8bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\List\Direct">
+      <UniqueIdentifier>{3d50d358-858e-4f1b-be33-dc035ea50c2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -134,6 +155,24 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Hardware\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp">
+      <Filter>Source\Framework\Graphics\Command\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp">
+      <Filter>Source\Framework\Graphics\Command\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp">
+      <Filter>Source\Framework\Graphics\Command\List</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.cpp">
+      <Filter>Source\Framework\Graphics\Command\Queue\Direct</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp">
+      <Filter>Source\Framework\Graphics\Command\Allocator\Direct</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.cpp">
+      <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +256,24 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Hardware\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h">
+      <Filter>Source\Framework\Graphics\Command\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h">
+      <Filter>Source\Framework\Graphics\Command\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h">
+      <Filter>Source\Framework\Graphics\Command\List</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.h">
+      <Filter>Source\Framework\Graphics\Command\Queue\Direct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h">
+      <Filter>Source\Framework\Graphics\Command\Allocator\Direct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.h">
+      <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

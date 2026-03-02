@@ -11,8 +11,8 @@ namespace FWK::Converter
 	{
 	public:
 
-		DeviceJsonConverter (Graphics::Device& a_deivce);
-		~DeviceJsonConverter()							 override;
+		explicit DeviceJsonConverter(Graphics::Device& a_deivce);
+		~DeviceJsonConverter        ()							 override;
 
 		void           Deserialize(const nlohmann::json& a_rootJson) override;
 		nlohmann::json Serialize  ()								 override;

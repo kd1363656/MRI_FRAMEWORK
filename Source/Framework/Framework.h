@@ -69,7 +69,15 @@
 //================================================
 // 描画関係
 //================================================
+
+// ハードウェア管理クラス
 #include "Graphics/Hardware/Factory/Factory.h"
 #include "Graphics/Hardware/Device/Device.h"
 #include "Graphics/Hardware/Hardware.h"
+
+// コマンドキュー、アロケーター、リスト管理クラス
+#include "Graphics/Command/Queue/CommandQueueBase.h"
+#include "Graphics/Command/Allocator/CommandAllocatorBase.h"
+#include "Graphics/Command/List/CommandListBase.h"
+
 #include "Graphics/GraphicsManager.h"

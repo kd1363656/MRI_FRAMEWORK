@@ -6,8 +6,8 @@ namespace FWK::Graphics
 	{
 	public:
 
-		Device (const Factory& a_factory);
-		~Device();
+		explicit Device(const Factory& a_factory);
+		~Device        ();
 
 		void Init  ();
 		bool Create();
