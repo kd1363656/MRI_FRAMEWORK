@@ -11,8 +11,8 @@ namespace FWK
 	
 		void Init();
 
-		void LoadCONFIG();
-		void SaveCONFIG();
+		void LoadConfig();
+		void SaveConfig();
 		
 		void UpdateStartTime();
 		void Update		    ();

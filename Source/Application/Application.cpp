@@ -72,13 +72,13 @@ void Application::PostLoadInit()
 
 void Application::Load()
 {
-	m_window.LoadCONFIG		  ();
-	m_fpsController.LoadCONFIG();
+	m_window.LoadConfig		  ();
+	m_fpsController.LoadConfig();
 }
 void Application::Save()
 {
-	m_window.SaveCONFIG		  ();
-	m_fpsController.SaveCONFIG();
+	m_window.SaveConfig       ();
+	m_fpsController.SaveConfig();
 }
 
 void Application::UpdateWindowTitleBar() const

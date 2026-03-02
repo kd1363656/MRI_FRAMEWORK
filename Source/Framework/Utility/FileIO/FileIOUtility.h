@@ -16,7 +16,7 @@ namespace FWK::Utility::FileIO
 			return nlohmann::json();
 		}
 
-		// 拡張子がjsonでない場合return
+		// 拡張子が.jsonでない場合return
 		if (l_path.extension() != k_jsonExtension)
 		{
 			return nlohmann::json();

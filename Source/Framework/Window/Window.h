@@ -12,8 +12,8 @@ namespace FWK
 		void Init  ();
 		bool Create(const std::string& a_titleName, const std::string& a_windowClassName);
 		
-		void LoadCONFIG();
-		void SaveCONFIG();
+		void LoadConfig();
+		void SaveConfig();
 
 		bool ProcessMessage() const;
 

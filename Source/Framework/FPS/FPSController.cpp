@@ -28,13 +28,13 @@ void FWK::FPSController::Init()
 	m_nowFPS    = 0.0F;
 }
 
-void FWK::FPSController::LoadCONFIG()
+void FWK::FPSController::LoadConfig()
 {
 	const auto& l_rootJson = Utility::FileIO::LoadJsonFile(k_configFileIOPath);
 
 	m_fpsControllerJsonConverter.Deserialize(l_rootJson);
 }
-void FWK::FPSController::SaveCONFIG()
+void FWK::FPSController::SaveConfig()
 {
 	const auto& l_rootJson = m_fpsControllerJsonConverter.Serialize();
 

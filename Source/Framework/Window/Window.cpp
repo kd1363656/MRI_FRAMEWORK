@@ -29,11 +29,11 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 	// ウィンドウクラス登録パラメータの設定
 	auto l_wc = WNDCLASSEX();
 
-	l_wc.cbSize        = sizeof(WNDCLASSEX);				                   // 構造体のサイズを設定
+	l_wc.cbSize        = sizeof(WNDCLASSEX);				               // 構造体のサイズを設定
 	l_wc.style         = k_windowStyle;					                   // ウィンドウの動作スタイル(サイズ変更時に再描画など)
 	l_wc.lpfnWndProc   = &CallWindowProcedure;				               // 指定した関数がウィンドウに届いたすべてのメッセージを処理
 	l_wc.cbClsExtra    = k_classExtraBytes;					               // ウィンドウクラス用に追加で確保するメモリサイズ
-	l_wc.cbWndExtra    = k_windowExtraBytes;					               // ウィンドウごとに追加で確保するメモリサイズ
+	l_wc.cbWndExtra    = k_windowExtraBytes;					           // ウィンドウごとに追加で確保するメモリサイズ
 	l_wc.hInstance     = l_hInstance;						               // アプリケーションのインスタンスハンドル
 	l_wc.hIcon         = LoadIcon              (nullptr, IDI_APPLICATION); // ウィンドウに表示するアイコン
 	l_wc.hIconSm       = LoadIcon              (nullptr, IDI_APPLICATION); // タスクバーやタイトルバーに表示されるアイコン
@@ -50,7 +50,7 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 
 	// ウィンドウを生成しウィンドウズハンドルを取得
 	m_hWND = CreateWindow(l_windowClassName.c_str(), //	登録済みウィンドウクラス名、
-						  l_titleName.c_str(),		 // ウィンドウのタイトルバーの文字列、
+						  l_titleName.c_str      (), // ウィンドウのタイトルバーの文字列、
 						  l_styleTag,				 // ウィンドウのタイトル、
 						  k_defaultWindowPosX,		 // ウィンドウ座標X、
 						  k_defaultWindowPosY,		 // ウィンドウ座標Y、
@@ -84,14 +84,14 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::string& a_wi
 	return true;
 }
 
-void FWK::Window::LoadCONFIG()
+void FWK::Window::LoadConfig()
 {
 	const auto& l_rootJson = Utility::FileIO::LoadJsonFile(k_configFileIOPath);
 
 	// ウィンドウの幅、高さ、ボーダーレスウィンドウかなどの値をDeserialize
 	m_windowJsonConverter.Deserialize(l_rootJson);
 }
-void FWK::Window::SaveCONFIG()
+void FWK::Window::SaveConfig()
 {
 	const auto& l_rootJson = m_windowJsonConverter.Serialize();
 
@@ -294,7 +294,7 @@ void FWK::Window::Release()
 
 void FWK::Window::SetClientSize()
 {
-		if (!m_hWND) { return; }
+	if (!m_hWND) { return; }
 
 	// ウィンドウの位置とサイズを同時に変更する関数
 	// MoveWindow

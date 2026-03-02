@@ -16,10 +16,7 @@ namespace FWK::Utility::Json
 		// 文字列が空でなくそのキーが含まれているかをチェック
 		if (a_json.is_null() || 
 			a_key.empty()    || 
-			!a_json.contains(a_key.data())) 
-		{
-			return false; 
-		}
+			!a_json.contains(a_key.data())) { return false; }
 
 		// もし文字列が空(デフォルト引数)ならjson自体が配列なのでキーを含めずに配列化チェック
 		// そうでなければキーに連続した配列なのでキーを含めた配列チェックを行う
