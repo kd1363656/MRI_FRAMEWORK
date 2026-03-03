@@ -18,14 +18,17 @@ namespace FWK::Graphics
 		void Init  ();
 		bool Create();
 
+		void WaitForFenceValue(const UINT64& a_fenceValue);
+
 		const auto& GetFence() const { return m_fence; }
 
 		const auto& GetFenceEvent() const { return m_fenceEvent; }
 
-		UINT64 GetFenceValue         () const { return m_fenceValue; }
+		const UINT64& GetFenceValue() const { return m_fenceValue; }
+
 		UINT64 GetCompletedFenceValue() const;
 
-		void SetFenceValue(const UINT64 a_set) { m_fenceValue = a_set; }
+		void SetFenceValue(const UINT64& a_set) { m_fenceValue = a_set; }
 
 	private:
 

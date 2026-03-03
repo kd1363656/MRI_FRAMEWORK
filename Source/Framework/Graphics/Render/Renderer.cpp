@@ -74,6 +74,10 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain)
 		assert(false && "フレームリソースの容量を超えたインデックスのためBeginFrame処理が行えませんでした。。");
 		return;
 	}
+
+	const auto& l_commandAllocator = m_frameResourceList[m_frameIndex].GetDirectCommandAllocator();
+
+	m_directCommandQueue.EnsureAllocatorAvailable(l_commandAllocator);
 }
 void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 {
@@ -82,6 +86,10 @@ void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 		assert(false && "フレームリソースの容量を超えたインデックスのためBeginFrame処理が行えませんでした。");
 		return;
 	}
+
+	auto& l_commandAllocator = m_frameResourceList[m_frameIndex].GetWorkDirectCommandAllocator();
+
+	m_directCommandQueue.SignalAndTracAllocator(l_commandAllocator);
 
 	// 容量を超えないように次のフレームで使用するインデックスを計算
 	m_frameIndex = (m_frameIndex + 1U) % k_frameCount;

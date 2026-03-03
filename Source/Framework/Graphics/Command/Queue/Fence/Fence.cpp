@@ -55,6 +55,24 @@ bool FWK::Graphics::Fence::Create()
 	return true;
 }
 
+void FWK::Graphics::Fence::WaitForFenceValue(const UINT64& a_fenceValue)
+{
+	if (!m_fence)
+	{
+		assert(false && "フェンスの作成に失敗しておりコマンドアロケータの使用可能かどうかの選定に失敗しました。");
+		return;
+	}
+
+	// フレームの最初で現在使用しようとしているコマンドアロケータの再利用ができるかどうかを確認
+	// GPUの完了値がまだ足りない場合にのみ同期をとることでCPUとGPUの並列処理性を発揮することができる
+	if (m_fence->GetCompletedValue() >= a_fenceValue) { return; }
+
+	// イベントを発火することを予約
+	m_fence->SetEventOnCompletion(a_fenceValue , m_fenceEvent);
+
+	WaitForSingleObject(m_fenceEvent, INFINITE);
+}
+
 UINT64 FWK::Graphics::Fence::GetCompletedFenceValue() const
 {
 	if (!m_fence) 

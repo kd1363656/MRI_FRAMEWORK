@@ -7,6 +7,7 @@ namespace FWK::Graphics
 
 namespace FWK::Graphics
 {
+	// コマンド実行ライフサイクル管理クラス
 	class CommandQueueBase
 	{
 	public:
@@ -17,6 +18,9 @@ namespace FWK::Graphics
 		void Init  ();
 		bool Create();
 
+		void EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator);
+		void SignalAndTracAllocator  (CommandAllocatorBase&       a_commandAllocator);
+
 		const auto& GetCommandQueue() const { return m_commandQueue; }
 		const auto& GetFence       () const { return m_fence; }
 
@@ -26,6 +30,8 @@ namespace FWK::Graphics
 
 		bool CreateCommandQueue();
 		bool CreateFence       ();
+
+		static constexpr UINT64 k_incrementFenceValue = 1ULL;
 
 		const Device& k_device;
 

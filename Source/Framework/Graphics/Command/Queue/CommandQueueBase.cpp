@@ -30,6 +30,39 @@ bool FWK::Graphics::CommandQueueBase::Create()
 	return true;
 }
 
+void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator)
+{
+	m_fence.WaitForFenceValue(a_commandAllocator.GetSubmittedFenceValue());
+}
+void FWK::Graphics::CommandQueueBase::SignalAndTracAllocator(CommandAllocatorBase& a_commandAllocator)
+{
+	const auto& l_fence = m_fence.GetFence();
+
+	if (!l_fence)
+	{
+		assert(false && "フェンスが作成されておらずGPUとの同期処理が行えませんでした。");
+		return;
+	}
+
+	if (!m_commandQueue)
+	{
+		assert(false && "ダイレクトコマンドキューが作成されておらずGPUとの同期処理が行えませんでした。");
+		return;
+	}
+
+	// "FenceValue"を進めて、このフレームの完了目標として保存
+	m_fence.SetFenceValue(m_fence.GetFenceValue() + k_incrementFenceValue);
+
+	// ※重要
+	// 更新したフェンス値を持たせて置く、こうすることで次のフレームでフェンス値を超えていない場合
+	// GPUとの同期をとらなくていいためCPUとGPUの並列処理性を発揮することができる
+	a_commandAllocator.SetSubmittedFenceValue(m_fence.GetFenceValue());
+
+	// コマンドキュー内でこの位置までの命令が実行完了したら
+	// フェンス値をGetFenceValueに更新する命令をGPUに追加
+	m_commandQueue->Signal(l_fence.Get(), m_fence.GetFenceValue());
+}
+
 bool FWK::Graphics::CommandQueueBase::CreateCommandQueue()
 {
 	const auto& l_device = k_device.GetDevice().Get();
