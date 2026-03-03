@@ -21,5 +21,7 @@ namespace FWK::Graphics
 		const D3D12_COMMAND_LIST_TYPE k_createCommandListType;
 
 		ComPtr<ID3D12CommandAllocator> m_commandAllocator;
+
+		UINT64 m_submittedFenceValue = 0ULL;
 	};
 }

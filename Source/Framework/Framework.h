@@ -75,9 +75,14 @@
 #include "Graphics/Hardware/Device/Device.h"
 #include "Graphics/Hardware/Hardware.h"
 
-// コマンドキュー、アロケーター、リスト管理クラス
+// 描画関係クラス
 #include "Graphics/Command/Queue/CommandQueueBase.h"
 #include "Graphics/Command/Allocator/CommandAllocatorBase.h"
 #include "Graphics/Command/List/CommandListBase.h"
+#include "Graphics/Command/Queue/Direct/DirectCommandQueueh.h"
+#include "Graphics/Command/Allocator/Direct/DirectCommandAllocator.h"
+#include "Graphics/Command/List/Direct/DirectCommandList.h"
+#include "Graphics/Render/Frame/FrameResource.h"
+#include "Graphics/Render/Renderer.h"
 
 #include "Graphics/GraphicsManager.h"

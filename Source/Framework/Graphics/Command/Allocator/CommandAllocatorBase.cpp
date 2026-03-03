@@ -2,13 +2,16 @@
 
 FWK::Graphics::CommandAllocatorBase::CommandAllocatorBase(const Device& a_device, const D3D12_COMMAND_LIST_TYPE a_createCommandListType) : 
 	k_device               (a_device),
-	k_createCommandListType(a_createCommandListType)
+	k_createCommandListType(a_createCommandListType),
+	m_submittedFenceValue  (CommonConstant::k_initialFenceValue)
 {}
 FWK::Graphics::CommandAllocatorBase::~CommandAllocatorBase() = default;
 
 void FWK::Graphics::CommandAllocatorBase::Init()
 {
 	m_commandAllocator.Reset();
+
+	m_submittedFenceValue = CommonConstant::k_initialFenceValue;
 }
 bool FWK::Graphics::CommandAllocatorBase::Create()
 {

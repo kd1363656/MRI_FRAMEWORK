@@ -22,6 +22,7 @@ namespace FWK::Graphics
 		const std::string k_configFileIOPath = "Asset/Data/Config/Graphics/GraphicsConfig.json";
 
 		Hardware m_hardware;
+		Renderer m_renderer;
 
 		//=========================
 		// シングルトン

@@ -9,5 +9,8 @@ namespace FWK::CommonConstant
 	inline constexpr std::uint32_t k_defaultWindowWidth  = 1280U;
 	inline constexpr std::uint32_t k_defaultWindowHeight = 720U;
 
+	// 0だとデバックレイヤーでエラーが出るから
+	inline constexpr UINT64 k_initialFenceValue = 1ULL;
+
 	inline constexpr UINT k_defaultGPUNodeMask = 0U;
 }

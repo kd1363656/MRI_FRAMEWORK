@@ -162,6 +162,8 @@
     <ClCompile Include="Source\Framework\Graphics\Hardware\Device\Device.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory\Factory.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Hardware.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\PCH.cpp">
@@ -196,6 +198,8 @@
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device\Device.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory\Factory.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Hardware.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\TagBase.h" />
     <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h" />

@@ -118,6 +118,12 @@
     <Filter Include="Source\Framework\Graphics\Command\List\Direct">
       <UniqueIdentifier>{3d50d358-858e-4f1b-be33-dc035ea50c2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render">
+      <UniqueIdentifier>{a54e2a66-ad7b-467b-94fd-b66694e3319a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Frame">
+      <UniqueIdentifier>{986b77b9-c727-4a05-8b29-3e2f37b95de2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -173,6 +179,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.cpp">
       <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp">
+      <Filter>Source\Framework\Graphics\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp">
+      <Filter>Source\Framework\Graphics\Render\Frame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +286,12 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.h">
       <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h">
+      <Filter>Source\Framework\Graphics\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h">
+      <Filter>Source\Framework\Graphics\Render\Frame</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
