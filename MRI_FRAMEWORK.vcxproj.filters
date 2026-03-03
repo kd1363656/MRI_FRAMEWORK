@@ -124,6 +124,21 @@
     <Filter Include="Source\Framework\Graphics\Render\Frame">
       <UniqueIdentifier>{986b77b9-c727-4a05-8b29-3e2f37b95de2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\SwapChain">
+      <UniqueIdentifier>{0ebf4f2b-8342-429e-8dd8-638137034d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource">
+      <UniqueIdentifier>{b10aea54-b7b7-417f-85bb-4401449d3d4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor">
+      <UniqueIdentifier>{172eb8cb-8f24-4fb0-be9b-11bc8e179b03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap">
+      <UniqueIdentifier>{8869d835-cb13-47fd-bd0d-de6a1b7eb7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV">
+      <UniqueIdentifier>{56d523ee-46a7-49d7-acb4-9294622cd96b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -185,6 +200,21 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp">
       <Filter>Source\Framework\Graphics\Render\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp">
+      <Filter>Source\Framework\Graphics\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp">
+      <Filter>Source\Framework\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\RTV</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +322,21 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h">
       <Filter>Source\Framework\Graphics\Render\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h">
+      <Filter>Source\Framework\Graphics\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h">
+      <Filter>Source\Framework\Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\RTV</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

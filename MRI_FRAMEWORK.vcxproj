@@ -164,6 +164,11 @@
     <ClCompile Include="Source\Framework\Graphics\Hardware\Hardware.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\PCH.cpp">
@@ -200,6 +205,11 @@
     <ClInclude Include="Source\Framework\Graphics\Hardware\Hardware.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\TagBase.h" />
     <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h" />
