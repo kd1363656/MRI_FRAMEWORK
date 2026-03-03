@@ -3,6 +3,7 @@
 namespace FWK::Graphics
 {
 	class CommandQueueBase;
+	class CommandAllocatorBase;
 }
 
 namespace FWK::Graphics
@@ -17,12 +18,6 @@ namespace FWK::Graphics
 		void Init  ();
 		bool Create();
 
-		void WaitForGPUIdle();
-
-		UINT64 Signal();
-
-		void WaitForFenceValue(const UINT64 a_fenceValue);
-
 		const auto& GetFence() const { return m_fence; }
 
 		const auto& GetFenceEvent() const { return m_fenceEvent; }
@@ -33,6 +28,8 @@ namespace FWK::Graphics
 		void SetFenceValue(const UINT64 a_set) { m_fenceValue = a_set; }
 
 	private:
+
+		void WaitForGPUIdle();
 
 		const Device&           k_device;
 		const CommandQueueBase& k_commandQueueBase;

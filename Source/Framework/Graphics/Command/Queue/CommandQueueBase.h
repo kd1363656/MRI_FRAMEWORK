@@ -2,6 +2,11 @@
 
 namespace FWK::Graphics
 {
+	class CommandAllocatorBase;
+}
+
+namespace FWK::Graphics
+{
 	class CommandQueueBase
 	{
 	public:

@@ -71,12 +71,14 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain)
 		assert(false && "フレームリソースの容量を超えたインデックスのためBeginFrame処理が行えませんでした。。");
 		return;
 	}
-
-
 }
 void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 {
-
+	if (m_currentFrameIndex >= m_frameResourceList.size())
+	{
+		assert(false && "フレームリソースの容量を超えたインデックスのためBeginFrame処理が行えませんでした。。");
+		return;
+	}
 }
 
 void FWK::Graphics::Renderer::ResetCommandObjects()
@@ -90,5 +92,5 @@ void FWK::Graphics::Renderer::ResetCommandObjects()
 	const auto& l_directCommandAllocator = m_frameResourceList[m_currentFrameIndex].GetDirectCommandAllocator();
 
 	l_directCommandAllocator.Reset();
-	m_directCommandList.Reset     (&l_directCommandAllocator);
+	m_directCommandList.Reset     (l_directCommandAllocator);
 }

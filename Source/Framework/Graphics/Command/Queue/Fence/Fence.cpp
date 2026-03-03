@@ -55,6 +55,17 @@ bool FWK::Graphics::Fence::Create()
 	return true;
 }
 
+UINT64 FWK::Graphics::Fence::GetCompletedFenceValue() const
+{
+	if (!m_fence) 
+	{
+		assert(false && "フェンスが作成されておらずCompletedFanceValueの取得に失敗しました。");
+		return 0ULL; 
+	}
+
+	return m_fence->GetCompletedValue();
+}
+
 void FWK::Graphics::Fence::WaitForGPUIdle()
 {
 	if (!m_fence) { return; }
@@ -81,52 +92,6 @@ void FWK::Graphics::Fence::WaitForGPUIdle()
 		m_fence->SetEventOnCompletion(m_fenceValue, m_fenceEvent);
 
 		// CPUスレッドをスリープ(完全同期)
-		WaitForSingleObject(m_fenceEvent, INFINITE);	 
+		WaitForSingleObject(m_fenceEvent, INFINITE);
 	}
-}
-
-UINT64 FWK::Graphics::Fence::Signal()
-{
-	if (!m_fence)
-	{
-		assert(false && "フェンスが作成されておらずSignalの実行に失敗しました。");
-		return 0ULL;
-	}
-
-	const auto& l_commandQueue = k_commandQueueBase.GetCommandQueue();
-
-	if (!l_commandQueue)
-	{
-		assert(false && "コマンドキューが作成されておらずSignal処理が実行d系ませんでした。");
-		return 0ULL;
-	}
-
-	++m_fenceValue;
-
-	l_commandQueue->Signal(m_fence.Get(), m_fenceValue);
-
-	return m_fenceValue;
-}
-
-void FWK::Graphics::Fence::WaitForFenceValue(const UINT64 a_fenceValue)
-{
-	if (!m_fence)
-	{
-		assert(false && "フェンスが作成されておらずSignalの実行に失敗しました。");
-		return;
-	}
-
-	m_fence->SetEventOnCompletion(a_fenceValue, m_fenceEvent);
-	WaitForSingleObject          (m_fenceEvent, INFINITE);
-}
-
-UINT64 FWK::Graphics::Fence::GetCompletedFenceValue() const
-{
-	if (!m_fence) 
-	{
-		assert(false && "フェンスが作成されておらずCompletedFanceValueの取得に失敗しました。");
-		return 0ULL; 
-	}
-
-	return m_fence->GetCompletedValue();
 }

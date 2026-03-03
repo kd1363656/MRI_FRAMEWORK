@@ -14,6 +14,8 @@ namespace FWK::Graphics
 
 		const auto& GetDirectCommandAllocator() const { return m_directCommandAllocator; }
 
+		auto& GetWorkDirectCommandAllocator() { return m_directCommandAllocator; }
+
 	private:
 
 		DirectCommandAllocator m_directCommandAllocator;
