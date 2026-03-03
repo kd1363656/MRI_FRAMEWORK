@@ -91,13 +91,15 @@ void Application::PostLoadSetup()
 
 void Application::Load()
 {
-	m_window.LoadConfig		  ();
-	m_fpsController.LoadConfig();
+	m_window.LoadConfig		                   ();
+	m_fpsController.LoadConfig                 ();
+	FWK::Graphics::GraphicsManager::GetInstance().LoadConfig();
 }
 void Application::Save()
 {
-	m_window.SaveConfig       ();
-	m_fpsController.SaveConfig();
+	m_window.SaveConfig                        ();
+	m_fpsController.SaveConfig                 ();
+	FWK::Graphics::GraphicsManager::GetInstance().SaveConfig();
 }
 
 void Application::UpdateWindowTitleBar() const

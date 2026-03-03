@@ -139,6 +139,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV">
       <UniqueIdentifier>{56d523ee-46a7-49d7-acb4-9294622cd96b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\SwapChain">
+      <UniqueIdentifier>{182a5091-0532-478f-a752-2345cd801b7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -192,9 +195,6 @@
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp">
       <Filter>Source\Framework\Graphics\Command\Allocator\Direct</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.cpp">
-      <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp">
       <Filter>Source\Framework\Graphics\Render</Filter>
     </ClCompile>
@@ -210,11 +210,17 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\RTV</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.cpp">
+      <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +320,6 @@
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h">
       <Filter>Source\Framework\Graphics\Command\Allocator\Direct</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.h">
-      <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h">
       <Filter>Source\Framework\Graphics\Render</Filter>
     </ClInclude>
@@ -332,11 +335,17 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.h">
-      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\RTV</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.h">
+      <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

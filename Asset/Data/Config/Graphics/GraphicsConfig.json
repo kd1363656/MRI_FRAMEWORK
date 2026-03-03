@@ -1,0 +1,10 @@
+{
+    "Hardware": {
+        "Device": {
+            "GPUNodeMask": 0
+        }
+    },
+    "SwapChain": {
+        "BackBufferNum": 2
+    }
+}

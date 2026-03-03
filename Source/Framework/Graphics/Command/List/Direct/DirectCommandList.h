@@ -6,7 +6,7 @@ namespace FWK::Graphics
 	{
 	public:
 
-		explicit DirectCommandList(const Device& a_device);
-		~DirectCommandList        ()					   override;
+		DirectCommandList (const Device& a_device);
+		~DirectCommandList();
 	};
 }

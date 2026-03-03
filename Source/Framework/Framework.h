@@ -55,6 +55,7 @@
 #include "Converter/Json/Window/WindowJsonConverter.h"
 #include "Converter/Json/FPS/FPSJsonConverter.h"
 #include "Converter/Json/Graphics/Hardware/Device/DeviceJsonConverter.h"
+#include "Converter/Json/Graphics/SwapChain/SwapChainJsonConverter.h"
 
 //=========================================================
 // FPS計測クラス
@@ -84,5 +85,14 @@
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 #include "Graphics/Render/Renderer.h"
+
+// 描画リソース関係クラス
+#include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
+#include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/DescriptorHeapContext.h"
+#include "Graphics/Resource/ResourceContext.h"
+
+// スワップチェイン
+#include "Graphics/SwapChain/SwapChain.h"
 
 #include "Graphics/GraphicsManager.h"

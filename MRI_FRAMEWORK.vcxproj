@@ -150,12 +150,13 @@
     <ClCompile Include="Source\Application\Application.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.cpp" />
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
@@ -164,8 +165,8 @@
     <ClCompile Include="Source\Framework\Graphics\Hardware\Hardware.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\CommonConstant.h" />
@@ -196,7 +198,7 @@
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h" />
-    <ClInclude Include="Source\Framework\Graphics\Command\List\List\DirectCommandList.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.h" />
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
@@ -205,8 +207,8 @@
     <ClInclude Include="Source\Framework\Graphics\Hardware\Hardware.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />
