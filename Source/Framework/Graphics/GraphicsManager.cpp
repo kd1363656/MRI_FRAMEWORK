@@ -46,7 +46,7 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hWND, const CommonStru
 void FWK::Graphics::GraphicsManager::PostLoadSetup(const HWND& a_hWND)
 {
 	m_swapChain.PostCreateSetup(a_hWND);
-	m_renderer.PostCreateSetup (m_swapChain);
+	m_renderer.PostCreateSetup ();
 }
 
 void FWK::Graphics::GraphicsManager::LoadConfig()

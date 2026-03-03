@@ -4,7 +4,7 @@ FWK::Graphics::Renderer::Renderer(const Hardware& a_hardware) :
 	k_hardware          (a_hardware),
 	m_directCommandQueue(a_hardware.GetDevice()),
 	m_directCommandList (a_hardware.GetDevice()),
-	m_currentFrameIndex (0ULL)
+	m_frameIndex        (0ULL)
 {}
 FWK::Graphics::Renderer::~Renderer() = default;
 
@@ -24,7 +24,7 @@ void FWK::Graphics::Renderer::Init()
 		m_frameResourceList[l_i].Init();
 	}
 
-	m_currentFrameIndex = 0ULL;
+	m_frameIndex = 0ULL;
 }
 bool FWK::Graphics::Renderer::Create()
 {
@@ -52,21 +52,24 @@ bool FWK::Graphics::Renderer::Create()
 	return true;
 }
 
-void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
+void FWK::Graphics::Renderer::PostCreateSetup()
 {
 	// 全てのコマンドアロケータをリセット
-	for (const auto& l_frameResource : m_frameResourceList)
+	if (m_frameResourceList.empty())
 	{
-		l_frameResource.GetDirectCommandAllocator().Reset();
+		assert(false && "フレームリソースの要素が存在せずリセット処理を行えませんでした。");
+		return;
 	}
+
+	const auto& l_commandAllocator = m_frameResourceList[m_frameIndex].GetDirectCommandAllocator();
+
+	l_commandAllocator.Reset ();
+	m_directCommandList.Reset(l_commandAllocator);
 }
 
 void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain)
 {
-	// 容量を超えないように現在のフレームリソースで使用するインデックスを取得
-	m_currentFrameIndex = (m_currentFrameIndex + 1U) % k_frameCount;
-
-	if (m_currentFrameIndex >= m_frameResourceList.size())
+	if (m_frameIndex >= m_frameResourceList.size())
 	{
 		assert(false && "フレームリソースの容量を超えたインデックスのためBeginFrame処理が行えませんでした。。");
 		return;
@@ -74,22 +77,25 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain)
 }
 void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 {
-	if (m_currentFrameIndex >= m_frameResourceList.size())
+	if (m_frameIndex >= m_frameResourceList.size())
 	{
-		assert(false && "フレームリソースの容量を超えたインデックスのためBeginFrame処理が行えませんでした。。");
+		assert(false && "フレームリソースの容量を超えたインデックスのためBeginFrame処理が行えませんでした。");
 		return;
 	}
+
+	// 容量を超えないように次のフレームで使用するインデックスを計算
+	m_frameIndex = (m_frameIndex + 1U) % k_frameCount;
 }
 
 void FWK::Graphics::Renderer::ResetCommandObjects()
 {
-	if (m_currentFrameIndex >= m_frameResourceList.size())
+	if (m_frameIndex >= m_frameResourceList.size())
 	{
-		assert(false && "フレームリソースの容量を超えたインデックスのためリセット処理が行えませんでした。。");
+		assert(false && "フレームリソースの容量を超えたインデックスのためリセット処理が行えませんでした。");
 		return;
 	}
 
-	const auto& l_directCommandAllocator = m_frameResourceList[m_currentFrameIndex].GetDirectCommandAllocator();
+	const auto& l_directCommandAllocator = m_frameResourceList[m_frameIndex].GetDirectCommandAllocator();
 
 	l_directCommandAllocator.Reset();
 	m_directCommandList.Reset     (l_directCommandAllocator);

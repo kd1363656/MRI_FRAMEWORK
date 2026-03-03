@@ -16,7 +16,7 @@ namespace FWK::Graphics
 
 		void Init           ();
 		bool Create         ();
-		void PostCreateSetup(const SwapChain& a_swapChain);
+		void PostCreateSetup();
 
 		void BeginFrame(const SwapChain& a_swapChain);
 		void EndFrame  (const SwapChain& a_swapChain);
@@ -36,6 +36,6 @@ namespace FWK::Graphics
 		DirectCommandQueue m_directCommandQueue;
 		DirectCommandList  m_directCommandList;
 
-		UINT m_currentFrameIndex = 0U;
+		UINT m_frameIndex = 0U;
 	};
 }
