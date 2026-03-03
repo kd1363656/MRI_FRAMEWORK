@@ -142,6 +142,9 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\SwapChain">
       <UniqueIdentifier>{182a5091-0532-478f-a752-2345cd801b7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Queue\Fence">
+      <UniqueIdentifier>{a80d5574-20ee-4dc3-b6ac-a31d2fdf6711}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -221,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.cpp">
       <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.cpp">
+      <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.h">
       <Filter>Source\Framework\Graphics\Command\List\Direct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.h">
+      <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

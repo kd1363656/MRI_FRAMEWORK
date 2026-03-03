@@ -1,6 +1,6 @@
 ﻿#include "SwapChain.h"
 
-FWK::Graphics::SwapChain::SwapChain(const Hardware& a_hardware, const RTVDescriptorHeap& a_rtvDescriptorHeap) : 
+FWK::Graphics::SwapChain::SwapChain(const Hardware& a_hardware) : 
     k_hardware              (a_hardware),
 	m_backBufferList        (),
 	m_swapChain             (nullptr),
@@ -39,16 +39,18 @@ bool FWK::Graphics::SwapChain::Create(const HWND&                       a_hWND,
 
 	return true;
 }
-void FWK::Graphics::SwapChain::PostCreateInit(const HWND& a_hWND) const
+void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hWND) const
 {
-	if (!m_swapChain)
+	const auto& l_factory = k_hardware.GetFactory().GetFactory();
+
+	if (!l_factory)
 	{
-		assert(false && "スワップチェインが作成されておらず、フリップ処理が出来ませんでした。");
+		assert(false && "ファクトリーの作成に失敗しており排他スクリーン設定ができませんでした。");
 		return;
 	}
 
-	// 現在のバックバッファを画面に表示(バッファをスワップ)
-	m_swapChain->Present(m_syncInterval, 0U);
+	// Alt + Enterで勝手に排他制御フルスクリーンにされるのを防ぐ
+	l_factory->MakeWindowAssociation(a_hWND, DXGI_MWA_NO_ALT_ENTER);
 }
 
 void FWK::Graphics::SwapChain::Deserialize(const nlohmann::json& a_rootJson)

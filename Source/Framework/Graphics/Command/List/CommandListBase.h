@@ -12,6 +12,8 @@ namespace FWK::Graphics
 		void Init  ();
 		bool Create();
 
+		void Reset(const CommandAllocatorBase* a_commandAllocator) const;
+
 		const auto& GetCommandList() { return m_commandList; }
 
 	private:

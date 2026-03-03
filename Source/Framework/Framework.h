@@ -77,6 +77,7 @@
 #include "Graphics/Hardware/Hardware.h"
 
 // 描画関係クラス
+#include "Graphics/Command/Queue/Fence/Fence.h"
 #include "Graphics/Command/Queue/CommandQueueBase.h"
 #include "Graphics/Command/Allocator/CommandAllocatorBase.h"
 #include "Graphics/Command/List/CommandListBase.h"

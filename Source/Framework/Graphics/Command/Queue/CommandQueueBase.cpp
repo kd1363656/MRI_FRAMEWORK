@@ -3,15 +3,34 @@
 FWK::Graphics::CommandQueueBase::CommandQueueBase(const Device& a_device, const D3D12_COMMAND_LIST_TYPE a_createCommandListType) : 
 	k_device               (a_device),
 	k_createCommandListType(a_createCommandListType),
-	m_commandQueue         (nullptr)
+	m_commandQueue         (nullptr),
+	m_fence                (a_device, *this)
 {}
 FWK::Graphics::CommandQueueBase::~CommandQueueBase() = default;
 
 void FWK::Graphics::CommandQueueBase::Init()
 {
 	m_commandQueue.Reset();
+	m_fence.Init        ();
 }
 bool FWK::Graphics::CommandQueueBase::Create()
+{
+	if (!CreateCommandQueue())
+	{
+		assert(false && "コマンドキューの作成に失敗しました。");
+		return false;
+	}
+
+	if (!CreateFence())
+	{
+		assert(false && "フェンスの作成に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
+bool FWK::Graphics::CommandQueueBase::CreateCommandQueue()
 {
 	const auto& l_device = k_device.GetDevice().Get();
 
@@ -34,6 +53,17 @@ bool FWK::Graphics::CommandQueueBase::Create()
 	if (FAILED(l_hr))
 	{
 		assert(false && "コマンドキューの作成に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
+bool FWK::Graphics::CommandQueueBase::CreateFence()
+{
+	if (!m_fence.Create())
+	{
+		assert(false && "フェンスの作成に失敗しました。");
 		return false;
 	}
 

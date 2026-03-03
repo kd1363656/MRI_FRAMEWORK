@@ -34,3 +34,35 @@ bool FWK::Graphics::CommandListBase::Create()
 
 	return true;
 }
+
+void FWK::Graphics::CommandListBase::Reset(const CommandAllocatorBase* a_commandAllocator) const
+{
+	if (!a_commandAllocator)
+	{
+		assert(false && "コマンドアロケータクラスのポインタが無効になっており、コマンドリストのリセットが出来ませんでした。");
+		return;
+	}
+
+	if (!m_commandList)
+	{
+		assert(false && "コマンドリストの作成に失敗しており、コマンドリストのリセットが出来ませんでした。");
+		return;
+	}
+
+	// 自身のコマンドリストタイプと一致しなければreturn
+	if (a_commandAllocator->GetCreateCommandListType() != k_createCommandListType)
+	{
+		assert(false && "コマンドアロケータのコマンドリストタイプが一致しないため、コマンドリストのリセットが出来ませんでした。");
+		return;
+	}
+
+	const auto& l_commandAllocator = a_commandAllocator->GetCommandAllocator();
+
+	if (!l_commandAllocator)
+	{
+		assert(false && "コマンドアロケータの作成に失敗しており、コマンドリストのリセットに失敗しました。");
+		return;
+	}
+
+	m_commandList->Reset(l_commandAllocator.Get(), nullptr);
+}

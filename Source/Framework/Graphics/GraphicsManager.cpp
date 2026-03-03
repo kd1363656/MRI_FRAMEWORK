@@ -4,7 +4,7 @@ FWK::Graphics::GraphicsManager::GraphicsManager() :
 	m_hardware       (),
 	m_renderer       (m_hardware),
 	m_resourceContext(m_hardware.GetDevice()),
-	m_swapChain      (m_hardware, m_resourceContext.GetDescriptorHeapContext().GetRTVDescriptroHeap())
+	m_swapChain      (m_hardware)
 {}
 FWK::Graphics::GraphicsManager::~GraphicsManager() = default;
 
@@ -45,6 +45,8 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hWND, const CommonStru
 }
 void FWK::Graphics::GraphicsManager::PostLoadSetup(const HWND& a_hWND)
 {
+	m_swapChain.PostCreateSetup(a_hWND);
+	m_renderer.PostCreateSetup (m_swapChain);
 }
 
 void FWK::Graphics::GraphicsManager::LoadConfig()
@@ -75,10 +77,12 @@ void FWK::Graphics::GraphicsManager::SaveConfig()
 
 void FWK::Graphics::GraphicsManager::BeginFrame()
 {
+	m_renderer.BeginFrame(m_swapChain);
 }
 void FWK::Graphics::GraphicsManager::Draw()
 {
 }
 void FWK::Graphics::GraphicsManager::EndFrame()
 {
+	m_renderer.EndFrame(m_swapChain);
 }

@@ -14,6 +14,14 @@ namespace FWK::Graphics
 
 		void Reset() const;
 
+		const auto& GetCommandAllocator() const { return m_commandAllocator; }
+
+		auto GetCreateCommandListType() const { return k_createCommandListType; }
+
+		UINT64 GetSubmittedFenceValue() const { return m_submittedFenceValue; }
+
+		void SetSubmittedFenceValue(const UINT64 a_set) { m_submittedFenceValue = a_set; }
+
 	private:
 
 		const Device& k_device;

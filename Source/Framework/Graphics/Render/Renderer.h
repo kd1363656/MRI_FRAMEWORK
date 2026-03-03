@@ -2,6 +2,11 @@
 
 namespace FWK::Graphics
 {
+	class SwapChain;
+}
+
+namespace FWK::Graphics
+{
 	class Renderer
 	{
 	public:
@@ -9,12 +14,18 @@ namespace FWK::Graphics
 		explicit Renderer(const Hardware& a_hardware);
 		~Renderer        ();
 
-		void Init  ();
-		bool Create();
+		void Init           ();
+		bool Create         ();
+		void PostCreateSetup(const SwapChain& a_swapChain);
+
+		void BeginFrame(const SwapChain& a_swapChain);
+		void EndFrame  (const SwapChain& a_swapChain);
 
 		const auto& GetDeirectCommandQueue() const { return m_directCommandQueue; }
 
 	private:
+
+		void ResetCommandObjects();
 
 		static constexpr std::size_t k_frameCount = 3;
 

@@ -6,15 +6,15 @@ namespace FWK::Graphics
 	{
 	public:
 
-		explicit SwapChain(const Hardware& a_hardware, const RTVDescriptorHeap& a_rtvDescriptorHeap);
+		explicit SwapChain(const Hardware& a_hardware);
 		~SwapChain        ();
 
-		void Init          ();
-		bool Create        (const HWND&						  a_hWND,
-					        const CommonStruct::WindowConfig& a_windowConfig,
-					        const DirectCommandQueue&		  a_directCommandQueue,
-					        const RTVDescriptorHeap&		  a_rtvDescriptorHeap);
-		void PostCreateInit(const HWND& a_hWND) const;
+		void Init           ();
+		bool Create         (const HWND&						  a_hWND,
+					         const CommonStruct::WindowConfig& a_windowConfig,
+					         const DirectCommandQueue&		  a_directCommandQueue,
+					         const RTVDescriptorHeap&		  a_rtvDescriptorHeap);
+		void PostCreateSetup(const HWND& a_hWND) const;
 
 		void           Deserialize(const nlohmann::json& a_rootJson);
 		nlohmann::json Serialize  ();
