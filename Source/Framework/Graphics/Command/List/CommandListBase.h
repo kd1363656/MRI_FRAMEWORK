@@ -14,7 +14,9 @@ namespace FWK::Graphics
 
 		void Reset(const CommandAllocatorBase& a_commandAllocator) const;
 
-		const auto& GetCommandList() { return m_commandList; }
+		const auto& GetCommandList() const { return m_commandList; }
+
+		auto GetCreateCommandListType() const { return k_createCommandListType; }
 
 	private:
 

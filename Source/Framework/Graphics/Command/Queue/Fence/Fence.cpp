@@ -2,16 +2,11 @@
 
 FWK::Graphics::Fence::Fence(const Device& a_device, const CommandQueueBase& a_commandQueueBase) :
 	k_device		  (a_device),
-	k_commandQueueBase(a_commandQueueBase),
 	m_fenceEvent      (nullptr),
 	m_fenceValue      (0ULL)
 {}
 FWK::Graphics::Fence::~Fence()
 {
-	// GPUと完全同期をとってDirectX12のDeviceが
-	// Releaseされてもいい状態にする
-	WaitForGPUIdle();
-
 	if (m_fenceEvent)
 	{
 		CloseHandle(m_fenceEvent);
@@ -72,6 +67,35 @@ void FWK::Graphics::Fence::WaitForFenceValue(const UINT64& a_fenceValue)
 
 	WaitForSingleObject(m_fenceEvent, INFINITE);
 }
+void FWK::Graphics::Fence::WaitForGPUIdle(const ComPtr<ID3D12CommandQueue> a_commandQueue)
+{
+	if (!m_fence) { return; }
+
+	if (!a_commandQueue)
+	{
+		assert(false && "ダイレクトコマンドキューが作製されておらず、GPUとの同期が取れません。");
+		return;
+	}
+
+	// フェンス値を更新し更新結果を目標フェンス値として持つ
+	++m_fenceValue;
+
+	const UINT64 l_targetFenceValue = m_fenceValue;
+
+	// コマンドキュー内でこの位置までの命令が実行完了したら
+	// フェンス値をm_fenceValueに更新する命令をGPUに追加
+	a_commandQueue->Signal(m_fence.Get(), l_targetFenceValue);
+
+	// GPUがまだ到達してなければ待機
+	if (m_fence->GetCompletedValue() < l_targetFenceValue)
+	{
+		// GPUのフェンス値がGetCompletedValue以上になったらイベントを発火
+		m_fence->SetEventOnCompletion(l_targetFenceValue, m_fenceEvent);
+
+		// CPUスレッドをスリープ(完全同期)
+		WaitForSingleObject(m_fenceEvent, INFINITE);
+	}
+}
 
 UINT64 FWK::Graphics::Fence::GetCompletedFenceValue() const
 {
@@ -82,34 +106,4 @@ UINT64 FWK::Graphics::Fence::GetCompletedFenceValue() const
 	}
 
 	return m_fence->GetCompletedValue();
-}
-
-void FWK::Graphics::Fence::WaitForGPUIdle()
-{
-	if (!m_fence) { return; }
-
-	const auto& l_commandQueue = k_commandQueueBase.GetCommandQueue();
-
-	if (!l_commandQueue)
-	{
-		assert(false && "ダイレクトコマンドキューが作製されておらず、GPUとの同期が取れません。");
-		return;
-	}
-
-	// フェンス値を更新し更新結果を目標フェンス値として持つ
-	++m_fenceValue;
-
-	// コマンドキュー内でこの位置までの命令が実行完了したら
-	// フェンス値をm_fenceValueに更新する命令をGPUに追加
-	l_commandQueue->Signal(m_fence.Get(), m_fenceValue);
-
-	// GPUがまだ到達してなければ待機
-	if (m_fence->GetCompletedValue() < m_fenceValue)
-	{
-		// GPUのフェンス値がGetCompletedValue以上になったらイベントを発火
-		m_fence->SetEventOnCompletion(m_fenceValue, m_fenceEvent);
-
-		// CPUスレッドをスリープ(完全同期)
-		WaitForSingleObject(m_fenceEvent, INFINITE);
-	}
 }

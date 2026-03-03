@@ -63,6 +63,17 @@ nlohmann::json FWK::Graphics::SwapChain::Serialize()
 	return m_swapChainJsonConverter.Serialize();
 }
 
+void FWK::Graphics::SwapChain::Present() const
+{
+	if (!m_swapChain)
+	{
+		assert(false && "スワップチェインが作成されておらず、現在のバックバッファのインデックスを取得出来ませんでした。");
+		return;
+	}
+
+	m_swapChain->Present(m_syncInterval, k_swapChainPresentFlagNone);
+}
+
 UINT FWK::Graphics::SwapChain::GetCurrentBackBufferIndex() const
 {
 	if (!m_swapChain)

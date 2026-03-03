@@ -18,7 +18,8 @@ namespace FWK::Graphics
 		void Init  ();
 		bool Create();
 
-		void WaitForFenceValue(const UINT64& a_fenceValue);
+		void WaitForFenceValue(const UINT64&					a_fenceValue);
+		void WaitForGPUIdle   (const ComPtr<ID3D12CommandQueue> a_commandQueue);
 
 		const auto& GetFence() const { return m_fence; }
 
@@ -32,11 +33,8 @@ namespace FWK::Graphics
 
 	private:
 
-		void WaitForGPUIdle();
-
-		const Device&           k_device;
-		const CommandQueueBase& k_commandQueueBase;
-
+		const Device& k_device;
+		
 		ComPtr<ID3D12Fence1> m_fence;
 
 		HANDLE m_fenceEvent;

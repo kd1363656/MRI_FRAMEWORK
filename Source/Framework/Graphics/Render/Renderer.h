@@ -3,6 +3,7 @@
 namespace FWK::Graphics
 {
 	class SwapChain;
+	class RTVDescriptorHeap;
 }
 
 namespace FWK::Graphics
@@ -18,7 +19,7 @@ namespace FWK::Graphics
 		bool Create         ();
 		void PostCreateSetup();
 
-		void BeginFrame(const SwapChain& a_swapChain);
+		void BeginFrame(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
 		void EndFrame  (const SwapChain& a_swapChain);
 
 		const auto& GetDeirectCommandQueue() const { return m_directCommandQueue; }

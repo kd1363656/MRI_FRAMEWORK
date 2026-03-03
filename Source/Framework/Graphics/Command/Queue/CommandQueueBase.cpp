@@ -6,7 +6,12 @@ FWK::Graphics::CommandQueueBase::CommandQueueBase(const Device& a_device, const 
 	m_commandQueue         (nullptr),
 	m_fence                (a_device, *this)
 {}
-FWK::Graphics::CommandQueueBase::~CommandQueueBase() = default;
+FWK::Graphics::CommandQueueBase::~CommandQueueBase()
+{
+	// GPUと完全同期をとってDirectX12のDeviceが
+	// Releaseされてもいい状態にする
+	m_fence.WaitForGPUIdle(m_commandQueue.Get());
+}
 
 void FWK::Graphics::CommandQueueBase::Init()
 {

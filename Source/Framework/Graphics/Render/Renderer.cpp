@@ -54,20 +54,10 @@ bool FWK::Graphics::Renderer::Create()
 
 void FWK::Graphics::Renderer::PostCreateSetup()
 {
-	// 全てのコマンドアロケータをリセット
-	if (m_frameResourceList.empty())
-	{
-		assert(false && "フレームリソースの要素が存在せずリセット処理を行えませんでした。");
-		return;
-	}
-
-	const auto& l_commandAllocator = m_frameResourceList[m_frameIndex].GetDirectCommandAllocator();
-
-	l_commandAllocator.Reset ();
-	m_directCommandList.Reset(l_commandAllocator);
+	ResetCommandObjects();
 }
 
-void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain)
+void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
 {
 	if (m_frameIndex >= m_frameResourceList.size())
 	{
@@ -77,7 +67,14 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain)
 
 	const auto& l_commandAllocator = m_frameResourceList[m_frameIndex].GetDirectCommandAllocator();
 
+	// コマンドアロケータがGPU処理が終わっているかどうかを確かめGPUの処理が終わっていなければWait
 	m_directCommandQueue.EnsureAllocatorAvailable(l_commandAllocator);
+
+	// バックバッファの状態遷移(Present -> Resource)
+	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+	// 描画するためのレンダーターゲットをセットしクリア
+	m_directCommandList.SetupRenderTarget(a_swapChain, a_rtvDescriptorHeap);
 }
 void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 {
@@ -89,7 +86,18 @@ void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 
 	auto& l_commandAllocator = m_frameResourceList[m_frameIndex].GetWorkDirectCommandAllocator();
 
+	// バックバッファの状態遷移(Present -> Resource)
+	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+
+	// GPUに描画命令を出す
+	m_directCommandQueue.ExecuteCommandLists(m_directCommandList);
+
+	// フェンス値を更新
 	m_directCommandQueue.SignalAndTracAllocator(l_commandAllocator);
+
+	ResetCommandObjects();
+
+	a_swapChain.Present();
 
 	// 容量を超えないように次のフレームで使用するインデックスを計算
 	m_frameIndex = (m_frameIndex + 1U) % k_frameCount;

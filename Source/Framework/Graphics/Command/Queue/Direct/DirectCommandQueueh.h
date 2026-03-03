@@ -2,11 +2,18 @@
 
 namespace FWK::Graphics
 {
+	class CommandListBase;
+}
+
+namespace FWK::Graphics
+{
 	class DirectCommandQueue final : public CommandQueueBase
 	{
 	public:
 
 		explicit DirectCommandQueue(const Device& a_device);
-		~DirectCommandQueue        ()					   override;
+		~DirectCommandQueue        ()					    override;
+
+		void ExecuteCommandLists(const CommandListBase& a_commandList) const;
 	};
 }

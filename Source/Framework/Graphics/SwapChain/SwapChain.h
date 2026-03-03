@@ -19,6 +19,8 @@ namespace FWK::Graphics
 		void           Deserialize(const nlohmann::json& a_rootJson);
 		nlohmann::json Serialize  ();
 
+		void Present() const;
+
 		const auto& GetBackBufferList() const { return m_backBufferList; }
 
 		const auto& GetSwapChain() const { return m_swapChain; }
@@ -33,8 +35,9 @@ namespace FWK::Graphics
 		bool CreateSwapChain     (const HWND&			   a_hWND, const CommonStruct::WindowConfig& a_windowConfig, const DirectCommandQueue& a_directCommandQueue);
 		bool CreateBackBufferList(const RTVDescriptorHeap& a_rtvDescriptorHeap);
 
-		static constexpr UINT k_defaultSampleCount   = 1U;
-		static constexpr UINT k_defaultSampleQuality = 0U;
+		static constexpr UINT k_defaultSampleCount       = 1U;
+		static constexpr UINT k_defaultSampleQuality     = 0U;
+		static constexpr UINT k_swapChainPresentFlagNone = 0U;
 
 		const Hardware& k_hardware;
 		
