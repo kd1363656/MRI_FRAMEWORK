@@ -436,8 +436,5 @@
     <FxCompile Include="Asset\Shader\Simple\SimplePS.hlsl">
       <Filter>Asset\Shader\Simple</Filter>
     </FxCompile>
-    <FxCompile Include="Asset\Shader\Simple\SimpleAS.hlsl">
-      <Filter>Asset\Shader\Simple</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
