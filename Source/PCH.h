@@ -36,6 +36,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <D3DX12/d3dx12.h>
+#include <DXCCompiler/Inc/dxcapi.h>
 
 //================================================
 // フレームワーク

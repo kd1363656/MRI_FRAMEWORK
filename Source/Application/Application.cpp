@@ -23,9 +23,9 @@ int WINAPI WinMain(_In_     HINSTANCE,
 
 void Application::Execute()
 {
-	Init         ();
-	Load         ();
-	PostLoadSetup();
+	Init          ();
+	Load          ();
+	PostLoadCreate();
 
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 
@@ -70,7 +70,7 @@ void Application::Init()
 	// (別にしなくてもいいがいきなりタイトルバーに変化があれば不快だと思ったので)
 	UpdateWindowTitleBar();
 }
-void Application::PostLoadSetup()
+void Application::PostLoadCreate()
 {
 	if (!m_window.Create(k_titleBar, k_windowClassName))
 	{
@@ -86,7 +86,7 @@ void Application::PostLoadSetup()
 		return;
 	}
 
-	l_graphicsManager.PostLoadSetup(GetHWND());
+	l_graphicsManager.PostCreateSetup(GetHWND());
 }
 
 void Application::Load()

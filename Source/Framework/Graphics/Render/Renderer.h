@@ -17,7 +17,7 @@ namespace FWK::Graphics
 
 		void Init           ();
 		bool Create         ();
-		void PostCreateSetup();
+		void PostCreateSetup(const SwapChain& a_swapChain);
 
 		void BeginFrame(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
 		void EndFrame  (const SwapChain& a_swapChain);
@@ -36,6 +36,8 @@ namespace FWK::Graphics
 
 		DirectCommandQueue m_directCommandQueue;
 		DirectCommandList  m_directCommandList;
+
+		RenderArea m_renderArea;
 
 		UINT m_frameIndex = 0U;
 	};

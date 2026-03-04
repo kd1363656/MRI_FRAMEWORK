@@ -12,8 +12,8 @@ public:
 
 private:
 
-	void Init         ();
-	void PostLoadSetup();
+	void Init          ();
+	void PostLoadCreate();
 
 	void Load();
 	void Save();

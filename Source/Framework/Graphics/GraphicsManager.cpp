@@ -1,6 +1,7 @@
 ﻿#include "GraphicsManager.h"
 
 FWK::Graphics::GraphicsManager::GraphicsManager() : 
+	m_shaderCompiler (),
 	m_hardware       (),
 	m_swapChain      (m_hardware),
 	m_renderer       (m_hardware),
@@ -10,6 +11,7 @@ FWK::Graphics::GraphicsManager::~GraphicsManager() = default;
 
 void FWK::Graphics::GraphicsManager::Init()
 {
+	m_shaderCompiler.Init ();
 	m_hardware.Init       ();
 	m_swapChain.Init      ();
 	m_renderer.Init       ();
@@ -17,6 +19,12 @@ void FWK::Graphics::GraphicsManager::Init()
 }
 bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hWND, const CommonStruct::WindowConfig& a_windowConfig)
 {
+	if (!m_shaderCompiler.Create())
+	{
+		assert(false && "シェーダーコンパイラの作成に失敗。");
+		return false;
+	}
+
 	if (!m_hardware.Create())
 	{
 		assert(false && "ハードウェアの作成に失敗。");
@@ -43,10 +51,10 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hWND, const CommonStru
 
 	return true;
 }
-void FWK::Graphics::GraphicsManager::PostLoadSetup(const HWND& a_hWND)
+void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hWND)
 {
 	m_swapChain.PostCreateSetup(a_hWND);
-	m_renderer.PostCreateSetup ();
+	m_renderer.PostCreateSetup (m_swapChain);
 }
 
 void FWK::Graphics::GraphicsManager::LoadConfig()

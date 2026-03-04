@@ -4,6 +4,7 @@ namespace FWK::Graphics
 {
 	class SwapChain;
 	class RTVDescriptorHeap;
+	class RenderArea;
 }
 
 namespace FWK::Graphics
@@ -21,6 +22,8 @@ namespace FWK::Graphics
 
 		void SetupRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
+		void SetupRenderArea(const RenderArea& a_renderArea) const;
+
 	private:
 
 		static constexpr float k_clearColor[] = { 1.0F, 0.0F, 1.0F, 1.0F };
@@ -28,6 +31,7 @@ namespace FWK::Graphics
 		static constexpr UINT k_executeClearRectNum    = 0U;
 		static constexpr UINT k_sendBarrierNum		   = 1U;
 		static constexpr UINT k_executeRenderTargetNum = 1U;
+		static constexpr UINT k_setViewportNum		   = 1U;
 		static constexpr UINT k_setScissorRectNum      = 1U;
 	};
 }

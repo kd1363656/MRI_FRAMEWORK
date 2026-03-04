@@ -6,9 +6,9 @@ namespace FWK::Graphics
 	{
 	public:
 
-		void Init         ();
-		bool Create       (const HWND& a_hWND, const CommonStruct::WindowConfig& a_windowConfig);
-		void PostLoadSetup(const HWND& a_hWND);
+		void Init           ();
+		bool Create         (const HWND& a_hWND, const CommonStruct::WindowConfig& a_windowConfig);
+		void PostCreateSetup(const HWND& a_hWND);
 
 		void LoadConfig();
 		void SaveConfig();
@@ -21,6 +21,7 @@ namespace FWK::Graphics
 
 		const std::string k_configFileIOPath = "Asset/Data/Config/Graphics/GraphicsConfig.json";
 
+		ShaderCompiler  m_shaderCompiler;
 		Hardware        m_hardware;
 		SwapChain       m_swapChain;
 		Renderer        m_renderer;

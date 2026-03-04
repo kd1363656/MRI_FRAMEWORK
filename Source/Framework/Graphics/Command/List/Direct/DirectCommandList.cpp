@@ -78,3 +78,18 @@ void FWK::Graphics::DirectCommandList::SetupRenderTarget(const SwapChain& a_swap
 											   k_executeClearRectNum,
 											   nullptr);
 }
+
+void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_renderArea) const
+{
+	const auto& l_directCommandList = GetCommandList().Get();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、ビューポートとシザー矩形の設定が出来ませんでした。");
+		return;
+	}
+
+	// グラフィックスコマンドリストにビューポートとシザー矩形をセット
+	l_directCommandList->RSSetViewports   (k_setViewportNum,    &a_renderArea.GetViewport());
+	l_directCommandList->RSSetScissorRects(k_setScissorRectNum, &a_renderArea.GetScissorRect());
+}

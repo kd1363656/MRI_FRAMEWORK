@@ -86,6 +86,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Library\DXCCompiler\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,6 +108,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Library\DXCCompiler\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,6 +128,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Library\DXCCompiler\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,12 +150,15 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Library\DXCCompiler\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
@@ -165,11 +174,14 @@
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory\Factory.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Hardware.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
@@ -188,6 +200,7 @@
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Hardware\Device\DeviceJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
@@ -208,11 +221,14 @@
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory\Factory.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Hardware.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.h" />
+    <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h" />
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\TagBase.h" />

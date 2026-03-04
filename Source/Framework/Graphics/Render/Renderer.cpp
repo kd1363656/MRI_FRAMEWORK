@@ -4,6 +4,7 @@ FWK::Graphics::Renderer::Renderer(const Hardware& a_hardware) :
 	k_hardware          (a_hardware),
 	m_directCommandQueue(a_hardware.GetDevice()),
 	m_directCommandList (a_hardware.GetDevice()),
+	m_renderArea        (),
 	m_frameIndex        (0ULL)
 {}
 FWK::Graphics::Renderer::~Renderer() = default;
@@ -23,6 +24,8 @@ void FWK::Graphics::Renderer::Init()
 		// 確保が終わってから初期化
 		m_frameResourceList[l_i].Init();
 	}
+
+	m_renderArea.Init();
 
 	m_frameIndex = 0ULL;
 }
@@ -52,9 +55,16 @@ bool FWK::Graphics::Renderer::Create()
 	return true;
 }
 
-void FWK::Graphics::Renderer::PostCreateSetup()
+void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
+	// 次使用するコマンドリスト、アロケータをリセット
 	ResetCommandObjects();
+
+	if (!m_renderArea.SetupRenderArea(a_swapChain))
+	{
+		assert(false && "描画エリアの作成に失敗。");
+		return;
+	}
 }
 
 void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
@@ -75,6 +85,9 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain, const RTV
 
 	// 描画するためのレンダーターゲットをセットしクリア
 	m_directCommandList.SetupRenderTarget(a_swapChain, a_rtvDescriptorHeap);
+
+	// ビューポートとシザー矩形をセット
+	m_directCommandList.SetupRenderArea(m_renderArea);
 }
 void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 {

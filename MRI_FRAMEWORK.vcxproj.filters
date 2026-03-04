@@ -145,6 +145,18 @@
     <Filter Include="Source\Framework\Graphics\Command\Queue\Fence">
       <UniqueIdentifier>{a80d5574-20ee-4dc3-b6ac-a31d2fdf6711}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Shader">
+      <UniqueIdentifier>{427d32db-7933-4c0a-a4d0-55fee8af5259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Shader\Compiler">
+      <UniqueIdentifier>{04f2231b-6e21-4723-a2ec-15056bdfef45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Shader">
+      <UniqueIdentifier>{4c945872-01f9-493a-be68-c3e84f577d0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Rasterizer">
+      <UniqueIdentifier>{d9b78613-87c7-4ac8-aaa4-5680aca57b94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -227,6 +239,18 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.cpp">
       <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.cpp">
+      <Filter>Source\Framework\Graphics\Shader\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp">
+      <Filter>Source\Framework\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp">
+      <Filter>Source\Framework\Graphics\Render\Rasterizer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +379,18 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.h">
       <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.h">
+      <Filter>Source\Framework\Graphics\Shader\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h">
+      <Filter>Source\Framework\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h">
+      <Filter>Source\Framework\Graphics\Render\Rasterizer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

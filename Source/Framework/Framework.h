@@ -56,6 +56,7 @@
 #include "Converter/Json/FPS/FPSJsonConverter.h"
 #include "Converter/Json/Graphics/Hardware/Device/DeviceJsonConverter.h"
 #include "Converter/Json/Graphics/SwapChain/SwapChainJsonConverter.h"
+#include "Converter/Json/Graphics/Shader/ShaderJsonConverter.h"
 
 //=========================================================
 // FPS計測クラス
@@ -71,6 +72,10 @@
 // 描画関係
 //================================================
 
+// シェーダー関連クラス
+#include "Graphics/Shader/Compiler/ShaderCompiler.h"
+#include "Graphics/Shader/Shader.h"
+
 // ハードウェア管理クラス
 #include "Graphics/Hardware/Factory/Factory.h"
 #include "Graphics/Hardware/Device/Device.h"
@@ -85,6 +90,7 @@
 #include "Graphics/Command/Allocator/Direct/DirectCommandAllocator.h"
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Render/Frame/FrameResource.h"
+#include "Graphics/Render/Rasterizer/RenderArea.h"
 #include "Graphics/Render/Renderer.h"
 
 // 描画リソース関係クラス
