@@ -176,10 +176,13 @@
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Copy\CopyCommandAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\List\Copy\CopyCommandList.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Copy\CopyCommandQueue.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.cpp" />
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
@@ -194,6 +197,7 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp" />
@@ -226,10 +230,13 @@
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Copy\CopyCommandAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\List\Copy\CopyCommandList.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Copy\CopyCommandQueue.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.h" />
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
@@ -244,6 +251,7 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h" />
