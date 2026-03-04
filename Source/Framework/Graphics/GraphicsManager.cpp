@@ -43,7 +43,7 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hWND, const CommonStru
 		return false;
 	}
 
-	if (!m_swapChain.Create(a_hWND, a_windowConfig, m_renderer.GetDeirectCommandQueue(), m_resourceContext.GetDescriptorHeapContext().GetRTVDescriptroHeap()))
+	if (!m_swapChain.Create(a_hWND, a_windowConfig, m_renderer.GetDeirectCommandQueue(), m_resourceContext.GetDescriptorHeapContext().GetRTVDescriptorHeap()))
 	{
 		assert(false && "スワップチェインの作成に失敗");
 		return false;
@@ -85,7 +85,7 @@ void FWK::Graphics::GraphicsManager::SaveConfig()
 
 void FWK::Graphics::GraphicsManager::BeginFrame()
 {
-	const auto& l_rtvDescriptorHeap = m_resourceContext.GetDescriptorHeapContext().GetRTVDescriptroHeap();
+	const auto& l_rtvDescriptorHeap = m_resourceContext.GetDescriptorHeapContext().GetRTVDescriptorHeap();
 
 	m_renderer.BeginFrame(m_swapChain, l_rtvDescriptorHeap);
 }

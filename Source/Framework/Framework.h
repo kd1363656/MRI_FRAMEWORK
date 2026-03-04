@@ -99,6 +99,7 @@
 // 描画リソース関係クラス
 #include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
 #include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeap.h"
 #include "Graphics/Resource/Descriptor/DescriptorHeapContext.h"
 #include "Graphics/Resource/ResourceContext.h"
 

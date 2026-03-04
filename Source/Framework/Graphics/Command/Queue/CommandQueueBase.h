@@ -18,6 +18,8 @@ namespace FWK::Graphics
 		void Init  ();
 		bool Create();
 
+		void ExecuteCommandLists(const CommandListBase& a_commandList) const;
+
 		void EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator);
 		void SignalAndTracAllocator  (CommandAllocatorBase&       a_commandAllocator);
 

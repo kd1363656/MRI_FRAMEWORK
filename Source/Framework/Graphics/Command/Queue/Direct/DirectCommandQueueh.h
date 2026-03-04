@@ -13,7 +13,5 @@ namespace FWK::Graphics
 
 		explicit DirectCommandQueue(const Device& a_device);
 		~DirectCommandQueue        ()					    override;
-
-		void ExecuteCommandLists(const CommandListBase& a_commandList) const;
 	};
 }

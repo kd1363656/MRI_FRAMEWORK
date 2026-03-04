@@ -194,6 +194,7 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\SRV\SRVDescriptorAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\SRV\SRVDescriptorAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorHeapContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
