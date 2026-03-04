@@ -17,7 +17,7 @@ int WINAPI WinMain(_In_     HINSTANCE,
 
 	// COM解放
 	CoUninitialize();
-
+	
 	return 0;
 }
 
