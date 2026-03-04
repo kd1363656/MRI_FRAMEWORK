@@ -1,10 +1,12 @@
 ﻿#include "Renderer.h"
 
-FWK::Graphics::Renderer::Renderer(const Hardware& a_hardware) :
+FWK::Graphics::Renderer::Renderer(const Hardware& a_hardware, const ShaderCompiler& a_shaderCompiler) :
 	k_hardware          (a_hardware),
 	m_directCommandQueue(a_hardware.GetDevice()),
 	m_directCommandList (a_hardware.GetDevice()),
 	m_renderArea        (),
+	m_rootSignature     (a_hardware.GetDevice()),
+	m_pipelineState     (a_hardware.GetDevice(), a_shaderCompiler),
 	m_frameIndex        (0ULL)
 {}
 FWK::Graphics::Renderer::~Renderer() = default;
@@ -25,7 +27,9 @@ void FWK::Graphics::Renderer::Init()
 		m_frameResourceList[l_i].Init();
 	}
 
-	m_renderArea.Init();
+	m_renderArea.Init   ();
+	m_rootSignature.Init();
+	m_pipelineState.Init();
 
 	m_frameIndex = 0ULL;
 }
@@ -50,6 +54,18 @@ bool FWK::Graphics::Renderer::Create()
 			assert(false && "フレームリソースの作成に失敗しました。");
 			return false;
 		}
+	}
+
+	if (!m_rootSignature.Create())
+	{
+		assert(false && "ルートシグネチャの作成に失敗しました。");
+		return false;
+	}
+
+	if (!m_pipelineState.Create(m_rootSignature))
+	{
+		assert(false && "パイプラインステートの作成に失敗しました。");
+		return false;
 	}
 
 	return true;
@@ -88,6 +104,17 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain, const RTV
 
 	// ビューポートとシザー矩形をセット
 	m_directCommandList.SetupRenderArea(m_renderArea);
+
+	// ルートシグネチャをセット
+	m_directCommandList.SetupRootSignature(m_rootSignature);
+
+	// パイプラインステートをセット
+	m_directCommandList.SetupPipelineState(m_pipelineState);
+}
+void FWK::Graphics::Renderer::Draw()
+{
+	// メッシュシェーダーに転送
+	m_directCommandList.DispatchMesh(1U, 1U, 1U);
 }
 void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 {

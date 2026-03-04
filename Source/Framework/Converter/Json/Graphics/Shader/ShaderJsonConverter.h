@@ -11,8 +11,8 @@ namespace FWK::Converter
 	{
 	public:
 
-		ShaderJsonConverter (Graphics::Shader& a_shader);
-		~ShaderJsonConverter();
+		explicit ShaderJsonConverter(Graphics::Shader& a_shader);
+		~ShaderJsonConverter        ()							 override;
 
 		void           Deserialize(const nlohmann::json& a_rootJson) override;
 		nlohmann::json Serialize  ()								 override;

@@ -78,7 +78,6 @@ void FWK::Graphics::DirectCommandList::SetupRenderTarget(const SwapChain& a_swap
 											   k_executeClearRectNum,
 											   nullptr);
 }
-
 void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_renderArea) const
 {
 	const auto& l_directCommandList = GetCommandList().Get();
@@ -92,4 +91,59 @@ void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_rende
 	// グラフィックスコマンドリストにビューポートとシザー矩形をセット
 	l_directCommandList->RSSetViewports   (k_setViewportNum,    &a_renderArea.GetViewport());
 	l_directCommandList->RSSetScissorRects(k_setScissorRectNum, &a_renderArea.GetScissorRect());
+}
+void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature& a_rootSignature) const
+{
+	const auto& l_directCommandList = GetCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、ルートシグネチャの設定が出来ませんでした。");
+		return;
+	}
+
+	const auto& l_rootSignature = a_rootSignature.GetRootSignature();
+
+	if (!l_rootSignature)
+	{
+		assert(false && "ルートシグネチャが作成されておらず、ルートシグネチャの設定が出来ませんでした。");
+		return;
+	}
+	
+	// コマンドリストにルートシグネチャをセット
+	l_directCommandList->SetGraphicsRootSignature(l_rootSignature.Get());
+}
+void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState& a_pipelineState) const
+{
+	const auto& l_directCommandList = GetCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、パイプラインステートの設定が出来ませんでした。");
+		return;
+	}
+
+	const auto& l_pipelineState = a_pipelineState.GetPipelineState();
+
+	if (!l_pipelineState)
+	{
+		assert(false && "パイプラインステートが作成されておらず、ルートシグネチャの設定が出来ませんでした。");
+		return;
+	}
+
+	// コマンドリストにパイプラインステートをセット
+	l_directCommandList->SetPipelineState(l_pipelineState.Get());
+}
+
+void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_groupX, const UINT a_groupY, const UINT a_groupZ) const
+{
+	const auto& l_directCommandList = GetCommandList().Get();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、DispatchMesh処理が出来ませんでした。");
+		return;
+	}
+
+	l_directCommandList->DispatchMesh(a_groupX, a_groupY, a_groupZ);
 }

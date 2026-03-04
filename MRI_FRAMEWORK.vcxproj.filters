@@ -157,6 +157,24 @@
     <Filter Include="Source\Framework\Graphics\Render\Rasterizer">
       <UniqueIdentifier>{d9b78613-87c7-4ac8-aaa4-5680aca57b94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{a8ff9d48-5749-41b7-b308-9b5c231b064c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\PipelineState">
+      <UniqueIdentifier>{185b2f96-e1f7-431d-bb3b-5efb0a5964db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\PipelineState">
+      <UniqueIdentifier>{f2b7f621-4ba4-40ad-9c32-d1b53274b91b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset">
+      <UniqueIdentifier>{c2c9a216-e8e8-409f-b785-3e3d4982e685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader">
+      <UniqueIdentifier>{3ae7e24b-96fe-4986-a2b1-fcff0378a9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Simple">
+      <UniqueIdentifier>{57c65334-9dc1-471f-bb9a-e6462fc41f27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -251,6 +269,15 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp">
       <Filter>Source\Framework\Graphics\Render\Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp">
+      <Filter>Source\Framework\Graphics\Render\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\PipelineState\PipelineState.cpp">
+      <Filter>Source\Framework\Graphics\Render\PipelineState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\PipelineState\PipelineStateJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\PipelineState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -392,5 +419,22 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h">
       <Filter>Source\Framework\Graphics\Render\Rasterizer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h">
+      <Filter>Source\Framework\Graphics\Render\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\PipelineState\PipelineState.h">
+      <Filter>Source\Framework\Graphics\Render\PipelineState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\PipelineState\PipelineStateJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\PipelineState</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Asset\Shader\Simple\SimpleMS.hlsl">
+      <Filter>Asset\Shader\Simple</Filter>
+    </FxCompile>
+    <FxCompile Include="Asset\Shader\Simple\SimplePS.hlsl">
+      <Filter>Asset\Shader\Simple</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

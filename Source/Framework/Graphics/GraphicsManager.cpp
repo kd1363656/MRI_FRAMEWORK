@@ -4,7 +4,7 @@ FWK::Graphics::GraphicsManager::GraphicsManager() :
 	m_shaderCompiler (),
 	m_hardware       (),
 	m_swapChain      (m_hardware),
-	m_renderer       (m_hardware),
+	m_renderer       (m_hardware, m_shaderCompiler),
 	m_resourceContext(m_hardware.GetDevice())
 {}
 FWK::Graphics::GraphicsManager::~GraphicsManager() = default;
@@ -91,6 +91,7 @@ void FWK::Graphics::GraphicsManager::BeginFrame()
 }
 void FWK::Graphics::GraphicsManager::Draw()
 {
+	m_renderer.Draw();
 }
 void FWK::Graphics::GraphicsManager::EndFrame()
 {

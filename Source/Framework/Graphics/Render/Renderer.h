@@ -12,7 +12,7 @@ namespace FWK::Graphics
 	{
 	public:
 
-		explicit Renderer(const Hardware& a_hardware);
+		explicit Renderer(const Hardware& a_hardware, const ShaderCompiler& a_shaderCompiler);
 		~Renderer        ();
 
 		void Init           ();
@@ -20,6 +20,7 @@ namespace FWK::Graphics
 		void PostCreateSetup(const SwapChain& a_swapChain);
 
 		void BeginFrame(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
+		void Draw      ();
 		void EndFrame  (const SwapChain& a_swapChain);
 
 		const auto& GetDeirectCommandQueue() const { return m_directCommandQueue; }
@@ -37,7 +38,9 @@ namespace FWK::Graphics
 		DirectCommandQueue m_directCommandQueue;
 		DirectCommandList  m_directCommandList;
 
-		RenderArea m_renderArea;
+		RenderArea    m_renderArea;
+		RootSignature m_rootSignature;
+		PipelineState m_pipelineState;
 
 		UINT m_frameIndex = 0U;
 	};

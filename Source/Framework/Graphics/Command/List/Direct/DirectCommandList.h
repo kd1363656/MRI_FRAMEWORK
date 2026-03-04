@@ -5,6 +5,8 @@ namespace FWK::Graphics
 	class SwapChain;
 	class RTVDescriptorHeap;
 	class RenderArea;
+	class RootSignature;
+	class PipelineState;
 }
 
 namespace FWK::Graphics
@@ -20,9 +22,12 @@ namespace FWK::Graphics
 
 		void TransitionRenderTargetResource(const SwapChain& a_swapChain, const D3D12_RESOURCE_STATES a_beforState, const D3D12_RESOURCE_STATES a_afterState) const;
 
-		void SetupRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
+		void SetupRenderTarget (const SwapChain&     a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
+		void SetupRenderArea   (const RenderArea&    a_renderArea)												const;
+		void SetupRootSignature(const RootSignature& a_rootSignature)                                           const;
+		void SetupPipelineState(const PipelineState& a_pipelineState)                                           const;
 
-		void SetupRenderArea(const RenderArea& a_renderArea) const;
+		void DispatchMesh(const UINT a_groupX, const UINT a_groupY, const UINT a_groupZ) const;
 
 	private:
 
