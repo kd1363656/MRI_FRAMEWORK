@@ -17,6 +17,10 @@ namespace FWK::Graphics
 		void Draw      ();
 		void EndFrame  ();
 
+		const auto& GetHardware() const { return m_hardware; }
+		
+		auto& GetResourceContext() { return m_resourceContext; }
+
 	private:
 
 		const std::string k_configFileIOPath = "Asset/Data/Config/Graphics/GraphicsConfig.json";

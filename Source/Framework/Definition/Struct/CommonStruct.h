@@ -20,4 +20,18 @@ namespace FWK::CommonStruct
 		std::uint32_t height   = CommonConstant::k_defaultWindowHeight;
 		::Tag		  styleTag = CommonConstant::k_invalidStaticID;
 	};
+
+	struct TextureRecord
+	{
+		ComPtr<ID3D12Resource2> resource;
+
+		std::string sourcePath = std::string();
+
+		TextureID textureID = CommonConstant::k_invalidTextureID;
+		
+		// メタ情報
+		UINT        srvIndex = 0U;
+		UINT        height   = 0U;
+		DXGI_FORMAT format   = DXGI_FORMAT_UNKNOWN;
+	};
 }

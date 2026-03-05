@@ -3,6 +3,7 @@
 namespace FWK::Graphics
 {
 	class CommandAllocatorBase;
+	class CommandListBase;
 }
 
 namespace FWK::Graphics

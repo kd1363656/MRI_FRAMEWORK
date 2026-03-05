@@ -200,6 +200,8 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
@@ -255,6 +257,8 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\Compiler\ShaderCompiler.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h" />
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />

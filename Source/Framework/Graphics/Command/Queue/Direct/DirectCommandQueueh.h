@@ -2,11 +2,6 @@
 
 namespace FWK::Graphics
 {
-	class CommandListBase;
-}
-
-namespace FWK::Graphics
-{
 	class DirectCommandQueue final : public CommandQueueBase
 	{
 	public:

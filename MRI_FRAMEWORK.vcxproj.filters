@@ -193,6 +193,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\SRV">
       <UniqueIdentifier>{2cbb7381-a1be-4246-a7a4-a9150f63acbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture">
+      <UniqueIdentifier>{3f97c927-9110-4fe0-a26b-f05f6e7e1fe9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -311,6 +314,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\SRV\SRVDescriptorAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator\SRV</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureContext.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -475,6 +484,12 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\SRV\SRVDescriptorAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator\SRV</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureContext.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,12 @@
 namespace FWK::Graphics
 {
 	// SRVDescriptorHeapから「使っていいスロット番号」を払いだすクラス
-	class SRVDescriptorHeapAllocator final
+	class SRVDescriptorAllocator final
 	{
 	public:
 
-		explicit SRVDescriptorHeapAllocator(const SRVDescriptorHeap& a_srvDescriptorHeap);
-		~SRVDescriptorHeapAllocator        ();
+		explicit SRVDescriptorAllocator(const SRVDescriptorHeap& a_srvDescriptorHeap);
+		~SRVDescriptorAllocator        ();
 
 		void Init();
 
@@ -25,6 +25,6 @@ namespace FWK::Graphics
 
 		std::vector<UINT> m_freeIndexList;
 
-		UINT m_nextIndex = 0U;
+		UINT m_nextIndex;
 	};
 }

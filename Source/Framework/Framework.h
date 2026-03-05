@@ -85,11 +85,14 @@
 // 描画関係クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"
 #include "Graphics/Command/Queue/CommandQueueBase.h"
-#include "Graphics/Command/Allocator/CommandAllocatorBase.h"
-#include "Graphics/Command/List/CommandListBase.h"
 #include "Graphics/Command/Queue/Direct/DirectCommandQueueh.h"
+#include "Graphics/Command/Queue/Copy/CopyCommandQueue.h"
+#include "Graphics/Command/Allocator/CommandAllocatorBase.h"
 #include "Graphics/Command/Allocator/Direct/DirectCommandAllocator.h"
+#include "Graphics/Command/Allocator/Copy/CopyCommandAllocator.h"
+#include "Graphics/Command/List/CommandListBase.h"
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
+#include "Graphics/Command/List/Copy/CopyCommandList.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 #include "Graphics/Render/Rasterizer/RenderArea.h"
 #include "Graphics/Render/RootSignature/RootSignature.h"
@@ -100,7 +103,10 @@
 #include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
 #include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
 #include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/Allocator/SRV/SRVDescriptorAllocator.h"
 #include "Graphics/Resource/Descriptor/DescriptorHeapContext.h"
+#include "Graphics/Resource/Texture/Texture.h"
+#include "Graphics/Resource/Texture/TextureContext.h"
 #include "Graphics/Resource/ResourceContext.h"
 
 // スワップチェイン

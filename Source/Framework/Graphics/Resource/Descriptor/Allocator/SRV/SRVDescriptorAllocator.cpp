@@ -1,18 +1,19 @@
 ﻿#include "SRVDescriptorAllocator.h"
 
-FWK::Graphics::SRVDescriptorHeapAllocator::SRVDescriptorHeapAllocator(const SRVDescriptorHeap& a_srvDescriptorHeap) : 
-	k_srvDescriptorHeap(a_srvDescriptorHeap)
+FWK::Graphics::SRVDescriptorAllocator::SRVDescriptorAllocator(const SRVDescriptorHeap& a_srvDescriptorHeap) : 
+	k_srvDescriptorHeap(a_srvDescriptorHeap),
+	m_nextIndex        (0U)
 {}
-FWK::Graphics::SRVDescriptorHeapAllocator::~SRVDescriptorHeapAllocator() = default;
+FWK::Graphics::SRVDescriptorAllocator::~SRVDescriptorAllocator() = default;
 
-void FWK::Graphics::SRVDescriptorHeapAllocator::Init()
+void FWK::Graphics::SRVDescriptorAllocator::Init()
 {
 	m_freeIndexList.clear();
 
 	m_nextIndex = 0U;
 }
 
-UINT FWK::Graphics::SRVDescriptorHeapAllocator::Allocate()
+UINT FWK::Graphics::SRVDescriptorAllocator::Allocate()
 {
 	// 返却済みがあればそれを再利用(LIFO)
 	if (!m_freeIndexList.empty())
@@ -39,7 +40,7 @@ UINT FWK::Graphics::SRVDescriptorHeapAllocator::Allocate()
 	return l_alloc;
 }
 
-void FWK::Graphics::SRVDescriptorHeapAllocator::Free(const UINT a_index)
+void FWK::Graphics::SRVDescriptorAllocator::Free(const UINT a_index)
 {
 	m_freeIndexList.emplace_back(a_index);
 }
