@@ -24,6 +24,7 @@ namespace FWK::CommonStruct
 	struct TextureRecord
 	{
 		ComPtr<ID3D12Resource2> resource;
+		ComPtr<ID3D12Heap>      heap;
 
 		std::string sourcePath = std::string();
 

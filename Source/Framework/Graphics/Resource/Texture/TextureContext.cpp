@@ -103,7 +103,10 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadTexture(const std::str
 	l_record.textureID  = m_nextID++;
 	l_record.sourcePath = a_filePath;
 
-	if (!CreateTextureResourceAndUpload(a_filePath, l_texMetadata, l_scratchImage, l_record))
+	if (!CreateTextureResourceAndUpload(a_filePath,
+										l_texMetadata,
+										l_scratchImage,
+										l_record))
 	{
 		assert(false && "テクスチャのGPUアップロードに失敗しました。");
 		return Texture();
@@ -177,17 +180,22 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 									l_rowSizeList.data (),
 									&l_requiredUploadSize);
 
-	UploadPage* l_uploadPage = nullptr;
-	UINT64      l_offset     = 0ULL;
-
 	const UINT64 l_alignment = D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT;
 
-	if (!AllocateUploadMemory(l_requiredUploadSize,
-							  l_alignment,
-							  l_uploadPage,
-							  l_offset))
+	auto l_uploadAllocation = UploadAllocation();
+
+	if (!AllocateUploadMemory(l_requiredUploadSize, l_alignment, l_uploadAllocation))
 	{
 		assert(false && "UploadArenaの確保に失敗。");
+		return false;
+	}
+
+	UploadPage* const l_uploadPage = l_uploadAllocation.page;
+	const UINT64      l_offset     = l_uploadAllocation.offset;
+
+	if (!l_uploadPage)
+	{
+		assert(false && "l_uploadPageがnullptrでした。");
 		return false;
 	}
 
@@ -223,12 +231,40 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 	// SRV確保(SRVはGPUコピー完了前に作っOK : 参照するのは描画時だが使う前にFlushが必要)
 	const UINT l_srcIndex = l_srvDescriptorAllocator.Allocate();
 
+	a_outRecord.resource = l_texResource;
+	a_outRecord.heap     = l_texHeap;
+	a_outRecord.srvIndex = l_srcIndex;
 
+	auto l_srvDesc = D3D12_SHADER_RESOURCE_VIEW_DESC();
+
+	l_srvDesc.Format                  = l_desc.Format;
+	l_srvDesc.ViewDimension           = D3D12_SRV_DIMENSION_TEXTURE2D;
+	l_srvDesc.Texture2D.MipLevels     = l_desc.MipLevels;
+	l_srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	const auto& l_cpuHandle = l_srvDescriptorHeap.FetchCPUHandle(l_srcIndex);
+
+	l_device->CreateShaderResourceView(l_texResource.Get(), &l_srvDesc, l_cpuHandle);
+
+	auto l_pending = PendingUpload();
+
+	l_pending.textureResource  = l_texResource;
+	l_pending.uploadPage       = l_uploadPage;
+	l_pending.uploadBaseOffset = l_offset;
+	l_pending.subResourceCount = l_subResourceCount;
+	l_pending.layoutlist       = std::move(l_layoutList);
+	l_pending.rowCountList     = std::move(l_rowCountList);
+	l_pending.rowSizeList      = std::move(l_rowSizeList);
+	l_pending.srvIndex         = l_srcIndex;
+
+	l_pending.record = a_outRecord;
+
+	m_pendingUploadList.emplace_back(std::move(l_pending));
 
 	return true;
 }
 
-bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc, ComPtr<ID3D12Heap>& a_outHeap, ComPtr<ID3D12Resource2> a_outResource)
+bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc, ComPtr<ID3D12Heap>& a_outHeap, ComPtr<ID3D12Resource2>& a_outResource)
 {
 	const auto& l_graphicsManager = GraphicsManager::GetInstance();
 
@@ -280,10 +316,7 @@ bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOU
 	return true;
 }
 
-bool FWK::Graphics::TextureContext::AllocateUploadMemory(const UINT64& a_size, 
-														 const UINT64& a_alignment,
-														 UploadPage*   a_outPage,
-														 UINT64&       a_outOffset)
+bool FWK::Graphics::TextureContext::AllocateUploadMemory(const UINT64& a_size, const UINT64& a_alignment, UploadAllocation& a_outAllocation)
 {
 	GarbageCollectUploadPage();
 
@@ -302,8 +335,8 @@ bool FWK::Graphics::TextureContext::AllocateUploadMemory(const UINT64& a_size,
 
 		if (l_alinedOffset + l_alignedSize <= l_page.size)
 		{
-			a_outPage     = &l_page;
-			a_outOffset   = l_alinedOffset;
+			a_outAllocation.page   = &l_page;
+			a_outAllocation.offset = l_alinedOffset;
 			l_page.offset = l_alinedOffset + l_alignedSize;
 			return true;
 		}
@@ -322,9 +355,9 @@ bool FWK::Graphics::TextureContext::AllocateUploadMemory(const UINT64& a_size,
 
 	m_uploadPageList.emplace_back(std::move(l_newPage));
 
-	a_outPage         = &m_uploadPageList.back();
-	a_outOffset       = 0ULL;
-	a_outPage->offset = l_alignedSize;
+	a_outAllocation.page         = &m_uploadPageList.back();
+	a_outAllocation.offset       = 0ULL;
+	a_outAllocation.page->offset = l_alignedSize;
 
 	return true;
 }

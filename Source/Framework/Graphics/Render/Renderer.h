@@ -27,7 +27,7 @@ namespace FWK::Graphics
 
 	private:
 
-		void ResetCommandObjects();
+		void ResetCommandObjects(const DirectCommandAllocator& a_directCommandAllocator);
 
 		static constexpr std::size_t k_frameCount = 3;
 

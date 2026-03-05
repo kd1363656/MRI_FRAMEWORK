@@ -73,9 +73,6 @@ bool FWK::Graphics::Renderer::Create()
 
 void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
-	// 次使用するコマンドリスト、アロケータをリセット
-	ResetCommandObjects();
-
 	if (!m_renderArea.SetupRenderArea(a_swapChain))
 	{
 		assert(false && "描画エリアの作成に失敗。");
@@ -95,6 +92,9 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain, const RTV
 
 	// コマンドアロケータがGPU処理が終わっているかどうかを確かめGPUの処理が終わっていなければWait
 	m_directCommandQueue.EnsureAllocatorAvailable(l_commandAllocator);
+
+	// GPU同期が終わってからリセット
+	ResetCommandObjects(l_commandAllocator);
 
 	// バックバッファの状態遷移(Present -> Resource)
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -135,24 +135,14 @@ void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 	// フェンス値を更新
 	m_directCommandQueue.SignalAndTracAllocator(l_commandAllocator);
 
-	ResetCommandObjects();
-
 	a_swapChain.Present();
 
 	// 容量を超えないように次のフレームで使用するインデックスを計算
 	m_frameIndex = (m_frameIndex + 1U) % k_frameCount;
 }
 
-void FWK::Graphics::Renderer::ResetCommandObjects()
+void FWK::Graphics::Renderer::ResetCommandObjects(const DirectCommandAllocator& a_directCommandAllocator)
 {
-	if (m_frameIndex >= m_frameResourceList.size())
-	{
-		assert(false && "フレームリソースの容量を超えたインデックスのためリセット処理が行えませんでした。");
-		return;
-	}
-
-	const auto& l_directCommandAllocator = m_frameResourceList[m_frameIndex].GetDirectCommandAllocator();
-
-	l_directCommandAllocator.Reset();
-	m_directCommandList.Reset     (l_directCommandAllocator);
+	a_directCommandAllocator.Reset();
+	m_directCommandList.Reset     (a_directCommandAllocator);
 }

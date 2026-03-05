@@ -11,20 +11,6 @@ namespace FWK::Graphics
 		using TextureLoaderMap   = std::unordered_map<std::string, TextureLoaderFunc, CommonStruct::StringHash, std::equal_to<>>;
 		using TexturePathToIDMap = std::unordered_map<std::string, TextureID,         CommonStruct::StringHash, std::equal_to<>>;
 
-		struct PendingUpload
-		{
-			std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> layoutlist       = std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>();
-			std::vector<UINT>								rowCountList     = std::vector<UINT>							  ();
-			std::vector<UINT64>								rowSizeList      = std::vector<UINT64>							  ();
-			ComPtr<ID3D12Resource2>                         textureResource  = nullptr;
-			D3D12_RESOURCE_DESC                             desc             = D3D12_RESOURCE_DESC ();
-			DirectX::TexMetadata                            metadata         = DirectX::TexMetadata();
-			UINT64											uploadBaseOffset = 0ULL;											   // UploadArena内の戦闘オフセット
-			UINT											subResourceCount = 0U;
-			UINT											srvIndex         = 0U;
-			CommonStruct::TextureRecord						record           = CommonStruct::TextureRecord();						// 出力用
-		};
-
 		struct UploadPage
 		{
 			ComPtr<ID3D12Resource2> resource   = nullptr;
@@ -32,6 +18,25 @@ namespace FWK::Graphics
 			UINT64					size       = 0ULL;
 			UINT64					offset     = 0ULL;    // 次に詰める位置
 			UINT64					fenceValue = 0ULL;    // Flush時にセット
+		};
+
+		struct PendingUpload
+		{
+			std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> layoutlist       = std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>();
+			std::vector<UINT>								rowCountList     = std::vector<UINT>							  ();
+			std::vector<UINT64>								rowSizeList      = std::vector<UINT64>							  ();
+			ComPtr<ID3D12Resource2>                         textureResource  = nullptr;
+			UploadPage*										uploadPage       = nullptr;
+			UINT64											uploadBaseOffset = 0ULL;											   // UploadArena内の戦闘オフセット
+			UINT											subResourceCount = 0U;
+			UINT											srvIndex         = 0U;
+			CommonStruct::TextureRecord						record           = CommonStruct::TextureRecord();						// 出力用
+		};
+
+		struct UploadAllocation
+		{
+			UploadPage* page   = nullptr;
+			UINT64      offset = 0ULL;
 		};
 
 	public:
@@ -61,13 +66,10 @@ namespace FWK::Graphics
 		// GPUテクスチャ用ヒープ確保(CreateHeap + CreatePlacedResource)
 		bool AllocateDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc,
 										ComPtr<ID3D12Heap>&        a_outHeap,
-										ComPtr<ID3D12Resource2>    a_outResource);
+										ComPtr<ID3D12Resource2>&   a_outResource);
 
 		// 必要サイズを確保しmapped pointerとオフセットを返す
-		bool AllocateUploadMemory(const UINT64& a_size,
-								  const UINT64& a_alignment,
-								  UploadPage*   a_outPage,
-								  UINT64&       a_outOffset);
+		bool AllocateUploadMemory(const UINT64& a_size, const UINT64& a_alignment, UploadAllocation& a_outAllocation);
 
 		// GPU完了したUploadPageを開放、再利用
 		void GarbageCollectUploadPage();
