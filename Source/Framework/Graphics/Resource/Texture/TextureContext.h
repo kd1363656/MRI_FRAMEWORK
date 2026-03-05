@@ -6,7 +6,7 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using TextureLoaderFunc = std::function<HRESULT(const std::wstring&, DirectX::TexMetadata*, DirectX::ScratchImage*)>;
+		using TextureLoaderFunc = std::function<HRESULT(const std::wstring&, DirectX::TexMetadata&, DirectX::ScratchImage&)>;
 		
 		using TextureLoaderMap   = std::unordered_map<std::string, TextureLoaderFunc, CommonStruct::StringHash, std::equal_to<>>;
 		using TexturePathToIDMap = std::unordered_map<std::string, TextureID,         CommonStruct::StringHash, std::equal_to<>>;
@@ -16,9 +16,8 @@ namespace FWK::Graphics
 		TextureContext () = default;
 		~TextureContext() = default;
 
-		void Init  ();
-		bool Create();
-
+		void Init();
+		
 		// 拡張子から使用するローダーを自動で選択する関数
 		Texture LoadFile(const std::string& a_filePath);
 
@@ -40,8 +39,6 @@ namespace FWK::Graphics
 
 		// UploadHeap
 		bool CreateUploadBuffer(const UINT64 a_size, ComPtr<ID3D12Resource2>& a_outUpload);
-
-		void CreateSRV(const CommonStruct::TextureRecord& a_record);
 
 		static constexpr TextureID k_initialID = 1U;
 

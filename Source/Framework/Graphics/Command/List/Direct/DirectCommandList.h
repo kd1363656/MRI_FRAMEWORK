@@ -32,7 +32,6 @@ namespace FWK::Graphics
 		static constexpr float k_clearColor[] = { 1.0F, 0.0F, 1.0F, 1.0F };
 
 		static constexpr UINT k_executeClearRectNum    = 0U;
-		static constexpr UINT k_sendBarrierNum		   = 1U;
 		static constexpr UINT k_executeRenderTargetNum = 1U;
 		static constexpr UINT k_setViewportNum		   = 1U;
 		static constexpr UINT k_setScissorRectNum      = 1U;

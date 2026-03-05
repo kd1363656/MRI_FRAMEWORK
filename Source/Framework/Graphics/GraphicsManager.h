@@ -30,6 +30,7 @@ namespace FWK::Graphics
 		SwapChain       m_swapChain;
 		Renderer        m_renderer;
 		ResourceContext m_resourceContext;
+		TextureContext  m_textureContext;
 
 		//=========================
 		// シングルトン

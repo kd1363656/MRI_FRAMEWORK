@@ -7,11 +7,11 @@ void FWK::Graphics::TextureContext::Init()
 	m_pathToIDMap.clear();
 	m_recordList.clear ();
 
-	const auto& l_wicFileLoader = [](const std::wstring& a_filePath, DirectX::TexMetadata* a_texMetadata, DirectX::ScratchImage& a_scratchImage) 
+	const TextureLoaderFunc& l_wicFileLoader = [](const std::wstring& a_filePath, DirectX::TexMetadata& a_texMetadata, DirectX::ScratchImage& a_scratchImage) 
 	{
 		return DirectX::LoadFromWICFile(a_filePath.c_str(),
 										DirectX::WIC_FLAGS_FORCE_RGB,
-										a_texMetadata,
+										&a_texMetadata,
 										a_scratchImage);
 	};
 
@@ -20,26 +20,20 @@ void FWK::Graphics::TextureContext::Init()
 	m_textureLoaderMap.try_emplace(CommonConstant::k_extensionJPEG, l_wicFileLoader);
 	m_textureLoaderMap.try_emplace(CommonConstant::k_extensionBMP,  l_wicFileLoader);
 
-	m_textureLoaderMap.try_emplace(CommonConstant::k_extensionDDS, [](const std::wstring& a_filePath, DirectX::TexMetadata* a_texMetadata, DirectX::ScratchImage& a_scratchImage)
+	m_textureLoaderMap.try_emplace(CommonConstant::k_extensionDDS, [](const std::wstring& a_filePath, DirectX::TexMetadata& a_texMetadata, DirectX::ScratchImage& a_scratchImage)
 	{
 			return DirectX::LoadFromDDSFile(a_filePath.c_str(),
 											DirectX::DDS_FLAGS_NONE,
-											a_texMetadata,
+											&a_texMetadata,
 											a_scratchImage);
 	});
 
-	m_textureLoaderMap.try_emplace(CommonConstant::k_extensionTGA, [](const std::wstring& a_filePath, DirectX::TexMetadata* a_texMetadata, DirectX::ScratchImage& a_scratchImage)
+	m_textureLoaderMap.try_emplace(CommonConstant::k_extensionTGA, [](const std::wstring& a_filePath, DirectX::TexMetadata& a_texMetadata, DirectX::ScratchImage& a_scratchImage)
 	{
 			return DirectX::LoadFromTGAFile(a_filePath.c_str(),
-											a_texMetadata,
+											&a_texMetadata,
 											a_scratchImage);
 	});
-}
-
-bool FWK::Graphics::TextureContext::Create()
-{
-	// ※将来: UploadHeapAllocatorやTextureHeapAllocatorの初期化などをここに入れる
-	return true;
 }
 
 FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadFile(const std::string& a_filePath)
@@ -60,7 +54,18 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadFile(const std::string
 
 UINT FWK::Graphics::TextureContext::FetchSRVIndex(const TextureID a_id) const
 {
-	return 0;
+	// 線形探索
+	// 最適化するならid->indexのunordered_mapを持つ
+	for (const auto& l_record : m_recordList)
+	{
+		if (l_record.textureID == a_id)
+		{
+			return l_record.srvIndex;
+		}
+	}
+
+	assert(false && "指定テクスチャIDが見つかりません。");
+	return CommonConstant::k_invalidTextureID;
 }
 
 FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadTexture(const std::string& a_filePath, const TextureLoaderFunc& a_textureLoaderFunc)
@@ -79,7 +84,7 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadTexture(const std::str
 	// ワイド文字列に変換
 	const auto l_filePath = Utility::String::StringToWString(a_filePath);
 
-	const auto l_hr = a_textureLoaderFunc(l_filePath, &l_texMetadata, &l_scratchImage);
+	const auto l_hr = a_textureLoaderFunc(l_filePath, l_texMetadata, l_scratchImage);
 
 	if (FAILED(l_hr))
 	{
@@ -138,8 +143,8 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 													  static_cast<UINT16>(a_metadata.arraySize),
 													  static_cast<UINT16>(a_metadata.mipLevels));
 
-	ComPtr<ID3D12Heap>      l_texHeap;
-	ComPtr<ID3D12Resource2> l_texResource;
+	ComPtr<ID3D12Heap>      l_texHeap     = nullptr;
+	ComPtr<ID3D12Resource2> l_texResource = nullptr;
 
 	if (!AllocateDefaultHeapTexture(l_desc, l_texHeap, l_texResource))
 	{
@@ -282,15 +287,84 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 
 bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc, ComPtr<ID3D12Heap>& a_outHeap, ComPtr<ID3D12Resource2> a_outResource)
 {
+	const auto& l_graphicsManager = GraphicsManager::GetInstance();
 
-	return false;
+	const auto& l_deviceWrapper = l_graphicsManager.GetHardware().GetDevice();
+	const auto& l_device        = l_deviceWrapper.GetDevice    ();
+
+	if (!l_device)
+	{
+		assert(false && "デバイスが作成されておらずテクスチャリソースの作成とアップロード処理を行えませんでした。");
+		return false;
+	}
+
+	// リソースが必要とするサイズ、アライメントを問い合わせ
+	const auto& l_allocationInfo = l_device->GetResourceAllocationInfo(0U, 1U, &a_desc);
+
+	// 画像用DEFAULTヒープ
+	auto l_heapDesc = D3D12_HEAP_DESC();
+
+	l_heapDesc.SizeInBytes = l_allocationInfo.SizeInBytes;
+	l_heapDesc.Alignment   = l_allocationInfo.SizeInBytes;
+	l_heapDesc.Properties  = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	l_heapDesc.Flags       = D3D12_HEAP_FLAG_ALLOW_ONLY_NON_RT_DS_TEXTURES;
+
+	auto l_hr = l_device->CreateHeap(&l_heapDesc, IID_PPV_ARGS(a_outHeap.ReleaseAndGetAddressOf()));
+
+	if (FAILED(l_hr))
+	{
+		assert(false && "CreateHeapに失敗しました。");
+		return false;
+	}
+
+	// PlacedResourceは「ヒープの中のoffset位置に記録する」
+	const UINT64 l_offet = 0ULL;
+
+	l_hr = l_device->CreatePlacedResource(a_outHeap.Get(),
+										  l_offet, 
+										  &a_desc, 
+										  D3D12_RESOURCE_STATE_COMMON, // まずはCommonで作成し、後でCopyDescへ遷移
+										  nullptr,
+										  IID_PPV_ARGS(a_outResource.ReleaseAndGetAddressOf()));
+
+	if (FAILED(l_hr))
+	{
+		assert(false && "CreatePlacedResourceに失敗しました。");
+		return false;
+	}
+
+	return true;
 }
 
 bool FWK::Graphics::TextureContext::CreateUploadBuffer(const UINT64 a_size, ComPtr<ID3D12Resource2>& a_outUpload)
 {
-	return false;
-}
+	const auto& l_graphicsManager = GraphicsManager::GetInstance();
 
-void FWK::Graphics::TextureContext::CreateSRV(const CommonStruct::TextureRecord& a_record)
-{
+	const auto& l_deviceWrapper = l_graphicsManager.GetHardware().GetDevice();
+	const auto& l_device        = l_deviceWrapper.GetDevice    ();
+
+	if (!l_device)
+	{
+		assert(false && "デバイスが作成されておらずテクスチャリソースの作成とアップロード処理を行えませんでした。");
+		return false;
+	}
+
+	const auto l_desc = CD3DX12_RESOURCE_DESC::Buffer(a_size);
+
+	auto l_heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+
+	const auto l_hr = l_device->CreateCommittedResource(&l_heapProp, 
+													    D3D12_HEAP_FLAG_NONE,
+														&l_desc,
+														D3D12_RESOURCE_STATE_GENERIC_READ,
+														nullptr,
+														IID_PPV_ARGS(a_outUpload.ReleaseAndGetAddressOf()));
+
+	if (FAILED(l_hr))
+	{
+		assert(false && "アップロードバッファの作成に失敗しました。");
+		return false;
+	}
+
+	return true;
 }

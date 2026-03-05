@@ -22,6 +22,8 @@ namespace FWK::Graphics
 
 	private:
 
+		static constexpr UINT k_sendBarrierNum = 1U;
+
 		const Device& k_device;
 
 		const D3D12_COMMAND_LIST_TYPE k_createCommandListType;

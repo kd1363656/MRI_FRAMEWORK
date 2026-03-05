@@ -16,6 +16,7 @@ void FWK::Graphics::GraphicsManager::Init()
 	m_swapChain.Init      ();
 	m_renderer.Init       ();
 	m_resourceContext.Init();
+	m_textureContext.Init ();
 }
 bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hWND, const CommonStruct::WindowConfig& a_windowConfig)
 {
