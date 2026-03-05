@@ -47,13 +47,3 @@ bool FWK::Graphics::ResourceContext::Create(const SwapChain& a_swapChain)
 
 	return true;
 }
-void FWK::Graphics::ResourceContext::PostCreateSetup()
-{
-	ResetCommandObjects();
-}
-
-void FWK::Graphics::ResourceContext::ResetCommandObjects() const
-{
-	m_copyCommandAllocator.Reset();
-	m_copyCommandList.Reset     (m_copyCommandAllocator);
-}

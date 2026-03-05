@@ -13,7 +13,7 @@ namespace FWK::Graphics
 		bool Create();
 
 		void Reset(const CommandAllocatorBase& a_commandAllocator) const;
-
+		
 		void TransitionResource(const ComPtr<ID3D12Resource2>& a_resourece, const D3D12_RESOURCE_STATES a_beforState, const D3D12_RESOURCE_STATES a_afterState) const;
 
 		const auto& GetCommandList() const { return m_commandList; }

@@ -14,15 +14,13 @@ namespace FWK::Graphics
 		ResourceContext (const Device& a_device);
 		~ResourceContext();
 
-		void Init           ();
-		bool Create         (const SwapChain& a_swapChain);
-		void PostCreateSetup();
-
-		void ResetCommandObjects() const;
-
+		void Init  ();
+		bool Create(const SwapChain& a_swapChain);
+		
 		const auto& GetDescriptorHeapContext() const { return m_descriptorHeapContext; }
 
-		const auto& GetCopyCommandList() const { return m_copyCommandList; }
+		const auto& GetCopyCommandList () const { return m_copyCommandList; }
+		const auto& GetCopyCommandQueue() const { return m_copyCommandQueue; }
 
 		auto& GetWorkSRVDescriptorAllocator() { return m_srvDescriptorAllocator; }
 

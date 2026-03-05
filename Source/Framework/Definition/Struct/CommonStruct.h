@@ -30,10 +30,11 @@ namespace FWK::CommonStruct
 
 		TextureID textureID = CommonConstant::k_invalidTextureID;
 		
-		// メタ情報
-		UINT        srvIndex = 0U;
-		UINT		width    = 0U;
-		UINT        height   = 0U;
-		DXGI_FORMAT format   = DXGI_FORMAT_UNKNOWN;
+		DXGI_FORMAT			  format       = DXGI_FORMAT_UNKNOWN;
+		D3D12_RESOURCE_STATES currentState = D3D12_RESOURCE_STATE_COMMON;
+
+		UINT srvIndex = 0U;
+		UINT width    = 0U;
+		UINT height   = 0U;
 	};
 }

@@ -4,8 +4,12 @@ void FWK::Graphics::TextureContext::Init()
 {
 	m_nextID = k_initialID;
 
-	m_pathToIDMap.clear();
-	m_recordList.clear ();
+	m_pathToIDMap.clear      ();
+	m_recordList.clear       ();
+	m_idToSRVIndexMap.clear  ();
+	m_recordList.clear       ();
+	m_pendingUploadList.clear();
+	m_uploadPageList.clear   ();
 
 	const TextureLoaderFunc& l_wicFileLoader = [](const std::wstring& a_filePath, DirectX::TexMetadata& a_texMetadata, DirectX::ScratchImage& a_scratchImage) 
 	{
@@ -39,7 +43,16 @@ void FWK::Graphics::TextureContext::Init()
 FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadFile(const std::string& a_filePath)
 {
 	// 拡張子を取得
-	const auto l_extension = std::filesystem::path(a_filePath).extension().string();
+	auto l_extension = std::filesystem::path(a_filePath).extension().string();
+
+	// すべての文字を小文字に変換
+	std::transform(l_extension.begin(),
+				   l_extension.end  (),
+				   l_extension.begin(),
+				   [](unsigned char a_char) 
+					{
+						return static_cast<char>(std::tolower(a_char));
+					});
 
 	auto l_itr = m_textureLoaderMap.find(l_extension);
 
@@ -54,7 +67,91 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadFile(const std::string
 
 void FWK::Graphics::TextureContext::FlushUploads()
 {
+	if (m_pendingUploadList.empty())
+	{
+		return;
+	}
 
+	auto& l_graphicsManager = GraphicsManager::GetInstance        ();
+	auto& l_resourceContext = l_graphicsManager.GetResourceContext();
+	
+	auto&		l_copyCommandQueue     = l_resourceContext.GetWorkCopyCommandQueue    ();
+	auto&		l_copyCommandAllocator = l_resourceContext.GetWorkCopyCommandAllocator();
+	const auto& l_copyCommandList      = l_resourceContext.GetCopyCommandList         ();
+
+	GarbageCollectUploadPage();
+
+	// GPU完了待ち + allocator再利用
+	l_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
+
+	l_copyCommandAllocator.Reset();
+	l_copyCommandList.Reset     (l_copyCommandAllocator);
+
+	for (auto& l_pending : m_pendingUploadList)
+	{
+		const auto& l_texture    = l_pending.textureResource;
+		const auto& l_uploadPage = l_pending.uploadPage;
+
+		if (!l_texture)
+		{
+			assert(false && "テクスチャが生成されていません。");
+			return;
+		}
+
+		l_copyCommandList.TransitionResource(l_texture.Get(), l_pending.record.currentState, D3D12_RESOURCE_STATE_COPY_DEST);
+
+		for (UINT l_sub = 0U; l_sub < l_pending.subResourceCount; ++l_sub)
+		{
+			auto l_dest = D3D12_TEXTURE_COPY_LOCATION();
+			
+			l_dest.pResource        = l_texture.Get();
+			l_dest.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+			l_dest.SubresourceIndex = l_sub;
+
+			auto l_src = D3D12_TEXTURE_COPY_LOCATION();
+
+			l_src.pResource       = l_uploadPage->resource.Get();
+			l_src.Type            = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+			l_src.PlacedFootprint = l_pending.layoutlist[l_sub];
+
+			// GetCopyableFootprintsのOffsetは「UploadResource先頭基準」なのでページ内オフセットを加算
+			l_src.PlacedFootprint.Offset += l_pending.uploadBaseOffset;
+
+			l_copyCommandList.CopyTextureRegion(l_dest, l_src);
+		}
+
+		const auto l_srvState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE |
+                                D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+
+		// Executeは一回
+		l_copyCommandList.TransitionResource(l_texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, l_srvState);
+	}
+
+	// Signalは一回(このバッチ処理完了のフェンス値)
+	l_copyCommandQueue.ExecuteCommandLists(l_copyCommandList);
+
+	l_copyCommandQueue.SignalAndTracAllocator(l_copyCommandAllocator);
+
+	const UINT64 l_fenceValue = l_copyCommandAllocator.GetSubmittedFenceValue();
+
+	for (auto& l_pending : m_pendingUploadList)
+	{
+		if (!l_pending.uploadPage)
+		{
+			continue;
+		}
+
+		l_pending.record.currentState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE |
+										D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+
+		l_pending.uploadPage->fenceValue = std::max(l_pending.uploadPage->fenceValue, l_fenceValue);
+
+
+		m_idToSRVIndexMap[l_pending.record.textureID] = l_pending.record.srvIndex;
+		m_recordList.emplace_back(std::move(l_pending.record));
+	}
+
+	m_pendingUploadList.clear();
 }
 
 UINT FWK::Graphics::TextureContext::FetchSRVIndex(const TextureID a_id) const
@@ -115,8 +212,6 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadTexture(const std::str
 	// 登録
 	m_pathToIDMap[a_filePath] = l_record.textureID;
 
-	m_recordList.emplace_back(l_record);
-
 	return Texture(l_record.textureID);
 }
 
@@ -131,10 +226,6 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 	const auto& l_device        = l_deviceWrapper.GetDevice    ();
 
 	auto& l_resourceContext = l_graphicsManager.GetResourceContext();
-
-	auto&		l_copyCommandQueue     = l_resourceContext.GetWorkCopyCommandQueue    ();
-	auto&		l_copyCommandAllocator = l_resourceContext.GetWorkCopyCommandAllocator();
-	const auto& l_copyCommandList      = l_resourceContext.GetCopyCommandList         ();
 
 	auto&       l_srvDescriptorAllocator = l_resourceContext.GetWorkSRVDescriptorAllocator();
 	const auto& l_srvDescriptorHeap      = l_resourceContext.GetDescriptorHeapContext     ().GetSRVDescriptorHeap();
@@ -159,6 +250,8 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 		assert(false && "CreateHeap + CreatePlacedResourceに失敗しました。");
 		return false;
 	}
+
+	a_outRecord.currentState = D3D12_RESOURCE_STATE_COMMON;
 
 	// UploadBufferの作成
 	// GetCopyableFootpringsこのテクスチャをUploadBuffer煮詰めるときのサブリソースごとのレイアウト、
@@ -237,10 +330,12 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 
 	auto l_srvDesc = D3D12_SHADER_RESOURCE_VIEW_DESC();
 
-	l_srvDesc.Format                  = l_desc.Format;
-	l_srvDesc.ViewDimension           = D3D12_SRV_DIMENSION_TEXTURE2D;
-	l_srvDesc.Texture2D.MipLevels     = l_desc.MipLevels;
-	l_srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	l_srvDesc.Format                        = l_desc.Format;
+	l_srvDesc.ViewDimension                 = D3D12_SRV_DIMENSION_TEXTURE2D;
+	l_srvDesc.Texture2D.MipLevels           = l_desc.MipLevels;
+	l_srvDesc.Texture2D.MostDetailedMip     = 0;
+	l_srvDesc.Texture2D.ResourceMinLODClamp = 0.0F;
+	l_srvDesc.Shader4ComponentMapping       = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
 	const auto& l_cpuHandle = l_srvDescriptorHeap.FetchCPUHandle(l_srcIndex);
 
@@ -298,10 +393,10 @@ bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOU
 
 	// CreatePlacedResourceはヒープの中のoffset位置にResourceを配置して作るAPI。
 	// offsetは通常、allocationInfo.Alignmentに合わせる必要がある
-	const UINT64 l_offet = 0ULL;
+	const UINT64 l_offset = 0ULL;
 
 	l_hr = l_device->CreatePlacedResource(a_outHeap.Get(),
-										  l_offet, 
+										  l_offset, 
 										  &a_desc, 
 										  D3D12_RESOURCE_STATE_COMMON, // まずはCommonで作成し、後でCopyDescへ遷移
 										  nullptr,
@@ -364,9 +459,27 @@ bool FWK::Graphics::TextureContext::AllocateUploadMemory(const UINT64& a_size, c
 
 void FWK::Graphics::TextureContext::GarbageCollectUploadPage()
 {
+	auto&       l_graphicsManager = GraphicsManager::GetInstance        ();
+	const auto& l_resourceContext = l_graphicsManager.GetResourceContext();
+	
+	const UINT64& l_completed = l_resourceContext.GetCopyCommandQueue().GetFence().GetCompletedFenceValue();
+
+	for (auto& l_page : m_uploadPageList)
+	{
+		if (l_page.fenceValue == 0ULL)
+		{
+			continue;
+		}
+
+		if (l_completed >= l_page.fenceValue)
+		{
+			l_page.offset     = 0ULL;
+			l_page.fenceValue = 0ULL;
+		}
+	}
 }
 
-bool FWK::Graphics::TextureContext::CreateUploadPage(const UINT64 a_pageSize, UploadPage& a_outPage)
+bool FWK::Graphics::TextureContext::CreateUploadPage(const UINT64 a_pageSize, UploadPage& a_outPage) const
 {
 	const auto& l_graphicsManager = GraphicsManager::GetInstance();
 

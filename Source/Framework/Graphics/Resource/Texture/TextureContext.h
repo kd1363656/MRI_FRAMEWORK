@@ -10,6 +10,7 @@ namespace FWK::Graphics
 		
 		using TextureLoaderMap   = std::unordered_map<std::string, TextureLoaderFunc, CommonStruct::StringHash, std::equal_to<>>;
 		using TexturePathToIDMap = std::unordered_map<std::string, TextureID,         CommonStruct::StringHash, std::equal_to<>>;
+		using TextureOIDToSRVMap = std::unordered_map<TextureID,    UINT>;
 
 		struct UploadPage
 		{
@@ -27,7 +28,7 @@ namespace FWK::Graphics
 			std::vector<UINT64>								rowSizeList      = std::vector<UINT64>							  ();
 			ComPtr<ID3D12Resource2>                         textureResource  = nullptr;
 			UploadPage*										uploadPage       = nullptr;
-			UINT64											uploadBaseOffset = 0ULL;											   // UploadArena内の戦闘オフセット
+			UINT64											uploadBaseOffset = 0ULL;											   // UploadArena内の先頭オフセット
 			UINT											subResourceCount = 0U;
 			UINT											srvIndex         = 0U;
 			CommonStruct::TextureRecord						record           = CommonStruct::TextureRecord();						// 出力用
@@ -74,7 +75,7 @@ namespace FWK::Graphics
 		// GPU完了したUploadPageを開放、再利用
 		void GarbageCollectUploadPage();
 
-		bool CreateUploadPage(const UINT64 a_pageSize, UploadPage& a_outPage);
+		bool CreateUploadPage(const UINT64 a_pageSize, UploadPage& a_outPage) const;
 		
 		static constexpr TextureID k_initialID = 1U;
 
@@ -82,14 +83,12 @@ namespace FWK::Graphics
 
 		TextureLoaderMap   m_textureLoaderMap;
 		TexturePathToIDMap m_pathToIDMap;
+		TextureOIDToSRVMap m_idToSRVIndexMap;
 
 		std::vector<CommonStruct::TextureRecord> m_recordList;
 
 		// バッチアップロード用
 		std::vector<PendingUpload> m_pendingUploadList;
-
-		std::vector<UploadPage> m_uploadPageList;
-
-		bool m_isRecordingCopy = false;
+		std::vector<UploadPage>    m_uploadPageList;
 	};
 }
