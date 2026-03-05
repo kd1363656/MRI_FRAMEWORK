@@ -14,8 +14,9 @@ namespace FWK::Graphics
 		ResourceContext (const Device& a_device);
 		~ResourceContext();
 
-		void Init  ();
-		bool Create(const SwapChain& a_swapChain);
+		void Init           ();
+		bool Create         (const SwapChain& a_swapChain);
+		void PostCreateSetup();
 
 		void ResetCommandObjects() const;
 

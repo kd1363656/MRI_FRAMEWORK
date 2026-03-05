@@ -275,6 +275,7 @@
     <ClInclude Include="Source\Framework\TypeInfo\TypeInfo.h" />
     <ClInclude Include="Source\Framework\Utility\FileIO\FileIOUtility.h" />
     <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h" />
     <ClInclude Include="Source\Framework\Utility\String\StringUtility.h" />
     <ClInclude Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.h" />
     <ClInclude Include="Source\Framework\Window\Window.h" />

@@ -52,6 +52,11 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadFile(const std::string
 	return LoadTexture(a_filePath, l_itr->second);
 }
 
+void FWK::Graphics::TextureContext::FlushUploads()
+{
+
+}
+
 UINT FWK::Graphics::TextureContext::FetchSRVIndex(const TextureID a_id) const
 {
 	// 線形探索
@@ -153,7 +158,9 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 	}
 
 	// UploadBufferの作成
-	const UINT l_subResourceCount = static_cast<UINT>(a_metadata.mipLevels * a_metadata.arraySize);
+	// GetCopyableFootpringsこのテクスチャをUploadBuffer煮詰めるときのサブリソースごとのレイアウト、
+	// row count / row size全体の必要サイズを返す。CopyTextureRegionで必要な情報
+	const auto l_subResourceCount = static_cast<UINT>(a_metadata.mipLevels * a_metadata.arraySize);
 
 	std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> l_layoutList  (l_subResourceCount);
 	std::vector<UINT>								l_rowCountList(l_subResourceCount);
@@ -170,117 +177,53 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 									l_rowSizeList.data (),
 									&l_requiredUploadSize);
 
-	ComPtr<ID3D12Resource2> l_uploadBuffer;
+	UploadPage* l_uploadPage = nullptr;
+	UINT64      l_offset     = 0ULL;
 
-	if (!CreateUploadBuffer(l_requiredUploadSize, l_uploadBuffer))
+	const UINT64 l_alignment = D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT;
+
+	if (!AllocateUploadMemory(l_requiredUploadSize,
+							  l_alignment,
+							  l_uploadPage,
+							  l_offset))
 	{
-		assert(false && "UploadeBufferの作成に失敗しました。");
+		assert(false && "UploadArenaの確保に失敗。");
 		return false;
 	}
 
-	// UploadBufferへCPUコピー
-	void* l_mapped = nullptr;
-
-	const auto l_readRange = CD3DX12_RANGE(0ULL, 0ULL); // CPUが読むわけではないので0
-
-	const auto l_hr = l_uploadBuffer->Map(0U, &l_readRange, &l_mapped);
-
-	if (FAILED(l_hr))
-	{
-		assert(false && "UploadBufferのMapに失敗しました。");
-		return false;
-	}
-
-	// ScratchImageはサブリソース単位で画像を持っている
+	// ※ 重要 : 各サブリソースのPlacedFootPring.Offsetは「UploadResource先頭からのOffset」なので
+	// ページ内おfセットを足して使う必要がある
 	for (UINT l_sub = 0U; l_sub < l_subResourceCount; ++l_sub)
 	{
 		const DirectX::Image* l_srcImage = a_image.GetImage(l_sub, 0ULL, 0ULL);
 
 		if (!l_srcImage)
 		{
-			assert(false && "ScratchImageからサブリソース画像が取得できません。");
-			l_uploadBuffer->Unmap(0, nullptr);
+			assert(false && "ScratchImageからサブリソースが取れない。");
 			return false;
 		}
 
-		const auto&  l_layout  = l_layoutList  [l_sub];
-		const UINT   l_rows    = l_rowCountList[l_sub];
-		const UINT64 l_rowSize = l_rowSizeList [l_sub];
+		const auto&   l_layout  = l_layoutList  [l_sub];
+		const UINT    l_rows    = l_rowCountList[l_sub];
+		const UINT64& l_rowSize = l_rowSizeList [l_sub];
 
-		std::uint8_t* l_dest = reinterpret_cast<std::uint8_t*>(l_mapped);
+		// destは「ページmapped先頭 + ページ割り当てオフセット + サブリソースオフセット」
+		std::uint8_t*       l_descBase = l_uploadPage->mappedPtr + l_offset + l_layout.Offset;
+		const std::uint8_t* l_srcBase  = l_srcImage->pixels;
 
-		const std::uint8_t* l_src = l_srcImage->pixels;
-
-		// 行ごとにコピー(GPU側のRowPitchとソースのRowPitchが違うことがある)
+		// RowPitchが一致しないことがあるので行単位コピー
 		for (UINT l_row = 0U; l_row < l_rows; ++l_row)
 		{
-			std::memcpy(l_dest + (static_cast<std::size_t>(l_row) * l_layout.Footprint.RowPitch),
-						l_src +  (static_cast<std::size_t>(l_row) * l_srcImage->rowPitch),
+			std::memcpy(l_descBase + (static_cast<std::size_t>(l_row) * l_layout.Footprint.RowPitch),
+						l_srcBase +  (static_cast<std::size_t>(l_row) * l_srcImage->rowPitch),
 						static_cast<std::size_t>(l_rowSize));
 		}
 	}
 
-	l_uploadBuffer->Unmap(0U, nullptr);
+	// SRV確保(SRVはGPUコピー完了前に作っOK : 参照するのは描画時だが使う前にFlushが必要)
+	const UINT l_srcIndex = l_srvDescriptorAllocator.Allocate();
 
-	// CopyTextureRegionでGPUへ転送
 
-	// Copy用アロケータが前回のGPU実行を終えているかを確認(CPU/GPU並列の基本)
-	l_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
-
-	// Reset(このフレームのCopyコマンドを貯める)
-	l_resourceContext.ResetCommandObjects();
-
-	// 状態遷移(Common -> CopyDest)
-	l_copyCommandList.TransitionResource(l_texResource, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
-
-	// サブリソースごとにCopyTextureRegion
-	for (UINT l_sub = 0U; l_sub < l_subResourceCount; ++l_sub)
-	{
-		auto l_dest = D3D12_TEXTURE_COPY_LOCATION();
-
-		l_dest.pResource        = l_texResource.Get();
-		l_dest.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-		l_dest.SubresourceIndex = l_sub;
-
-		auto l_src = D3D12_TEXTURE_COPY_LOCATION();
-
-		l_src.pResource       = l_uploadBuffer.Get();
-		l_src.Type            = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
-		l_src.PlacedFootprint = l_layoutList[l_sub];
-
-		// 全領域コピー(必要なら領域指定も可能)
-		l_copyCommandList.CopyTextureRegion(l_dest, l_src);
-	}
-
-	// 状態遷移(CopyDest -> PixelShaderResource)
-	l_copyCommandList.TransitionResource(l_texResource.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
-	// 実行
-	l_copyCommandQueue.ExecuteCommandLists(l_copyCommandList);
-
-	// allocator追跡(Fenceを進めて次の利用時に待てるようにする)
-	l_copyCommandQueue.SignalAndTracAllocator(l_copyCommandAllocator);
-
-	// SRV作成
-	const UINT l_srvIndex = l_srvDescriptorAllocator.Allocate();
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC l_srvDesc = {};
-	
-	l_srvDesc.Format                  = a_metadata.format;
-	l_srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	l_srvDesc.ViewDimension           = D3D12_SRV_DIMENSION_TEXTURE2D;
-	l_srvDesc.Texture2D.MipLevels     = static_cast<UINT>(a_metadata.mipLevels);
-
-	const auto l_cpuHandle = l_srvDescriptorHeap.FetchCPUHandle(l_srvIndex);
-
-	l_device->CreateShaderResourceView(l_texResource.Get(), &l_srvDesc, l_cpuHandle);
-
-	// 記録
-	a_outRecord.resource = l_texResource;
-	a_outRecord.srvIndex = l_srvIndex;
-	a_outRecord.width    = static_cast<UINT>(a_metadata.width);
-	a_outRecord.height   = static_cast<UINT>(a_metadata.height);
-	a_outRecord.format   = a_metadata.format;
 
 	return true;
 }
@@ -298,14 +241,14 @@ bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOU
 		return false;
 	}
 
-	// リソースが必要とするサイズ、アライメントを問い合わせ
+	// 指定のResourceDescをDEFAULTなどのヒープに置くときに必要なサイズとアライメントを返す
 	const auto& l_allocationInfo = l_device->GetResourceAllocationInfo(0U, 1U, &a_desc);
 
 	// 画像用DEFAULTヒープ
 	auto l_heapDesc = D3D12_HEAP_DESC();
 
 	l_heapDesc.SizeInBytes = l_allocationInfo.SizeInBytes;
-	l_heapDesc.Alignment   = l_allocationInfo.SizeInBytes;
+	l_heapDesc.Alignment   = l_allocationInfo.Alignment;
 	l_heapDesc.Properties  = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 	l_heapDesc.Flags       = D3D12_HEAP_FLAG_ALLOW_ONLY_NON_RT_DS_TEXTURES;
 
@@ -317,7 +260,8 @@ bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOU
 		return false;
 	}
 
-	// PlacedResourceは「ヒープの中のoffset位置に記録する」
+	// CreatePlacedResourceはヒープの中のoffset位置にResourceを配置して作るAPI。
+	// offsetは通常、allocationInfo.Alignmentに合わせる必要がある
 	const UINT64 l_offet = 0ULL;
 
 	l_hr = l_device->CreatePlacedResource(a_outHeap.Get(),
@@ -336,7 +280,60 @@ bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOU
 	return true;
 }
 
-bool FWK::Graphics::TextureContext::CreateUploadBuffer(const UINT64 a_size, ComPtr<ID3D12Resource2>& a_outUpload)
+bool FWK::Graphics::TextureContext::AllocateUploadMemory(const UINT64& a_size, 
+														 const UINT64& a_alignment,
+														 UploadPage*   a_outPage,
+														 UINT64&       a_outOffset)
+{
+	GarbageCollectUploadPage();
+
+	const auto& l_alignedSize = Utility::Math::AlignUp(a_size, a_alignment);
+
+	// 既存ページから探す
+	for (auto& l_page : m_uploadPageList)
+	{
+		// GPU使用中のページは触らない
+		if (l_page.fenceValue != 0ULL)
+		{
+			continue;
+		}
+
+		const UINT64 l_alinedOffset = Utility::Math::AlignUp(l_page.offset, a_alignment);
+
+		if (l_alinedOffset + l_alignedSize <= l_page.size)
+		{
+			a_outPage     = &l_page;
+			a_outOffset   = l_alinedOffset;
+			l_page.offset = l_alinedOffset + l_alignedSize;
+			return true;
+		}
+	}
+
+	// 足りないので新規ページ作成
+	const UINT64 l_defaultPageSize = 64ULL * 1024ULL * 1024ULL;
+	const UINT64 l_newPageSize = (l_defaultPageSize > l_alignedSize) ? l_defaultPageSize : Utility::Math::AlignUp(l_alignedSize, 1024ULL * 1024ULL);
+
+	auto l_newPage = UploadPage();
+
+	if (!CreateUploadPage(l_newPageSize, l_newPage))
+	{
+		return false;
+	}
+
+	m_uploadPageList.emplace_back(std::move(l_newPage));
+
+	a_outPage         = &m_uploadPageList.back();
+	a_outOffset       = 0ULL;
+	a_outPage->offset = l_alignedSize;
+
+	return true;
+}
+
+void FWK::Graphics::TextureContext::GarbageCollectUploadPage()
+{
+}
+
+bool FWK::Graphics::TextureContext::CreateUploadPage(const UINT64 a_pageSize, UploadPage& a_outPage)
 {
 	const auto& l_graphicsManager = GraphicsManager::GetInstance();
 
@@ -349,22 +346,39 @@ bool FWK::Graphics::TextureContext::CreateUploadBuffer(const UINT64 a_size, ComP
 		return false;
 	}
 
-	const auto l_desc = CD3DX12_RESOURCE_DESC::Buffer(a_size);
+	const auto& l_desc     = CD3DX12_RESOURCE_DESC::Buffer(a_pageSize);
+	const auto& l_heapProp = CD3DX12_HEAP_PROPERTIES      (D3D12_HEAP_TYPE_UPLOAD);
 
-	auto l_heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-
-	const auto l_hr = l_device->CreateCommittedResource(&l_heapProp, 
-													    D3D12_HEAP_FLAG_NONE,
-														&l_desc,
-														D3D12_RESOURCE_STATE_GENERIC_READ,
-														nullptr,
-														IID_PPV_ARGS(a_outUpload.ReleaseAndGetAddressOf()));
+	// CreateComittedResourceはヒープとリソースをまとめて作る
+	auto l_hr = l_device->CreateCommittedResource(&l_heapProp,
+												  D3D12_HEAP_FLAG_NONE,
+												  &l_desc,
+												  D3D12_RESOURCE_STATE_GENERIC_READ,
+												  nullptr,
+												  IID_PPV_ARGS(a_outPage.resource.ReleaseAndGetAddressOf()));
 
 	if (FAILED(l_hr))
 	{
-		assert(false && "アップロードバッファの作成に失敗しました。");
+		assert(false && "UploadPageのCreateComittedResourceに失敗。");
 		return false;
 	}
+
+	void* l_mapped = nullptr;
+
+	const auto& l_readRange = CD3DX12_RANGE(0ULL, 0ULL); // CPU readしないので0,0
+
+	l_hr = a_outPage.resource->Map(0U, &l_readRange, &l_mapped);
+
+	if (FAILED(l_hr))
+	{
+		assert(false && "UploadPageのMapに失敗。");
+		return false;
+	}
+
+	a_outPage.mappedPtr  = reinterpret_cast<std::uint8_t*>(l_mapped);
+	a_outPage.size       = a_pageSize;
+	a_outPage.offset     = 0ULL;
+	a_outPage.fenceValue = 0ULL;
 
 	return true;
 }

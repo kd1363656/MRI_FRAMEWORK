@@ -196,6 +196,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Texture">
       <UniqueIdentifier>{3f97c927-9110-4fe0-a26b-f05f6e7e1fe9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Utility\Math">
+      <UniqueIdentifier>{c29988f7-399f-41eb-b2d0-f7389ad8f812}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -490,6 +493,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureContext.h">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h">
+      <Filter>Source\Framework\Utility\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
