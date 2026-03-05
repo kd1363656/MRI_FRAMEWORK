@@ -5,30 +5,6 @@ FWK::Graphics::DirectCommandList::DirectCommandList(const Device& a_device) :
 {}
 FWK::Graphics::DirectCommandList::~DirectCommandList() = default;
 
-void FWK::Graphics::DirectCommandList::TransitionResource(const ComPtr<ID3D12Resource2>& a_resourece, const D3D12_RESOURCE_STATES a_beforState, const D3D12_RESOURCE_STATES a_afterState) const 
-{
-	const auto& l_commandList = GetCommandList();
-
-	if (!a_resourece)
-	{
-		assert(false && "リソースが作成されておらず、リソースの繊維ができませんでした。");
-		return;
-	}
-
-	if (!l_commandList)
-	{
-		assert(false && "コマンドリストが作成されておらず、リソースの状態遷移が出来ませんでした。");
-		return;
-	}
-
-	// リソースの状態遷移
-	// a_beforState -> a_afterState
-	const auto& l_barrier = CD3DX12_RESOURCE_BARRIER::Transition(a_resourece.Get(), a_beforState, a_afterState);
-
-	// リソースバリアを実行
-	l_commandList->ResourceBarrier(k_sendBarrierNum, &l_barrier);
-}
-
 void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const SwapChain& a_swapChain, const D3D12_RESOURCE_STATES a_beforState, const D3D12_RESOURCE_STATES a_afterState) const
 {
 	const auto& l_backBufferList = a_swapChain.GetBackBufferList();

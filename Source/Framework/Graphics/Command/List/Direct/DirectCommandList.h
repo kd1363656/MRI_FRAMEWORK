@@ -18,8 +18,6 @@ namespace FWK::Graphics
 		DirectCommandList (const Device& a_device);
 		~DirectCommandList();
 
-		void TransitionResource(const ComPtr<ID3D12Resource2>& a_resourece, const D3D12_RESOURCE_STATES a_beforState, const D3D12_RESOURCE_STATES a_afterState) const;
-
 		void TransitionRenderTargetResource(const SwapChain& a_swapChain, const D3D12_RESOURCE_STATES a_beforState, const D3D12_RESOURCE_STATES a_afterState) const;
 
 		void SetupRenderTarget (const SwapChain&     a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;

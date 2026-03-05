@@ -17,13 +17,16 @@ namespace FWK::Graphics
 		void Init  ();
 		bool Create(const SwapChain& a_swapChain);
 
+		void ResetCommandObjects() const;
+
 		const auto& GetDescriptorHeapContext() const { return m_descriptorHeapContext; }
 
-		const auto& GetCopyCommandQueue    () const { return m_copyCommandQueue; }
-		const auto& GetCopyCommandAllocator() const { return m_copyCommandAllocator; }
-		const auto& GetCopyCommandList     () const { return m_copyCommandList; }
+		const auto& GetCopyCommandList() const { return m_copyCommandList; }
 
 		auto& GetWorkSRVDescriptorAllocator() { return m_srvDescriptorAllocator; }
+
+		auto& GetWorkCopyCommandQueue    () { return m_copyCommandQueue; }
+		auto& GetWorkCopyCommandAllocator() { return m_copyCommandAllocator; }
 
 	private:
 

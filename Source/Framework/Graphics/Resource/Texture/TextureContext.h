@@ -34,9 +34,9 @@ namespace FWK::Graphics
 											CommonStruct::TextureRecord& a_outRecord);
 
 		// GPUテクスチャ用ヒープ確保(CreateHeap + CreatePlacedResource)
-		bool AllocasteDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc,
-										 ComPtr<ID3D12Heap>&        a_outHeap,
-										 ComPtr<ID3D12Resource2>    a_outResource);
+		bool AllocateDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc,
+										ComPtr<ID3D12Heap>&        a_outHeap,
+										ComPtr<ID3D12Resource2>    a_outResource);
 
 		// UploadHeap
 		bool CreateUploadBuffer(const UINT64 a_size, ComPtr<ID3D12Resource2>& a_outUpload);

@@ -31,6 +31,7 @@ namespace FWK::CommonStruct
 		
 		// メタ情報
 		UINT        srvIndex = 0U;
+		UINT		width    = 0U;
 		UINT        height   = 0U;
 		DXGI_FORMAT format   = DXGI_FORMAT_UNKNOWN;
 	};

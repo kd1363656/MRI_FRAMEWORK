@@ -119,9 +119,9 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 
 	auto& l_resourceContext = l_graphicsManager.GetResourceContext();
 
-	const auto& l_copyCommandQueue     = l_resourceContext.GetCopyCommandQueue    ();
-	const auto& l_copyCommandAllocator = l_resourceContext.GetCopyCommandAllocator();
-	const auto& l_copyCommandList      = l_resourceContext.GetCopyCommandList     ();
+	auto&		l_copyCommandQueue     = l_resourceContext.GetWorkCopyCommandQueue    ();
+	auto&		l_copyCommandAllocator = l_resourceContext.GetWorkCopyCommandAllocator();
+	const auto& l_copyCommandList      = l_resourceContext.GetCopyCommandList         ();
 
 	auto&       l_srvDescriptorAllocator = l_resourceContext.GetWorkSRVDescriptorAllocator();
 	const auto& l_srvDescriptorHeap      = l_resourceContext.GetDescriptorHeapContext     ().GetSRVDescriptorHeap();
@@ -138,11 +138,151 @@ bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::st
 													  static_cast<UINT16>(a_metadata.arraySize),
 													  static_cast<UINT16>(a_metadata.mipLevels));
 
-	ComPtr<ID3D12Heap> l_texHeap;
+	ComPtr<ID3D12Heap>      l_texHeap;
+	ComPtr<ID3D12Resource2> l_texResource;
+
+	if (!AllocateDefaultHeapTexture(l_desc, l_texHeap, l_texResource))
+	{
+		assert(false && "CreateHeap + CreatePlacedResourceに失敗しました。");
+		return false;
+	}
+
+	// UploadBufferの作成
+	const UINT l_subResourceCount = static_cast<UINT>(a_metadata.mipLevels * a_metadata.arraySize);
+
+	std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> l_layoutList  (l_subResourceCount);
+	std::vector<UINT>								l_rowCountList(l_subResourceCount);
+	std::vector<UINT64>								l_rowSizeList (l_subResourceCount);
+
+	UINT64 l_requiredUploadSize = 0ULL;
+
+	l_device->GetCopyableFootprints(&l_desc,
+									0U,
+									l_subResourceCount,
+									0ULL,
+									l_layoutList.data  (),
+									l_rowCountList.data(),
+									l_rowSizeList.data (),
+									&l_requiredUploadSize);
+
+	ComPtr<ID3D12Resource2> l_uploadBuffer;
+
+	if (!CreateUploadBuffer(l_requiredUploadSize, l_uploadBuffer))
+	{
+		assert(false && "UploadeBufferの作成に失敗しました。");
+		return false;
+	}
+
+	// UploadBufferへCPUコピー
+	void* l_mapped = nullptr;
+
+	const auto l_readRange = CD3DX12_RANGE(0ULL, 0ULL); // CPUが読むわけではないので0
+
+	const auto l_hr = l_uploadBuffer->Map(0U, &l_readRange, &l_mapped);
+
+	if (FAILED(l_hr))
+	{
+		assert(false && "UploadBufferのMapに失敗しました。");
+		return false;
+	}
+
+	// ScratchImageはサブリソース単位で画像を持っている
+	for (UINT l_sub = 0U; l_sub < l_subResourceCount; ++l_sub)
+	{
+		const DirectX::Image* l_srcImage = a_image.GetImage(l_sub, 0ULL, 0ULL);
+
+		if (!l_srcImage)
+		{
+			assert(false && "ScratchImageからサブリソース画像が取得できません。");
+			l_uploadBuffer->Unmap(0, nullptr);
+			return false;
+		}
+
+		const auto&  l_layout  = l_layoutList  [l_sub];
+		const UINT   l_rows    = l_rowCountList[l_sub];
+		const UINT64 l_rowSize = l_rowSizeList [l_sub];
+
+		std::uint8_t* l_dest = reinterpret_cast<std::uint8_t*>(l_mapped);
+
+		const std::uint8_t* l_src = l_srcImage->pixels;
+
+		// 行ごとにコピー(GPU側のRowPitchとソースのRowPitchが違うことがある)
+		for (UINT l_row = 0U; l_row < l_rows; ++l_row)
+		{
+			std::memcpy(l_dest + (static_cast<std::size_t>(l_row) * l_layout.Footprint.RowPitch),
+						l_src +  (static_cast<std::size_t>(l_row) * l_srcImage->rowPitch),
+						static_cast<std::size_t>(l_rowSize));
+		}
+	}
+
+	l_uploadBuffer->Unmap(0U, nullptr);
+
+	// CopyTextureRegionでGPUへ転送
+
+	// Copy用アロケータが前回のGPU実行を終えているかを確認(CPU/GPU並列の基本)
+	l_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
+
+	// Reset(このフレームのCopyコマンドを貯める)
+	l_resourceContext.ResetCommandObjects();
+
+	// 状態遷移(Common -> CopyDest)
+	l_copyCommandList.TransitionResource(l_texResource, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+
+	// サブリソースごとにCopyTextureRegion
+	for (UINT l_sub = 0U; l_sub < l_subResourceCount; ++l_sub)
+	{
+		auto l_dest = D3D12_TEXTURE_COPY_LOCATION();
+
+		l_dest.pResource        = l_texResource.Get();
+		l_dest.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+		l_dest.SubresourceIndex = l_sub;
+
+		auto l_src = D3D12_TEXTURE_COPY_LOCATION();
+
+		l_src.pResource       = l_uploadBuffer.Get();
+		l_src.Type            = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+		l_src.PlacedFootprint = l_layoutList[l_sub];
+
+		// 全領域コピー(必要なら領域指定も可能)
+		l_copyCommandList.CopyTextureRegion(l_dest, l_src);
+	}
+
+	// 状態遷移(CopyDest -> PixelShaderResource)
+	l_copyCommandList.TransitionResource(l_texResource.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// 実行
+	l_copyCommandQueue.ExecuteCommandLists(l_copyCommandList);
+
+	// allocator追跡(Fenceを進めて次の利用時に待てるようにする)
+	l_copyCommandQueue.SignalAndTracAllocator(l_copyCommandAllocator);
+
+	// SRV作成
+	const UINT l_srvIndex = l_srvDescriptorAllocator.Allocate();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC l_srvDesc = {};
+	
+	l_srvDesc.Format                  = a_metadata.format;
+	l_srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	l_srvDesc.ViewDimension           = D3D12_SRV_DIMENSION_TEXTURE2D;
+	l_srvDesc.Texture2D.MipLevels     = static_cast<UINT>(a_metadata.mipLevels);
+
+	const auto l_cpuHandle = l_srvDescriptorHeap.FetchCPUHandle(l_srvIndex);
+
+	l_device->CreateShaderResourceView(l_texResource.Get(), &l_srvDesc, l_cpuHandle);
+
+	// 記録
+	a_outRecord.resource = l_texResource;
+	a_outRecord.srvIndex = l_srvIndex;
+	a_outRecord.width    = static_cast<UINT>(a_metadata.width);
+	a_outRecord.height   = static_cast<UINT>(a_metadata.height);
+	a_outRecord.format   = a_metadata.format;
+
+	return true;
 }
 
-bool FWK::Graphics::TextureContext::AllocasteDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc, ComPtr<ID3D12Heap>& a_outHeap, ComPtr<ID3D12Resource2> a_outResource)
+bool FWK::Graphics::TextureContext::AllocateDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc, ComPtr<ID3D12Heap>& a_outHeap, ComPtr<ID3D12Resource2> a_outResource)
 {
+
 	return false;
 }
 
