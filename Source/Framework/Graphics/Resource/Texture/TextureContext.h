@@ -10,7 +10,7 @@ namespace FWK::Graphics
 		
 		using TextureLoaderMap   = std::unordered_map<std::string, TextureLoaderFunc, CommonStruct::StringHash, std::equal_to<>>;
 		using TexturePathToIDMap = std::unordered_map<std::string, TextureID,         CommonStruct::StringHash, std::equal_to<>>;
-		using TextureOIDToSRVMap = std::unordered_map<TextureID,    UINT>;
+		using TextureIDToSRVMap  = std::unordered_map<TextureID,    UINT>;
 
 		struct UploadPage
 		{
@@ -59,10 +59,7 @@ namespace FWK::Graphics
 
 		Texture LoadTexture(const std::string& a_filePath, const TextureLoaderFunc& a_textureLoaderFunc);
 
-		bool CreateTextureResourceAndUpload(const std::string&           a_filePath,
-										    const DirectX::TexMetadata&  a_metadata,
-											const DirectX::ScratchImage& a_image,
-											CommonStruct::TextureRecord& a_outRecord);
+		bool CreateTextureResourceAndUpload(const DirectX::TexMetadata& a_metadata, const DirectX::ScratchImage& a_image, CommonStruct::TextureRecord& a_outRecord);
 
 		// GPUテクスチャ用ヒープ確保(CreateHeap + CreatePlacedResource)
 		bool AllocateDefaultHeapTexture(const D3D12_RESOURCE_DESC& a_desc,
@@ -77,13 +74,14 @@ namespace FWK::Graphics
 
 		bool CreateUploadPage(const UINT64 a_pageSize, UploadPage& a_outPage) const;
 		
-		static constexpr TextureID k_initialID = 1U;
+		static constexpr TextureID k_initialID        = 1U;
+		static constexpr UINT      k_invalideSRVIndex = UINT_MAX;
 
 		TextureID m_nextID = k_initialID;
 
 		TextureLoaderMap   m_textureLoaderMap;
 		TexturePathToIDMap m_pathToIDMap;
-		TextureOIDToSRVMap m_idToSRVIndexMap;
+		TextureIDToSRVMap  m_textureIDToSRVIndexMap;
 
 		std::vector<CommonStruct::TextureRecord> m_recordList;
 

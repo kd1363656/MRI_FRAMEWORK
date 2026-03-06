@@ -1,6 +1,6 @@
 ﻿#include "Fence.h"
 
-FWK::Graphics::Fence::Fence(const Device& a_device, const CommandQueueBase& a_commandQueueBase) :
+FWK::Graphics::Fence::Fence(const Device& a_device) :
 	k_device		  (a_device),
 	m_fenceEvent      (nullptr),
 	m_fenceValue      (0ULL)

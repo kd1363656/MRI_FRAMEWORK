@@ -2,7 +2,6 @@
 
 namespace FWK::Graphics
 {
-	class CommandQueueBase;
 	class CommandAllocatorBase;
 }
 
@@ -12,7 +11,7 @@ namespace FWK::Graphics
 	{
 	public:
 
-		explicit Fence(const Device& a_device, const CommandQueueBase& a_commandQueueBase);
+		explicit Fence(const Device& a_device);
 		~Fence        ();
 
 		void Init  ();

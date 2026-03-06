@@ -4,7 +4,7 @@ FWK::Graphics::CommandQueueBase::CommandQueueBase(const Device& a_device, const 
 	k_device               (a_device),
 	k_createCommandListType(a_createCommandListType),
 	m_commandQueue         (nullptr),
-	m_fence                (a_device, *this)
+	m_fence                (a_device)
 {}
 FWK::Graphics::CommandQueueBase::~CommandQueueBase()
 {

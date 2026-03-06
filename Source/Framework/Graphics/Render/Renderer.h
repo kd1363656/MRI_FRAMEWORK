@@ -23,7 +23,7 @@ namespace FWK::Graphics
 		void Draw      ();
 		void EndFrame  (const SwapChain& a_swapChain);
 
-		const auto& GetDeirectCommandQueue() const { return m_directCommandQueue; }
+		const auto& GetDirectCommandQueue() const { return m_directCommandQueue; }
 
 	private:
 

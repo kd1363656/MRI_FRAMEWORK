@@ -4,12 +4,11 @@ void FWK::Graphics::TextureContext::Init()
 {
 	m_nextID = k_initialID;
 
-	m_pathToIDMap.clear      ();
-	m_recordList.clear       ();
-	m_idToSRVIndexMap.clear  ();
-	m_recordList.clear       ();
-	m_pendingUploadList.clear();
-	m_uploadPageList.clear   ();
+	m_pathToIDMap.clear           ();
+	m_recordList.clear            ();
+	m_textureIDToSRVIndexMap.clear();
+	m_pendingUploadList.clear     ();
+	m_uploadPageList.clear        ();
 
 	const TextureLoaderFunc& l_wicFileLoader = [](const std::wstring& a_filePath, DirectX::TexMetadata& a_texMetadata, DirectX::ScratchImage& a_scratchImage) 
 	{
@@ -147,7 +146,7 @@ void FWK::Graphics::TextureContext::FlushUploads()
 		l_pending.uploadPage->fenceValue = std::max(l_pending.uploadPage->fenceValue, l_fenceValue);
 
 
-		m_idToSRVIndexMap[l_pending.record.textureID] = l_pending.record.srvIndex;
+		m_textureIDToSRVIndexMap[l_pending.record.textureID] = l_pending.record.srvIndex;
 		m_recordList.emplace_back(std::move(l_pending.record));
 	}
 
@@ -156,18 +155,15 @@ void FWK::Graphics::TextureContext::FlushUploads()
 
 UINT FWK::Graphics::TextureContext::FetchSRVIndex(const TextureID a_id) const
 {
-	// 線形探索
-	// 最適化するならid->indexのunordered_mapを持つ
-	for (const auto& l_record : m_recordList)
+	// TextureID -> SRVIndexの高速検索
+	if (auto l_itr = m_textureIDToSRVIndexMap.find(a_id);
+		l_itr != m_textureIDToSRVIndexMap.end())
 	{
-		if (l_record.textureID == a_id)
-		{
-			return l_record.srvIndex;
-		}
+		return l_itr->second;
 	}
 
-	assert(false && "指定テクスチャIDが見つかりません。");
-	return CommonConstant::k_invalidTextureID;
+	assert(false && "指定テクスチャIDに対応するSRVインデックスが見つかりませんが見つかりません。");
+	return k_invalideSRVIndex;
 }
 
 FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadTexture(const std::string& a_filePath, const TextureLoaderFunc& a_textureLoaderFunc)
@@ -200,10 +196,7 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadTexture(const std::str
 	l_record.textureID  = m_nextID++;
 	l_record.sourcePath = a_filePath;
 
-	if (!CreateTextureResourceAndUpload(a_filePath,
-										l_texMetadata,
-										l_scratchImage,
-										l_record))
+	if (!CreateTextureResourceAndUpload(l_texMetadata, l_scratchImage, l_record))
 	{
 		assert(false && "テクスチャのGPUアップロードに失敗しました。");
 		return Texture();
@@ -215,10 +208,7 @@ FWK::Graphics::Texture FWK::Graphics::TextureContext::LoadTexture(const std::str
 	return Texture(l_record.textureID);
 }
 
-bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const std::string&           a_filePath, 
-																   const DirectX::TexMetadata&  a_metadata,
-																   const DirectX::ScratchImage& a_image,
-																   CommonStruct::TextureRecord& a_outRecord)
+bool FWK::Graphics::TextureContext::CreateTextureResourceAndUpload(const DirectX::TexMetadata& a_metadata, const DirectX::ScratchImage& a_image, CommonStruct::TextureRecord& a_outRecord)
 {
 	auto& l_graphicsManager = GraphicsManager::GetInstance();
 

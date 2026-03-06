@@ -88,7 +88,7 @@
 // 描画関係クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"
 #include "Graphics/Command/Queue/CommandQueueBase.h"
-#include "Graphics/Command/Queue/Direct/DirectCommandQueueh.h"
+#include "Graphics/Command/Queue/Direct/DirectCommandQueue.h"
 #include "Graphics/Command/Queue/Copy/CopyCommandQueue.h"
 #include "Graphics/Command/Allocator/CommandAllocatorBase.h"
 #include "Graphics/Command/Allocator/Direct/DirectCommandAllocator.h"

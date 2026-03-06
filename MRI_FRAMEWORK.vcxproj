@@ -187,7 +187,7 @@
     <ClCompile Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\Copy\CopyCommandQueue.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueue.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.cpp" />
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Device\Device.cpp" />
@@ -244,7 +244,7 @@
     <ClInclude Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\Copy\CopyCommandQueue.h" />
-    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueue.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.h" />
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device\Device.h" />

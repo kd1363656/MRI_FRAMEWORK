@@ -246,7 +246,7 @@
     <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp">
       <Filter>Source\Framework\Graphics\Command\List</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueue.cpp">
       <Filter>Source\Framework\Graphics\Command\Queue\Direct</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp">
@@ -416,7 +416,7 @@
     <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h">
       <Filter>Source\Framework\Graphics\Command\List</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueueh.h">
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueue.h">
       <Filter>Source\Framework\Graphics\Command\Queue\Direct</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h">
