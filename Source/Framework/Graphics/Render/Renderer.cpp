@@ -96,7 +96,7 @@ void FWK::Graphics::Renderer::BeginFrame(const SwapChain& a_swapChain, const RTV
 	// GPU同期が終わってからリセット
 	ResetCommandObjects(l_commandAllocator);
 
-	// バックバッファの状態遷移(Present -> Resource)
+	// バックバッファの状態遷移(PRESENT -> RESOURCE)
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// 描画するためのレンダーターゲットをセットしクリア
@@ -126,7 +126,7 @@ void FWK::Graphics::Renderer::EndFrame(const SwapChain& a_swapChain)
 
 	auto& l_commandAllocator = m_frameResourceList[m_frameIndex].GetWorkDirectCommandAllocator();
 
-	// バックバッファの状態遷移(Present -> Resource)
+	// バックバッファの状態遷移(RESOURCE -> PRESENT)
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
 
 	// GPUに描画命令を出す

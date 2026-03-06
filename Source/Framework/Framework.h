@@ -109,7 +109,8 @@
 #include "Graphics/Resource/Descriptor/Allocator/SRV/SRVDescriptorAllocator.h"
 #include "Graphics/Resource/Descriptor/DescriptorHeapContext.h"
 #include "Graphics/Resource/Texture/Texture.h"
-#include "Graphics/Resource/Texture/TextureContext.h"
+#include "Graphics/Resource/Texture/Uploader/TextureUploader.h"
+#include "Graphics/Resource/Texture/Context/TextureContext.h"
 #include "Graphics/Resource/ResourceContext.h"
 
 // スワップチェイン

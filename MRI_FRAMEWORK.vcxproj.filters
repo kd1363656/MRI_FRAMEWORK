@@ -199,6 +199,12 @@
     <Filter Include="Source\Framework\Utility\Math">
       <UniqueIdentifier>{c29988f7-399f-41eb-b2d0-f7389ad8f812}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\Uploader">
+      <UniqueIdentifier>{1dc8e567-9ede-4129-928b-2e792ae2a83d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\Context">
+      <UniqueIdentifier>{44f2deb4-9c8d-4eb0-a087-c7225ef1d5f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -321,8 +327,11 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureContext.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Uploader\TextureUploader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Uploader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Context\TextureContext.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -491,11 +500,14 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureContext.h">
-      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h">
       <Filter>Source\Framework\Utility\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Uploader\TextureUploader.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Uploader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Context\TextureContext.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Context</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

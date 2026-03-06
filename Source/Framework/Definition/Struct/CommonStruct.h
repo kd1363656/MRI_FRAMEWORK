@@ -21,7 +21,7 @@ namespace FWK::CommonStruct
 		::Tag		  styleTag = CommonConstant::k_invalidStaticID;
 	};
 
-	struct TextureRecord
+	struct TextureRecord final
 	{
 		ComPtr<ID3D12Resource2> resource;
 		ComPtr<ID3D12Heap>      heap;
@@ -36,5 +36,33 @@ namespace FWK::CommonStruct
 		UINT srvIndex = 0U;
 		UINT width    = 0U;
 		UINT height   = 0U;
+	};
+
+	struct UploadPage final
+	{
+		ComPtr<ID3D12Resource2> resource   = nullptr;
+		std::uint8_t*           mappedPtr  = nullptr;
+		UINT64					size       = 0ULL;
+		UINT64					offset     = 0ULL;    // 次に詰める位置
+		UINT64					fenceValue = 0ULL;    // Flush時にセット
+	};
+
+	struct PendingUpload final
+	{
+		std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> layoutlist       = std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>();
+		std::vector<UINT>								rowCountList     = std::vector<UINT>							  ();
+		std::vector<UINT64>								rowSizeList      = std::vector<UINT64>							  ();
+		ComPtr<ID3D12Resource2>                         textureResource  = nullptr;
+		UploadPage*										uploadPage       = nullptr;
+		UINT64											uploadBaseOffset = 0ULL;											   // UploadArena内の先頭オフセット
+		UINT											subResourceCount = 0U;
+		UINT											srvIndex         = 0U;
+		CommonStruct::TextureRecord						record           = CommonStruct::TextureRecord();						// 出力用
+	};
+
+	struct UploadAllocation final
+	{
+		UploadPage* page   = nullptr;
+		UINT64      offset = 0ULL;
 	};
 }
