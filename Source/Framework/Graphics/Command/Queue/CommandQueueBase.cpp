@@ -71,7 +71,7 @@ void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const CommandAllo
 {
 	m_fence.WaitForFenceValue(a_commandAllocator.GetSubmittedFenceValue());
 }
-void FWK::Graphics::CommandQueueBase::SignalAndTracAllocator(CommandAllocatorBase& a_commandAllocator)
+void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(CommandAllocatorBase& a_commandAllocator)
 {
 	const auto& l_fence = m_fence.GetFence();
 

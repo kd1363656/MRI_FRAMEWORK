@@ -29,7 +29,7 @@ namespace FWK::Graphics
 	private:
 
 		static constexpr TextureID k_initialTextureID = 1U;
-		static constexpr UINT      k_invalideSRVIndex = UINT_MAX;
+		static constexpr UINT      k_invalidSRVIndex  = UINT_MAX;
 
 		TextureID m_nextTextureID = k_initialTextureID;
 

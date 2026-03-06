@@ -2,12 +2,13 @@
 
 void FWK::Graphics::TextureContext::Init()
 {
-	m_nextID = k_initialID;
+	m_nextTextureID = k_initialTextureID;
 
 	m_pathToIDMap.clear           ();
 	m_recordList.clear            ();
 	m_textureIDToSRVIndexMap.clear();
-	
+	m_textureLoaderMap.clear      ();
+
 	m_textureUploader.Init();
 
 	const TextureLoaderFunc& l_wicFileLoader = [](const std::wstring& a_filePath, DirectX::TexMetadata& a_texMetadata, DirectX::ScratchImage& a_scratchImage) 
@@ -129,6 +130,6 @@ UINT FWK::Graphics::TextureContext::FetchSRVIndex(const TextureID a_id) const
 		return l_itr->second;
 	}
 
-	assert(false && "指定テクスチャIDに対応するSRVインデックスが見つかりませんが見つかりません。");
-	return k_invalideSRVIndex;
+	assert(false && "指定テクスチャIDに対応するSRVインデックスが見つかりません。");
+	return k_invalidSRVIndex;
 }

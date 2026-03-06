@@ -58,9 +58,14 @@ void FWK::Graphics::Fence::WaitForFenceValue(const UINT64& a_fenceValue)
 		return;
 	}
 
+	const UINT64& l_completedValue = m_fence->GetCompletedValue();
+
+	// フェンス値が0ならフェンス値が更新されていないのでreturn
+	if (l_completedValue == CommonConstant::k_unusedFenceValue) { return; }
+
 	// フレームの最初で現在使用しようとしているコマンドアロケータの再利用ができるかどうかを確認
 	// GPUの完了値がまだ足りない場合にのみ同期をとることでCPUとGPUの並列処理性を発揮することができる
-	if (m_fence->GetCompletedValue() >= a_fenceValue) { return; }
+	if (l_completedValue >= a_fenceValue) { return; }
 
 	// イベントを発火することを予約
 	m_fence->SetEventOnCompletion(a_fenceValue , m_fenceEvent);

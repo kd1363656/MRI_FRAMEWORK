@@ -22,7 +22,7 @@ namespace FWK::Graphics
 		void ExecuteCommandLists(const CommandListBase& a_commandList) const;
 
 		void EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator);
-		void SignalAndTracAllocator  (CommandAllocatorBase&       a_commandAllocator);
+		void SignalAndTrackAllocator (CommandAllocatorBase&       a_commandAllocator);
 
 		const auto& GetCommandQueue() const { return m_commandQueue; }
 		const auto& GetFence       () const { return m_fence; }

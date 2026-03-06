@@ -43,8 +43,8 @@ namespace FWK::CommonStruct
 		ComPtr<ID3D12Resource2> resource   = nullptr;
 		std::uint8_t*           mappedPtr  = nullptr;
 		UINT64					size       = 0ULL;
-		UINT64					offset     = 0ULL;    // 次に詰める位置
-		UINT64					fenceValue = 0ULL;    // Flush時にセット
+		UINT64					offset     = 0ULL;								 // 次に詰める位置
+		UINT64					fenceValue = CommonConstant::k_unusedFenceValue;
 	};
 
 	struct PendingUpload final

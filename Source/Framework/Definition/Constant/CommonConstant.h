@@ -18,10 +18,11 @@ namespace FWK::CommonConstant
 
 	// 0だとデバックレイヤーでエラーが出るから
 	inline constexpr UINT64 k_initialFenceValue = 1ULL;
-
+	
 	inline constexpr UINT k_defaultGPUNodeMask   = 0U;
 	inline constexpr UINT k_defaultBackBufferNum = 2U;
 	inline constexpr UINT k_defaultSyncInterval  = 1U;
+	inline constexpr UINT k_unusedFenceValue     = 0ULL;
 
 	inline constexpr UINT k_invalidTextureID = 0U;
 }
