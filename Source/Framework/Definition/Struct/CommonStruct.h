@@ -33,9 +33,15 @@ namespace FWK::CommonStruct
 		DXGI_FORMAT			  format       = DXGI_FORMAT_UNKNOWN;
 		D3D12_RESOURCE_STATES currentState = D3D12_RESOURCE_STATE_COMMON;
 
+		UINT64 heapOffset     = 0ULL;
+		UINT64 allocationSize = 0ULL;
+
 		UINT srvIndex = 0U;
 		UINT width    = 0U;
-		UINT height   = 0U;
+		UINT height   = 0U;				 
+		UINT pageIndex = CommonConstant::k_invalidIndex;
+
+		bool isSharedHeap = false;
 	};
 
 	struct UploadPage final
