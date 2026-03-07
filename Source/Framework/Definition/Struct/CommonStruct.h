@@ -23,22 +23,22 @@ namespace FWK::CommonStruct
 
 	struct TextureRecord final
 	{
-		ComPtr<ID3D12Resource2> resource;
-		ComPtr<ID3D12Heap>      heap;
+		ComPtr<ID3D12Resource2> resource = nullptr;
 
-		std::string sourcePath = std::string();
+		std::string filePath = std::string();
 
 		TextureID textureID = CommonConstant::k_invalidTextureID;
-		
-		DXGI_FORMAT			  format       = DXGI_FORMAT_UNKNOWN;
+
+		DXGI_FORMAT           format       = DXGI_FORMAT_UNKNOWN;
 		D3D12_RESOURCE_STATES currentState = D3D12_RESOURCE_STATE_COMMON;
 
-		UINT64 heapOffset     = 0ULL;
+		UINT64 haepOffset     = 0ULL;
 		UINT64 allocationSize = 0ULL;
 
-		UINT srvIndex = 0U;
-		UINT width    = 0U;
-		UINT height   = 0U;				 
+		UINT width     = 0U;
+		UINT height    = 0U;
+		UINT mipCount  = 0U;
+		UINT srvIndex  = CommonConstant::k_invalidIndex;
 		UINT pageIndex = CommonConstant::k_invalidIndex;
 
 		bool isSharedHeap = false;
@@ -46,29 +46,52 @@ namespace FWK::CommonStruct
 
 	struct UploadPage final
 	{
-		ComPtr<ID3D12Resource2> resource   = nullptr;
-		std::uint8_t*           mappedPtr  = nullptr;
-		UINT64					size       = 0ULL;
-		UINT64					offset     = 0ULL;								 // 次に詰める位置
-		UINT64					fenceValue = CommonConstant::k_unusedFenceValue;
+		ComPtr<ID3D12Resource2> resource = nullptr;
+
+		std::uint8_t* mappedPtr  = nullptr;
+
+		UINT64 size       = 0ULL;
+		UINT64 offset     = 0ULL;								 // 次に詰める位置
+		UINT64 fenceValue = CommonConstant::k_unusedFenceValue;
 	};
 
 	struct PendingUpload final
 	{
-		std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> layoutlist       = std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>();
-		std::vector<UINT>								rowCountList     = std::vector<UINT>							  ();
-		std::vector<UINT64>								rowSizeList      = std::vector<UINT64>							  ();
-		ComPtr<ID3D12Resource2>                         textureResource  = nullptr;
-		UploadPage*										uploadPage       = nullptr;
-		UINT64											uploadBaseOffset = 0ULL;											   // UploadArena内の先頭オフセット
-		UINT											subResourceCount = 0U;
-		UINT											srvIndex         = 0U;
-		CommonStruct::TextureRecord						record           = CommonStruct::TextureRecord();						// 出力用
+		std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> layoutlist   = std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>();
+		std::vector<UINT>								rowCountList = std::vector<UINT>							  ();
+		std::vector<UINT64>								rowSizeList  = std::vector<UINT64>							  ();
+
+		UINT64 requiredSize     = 0ULL;
+		UINT64 uploadBaseOffset = 0ULL;
+		
+		UINT uploadPageIndex = CommonConstant::k_invalidIndex;
+
+		CommonStruct::TextureRecord* record = nullptr;
 	};
 
 	struct UploadAllocation final
 	{
-		UploadPage* page   = nullptr;
-		UINT64      offset = 0ULL;
+		UploadPage* page = nullptr;
+
+		UINT64 offset = 0ULL;
+	};
+
+	struct TextureHeapPage final 
+	{
+		ComPtr<ID3D12Heap> heap = nullptr;
+
+		D3D12_HEAP_FLAGS heapFlags = D3D12_HEAP_FLAG_NONE;
+
+		UINT64 size     = 0ULL;
+		UINT64 usedSize = 0ULL;
+	};
+
+	struct TextureAllocation final 
+	{
+		UINT64 offset    = 0ULL;
+		UINT64 size      = 0ULL;
+		UINT64 alignment = 0ULL;
+
+		UINT pageIndex = CommonConstant::k_invalidIndex;
 	};
 }

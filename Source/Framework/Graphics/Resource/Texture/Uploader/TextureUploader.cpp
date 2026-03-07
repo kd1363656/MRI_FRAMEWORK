@@ -2,8 +2,9 @@
 
 void FWK::Graphics::TextureUploader::Init()
 {
-	m_pendingUploadList.clear();
-	m_uploadPageList.clear   ();
+	m_pendingUploadList.clear  ();
+	m_uploadPageList.clear     ();
+	m_textureHeapPageList.clear();
 }
 
 bool FWK::Graphics::TextureUploader::StageTexture(const DirectX::TexMetadata& a_texMetadata, const DirectX::ScratchImage& a_image, CommonStruct::TextureRecord& a_inOutRecord)
