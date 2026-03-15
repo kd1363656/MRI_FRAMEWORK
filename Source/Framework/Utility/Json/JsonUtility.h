@@ -14,22 +14,13 @@ namespace FWK::Utility::Json
 	inline bool IsArray(const nlohmann::json& a_json , const std::string_view a_key)
 	{
 		// jsonが空ならreturn
-		if (a_json.is_null())
-		{
-			return false;
-		}
+		if (a_json.is_null()) { return false; }
 
 		// 文字列が空ならa_jsonが配列かどうかの結果を返す
-		if (a_key.empty())
-		{
-			return a_json.is_array();
-		}
+		if (a_key.empty()) { return a_json.is_array(); }
 
 		// もしキーが含まれているがa_jsonに含まれていな得ればreturn
-		if (!a_json.contains(a_key.data()))
-		{
-			return false;
-		}
+		if (!a_json.contains(a_key.data())) { return false; }
 
 		// キーが含まれていればa_json[a_key.data()]が配列なのかどうかの結果を返す
 		return a_json[a_key.data()].is_array();
@@ -44,10 +35,7 @@ namespace FWK::Utility::Json
 
 		const CommonStruct::TypeInfo* l_typeInfo = l_registry.FindTypeInfoByName(l_tagName);
 
-		if (!l_typeInfo)
-		{
-			return FWK::CommonConstant::k_invalidStaticID;
-		}
+		if (!l_typeInfo) { return FWK::CommonConstant::k_invalidStaticID; }
 
 		return l_typeInfo->k_id;
 	}

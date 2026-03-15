@@ -46,6 +46,39 @@
     <Filter Include="Source\Framework\TypeInfo\Macros">
       <UniqueIdentifier>{642539db-d6f9-4e2c-93a4-3f237d7d677f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Tag">
+      <UniqueIdentifier>{85238910-86e7-40ec-8a74-3edeb37bfb25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\WindowStyle">
+      <UniqueIdentifier>{c19e9d49-ec87-4128-92e1-8c2c6e20452d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\String">
+      <UniqueIdentifier>{6127a2c6-5092-4f4f-87f3-60d505af3fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter">
+      <UniqueIdentifier>{a099d666-5116-4712-b2b3-9cfd5c9b91e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json">
+      <UniqueIdentifier>{91bad6a6-e244-4c5a-a7ac-0250eed23f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\FPS">
+      <UniqueIdentifier>{4497b4db-8c50-4b66-b02d-9965dda15dca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Window">
+      <UniqueIdentifier>{1ebfdf55-f99d-4df0-aec4-3580c37060d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\Json">
+      <UniqueIdentifier>{df2033fc-7648-4ea2-a679-937603f90040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\FPS">
+      <UniqueIdentifier>{5e6ec5f2-5454-434b-bccb-16b6ac01ddde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\Tag">
+      <UniqueIdentifier>{7aef72b4-a9fa-47c7-a2c3-4e4391692e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Window">
+      <UniqueIdentifier>{2f55c18d-8d7c-4687-8645-73e7eb1b0ae4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -56,6 +89,18 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp">
       <Filter>Source\Framework\TypeInfo\Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Window\Window.cpp">
+      <Filter>Source\Framework\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\FPS\FPSController.cpp">
+      <Filter>Source\Framework\FPS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +139,36 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\TypeInfo\Macros\TypeInfoMacros.h">
       <Filter>Source\Framework\TypeInfo\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\TagBase.h">
+      <Filter>Source\Framework\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h">
+      <Filter>Source\Framework\Tag\WindowStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\String\StringUtility.h">
+      <Filter>Source\Framework\Utility\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h">
+      <Filter>Source\Framework\Converter\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h">
+      <Filter>Source\Framework\Utility\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\Tag\TagUtility.h">
+      <Filter>Source\Framework\Utility\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Window\Window.h">
+      <Filter>Source\Framework\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\FPS\FPSController.h">
+      <Filter>Source\Framework\FPS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

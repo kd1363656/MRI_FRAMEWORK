@@ -39,30 +39,30 @@ namespace FWK::CommonStruct
 
 	struct TextureAllocation final
 	{
+		Microsoft::WRL::ComPtr<ID3D12Heap> heap = nullptr;
+
 		TextureHeapPageID textureHeapPageID = CommonConstant::k_invalidTextureHeapPageID;
 
 		UINT64 heapOffset     = 0ULL;
 		UINT64 allocationSize = 0ULL;
-
-		Microsoft::WRL::ComPtr<ID3D12Heap> heap = nullptr;
 	};
 
 	struct TextureRecord final
 	{
 		Microsoft::WRL::ComPtr<ID3D12Resource2> textureResource = nullptr;
 
-		std::string sourcePath = std::string();
-
 		DXGI_FORMAT format = DXGI_FORMAT_UNKNOWN;
 
 		D3D12_RESOURCE_STATES currentState = D3D12_RESOURCE_STATE_COMMON;
 
-		UINT64 heapOffset     = 0ULL;
-		UINT64 allocationSize = 0ULL;
-
 		TextureID textureID = CommonConstant::k_invalidTextureID;
 
 		TextureHeapPageID textureHeapPageID = CommonConstant::k_invalidTextureHeapPageID;
+
+		std::string sourcePath = std::string();
+
+		UINT64 heapOffset     = 0ULL;
+		UINT64 allocationSize = 0ULL;
 
 		UINT srvIndex  = CommonConstant::k_invalidDescriptorHeapIndex;
 		UINT width     = 0U;

@@ -152,7 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
     <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp" />
+    <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -162,16 +166,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\JsonConverterBase.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\CommonConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\CommonStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Type\TypeAlias.h" />
+    <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
+    <ClInclude Include="Source\Framework\Tag\TagBase.h" />
+    <ClInclude Include="Source\Framework\Tag\WindowStyle\WindowStyleTag.h" />
     <ClInclude Include="Source\Framework\TypeInfo\Macros\TypeInfoMacros.h" />
     <ClInclude Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.h" />
     <ClInclude Include="Source\Framework\TypeInfo\StaticID\StaticID.h" />
     <ClInclude Include="Source\Framework\Utility\File\FileUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\String\StringUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\Tag\TagUtility.h" />
     <ClInclude Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.h" />
+    <ClInclude Include="Source\Framework\Window\Window.h" />
     <ClInclude Include="Source\PCH.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

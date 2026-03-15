@@ -5,6 +5,45 @@ namespace FWK::Utility::File
 	// jsonファイルに保存する際のインデント幅
 	inline constexpr int k_jsonIndentNum = 4;
 
+	inline nlohmann::json LoadJsonFile(const std::filesystem::path& a_filePath)
+	{
+		// ファイルパスが存在しなければreturn
+		if (!std::filesystem::exists(a_filePath)) { return nlohmann::json(); }
+		
+		// 通常ファイルでないならreturn
+		if (!std::filesystem::is_regular_file(a_filePath)) { return nlohmann::json(); }
+
+		// ifstreamからjsonを読み込む
+		std::ifstream l_ifs(a_filePath);
+
+		// 読み込みに失敗したらreturn
+		if (l_ifs.fail())
+		{
+			return nlohmann::json();
+		}
+
+		// jsonをパースする
+		const auto& l_loadedJson = nlohmann::json::parse(l_ifs, nullptr, false);
+
+		// jsonオブジェクトがパース失敗などで無効状態になっているかを確認し
+		// 無効状態なら空のjsonを返す
+		if (l_loadedJson.is_discarded())
+		{
+			return nlohmann::json();
+		}
+
+		return l_loadedJson;
+	}
+
+	inline void SaveJsonFile(const nlohmann::json& a_json, const std::filesystem::path& a_filePath)
+	{
+		// 保存時、拡張子に.jsonがついていなければ拡張子をつける
+		std::ofstream l_ofs(a_filePath, std::ios::out);
+
+		l_ofs << a_json.dump(k_jsonIndentNum);
+		l_ofs.close();
+	}
+
 	// 指定した拡張子に必要ならファイルパスの拡張子を変換する関数
 	inline std::filesystem::path ReplaceFilePathExtensionIfNeed(const std::filesystem::path& a_filePath, const std::filesystem::path& a_replaceExtension)
 	{
@@ -48,50 +87,5 @@ namespace FWK::Utility::File
 
 		// 最後にプログラム上のファイルパスも合わせる
 		a_sourcePath = l_newPath;
-	}
-
-	inline nlohmann::json LoadJsonFile(std::filesystem::path& a_filePath)
-	{
-		// ファイルパスが存在しなければreturn
-		if (!std::filesystem::exists(a_filePath)) { return nlohmann::json(); }
-		
-		// 通常ファイルでないならreturn
-		if (!std::filesystem::is_regular_file(a_filePath)) { return nlohmann::json(); }
-
-		// ifstreamからjsonを読み込む
-		std::ifstream l_ifs(a_filePath);
-
-		// 読み込みに失敗したらreturn
-		if (l_ifs.fail())
-		{
-			return nlohmann::json();
-		}
-
-		// jsonをパースする
-		const auto& l_loadedJson = nlohmann::json::parse(l_ifs, nullptr, false);
-
-		// jsonオブジェクトがパース失敗などで無効状態になっているかを確認し
-		// 無効状態なら空のjsonを返す
-		if (l_loadedJson.is_discarded())
-		{
-			return nlohmann::json();
-		}
-
-		// 最後に読み込んだファイルの拡張子を絶対に.jsonに統一する
-		RenameFileExtensionWithFilePathExtension(a_filePath, CommonConstant::k_jsonExtension);
-
-		return l_loadedJson;
-	}
-
-	inline void SaveJsonFile(const nlohmann::json& a_json, std::filesystem::path& a_filePath)
-	{
-		// ファイルをセーブする際には必ず拡張子をそろえる
-		a_filePath = ReplaceFilePathExtensionIfNeed(a_filePath, CommonConstant::k_jsonExtension);
-
-		// 保存時、拡張子に.jsonがついていなければ拡張子をつける
-		std::ofstream l_ofs(a_filePath, std::ios::out);
-
-		l_ofs << a_json.dump(k_jsonIndentNum);
-		l_ofs.close();
 	}
 }
