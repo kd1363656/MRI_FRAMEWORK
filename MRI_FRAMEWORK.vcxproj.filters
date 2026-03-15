@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{22ce290a-83fb-4e6a-a7dc-f11cb507087c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application">
+      <UniqueIdentifier>{bd2423d0-c257-40ed-8e54-a2c9c05288ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework">
+      <UniqueIdentifier>{9b61b9ae-10d4-4af6-84fb-237542fd622a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition">
+      <UniqueIdentifier>{1c8a259c-733c-48cb-bd36-86f97b80861d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant">
+      <UniqueIdentifier>{10a15c39-415a-49ae-8058-6ae85e966909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct">
+      <UniqueIdentifier>{ec96a581-fcbb-4867-8793-9b313913b345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type">
+      <UniqueIdentifier>{b5749ad2-53c5-4398-8d91-e86409e6fbd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Singleton">
+      <UniqueIdentifier>{4d668ef9-2557-4479-b1a4-aedde0e07503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility">
+      <UniqueIdentifier>{bcde7a6d-af98-4778-ac49-7dc29aa1cc2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\File">
+      <UniqueIdentifier>{a74ccffa-4ec1-4211-99e1-465e4e9b6263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo">
+      <UniqueIdentifier>{a6cec113-33f9-445f-99c0-c64b0e2fa753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo\StaticID">
+      <UniqueIdentifier>{413db14c-66ee-4cae-a8f5-dd7dea42722e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\TypeInfo">
+      <UniqueIdentifier>{0564e52f-1d76-42ed-814b-c74516e8be63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo\Registry">
+      <UniqueIdentifier>{c6aa5522-297e-4e66-861d-82a3b6fc5233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeInfo\Macros">
+      <UniqueIdentifier>{642539db-d6f9-4e2c-93a4-3f237d7d677f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\PCH.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Application.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.cpp">
+      <Filter>Source\Framework\TypeInfo\Registry</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\PCH.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Framework.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Application.h">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\CommonConstant.h">
+      <Filter>Source\Framework\Definition\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\CommonStruct.h">
+      <Filter>Source\Framework\Definition\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\TypeAlias.h">
+      <Filter>Source\Framework\Definition\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Singleton\SingletonBase.h">
+      <Filter>Source\Framework\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\File\FileUtility.h">
+      <Filter>Source\Framework\Utility\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\StaticID\StaticID.h">
+      <Filter>Source\Framework\TypeInfo\StaticID</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\TypeInfo\TypeInfoUtility.h">
+      <Filter>Source\Framework\Utility\TypeInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\Registry\TypeInfoRegistry.h">
+      <Filter>Source\Framework\TypeInfo\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeInfo\Macros\TypeInfoMacros.h">
+      <Filter>Source\Framework\TypeInfo\Macros</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
