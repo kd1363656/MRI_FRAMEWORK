@@ -3,7 +3,7 @@
 // SALアノテーション付きWinMain関数(各引数の意味や使用条件をコンパイラや静的解析ツールに伝えるための注釈)
 // int WINAPI WinMain(この実行ファイル自体を表すインスタンスハンドル、
 //					  昔のWindowsとのご寛容で割らされる値、
-//					  コマンドライン引数
+//					  コマンドライン引数、
 //					  ウィンドウを最初にどう表示するかを表す値)
 
 int WINAPI WinMain(_In_     HINSTANCE, 
@@ -58,12 +58,20 @@ void Application::Init()
 	m_window.Init();
 
 	m_fpsController.Init();
+
+	FWK::Graphics::GraphicsManager::GetInstance().Init();
 }
 bool Application::Create()
 {
 	if (!m_window.Create(k_titleName, k_windowClassName))
 	{
 		assert(false && "ウィンドウの作成処理に失敗しました。");
+		return false;
+	}
+
+	if (!FWK::Graphics::GraphicsManager::GetInstance().Create(FetchHWND(), m_window.GetWindowConfig()))
+	{
+		assert(false && "グラフィックスの作成処理に失敗しました。");
 		return false;
 	}
 
@@ -79,12 +87,16 @@ void Application::Load()
 	m_window.LoadConfig();
 
 	m_fpsController.LoadConfig();
+
+	FWK::Graphics::GraphicsManager::GetInstance().LoadConfig();
 }
 void Application::Save()
 {
 	m_window.SaveConfig();
 
 	m_fpsController.SaveConfig();
+
+	FWK::Graphics::GraphicsManager::GetInstance().SaveConfig();
 }
 
 bool Application::BeginUpdate()

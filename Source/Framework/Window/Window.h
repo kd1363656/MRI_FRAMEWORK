@@ -17,7 +17,7 @@ namespace FWK
 
 		bool ProcessMessages() const;
 
-		bool HasHWND();
+		bool HasHWND() const;
 
 		void SetWindowConfig(const CommonStruct::WindowConfig& a_set) { m_windowConfig = a_set; }
 
@@ -41,15 +41,11 @@ namespace FWK
 										 const WPARAM a_wParam,
 										 const LPARAM a_lParam);
 
-		void SetClientSize();
+		void SetupClientSize();
 
 		HINSTANCE FetchInstanceHandle() const;
 
 		DWORD FetchWindowStyle() const;
-
-
-		// ウィンドウのタイトルバー、最小化、最大化機能を持たせウィンドウのサイズ変更機能を除外したスタイル
-		static constexpr std::wstring_view k_windowInstancePropertyName = L"GameWindowInstance";
 
 		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW - WS_THICKFRAME;
 
@@ -60,6 +56,9 @@ namespace FWK
 		static constexpr UINT k_msgFilterMIN = 0U;
 		static constexpr UINT k_msgFilterMAX = 0U;
 
+		// ウィンドウのタイトルバー、最小化、最大化機能を持たせウィンドウのサイズ変更機能を除外したスタイル
+		static constexpr std::wstring_view k_windowInstancePropertyName = L"GameWindowInstance";
+
 		static constexpr int k_classExtraBytes  = 0;
 		static constexpr int k_windowExtraBytes = 0;
 
@@ -68,10 +67,10 @@ namespace FWK
 
 		const std::filesystem::path k_configFileIOPath = "Asset/Data/Config/Window/WindowConfig.json";
 
+		HWND m_hwnd;
+
 		Converter::WindowJsonConverter m_windowJsonConverter;
 
 		CommonStruct::WindowConfig m_windowConfig;
-
-		HWND m_hwnd;
 	};
 }

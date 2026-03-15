@@ -26,8 +26,8 @@ private:
 
 	float FetchCurrentFPS() const;
 
-	const std::string  k_titleName       = "MRI_FRAMEWORK";
 	const std::wstring k_windowClassName = L"Window";
+	const std::string  k_titleName       = "MRI_FRAMEWORK";
 
 	FWK::Window m_window = FWK::Window();
 

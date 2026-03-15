@@ -3,10 +3,10 @@
 namespace FWK::Utility::TypeInfo
 {
 	// 指定された型を継承しているかどうかを確認、継承回数が多ければ多いほど処理が遅くなる
-	inline bool IsDerivedFrom(const FWK::CommonStruct::TypeInfo& a_typeInfo, const FWK::CommonStruct::TypeInfo& a_baseTypeInfo)
+	inline bool IsDerivedFrom(const CommonStruct::TypeInfo& a_typeInfo, const CommonStruct::TypeInfo& a_baseTypeInfo)
 	{
 		// 参照のポインタを取得しているのでnullチェックは行わない(アドレスがないとおかしいから)
-		const FWK::CommonStruct::TypeInfo* l_currentInfo = &a_typeInfo;
+		const CommonStruct::TypeInfo* l_currentInfo = &a_typeInfo;
 
 		// 自身がnullptrを示すつまり、a_typeInfoが継承している親まで走査し終えたらwhile文を抜ける
 		while (l_currentInfo)

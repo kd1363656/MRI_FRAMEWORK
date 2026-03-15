@@ -1,11 +1,12 @@
 ﻿#include "Window.h"
 
 FWK::Window::Window() : 
-	m_windowJsonConverter(*this),
+	m_hwnd(nullptr),
 	
-	m_windowConfig(),
+	m_windowJsonConverter(*this),
 
-	m_hwnd(nullptr)
+	m_windowConfig()
+
 {}
 FWK::Window::~Window()
 {
@@ -29,7 +30,7 @@ bool FWK::Window::Create(const std::string& a_titleName, const std::wstring& a_w
 	}
 
 	// クライアント領域のサイズが設定値通りになるようにウィンドウサイズを調整する
-	SetClientSize();
+	SetupClientSize();
 
 	// ウィンドウの表示
 	ShowWindow(m_hwnd, SW_SHOW);
@@ -89,7 +90,7 @@ bool FWK::Window::ProcessMessages() const
 	return true;
 }
 
-bool FWK::Window::HasHWND()
+bool FWK::Window::HasHWND() const
 {
 	if (!m_hwnd)
 	{
@@ -289,7 +290,7 @@ LRESULT FWK::Window::WindowProcedure(const HWND   a_hWND,
 	return 0;
 }
 
-void FWK::Window::SetClientSize()
+void FWK::Window::SetupClientSize()
 {
 	// まだウィンドウが作成されていないなら何もしない
 	if (!m_hwnd) { return; }

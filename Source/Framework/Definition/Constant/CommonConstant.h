@@ -18,15 +18,15 @@ namespace FWK::CommonConstant
 
 	inline constexpr UINT k_defaultDescriptorNum = 1024U;
 
-	inline constexpr float k_defaultFPS = 60.0F;
-
 	inline constexpr std::uint32_t k_invalidStaticID = 0U;
 
 	inline constexpr std::uint32_t k_invalidTag = 0U;
-
+	
 	// 一般的な解像度の幅と高さ
 	inline constexpr std::uint32_t k_defaultWindowWidth  = 1280U;
 	inline constexpr std::uint32_t k_defaultWindowHeight = 720U;
 
-	inline const std::filesystem::path k_jsonExtension = ".json";
+	inline constexpr float k_defaultFPS = 60.0F;
+
+	inline const std::filesystem::path k_lowerJsonExtension = ".json";
 }
