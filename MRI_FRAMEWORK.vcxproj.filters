@@ -13,6 +13,81 @@
     <Filter Include="Source\Framework">
       <UniqueIdentifier>{5d79b618-1299-48ff-9a2e-5f7a6e3c506a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition">
+      <UniqueIdentifier>{0da14f0d-5aaa-452c-9a0a-3acf182971c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct">
+      <UniqueIdentifier>{02ef461a-699a-400e-94ca-b79abd566755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\TypeINFO">
+      <UniqueIdentifier>{78dfc4a7-8400-44ac-983b-905fedd1055b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type">
+      <UniqueIdentifier>{4a10b4f3-74c3-4dd2-afd6-d9bfedf058ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias">
+      <UniqueIdentifier>{4b884891-75ea-4bbf-90a5-468b99483466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeINFO">
+      <UniqueIdentifier>{72b9cad8-9af6-4577-89a9-ca5c03476b46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeINFO\StaticTypeID">
+      <UniqueIdentifier>{7b81a49e-b268-42cf-9f80-33ac291f6641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility">
+      <UniqueIdentifier>{e7e324dc-3a09-4e56-b3cb-060dcbf95ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\TypeINFO">
+      <UniqueIdentifier>{f67da9ea-efb7-490a-baeb-2c24320af9dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\TypeINFO\Registry">
+      <UniqueIdentifier>{1c0ed803-5f83-4fc7-9f2e-05c56614caaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Singleton">
+      <UniqueIdentifier>{775389c7-d8cc-4782-baf2-1dbd803f3a39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\StringHash">
+      <UniqueIdentifier>{293d49a6-71b7-4c12-b549-472712169695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant">
+      <UniqueIdentifier>{deb3c9a9-8d50-4ea5-8563-502190551aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\StaticTypeID">
+      <UniqueIdentifier>{610aa397-6b93-49d2-996e-17a8052780dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Macros">
+      <UniqueIdentifier>{5188685b-3107-4746-95df-866d6cc35dc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Macros\TypeINFO">
+      <UniqueIdentifier>{8918e691-9612-4dae-a778-672cea481f71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Macros\TypeINFO\Tag">
+      <UniqueIdentifier>{45a5484a-b971-4ac1-9698-7974d3ec5fb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag">
+      <UniqueIdentifier>{9aee4cc8-c441-446b-ac12-ca7bc419fed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\WindowStyle">
+      <UniqueIdentifier>{3797548e-35af-49b2-a286-1f8ec0af90c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept">
+      <UniqueIdentifier>{176973eb-b51e-4782-8b25-2871d1914a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase">
+      <UniqueIdentifier>{c397b457-8068-4eef-83c5-de19bc3c6880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag">
+      <UniqueIdentifier>{1ebd1aac-3653-4d7a-b7a3-b9843a745edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\Tag">
+      <UniqueIdentifier>{b0a9d46b-3cd1-4dbe-8507-5977edb3aef3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\Json">
+      <UniqueIdentifier>{8484e8b8-121a-41fc-b53a-5562c41394da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\TypeTag">
+      <UniqueIdentifier>{b13f3a10-8fe7-4525-9970-c10cc74f0b61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -26,6 +101,60 @@
     <ClInclude Include="Source\Application\Application.h">
       <Filter>Source\Application</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\TypeINFO\TypeINFOStruct.h">
+      <Filter>Source\Framework\Definition\Struct\TypeINFO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Framework.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h">
+      <Filter>Source\Framework\Definition\Type\Alias</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeINFO\StaticTypeID\StaticTypeIDGenerator.h">
+      <Filter>Source\Framework\TypeINFO\StaticTypeID</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\TypeINFO\TypeINFOUtility.h">
+      <Filter>Source\Framework\Utility\TypeINFO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\TypeINFO\Registry\TypeINFORegistry.h">
+      <Filter>Source\Framework\TypeINFO\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Singleton\SingletonBase.h">
+      <Filter>Source\Framework\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\StringHash\StringHashStruct.h">
+      <Filter>Source\Framework\Definition\Struct\StringHash</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h">
+      <Filter>Source\Framework\Definition\Constant\StaticTypeID</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\TypeINFOMacros.h">
+      <Filter>Source\Framework\Definition\Macros\TypeINFO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\Tag\TagTypeINFOMacros.h">
+      <Filter>Source\Framework\Definition\Macros\TypeINFO\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\TagBase.h">
+      <Filter>Source\Framework\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Window\WindowStyleTag.h">
+      <Filter>Source\Framework\Tag\WindowStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\Tag\TagUtility.h">
+      <Filter>Source\Framework\Utility\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h">
+      <Filter>Source\Framework\Utility\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\TypeTag\TypeTagConstant.h">
+      <Filter>Source\Framework\Definition\Constant\TypeTag</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -33,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="Source\Application\Application.cpp">
       <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\TypeINFO\Registry\TypeINFORegistry.cpp">
+      <Filter>Source\Framework\TypeINFO\Registry</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

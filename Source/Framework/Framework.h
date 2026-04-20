@@ -1,0 +1,56 @@
+﻿#pragma once
+
+//===============================================================================
+// 定義
+//===============================================================================
+
+// 型エイリアス
+#include "Definition/Type/Alias/TypeAlias.h"
+
+// 文字列ハッシュ構造体
+#include "Definition/Struct/StringHash/StringHashStruct.h"
+
+// StaticTypeIDを使う際に他の場所でも使う定数をまとめたもの
+#include "Definition/Constant/StaticTypeID/StaticTypeIDConstant.h"
+
+//===============================================================================
+// シングルトンを安全に扱うための基底クラス
+//===============================================================================
+#include "Singleton/SingletonBase.h"
+
+//===============================================================================
+// 型情報
+//===============================================================================
+
+// 静的型ID生成クラス
+#include "TypeINFO/StaticTypeID/StaticTypeIDGenerator.h"
+
+// 構造体
+#include "Definition/Struct/TypeINFO/TypeINFOStruct.h"
+
+// 型情報用便利関数
+#include "Utility/TypeINFO/TypeINFOUtility.h"
+
+// 型情報登録クラス
+#include "TypeINFO/Registry/TypeINFORegistry.h"
+
+// 型情報用マクロ
+#include "Definition/Macros/TypeINFO/TypeINFOMacros.h"
+#include "Definition/Macros/TypeINFO/Tag/TagTypeINFOMacros.h"
+
+//===============================================================================
+// タグ
+//===============================================================================
+#include "Tag/TagBase.h"
+#include "Tag/Window/WindowStyleTag.h"
+
+//===============================================================================
+// コンセプト
+//===============================================================================
+#include "Definition/Concept/IsDerivedBase/IsDerivedBaseConcept.h"
+#include "Definition/Concept/IsDerivedBase/Tag/IsDerivedTagBaseConcept.h"
+
+//===============================================================================
+// Jsonのシリアライズ、デシリアライズ補助関数
+//===============================================================================
+#include "Utility/Json/JsonUtility.h"

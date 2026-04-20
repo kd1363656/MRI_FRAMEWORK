@@ -6,3 +6,23 @@
 #define NOMINMAX
 #include <Windows.h>
 #include <wrl/client.h>
+#include <cassert>
+
+//================================================
+// STL
+//================================================
+#include <cstdint>
+#include <string>
+#include <unordered_map>
+#include <limits>
+
+//================================================
+// 外部ライブラリ
+//================================================
+// json
+#include <Json/Inc/nlohmann/json.hpp>
+
+//================================================
+// フレームワーク
+//================================================
+#include "Framework/Framework.h"
