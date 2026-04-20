@@ -18,21 +18,21 @@ void FWK::TypeINFORegistry::Register(const Struct::TypeINFO& a_typeINFO)
 	m_allTypeINFOStaticTypeIDMap.try_emplace(a_typeINFO.k_staticTypeID, &a_typeINFO);
 }
 
-const FWK::Struct::TypeINFO* FWK::TypeINFORegistry::FindTypeINFOByName(const std::string_view& a_name) const
-{
-	const auto& l_itr = m_allTypeINFONameMap.find(a_name);
-
-	// 該当する名前の型情報を取得できな蹴ればreturn;
-	if (l_itr == m_allTypeINFONameMap.end()) { return nullptr; }
-
-	return l_itr->second;
-}
 const FWK::Struct::TypeINFO* FWK::TypeINFORegistry::FindTypeINFOByID(const TypeAlias::StaticTypeID a_staticTypeID) const
 {
 	const auto& l_itr = m_allTypeINFOStaticTypeIDMap.find(a_staticTypeID);
 
 	// 該当するStaticIDの型情報を取得できな蹴ればreturn;
 	if (l_itr == m_allTypeINFOStaticTypeIDMap.end()) { return nullptr; }
+
+	return l_itr->second;
+}
+const FWK::Struct::TypeINFO* FWK::TypeINFORegistry::FindTypeINFOByName(const std::string_view& a_name) const
+{
+	const auto& l_itr = m_allTypeINFONameMap.find(a_name);
+
+	// 該当する名前の型情報を取得できな蹴ればreturn;
+	if (l_itr == m_allTypeINFONameMap.end()) { return nullptr; }
 
 	return l_itr->second;
 }

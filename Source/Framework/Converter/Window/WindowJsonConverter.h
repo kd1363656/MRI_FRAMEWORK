@@ -1,0 +1,21 @@
+﻿#pragma once
+
+namespace FWK
+{
+	class Window;
+}
+
+namespace FWK::Converter
+{
+	class WindowJsonConverter final
+	{
+	public:
+
+		 WindowJsonConverter() = delete;
+		~WindowJsonConverter() = delete;
+
+		void Deserialize(const nlohmann::json& a_rootJson, Window& a_window);
+
+		nlohmann::json Serialize(const Window& a_window) const;
+	};
+}

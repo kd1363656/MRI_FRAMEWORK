@@ -88,6 +88,21 @@
     <Filter Include="Source\Framework\Definition\Constant\TypeTag">
       <UniqueIdentifier>{b13f3a10-8fe7-4525-9970-c10cc74f0b61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Window">
+      <UniqueIdentifier>{95ce9e0d-0dba-485b-a430-526af353051c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter">
+      <UniqueIdentifier>{d32598c8-3ce0-4cc2-9d09-72ca1ac7150a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Window">
+      <UniqueIdentifier>{04455cbf-b18f-475f-a4b5-821cf6f464e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\WindowCONFIG">
+      <UniqueIdentifier>{c539aed6-97ca-45f9-b038-4bf13d15e845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\WindowSize">
+      <UniqueIdentifier>{f056f0ef-f069-4098-aeae-0d2b2bedf6be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -155,6 +170,18 @@
     <ClInclude Include="Source\Framework\Definition\Constant\TypeTag\TypeTagConstant.h">
       <Filter>Source\Framework\Definition\Constant\TypeTag</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Window\Window.h">
+      <Filter>Source\Framework\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Window\WindowJsonConverter.h">
+      <Filter>Source\Framework\Converter\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\WindowCONFIG\WindowCONFIGStruct.h">
+      <Filter>Source\Framework\Definition\Struct\WindowCONFIG</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h">
+      <Filter>Source\Framework\Definition\Constant\WindowSize</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -165,6 +192,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\TypeINFO\Registry\TypeINFORegistry.cpp">
       <Filter>Source\Framework\TypeINFO\Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Window\Window.cpp">
+      <Filter>Source\Framework\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Window\WindowJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Window</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

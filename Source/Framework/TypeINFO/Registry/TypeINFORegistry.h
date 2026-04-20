@@ -36,14 +36,14 @@ namespace FWK
 			return l_list;
 		}
 		
-		const Struct::TypeINFO* FindTypeINFOByName(const std::string_view&       a_name)         const;
 		const Struct::TypeINFO* FindTypeINFOByID  (const TypeAlias::StaticTypeID a_staticTypeID) const;
+		const Struct::TypeINFO* FindTypeINFOByName(const std::string_view&       a_name)         const;
 
 	private:
 
 		// 文字列がキーのマップはjsonのシリアライズ時に使用
-		AllTypeINFONameMap         m_allTypeINFONameMap         = AllTypeINFONameMap        ();
 		AllTypeINFOStaticTypeIDMap m_allTypeINFOStaticTypeIDMap = AllTypeINFOStaticTypeIDMap();
+		AllTypeINFONameMap         m_allTypeINFONameMap         = AllTypeINFONameMap        ();
 
 		//=========================
 		// シングルトン

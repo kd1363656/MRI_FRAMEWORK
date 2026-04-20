@@ -10,7 +10,7 @@ namespace FWK
 
 		static Type& GetInstance()
 		{
-			static Type l_instance;
+			static Type l_instance = {};
 
 			return l_instance;
 		}

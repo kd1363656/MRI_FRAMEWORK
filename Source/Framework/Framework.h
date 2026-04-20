@@ -7,11 +7,17 @@
 // 型エイリアス
 #include "Definition/Type/Alias/TypeAlias.h"
 
+// StaticTypeIDを使う際に他の場所でも使う定数をまとめたもの
+#include "Definition/Constant/StaticTypeID/StaticTypeIDConstant.h"
+
+// Windowの縦幅横幅に関する定数をまとめたもの
+#include "Definition/Constant/WindowSize/WindowSizeConstant.h"
+
 // 文字列ハッシュ構造体
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 
-// StaticTypeIDを使う際に他の場所でも使う定数をまとめたもの
-#include "Definition/Constant/StaticTypeID/StaticTypeIDConstant.h"
+// WindowCONFIG構造体
+#include "Definition/Struct/WindowCONFIG/WindowCONFIGStruct.h"
 
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス
@@ -54,3 +60,9 @@
 // Jsonのシリアライズ、デシリアライズ補助関数
 //===============================================================================
 #include "Utility/Json/JsonUtility.h"
+
+//===============================================================================
+// ウィンドウクラス
+//===============================================================================
+#include "Converter/Window/WindowJsonConverter.h"
+#include "Window/Window.h"

@@ -13,7 +13,7 @@ int WINAPI WinMain(_In_     HINSTANCE,
 {
 	// デバッグ時にメモリリークを検出する設定
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF |
-		_CRTDBG_LEAK_CHECK_DF);
+				   _CRTDBG_LEAK_CHECK_DF);
 
 	// COMライブラリの初期化(WICやDXGI内部でも使用される)
 	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED))) { return -1; }
