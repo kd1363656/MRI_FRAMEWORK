@@ -3,5 +3,7 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="MRI_FRAMEWORK.vcxproj" Id="b9de3c76-f807-4c92-8162-b872ccb2af08" />
+  <Project Path="MRI_FRAMEWORK.vcxproj" Id="b9de3c76-f807-4c92-8162-b872ccb2af08">
+    <Platform Project="x64" />
+  </Project>
 </Solution>
