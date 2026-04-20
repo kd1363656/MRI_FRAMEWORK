@@ -10,6 +10,9 @@
     <Filter Include="Source\Application">
       <UniqueIdentifier>{95bff079-63c8-4cfb-91de-93fedee737c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework">
+      <UniqueIdentifier>{5d79b618-1299-48ff-9a2e-5f7a6e3c506a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
