@@ -167,6 +167,7 @@
     <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h" />
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Source\Framework\Converter\FPS\FPSControllerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Device.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />

@@ -52,7 +52,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory, const UINT a_gpuNod
 
 	while (SUCCEEDED(l_factory->EnumAdapterByGpuPreference(l_adapterIndex, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(l_adapter.ReleaseAndGetAddressOf()))))
 	{
-		// 現在取得したGPUの表際情報を受け取る構造体
+		// 現在取得したGPUの詳細情報を受け取る構造体
 		DXGI_ADAPTER_DESC3 l_desc = {};
 
 		// 念のため、アダプター取得結果がnullptrならこの要素は無視する
@@ -80,7 +80,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory, const UINT a_gpuNod
 			continue; 
 		}
 
-		// このGPuで度のフィーチャーレベルまで使えるかを高い順に調べる
+		// このGPUでどのフィーチャーレベルまで使えるかを高い順に調べる
 		for (auto l_level : l_featureLevels)
 		{
 			// 指定したGPUとフィーチャーレベルでDirectX12デバイスが作成できるかを確認する
@@ -102,7 +102,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory, const UINT a_gpuNod
 			break;
 		}
 
-		// 所要可能なGPUが見つかったので、これ以上捜さずループ終了
+		// 使用可能なGPUが見つかったので、これ以上探さずループ終了
 		if (l_isFound) { break; }
 
 		++l_adapterIndex;

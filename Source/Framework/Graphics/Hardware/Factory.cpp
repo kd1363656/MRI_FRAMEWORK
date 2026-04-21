@@ -21,7 +21,7 @@ bool FWK::Graphics::Factory::Create()
 
 	if (FAILED(l_hr))
 	{
-		assert(false && "ファクトリーの作成に失敗しました");
+		assert(false && "ファクトリーの作成に失敗しました。");
 		return false;
 	}
 
