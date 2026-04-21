@@ -16,14 +16,14 @@ int WINAPI WinMain(_In_     HINSTANCE,
 				   _CRTDBG_LEAK_CHECK_DF);
 
 	// COMライブラリの初期化(WICやDXGI内部でも使用される)
-	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED))) { return -1; }
+	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED))) { return Application::GetVALExitCodeCOMInitFailed(); }
 
 	Application::GetInstance().Execute();
 
 	// COM解放
 	CoUninitialize();
 
-	return 0;
+	return Application::GetVALExitCodeSuccess();
 }
 
 void Application::Execute()
@@ -105,14 +105,11 @@ void Application::SaveFile() const
 	m_fpsController.SaveCONFIG();
 }
 
-std::string Application::GenerateWindowTitleText() const
-{
-	return std::format("{} : {}", k_titleName, static_cast<int>(m_fpsController.GetVALCurrentFPS()));
-}
 void Application::UpdateWindowTitleBar() const
 {
-	// タイトル名 + FPSの表示
-	const auto& l_titleText = GenerateWindowTitleText();
+	// タイトル名 + FPSのテキスト
+	const auto& l_text = std::format("{} : {}", k_titleName, static_cast<int>(m_fpsController.GetVALCurrentFPS()));
 
-	SetWindowTextA(m_window.GetREFHWND(), l_titleText.c_str());
+	// ウィンドウバーに表示
+	SetWindowTextA(m_window.GetREFHWND(), l_text.c_str());
 }
