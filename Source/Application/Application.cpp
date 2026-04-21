@@ -28,11 +28,13 @@ int WINAPI WinMain(_In_     HINSTANCE,
 
 void Application::Execute()
 {
+	const auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
+
 	// 初期化関係処理
-	Init    ();
+	Init    (l_graphicsManager);
 	LoadFile();
 
-	if (!PostLoadSetup())
+	if (!PostLoadSetup(l_graphicsManager))
 	{
 		assert(false && "アプリケーションのPostLoadSetup関数処理が失敗しました。");
 		return;
@@ -51,9 +53,11 @@ void Application::Execute()
 	SaveFile();
 }
 
-void Application::Init()
+void Application::Init(const FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	m_window.Init();
+	
+	a_graphicsManager.Init();
 }
 
 void Application::LoadFile()
@@ -62,11 +66,17 @@ void Application::LoadFile()
 	m_fpsController.LoadCONFIG();
 }
 
-bool Application::PostLoadSetup()
+bool Application::PostLoadSetup(const FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	if (!m_window.Create(k_windowClassName, k_titleName))
 	{
 		assert(false && "ウィンドウの作成処理に失敗しました。");
+		return false;
+	}
+
+	if (!a_graphicsManager.Create())
+	{
+		assert(false && "グラフィックスの作成処理に失敗しました。");
 		return false;
 	}
 
