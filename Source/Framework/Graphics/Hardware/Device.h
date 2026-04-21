@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		bool Create(const Factory& a_factory, const UINT a_gpuNodeMask);
 
-		const auto& GetDevice() const { return m_device; }
+		const auto& GetREFDevice() const { return m_device; }
 
 	private:
 

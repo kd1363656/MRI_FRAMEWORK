@@ -3,7 +3,7 @@
 bool FWK::Graphics::Device::Create(const Factory& a_factory, const UINT a_gpuNodeMask)
 {
 	// ファクトリーが未作成ならGPU列挙ができないのでreturn
-	const auto& l_factory = a_factory.GetFactory();
+	const auto& l_factory = a_factory.GetREFFactory();
 
 	if (!l_factory)
 	{
@@ -48,7 +48,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory, const UINT a_gpuNod
 	//							  受け取りたいCOMインターフェース型のID、
 	//							  作成結果のポインタを書き込むアドレス)
 
-	UINT l_adapterIndex = k_firstAdapterIndex;
+	auto l_adapterIndex = k_firstAdapterIndex;
 
 	while (SUCCEEDED(l_factory->EnumAdapterByGpuPreference(l_adapterIndex, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(l_adapter.ReleaseAndGetAddressOf()))))
 	{

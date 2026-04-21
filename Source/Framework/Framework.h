@@ -16,6 +16,9 @@
 // FPS関係の定数
 #include "Definition/Constant/FPS/FPSConstant.h"
 
+// Graphics関係の定数
+#include "Definition/Constant/Graphics/GraphicsConstant.h"
+
 // 文字列ハッシュ構造体
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 

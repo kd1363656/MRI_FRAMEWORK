@@ -156,6 +156,7 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\TypeTag\TypeTagConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h" />
@@ -167,7 +168,9 @@
     <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h" />
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory.h" />
@@ -189,7 +192,9 @@
     <ClCompile Include="Source\Framework\Converter\FPS\FPSControllerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Device.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />

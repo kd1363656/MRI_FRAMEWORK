@@ -9,7 +9,7 @@ FWK::Graphics::CommandListBase::~CommandListBase() = default;
 
 bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 {
-	const auto& l_device = a_device.GetDevice();
+	const auto& l_device = a_device.GetREFDevice();
 
 	if (!l_device)
 	{

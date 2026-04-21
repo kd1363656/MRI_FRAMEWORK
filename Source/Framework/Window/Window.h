@@ -51,7 +51,7 @@ namespace FWK
 
 		static constexpr LRESULT k_windowProcedureHandledResult = 0;
 		
-		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW & WS_THICKFRAME;
+		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW - WS_THICKFRAME;
 
 		static constexpr UINT k_windowStyle = CS_HREDRAW | CS_VREDRAW;
 

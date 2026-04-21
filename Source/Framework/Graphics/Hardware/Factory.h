@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		bool Create();
 
-		const auto& GetFactory() const { return m_factory; }
+		const auto& GetREFFactory() const { return m_factory; }
 
 	private:
 

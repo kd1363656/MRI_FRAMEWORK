@@ -130,6 +130,15 @@
     <Filter Include="Source\Framework\Graphics\Command\List">
       <UniqueIdentifier>{743faa46-2fa5-4e31-b8a1-42c4d6287577}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Allocator">
+      <UniqueIdentifier>{1a995168-d59c-4159-b7e8-a35e31ce2e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics">
+      <UniqueIdentifier>{081435c2-7e36-4887-9d08-1c9ad22c992b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Queue">
+      <UniqueIdentifier>{c7748182-9808-41b7-a745-a1ba33b7ca35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -236,6 +245,15 @@
     <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h">
       <Filter>Source\Framework\Graphics\Command\List</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h">
+      <Filter>Source\Framework\Graphics\Command\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h">
+      <Filter>Source\Framework\Graphics\Command\Queue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -270,6 +288,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp">
       <Filter>Source\Framework\Graphics\Command\List</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp">
+      <Filter>Source\Framework\Graphics\Command\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp">
+      <Filter>Source\Framework\Graphics\Command\Queue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
