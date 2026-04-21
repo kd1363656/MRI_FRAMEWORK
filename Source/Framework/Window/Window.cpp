@@ -109,7 +109,7 @@ LRESULT FWK::Window::CallWindowProcedure(const HWND a_hwnd, const UINT a_message
 			SetProp(a_hwnd, k_windowInstancePropertyName.data(), l_window);
 
 			// WM_CREATEの処理は完了
-			return 0U;
+			return k_wmCreateHandledResult;
 		}
 		else
 		{
@@ -148,7 +148,7 @@ LRESULT FWK::Window::WindowProcedure(const HWND a_hwnd, const UINT a_message, co
 			RemoveProp(a_hwnd, k_windowInstancePropertyName.data());
 
 			// アプリ終了メッセージを送って、メッセージループを終了できるようにする
-			PostQuitMessage(0U);
+			PostQuitMessage(k_quitExitCode);
 		}
 		break;
 
@@ -164,7 +164,7 @@ LRESULT FWK::Window::WindowProcedure(const HWND a_hwnd, const UINT a_message, co
 	}
 
 	// このメッセージは自分で処理済みであることを返す
-	return 0;
+	return k_windowProcedureHandledResult;
 }
 
 bool FWK::Window::CreateWindowInstance(const std::wstring& a_windowClassName, const std::string& a_titleName)

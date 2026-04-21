@@ -95,5 +95,9 @@
 // 描画管理クラス
 //===============================================================================
 
+// グラフィックスデバイス管理クラス
+#include "Graphics/Hardware/Factory.h"
+#include "Graphics/Hardware/Device.h"
+
 // グラフィックスマネージャー
 #include "Graphics/GraphicsManager.h"

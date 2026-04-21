@@ -49,14 +49,17 @@ namespace FWK
 
 		DWORD FetchVALWindowStyle() const;
 
-		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW - WS_THICKFRAME;
+		static constexpr LRESULT k_windowProcedureHandledResult = 0;
+		
+		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW & WS_THICKFRAME;
 
 		static constexpr UINT k_windowStyle = CS_HREDRAW | CS_VREDRAW;
 
 		static constexpr UINT k_timeResolutionMS = 1U;
 
-		static constexpr UINT k_msgFilterMIN = 0U;
-		static constexpr UINT k_msgFilterMAX = 0U;
+		static constexpr UINT k_msgFilterMIN          = 0U;
+		static constexpr UINT k_msgFilterMAX          = 0U;
+		static constexpr UINT k_wmCreateHandledResult = 0U;
 
 		// ウィンドウのタイトルバー、最小化、最大化機能を持たせウィンドウのサイズ変更機能を除外したスタイル
 		static constexpr std::wstring_view k_windowInstancePropertyName = L"GameWindowInstance";
@@ -66,6 +69,8 @@ namespace FWK
 
 		static constexpr int k_defaultWindowPositionX = 0;
 		static constexpr int k_defaultWindowPositionY = 0;
+
+		static constexpr int k_quitExitCode = 0;
 
 		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/Window/WindowCONFIG.json";
 

@@ -10,11 +10,24 @@ void FWK::Graphics::GraphicsManager::Init() const
 	}
 #endif
 }
-bool FWK::Graphics::GraphicsManager::Create() const
+bool FWK::Graphics::GraphicsManager::Create()
 {
+	if (!m_factory.Create())
+	{
+		assert(false && "ファクトリーの作成に失敗しました。");
+		return false;
+	}
+
+	if (!m_device.Create(m_factory, k_defaultGPUNodeMask))
+	{
+		assert(false && "デバイスの作成処理に失敗しました。");
+		return false;
+	}
+
     return true;
 }
 
+#if defined(_DEBUG)
 bool FWK::Graphics::GraphicsManager::EnableDebugLayer() const
 {
 	TypeAlias::ComPtr<ID3D12Debug5> l_debug = nullptr;
@@ -35,3 +48,4 @@ bool FWK::Graphics::GraphicsManager::EnableDebugLayer() const
 
 	return true;
 }
+#endif

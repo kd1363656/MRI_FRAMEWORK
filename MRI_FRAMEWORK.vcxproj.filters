@@ -121,6 +121,9 @@
     <Filter Include="Source\Framework\Graphics">
       <UniqueIdentifier>{e8a98dbf-4ee6-4217-aa23-be28fab8d1c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Hardware">
+      <UniqueIdentifier>{e5bacea6-4f83-47fe-be10-4cce7cf36146}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -218,6 +221,12 @@
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h">
       <Filter>Source\Framework\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Factory.h">
+      <Filter>Source\Framework\Graphics\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Hardware\Device.h">
+      <Filter>Source\Framework\Graphics\Hardware</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -243,6 +252,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp">
       <Filter>Source\Framework\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp">
+      <Filter>Source\Framework\Graphics\Hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Hardware\Device.cpp">
+      <Filter>Source\Framework\Graphics\Hardware</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

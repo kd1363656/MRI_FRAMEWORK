@@ -13,7 +13,7 @@ private:
 
 	void Init         (const FWK::Graphics::GraphicsManager& a_graphicsManager);
 	void LoadFile     ();
-	bool PostLoadSetup(const FWK::Graphics::GraphicsManager& a_graphicsManager);
+	bool PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager);
 
 	bool BeginFrame();
 

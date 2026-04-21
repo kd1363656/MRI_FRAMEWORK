@@ -28,7 +28,7 @@ int WINAPI WinMain(_In_     HINSTANCE,
 
 void Application::Execute()
 {
-	const auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
+	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 
 	// 初期化関係処理
 	Init    (l_graphicsManager);
@@ -66,7 +66,7 @@ void Application::LoadFile()
 	m_fpsController.LoadCONFIG();
 }
 
-bool Application::PostLoadSetup(const FWK::Graphics::GraphicsManager& a_graphicsManager)
+bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	if (!m_window.Create(k_windowClassName, k_titleName))
 	{
