@@ -11,8 +11,8 @@ namespace FWK::Converter
 	{
 	public:
 
-		 WindowJsonConverter() = delete;
-		~WindowJsonConverter() = delete;
+		 WindowJsonConverter() = default;
+		~WindowJsonConverter() = default;
 
 		void Deserialize(const nlohmann::json& a_rootJson, Window& a_window);
 

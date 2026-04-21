@@ -15,6 +15,9 @@
 #include <string>
 #include <unordered_map>
 #include <limits>
+#include <filesystem>
+#include <fstream>
+#include <thread>
 
 //================================================
 // 外部ライブラリ
@@ -26,3 +29,8 @@
 // フレームワーク
 //================================================
 #include "Framework/Framework.h"
+
+//================================================
+// リンカー設定
+//================================================
+#pragma comment(lib, "winmm.lib")

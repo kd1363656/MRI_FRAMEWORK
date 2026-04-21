@@ -103,6 +103,21 @@
     <Filter Include="Source\Framework\Definition\Constant\WindowSize">
       <UniqueIdentifier>{f056f0ef-f069-4098-aeae-0d2b2bedf6be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Utility\File">
+      <UniqueIdentifier>{629b8193-cff4-4eeb-afe4-aa91633e7ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Utility\String">
+      <UniqueIdentifier>{1994dd86-007b-43ef-9dae-2a0982122334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\FPS">
+      <UniqueIdentifier>{f6da64d2-061c-410f-8beb-271249c2c714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\FPS">
+      <UniqueIdentifier>{b5ff15bc-9b71-4df5-b2a4-da1b9492fd55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\FPS">
+      <UniqueIdentifier>{b2519f6c-f6f2-4351-aac5-80f567a8346f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -182,6 +197,21 @@
     <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h">
       <Filter>Source\Framework\Definition\Constant\WindowSize</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\File\FileUtility.h">
+      <Filter>Source\Framework\Utility\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Utility\String\StringUtility.h">
+      <Filter>Source\Framework\Utility\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\FPS\FPSController.h">
+      <Filter>Source\Framework\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\FPS\FPSControllerJsonConverter.h">
+      <Filter>Source\Framework\Converter\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h">
+      <Filter>Source\Framework\Definition\Constant\FPS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -198,6 +228,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Window\WindowJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\FPS\FPSController.cpp">
+      <Filter>Source\Framework\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\FPS\FPSControllerJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\FPS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@ namespace FWK::Struct
 	{
 		TypeAlias::TypeTag m_styleTag = Constant::k_invalidStaticTypeID;
 
-		std::uint32_t m_width  = Constant::k_defaultWidth;
-		std::uint32_t m_height = Constant::k_defaultHeight;
+		std::uint32_t m_width  = Constant::k_defaultWindowWidth;
+		std::uint32_t m_height = Constant::k_defaultWindowHeight;
 	};
 }

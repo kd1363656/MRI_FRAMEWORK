@@ -1,0 +1,46 @@
+﻿#pragma once
+
+namespace FWK::Utility::File
+{
+	inline const std::filesystem::path k_lowerJsonExtension = ".json";
+
+	inline constexpr int k_jsonIndentNum = 4;
+
+	inline nlohmann::json LoadJsonFile(const std::filesystem::path& a_filePath)
+	{
+		// ファイルパスが存在しなければreturn
+		if (!std::filesystem::exists(a_filePath)) { return nlohmann::json(); }
+		
+		// 通常ファイルでないならreturn
+		if (!std::filesystem::is_regular_file(a_filePath)) { return nlohmann::json(); }
+
+		// 拡張子が".json"でなければreturn
+		if (a_filePath.extension() != k_lowerJsonExtension) { return nlohmann::json(); }
+
+		// ifstreamからjsonを読み込む
+		std::ifstream l_ifs(a_filePath);
+
+		// 読み込みに失敗したらreturn
+		if (l_ifs.fail()) { return nlohmann::json(); }
+
+		const auto& l_loadedJson = nlohmann::json::parse(l_ifs, nullptr, false);
+
+		// jsonオブジェクトがパース失敗などで無効状態になっているかを確認し
+		// 無効状態なら空のjsonを返す
+		if (l_loadedJson.is_discarded()) { return nlohmann::json(); }
+
+		return l_loadedJson;
+	}
+
+	inline void SaveJsonFile(const nlohmann::json& a_json, const std::filesystem::path& a_filePath)
+	{
+		// 拡張子が".json"出なければreturn
+		if (a_filePath.extension() != k_lowerJsonExtension) { return; }
+
+		std::ofstream l_ofs(a_filePath, std::ios::out);
+
+		// ファイルパスにあるjsonにjsonデータを保存
+		l_ofs << a_json.dump(k_jsonIndentNum);
+		l_ofs.close          ();
+	}
+}

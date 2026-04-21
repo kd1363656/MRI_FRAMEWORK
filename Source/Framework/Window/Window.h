@@ -13,7 +13,7 @@ namespace FWK
 		void LoadCONFIG();
 		bool Create    (const std::wstring& a_windowClassName, const std::string& a_titleName);
 
-		bool ProcessMessage();
+		bool ProcessMessages();
 
 		void SaveCONFIG() const;
 
@@ -21,7 +21,7 @@ namespace FWK
 
 		void SetWindowConfig(const auto& a_set) { m_windowCONFIG = a_set; }
 
-		const auto& GetREFHWND() const { return m_hWND; }
+		const auto& GetREFHWND() const { return m_hwnd; }
 
 		const auto& GetREFWindowCONFIG() const { return m_windowCONFIG; }
 
@@ -29,12 +29,12 @@ namespace FWK
 
 		// Win32APIに渡すウィンドウプロシージャは通常のメンバ関数では渡せないため、
 		// static関数として定義して呼び出しの入口にする
-		static LRESULT CALLBACK CallWindowProcedure(const HWND   a_hWND,
+		static LRESULT CALLBACK CallWindowProcedure(const HWND   a_hwnd,
 												    const UINT   a_message,
 												    const WPARAM a_wParam,
 												    const LPARAM a_lParam);
 
-		LRESULT CALLBACK WindowProcedure(const HWND   a_hWND,
+		LRESULT CALLBACK WindowProcedure(const HWND   a_hwnd,
 										 const UINT   a_message,
 										 const WPARAM a_wParam,
 										 const LPARAM a_lParam);
@@ -45,9 +45,9 @@ namespace FWK
 
 		void Release();
 
-		HINSTANCE FetchValueInstanceHandle() const;
+		HINSTANCE FetchVALInstanceHandle() const;
 
-		DWORD FetchValueWindowStyle() const;
+		DWORD FetchVALWindowStyle() const;
 
 		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW - WS_THICKFRAME;
 
@@ -67,9 +67,11 @@ namespace FWK
 		static constexpr int k_defaultWindowPositionX = 0;
 		static constexpr int k_defaultWindowPositionY = 0;
 
-		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/Window/Window.Config.json";
+		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/Window/WindowCONFIG.json";
 
-		HWND m_hWND = nullptr;
+		HWND m_hwnd = nullptr;
+
+		Converter::WindowJsonConverter m_windowJsonConverter = {};
 
 		Struct::WindowCONFIG m_windowCONFIG = {};
 	};

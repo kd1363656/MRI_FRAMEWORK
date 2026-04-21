@@ -14,8 +14,8 @@ void FWK::TypeINFORegistry::Register(const Struct::TypeINFO& a_typeINFO)
 		return;
 	}
 
-	m_allTypeINFONameMap.try_emplace        (a_typeINFO.k_name,         &a_typeINFO);
 	m_allTypeINFOStaticTypeIDMap.try_emplace(a_typeINFO.k_staticTypeID, &a_typeINFO);
+	m_allTypeINFONameMap.try_emplace        (a_typeINFO.k_name,         &a_typeINFO);
 }
 
 const FWK::Struct::TypeINFO* FWK::TypeINFORegistry::FindTypeINFOByID(const TypeAlias::StaticTypeID a_staticTypeID) const

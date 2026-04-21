@@ -18,8 +18,101 @@ int WINAPI WinMain(_In_     HINSTANCE,
 	// COMライブラリの初期化(WICやDXGI内部でも使用される)
 	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED))) { return -1; }
 
+	Application::GetInstance().Execute();
+
 	// COM解放
 	CoUninitialize();
 
 	return 0;
+}
+
+void Application::Execute()
+{
+	// 初期化関係処理
+	Init    ();
+	LoadFile();
+
+	if (!PostLoadSetup())
+	{
+		assert(false && "アプリケーションのPostLoadSetup関数処理が失敗しました。");
+		return;
+	}
+
+	while (true)
+	{
+		// 更新
+		if (!BeginFrame()) { return; }
+
+		// FPSの更新
+		EndFrame();
+	}
+
+	// もしゲームデータがセーブされていなくても変更が適用されるべき項目をセーブする
+	SaveFile();
+}
+
+void Application::Init()
+{
+	m_window.Init();
+}
+
+void Application::LoadFile()
+{
+	m_window.LoadCONFIG       ();
+	m_fpsController.LoadCONFIG();
+}
+
+bool Application::PostLoadSetup()
+{
+	if (!m_window.Create(k_windowClassName, k_titleName))
+	{
+		assert(false && "ウィンドウの作成処理に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
+bool Application::BeginFrame()
+{
+	// FPSの計測開始
+	m_fpsController.BeginUpdate();
+
+	// ウィンドウメッセージの処理
+	if (!m_window.ProcessMessages()) { return false; }
+
+	// ウィンドウズハンドルがなくなるかエスケープキーを押されたらreturn
+	if (GetAsyncKeyState(VK_ESCAPE) ||
+		!m_window.HasHWND())
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void Application::EndFrame()
+{
+	// フレームレート制御
+	m_fpsController.EndFrameUpdate();
+
+	UpdateWindowTitleBar();
+}
+
+void Application::SaveFile() const
+{
+	m_window.SaveCONFIG		  ();
+	m_fpsController.SaveCONFIG();
+}
+
+std::string Application::GenerateWindowTitleText() const
+{
+	return std::format("{} : {}", k_titleName, static_cast<int>(m_fpsController.GetVALCurrentFPS()));
+}
+void Application::UpdateWindowTitleBar() const
+{
+	// タイトル名 + FPSの表示
+	const auto& l_titleText = GenerateWindowTitleText();
+
+	SetWindowTextA(m_window.GetREFHWND(), l_titleText.c_str());
 }

@@ -2,6 +2,6 @@
 
 namespace FWK::Constant
 {
-	std::uint32_t k_defaultWidth  = 1280U;
-	std::uint32_t k_defaultHeight = 720U;
+	inline constexpr std::uint32_t k_defaultWindowWidth  = 1280U;
+	inline constexpr std::uint32_t k_defaultWindowHeight = 720U;
 }
