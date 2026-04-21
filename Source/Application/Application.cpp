@@ -41,7 +41,7 @@ void Application::Execute()
 	while (true)
 	{
 		// 更新
-		if (!BeginFrame()) { return; }
+		if (!BeginFrame()) { break; }
 
 		// FPSの更新
 		EndFrame();

@@ -6,7 +6,7 @@ public:
 
 	void Execute();
 	
-	static constexpr int GetVALExitCodeSuccess		 () { return k_exitCodeSuccess; }
+	static constexpr int GetVALExitCodeSuccess		() { return k_exitCodeSuccess; }
 	static constexpr int GetVALExitCodeCOMInitFailed() { return k_exitCodeCOMInitFailed; }
 
 private:

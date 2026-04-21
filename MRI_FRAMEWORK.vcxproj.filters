@@ -118,6 +118,9 @@
     <Filter Include="Source\Framework\Definition\Constant\FPS">
       <UniqueIdentifier>{b2519f6c-f6f2-4351-aac5-80f567a8346f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics">
+      <UniqueIdentifier>{e8a98dbf-4ee6-4217-aa23-be28fab8d1c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -212,6 +215,9 @@
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h">
       <Filter>Source\Framework\Definition\Constant\FPS</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h">
+      <Filter>Source\Framework\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -234,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\FPS\FPSControllerJsonConverter.cpp">
       <Filter>Source\Framework\Converter\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp">
+      <Filter>Source\Framework\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

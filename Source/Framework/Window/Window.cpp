@@ -43,10 +43,10 @@ bool FWK::Window::Create(const std::wstring& a_windowClassName, const std::strin
 	return true;
 }
 
-bool FWK::Window::ProcessMessages()
+bool FWK::Window::ProcessMessages() const
 {
 	// Windowsから届いているメッセージを受け取るための変数
-	auto l_msg = MSG();
+	MSG l_msg = {};
 
 	// メッセージキューにたまっているメッセージを順番に取り出して処理する関数
 	// PeekMessage(取り出したメッセージの書き込み先、
@@ -262,7 +262,7 @@ bool FWK::Window::CreateWindowInstance(const std::wstring& a_windowClassName, co
 
 void FWK::Window::SetupClientSize()
 {
-		// まだウィンドウが作成されていないなら何もしない
+	// まだウィンドウが作成されていないなら何もしない
 	if (!m_hwnd) { return; }
 
 	// MoveWindow は、ウィンドウ全体の位置とサイズを変更する関数
@@ -277,27 +277,24 @@ void FWK::Window::SetupClientSize()
 	//		再描画をするかどうか、
 	// );
 
-	if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleFullScreenTag>())
+	if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>())
 	{
-		// 現在の画面解像度を取得する
-		m_windowCONFIG.m_width  = static_cast<std::uint32_t>(GetSystemMetrics(SM_CXSCREEN));
-		m_windowCONFIG.m_height = static_cast<std::uint32_t>(GetSystemMetrics(SM_CYSCREEN));
+		const int l_screenWidth  = GetSystemMetrics(SM_CXSCREEN);
+		const int l_screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 		// ボーダーレスウィンドウ(WS_POPUP)はフレームがないため、
 		// 画面サイズをそのまま指定すればクライアント領域も画面全体と同じ大きさになる
 		MoveWindow(m_hwnd,
 				   k_defaultWindowPositionX,
 				   k_defaultWindowPositionY,
-				   static_cast<int>(m_windowCONFIG.m_width),
-				   static_cast<int>(m_windowCONFIG.m_height),
+				   l_screenWidth,
+				   l_screenHeight,
 				   TRUE);
-	}
-	else
-	{
-		// 通常ウィンド時に使う基準サイズへ戻す
-		m_windowCONFIG.m_width  = Constant::k_defaultWindowWidth;
-		m_windowCONFIG.m_height = Constant::k_defaultWindowHeight;
 
+		return;
+	}
+	else if (m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())
+	{
 		// 通常のウィンドウには枠やタイトルバーがあるため、
 		//「描画中に使う中身の領域(クライアント領域)」と
 		// 「ウィンドウ全体の大きさ」は一致しない
@@ -321,7 +318,12 @@ void FWK::Window::SetupClientSize()
 				   static_cast<int>(m_windowCONFIG.m_width)  + l_frameWidth, 
 				   static_cast<int>(m_windowCONFIG.m_height) + l_frameHeight,
 				   TRUE);
+
+		return;
 	}
+
+	assert(false && "ウィンドウスタイルタグの取得に失敗しておりクライアントサイズの設定を行えませんでした。");
+	return;
 }
 
 void FWK::Window::Release()
@@ -347,10 +349,15 @@ HINSTANCE FWK::Window::FetchVALInstanceHandle() const
 DWORD FWK::Window::FetchVALWindowStyle() const
 {
 	// 持っているタグから返すウィンドウスタイルを判定する
-	if (m_windowCONFIG.m_styleTag != Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())
+	if (m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>())
 	{
 		return WS_POPUP;
 	}
+	else if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())
+	{
+		return k_generalWindowStyle;
+	}
 
+	assert(false && "ウィンドウスタイルが設定されていませんでした。");
 	return k_generalWindowStyle;
 }

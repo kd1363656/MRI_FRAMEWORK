@@ -13,7 +13,7 @@ namespace FWK
 		void LoadCONFIG();
 		bool Create    (const std::wstring& a_windowClassName, const std::string& a_titleName);
 
-		bool ProcessMessages();
+		bool ProcessMessages() const;
 
 		void SaveCONFIG() const;
 

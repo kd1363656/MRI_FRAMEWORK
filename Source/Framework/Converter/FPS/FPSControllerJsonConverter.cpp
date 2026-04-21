@@ -11,7 +11,7 @@ void FWK::Converter::FPSControllerJsonConverter::Deserialize(const nlohmann::jso
 
 nlohmann::json FWK::Converter::FPSControllerJsonConverter::Serialize(const FPSController& a_fpsController) const
 {
-	auto l_rootJson = nlohmann::json();
+	nlohmann::json l_rootJson = {};
 
 	l_rootJson["TargetFPS"] = a_fpsController.GetVALTargetFPS();
 

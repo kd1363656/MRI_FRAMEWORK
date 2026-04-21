@@ -9,7 +9,7 @@ namespace FWK::Utility::String
 	inline std::wstring StringToWideString(const std::string& a_string)
 	{
 		// 空文字列だった場合空std::wstringを返す
-		if (a_string.empty()) { return std::wstring(); }
+		if (a_string.empty()) { return {}; }
 
 		// MultiByteToWideChar
 		// (
@@ -32,7 +32,7 @@ namespace FWK::Utility::String
 		if (l_size == 0)
 		{
 			assert(false && "MultiByteToWideChar(UTF-8からUTF-16への変換)に失敗しました。");
-			return std::wstring();
+			return {};
 		}
 
 		// 出力バッファを確保しヌル文字で初期化

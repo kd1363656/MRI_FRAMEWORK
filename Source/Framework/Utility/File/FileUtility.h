@@ -9,25 +9,25 @@ namespace FWK::Utility::File
 	inline nlohmann::json LoadJsonFile(const std::filesystem::path& a_filePath)
 	{
 		// ファイルパスが存在しなければreturn
-		if (!std::filesystem::exists(a_filePath)) { return nlohmann::json(); }
+		if (!std::filesystem::exists(a_filePath)) { return {}; }
 		
 		// 通常ファイルでないならreturn
-		if (!std::filesystem::is_regular_file(a_filePath)) { return nlohmann::json(); }
+		if (!std::filesystem::is_regular_file(a_filePath)) { return {}; }
 
 		// 拡張子が".json"でなければreturn
-		if (a_filePath.extension() != k_lowerJsonExtension) { return nlohmann::json(); }
+		if (a_filePath.extension() != k_lowerJsonExtension) { return {}; }
 
 		// ifstreamからjsonを読み込む
-		std::ifstream l_ifs(a_filePath);
+		std::ifstream l_ifs{ a_filePath };
 
 		// 読み込みに失敗したらreturn
-		if (l_ifs.fail()) { return nlohmann::json(); }
+		if (l_ifs.fail()) { return {}; }
 
 		const auto& l_loadedJson = nlohmann::json::parse(l_ifs, nullptr, false);
 
 		// jsonオブジェクトがパース失敗などで無効状態になっているかを確認し
 		// 無効状態なら空のjsonを返す
-		if (l_loadedJson.is_discarded()) { return nlohmann::json(); }
+		if (l_loadedJson.is_discarded()) { return {}; }
 
 		return l_loadedJson;
 	}
@@ -41,6 +41,6 @@ namespace FWK::Utility::File
 
 		// ファイルパスにあるjsonにjsonデータを保存
 		l_ofs << a_json.dump(k_jsonIndentNum);
-		l_ofs.close          ();
+		l_ofs.close         ();
 	}
 }

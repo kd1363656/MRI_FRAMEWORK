@@ -85,8 +85,8 @@
 	複数値を保持する型  (std::arrayなど(記述順はstd::array<int>,std::array<double>をメンバとして持つ必要があるなら
 	後述する型別記述順を適用すること))
 	例↓
-	std::array<double> m_arrayA = std::array<double>();
-	std::array<int>    m_arrayB = std::array<int>   ();
+	std::array<double> m_arrayA = {};
+	std::array<int>    m_arrayB = {};
 
 	単一の値を保持する型(intなど)
 }
@@ -146,7 +146,7 @@
 ・ローカル変数はl_
 {
 	例↓
-	const auto l_hoge = Hoge();
+	const Hoge l_hoge = {};
 }
 ・引数はa_
 {
