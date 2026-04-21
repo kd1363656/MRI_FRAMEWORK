@@ -35,7 +35,3 @@ bool FWK::Graphics::CommandAllocatorBase::Create(const Device& a_device)
 
 	return true;
 }
-
-void FWK::Graphics::CommandAllocatorBase::Reset()
-{
-}

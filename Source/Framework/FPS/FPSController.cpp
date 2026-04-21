@@ -7,7 +7,7 @@ void FWK::FPSController::LoadCONFIG()
 	m_fpsControllerJsonConverter.Deserialize(l_rootJson, *this);
 }
 
-void FWK::FPSController::BeginUpdate()
+void FWK::FPSController::BeginFrameUpdate()
 {
 	// 現在のフレームでの時間
 	m_frameBeginTime = std::chrono::steady_clock::now();

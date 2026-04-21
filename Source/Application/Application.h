@@ -15,9 +15,9 @@ private:
 	void LoadFile     ();
 	bool PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager);
 
-	bool BeginFrame();
+	bool BeginFrameUpdate();
 
-	void EndFrame();
+	void EndFrameUpdate();
 
 	void SaveFile() const;
 

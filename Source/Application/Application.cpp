@@ -43,10 +43,10 @@ void Application::Execute()
 	while (true)
 	{
 		// 更新
-		if (!BeginFrame()) { break; }
+		if (!BeginFrameUpdate()) { break; }
 
 		// FPSの更新
-		EndFrame();
+		EndFrameUpdate();
 	}
 
 	// もしゲームデータがセーブされていなくても変更が適用されるべき項目をセーブする
@@ -83,15 +83,15 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 	return true;
 }
 
-bool Application::BeginFrame()
+bool Application::BeginFrameUpdate()
 {
 	// FPSの計測開始
-	m_fpsController.BeginUpdate();
+	m_fpsController.BeginFrameUpdate();
 
 	// ウィンドウメッセージの処理
 	if (!m_window.ProcessMessages()) { return false; }
 
-	// ウィンドウズハンドルがなくなるかエスケープキーを押されたらreturn
+	// ウィンドウズハンドルを所持していないかエスケープキーを押されたらreturn
 	if (GetAsyncKeyState(VK_ESCAPE) ||
 		!m_window.HasHWND())
 	{
@@ -101,7 +101,7 @@ bool Application::BeginFrame()
 	return true;
 }
 
-void Application::EndFrame()
+void Application::EndFrameUpdate()
 {
 	// フレームレート制御
 	m_fpsController.EndFrameUpdate();

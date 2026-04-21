@@ -11,9 +11,9 @@ namespace FWK
 		template <typename Type>
 		static TypeAlias::StaticTypeID GetTypeID()
 		{
-			static auto l_id = GenerateTypeID();
+			static auto l_staticTypeID = GenerateTypeID();
 
-			return l_id;
+			return l_staticTypeID;
 		}
 
 	private:
@@ -21,9 +21,9 @@ namespace FWK
 		// 実際に静的IDを生成する関数
 		static TypeAlias::StaticTypeID GenerateTypeID()
 		{
-			static auto l_id = k_initialStaticTypeID;
+			static auto l_staticTypeID = k_initialStaticTypeID;
 
-			return l_id++;
+			return l_staticTypeID++;
 		}
 
 		static constexpr TypeAlias::StaticTypeID k_initialStaticTypeID = 0U;

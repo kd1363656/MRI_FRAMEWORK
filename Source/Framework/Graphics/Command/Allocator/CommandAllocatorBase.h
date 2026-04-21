@@ -11,8 +11,6 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device);
 
-		void Reset();
-
 	private:
 
 		const D3D12_COMMAND_LIST_TYPE k_createCommandListType;

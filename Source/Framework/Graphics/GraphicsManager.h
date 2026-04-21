@@ -9,7 +9,7 @@ namespace FWK::Graphics
 		void Init  () const;
 		bool Create();
 		
-		static constexpr UINT GetDefaultGPUNodeMask() { return k_defaultGPUNodeMask; }
+		static constexpr UINT GetVALDefaultGPUNodeMask() { return k_defaultGPUNodeMask; }
 
 	private:
 
