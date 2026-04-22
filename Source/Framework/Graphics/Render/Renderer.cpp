@@ -31,6 +31,10 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device)
 
 	return true;
 }
+void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
+{
+	m_renderArea.SetupRenderArea(a_swapChain);
+}
 
 void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
 {

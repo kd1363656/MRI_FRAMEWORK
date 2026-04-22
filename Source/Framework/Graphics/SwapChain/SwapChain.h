@@ -30,6 +30,8 @@ namespace FWK::Graphics
 
 		UINT FetchVALCurrentBackBufferIndex() const;
 
+		const auto& GetREFSwapChain() const { return m_swapChain; }
+
 		const auto& GetREFBackBufferList() const { return m_backBufferList; }
 
 		auto GetVALSyncInterval() const { return m_syncInterval; }

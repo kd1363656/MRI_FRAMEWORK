@@ -9,8 +9,9 @@ namespace FWK::Graphics
 		 Renderer() = default;
 		~Renderer() = default;
 
-		void Deserialize(const nlohmann::json& a_rootJson);
-		bool Create     (const Device&		   a_device);
+		void Deserialize    (const nlohmann::json& a_rootJson);
+		bool Create         (const Device&		   a_device);
+		void PostCreateSetup(const SwapChain&	   a_swapChain);
 
 		void BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
 		
@@ -38,6 +39,8 @@ namespace FWK::Graphics
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};
 		
+		RenderArea m_renderArea = {};
+
 		JsonConverter::RendererJsonConverter m_rendererJsonConverter = {};
 
 		std::vector<FrameResource> m_frameResourceList = {};

@@ -143,6 +143,9 @@
 // フレームリソースクラス
 #include "Graphics/Render/Frame/FrameResource.h"
 
+// レンダーエリアクラス
+#include "Graphics/Render/Rasterizer/RenderArea.h"
+
 // レンダラー
 #include "JsonConverter/Graphics/Render/RendererJsonConverter.h"
 #include "Graphics/Render/Renderer.h"
