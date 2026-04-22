@@ -9,7 +9,7 @@ namespace FWK::Graphics
 		 Device() = default;
 		~Device() = default;
 
-		bool Create(const Factory& a_factory, const UINT a_gpuNodeMask);
+		bool Create(const Factory& a_factory);
 
 		const auto& GetREFDevice() const { return m_device; }
 

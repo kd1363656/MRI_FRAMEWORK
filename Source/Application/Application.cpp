@@ -32,7 +32,7 @@ void Application::Execute()
 
 	// 初期化関係処理
 	Init    (l_graphicsManager);
-	LoadFile();
+	LoadFile(l_graphicsManager);
 
 	if (!PostLoadSetup(l_graphicsManager))
 	{
@@ -50,7 +50,7 @@ void Application::Execute()
 	}
 
 	// もしゲームデータがセーブされていなくても変更が適用されるべき項目をセーブする
-	SaveFile();
+	SaveFile(l_graphicsManager);
 }
 
 void Application::Init(const FWK::Graphics::GraphicsManager& a_graphicsManager)
@@ -60,10 +60,12 @@ void Application::Init(const FWK::Graphics::GraphicsManager& a_graphicsManager)
 	a_graphicsManager.Init();
 }
 
-void Application::LoadFile()
+void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	m_window.LoadCONFIG       ();
 	m_fpsController.LoadCONFIG();
+
+	a_graphicsManager.LoadCONFIG();
 }
 
 bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager)
@@ -109,10 +111,12 @@ void Application::EndFrameUpdate()
 	UpdateWindowTitleBar();
 }
 
-void Application::SaveFile() const
+void Application::SaveFile(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	m_window.SaveCONFIG		  ();
 	m_fpsController.SaveCONFIG();
+
+	a_graphicsManager.SaveCONFIG();
 }
 
 void Application::UpdateWindowTitleBar() const

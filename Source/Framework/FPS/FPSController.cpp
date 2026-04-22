@@ -4,6 +4,8 @@ void FWK::FPSController::LoadCONFIG()
 {
 	const auto& l_rootJson = Utility::File::LoadJsonFile(k_configFileIOPath);
 
+	if (l_rootJson.is_null()) { return; }
+
 	m_fpsControllerJsonConverter.Deserialize(l_rootJson, *this);
 }
 

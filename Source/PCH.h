@@ -18,6 +18,7 @@
 #include <filesystem>
 #include <fstream>
 #include <thread>
+#include <queue>
 
 //================================================
 // 外部ライブラリ

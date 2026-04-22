@@ -1,6 +1,6 @@
 ﻿#include "Device.h"
 
-bool FWK::Graphics::Device::Create(const Factory& a_factory, const UINT a_gpuNodeMask)
+bool FWK::Graphics::Device::Create(const Factory& a_factory)
 {
 	// ファクトリーが未作成ならGPU列挙ができないのでreturn
 	const auto& l_factory = a_factory.GetREFFactory();

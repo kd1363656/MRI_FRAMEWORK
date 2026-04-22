@@ -1,0 +1,29 @@
+﻿#pragma once
+
+namespace FWK::Graphics
+{
+	class DescriptorHeapSlotAllocator final
+	{
+	public:
+
+		 DescriptorHeapSlotAllocator() = default;
+		~DescriptorHeapSlotAllocator() = default;
+
+		bool Create(const UINT a_descriptorCapacity);
+
+		void Release(const UINT a_index);
+
+		UINT Allocate();
+
+	private:
+
+		bool IsValidIndex(const UINT a_index) const;
+
+		UINT m_descriptorCapacity = 0U;
+		UINT m_nextIndex		  = 0U;
+
+		std::vector<bool> m_isAllocatedList = {};
+
+		std::queue<UINT> m_freeIndexQueue = {};
+	};
+}

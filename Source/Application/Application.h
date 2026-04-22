@@ -12,14 +12,14 @@ public:
 private:
 
 	void Init         (const FWK::Graphics::GraphicsManager& a_graphicsManager);
-	void LoadFile     ();
-	bool PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager);
+	void LoadFile     (      FWK::Graphics::GraphicsManager& a_graphicsManager);
+	bool PostLoadSetup(      FWK::Graphics::GraphicsManager& a_graphicsManager);
 
 	bool BeginFrameUpdate();
 
 	void EndFrameUpdate();
 
-	void SaveFile() const;
+	void SaveFile(FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
 	void UpdateWindowTitleBar() const;
 

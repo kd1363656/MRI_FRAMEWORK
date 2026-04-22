@@ -151,8 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
-    <ClInclude Include="Source\Framework\Converter\FPS\FPSControllerJsonConverter.h" />
-    <ClInclude Include="Source\Framework\Converter\Window\WindowJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
@@ -169,11 +168,28 @@
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\List\CommandListBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueue.h" />
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapSlotAllocator.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\TagBase.h" />
     <ClInclude Include="Source\Framework\Tag\Window\WindowStyleTag.h" />
@@ -189,15 +205,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
-    <ClCompile Include="Source\Framework\Converter\FPS\FPSControllerJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\Converter\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\List\CommandListBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\List\Direct\DirectCommandList.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Direct\DirectCommandQueue.cpp" />
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Device.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapSlotAllocator.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
+    <ClCompile Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\TypeINFO\Registry\TypeINFORegistry.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\PCH.cpp">

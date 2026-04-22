@@ -6,10 +6,19 @@ namespace FWK::Graphics
 	{
 	public:
 
-		void Init  () const;
-		bool Create();
+		void Init      () const;
+		void LoadCONFIG();
+		bool Create    ();
 		
+		void SaveCONFIG() const;
+
 		static constexpr UINT GetVALDefaultGPUNodeMask() { return k_defaultGPUNodeMask; }
+
+		const auto& GetREFResourceContext() const { return m_resourceContext; }
+		const auto& GetREFRenderer       () const { return m_renderer; }
+
+		auto& GetREFMutableResourceContext() { return m_resourceContext; }
+		auto& GetREFMutableRenderer       () { return m_renderer; }
 
 	private:
 
@@ -23,9 +32,15 @@ namespace FWK::Graphics
 		// このプロジェクトでは単一GPU前提で作成するため固定値にしている
 		static constexpr UINT k_defaultGPUNodeMask = 0U;
 
-		Factory m_factory = {};
-		Device  m_device  = {};
+		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/Graphics/GraphicsCONFIG.json";
 
+		Factory         m_factory         = {};
+		Device          m_device          = {};
+		ResourceContext m_resourceContext = {};
+		Renderer        m_renderer		  = {};
+
+		Converter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};
+		
 		//=========================
 		// シングルトン
 		//=========================

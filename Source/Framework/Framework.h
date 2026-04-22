@@ -85,13 +85,13 @@
 //===============================================================================
 // ウィンドウクラス
 //===============================================================================
-#include "Converter/Window/WindowJsonConverter.h"
+#include "JsonConverter/Window/WindowJsonConverter.h"
 #include "Window/Window.h"
 
 //===============================================================================
 // FPS計測クラス
 //===============================================================================
-#include "Converter/FPS/FPSControllerJsonConverter.h"
+#include "JsonConverter/FPS/FPSControllerJsonConverter.h"
 #include "FPS/FPSController.h"
 
 //===============================================================================
@@ -102,5 +102,43 @@
 #include "Graphics/Hardware/Factory.h"
 #include "Graphics/Hardware/Device.h"
 
+// コマンドキュー管理クラス
+#include "Graphics/Command/Queue/CommandQueueBase.h"
+#include "Graphics/Command/Queue/Direct/DirectCommandQueue.h"
+
+// コマンドアロケータ管理クラス
+#include "Graphics/Command/Allocator/CommandAllocatorBase.h"
+#include "Graphics/Command/Allocator/Direct/DirectCommandAllocator.h"
+
+// コマンドリスト管理クラス
+#include "Graphics/Command/List/CommandListBase.h"
+#include "Graphics/Command/List/Direct/DirectCommandList.h"
+
+// ディスクリプタヒープ
+#include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
+#include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
+
+// ディスクリプタヒープスロットアロケータ
+#include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapSlotAllocator.h"
+
+// ディスクリプタベースを継承しているかどうかを確認するコンセプト
+#include "Definition/Concept/IsDerivedBase/Descriptor/IsDerivedDescriptorBaseConcept.h"
+
+// ディスクリプタプール
+#include "JsonConverter/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
+#include "Graphics/Resource/Descriptor/DescriptorPool.h"
+
+// リソースコンテキスト
+#include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"
+#include "Graphics/Resource/ResourceContext.h"
+
+// フレームリソースクラス
+#include "Graphics/Render/Frame/FrameResource.h"
+
+// レンダラー
+#include "JsonConverter/Graphics/Render/RendererJsonConverter.h"
+#include "Graphics/Render/Renderer.h"
+
 // グラフィックスマネージャー
+#include "JsonConverter/Graphics/GraphicsManagerJsonConverter.h"
 #include "Graphics/GraphicsManager.h"

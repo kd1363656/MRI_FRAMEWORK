@@ -10,6 +10,14 @@ void FWK::Graphics::GraphicsManager::Init() const
 	}
 #endif
 }
+void FWK::Graphics::GraphicsManager::LoadCONFIG()
+{
+	const auto& l_rootJson = Utility::File::LoadJsonFile(k_configFileIOPath);
+
+	if (l_rootJson.is_null()) { return; }
+
+	m_graphicsManagerJsonConverter.Deserialize(l_rootJson, *this);
+}
 bool FWK::Graphics::GraphicsManager::Create()
 {
 	if (!m_factory.Create())
@@ -18,13 +26,32 @@ bool FWK::Graphics::GraphicsManager::Create()
 		return false;
 	}
 
-	if (!m_device.Create(m_factory, k_defaultGPUNodeMask))
+	if (!m_device.Create(m_factory))
 	{
 		assert(false && "デバイスの作成処理に失敗しました。");
 		return false;
 	}
 
+	if (!m_resourceContext.Create(m_device))
+	{
+		assert(false && "リソースコンテキストの作成処理に失敗思案した。");
+		return false;
+	}
+
+	if (!m_renderer.Create(m_device))
+	{
+		assert(false && "レンダラーの作成処理に失敗しました。");
+		return false;
+	}
+
     return true;
+}
+
+void FWK::Graphics::GraphicsManager::SaveCONFIG() const
+{
+	const auto& l_rootJson = m_graphicsManagerJsonConverter.Serialize(*this);
+
+	Utility::File::SaveJsonFile(l_rootJson, k_configFileIOPath);
 }
 
 #if defined(_DEBUG)

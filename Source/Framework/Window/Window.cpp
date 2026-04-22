@@ -18,6 +18,8 @@ void FWK::Window::LoadCONFIG()
 {
 	const auto& l_rootJson = Utility::File::LoadJsonFile(k_configFileIOPath);
 
+	if (l_rootJson.is_null()) { return; }
+
 	m_windowJsonConverter.Deserialize(l_rootJson, *this);
 }
 bool FWK::Window::Create(const std::wstring& a_windowClassName, const std::string& a_titleName)
