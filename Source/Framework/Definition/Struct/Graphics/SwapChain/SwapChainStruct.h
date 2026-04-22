@@ -2,7 +2,7 @@
 
 namespace FWK::Struct
 {
-	struct BackBuffer
+	struct BackBuffer final
 	{
 		TypeAlias::ComPtr<ID3D12Resource2> m_resource = nullptr;
 

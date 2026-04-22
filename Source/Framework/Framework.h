@@ -13,6 +13,9 @@
 // StaticTypeIDを使う際に他の場所でも使う定数をまとめたもの
 #include "Definition/Constant/StaticTypeID/StaticTypeIDConstant.h"
 
+// TypeTag用定数
+#include "Definition/Constant/TypeTag/TypeTagConstant.h"
+
 // Windowの縦幅横幅に関する定数をまとめたもの
 #include "Definition/Constant/WindowSize/WindowSizeConstant.h"
 
@@ -26,10 +29,13 @@
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 
 // WindowCONFIG構造体
-#include "Definition/Struct/WindowCONFIG/WindowCONFIGStruct.h"
+#include "Definition/Struct/Window/WindowStruct.h"
 
 // バックバッファ構造体
-#include "Definition/Struct/Graphics/BackBuffer/BackBufferStruct.h"
+#include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
+
+// ルートシグネチャ用構造体
+#include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス

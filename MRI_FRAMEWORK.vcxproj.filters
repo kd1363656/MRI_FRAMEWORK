@@ -91,9 +91,6 @@
     <Filter Include="Source\Framework\Window">
       <UniqueIdentifier>{95ce9e0d-0dba-485b-a430-526af353051c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\WindowCONFIG">
-      <UniqueIdentifier>{c539aed6-97ca-45f9-b038-4bf13d15e845}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Constant\WindowSize">
       <UniqueIdentifier>{f056f0ef-f069-4098-aeae-0d2b2bedf6be}</UniqueIdentifier>
     </Filter>
@@ -190,9 +187,6 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics">
       <UniqueIdentifier>{7bf9d74d-9249-4af5-a0ae-25e29aca929f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\Graphics\BackBuffer">
-      <UniqueIdentifier>{f0b52c29-73c5-4ba7-b980-790b3e829f2b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\JsonConverter\Graphics\SwapChain">
       <UniqueIdentifier>{f9570971-5cb9-4069-9ec4-a945ce5b5198}</UniqueIdentifier>
     </Filter>
@@ -210,6 +204,18 @@
     </Filter>
     <Filter Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature">
       <UniqueIdentifier>{e201d83a-a2bc-477d-9809-6a35c9b0e8f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Window">
+      <UniqueIdentifier>{c539aed6-97ca-45f9-b038-4bf13d15e845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\SwapChain">
+      <UniqueIdentifier>{c4a87250-4765-44f5-8c70-386a43fa6d72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render">
+      <UniqueIdentifier>{11bf7876-24cf-4f0c-ac10-10d1aa779e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{8f5b9a1d-4b52-47bf-9783-b137f651bb93}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -280,9 +286,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Window\Window.h">
       <Filter>Source\Framework\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\WindowCONFIG\WindowCONFIGStruct.h">
-      <Filter>Source\Framework\Definition\Struct\WindowCONFIG</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h">
       <Filter>Source\Framework\Definition\Constant\WindowSize</Filter>
@@ -374,9 +377,6 @@
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h">
       <Filter>Source\Framework\Graphics\SwapChain</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\BackBuffer\BackBufferStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\BackBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\SwapChain</Filter>
     </ClInclude>
@@ -394,6 +394,15 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\Render\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Window\WindowStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\SwapChain\SwapChainStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Render\RootSignature</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
