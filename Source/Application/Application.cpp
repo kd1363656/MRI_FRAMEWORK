@@ -43,10 +43,14 @@ void Application::Execute()
 	while (true)
 	{
 		// 更新
-		if (!BeginFrameUpdate()) { break; }
+		if (!BeginFrame()) { break; }
+
+		// 描画
+		BeginDraw(l_graphicsManager);
+		EndDraw  (l_graphicsManager);
 
 		// FPSの更新
-		EndFrameUpdate();
+		EndFrame(l_graphicsManager);
 	}
 
 	// もしゲームデータがセーブされていなくても変更が適用されるべき項目をセーブする
@@ -82,13 +86,16 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 		return false;
 	}
 
+	// Create処理が終わった後に実行する処理
+	a_graphicsManager.PostCreateSetup(m_window.GetREFHWND());
+
 	return true;
 }
 
-bool Application::BeginFrameUpdate()
+bool Application::BeginFrame()
 {
 	// FPSの計測開始
-	m_fpsController.BeginFrameUpdate();
+	m_fpsController.BeginFrame();
 
 	// ウィンドウメッセージの処理
 	if (!m_window.ProcessMessages()) { return false; }
@@ -103,10 +110,21 @@ bool Application::BeginFrameUpdate()
 	return true;
 }
 
-void Application::EndFrameUpdate()
+void Application::BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
+	a_graphicsManager.BeginDraw();
+}
+void Application::EndDraw(FWK::Graphics::GraphicsManager& a_graphicsManager)
+{
+	a_graphicsManager.EndDraw();
+}
+
+void Application::EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
+{
+	a_graphicsManager.EndFrame();
+
 	// フレームレート制御
-	m_fpsController.EndFrameUpdate();
+	m_fpsController.EndFrame();
 
 	UpdateWindowTitleBar();
 }

@@ -11,8 +11,8 @@ namespace FWK
 
 		void LoadCONFIG();
 
-		void BeginFrameUpdate();
-		void EndFrameUpdate  ();
+		void BeginFrame();
+		void EndFrame  ();
 
 		void SaveCONFIG() const;
 

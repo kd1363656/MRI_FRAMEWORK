@@ -6,21 +6,21 @@ void FWK::JsonConverter::GraphicsManagerJsonConverter::Deserialize(const nlohman
 
 	if (a_rootJson.contains("ResourceContext"))
 	{
-		auto& l_resourceContext = a_graphicsManager.GetREFMutableResourceContext();
+		auto& l_resourceContext = a_graphicsManager.GetMutableREFResourceContext();
 
 		l_resourceContext.Deserialize(a_rootJson["ResourceContext"]);
 	}
 
 	if (a_rootJson.contains("Renderer"))
 	{
-		auto& l_renderer = a_graphicsManager.GetREFMutableRenderer();
+		auto& l_renderer = a_graphicsManager.GetMutableREFRenderer();
 
 		l_renderer.Deserialize(a_rootJson["Renderer"]);
 	}
 
 	if (a_rootJson.contains("SwapChain"))
 	{
-		auto& l_swapChain = a_graphicsManager.GetREFMutableSwapChain();
+		auto& l_swapChain = a_graphicsManager.GetMutableREFSwapChain();
 
 		l_swapChain.Deserialize(a_rootJson["SwapChain"]);
 	}

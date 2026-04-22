@@ -18,9 +18,19 @@ namespace FWK::Graphics
 					const Struct::WindowCONFIG&              a_windowCONFIG,
 						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
 
+		void PostCreateSetup(const HWND& a_hWND, const Factory& a_factory) const;
+
+		void Present() const;
+
 		nlohmann::json Serialize() const;
 
 		void ResizeBackBufferList(const std::size_t a_backBufferNum);
+
+		void SetSyncInterval(const UINT a_set) { m_syncInterval = a_set; }
+
+		UINT FetchVALCurrentBackBufferIndex() const;
+
+		auto GetSyncInterval() const { return m_syncInterval; }
 
 		const auto& GetBackBufferList() const { return m_backBufferList; }
 
@@ -37,6 +47,9 @@ namespace FWK::Graphics
 
 		static constexpr UINT k_defaultSampleCount       = 1U;
 		static constexpr UINT k_defaultSampleQuality     = 0U;
+		static constexpr UINT k_swapChainPresentFlagNone = 0U;
+
+		UINT m_syncInterval = Constant::k_defaultSyncInterval;
 
 		TypeAlias::ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
 

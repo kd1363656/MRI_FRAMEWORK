@@ -8,7 +8,7 @@ void FWK::JsonConverter::RendererJsonConverter::Deserialize(const nlohmann::json
 	{
 		const auto& l_arrayNum = a_rootJson["FrameResourceList"].size();
 
-		auto& l_resourceList = a_renderer.GetREFMutableFrameResourceList();
+		auto& l_resourceList = a_renderer.GetMutableREFFrameResourceList();
 
 		l_resourceList.resize(l_arrayNum);
 	}

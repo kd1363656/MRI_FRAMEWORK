@@ -6,7 +6,7 @@ void FWK::JsonConverter::ResourceContextJsonConverter::Deserialize(const nlohman
 
 	if (a_rootJson.contains("RTVDescriptorPool"))
 	{
-		auto& l_rtvDescriptorPool = a_resourceContext.GetREFMutableRTVDescriptorPool();
+		auto& l_rtvDescriptorPool = a_resourceContext.GetMutableREFRTVDescriptorPool();
 
 		l_rtvDescriptorPool.Deserialize(a_rootJson["RTVDescriptorPool"]);
 	}

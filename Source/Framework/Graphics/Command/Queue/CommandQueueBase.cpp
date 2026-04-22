@@ -5,7 +5,12 @@ FWK::Graphics::CommandQueueBase::CommandQueueBase(const D3D12_COMMAND_LIST_TYPE 
 
 	m_commandQueue(nullptr)
 {}
-FWK::Graphics::CommandQueueBase::~CommandQueueBase() = default;
+FWK::Graphics::CommandQueueBase::~CommandQueueBase() 
+{
+	// GPUと完全同期をとってDirectX12のデバイスが
+	// Releaseされてもいい状態にする
+	WaitForGPUIdleIfNeed();
+}
 
 bool FWK::Graphics::CommandQueueBase::Create(const Device& a_device)
 {
@@ -15,7 +20,92 @@ bool FWK::Graphics::CommandQueueBase::Create(const Device& a_device)
 		return false;
 	}
 
+	if (!CreateFence(a_device))
+	{
+		assert(false && "フェンスの作成に失敗しました。");
+		return false;
+	}
+
 	return true;
+}
+
+void FWK::Graphics::CommandQueueBase::WaitForFenceValueIfNeeded(const UINT64& a_waitFenceValue)
+{
+	// 待つ必要があればWaitする
+	m_fence.WaitForFenceValueIfNeeded(a_waitFenceValue);
+}
+
+void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator)
+{
+	// このコマンドアロケータの全階送信分が完了していれば待機不要
+	// 未完了なら安全に再利用できるまで待機する
+	WaitForFenceValueIfNeeded(a_commandAllocator.GetREFSubmittedFenceValue());
+}
+
+void FWK::Graphics::CommandQueueBase::ExecuteCommandLists(const CommandListBase& a_commandList) const
+{
+	const auto& l_commandQueue = GetREFCommandQueue             ();
+	const auto& l_commandList  = a_commandList.GetREFCommandList();
+
+	if (!l_commandQueue)
+	{
+		assert(false && "コマンドキューが作成されておらず、コマンド実行処理が行えませんでした");
+		return;
+	}
+
+	if (!l_commandList)
+	{
+		assert(false && "コマンドリストが作成されておらず、コマンド実行処理が行えませんでした");
+		return;
+	}
+
+	// このキューと違うコマンドリストタイプならreturn
+	if (k_createCommandListType != a_commandList.GetVALCreateCommandListType())
+	{
+		assert(false && "コマンドリストとコマンドキューのコマンドリストタイプが違います、コマンド実行処理が行えませんでした");
+		return;
+	}
+
+	// ExecuteCommandLists()はID3D12CommandList*の配列を受け取るため、
+	// 1個だけ実行する場合でも配列にして渡す必要がある
+	ID3D12CommandList* l_list[] = { l_commandList.Get() };
+
+	// ExecuteCommandLists(実行するコマンドリストの数、
+	//					   コマンドリスト配列の先頭アドレス)
+
+	// ※注意 : ExecuteCommandListをする前にコマンドリストはClose()関数を呼び出す必要がある
+	l_commandQueue->ExecuteCommandLists(k_executeListNum, l_list);
+}
+
+void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(CommandAllocatorBase& a_commandAllocator)
+{
+	const auto& l_fence = m_fence.GetREFFence();
+
+	if (!l_fence)
+	{
+		assert(false && "フェンスが作成されておらず、GPUとの同期処理が行えませんでした。");
+		return;
+	}
+
+	if (!m_commandQueue)
+	{
+		assert(false && "ダイレクトコマンドキューが作成されておらず、GPUとの同期処理が行えませんでした。");
+		return;
+	}
+
+	const auto& l_updatedFenceValue = m_fence.GetFenceValue() + k_incrementFenceValue;
+
+	// "FenceValue"を進めて、このフレームの完了目標として保存
+	m_fence.SetFenceValue(l_updatedFenceValue);
+
+	// ※重要
+	// 更新したフェンス値を持たせて置く、こうすることで次のフレームでフェンス値を超えていない場合
+	// GPUとの同期をとらなくていいためCPUとGPUの並列処理性を発揮することができる
+	a_commandAllocator.SetSubmittedFenceValue(l_updatedFenceValue);
+
+	// コマンドキュー内でこの位置までの命令が実行完了したら
+	// フェンス値をGetFenceValueに更新する命令をGPUに追加
+	m_commandQueue->Signal(l_fence.Get(), l_updatedFenceValue);
 }
 
 bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
@@ -60,4 +150,48 @@ bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
 	}
 
 	return true;
+}
+bool FWK::Graphics::CommandQueueBase::CreateFence(const Device& a_device)
+{
+	return m_fence.Create(a_device);
+}
+
+void FWK::Graphics::CommandQueueBase::WaitForGPUIdleIfNeed()
+{
+	const auto& l_fence = m_fence.GetREFFence();
+
+	// フェンスが存在しなければGPU完了確認はできない
+	if (!l_fence)
+	{
+		assert(false && "フェンスの作成に失敗しておりコマンドアロケータの使用可能かどうかの選定に失敗しました。");
+		return;
+	}
+
+	if (!m_commandQueue)
+	{
+		assert(false && "コマンドキューが作成されておらず、GPUとの同期が取れません。");
+		return;
+	}
+
+	// 今回の待機用に新しいフェンス値を発行する
+	// 同じ値を使いまわすとどこまでの処理完了を待っているのか分からなくなるため
+	const auto& l_incrementedFenceValue = m_fence.GetFenceValue() + k_incrementFenceValue;
+
+	m_fence.SetFenceValue(l_incrementedFenceValue);
+
+	// コマンドキューに対して「命令したGPU処理が終わったら、m_fenceの値をl_targetFenceValueに更新してください」
+	// と命令をする関数
+	// Signal(更新対象のフェンスオブジェクト、
+	//		  GPU完了時に設定するフェンス値);
+
+	auto l_hr = m_commandQueue->Signal(l_fence.Get(), l_incrementedFenceValue);
+
+	// Signal命令に失敗したらreturn
+	if (FAILED(l_hr))
+	{
+		assert(false && "コマンドキューへのフェンスシグナルに失敗しました。");
+		return;
+	}
+	
+	WaitForFenceValueIfNeeded(l_incrementedFenceValue);
 }

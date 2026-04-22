@@ -32,6 +32,40 @@ bool FWK::Graphics::SwapChain::Create(const HWND&							   a_hwnd,
 	return true;
 }
 
+void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hWND, const Factory& a_factory) const
+{
+	const auto& l_factory = a_factory.GetREFFactory();
+
+	if (!l_factory)
+	{
+		assert(false && "ファクトリーの作成に失敗しており排他スクリーン設定ができませんでした。");
+		return;
+	}
+	
+	// ウィンドウとDXGIの関連設定を行う関数
+	// MakeWindowAssociation(対象のウィンドウハンドル、
+	//						 ウィンドウに対して適用するDXGIの動作設定);
+
+	// Alt + Enterで勝手に排他フルスクリーンに切り替わるのを防ぐ
+	l_factory->MakeWindowAssociation(a_hWND, DXGI_MWA_NO_ALT_ENTER);
+}
+
+void FWK::Graphics::SwapChain::Present() const
+{
+	// スワップチェインが存在しなければ画面表示できないのでreturn
+	if (!m_swapChain)
+	{
+		assert(false && "スワップチェインが作成されておらず、Present処理を行えませんでした。");
+		return;
+	}
+
+	// Present(垂直同期の間隔、
+	//		   追加の表示オプション)
+
+	// 現在のバックバッファを前面に出して画面へ表示する
+	m_swapChain->Present(m_syncInterval, k_swapChainPresentFlagNone);
+}
+
 nlohmann::json FWK::Graphics::SwapChain::Serialize() const
 {
 	return m_swapChainJsonConverter.Serialize(*this);
@@ -40,6 +74,17 @@ nlohmann::json FWK::Graphics::SwapChain::Serialize() const
 void FWK::Graphics::SwapChain::ResizeBackBufferList(const std::size_t a_backBufferNum)
 {
 	m_backBufferList.resize(a_backBufferNum);
+}
+
+UINT FWK::Graphics::SwapChain::FetchVALCurrentBackBufferIndex() const
+{
+	if (!m_swapChain)
+	{
+		assert(false && "スワップチェインが作成されておらず、現在のバックバッファのインデックスを取得出来ませんでした。");
+		return 0U;
+	}
+
+	return m_swapChain->GetCurrentBackBufferIndex();
 }
 
 bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwnd, 
@@ -107,7 +152,7 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 	l_desc.SampleDesc.Count = k_defaultSampleCount;
 
 	// マルチサンプリング品質レベル
-	// Count = 1の通常設定では0を使うことが多い
+	// 通常設定では0を使うことが多い
 	l_desc.SampleDesc.Quality = k_defaultSampleQuality;
 
 	// このバッファを何に使うかを指定する
@@ -166,7 +211,7 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 	// ここではIDXGISwapChain1からメンバーが持つ方へ変換している
 	l_hr = l_swapChain.As(&m_swapChain);
 
-	if (FAILED(l_hr) || !m_swapChain)
+	if (FAILED(l_hr))
 	{
 		assert(false && "スワップチェインの型変換に失敗しました、スワップチェインの作成が行えません。");
 		return false;

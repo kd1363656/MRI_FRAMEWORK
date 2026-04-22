@@ -32,6 +32,64 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device)
 	return true;
 }
 
+void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
+{
+	const auto* const l_currentFrameResource = FetchPTRCurrentFrameResource();
+
+	if (!l_currentFrameResource)
+	{
+		assert(false && "フレームリソースの取得に失敗しており、描画開始処理を行うことができませんでした。");
+		return;
+	}
+
+	const auto& l_commandAllocator = l_currentFrameResource->GetREFDirectCommandAllocator();
+
+	// コマンドアロケータからGPU処理が終わっているかどうかを確かめGPUの処理が終わっていなければWait
+	m_directCommandQueue.EnsureAllocatorAvailable(l_commandAllocator);
+
+	// GPU同期処理が終わってからコマンドリスト、アロケータをリセット
+	l_commandAllocator.Reset ();
+	m_directCommandList.Reset(l_commandAllocator);
+
+	// バックバッファの状態遷移(PRESENT -> RESOURCE)
+	m_directCommandList.TransitionRenderTargetResource(D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET, a_swapChain);
+
+	// 今回使用するバックバッファを設定
+	m_directCommandList.SetupBackBuffer(a_swapChain, a_rtvDescriptorHeap);
+}
+
+void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
+{
+	auto* l_currentFrameResource = FetchMutablePTRCurrentFrameResource();
+
+	if (!l_currentFrameResource)
+	{
+		assert(false && "フレームリソースの取得に失敗しており、秒が終了処理を行うことができませんでした。");
+		return;
+	}
+
+	auto& l_commandAllocator = l_currentFrameResource->GetMutableREFDirectCommandAllocator();
+
+	// バックバッファの状態遷移(RESOPURCE -> PRESENT)
+	m_directCommandList.TransitionRenderTargetResource(D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT, a_swapChain);
+
+	// コマンドリストへの命令記録を終了
+	m_directCommandList.Close();
+
+	// 描画命令を実行
+	m_directCommandQueue.ExecuteCommandLists(m_directCommandList);
+
+	// フェンス値を更新
+	m_directCommandQueue.SignalAndTrackAllocator(l_commandAllocator);
+
+	a_swapChain.Present();
+}
+void FWK::Graphics::Renderer::EndFrame()
+{
+	// 容量を超えないように次のフレームで使用するインデックスを計算
+	m_currentFrameResourceIndex = (m_currentFrameResourceIndex + k_incrementCurrentFrameIndex) % static_cast<UINT>(m_frameResourceList.size());
+}
+
 nlohmann::json FWK::Graphics::Renderer::Serialize() const
 {
 	nlohmann::json l_rootJson = {};
@@ -39,4 +97,26 @@ nlohmann::json FWK::Graphics::Renderer::Serialize() const
 	l_rootJson = m_rendererJsonConverter.Serialize(*this);
 
 	return l_rootJson;
+}
+
+const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFrameResource() const
+{
+	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
+	{
+		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリース取得が行えませんでした。");
+		return nullptr;
+	}
+
+	return &m_frameResourceList[m_currentFrameResourceIndex];
+}
+
+FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchMutablePTRCurrentFrameResource()
+{
+	if (m_currentFrameResourceIndex >= static_cast<UINT>(m_frameResourceList.size()))
+	{
+		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
+		return nullptr;
+	}
+
+	return &m_frameResourceList[m_currentFrameResourceIndex];
 }

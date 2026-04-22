@@ -9,7 +9,7 @@ void FWK::FPSController::LoadCONFIG()
 	m_fpsControllerJsonConverter.Deserialize(l_rootJson, *this);
 }
 
-void FWK::FPSController::BeginFrameUpdate()
+void FWK::FPSController::BeginFrame()
 {
 	// 現在のフレームでの時間
 	m_frameBeginTime = std::chrono::steady_clock::now();
@@ -23,7 +23,7 @@ void FWK::FPSController::BeginFrameUpdate()
 	// TimeScaleの影響を受けるデルタタイムを計算
 	m_scaledDeltaTime = m_deltaTime * m_timeScale;
 }
-void FWK::FPSController::EndFrameUpdate()
+void FWK::FPSController::EndFrame()
 {
 	// フレームレートを一定に保つためにスリープ
 	LimitFramerate();

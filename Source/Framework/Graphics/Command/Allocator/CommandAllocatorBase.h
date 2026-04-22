@@ -11,6 +11,16 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device);
 
+		void Reset() const;
+
+		void SetSubmittedFenceValue(const auto& a_set) { m_submittedFenceValue = a_set; }
+
+		const auto& GetREFSubmittedFenceValue() const { return m_submittedFenceValue; }
+
+		const auto& GetREFCommandAllocator() const { return m_commandAllocator; }
+
+		auto GetVALCreateCommandListType() const { return k_createCommandListType; }
+
 	private:
 
 		const D3D12_COMMAND_LIST_TYPE k_createCommandListType;

@@ -2,6 +2,12 @@
 
 namespace FWK::Graphics
 {
+	class CommandAllocatorBase;
+	class CommandListBase;
+}
+
+namespace FWK::Graphics
+{
 	class CommandQueueBase
 	{
 	public:
@@ -11,6 +17,14 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device);
 
+		void WaitForFenceValueIfNeeded(const UINT64& a_waitFenceValue);
+
+		void EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator);
+
+		void ExecuteCommandLists(const CommandListBase& a_commandList) const;
+
+		void SignalAndTrackAllocator(CommandAllocatorBase& a_commandAllocator);
+
 		const auto& GetREFCommandQueue() const { return m_commandQueue; }
 
 		D3D12_COMMAND_LIST_TYPE GetVALCreateCommandListType() const { return k_createCommandListType; }
@@ -18,9 +32,18 @@ namespace FWK::Graphics
 	private:
 
 		bool CreateCommandQueue(const Device& a_device);
+		bool CreateFence	   (const Device& a_device);
+
+		void WaitForGPUIdleIfNeed();
+
+		static constexpr UINT64 k_incrementFenceValue = 1ULL;
+
+		static constexpr UINT k_executeListNum = 1U;
 
 		const D3D12_COMMAND_LIST_TYPE k_createCommandListType;
 
 		TypeAlias::ComPtr<ID3D12CommandQueue> m_commandQueue;
+
+		Fence m_fence;
 	};
 }

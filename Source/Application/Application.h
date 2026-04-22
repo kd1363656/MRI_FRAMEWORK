@@ -15,9 +15,12 @@ private:
 	void LoadFile     (      FWK::Graphics::GraphicsManager& a_graphicsManager);
 	bool PostLoadSetup(      FWK::Graphics::GraphicsManager& a_graphicsManager);
 
-	bool BeginFrameUpdate();
+	bool BeginFrame();
 
-	void EndFrameUpdate();
+	void BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager);
+	void EndDraw  (FWK::Graphics::GraphicsManager& a_graphicsManager);
+
+	void EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 
 	void SaveFile(FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 

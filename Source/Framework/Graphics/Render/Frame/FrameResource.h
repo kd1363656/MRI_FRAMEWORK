@@ -11,8 +11,12 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device);
 
+		const auto& GetREFDirectCommandAllocator() const { return m_directCommandAllocator; }
+
+		auto& GetMutableREFDirectCommandAllocator() { return m_directCommandAllocator; }
+
 	private:
 
-		DirectCommandAllocator m_directCommandAllocator = DirectCommandAllocator();
+		DirectCommandAllocator m_directCommandAllocator = {};
 	};
 }

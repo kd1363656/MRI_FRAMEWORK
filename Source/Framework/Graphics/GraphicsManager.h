@@ -6,10 +6,15 @@ namespace FWK::Graphics
 	{
 	public:
 
-		void Init      () const;
-		void LoadCONFIG();
-		bool Create    (const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG);
-		
+		void Init           () const;
+		void LoadCONFIG     ();
+		bool Create         (const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG);
+		void PostCreateSetup(const HWND& a_hWND) const;
+
+		void BeginDraw();
+		void EndDraw  ();
+		void EndFrame ();
+
 		void SaveCONFIG() const;
 
 		static constexpr UINT GetVALDefaultGPUNodeMask() { return k_defaultGPUNodeMask; }
@@ -18,9 +23,9 @@ namespace FWK::Graphics
 		const auto& GetREFRenderer       () const { return m_renderer; }
 		const auto& GetREFSwapChain      () const { return m_swapChain; }
 
-		auto& GetREFMutableResourceContext() { return m_resourceContext; }
-		auto& GetREFMutableRenderer       () { return m_renderer; }
-		auto& GetREFMutableSwapChain	  () { return m_swapChain; }
+		auto& GetMutableREFResourceContext() { return m_resourceContext; }
+		auto& GetMutableREFRenderer       () { return m_renderer; }
+		auto& GetMutableREFSwapChain	  () { return m_swapChain; }
 
 	private:
 
@@ -39,8 +44,11 @@ namespace FWK::Graphics
 		Factory         m_factory         = {};
 		Device          m_device          = {};
 		ResourceContext m_resourceContext = {};
-		Renderer        m_renderer		  = {};
-		SwapChain		m_swapChain		  = {};
+
+		// 本来ならm_renderer,m_swapChainの順が依存関係的に正しいが
+		// デストラクタの呼び出し順の都合上並びを変えている
+		SwapChain m_swapChain = {};
+		Renderer  m_renderer  = {};
 
 		JsonConverter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};
 		

@@ -35,3 +35,17 @@ bool FWK::Graphics::CommandAllocatorBase::Create(const Device& a_device)
 
 	return true;
 }
+
+void FWK::Graphics::CommandAllocatorBase::Reset() const
+{
+	if (!m_commandAllocator)
+	{
+		assert(false && "コマンドアロケータの作成に失敗しており、リセット処理を行うことができませんでした。");
+		return;
+	}
+
+	// コマンドアロケータを再利用できる状態に戻す関数
+	// Reset();
+
+	m_commandAllocator->Reset();
+}

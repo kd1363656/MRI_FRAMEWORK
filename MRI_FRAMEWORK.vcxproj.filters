@@ -196,6 +196,9 @@
     <Filter Include="Source\Framework\JsonConverter\Graphics\SwapChain">
       <UniqueIdentifier>{f9570971-5cb9-4069-9ec4-a945ce5b5198}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Command\Queue\Fence">
+      <UniqueIdentifier>{651aa252-be63-42a7-82c9-b46eb308de9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -365,6 +368,9 @@
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\SwapChain</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.h">
+      <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -447,6 +453,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.cpp">
+      <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

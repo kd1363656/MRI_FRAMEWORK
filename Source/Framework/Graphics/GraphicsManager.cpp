@@ -49,13 +49,33 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 						    m_factory,
 						    m_renderer.GetREFDirectCommandQueue(),
 							a_windowCONFIG,
-							m_resourceContext.GetREFMutableRTVDescriptorPool()))
+							m_resourceContext.GetMutableREFRTVDescriptorPool()))
 	{
 		assert(false && "スワップチェインの作成処理に失敗しました。");
 		return false;
 	}
 
     return true;
+}
+
+void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hWND) const
+{
+	m_swapChain.PostCreateSetup(a_hWND, m_factory);
+}
+
+void FWK::Graphics::GraphicsManager::BeginDraw()
+{
+	const auto& l_rtvDescriptorHeap = m_resourceContext.GetREFRTVDescriptorPool().GetREFDescriptorHeap();
+
+	m_renderer.BeginDraw(m_swapChain, l_rtvDescriptorHeap);
+}
+void FWK::Graphics::GraphicsManager::EndDraw()
+{
+	m_renderer.EndDraw(m_swapChain);
+}
+void FWK::Graphics::GraphicsManager::EndFrame()
+{
+	m_renderer.EndFrame();
 }
 
 void FWK::Graphics::GraphicsManager::SaveCONFIG() const

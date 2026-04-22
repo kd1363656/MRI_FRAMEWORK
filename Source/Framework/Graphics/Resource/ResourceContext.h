@@ -16,7 +16,7 @@ namespace FWK::Graphics
 
 		const auto& GetREFRTVDescriptorPool() const { return m_rtvDescriptorPool; }
 
-		auto& GetREFMutableRTVDescriptorPool() { return m_rtvDescriptorPool; }
+		auto& GetMutableREFRTVDescriptorPool() { return m_rtvDescriptorPool; }
 
 	private:
 

@@ -49,6 +49,8 @@ namespace FWK::Graphics
 			return m_descriptorHeap.FetchVALCPUHandle(a_index);
 		}
 
+		const auto& GetREFDescriptorHeap() const { return m_descriptorHeap; }
+
 		auto GetVALDescriptorCapacity() const { return m_descriptorCapacity; }
 
 	private:

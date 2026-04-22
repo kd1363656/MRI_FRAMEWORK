@@ -37,3 +37,48 @@ bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 
 	return true;
 }
+
+void FWK::Graphics::CommandListBase::Reset(const CommandAllocatorBase& a_commandAllocator)
+{
+	if (!m_commandList)
+	{
+		assert(false && "コマンドリストの作成に失敗しており、コマンドリストのリセットが出来ませんでした。");
+		return;
+	}
+
+	// 自身のコマンドリストタイプと一致しなければreturn
+	if (a_commandAllocator.GetVALCreateCommandListType() != k_createCommandListType)
+	{
+		assert(false && "コマンドアロケータのコマンドリストタイプと一致しないため、コマンドリストのリセットが出来ませんでした。");
+		return;
+	}
+
+	const auto& l_commandAllocator = a_commandAllocator.GetREFCommandAllocator();
+
+	if (!l_commandAllocator)
+	{
+		assert(false && "コマンドアロケータの作成に失敗しており、コマンドリストのリセットに失敗しました。");
+		return;
+	}
+
+	// コマンドリストを再び記録できる状態に戻す関数
+	// Reset(使用していたコマンドアロケータ、
+	//		 最初に設定するパイプラインステート);
+
+	m_commandList->Reset(l_commandAllocator.Get(), nullptr);
+}
+
+void FWK::Graphics::CommandListBase::Close() const
+{
+	if (!m_commandList)
+	{
+		assert(false && "コマンドリストの作成に失敗しており、コマンドリストのクローズ処理が出来ませんでした。");
+		return;
+	}
+
+	// コマンドリストへの命令規則を終了するクラス
+	// ※注意 : もしCloseをしなければコマンドキューのExecute処理を行うことができない
+	// Close();
+
+	m_commandList->Close();
+}
