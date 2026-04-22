@@ -4,6 +4,9 @@
 // 定義
 //===============================================================================
 
+// NLOHMNN_JSON_SERIALIZE_ENUMマクロ
+#include "Definition/Macros/Json/JsonSerializeEnumMacros.h"
+
 // 型エイリアス
 #include "Definition/Type/Alias/TypeAlias.h"
 
@@ -145,6 +148,10 @@
 
 // レンダーエリアクラス
 #include "Graphics/Render/Rasterizer/RenderArea.h"
+
+// ルートシグネチャ
+#include "JsonConverter/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
+#include "Graphics/Render/RootSignature/RootSignature.h"
 
 // レンダラー
 #include "JsonConverter/Graphics/Render/RendererJsonConverter.h"

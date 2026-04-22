@@ -202,6 +202,15 @@
     <Filter Include="Source\Framework\Graphics\Render\Rasterizer">
       <UniqueIdentifier>{e0130b04-f80b-4554-b77c-44fd227b34a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Macros\Json">
+      <UniqueIdentifier>{004a2f0e-b653-4435-96cf-2ba61c996f06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{585ca044-1997-4df3-8237-39cb24aa67ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{e201d83a-a2bc-477d-9809-6a35c9b0e8f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -377,6 +386,15 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h">
       <Filter>Source\Framework\Graphics\Render\Rasterizer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Macros\Json\JsonSerializeEnumMacros.h">
+      <Filter>Source\Framework\Definition\Macros\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h">
+      <Filter>Source\Framework\Graphics\Render\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\Render\RootSignature</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -465,6 +483,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp">
       <Filter>Source\Framework\Graphics\Render\Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp">
+      <Filter>Source\Framework\Graphics\Render\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\Render\RootSignature</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
