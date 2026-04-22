@@ -1,6 +1,6 @@
 ﻿#include "RendererJsonConverter.h"
 
-void FWK::Converter::RendererJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
+void FWK::JsonConverter::RendererJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
 {
 	if (a_rootJson.is_null()) { return; }
 
@@ -8,17 +8,13 @@ void FWK::Converter::RendererJsonConverter::Deserialize(const nlohmann::json& a_
 	{
 		const auto& l_arrayNum = a_rootJson["FrameResourceList"].size();
 
-		// フレームリソースの数分追加する
-		for (size_t l_i = 0ULL; l_i < l_arrayNum; ++l_i)
-		{
-			auto l_frameResource = Graphics::FrameResource();
+		auto& l_resourceList = a_renderer.GetREFMutableFrameResourceList();
 
-			a_renderer.AddFrameResource(l_frameResource);
-		}
+		l_resourceList.resize(l_arrayNum);
 	}
 }
 
-nlohmann::json FWK::Converter::RendererJsonConverter::Serialize(const Graphics::Renderer& a_renderer) const
+nlohmann::json FWK::JsonConverter::RendererJsonConverter::Serialize(const Graphics::Renderer& a_renderer) const
 {
 	nlohmann::json l_rootJson = {};
 

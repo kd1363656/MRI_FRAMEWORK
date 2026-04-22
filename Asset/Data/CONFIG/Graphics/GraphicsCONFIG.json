@@ -10,5 +10,8 @@
         "RTVDescriptorPool": {
             "DescriptorCapacity": 1024
         }
+    },
+    "SwapChain": {
+        "BackBufferNum": 2
     }
 }

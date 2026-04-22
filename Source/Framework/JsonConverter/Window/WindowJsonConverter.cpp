@@ -1,6 +1,6 @@
 ﻿#include "WindowJsonConverter.h"
 
-void FWK::Converter::WindowJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Window& a_window) const
+void FWK::JsonConverter::WindowJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Window& a_window) const
 {
 	if (a_rootJson.is_null()) { return; }
 
@@ -13,7 +13,7 @@ void FWK::Converter::WindowJsonConverter::Deserialize(const nlohmann::json& a_ro
 	a_window.SetWindowConfig(l_windowConfig);
 }
 
-nlohmann::json FWK::Converter::WindowJsonConverter::Serialize(const Window& a_window) const
+nlohmann::json FWK::JsonConverter::WindowJsonConverter::Serialize(const Window& a_window) const
 {
 	nlohmann::json l_rootJson = {};
 

@@ -22,6 +22,6 @@ namespace FWK::Graphics
 
 		DescriptorPool<RTVDescriptorHeap> m_rtvDescriptorPool = {};
 
-		Converter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
+		JsonConverter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
 	};
 }

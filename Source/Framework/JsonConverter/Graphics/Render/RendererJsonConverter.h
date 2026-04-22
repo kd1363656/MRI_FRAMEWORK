@@ -5,7 +5,7 @@ namespace FWK::Graphics
 	class Renderer;
 }
 
-namespace FWK::Converter
+namespace FWK::JsonConverter
 {
 	class RendererJsonConverter final
 	{

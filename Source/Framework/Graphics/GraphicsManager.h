@@ -8,7 +8,7 @@ namespace FWK::Graphics
 
 		void Init      () const;
 		void LoadCONFIG();
-		bool Create    ();
+		bool Create    (const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG);
 		
 		void SaveCONFIG() const;
 
@@ -16,9 +16,11 @@ namespace FWK::Graphics
 
 		const auto& GetREFResourceContext() const { return m_resourceContext; }
 		const auto& GetREFRenderer       () const { return m_renderer; }
+		const auto& GetREFSwapChain      () const { return m_swapChain; }
 
 		auto& GetREFMutableResourceContext() { return m_resourceContext; }
 		auto& GetREFMutableRenderer       () { return m_renderer; }
+		auto& GetREFMutableSwapChain	  () { return m_swapChain; }
 
 	private:
 
@@ -38,8 +40,9 @@ namespace FWK::Graphics
 		Device          m_device          = {};
 		ResourceContext m_resourceContext = {};
 		Renderer        m_renderer		  = {};
+		SwapChain		m_swapChain		  = {};
 
-		Converter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};
+		JsonConverter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};
 		
 		//=========================
 		// シングルトン

@@ -18,7 +18,7 @@ void FWK::Graphics::GraphicsManager::LoadCONFIG()
 
 	m_graphicsManagerJsonConverter.Deserialize(l_rootJson, *this);
 }
-bool FWK::Graphics::GraphicsManager::Create()
+bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG)
 {
 	if (!m_factory.Create())
 	{
@@ -41,6 +41,16 @@ bool FWK::Graphics::GraphicsManager::Create()
 	if (!m_renderer.Create(m_device))
 	{
 		assert(false && "レンダラーの作成処理に失敗しました。");
+		return false;
+	}
+
+	if (!m_swapChain.Create(a_hwnd,
+						    m_factory,
+						    m_renderer.GetREFDirectCommandQueue(),
+							a_windowCONFIG,
+							m_resourceContext.GetREFMutableRTVDescriptorPool()))
+	{
+		assert(false && "スワップチェインの作成処理に失敗しました。");
 		return false;
 	}
 

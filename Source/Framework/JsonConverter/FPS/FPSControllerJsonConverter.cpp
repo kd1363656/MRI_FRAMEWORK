@@ -1,6 +1,6 @@
 ﻿#include "FPSControllerJsonConverter.h"
 
-void FWK::Converter::FPSControllerJsonConverter::Deserialize(const nlohmann::json& a_rootJson, FPSController& a_fpsController) const
+void FWK::JsonConverter::FPSControllerJsonConverter::Deserialize(const nlohmann::json& a_rootJson, FPSController& a_fpsController) const
 {
 	if (a_rootJson.is_null()) { return; }
 
@@ -9,7 +9,7 @@ void FWK::Converter::FPSControllerJsonConverter::Deserialize(const nlohmann::jso
 	a_fpsController.SetTargetFPS(l_targetFPS);
 }
 
-nlohmann::json FWK::Converter::FPSControllerJsonConverter::Serialize(const FPSController& a_fpsController) const
+nlohmann::json FWK::JsonConverter::FPSControllerJsonConverter::Serialize(const FPSController& a_fpsController) const
 {
 	nlohmann::json l_rootJson = {};
 

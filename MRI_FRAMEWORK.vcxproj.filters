@@ -187,6 +187,15 @@
     <Filter Include="Source\Framework\Graphics\SwapChain">
       <UniqueIdentifier>{e7a026b9-dc9b-4469-988c-4245b4c898a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics">
+      <UniqueIdentifier>{7bf9d74d-9249-4af5-a0ae-25e29aca929f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\BackBuffer">
+      <UniqueIdentifier>{f0b52c29-73c5-4ba7-b980-790b3e829f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\SwapChain">
+      <UniqueIdentifier>{f9570971-5cb9-4069-9ec4-a945ce5b5198}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -350,6 +359,12 @@
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h">
       <Filter>Source\Framework\Graphics\SwapChain</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\BackBuffer\BackBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\BackBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\SwapChain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -429,6 +444,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp">
       <Filter>Source\Framework\Graphics\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\SwapChain</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

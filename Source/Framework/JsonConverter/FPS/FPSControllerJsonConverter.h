@@ -5,7 +5,7 @@ namespace FWK
 	class FPSController;
 }
 
-namespace FWK::Converter
+namespace FWK::JsonConverter
 {
 	class FPSControllerJsonConverter final
 	{

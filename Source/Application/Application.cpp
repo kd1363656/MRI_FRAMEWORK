@@ -76,7 +76,7 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 		return false;
 	}
 
-	if (!a_graphicsManager.Create())
+	if (!a_graphicsManager.Create(m_window.GetREFHWND(), m_window.GetREFWindowCONFIG()))
 	{
 		assert(false && "グラフィックスの作成処理に失敗しました。");
 		return false;

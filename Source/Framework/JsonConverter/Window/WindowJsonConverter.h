@@ -5,7 +5,7 @@ namespace FWK
 	class Window;
 }
 
-namespace FWK::Converter
+namespace FWK::JsonConverter
 {
 	class WindowJsonConverter final
 	{

@@ -6,7 +6,7 @@ namespace FWK::Graphics
 	class DescriptorPool;
 }
 
-namespace FWK::Converter
+namespace FWK::JsonConverter
 {
 	template <Concept::IsDerivedDescriptorHeapBaseConcept Type>
 	class DescriptorPoolJsonConverter final

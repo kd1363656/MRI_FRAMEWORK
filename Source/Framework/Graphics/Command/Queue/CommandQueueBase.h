@@ -11,6 +11,10 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device);
 
+		const auto& GetREFCommandQueue() const { return m_commandQueue; }
+
+		D3D12_COMMAND_LIST_TYPE GetVALCreateCommandListType() const { return k_createCommandListType; }
+
 	private:
 
 		bool CreateCommandQueue(const Device& a_device);

@@ -1,6 +1,6 @@
 ﻿#include "ResourceContextJsonConverter.h"
 
-void FWK::Converter::ResourceContextJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::ResourceContext& a_resourceContext) const
+void FWK::JsonConverter::ResourceContextJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::ResourceContext& a_resourceContext) const
 {
 	if (a_rootJson.is_null()) { return; }
 
@@ -12,7 +12,7 @@ void FWK::Converter::ResourceContextJsonConverter::Deserialize(const nlohmann::j
 	}
 }
 
-nlohmann::json FWK::Converter::ResourceContextJsonConverter::Serialize(const Graphics::ResourceContext& a_resourceContext) const
+nlohmann::json FWK::JsonConverter::ResourceContextJsonConverter::Serialize(const Graphics::ResourceContext& a_resourceContext) const
 {
 	nlohmann::json l_rootJson = {};
 

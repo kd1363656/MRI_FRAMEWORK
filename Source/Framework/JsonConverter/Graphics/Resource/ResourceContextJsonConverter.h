@@ -5,7 +5,7 @@ namespace FWK::Graphics
 	class ResourceContext;
 }
 
-namespace FWK::Converter
+namespace FWK::JsonConverter
 {
 	class ResourceContextJsonConverter final
 	{

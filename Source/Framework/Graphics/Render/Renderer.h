@@ -14,7 +14,9 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		void AddFrameResource(const FrameResource& a_frameResource);
+		auto& GetREFMutableFrameResourceList() { return m_frameResourceList; }
+		
+		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
 
 		const auto& GetREFResourceList() const { return m_frameResourceList; }
 
@@ -23,7 +25,7 @@ namespace FWK::Graphics
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};
 		
-		Converter::RendererJsonConverter m_rendererJsonConverter = {};
+		JsonConverter::RendererJsonConverter m_rendererJsonConverter = {};
 
 		std::vector<FrameResource> m_frameResourceList = {};
 	};

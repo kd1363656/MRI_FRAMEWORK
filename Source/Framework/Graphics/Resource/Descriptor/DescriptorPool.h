@@ -58,6 +58,6 @@ namespace FWK::Graphics
 		Type						m_descriptorHeap			  = {};
 		DescriptorHeapSlotAllocator m_descriptorHeapSlotAllocator = {};
 
-		Converter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
+		JsonConverter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
 	};
 }

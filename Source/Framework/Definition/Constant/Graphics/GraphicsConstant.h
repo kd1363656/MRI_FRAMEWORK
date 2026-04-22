@@ -8,5 +8,5 @@ namespace FWK::Constant
 
 	inline constexpr UINT k_defaultDescriptorCapacity = 1024;
 
-	inline constexpr UINT k_defaultBackBufferNUM = 0U;
+	inline constexpr UINT k_defaultBackBufferNUM = 2U;
 }

@@ -25,6 +25,9 @@
 // WindowCONFIG構造体
 #include "Definition/Struct/WindowCONFIG/WindowCONFIGStruct.h"
 
+// バックバッファ構造体
+#include "Definition/Struct/Graphics/BackBuffer/BackBufferStruct.h"
+
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス
 //===============================================================================
@@ -131,6 +134,10 @@
 // リソースコンテキスト
 #include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"
 #include "Graphics/Resource/ResourceContext.h"
+
+// スワップチェイン
+#include "JsonConverter/Graphics/SwapChain/SwapChainJsonConverter.h"
+#include "Graphics/SwapChain/SwapChain.h"
 
 // フレームリソースクラス
 #include "Graphics/Render/Frame/FrameResource.h"

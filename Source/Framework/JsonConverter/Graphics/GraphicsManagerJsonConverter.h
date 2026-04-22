@@ -5,7 +5,7 @@ namespace FWK::Graphics
 	class GraphicsManager;
 }
 
-namespace FWK::Converter
+namespace FWK::JsonConverter
 {
 	class GraphicsManagerJsonConverter final
 	{

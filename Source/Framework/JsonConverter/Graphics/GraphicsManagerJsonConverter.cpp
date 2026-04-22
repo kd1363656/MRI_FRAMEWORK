@@ -1,6 +1,6 @@
 ﻿#include "GraphicsManagerJsonConverter.h"
 
-void FWK::Converter::GraphicsManagerJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::GraphicsManager& a_graphicsManager) const
+void FWK::JsonConverter::GraphicsManagerJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::GraphicsManager& a_graphicsManager) const
 {
 	if (a_rootJson.is_null()) { return; }
 
@@ -17,17 +17,26 @@ void FWK::Converter::GraphicsManagerJsonConverter::Deserialize(const nlohmann::j
 
 		l_renderer.Deserialize(a_rootJson["Renderer"]);
 	}
+
+	if (a_rootJson.contains("SwapChain"))
+	{
+		auto& l_swapChain = a_graphicsManager.GetREFMutableSwapChain();
+
+		l_swapChain.Deserialize(a_rootJson["SwapChain"]);
+	}
 }
 
-nlohmann::json FWK::Converter::GraphicsManagerJsonConverter::Serialize(const Graphics::GraphicsManager& a_graphicsManager) const
+nlohmann::json FWK::JsonConverter::GraphicsManagerJsonConverter::Serialize(const Graphics::GraphicsManager& a_graphicsManager) const
 {
 	nlohmann::json l_rootJson = {};
 
 	const auto& l_resourceContext = a_graphicsManager.GetREFResourceContext();
 	const auto& l_renderer		  = a_graphicsManager.GetREFRenderer       ();
+	const auto& l_swapChain		  = a_graphicsManager.GetREFSwapChain	   ();
 
 	l_rootJson["ResourceContext"] = l_resourceContext.Serialize();
 	l_rootJson["Renderer"]        = l_renderer.Serialize	   ();
+	l_rootJson["SwapChain"]		  = l_swapChain.Serialize	   ();
 
 	return l_rootJson;
 }

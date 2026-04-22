@@ -40,8 +40,3 @@ nlohmann::json FWK::Graphics::Renderer::Serialize() const
 
 	return l_rootJson;
 }
-
-void FWK::Graphics::Renderer::AddFrameResource(const FrameResource& a_frameResource)
-{
-	m_frameResourceList.emplace_back(a_frameResource);
-}
