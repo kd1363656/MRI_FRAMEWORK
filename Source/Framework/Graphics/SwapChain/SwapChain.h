@@ -12,6 +12,7 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 
 		bool Create(const HWND&                              a_hwnd,
+					const Device&							 a_device,
 					const Factory&                           a_factory,
 					const DirectCommandQueue&                a_directCommandQueue,
 					const Struct::WindowCONFIG&              a_windowCONFIG,
@@ -29,6 +30,8 @@ namespace FWK::Graphics
 							 const Factory&              a_factory,
 							 const DirectCommandQueue&   a_directCommandQueue,
 							 const Struct::WindowCONFIG& a_windowConfig);
+
+		bool CreateBackBufferList(const Device& a_device, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
 
 		static constexpr DXGI_FORMAT k_swapChainFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 

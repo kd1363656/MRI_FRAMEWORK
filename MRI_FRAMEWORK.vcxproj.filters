@@ -311,7 +311,7 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapSlotAllocator.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Descriptor\IsDerivedDescriptorBaseConcept.h">
@@ -406,7 +406,7 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\RTV</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapSlotAllocator.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.cpp">

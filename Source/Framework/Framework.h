@@ -122,7 +122,7 @@
 #include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
 
 // ディスクリプタヒープスロットアロケータ
-#include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapSlotAllocator.h"
+#include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapIndexAllocator.h"
 
 // ディスクリプタベースを継承しているかどうかを確認するコンセプト
 #include "Definition/Concept/IsDerivedBase/Descriptor/IsDerivedDescriptorBaseConcept.h"

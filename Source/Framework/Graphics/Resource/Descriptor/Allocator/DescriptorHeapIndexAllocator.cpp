@@ -1,6 +1,6 @@
-﻿#include "DescriptorHeapSlotAllocator.h"
+﻿#include "DescriptorHeapIndexAllocator.h"
 
-bool FWK::Graphics::DescriptorHeapSlotAllocator::Create(const UINT a_descriptorCapacity)
+bool FWK::Graphics::DescriptorHeapIndexAllocator::Create(const UINT a_descriptorCapacity)
 {
 	// 0個の確保は意味がないため失敗扱いとする
 	if (a_descriptorCapacity == 0U)
@@ -21,7 +21,7 @@ bool FWK::Graphics::DescriptorHeapSlotAllocator::Create(const UINT a_descriptorC
 	return true;
 }
 
-void FWK::Graphics::DescriptorHeapSlotAllocator::Release(const UINT a_index)
+void FWK::Graphics::DescriptorHeapIndexAllocator::Release(const UINT a_index)
 {
 	// 範囲外インデックスの開放は不正
 	if (!IsValidIndex(a_index))
@@ -41,7 +41,7 @@ void FWK::Graphics::DescriptorHeapSlotAllocator::Release(const UINT a_index)
 	m_freeIndexQueue.push(a_index);
 }
 
-UINT FWK::Graphics::DescriptorHeapSlotAllocator::Allocate()
+UINT FWK::Graphics::DescriptorHeapIndexAllocator::Allocate()
 {
 	// 解放済みスロットがあればそれを優先再利用する
 	if (!m_freeIndexQueue.empty())
@@ -54,7 +54,7 @@ UINT FWK::Graphics::DescriptorHeapSlotAllocator::Allocate()
 		if (!IsValidIndex(l_reuseIndex))
 		{
 			assert(false && "再利用しようとしたディスクリプタインデックスが確保範囲外です。");
-			return Constant::k_invalidDescriptorIndex;
+			return Constant::k_invalidDescriptorHeapIndex;
 		}
 
 		m_isAllocatedList[l_reuseIndex] = true;
@@ -76,10 +76,10 @@ UINT FWK::Graphics::DescriptorHeapSlotAllocator::Allocate()
 	}
 
 	assert(false && "ディスクリプタヒープの空きがなくなり、割り当てに失敗しました。");
-	return Constant::k_invalidDescriptorIndex;
+	return Constant::k_invalidDescriptorHeapIndex;
 }
 
-bool FWK::Graphics::DescriptorHeapSlotAllocator::IsValidIndex(const UINT a_index) const
+bool FWK::Graphics::DescriptorHeapIndexAllocator::IsValidIndex(const UINT a_index) const
 {
 	// 範囲外インデックスを指し示すならfalseを返す
 	if (a_index >= m_descriptorCapacity ||

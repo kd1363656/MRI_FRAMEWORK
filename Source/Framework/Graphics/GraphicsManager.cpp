@@ -45,6 +45,7 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 	}
 
 	if (!m_swapChain.Create(a_hwnd,
+							m_device,
 						    m_factory,
 						    m_renderer.GetREFDirectCommandQueue(),
 							a_windowCONFIG,

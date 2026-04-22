@@ -23,9 +23,9 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			if (!m_descriptorHeapSlotAllocator.Create(m_descriptorCapacity))
+			if (!m_descriptorHeapIndexAllocator.Create(m_descriptorCapacity))
 			{
-				assert(false && "ディスクリプタアロケータの作成処理に失敗しました。");
+				assert(false && "ディスクリプタヒープインデックスアロケータの作成処理に失敗しました。");
 				return false;
 			}
 
@@ -39,14 +39,14 @@ namespace FWK::Graphics
 
 		auto Allocate()
 		{
-			return m_descriptorHeapSlotAllocator.Allocate();
+			return m_descriptorHeapIndexAllocator.Allocate();
 		}
 
 		void SetDescriptorCapacity(const UINT a_set) { m_descriptorCapacity = a_set; }
 
-		auto FetchCPUHandle(const UINT a_index) const
+		auto FetchVALCPUHandle(const UINT a_index) const
 		{
-			return m_descriptorHeap.FetchCPUHandle(a_index);
+			return m_descriptorHeap.FetchVALCPUHandle(a_index);
 		}
 
 		auto GetVALDescriptorCapacity() const { return m_descriptorCapacity; }
@@ -55,8 +55,8 @@ namespace FWK::Graphics
 
 		UINT m_descriptorCapacity = Constant::k_defaultDescriptorCapacity;
 
-		Type						m_descriptorHeap			  = {};
-		DescriptorHeapSlotAllocator m_descriptorHeapSlotAllocator = {};
+		Type						 m_descriptorHeap			    = {};
+		DescriptorHeapIndexAllocator m_descriptorHeapIndexAllocator = {};
 
 		JsonConverter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
 	};

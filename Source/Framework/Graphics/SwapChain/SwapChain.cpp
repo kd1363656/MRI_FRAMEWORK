@@ -8,6 +8,7 @@ void FWK::Graphics::SwapChain::Deserialize(const nlohmann::json& a_rootJson)
 }
 
 bool FWK::Graphics::SwapChain::Create(const HWND&							   a_hwnd, 
+									  const Device&							   a_device,
 									  const Factory&						   a_factory,
 									  const DirectCommandQueue&				   a_directCommandQueue,
 									  const Struct::WindowCONFIG&			   a_windowCONFIG, 
@@ -19,6 +20,12 @@ bool FWK::Graphics::SwapChain::Create(const HWND&							   a_hwnd,
 						 a_windowCONFIG))
 	{
 		assert(false && "スワップチェインの作成に失敗しました。");
+		return false;
+	}
+
+	if (!CreateBackBufferList(a_device, a_rtvDescriptorPool))
+	{
+		assert(false && "バックバッファリストの作成に失敗しました。");
 		return false;
 	}
 
@@ -163,6 +170,87 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 	{
 		assert(false && "スワップチェインの型変換に失敗しました、スワップチェインの作成が行えません。");
 		return false;
+	}
+
+	return true;
+}
+
+bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
+{
+	const auto& l_device = a_device.GetREFDevice();
+
+	if (!l_device)
+	{
+		assert(false && "デバイスの作成が行われていないためバックバッファーを作成できません。");
+		return false;
+	}
+
+	// バックバッファはスワップチェインが内部に持っており、
+	// 先にスワップチェインが作成されていないと取得できないのでreturn
+	if (!m_swapChain)
+	{
+		assert(false && "スワップチェインの作成が行われていないためバックバッファーを作成できません。");
+		return false;
+	}
+
+	// ディスクリプタヒープの容量を超えてしまっていたらreturn
+	if (static_cast<UINT>(m_backBufferList.size()) > a_rtvDescriptorPool.GetVALDescriptorCapacity())
+	{
+		assert(false && "バックバッファリストのサイズがディスクリプタヒープの容量を超えています。");
+		return false;
+	}
+
+	// リソースを「レンダーターゲットとしてどう見るか」を指定する構造体
+	// RTVは「このリソースを描画先として扱うためのビュー情報」だと思えばよい
+	auto l_rtvDesc = D3D12_RENDER_TARGET_VIEW_DESC();
+
+	// RTVから見たときの画素フォーマット
+	// ※注意 : バックバッファの実際のフォーマットと基本的にそろえる必要がある
+	l_rtvDesc.Format = k_swapChainFormat;
+
+	// このRTVが「2Dテクスチャ」としてバックバッファを見ることを指定する。
+	// スワップチェインのバックバッファは通常2Dテクスチャとして扱う
+	l_rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+	// バックバッファーを一枚ずつ取得して、それぞれに対応するRTVを作成する
+	for (UINT l_i = 0U; l_i < static_cast<UINT>(m_backBufferList.size()); ++l_i)
+	{
+		// スワップチェインが内部に持っているバックバッファリソースを取得する関数
+		// GetBuffer(取得したいバックバッファーのインデックス、
+		//			 受け取りたいCOMインターフェース型のID、
+		//			 作成結果のポインタを書き込むアドレス);
+
+		const auto l_hr = m_swapChain->GetBuffer(l_i, IID_PPV_ARGS(m_backBufferList[l_i].m_resource.ReleaseAndGetAddressOf()));
+
+		if (FAILED(l_hr))
+		{
+			assert(false && "スワップチェインとバックバッファーの紐づけに失敗しました。");
+			return false;
+		}
+
+		// レンダーターゲット用アロケータを進める
+		const UINT l_rtvIndex = a_rtvDescriptorPool.Allocate();
+
+		if (l_rtvIndex == Constant::k_invalidDescriptorHeapIndex)
+		{
+			assert(false && "バックバッファ用RTVインデックスの確保に失敗しました。");
+			return false;
+		}
+
+		// l_i番目のバックバッファと紐づいているRTVのインデックスを格納
+		m_backBufferList[l_i].m_rtvIndex = l_rtvIndex;
+
+		// RTVを置くディスクリプタ位置を取得する
+		// l_i番目のバックバッファに対応するRTVも、同じl_i番目の位置に書いている
+		const auto& l_rtvHandle = a_rtvDescriptorPool.FetchVALCPUHandle(l_rtvIndex);
+
+		// レンダーターゲットビューを作成する関数
+		// CreateRenderTargetView(RTVを作りたい対象リソース、
+		//						  RTVの見え方を指定する設定、
+		//						  作成したRTVを書き込むディスクリプタ位置);
+
+		// このバックバッファを「描画先」として使えるようにする
+		l_device->CreateRenderTargetView(m_backBufferList[l_i].m_resource.Get(), &l_rtvDesc, l_rtvHandle);
 	}
 
 	return true;

@@ -2,12 +2,12 @@
 
 namespace FWK::Graphics
 {
-	class DescriptorHeapSlotAllocator final
+	class DescriptorHeapIndexAllocator final
 	{
 	public:
 
-		 DescriptorHeapSlotAllocator() = default;
-		~DescriptorHeapSlotAllocator() = default;
+		 DescriptorHeapIndexAllocator() = default;
+		~DescriptorHeapIndexAllocator() = default;
 
 		bool Create(const UINT a_descriptorCapacity);
 

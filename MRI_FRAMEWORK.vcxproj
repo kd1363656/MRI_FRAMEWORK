@@ -179,7 +179,7 @@
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapSlotAllocator.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
@@ -219,7 +219,7 @@
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapSlotAllocator.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
