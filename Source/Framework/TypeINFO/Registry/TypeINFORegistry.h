@@ -18,7 +18,7 @@ namespace FWK
 
 		// 指定した基底クラス、基底構造体を継承しているTypeInfo全てを取得
 		template <typename Type>
-		std::vector<const Struct::TypeINFO*> CollertTypeINFODerivedFromBase() const
+		std::vector<const Struct::TypeINFO*> CollerctTypeINFODerivedFromBase() const
 		{
 			auto l_list = std::vector<const Struct::TypeINFO*>();
 

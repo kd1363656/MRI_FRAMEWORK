@@ -22,13 +22,13 @@ namespace FWK::Graphics
 
 		const bool k_isShaderVisibleSupported;
 
+		TypeAlias::ComPtr<ID3D12DescriptorHeap> m_descriptorHeap;
+
 		D3D12_CPU_DESCRIPTOR_HANDLE m_cpuStart;
 		D3D12_GPU_DESCRIPTOR_HANDLE m_gpuStart;
 
 		UINT m_descriptorCapacity;
 		UINT m_descriptorSize;
-
-		TypeAlias::ComPtr<ID3D12DescriptorHeap> m_descriptorHeap;
 
 		bool m_isShaderVisible;
 	};

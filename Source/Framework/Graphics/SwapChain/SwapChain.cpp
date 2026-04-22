@@ -127,7 +127,7 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 
 	// スワップチェインの作成設定をまとめた構造体
 	// バッファサイズ、バッファ枚数、入れ替え方式などをここで指定する。
-	auto l_desc = DXGI_SWAP_CHAIN_DESC1();
+	DXGI_SWAP_CHAIN_DESC1 l_desc = {};
 
 	// バックバッファ1枚当たりの横幅
 	l_desc.Width = a_windowConfig.m_width;
@@ -182,7 +182,7 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 	// 追加オプションフラグ
 	// 今回は特別な機能を使わないので0
 	// 例えばtearing対応などを入れる場合はここにフラグを追加する
-	l_desc.Flags = 0U;
+	l_desc.Flags = k_swapChainDescFlags;
 
 	TypeAlias::ComPtr<IDXGISwapChain1> l_swapChain = nullptr;
 
@@ -247,7 +247,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 
 	// リソースを「レンダーターゲットとしてどう見るか」を指定する構造体
 	// RTVは「このリソースを描画先として扱うためのビュー情報」だと思えばよい
-	auto l_rtvDesc = D3D12_RENDER_TARGET_VIEW_DESC();
+	D3D12_RENDER_TARGET_VIEW_DESC l_rtvDesc = {};
 
 	// RTVから見たときの画素フォーマット
 	// ※注意 : バックバッファの実際のフォーマットと基本的にそろえる必要がある
@@ -274,7 +274,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 		}
 
 		// レンダーターゲット用アロケータを進める
-		const UINT l_rtvIndex = a_rtvDescriptorPool.Allocate();
+		const auto l_rtvIndex = a_rtvDescriptorPool.Allocate();
 
 		if (l_rtvIndex == Constant::k_invalidDescriptorHeapIndex)
 		{

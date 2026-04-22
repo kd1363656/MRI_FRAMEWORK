@@ -10,9 +10,9 @@ void FWK::Window::Init()
 {
 	m_hwnd = nullptr;
 
+	m_windowCONFIG.m_styleTag = Utility::Tag::GetTag<Tag::WindowStyleNormalTag>();
 	m_windowCONFIG.m_width    = Constant::k_defaultWindowWidth;
 	m_windowCONFIG.m_height   = Constant::k_defaultWindowHeight;
-	m_windowCONFIG.m_styleTag = Utility::Tag::GetTag<Tag::WindowStyleNormalTag>();
 }
 void FWK::Window::LoadCONFIG()
 {

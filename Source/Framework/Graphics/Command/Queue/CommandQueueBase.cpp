@@ -121,7 +121,7 @@ bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
 
 	// コマンドキュー作成時に必要な設定構造体
 	// この構造体に「どんな種類のキューを作るか」を設定してからCreateCommandQueueに渡す
-	auto l_desc = D3D12_COMMAND_QUEUE_DESC();
+	D3D12_COMMAND_QUEUE_DESC l_desc = {};
 
 	// このコマンドキューで実行するコマンドリストの種類を指定する
 	// ※注意 : この値は実行するコマンドリストのTypeと一致している必要がある

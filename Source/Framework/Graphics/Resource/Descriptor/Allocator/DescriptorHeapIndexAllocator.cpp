@@ -3,14 +3,14 @@
 bool FWK::Graphics::DescriptorHeapIndexAllocator::Create(const UINT a_descriptorCapacity)
 {
 	// 0個の確保は意味がないため失敗扱いとする
-	if (a_descriptorCapacity == 0U)
+	if (a_descriptorCapacity == k_invalidDescriptorCapacity)
 	{
 		assert(false && "ディスクリプタ割り当て数が0で作成できませんでした。");
 		return false;
 	}
 
 	m_descriptorCapacity = a_descriptorCapacity;
-	m_nextIndex			 = 0U;
+	m_nextIndex			 = k_initialNextIndex;
 	
 	// 全スロットを未使用状態で初期化する
 	m_isAllocatedList.assign(m_descriptorCapacity, false);

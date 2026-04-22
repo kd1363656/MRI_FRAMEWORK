@@ -5,13 +5,13 @@ FWK::Graphics::DescriptorHeapBase::DescriptorHeapBase(const D3D12_DESCRIPTOR_HEA
 
 	k_isShaderVisibleSupported(a_isShaderVisibleSupported),
 
+	m_descriptorHeap(nullptr),
+
 	m_cpuStart({}),
 	m_gpuStart({}),
 
 	m_descriptorCapacity(0U),
 	m_descriptorSize    (0U),
-	
-	m_descriptorHeap(nullptr),
 
 	m_isShaderVisible(a_isShaderVisible)
 {}

@@ -60,7 +60,7 @@ void Application::Execute()
 void Application::Init(const FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	m_window.Init();
-	
+
 	a_graphicsManager.Init();
 }
 
@@ -110,11 +110,11 @@ bool Application::BeginFrame()
 	return true;
 }
 
-void Application::BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager)
+void Application::BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	a_graphicsManager.BeginDraw();
 }
-void Application::EndDraw(FWK::Graphics::GraphicsManager& a_graphicsManager)
+void Application::EndDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	a_graphicsManager.EndDraw();
 }
@@ -129,7 +129,7 @@ void Application::EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	UpdateWindowTitleBar();
 }
 
-void Application::SaveFile(FWK::Graphics::GraphicsManager& a_graphicsManager) const
+void Application::SaveFile(const FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	m_window.SaveCONFIG		  ();
 	m_fpsController.SaveCONFIG();

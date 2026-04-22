@@ -3,9 +3,9 @@
 FWK::Graphics::CommandAllocatorBase::CommandAllocatorBase(const D3D12_COMMAND_LIST_TYPE a_createCommandListType) : 
 	k_createCommandListType(a_createCommandListType),
 
-	m_submittedFenceValue(Constant::k_unusedFenceValue),
+	m_commandAllocator(nullptr),
 
-	m_commandAllocator(nullptr)
+	m_submittedFenceValue(Constant::k_unusedFenceValue)
 {}
 FWK::Graphics::CommandAllocatorBase::~CommandAllocatorBase() = default;
 

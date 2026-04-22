@@ -19,6 +19,9 @@ namespace FWK::Graphics
 
 		bool IsValidIndex(const UINT a_index) const;
 
+		static constexpr UINT k_invalidDescriptorCapacity = 0U;
+		static constexpr UINT k_initialNextIndex		  = 0U;
+
 		UINT m_descriptorCapacity = 0U;
 		UINT m_nextIndex		  = 0U;
 

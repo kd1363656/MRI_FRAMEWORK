@@ -17,12 +17,12 @@ private:
 
 	bool BeginFrame();
 
-	void BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager);
-	void EndDraw  (FWK::Graphics::GraphicsManager& a_graphicsManager);
+	void BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void EndDraw  (FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
 	void EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 
-	void SaveFile(FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void SaveFile(const FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
 	void UpdateWindowTitleBar() const;
 

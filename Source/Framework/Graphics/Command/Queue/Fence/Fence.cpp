@@ -3,9 +3,9 @@
 FWK::Graphics::Fence::Fence() : 
 	m_fenceEvent(nullptr),
 
-	m_fenceValue(Constant::k_unusedFenceValue),
+	m_fence(nullptr),
 
-	m_fence(nullptr)
+	m_fenceValue(Constant::k_unusedFenceValue)
 {}
 FWK::Graphics::Fence::~Fence() 
 {
@@ -68,7 +68,7 @@ void FWK::Graphics::Fence::WaitForFenceValueIfNeeded(const UINT64& a_fenceValue)
 	// フェンスが存在しなければGPU完了確認はできない
 	if (!m_fence)
 	{
-		assert(false && "フェンスの作成に失敗しておりフェンス値まで待つかどうかの判定に失敗しました。");
+		assert(false && "フェンスの作成に失敗しており、フェンス値まで待つかどうかの判定に失敗しました。");
 		return;
 	}
 
@@ -101,7 +101,7 @@ void FWK::Graphics::Fence::WaitForFenceValueIfNeeded(const UINT64& a_fenceValue)
 
 	if (l_waitResult != WAIT_OBJECT_0)
 	{
-		assert(false && "フェンス待機に失敗しました。");
+		assert(false && "フェンスの待機処理に失敗しました。");
 		return;
 	}
 }

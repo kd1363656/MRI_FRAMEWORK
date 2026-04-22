@@ -41,14 +41,13 @@ namespace FWK::Graphics
 
 		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/Graphics/GraphicsCONFIG.json";
 
+		// 本来ならm_renderer,m_swapChainの順が依存関係的に正しいが
+		// デストラクタの呼び出し順の都合上並びを変えている
 		Factory         m_factory         = {};
 		Device          m_device          = {};
 		ResourceContext m_resourceContext = {};
-
-		// 本来ならm_renderer,m_swapChainの順が依存関係的に正しいが
-		// デストラクタの呼び出し順の都合上並びを変えている
-		SwapChain m_swapChain = {};
-		Renderer  m_renderer  = {};
+		SwapChain       m_swapChain       = {};
+		Renderer        m_renderer        = {};
 
 		JsonConverter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};
 		

@@ -30,9 +30,9 @@ namespace FWK::Graphics
 
 		UINT FetchVALCurrentBackBufferIndex() const;
 
-		auto GetSyncInterval() const { return m_syncInterval; }
+		const auto& GetREFBackBufferList() const { return m_backBufferList; }
 
-		const auto& GetBackBufferList() const { return m_backBufferList; }
+		auto GetVALSyncInterval() const { return m_syncInterval; }
 
 	private:
 
@@ -48,10 +48,11 @@ namespace FWK::Graphics
 		static constexpr UINT k_defaultSampleCount       = 1U;
 		static constexpr UINT k_defaultSampleQuality     = 0U;
 		static constexpr UINT k_swapChainPresentFlagNone = 0U;
-
-		UINT m_syncInterval = Constant::k_defaultSyncInterval;
+		static constexpr UINT k_swapChainDescFlags	     = 0U;
 
 		TypeAlias::ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
+
+		UINT m_syncInterval = Constant::k_defaultSyncInterval;
 
 		JsonConverter::SwapChainJsonConverter m_swapChainJsonConverter = {};
 

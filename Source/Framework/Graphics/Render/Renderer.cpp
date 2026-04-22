@@ -92,11 +92,7 @@ void FWK::Graphics::Renderer::EndFrame()
 
 nlohmann::json FWK::Graphics::Renderer::Serialize() const
 {
-	nlohmann::json l_rootJson = {};
-
-	l_rootJson = m_rendererJsonConverter.Serialize(*this);
-
-	return l_rootJson;
+	return m_rendererJsonConverter.Serialize(*this);
 }
 
 const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFrameResource() const

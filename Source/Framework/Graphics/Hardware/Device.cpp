@@ -12,10 +12,10 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 	}
 
 	// 現在調査中のGPUアダプターを一時的に受け取る変数
-	TypeAlias::ComPtr<IDXGIAdapter4> l_adapter = {};
+	TypeAlias::ComPtr<IDXGIAdapter4> l_adapter = nullptr;
 
 	// 最終的に使うGPUアダプターの格納先
-	TypeAlias::ComPtr<IDXGIAdapter4> l_selectedAdapter = {};
+	TypeAlias::ComPtr<IDXGIAdapter4> l_selectedAdapter = nullptr;
 
 	// 最終的に採用したフィーチャーレベルを保持する変数
 	D3D_FEATURE_LEVEL l_selectedFeatureLevel = {};

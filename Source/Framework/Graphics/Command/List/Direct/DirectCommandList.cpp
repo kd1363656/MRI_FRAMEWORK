@@ -46,7 +46,7 @@ void FWK::Graphics::DirectCommandList::TransitionResource(const D3D12_RESOURCE_S
 
 void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState, const SwapChain& a_swapChain) const
 {
-	const auto& l_backBufferList = a_swapChain.GetBackBufferList();
+	const auto& l_backBufferList = a_swapChain.GetREFBackBufferList();
 	
 	if (l_backBufferList.empty())
 	{
@@ -68,7 +68,7 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const D3D1
 	TransitionResource(a_beforeState, a_afterState, l_backBuffer);
 }
 
-void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
+void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
 {
 	const auto& l_directCommandList = GetREFCommandList().Get();
 
@@ -78,12 +78,12 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 		return;
 	}
 
-	const auto& l_backBufferList         = a_swapChain.GetBackBufferList             ();
+	const auto& l_backBufferList         = a_swapChain.GetREFBackBufferList          ();
 	const auto  l_currentBackBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
 
 	if (l_currentBackBufferIndex >= static_cast<UINT>(l_backBufferList.size()))
 	{
-		assert(false && "現在のバックバッファのインデックスがバックバッファリストの範囲外を指し示しており、バックバッファの設定が行えませんでした。");
+		assert(false && "現在のインデックスがバックバッファリストの範囲外を指し示しており、バックバッファの設定が行えませんでした。");
 		return;
 	}
 

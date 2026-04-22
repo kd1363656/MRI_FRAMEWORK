@@ -15,8 +15,8 @@ nlohmann::json FWK::JsonConverter::SwapChainJsonConverter::Serialize(const Graph
 {
 	nlohmann::json l_rootJson = {};
 
-	l_rootJson["BackBufferNum"] = a_swapChain.GetBackBufferList().size();
-	l_rootJson["SyncInterval"]  = a_swapChain.GetSyncInterval();
+	l_rootJson["BackBufferNum"] = a_swapChain.GetREFBackBufferList().size();
+	l_rootJson["SyncInterval"]  = a_swapChain.GetVALSyncInterval  ();
 
 	return l_rootJson;
 }
