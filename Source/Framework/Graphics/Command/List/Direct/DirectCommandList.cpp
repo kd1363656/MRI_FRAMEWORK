@@ -122,3 +122,111 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 											   k_executeClearRectNum,
 											   nullptr);
 }
+
+void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_renderArea) const
+{
+	const auto& l_directCommandList = GetREFCommandList().Get();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、ビューポートとシザー矩形の設定が出来ませんでした。");
+		return;
+	}
+	
+	// Viewportは頂点変換後の座標(NDC -1.0F ~ 1.0F)を、実際の画面上のどこに描くかを決める設定
+	// Viewportをコマンドリストへ設定する関数
+	// RSSetViewports(設定するViewportの数、
+	//				  Viewport構造体のアドレス);
+
+	l_directCommandList->RSSetViewports(k_setViewportNum, &a_renderArea.GetREFViewport());
+
+	// ScissorRectをコマンドリストへ設定する
+	// ScissorRectは実際に描画してよいピクセル範囲を制限する四角形
+	// RSSetScissorRects(設定するScissorRectの数、
+	//					 ScissorRectの先頭アドレス)
+
+	l_directCommandList->RSSetScissorRects(k_setScissorRectNum, &a_renderArea.GetScissorRect());
+}
+void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a_rootSignature) const
+{
+	if (!a_rootSignature)
+	{
+		assert(false && "無効なルートシグネチャで、ルートシグネチャの設定ができませんでした。");
+		return;
+	}
+
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、ルートシグネチャの設定が出来ませんでした。");
+		return;
+	}
+
+	const auto& l_rootSignature = a_rootSignature->GetREFRootSignature();
+
+	if (!l_rootSignature)
+	{
+		assert(false && "ルートシグネチャが作成されておらず、ルートシグネチャの設定が出来ませんでした。");
+		return;
+	}
+
+	// コマンドリストにルートシグネチャを設定する関数
+	// SetGraphicsRootSignature(描画パイプラインで使用するルートシグネチャのポインタ);
+
+	// ルートシグネチャは、シェーダーにどのリソースをどう渡すかを表す設定情報
+	// これを先に設定しておかない、後続の描画で使用するリリースの結び付けルールが決まらない
+	l_directCommandList->SetGraphicsRootSignature(l_rootSignature.Get());
+}
+void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a_pipelineState) const
+{
+	if (!a_pipelineState)
+	{
+		assert(false && "無効なパイプラインステートで、パイプラインステートの設定が出来ませんでした。");
+		return;
+	}
+
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、パイプラインステートの設定が出来ませんでした。");
+		return;
+	}
+
+	const auto& l_pipelineState = a_pipelineState->GetREFPipelineState();
+
+	if (!l_pipelineState)
+	{
+		assert(false && "パイプラインステートが作成されておらず、パイプラインステートの設定が出来ませんでした。");
+		return;
+	}
+
+	// コマンドリストにパイプラインステートをセットする関数
+	// SetPipelineState(パイプラインステートのポインタ)
+
+	// PSO(PipelineStateObject)には、
+	// どのシェーダーを使うか、
+	// どうラスタライズするか
+	// 深度テストを使うか、など
+	// 描画パイプラインの重要な設定がまとめて入っている
+	l_directCommandList->SetPipelineState(l_pipelineState.Get());
+}
+
+void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const
+{
+	const auto& l_directCommandList = GetREFCommandList().Get();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、DispatchMesh処理が出来ませんでした。");
+		return;
+	}
+
+	// メッシュシェーダーを実行するための関数
+	// DispatchMesh(X方向のグループ数、
+	//				Y方向のグループ数、
+	//				Z方向のグループ数);
+
+	l_directCommandList->DispatchMesh(a_threadCountGroupX, a_threadCountGroupY, a_threadCountGroupZ);
+}

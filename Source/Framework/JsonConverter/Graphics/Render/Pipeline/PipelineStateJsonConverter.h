@@ -26,7 +26,6 @@ namespace FWK::Converter
 		void DeserializeBlendDesc         (const nlohmann::json& a_rootJson, Graphics::PipelineState& a_pipelineState) const;
 		void DeserializeDepthStencilDesc  (const nlohmann::json& a_rootJson, Graphics::PipelineState& a_pipelineState) const;
 		void DeserializeRTVFormatList     (const nlohmann::json& a_rootJson, Graphics::PipelineState& a_pipelineState) const;
-		void DeserializeDSVFormat         (const nlohmann::json& a_rootJson, Graphics::PipelineState& a_pipelineState) const;
 		void DeserializeSampleDesc        (const nlohmann::json& a_rootJson, Graphics::PipelineState& a_pipelineState) const;
 
 		nlohmann::json SerializeRasterizerDesc    (const Graphics::PipelineState&    a_pipelineState)      const;
@@ -34,7 +33,6 @@ namespace FWK::Converter
 		nlohmann::json SerializeDepthStencilDesc  (const Graphics::PipelineState&    a_pipelineState)      const;
 		nlohmann::json SerializeDepthStencilOPDesc(const D3D12_DEPTH_STENCILOP_DESC& a_depthStencilOPDesc) const;
 		nlohmann::json SerializeRTVFormatList     (const Graphics::PipelineState&    a_pipelineState)      const;
-		nlohmann::json SerializeDSVFormat         (const Graphics::PipelineState&    a_pipelineState)      const;
 		nlohmann::json SerializeSampleDesc        (const Graphics::PipelineState&    a_pipelineState)      const;
 
 		void DeserializeDepthStencilOpDesc(const nlohmann::json& a_rootJson, D3D12_DEPTH_STENCILOP_DESC& a_depthStencilOPDesc) const;

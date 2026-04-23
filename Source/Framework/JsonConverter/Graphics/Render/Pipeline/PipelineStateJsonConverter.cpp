@@ -46,15 +46,25 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 		DeserializeRTVFormatList(a_rootJson["RTVFormatList"], a_pipelineState);
 	}
 
-	if (a_rootJson.contains(a_rootJson["DSVFormat"]))
+	if (a_rootJson.contains("DSVFormat"))
 	{
-		DeserializeDSVFormat(a_rootJson["DSVFormat"], a_pipelineState);
+		const auto l_dsvFormat = a_rootJson.value("DSVFormat", DXGI_FORMAT_UNKNOWN);
+
+		a_pipelineState.SetDSVFormat(l_dsvFormat);
 	}
 
-	if (a_rootJson.contains(a_rootJson["SampleDesc"]))
+	if (a_rootJson.contains("SampleDesc"))
 	{
-		DeserializeSampleDesc(a_rootJson, a_pipelineState);
+		DeserializeSampleDesc(a_rootJson["SampleDesc"], a_pipelineState);
 	}
+
+	const auto l_useRootSignatureTag   = Utility::Json::DeserializeTag(a_rootJson,			    "UseRootSignatureTag");
+	const auto l_primitiveTopologyType = a_rootJson.value			  ("PrimitiveTopologyType", D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+	const auto l_sampleMask			   = a_rootJson.value			  ("SampleMask",		    UINT_MAX);
+
+	a_pipelineState.SetUseRootSignatureTag  (l_useRootSignatureTag);
+	a_pipelineState.SetPrimitiveTopologyType(l_primitiveTopologyType);
+	a_pipelineState.SetSampleMask		    (l_sampleMask);
 }
 
 nlohmann::json FWK::Converter::PipelineStateJsonConverter::Serialize(const Graphics::PipelineState& a_pipelineState) const
@@ -77,12 +87,15 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::Serialize(const Graph
 		l_rootJson["PixelShader"] = l_pixelShader->Serialize();
 	}
 
-	l_rootJson["RasterizerDesc"]   = SerializeRasterizerDesc  (a_pipelineState);
-	l_rootJson["BlendDesc"]        = SerializeBlendDesc	      (a_pipelineState);
-	l_rootJson["DepthStencilDesc"] = SerializeDepthStencilDesc(a_pipelineState);
-	l_rootJson["RTVFormatList"]    = SerializeRTVFormatList   (a_pipelineState);
-	l_rootJson["DSVFormat"]        = SerializeDSVFormat       (a_pipelineState);
-	l_rootJson["SampleDesc"]	   = SerializeSampleDesc	  (a_pipelineState);
+	l_rootJson["RasterizerDesc"]   = SerializeRasterizerDesc        (a_pipelineState);
+	l_rootJson["BlendDesc"]        = SerializeBlendDesc	            (a_pipelineState);
+	l_rootJson["DepthStencilDesc"] = SerializeDepthStencilDesc      (a_pipelineState);
+	l_rootJson["RTVFormatList"]    = SerializeRTVFormatList         (a_pipelineState);
+	l_rootJson["DSVFormat"]        = a_pipelineState.GetVALDSVFormat();
+	l_rootJson["SampleDesc"]	   = SerializeSampleDesc	        (a_pipelineState);
+
+	// 使用するルートシグネチャのタグをシリアライズ
+	Utility::Json::UpdateJson(l_rootJson, Utility::Json::SerializeTag(a_pipelineState.GetVALUseRootSignatureTag(), "UseRootSignatureTag"));
 
 	l_rootJson["PrimitiveTopologyType"] = a_pipelineState.GetVALPrimitiveTopologyType();
 	l_rootJson["SampleMask"]            = a_pipelineState.GetVALSampleMask           ();
@@ -270,12 +283,6 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeRTVFormatList(const 
 		a_pipelineState.AddRTVFormat(l_json.get<DXGI_FORMAT>());
 	}
 }
-void FWK::Converter::PipelineStateJsonConverter::DeserializeDSVFormat(const nlohmann::json& a_rootJson, Graphics::PipelineState& a_pipelineState) const
-{
-	if (a_rootJson.is_null()) { return; }
-
-	a_pipelineState.SetDSVFormat(a_rootJson.value("DSVFormat", DXGI_FORMAT_UNKNOWN));
-}
 void FWK::Converter::PipelineStateJsonConverter::DeserializeSampleDesc(const nlohmann::json& a_rootJson, Graphics::PipelineState& a_pipelineState) const
 {
 	if (a_rootJson.is_null()) { return; }
@@ -446,10 +453,6 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeRTVFormatLis
 	}
 
 	return l_rootJsonArray;
-}
-nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeDSVFormat(const Graphics::PipelineState& a_pipelineState) const
-{
-	return nlohmann::json{ { "DSVFormat", a_pipelineState.GetVALDSVFormat() } };
 }
 nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeSampleDesc(const Graphics::PipelineState& a_pipelineState) const
 {

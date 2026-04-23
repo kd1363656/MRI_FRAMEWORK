@@ -4,6 +4,9 @@ namespace FWK::Graphics
 {
 	class SwapChain;
 	class RTVDescriptorHeap;
+	class RenderArea;
+	class RootSignature;
+	class PipelineState;
 }
 
 namespace FWK::Graphics
@@ -20,12 +23,21 @@ namespace FWK::Graphics
 
 		void SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
+		void SetupRenderArea   (const RenderArea&    a_renderArea)    const;
+		void SetupRootSignature(const RootSignature* a_rootSignature) const;
+		void SetupPipelineState(const PipelineState* a_pipelineState) const;
+
+		void DispatchMesh(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const;
+
 	private:
 
 		static constexpr UINT k_sendBarrierNum = 1U;
 
 		static constexpr UINT k_executeRenderTargetNum = 1U;
 		static constexpr UINT k_executeClearRectNum    = 0U;
+
+		static constexpr UINT k_setViewportNum    = 1U;
+		static constexpr UINT k_setScissorRectNum = 1U;
 
 		static constexpr float k_clearColor[] = { 1.0F, 0.0F, 1.0F, 1.0F };
 	};

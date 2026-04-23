@@ -34,6 +34,8 @@ namespace FWK::Graphics
 
 		void SetUseRootSignatureTag(const TypeAlias::TypeTag a_set) { m_useRootSignatureTag = a_set; }
 
+		const auto& GetREFPipelineState() const { return m_pipelineState; }
+
 		const auto& GetREFRasterizerDesc  () const { return m_rasterizerDesc; }
 		const auto& GetREFBlendDesc       () const { return m_blendDesc; }
 		const auto& GetREFDepthStencilDesc() const { return m_depthStencilDesc; }
@@ -61,6 +63,8 @@ namespace FWK::Graphics
 
 		D3D12_SHADER_BYTECODE FetchShaderByteCode(const Shader& a_shader) const;
 
+		TypeAlias::ComPtr<ID3D12PipelineState> m_pipelineState = nullptr;
+
 		std::shared_ptr<Shader> m_amplificationShader = nullptr;
 		std::shared_ptr<Shader> m_pixelShader         = nullptr;
 
@@ -78,8 +82,6 @@ namespace FWK::Graphics
 		Shader m_meshShader = {};
 
 		Converter::PipelineStateJsonConverter m_pipelineStateJsonConverter = {};
-
-		TypeAlias::ComPtr<ID3D12PipelineState> m_pipelineState = nullptr;
 
 		TypeAlias::TypeTag m_useRootSignatureTag = Constant::k_invalidTypeTag;
 

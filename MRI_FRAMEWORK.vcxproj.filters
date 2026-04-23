@@ -232,6 +232,30 @@
     <Filter Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline">
       <UniqueIdentifier>{77d18339-4865-44eb-96a8-13a87994e535}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics">
+      <UniqueIdentifier>{ca2ec248-9d06-43fc-994a-a3e11cdbc485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render">
+      <UniqueIdentifier>{6469d63a-9c8b-44ab-b091-d1a897f9750e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{3106d411-aa5b-4fcd-a650-21dd00095fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{64a8cd29-dd3c-4039-b004-7f9bb1b57aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset">
+      <UniqueIdentifier>{e08abcb7-e72b-4188-9139-dbc91832c777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader">
+      <UniqueIdentifier>{57aa608e-3c0b-4b86-afaf-e21368d9132b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Sprite">
+      <UniqueIdentifier>{c15445d6-3239-4eef-bd29-1b689b452b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Sprite\Standard">
+      <UniqueIdentifier>{1e1b915c-eb7c-49d8-927e-97b99a50be5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -437,6 +461,12 @@
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\Render\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\RootSignatureTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -547,5 +577,13 @@
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Render\Pipeline</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
+      <Filter>Asset\Shader\Sprite\Standard</Filter>
+    </FxCompile>
+    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
+      <Filter>Asset\Shader\Sprite\Standard</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

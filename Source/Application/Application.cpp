@@ -47,6 +47,7 @@ void Application::Execute()
 
 		// 描画
 		BeginDraw(l_graphicsManager);
+		Draw	 (l_graphicsManager);
 		EndDraw  (l_graphicsManager);
 
 		// FPSの更新
@@ -113,6 +114,10 @@ bool Application::BeginFrame()
 void Application::BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	a_graphicsManager.BeginDraw();
+}
+void Application::Draw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
+{
+	a_graphicsManager.Draw();
 }
 void Application::EndDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {

@@ -38,7 +38,13 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 		return false;
 	}
 
-	if (!m_renderer.Create(m_device))
+	if (!m_shaderCompiler.Create())
+	{
+		assert(false && "シェーダーコンパイラの作成処理に失敗しました。");
+		return false;
+	}
+
+	if (!m_renderer.Create(m_device, m_shaderCompiler))
 	{
 		assert(false && "レンダラーの作成処理に失敗しました。");
 		return false;
@@ -69,6 +75,10 @@ void FWK::Graphics::GraphicsManager::BeginDraw()
 	const auto& l_rtvDescriptorHeap = m_resourceContext.GetREFRTVDescriptorPool().GetREFDescriptorHeap();
 
 	m_renderer.BeginDraw(m_swapChain, l_rtvDescriptorHeap);
+}
+void FWK::Graphics::GraphicsManager::Draw()
+{
+	m_renderer.Draw();
 }
 void FWK::Graphics::GraphicsManager::EndDraw()
 {

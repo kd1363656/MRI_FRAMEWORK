@@ -6,7 +6,7 @@ void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 	m_rendererJsonConverter.Deserialize(a_rootJson, *this);
 }
 
-bool FWK::Graphics::Renderer::Create(const Device& a_device)
+bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompiler& a_shaderCompiler)
 {
 	for (auto& l_frameResource : m_frameResourceList)
 	{
@@ -38,8 +38,18 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device)
 		}
 	}
 
+	for (auto& [l_key, l_value] : m_pipelineStateMap)
+	{
+		if (!l_value.Create(a_device, a_shaderCompiler, *this))
+		{
+			assert(false && "パイプラインステートの作成に失敗しました。");
+			return false;
+		}
+	}
+
 	return true;
 }
+
 void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
 	m_renderArea.SetupRenderArea(a_swapChain);
@@ -69,6 +79,42 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 
 	// 今回使用するバックバッファを設定
 	m_directCommandList.SetupBackBuffer(a_swapChain, a_rtvDescriptorHeap);
+
+	// ビューポートとシザー矩形を設定
+	m_directCommandList.SetupRenderArea(m_renderArea);
+}
+
+void FWK::Graphics::Renderer::SetupGraphicsPipelineByTag(const TypeAlias::TypeTag a_pipelineStateTag) const
+{
+	auto* l_pipelineState = FindPTRPipelineState(a_pipelineStateTag);
+
+	if (!l_pipelineState) 
+	{
+		assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
+		return; 
+	}
+
+	// パイプラインステートが使用するルートシグネチャを取得
+	auto* l_rootSignature = FindPTRRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
+
+	if (!l_rootSignature)
+	{
+		assert(false && "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。");
+		return;
+	}
+
+	m_directCommandList.SetupRootSignature(l_rootSignature);
+
+	// パイプラインステートをセット
+	m_directCommandList.SetupPipelineState(l_pipelineState);
+}
+
+void FWK::Graphics::Renderer::Draw()
+{
+	// スプライト病
+	SetupGraphicsPipelineByTag(Utility::Tag::GetTag<Tag::SpriteStandardPipelineStateTag>());
+
+	m_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
 }
 
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
@@ -112,15 +158,24 @@ void FWK::Graphics::Renderer::AddRootSignature(const RootSignature& a_rootSignat
 {
 	m_rootSignatureMap.try_emplace(a_tag, a_rootSignature);
 }
+void FWK::Graphics::Renderer::AddPipelineState(const PipelineState& a_pipelineState, const TypeAlias::TypeTag a_tag)
+{
+	m_pipelineStateMap.try_emplace(a_tag, a_pipelineState);
+}
 
 const FWK::Graphics::RootSignature* FWK::Graphics::Renderer::FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const
 {
 	const auto& l_itr = m_rootSignatureMap.find(a_tag);
 
-	if (l_itr == m_rootSignatureMap.end())
-	{
-		return nullptr;
-	}
+	if (l_itr == m_rootSignatureMap.end()) { return nullptr; }
+
+	return &l_itr->second;
+}
+const FWK::Graphics::PipelineState* FWK::Graphics::Renderer::FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const
+{
+	const auto& l_itr = m_pipelineStateMap.find(a_tag);
+
+	if (l_itr == m_pipelineStateMap.end()) { return nullptr; }
 
 	return &l_itr->second;
 }

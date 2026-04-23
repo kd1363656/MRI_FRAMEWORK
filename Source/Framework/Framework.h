@@ -70,6 +70,8 @@
 //===============================================================================
 #include "Tag/TagBase.h"
 #include "Tag/Window/WindowStyleTag.h"
+#include "Tag/Graphics/Render/RootSignature/RootSignatureTag.h"
+#include "Tag/Graphics/Render/PipelineState/PipelineStateTag.h"
 
 //===============================================================================
 // コンセプト

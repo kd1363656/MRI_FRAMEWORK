@@ -12,6 +12,7 @@ namespace FWK::Graphics
 		void PostCreateSetup(const HWND& a_hwnd);
 
 		void BeginDraw();
+		void Draw	  ();
 		void EndDraw  ();
 		void EndFrame ();
 
@@ -47,6 +48,7 @@ namespace FWK::Graphics
 		Device          m_device          = {};
 		ResourceContext m_resourceContext = {};
 		SwapChain       m_swapChain       = {};
+		ShaderCompiler  m_shaderCompiler  = {};
 		Renderer        m_renderer        = {};
 
 		JsonConverter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};

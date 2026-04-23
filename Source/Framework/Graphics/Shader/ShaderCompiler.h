@@ -23,7 +23,7 @@ namespace FWK::Graphics
 		static constexpr const wchar_t* const k_argTargetProfileOption = L"-T";
 		static constexpr const wchar_t* const k_argRowMajorMatrix      = L"-Zpr";
 		static constexpr const wchar_t* const k_argHLSLVersionOption   = L"-HV";
-		static constexpr const wchar_t* const k_argHLSLVersion         = L"-2021";
+		static constexpr const wchar_t* const k_argHLSLVersion         = L"2021";
 
 #if defined(_DEBUG)
 		static constexpr const wchar_t* const k_argDebugINFO      = L"-Zi";

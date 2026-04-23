@@ -163,6 +163,8 @@ FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(
 		return nullptr;
 	}
 
+
+
 	// HLSLをコンパイルする関数
 	// Compile(コンパイルするソース情報、
 	//		   コンパイル引数配列、
@@ -188,6 +190,8 @@ FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(
 	// HLSLコードの文法エラーなどでコンパイル結果が失敗している場合がある
 	// そのためGetStatus()で「実際のコンパイル結果」を確認する必要がある
 	HRESULT l_compileStatus = {};
+
+	l_result->GetStatus(&l_compileStatus);
 
 	if (FAILED(l_compileStatus))
 	{
