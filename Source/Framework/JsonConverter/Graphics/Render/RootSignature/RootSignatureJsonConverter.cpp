@@ -5,13 +5,22 @@ void FWK::JsonConverter::RootSignatureJsonConverter::Deserialize(const nlohmann:
 	if (a_rootJson.is_null()) { return; }
 
 	// タグに対応したルートパラメータアクセス用インデックスを読み込む
-	DeserializeRootParameterIndexMap(a_rootJson["RootParameterIndexMap"], a_rootSignature);
+	if (Utility::Json::IsArray(a_rootJson, "RootParameterIndexMap"))
+	{
+		DeserializeRootParameterIndexMap(a_rootJson["RootParameterIndexMap"], a_rootSignature);
+	}
 
 	// ルートパラメータを読み込む
-	DeserializeRootParameterList(a_rootJson["RootParameterList"], a_rootSignature);
+	if (Utility::Json::IsArray(a_rootJson, "RootParameterList"))
+	{
+		DeserializeRootParameterList(a_rootJson["RootParameterList"], a_rootSignature);
+	}
 
 	// StaticSamplerDescを読み込む
-	DeserializeStaticSamplerDescList(a_rootJson["StaticSamplerDescList"], a_rootSignature);
+	if (Utility::Json::IsArray(a_rootJson, "StaticSamplerDescList"))
+	{
+		DeserializeStaticSamplerDescList(a_rootJson["StaticSamplerDescList"], a_rootSignature);
+	}
 
 	// このルートシグネチャをパイプラインからどう使うかを決定するフラグ
 	// どのシェーダーステージからアクセスするか、InputAssemblerを使うかLocalRootSignatureかを決める

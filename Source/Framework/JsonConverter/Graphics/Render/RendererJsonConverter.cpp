@@ -4,8 +4,15 @@ void FWK::JsonConverter::RendererJsonConverter::Deserialize(const nlohmann::json
 {
 	if (a_rootJson.is_null()) { return; }
 
-	DeserializeFrameResourceList(a_rootJson["FrameResourceList"], a_renderer);
-	DeserializeRootSignatureMap (a_rootJson["RootSignatureMap"],  a_renderer);
+	if (Utility::Json::IsArray(a_rootJson, "FrameResourceList"))
+	{
+		DeserializeFrameResourceList(a_rootJson["FrameResourceList"], a_renderer);
+	}
+
+	if (Utility::Json::IsArray(a_rootJson, "RootSignatureMap"))
+	{
+		DeserializeRootSignatureMap (a_rootJson["RootSignatureMap"],  a_renderer);
+	}
 }
 
 nlohmann::json FWK::JsonConverter::RendererJsonConverter::Serialize(const Graphics::Renderer& a_renderer) const
