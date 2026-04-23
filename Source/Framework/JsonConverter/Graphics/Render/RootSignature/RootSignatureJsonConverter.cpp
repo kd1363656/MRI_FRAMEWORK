@@ -255,7 +255,7 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 			default:
 			{
 				assert(false && "未対応のRootParameterTypeが指定されました。");
-				return l_rootJsonArray;
+				return {};
 			}
 		}
 		

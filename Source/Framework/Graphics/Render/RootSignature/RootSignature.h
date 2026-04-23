@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <atlplus.h>
 
 namespace FWK::Graphics
 {
