@@ -217,6 +217,9 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature">
       <UniqueIdentifier>{8f5b9a1d-4b52-47bf-9783-b137f651bb93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Shader">
+      <UniqueIdentifier>{9cabef64-e3a3-4c4b-b3a0-25f747de6c25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -404,6 +407,9 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Render\RootSignature</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Shader\ShaderCompiler.h">
+      <Filter>Source\Framework\Graphics\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -498,6 +504,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Render\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Shader\ShaderCompiler.cpp">
+      <Filter>Source\Framework\Graphics\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
