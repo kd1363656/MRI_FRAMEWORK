@@ -32,7 +32,7 @@ bool FWK::Graphics::SwapChain::Create(const HWND&							   a_hwnd,
 	return true;
 }
 
-void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hWND, const Factory& a_factory) const
+void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hwnd, const Factory& a_factory) const
 {
 	const auto& l_factory = a_factory.GetREFFactory();
 
@@ -47,7 +47,7 @@ void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hWND, const Factory
 	//						 ウィンドウに対して適用するDXGIの動作設定);
 
 	// Alt + Enterで勝手に排他フルスクリーンに切り替わるのを防ぐ
-	l_factory->MakeWindowAssociation(a_hWND, DXGI_MWA_NO_ALT_ENTER);
+	l_factory->MakeWindowAssociation(a_hwnd, DXGI_MWA_NO_ALT_ENTER);
 }
 
 void FWK::Graphics::SwapChain::Present() const

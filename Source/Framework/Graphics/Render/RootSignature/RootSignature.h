@@ -23,6 +23,8 @@ namespace FWK::Graphics
 		void SetRootSignatureFlags  (const D3D12_ROOT_SIGNATURE_FLAGS a_set) { m_rootSignatureFlags   = a_set; }
 		void SetRootSignatureVersion(const D3D_ROOT_SIGNATURE_VERSION a_set) { m_rootSignatureVersion = a_set; }
 
+		const auto& GetREFRootSignature() const { return m_rootSignature; }
+
 		const auto& GetREFRootParameterIndexMap() const { return m_rootParameterIndexMap; }
 
 		const auto& GetREFRootParameterList    () const { return m_rootParameterList; }

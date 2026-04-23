@@ -34,7 +34,7 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 
 	if (!m_resourceContext.Create(m_device))
 	{
-		assert(false && "リソースコンテキストの作成処理に失敗思案した。");
+		assert(false && "リソースコンテキストの作成処理に失敗しました。");
 		return false;
 	}
 
@@ -58,9 +58,9 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
     return true;
 }
 
-void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hWND)
+void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd)
 {
-	m_swapChain.PostCreateSetup(a_hWND, m_factory);
+	m_swapChain.PostCreateSetup(a_hwnd, m_factory);
 	m_renderer.PostCreateSetup (m_swapChain);
 }
 

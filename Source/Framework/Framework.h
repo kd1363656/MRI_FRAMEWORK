@@ -170,6 +170,7 @@
 #include "Graphics/Shader/Shader.h"
 
 // パイプラインステート
+#include "JsonConverter/Graphics/Render/Pipeline/PipelineStateJsonConverter.h"
 #include "Graphics/Render/Pipeline/PipelineState.h"
 
 // レンダラー

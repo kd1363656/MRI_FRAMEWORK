@@ -229,6 +229,9 @@
     <Filter Include="Source\Framework\Graphics\Render\Pipeline">
       <UniqueIdentifier>{e0a0886d-177f-432c-9403-ff62ec98afb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{77d18339-4865-44eb-96a8-13a87994e535}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -431,6 +434,9 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h">
       <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\Render\Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -537,6 +543,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.cpp">
       <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\Render\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

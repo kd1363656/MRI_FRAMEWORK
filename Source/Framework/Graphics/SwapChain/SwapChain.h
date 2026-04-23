@@ -18,7 +18,7 @@ namespace FWK::Graphics
 					const Struct::WindowCONFIG&              a_windowCONFIG,
 						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
 
-		void PostCreateSetup(const HWND& a_hWND, const Factory& a_factory) const;
+		void PostCreateSetup(const HWND& a_hwnd, const Factory& a_factory) const;
 
 		void Present() const;
 

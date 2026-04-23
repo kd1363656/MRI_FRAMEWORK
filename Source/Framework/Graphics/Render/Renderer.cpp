@@ -77,13 +77,13 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 
 	if (!l_currentFrameResource)
 	{
-		assert(false && "フレームリソースの取得に失敗しており、秒が終了処理を行うことができませんでした。");
+		assert(false && "フレームリソースの取得に失敗しており、描画終了処理を行うことができませんでした。");
 		return;
 	}
 
 	auto& l_commandAllocator = l_currentFrameResource->GetMutableREFDirectCommandAllocator();
 
-	// バックバッファの状態遷移(RESOPURCE -> PRESENT)
+	// バックバッファの状態遷移(RESOURCE -> PRESENT)
 	m_directCommandList.TransitionRenderTargetResource(D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT, a_swapChain);
 
 	// コマンドリストへの命令記録を終了
@@ -129,7 +129,7 @@ const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFram
 {
 	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
 	{
-		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリース取得が行えませんでした。");
+		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
 		return nullptr;
 	}
 

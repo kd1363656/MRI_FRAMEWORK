@@ -3,6 +3,7 @@
 void FWK::Graphics::PipelineState::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+	m_pipelineStateJsonConverter.Deserialize(a_rootJson, *this);
 }
 
 bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCompiler& a_shaderCompiler, const Renderer& a_renderer)
@@ -15,18 +16,211 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 		return false;
 	}
 
+	const auto* l_useRootSignature = a_renderer.FindPTRRootSignature(m_useRootSignatureTag);
+
+	if (!l_useRootSignature)
+	{
+		assert(false && "対象となるルートシグネチャの取得に失敗し、パイプラインステートの作成が出来ませんでした。");
+		return false;
+	}
+
+	const auto& l_rootSignature = l_useRootSignature->GetREFRootSignature();
+
+	if (!l_rootSignature)
+	{
+		assert(false && "ルートシグネチャが作成されておらず、パイプラインステートの作成が出来ませんでした。");
+		return false;
+	}
+
+	// RTVFormatListが空ならreturn
+	if (m_rtvFormatList.empty())
+	{
+		assert(false && "RTVFormatListが空のため、RenderTargetFormatを設定できませんでした。");
+		return false;
+	}
+
+	// RTVFormatListの要素数がレンダーターゲットの要素数を超えていたらreturn
+	if (m_rtvFormatList.size() > D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT)
+	{
+		assert(false && "RTVFormatListの要素数がDirectX12のRenderTarget上限を超えています。");
+		return false;
+	}
+
+	// 使用するシェーダーをコンパイルする
+	// AmplificationShaderとPixelShaderは任意なので、
+	// 存在するときだけコンパイルする。
+	// MeshShaderはこのPSOで必須なので必ずコンパイルする
+	if (m_amplificationShader)
+	{
+		m_amplificationShader->CompileFromFile(a_shaderCompiler);
+	}
+
+	m_meshShader.CompileFromFile(a_shaderCompiler);
+
+	if (m_pixelShader)
+	{
+		m_pixelShader->CompileFromFile(a_shaderCompiler);
+	}
+
+	// メッシュシェーダー用パイプラインステート設定構造体
+	auto l_pipelineStateDesc = D3DX12_MESH_SHADER_PIPELINE_STATE_DESC();
+
+	// AS(AmplificationShader)を設定する
+	// ASはメッシュレットの増幅や振り分けを行う前段シェーダー
+	// 使わない場合は設定しなくてもよい
+	if (m_amplificationShader)
+	{
+		l_pipelineStateDesc.AS = FetchShaderByteCode(*m_amplificationShader);
+	}
+
+	// MS(MeshShader)を設定する
+	// メッシュシェーダーパイプラインの中心になる必須シェーダー
+	l_pipelineStateDesc.MS = FetchShaderByteCode(m_meshShader);
+	
+	// PS(PixelShader)を設定する
+	// ピクセルの最終色を決めるシェーダー
+	// 使わない構成もあるため任意
+	if (m_pixelShader) 
+	{
+		l_pipelineStateDesc.PS = FetchShaderByteCode(*m_pixelShader);
+	}
+
+		// このPSOで使用するルートシグネチャを設定する
+	// ルートシグネチャは「シェーダーへどのリソースをどう渡すか」のルール
+	l_pipelineStateDesc.pRootSignature = l_rootSignature.Get();
+	
+	// D3D12_RASTERIZER_DESCについての説明
+	// FillMode              : ポリゴンを塗りつぶすか、ワイヤーフレームで描くか
+	// CullMode              : 前面 / 背面のどちらを描画しないか
+	// FrontCounterClockwise : 反時計回りを前面扱いするか
+	// DepthBias             : 深度値に加える補正値
+	// DepthBiasClamp        : 深度バイアスの最大補正量
+	// SlopeScaledDepthBias  : 面の傾きに応じて増える深度バイアス係数
+	// DepthClipEnable       : 深度範囲外のピクセルをクリップするか
+	// MultisampleEnable     : MSAA関連のラスタライズ設定
+	// AntialiasedLineEnable : 線描画時のアンチエイリアスを有効にするか
+	// ForcedSampleCount     : 強制サンプル数(通常は0)
+	// ConservativeRaster    : 保守的ラスタライズを使うか
+	// ラスタライザ設定を指定する
+	l_pipelineStateDesc.RasterizerState = m_rasterizerDesc;
+
+	// D3D12_BLEND_DESCについての説明
+	// AlphaToCoverageEnable  : MSAA使用時にalpha値からサンプル被覆率を作るか
+	// IndependentBlendEnable : 複数RenderTargetごとに別々のブレンド設定を使うか
+	// RenderTarget[8]        : 最大8枚の描画先それぞれのブレンド設定
+	// RenderTarget[i]について説明
+	// BlendEnable		     : 色ブレンドを有効にするか
+	// SrcBlend			     : 今描く色(RGB)にかける係数
+	// DestBlend		     : 既にある色(RGB)にかける係数
+	// BlendOp			     : RGBの合成方法
+	// SrcBlendAlpha	     : 今描くalphaにかける係数
+	// DestBlendAlpha	     : 既にあるalphaの合成方法
+	// BlendOpAlpha		     : alphaの合成方法
+	// LogicOpEnable	     : 論理演算を使うか
+	// LogicOp			     : 論理演算の種類
+	// RenderTargetWriteMask : RGBAのどの成分を書き込むか
+	// ブレンド設定を指定する
+	// ここでは基本的な基底設定を使用する
+	// 透明合成などをしたい場合は後でここを変更する
+	l_pipelineStateDesc.BlendState = m_blendDesc;
+
+	// 対象となるGPUのノードマスク
+	l_pipelineStateDesc.NodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
+
+	// D3D12_DEPTH_STENCIL_DESCについての説明
+	// DepthEnable      : 深度テストを使うかどうか
+	// DepthWriteMask   : 深度値を深度バッファへ書き込むかどうか
+	// DepthFunc        : 深度比較の方法(手前なら描く、常に描くなど)
+	// StencilEnable    : ステンシルテストを使うかどうか
+	// StencilReadMask  : ステンシル値を読むときのビットマスク
+	// StencilWriteMask : ステンシル値を書き込むときのビットマスク
+	// FrontFace        : 前面ポリゴンに対するステンシル動作
+	// BackFace         : 背面ポリゴンに対するステンシル動作
+	l_pipelineStateDesc.DepthStencilState = m_depthStencilDesc;
+
+	// サンプルマスクを設定する
+	// 通常はUINT_MAXで全サンプル有効
+	l_pipelineStateDesc.SampleMask = m_sampleMask;
+
+	// RenderTargetの枚数を指定する
+	// 今回は一枚だけ描画先を使う
+	l_pipelineStateDesc.NumRenderTargets = static_cast<UINT>(m_rtvFormatList.size());
+
+	// 1枚目のRenderTargetのフォーマットを指定する
+	// 今回はRGBA8の通常的な8bit,UNORM形式
+	for (std::size_t l_i = 0ULL; l_i < m_rtvFormatList.size(); ++l_i)
+	{
+		l_pipelineStateDesc.RTVFormats[l_i] = m_rtvFormatList[l_i];
+	}
+
+	// 深度ステンシルビューのフォーマットを設定する
+	// 深度を使うPSOでは、実際にOMへセットするDSVと同じフォーマットを指定する必要がある
+	l_pipelineStateDesc.DSVFormat = m_dsvFormat;
+
+	// DXGI_SAMPLE_DESCについての説明
+	// Count : 1ピクセル当たりのサンプル数(1なら通常描画、4なら4x MSAAのように複数回サンプリングする)
+	// Quality : サンプル品質レベル(通常は0を使うことが多い、利用可能な値はデバイス / フォーマットごとに確認が必要)
+	// MSAAなどのサンプル設定を指定する
+	// Count = 1なら通常の非MSAA描画
+	l_pipelineStateDesc.SampleDesc = m_sampleDesc;
+
+	// このPSOが使うプリミティブ種類を指定する
+	// 今回は三角形として描画する
+	l_pipelineStateDesc.PrimitiveTopologyType = m_primitiveTopologyType;
+
+	// 上で設定したPSO情報をストリーム形式へまとめる
+	auto l_psoStream = CD3DX12_PIPELINE_MESH_STATE_STREAM(l_pipelineStateDesc);
+	
+	auto l_streamDesc = D3D12_PIPELINE_STATE_STREAM_DESC();
+
+	// PSOサブオブジェクトストリームの先頭アドレス
+	l_streamDesc.pPipelineStateSubobjectStream = &l_psoStream;
+
+	// ストリーム全体のサイズ
+	l_streamDesc.SizeInBytes = sizeof(l_psoStream);
+
+	// パイプラインステートを実際に作成する
+	// CreatePipelineState(パイプライン設定ストリーム、
+	//					   受け取りたいCOMインターフェース型のID、
+	//					   作成結果のポインタを書き込むアドレス);
+
+	auto l_hr = l_device->CreatePipelineState(&l_streamDesc, IID_PPV_ARGS(m_pipelineState.ReleaseAndGetAddressOf()));
+
+	if (FAILED(l_hr))
+	{
+		assert(false && "パイプラインステート作成に失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 
 nlohmann::json FWK::Graphics::PipelineState::Serialize() const
 {
-	return nlohmann::json();
+	return m_pipelineStateJsonConverter.Serialize(*this);
 }
 
-void FWK::Graphics::PipelineState::EnsureShader(std::shared_ptr<Shader>& a_shader) const
+void FWK::Graphics::PipelineState::AddRTVFormat(const DXGI_FORMAT a_format)
 {
-	// 既にインスタンス化されていたら"return"
-	if (a_shader) { return; }
+	// もしRTVFormatの要素数を超えてしまっていたらreturn
+	if (m_rtvFormatList.size() >= D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT)
+	{
+		assert(false && "RTVFormatListの要素数がD3DX12_MESH_SHADER_PIPELINE_STATE_DESCのRTVFormatの要素数を超えています。");
+		return;
+	}
 
-	a_shader = std::make_shared<Shader>();
+	m_rtvFormatList.emplace_back(a_format);
+}
+
+D3D12_SHADER_BYTECODE FWK::Graphics::PipelineState::FetchShaderByteCode(const Shader& a_shader) const
+{
+	const auto& l_blob = a_shader.GetDXCBlob();
+
+	if (!l_blob)
+	{
+		assert(false && "シェーダーバイトコードの取得に失敗しました。");
+		return D3D12_SHADER_BYTECODE();
+	}
+
+	return { l_blob->GetBufferPointer(), l_blob->GetBufferSize() };
 }

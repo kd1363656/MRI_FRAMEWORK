@@ -324,6 +324,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />
     <ClInclude Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h" />
@@ -371,6 +372,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.cpp" />
