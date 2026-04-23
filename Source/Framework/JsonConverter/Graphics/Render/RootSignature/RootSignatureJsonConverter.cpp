@@ -14,8 +14,8 @@ void FWK::JsonConverter::RootSignatureJsonConverter::Deserialize(const nlohmann:
 	DeserializeStaticSamplerDescList(a_rootJson, a_rootSignature);
 
 	// このルートシグネチャをパイプラインからどう使うかを決定するフラグ
-	// 度のシェーダーステージからアクセスするか、InputAssemblerを使うかLocalRootSignatureかを決める
-	const auto l_flags   = a_rootJson.value("RootSignatureFlags", D3D12_ROOT_SIGNATURE_FLAG_NONE);
+	// どのシェーダーステージからアクセスするか、InputAssemblerを使うかLocalRootSignatureかを決める
+	const auto l_flags = a_rootJson.value("RootSignatureFlags", D3D12_ROOT_SIGNATURE_FLAG_NONE);
 
 	// どのバージョンのルートシグネチャ仕様でシリアライズするかを決める
 	const auto l_version = a_rootJson.value("RootSignatureVersion", D3D_ROOT_SIGNATURE_VERSION_1);
@@ -193,9 +193,8 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeStaticSamplerDes
 
 nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootParameterIndexMap(const Graphics::RootSignature& a_rootSignature) const
 {
-	nlohmann::json l_rootJson  = {};
-	auto		   l_jsonArray = nlohmann::json::array();
-
+	nlohmann::json l_rootJsonArray = nlohmann::json::array();
+	
 	const auto& l_rootParameterIndexMap = a_rootSignature.GetREFRootParameterIndexMap();
 
 	// タグとルートインデックスを対応付けて保存
@@ -207,17 +206,14 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 
 		l_json["Index"] = l_value;
 
-		l_jsonArray.emplace_back(l_json);
+		l_rootJsonArray.emplace_back(l_json);
 	}
 
-	l_rootJson["RootParameterIndexMap"] = l_jsonArray;
-
-	return l_rootJson;
+	return l_rootJsonArray;
 }
 nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootParameterList(const Graphics::RootSignature& a_rootSignature) const
 {
-	nlohmann::json l_rootJson  = {};
-	auto		   l_jsonArray = nlohmann::json::array();
+	auto l_jsonArray = nlohmann::json::array();
 
 	const auto& l_rootParameterList = a_rootSignature.GetREFRootParameterList();
 
@@ -226,19 +222,24 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 	{
 		nlohmann::json l_json = {};
 
+		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_rootParameter.rootParameterTag, "RootParameterTag"));
+
+		l_json["ParameterType"]    = l_rootParameter.rootParameter.ParameterType;
+		l_json["ShaderVisibility"] = l_rootParameter.rootParameter.ShaderVisibility;
+
 		switch(l_rootParameter.rootParameter.ParameterType)
 		{
 			case D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE:
 			{
-				l_rootJson["DescriptorRangeList"] = SerializeDescriptorRangeList(l_rootParameter);
+				l_json["DescriptorRangeList"] = SerializeDescriptorRangeList(l_rootParameter);
 			}
 			break;
 
 			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
 			{
-				l_rootJson["ShaderRegister"] = l_rootParameter.rootParameter.Constants.ShaderRegister;
-				l_rootJson["RegisterSpace"]  = l_rootParameter.rootParameter.Constants.RegisterSpace;
-				l_rootJson["Num32BitValues"] = l_rootParameter.rootParameter.Constants.Num32BitValues;
+				l_json["ShaderRegister"] = l_rootParameter.rootParameter.Constants.ShaderRegister;
+				l_json["RegisterSpace"]  = l_rootParameter.rootParameter.Constants.RegisterSpace;
+				l_json["Num32BitValues"] = l_rootParameter.rootParameter.Constants.Num32BitValues;
 			}
 			break;
 
@@ -246,33 +247,30 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 			case D3D12_ROOT_PARAMETER_TYPE_SRV:
 			case D3D12_ROOT_PARAMETER_TYPE_UAV:
 			{
-				l_rootJson["ShaderRegister"] = l_rootParameter.rootParameter.Descriptor.ShaderRegister;
-				l_rootJson["RegisterSpace"]  = l_rootParameter.rootParameter.Descriptor.RegisterSpace;
+				l_json["ShaderRegister"] = l_rootParameter.rootParameter.Descriptor.ShaderRegister;
+				l_json["RegisterSpace"]  = l_rootParameter.rootParameter.Descriptor.RegisterSpace;
 			}
 			break;
 
 			default:
 			{
 				assert(false && "未対応のRootParameterTypeが指定されました。");
-				return l_rootJson;
+				return l_rootJsonArray;
 			}
 		}
 		
 		l_jsonArray.emplace_back(l_json);
 	}
 
-	l_rootJson["RootParameterList"] = l_jsonArray;
-
-	return l_rootJson;
+	return l_jsonArray;
 }
 nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeStaticSamplerDescList(const Graphics::RootSignature& a_rootSignature) const
 {
-	nlohmann::json l_rootJson  = {};
-	auto		   l_jsonArray = nlohmann::json::array();
-
+	auto l_rootJsonArray = nlohmann::json::array();
+	
 	const auto& l_staticSamplerDescList = a_rootSignature.GetREFStaticSamplerDescList();
 
-	// タグとルートインデックスを対応付けて保存
+	// スタティックサンプラーの設定リストを保存
 	for (const auto& l_staticSamplerDesc : l_staticSamplerDescList)
 	{
 		nlohmann::json l_json = {};
@@ -303,9 +301,9 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeStaticSa
 		l_json["BorderColor"] = l_staticSamplerDesc.BorderColor;
 		
 		// 参照可能な最小MIPレベル
-		l_rootJson["MinLOD"] = l_staticSamplerDesc.MinLOD;
+		l_json["MinLOD"] = l_staticSamplerDesc.MinLOD;
 		
-		// 参照可能な最大MIPレベル]
+		// 参照可能な最大MIPレベル
 		l_json["MaxLOD"] = l_staticSamplerDesc.MaxLOD;
 		
 		// シェーダー側のSamplerRegister番号
@@ -317,12 +315,10 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeStaticSa
 		// このSamplerをどのシェーダーステージから見えるようにするか
 		l_json["ShaderVisibility"] = l_staticSamplerDesc.ShaderVisibility;
 
-		l_jsonArray.emplace_back(l_json);
+		l_rootJsonArray.emplace_back(l_json);
 	}
 
-	l_rootJson["StaticSamplerDescList"] = l_jsonArray;
-
-	return l_rootJson;
+	return l_rootJsonArray;
 }
 
 void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeList(const nlohmann::json& a_rootJson, Struct::RootParameter& a_rootParameter) const
@@ -394,9 +390,8 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeDescript
 	// ディスクリプタレンジリストが存在しなければreturn
 	if (!a_rootParameter.descriptorRangeList) { return {}; }
 
-	nlohmann::json l_rootJson  = {};
-	auto		   l_jsonArray = nlohmann::json::array();
-
+	nlohmann::json l_rootJsonArray = nlohmann::json::array();
+	
 	for (const auto& l_descriptorRange : *a_rootParameter.descriptorRangeList)
 	{
 		nlohmann::json l_json = {};
@@ -407,10 +402,8 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeDescript
 		l_json["RegisterSpace"]                     = l_descriptorRange.RegisterSpace;
 		l_json["OffsetInDescriptorsFromTableStart"] = l_descriptorRange.OffsetInDescriptorsFromTableStart;
 
-		l_jsonArray.emplace_back(l_json);
+		l_rootJsonArray.emplace_back(l_json);
 	}
 
-	l_rootJson["DescriptorRangeList"] = l_jsonArray;
-
-	return l_rootJson;
+	return l_rootJsonArray;
 }
