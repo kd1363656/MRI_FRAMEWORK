@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <atlplus.h>
 
 namespace FWK::Graphics
 {
@@ -18,6 +19,23 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize();
 
+		UINT FindRootParameterIndex(const TypeAlias::TypeTag a_tag) const;
+
+		void SetRootSignatureFlags  (const D3D12_ROOT_SIGNATURE_FLAGS a_set) { m_rootSignatureFlags   = a_set; }
+		void SetRootSignatureVersion(const D3D_ROOT_SIGNATURE_VERSION a_set) { m_rootSignatureVersion = a_set; }
+
+		const auto& GetREFRootParameterIndexMap() const { return m_rootParameterIndexMap; }
+
+		const auto& GetREFRootParameterList    () const { return m_rootParameterList; }
+		const auto& GetREFStaticSamplerDescList() const { return m_staticSamplerDescList; }
+
+		auto& GetMutableREFRootParameterIndexMap() { return m_rootParameterIndexMap; }
+		auto& GetMutableREFRootParameterList    () { return m_rootParameterList; }
+		auto& GetMutableREFStaticSamplerDescList() { return m_staticSamplerDescList; }
+
+		auto GetVALRootSignatureFlags  () const { return m_rootSignatureFlags; }
+		auto GetVALRootSignatureVersion() const { return m_rootSignatureVersion; }
+
 	private:
 
 		TypeAlias::ComPtr<ID3D12RootSignature> m_rootSignature = nullptr;
@@ -33,6 +51,6 @@ namespace FWK::Graphics
 
 		// D3D12_ROOT_PARAMETERは、内部にポインタを持つため要素の再確保が発生した場合に
 		// ポインタが無効になる可能性があるのでreserveするかemplace_backした後にポインタを渡す
-		std::vector<Struct::RootParameterData> m_rootParameterDataList = {};
+		std::vector<Struct::RootParameter> m_rootParameterList = {};
 	};
 }
