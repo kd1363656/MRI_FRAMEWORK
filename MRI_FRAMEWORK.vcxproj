@@ -282,6 +282,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />
@@ -317,6 +318,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\ShaderCompiler.h" />
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />
     <ClInclude Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.h" />
@@ -325,6 +327,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.h" />
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
@@ -361,6 +364,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\ShaderCompiler.cpp" />
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.cpp" />
@@ -368,6 +372,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\TypeINFO\Registry\TypeINFORegistry.cpp" />

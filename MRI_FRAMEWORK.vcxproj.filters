@@ -220,6 +220,12 @@
     <Filter Include="Source\Framework\Graphics\Shader">
       <UniqueIdentifier>{9cabef64-e3a3-4c4b-b3a0-25f747de6c25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Shader">
+      <UniqueIdentifier>{53cd901a-9ab9-40f9-8d11-346c63f7aff6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\FileExtnsion">
+      <UniqueIdentifier>{72cd5aac-7305-4594-b450-5aaa3986bbe1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -410,6 +416,15 @@
     <ClInclude Include="Source\Framework\Graphics\Shader\ShaderCompiler.h">
       <Filter>Source\Framework\Graphics\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h">
+      <Filter>Source\Framework\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h">
+      <Filter>Source\Framework\Definition\Constant\FileExtnsion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -507,6 +522,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Shader\ShaderCompiler.cpp">
       <Filter>Source\Framework\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp">
+      <Filter>Source\Framework\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

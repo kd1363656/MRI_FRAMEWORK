@@ -110,14 +110,14 @@ FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(
 	l_args.emplace_back(l_filePath.c_str());
 	
 	// -E : エントリーポイント名を指定するオプション
-	l_args.emplace_back(L"-E");
+	l_args.emplace_back(k_argEntryPointOption);
 
 	// どの関数をコンパイル開始地点にするか
 	// 例 : VSMain / PSMain
 	l_args.emplace_back(l_entryPointName.c_str());
 
 	// -T : シェーダープロファイル(シェーダーモデル)を指定するオプション
-	l_args.emplace_back(L"-T");
+	l_args.emplace_back(k_argTargetProfileOption);
 
 	// どの種類のシェーダーとしてコンパイルするか
 	// 例 : vs_6_0 = VertexShader / ps_6_0 = PixelShader
@@ -125,24 +125,24 @@ FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(
 
 	// -Zpr : 行優先(Row - major)で行列を扱う指定
 	// CPU側とHLSL側の行列の並びを揃えたいときに重要
-	l_args.emplace_back(L"-Zpr");
+	l_args.emplace_back(k_argRowMajorMatrix);
 
 	// -HV : HLSL言語バージョン指定オプション
-	l_args.emplace_back(L"-HV");
+	l_args.emplace_back(k_argHLSLVersionOption);
 
 	// -2021 : HLSL 2021として解釈する
-	l_args.emplace_back(L"2021");
+	l_args.emplace_back(k_argHLSLVersion);
 
 #if defined(_DEBUG)
 
 	// Zi : デバッグ情報を付ける
-	l_args.emplace_back(L"-Zi");
+	l_args.emplace_back(k_argDebugINFO);
 
 	// -Qembed_debug : デバッグ情報を出力バイナリ内に埋め込む
-	l_args.emplace_back(L"-Qembed_debug");
+	l_args.emplace_back(k_argEmbedDebugINFO);
 #else
 	// -03 : 最適化を強める(リリース向け)
-	l_args.emplace_back(L"-O3");
+	l_args.emplace_back(k_argOptimizationLevel);
 #endif
 
 	TypeAlias::ComPtr<IDxcResult>         l_result		   = nullptr;

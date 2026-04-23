@@ -25,6 +25,9 @@
 // Graphics関係の定数
 #include "Definition/Constant/Graphics/GraphicsConstant.h"
 
+// ファイル関係の定数
+#include "Definition/Constant/FileExtension/FileExtensionConstant.h"
+
 // 文字列ハッシュ構造体
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 
@@ -158,6 +161,13 @@
 // ルートシグネチャ
 #include "JsonConverter/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
 #include "Graphics/Render/RootSignature/RootSignature.h"
+
+// DXCコンパイラクラス
+#include "Graphics/Shader/ShaderCompiler.h"
+
+// シェーダークラス
+#include "JsonConverter/Graphics/Shader/ShaderJsonConverter.h"
+#include "Graphics/Shader/Shader.h"
 
 // レンダラー
 #include "JsonConverter/Graphics/Render/RendererJsonConverter.h"

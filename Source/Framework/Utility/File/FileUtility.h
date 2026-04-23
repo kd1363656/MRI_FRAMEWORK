@@ -2,8 +2,6 @@
 
 namespace FWK::Utility::File
 {
-	inline const std::filesystem::path k_lowerJsonExtension = ".json";
-
 	inline constexpr int k_jsonIndentNum = 4;
 
 	inline nlohmann::json LoadJsonFile(const std::filesystem::path& a_filePath)
@@ -15,7 +13,7 @@ namespace FWK::Utility::File
 		if (!std::filesystem::is_regular_file(a_filePath)) { return {}; }
 
 		// 拡張子が".json"でなければreturn
-		if (a_filePath.extension() != k_lowerJsonExtension) { return {}; }
+		if (a_filePath.extension() != Constant::k_lowerJsonExtension) { return {}; }
 
 		// ifstreamからjsonを読み込む
 		std::ifstream l_ifs{ a_filePath };
@@ -35,7 +33,7 @@ namespace FWK::Utility::File
 	inline void SaveJsonFile(const nlohmann::json& a_json, const std::filesystem::path& a_filePath)
 	{
 		// 拡張子が".json"出なければreturn
-		if (a_filePath.extension() != k_lowerJsonExtension) { return; }
+		if (a_filePath.extension() != Constant::k_lowerJsonExtension) { return; }
 
 		std::ofstream l_ofs(a_filePath, std::ios::out);
 
