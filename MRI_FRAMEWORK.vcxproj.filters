@@ -226,6 +226,9 @@
     <Filter Include="Source\Framework\Definition\Constant\FileExtnsion">
       <UniqueIdentifier>{72cd5aac-7305-4594-b450-5aaa3986bbe1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{e0a0886d-177f-432c-9403-ff62ec98afb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -425,6 +428,9 @@
     <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h">
       <Filter>Source\Framework\Definition\Constant\FileExtnsion</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h">
+      <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -528,6 +534,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.cpp">
+      <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

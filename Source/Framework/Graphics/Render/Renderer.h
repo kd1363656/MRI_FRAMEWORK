@@ -4,6 +4,10 @@ namespace FWK::Graphics
 {
 	class Renderer final
 	{
+	private:
+
+		using RootSignatureMap = std::unordered_map<TypeAlias::TypeTag, RootSignature>;
+
 	public:
 
 		 Renderer() = default;
@@ -20,9 +24,15 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
+		void AddRootSignature(const RootSignature& a_rootSignature, const TypeAlias::TypeTag a_tag);
+		
+		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
+
 		auto& GetMutableREFFrameResourceList() { return m_frameResourceList; }
 		
 		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
+
+		const auto& GetREFRootSignatureMap() const { return m_rootSignatureMap; }
 
 		const auto& GetREFResourceList() const { return m_frameResourceList; }
 
@@ -42,6 +52,8 @@ namespace FWK::Graphics
 		RenderArea m_renderArea = {};
 
 		JsonConverter::RendererJsonConverter m_rendererJsonConverter = {};
+
+		RootSignatureMap m_rootSignatureMap = {};
 
 		std::vector<FrameResource> m_frameResourceList = {};
 	};

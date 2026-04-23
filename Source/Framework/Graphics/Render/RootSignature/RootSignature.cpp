@@ -105,7 +105,7 @@ bool FWK::Graphics::RootSignature::Create(const Device& a_device)
 	return true;
 }
 
-nlohmann::json FWK::Graphics::RootSignature::Serialize()
+nlohmann::json FWK::Graphics::RootSignature::Serialize() const
 {
 	return m_rootSignatureJsonConverter.Serialize(*this);
 }

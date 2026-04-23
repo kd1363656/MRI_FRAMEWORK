@@ -5,13 +5,13 @@ void FWK::JsonConverter::RootSignatureJsonConverter::Deserialize(const nlohmann:
 	if (a_rootJson.is_null()) { return; }
 
 	// タグに対応したルートパラメータアクセス用インデックスを読み込む
-	DeserializeRootParameterIndexMap(a_rootJson, a_rootSignature);
+	DeserializeRootParameterIndexMap(a_rootJson["RootParameterIndexMap"], a_rootSignature);
 
 	// ルートパラメータを読み込む
-	DeserializeRootParameterList(a_rootJson, a_rootSignature);
+	DeserializeRootParameterList(a_rootJson["RootParameterList"], a_rootSignature);
 
 	// StaticSamplerDescを読み込む
-	DeserializeStaticSamplerDescList(a_rootJson, a_rootSignature);
+	DeserializeStaticSamplerDescList(a_rootJson["StaticSamplerDescList"], a_rootSignature);
 
 	// このルートシグネチャをパイプラインからどう使うかを決定するフラグ
 	// どのシェーダーステージからアクセスするか、InputAssemblerを使うかLocalRootSignatureかを決める
@@ -40,15 +40,15 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::Serialize(const G
 
 void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterIndexMap(const nlohmann::json& a_rootJson, Graphics::RootSignature& a_rootSignature) const
 {
-	if (a_rootJson.is_null())										  { return; }
-	if (!Utility::Json::IsArray(a_rootJson, "RootParameterIndexMap")) { return; }
+	if (a_rootJson.is_null())				 { return; }
+	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 	
 	auto& l_rootParameterIndexMap = a_rootSignature.GetMutableREFRootParameterIndexMap();
 
 	// 要素が既にある可能性を考慮してClear
 	l_rootParameterIndexMap.clear();
 
-	for (const auto& l_json : a_rootJson["RootParameterIndexMap"])
+	for (const auto& l_json : a_rootJson)
 	{
 		const auto l_tag   = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
 		const auto l_index = l_json.value                 ("Index", Constant::k_invalidRootParameterIndex);
@@ -58,11 +58,10 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterInd
 }
 void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterList(const nlohmann::json& a_rootJson, Graphics::RootSignature& a_rootSignature) const
 {
-	if (a_rootJson.is_null())									  { return; }
-	if (!Utility::Json::IsArray(a_rootJson, "RootParameterList")) { return; }
+	if (a_rootJson.is_null())				 { return; }
+	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 	
-	const auto& l_jsonArray         = a_rootJson["RootParameterList"];
-	const auto& l_jsonArraySize		= l_jsonArray.size();
+	const auto& l_jsonArraySize		= a_rootJson.size								();
 		  auto& l_rootParameterList = a_rootSignature.GetMutableREFRootParameterList();
 
 	// 要素が既にある可能性を考慮してClear
@@ -75,7 +74,7 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 	// json内部で保存されているデータをl_rootParameterListにパースする
 	for (size_t l_i = 0ULL; l_i < l_jsonArraySize; ++l_i)
 	{
-		const auto& l_json = l_jsonArray[l_i];
+		const auto& l_json = a_rootJson[l_i];
 		
 		// ルートパラメータインデックスを取得するためのタグを格納
 		l_rootParameterList[l_i].rootParameterTag = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
@@ -129,13 +128,12 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 }
 void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeStaticSamplerDescList(const nlohmann::json& a_rootJson, Graphics::RootSignature& a_rootSignature) const
 {
-	if (a_rootJson.is_null())									      { return; }
-	if (!Utility::Json::IsArray(a_rootJson, "StaticSamplerDescList")) { return; }
+	if (a_rootJson.is_null())				 { return; }
+	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 	
 	auto& l_staticSamplerDescList = a_rootSignature.GetMutableREFStaticSamplerDescList();
 
-	const auto& l_jsonArray     = a_rootJson["StaticSamplerDescList"];
-	const auto& l_jsonArraySize = l_jsonArray.size();
+	const auto& l_jsonArraySize = a_rootJson.size();
 
 	// 要素が既にある可能性を考慮してClear
 	l_staticSamplerDescList.clear();
@@ -146,7 +144,7 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeStaticSamplerDes
 	// リサイズをjson配列の大きさで行っているのでif文で配列外かどうかのインデックス確認を行わない
 	for (size_t l_i = 0ULL; l_i < l_jsonArraySize; ++l_i)
 	{
-		const auto& l_json			    = l_jsonArray			 [l_i];
+		const auto& l_json			    = a_rootJson			 [l_i];
 			  auto& l_staticSamplerDesc = l_staticSamplerDescList[l_i];
 
 		// サンプリング方法

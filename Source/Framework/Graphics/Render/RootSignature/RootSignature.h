@@ -16,7 +16,7 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create		(const Device&		   a_device);
 
-		nlohmann::json Serialize();
+		nlohmann::json Serialize() const;
 
 		UINT FindRootParameterIndex(const TypeAlias::TypeTag a_tag) const;
 

@@ -29,6 +29,15 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device)
 		return false;
 	}
 
+	for (auto& [l_key, l_value] : m_rootSignatureMap)
+	{
+		if (!l_value.Create(a_device))
+		{
+			assert(false && "ルートシグネチャの作成に失敗しました。");
+			return false;
+		}
+	}
+
 	return true;
 }
 void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
@@ -97,6 +106,23 @@ void FWK::Graphics::Renderer::EndFrame()
 nlohmann::json FWK::Graphics::Renderer::Serialize() const
 {
 	return m_rendererJsonConverter.Serialize(*this);
+}
+
+void FWK::Graphics::Renderer::AddRootSignature(const RootSignature& a_rootSignature, const TypeAlias::TypeTag a_tag)
+{
+	m_rootSignatureMap.try_emplace(a_tag, a_rootSignature);
+}
+
+const FWK::Graphics::RootSignature* FWK::Graphics::Renderer::FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const
+{
+	const auto& l_itr = m_rootSignatureMap.find(a_tag);
+
+	if (l_itr == m_rootSignatureMap.end())
+	{
+		return nullptr;
+	}
+
+	return &l_itr->second;
 }
 
 const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFrameResource() const
