@@ -265,7 +265,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 		//			 受け取りたいCOMインターフェース型のID、
 		//			 作成結果のポインタを書き込むアドレス);
 
-		const auto l_hr = m_swapChain->GetBuffer(l_i, IID_PPV_ARGS(m_backBufferList[l_i].m_resource.ReleaseAndGetAddressOf()));
+		const auto l_hr = m_swapChain->GetBuffer(l_i, IID_PPV_ARGS(m_backBufferList[l_i].m_backBufferResourceREF.ReleaseAndGetAddressOf()));
 
 		if (FAILED(l_hr))
 		{
@@ -295,7 +295,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 		//						  作成したRTVを書き込むディスクリプタ位置);
 
 		// このバックバッファを「描画先」として使えるようにする
-		l_device->CreateRenderTargetView(m_backBufferList[l_i].m_resource.Get(), &l_rtvDesc, l_rtvHandle);
+		l_device->CreateRenderTargetView(m_backBufferList[l_i].m_backBufferResourceREF.Get(), &l_rtvDesc, l_rtvHandle);
 	}
 
 	return true;

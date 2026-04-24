@@ -325,6 +325,7 @@ void FWK::Window::SetupClientSize()
 	}
 
 	assert(false && "ウィンドウスタイルタグの取得に失敗しておりクライアントサイズの設定を行えませんでした。");
+
 	return;
 }
 
@@ -351,15 +352,10 @@ HINSTANCE FWK::Window::FetchVALInstanceHandle() const
 DWORD FWK::Window::FetchVALWindowStyle() const
 {
 	// 持っているタグから返すウィンドウスタイルを判定する
-	if (m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>())
-	{
-		return WS_POPUP;
-	}
-	else if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())
-	{
-		return k_generalWindowStyle;
-	}
+	if	   (m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>()) { return WS_POPUP; }
+	else if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())		          { return k_generalWindowStyle; }
 
 	assert(false && "ウィンドウスタイルが設定されていませんでした。");
+
 	return k_generalWindowStyle;
 }

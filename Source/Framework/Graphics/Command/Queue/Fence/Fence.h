@@ -15,7 +15,7 @@ namespace FWK::Graphics
 
 		void SetFenceValue(const auto& a_set) { m_fenceValue = a_set; }
 
-		const auto& GetFenceValue() const { return m_fenceValue; }
+		const auto& GetREFFenceValue() const { return m_fenceValue; }
 
 		const auto& GetREFFence() const { return m_fence; }
 

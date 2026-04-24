@@ -64,7 +64,6 @@ void Application::Init(const FWK::Graphics::GraphicsManager& a_graphicsManager)
 
 	a_graphicsManager.Init();
 }
-
 void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	m_window.LoadCONFIG       ();
@@ -72,7 +71,6 @@ void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
 
 	a_graphicsManager.LoadCONFIG();
 }
-
 bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	if (!m_window.Create(k_windowClassName, k_titleName))

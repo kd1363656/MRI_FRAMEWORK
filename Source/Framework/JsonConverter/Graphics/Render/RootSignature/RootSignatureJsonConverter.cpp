@@ -86,9 +86,9 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 		const auto& l_json = a_rootJson[l_i];
 		
 		// ルートパラメータインデックスを取得するためのタグを格納
-		l_rootParameterRecordList[l_i].rootParameterTag = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
+		l_rootParameterRecordList[l_i].m_rootParameterTag = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
 
-		auto& l_rootParameterRecord = l_rootParameterRecordList[l_i].rootParameter;
+		auto& l_rootParameterRecord = l_rootParameterRecordList[l_i].m_rootParameter;
 
 		// ルートパラメータの種類、シェーダー可視性を格納
 		l_rootParameterRecord.ParameterType    = l_json.value("ParameterType",    D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE);
@@ -229,12 +229,12 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 	{
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_rootParameter.rootParameterTag, "RootParameterTag"));
+		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_rootParameter.m_rootParameterTag, "RootParameterTag"));
 
-		l_json["ParameterType"]    = l_rootParameter.rootParameter.ParameterType;
-		l_json["ShaderVisibility"] = l_rootParameter.rootParameter.ShaderVisibility;
+		l_json["ParameterType"]    = l_rootParameter.m_rootParameter.ParameterType;
+		l_json["ShaderVisibility"] = l_rootParameter.m_rootParameter.ShaderVisibility;
 
-		switch(l_rootParameter.rootParameter.ParameterType)
+		switch(l_rootParameter.m_rootParameter.ParameterType)
 		{
 			case D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE:
 			{
@@ -244,9 +244,9 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 
 			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
 			{
-				l_json["ShaderRegister"] = l_rootParameter.rootParameter.Constants.ShaderRegister;
-				l_json["RegisterSpace"]  = l_rootParameter.rootParameter.Constants.RegisterSpace;
-				l_json["Num32BitValues"] = l_rootParameter.rootParameter.Constants.Num32BitValues;
+				l_json["ShaderRegister"] = l_rootParameter.m_rootParameter.Constants.ShaderRegister;
+				l_json["RegisterSpace"]  = l_rootParameter.m_rootParameter.Constants.RegisterSpace;
+				l_json["Num32BitValues"] = l_rootParameter.m_rootParameter.Constants.Num32BitValues;
 			}
 			break;
 
@@ -254,8 +254,8 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 			case D3D12_ROOT_PARAMETER_TYPE_SRV:
 			case D3D12_ROOT_PARAMETER_TYPE_UAV:
 			{
-				l_json["ShaderRegister"] = l_rootParameter.rootParameter.Descriptor.ShaderRegister;
-				l_json["RegisterSpace"]  = l_rootParameter.rootParameter.Descriptor.RegisterSpace;
+				l_json["ShaderRegister"] = l_rootParameter.m_rootParameter.Descriptor.ShaderRegister;
+				l_json["RegisterSpace"]  = l_rootParameter.m_rootParameter.Descriptor.RegisterSpace;
 			}
 			break;
 
@@ -335,20 +335,20 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeL
 	if (a_rootJson.is_null())										
 	{
 		// 明示的にディスクリプタテーブルを使用しないように初期値を格納
-		a_rootParameterRecord.rootParameter.DescriptorTable.NumDescriptorRanges = k_invalidNUMDescriptorRange;
-		a_rootParameterRecord.rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
+		a_rootParameterRecord.m_rootParameter.DescriptorTable.NumDescriptorRanges = k_invalidNUMDescriptorRange;
+		a_rootParameterRecord.m_rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
 		return; 
 	}
 
 	if (!Utility::Json::IsArray(a_rootJson, "DescriptorRangeList")) 
 	{
 		// 明示的にディスクリプタテーブルを使用しないように初期値を格納
-		a_rootParameterRecord.rootParameter.DescriptorTable.NumDescriptorRanges = k_invalidNUMDescriptorRange;
-		a_rootParameterRecord.rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
+		a_rootParameterRecord.m_rootParameter.DescriptorTable.NumDescriptorRanges = k_invalidNUMDescriptorRange;
+		a_rootParameterRecord.m_rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
 		return; 
 	}
 
-	auto& l_descriptorRangeList = a_rootParameterRecord.descriptorRangeList;
+	auto& l_descriptorRangeList = a_rootParameterRecord.m_descriptorRangeList;
 
 	// もしインスタンス化されていなければする
 	if (!l_descriptorRangeList)
@@ -388,21 +388,21 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeL
 	}
 
 	// ディスクリプタテーブルで使用するディスクリプタレンジの数
-	a_rootParameterRecord.rootParameter.DescriptorTable.NumDescriptorRanges = static_cast<UINT>(l_descriptorRangeList->size());
+	a_rootParameterRecord.m_rootParameter.DescriptorTable.NumDescriptorRanges = static_cast<UINT>(l_descriptorRangeList->size());
 
 	// ディスクリプタテーブルで参照するディスクリプタレンジのポインタ
-	a_rootParameterRecord.rootParameter.DescriptorTable.pDescriptorRanges = l_descriptorRangeList->data();
+	a_rootParameterRecord.m_rootParameter.DescriptorTable.pDescriptorRanges = l_descriptorRangeList->data();
 }
 
 nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeDescriptorRangeList(const Struct::RootParameterRecord& a_rootParameterRecord) const
 {
 	// ディスクリプタレンジリストが存在しなければreturn
-	if (!a_rootParameterRecord.descriptorRangeList) { return {}; }
+	if (!a_rootParameterRecord.m_descriptorRangeList) { return {}; }
 
 	nlohmann::json l_rootJsonArray = nlohmann::json::array();
 	
 	// ディスクリプタレンジの内容をjsonに保存
-	for (const auto& l_descriptorRange : *a_rootParameterRecord.descriptorRangeList)
+	for (const auto& l_descriptorRange : *a_rootParameterRecord.m_descriptorRangeList)
 	{
 		nlohmann::json l_json = {};
 

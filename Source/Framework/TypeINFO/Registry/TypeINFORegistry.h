@@ -17,6 +17,7 @@ namespace FWK
 		void Register(const Struct::TypeINFO& a_typeINFO);
 
 		// 指定した基底クラス、基底構造体を継承しているTypeInfo全てを取得
+		// IMGUIのコンポーネント選択で使う関数
 		template <typename Type>
 		std::vector<const Struct::TypeINFO*> CollerctTypeINFODerivedFromBase() const
 		{

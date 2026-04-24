@@ -28,14 +28,14 @@ bool FWK::Graphics::RootSignature::Create(const Device& a_device)
 	{
 		// ディスクリプタレンジリストが存在するかつルートパラメータータイプが
 		// ディスクリプタテーブルの場合に実行
-		if (l_rootParameterRecord.descriptorRangeList         && 
-			l_rootParameterRecord.rootParameter.ParameterType == D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE)
+		if (l_rootParameterRecord.m_descriptorRangeList         && 
+			l_rootParameterRecord.m_rootParameter.ParameterType == D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE)
 		{
 
-			l_rootParameterRecord.rootParameter.DescriptorTable.pDescriptorRanges = l_rootParameterRecord.descriptorRangeList->data();
+			l_rootParameterRecord.m_rootParameter.DescriptorTable.pDescriptorRanges = l_rootParameterRecord.m_descriptorRangeList->data();
 		}
 		
-		l_rootParameterList.emplace_back(l_rootParameterRecord.rootParameter);
+		l_rootParameterList.emplace_back(l_rootParameterRecord.m_rootParameter);
 	}
 
 	// ルートシグネチャ全体の設定

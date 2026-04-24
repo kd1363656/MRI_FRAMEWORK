@@ -20,7 +20,7 @@ bool FWK::Graphics::RenderArea::SetupRenderArea(const SwapChain& a_swapChain)
 
 	// 先頭のバックバッファを取得
 	// Viewport生成時に、このバックバッファの幅と高さを利用する
-	const auto& l_firstBackBuffer = l_backBufferList.begin()->m_resource.Get();
+	const auto& l_firstBackBuffer = l_backBufferList.begin()->m_backBufferResourceREF.Get();
 
 	if (!l_firstBackBuffer)
 	{

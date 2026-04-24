@@ -93,7 +93,7 @@ void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(CommandAllocatorBa
 		return;
 	}
 
-	const auto& l_updatedFenceValue = m_fence.GetFenceValue() + k_incrementFenceValue;
+	const auto& l_updatedFenceValue = m_fence.GetREFFenceValue() + k_incrementFenceValue;
 
 	// "FenceValue"を進めて、このフレームの完了目標として保存
 	m_fence.SetFenceValue(l_updatedFenceValue);
@@ -175,7 +175,7 @@ void FWK::Graphics::CommandQueueBase::WaitForGPUIdleIfNeed()
 
 	// 今回の待機用に新しいフェンス値を発行する
 	// 同じ値を使いまわすとどこまでの処理完了を待っているのか分からなくなるため
-	const auto& l_incrementedFenceValue = m_fence.GetFenceValue() + k_incrementFenceValue;
+	const auto& l_incrementedFenceValue = m_fence.GetREFFenceValue() + k_incrementFenceValue;
 
 	m_fence.SetFenceValue(l_incrementedFenceValue);
 

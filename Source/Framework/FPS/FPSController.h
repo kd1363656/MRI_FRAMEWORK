@@ -28,6 +28,7 @@ namespace FWK
 		static constexpr float k_defaultTimeScale = 1.0F;
 		static constexpr float k_second           = 1.0F;
 		static constexpr float k_milliSecond      = 1000.0F;
+		static constexpr float k_minDeltaTime	  = 0.0F;
 
 		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/FPS/FPSCONFIG.json";
 
