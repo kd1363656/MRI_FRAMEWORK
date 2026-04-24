@@ -29,7 +29,7 @@ namespace FWK::Graphics
 		static constexpr const wchar_t* const k_argDebugINFO      = L"-Zi";
 		static constexpr const wchar_t* const k_argEmbedDebugINFO = L"-Qembed_debug";
 #else
-		static constexpr const wchar_t* const* k_argOptimizationLevel = L"-O3";
+		static constexpr const wchar_t* const k_argOptimizationLevel = L"-O3";
 #endif
 
 

@@ -2,7 +2,7 @@
 
 namespace FWK::Concept
 {
-	// TagBase(ルート基底)を継承しているかどうかを確認する
+	// TagBaseを継承しているかどうかを確認するコンセプト
 	template <typename Type>
 	concept IsDerivedTagBaseConcept = IsDerivedBaseConcept<Type, Tag::TagBase>;
 }

@@ -28,8 +28,10 @@ namespace FWK::JsonConverter
 		nlohmann::json SerializeRootParameterList    (const Graphics::RootSignature& a_rootSignature) const;
 		nlohmann::json SerializeStaticSamplerDescList(const Graphics::RootSignature& a_rootSignature) const;
 
-		void DeserializeDescriptorRangeList(const nlohmann::json& a_rootJson, Struct::RootParameter& a_rootParameter) const;
+		void DeserializeDescriptorRangeList(const nlohmann::json& a_rootJson, Struct::RootParameterRecord& a_rootParameterRecord) const;
 
-		nlohmann::json SerializeDescriptorRangeList(const Struct::RootParameter& a_rootParameter) const;
+		nlohmann::json SerializeDescriptorRangeList(const Struct::RootParameterRecord& a_rootParameterRecord) const;
+
+		static constexpr UINT k_invalidNUMDescriptorRange = 0U;
 	};
 }

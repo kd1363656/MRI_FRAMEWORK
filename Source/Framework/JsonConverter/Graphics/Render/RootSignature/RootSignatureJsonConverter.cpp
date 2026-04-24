@@ -70,14 +70,14 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 	
-	const auto& l_jsonArraySize		= a_rootJson.size								();
-		  auto& l_rootParameterList = a_rootSignature.GetMutableREFRootParameterList();
+	const auto& l_jsonArraySize		      = a_rootJson.size								        ();
+		  auto& l_rootParameterRecordList = a_rootSignature.GetMutableREFRootParameterRecordList();
 
 	// 要素が既にある可能性を考慮してClear
-	l_rootParameterList.clear();
+	l_rootParameterRecordList.clear();
 
 	// まずは配列の容量を決める
-	l_rootParameterList.resize(l_jsonArraySize);
+	l_rootParameterRecordList.resize(l_jsonArraySize);
 
 	// リサイズをjson配列の大きさで行っているのでif文で配列外かどうかのインデックス確認を行わない
 	// json内部で保存されているデータをl_rootParameterListにパースする
@@ -86,32 +86,32 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 		const auto& l_json = a_rootJson[l_i];
 		
 		// ルートパラメータインデックスを取得するためのタグを格納
-		l_rootParameterList[l_i].rootParameterTag = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
+		l_rootParameterRecordList[l_i].rootParameterTag = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
 
-		auto& l_rootParameter = l_rootParameterList[l_i].rootParameter;
+		auto& l_rootParameterRecord = l_rootParameterRecordList[l_i].rootParameter;
 
 		// ルートパラメータの種類、シェーダー可視性を格納
-		l_rootParameter.ParameterType    = l_json.value("ParameterType",    D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE);
-		l_rootParameter.ShaderVisibility = l_json.value("ShaderVisibility", D3D12_SHADER_VISIBILITY_ALL);
+		l_rootParameterRecord.ParameterType    = l_json.value("ParameterType",    D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE);
+		l_rootParameterRecord.ShaderVisibility = l_json.value("ShaderVisibility", D3D12_SHADER_VISIBILITY_ALL);
 
-		switch (l_rootParameter.ParameterType)
+		switch (l_rootParameterRecord.ParameterType)
 		{
 			case D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE:
 			{
-				DeserializeDescriptorRangeList(l_json, l_rootParameterList[l_i]);
+				DeserializeDescriptorRangeList(l_json, l_rootParameterRecordList[l_i]);
 			}
 			break;
 
 			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
 			{
 				// b番号担当のシェーダーレジスタ番号
-				l_rootParameter.Constants.ShaderRegister = l_json.value("ShaderRegister", 0U);
+				l_rootParameterRecord.Constants.ShaderRegister = l_json.value("ShaderRegister", 0U);
 
 				// レジスタ空間
-				l_rootParameter.Constants.RegisterSpace = l_json.value("RegisterSpace", 0U);
+				l_rootParameterRecord.Constants.RegisterSpace = l_json.value("RegisterSpace", 0U);
 
 				// 32bit値の個数
-				l_rootParameter.Constants.Num32BitValues = l_json.value("Num32BitValues", 0U);
+				l_rootParameterRecord.Constants.Num32BitValues = l_json.value("Num32BitValues", 0U);
 			}
 			break;
 
@@ -120,10 +120,10 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 			case D3D12_ROOT_PARAMETER_TYPE_UAV:
 			{
 				// b / t/ u 番号
-				l_rootParameter.Descriptor.ShaderRegister = l_json.value("ShaderRegister", 0U);
+				l_rootParameterRecord.Descriptor.ShaderRegister = l_json.value("ShaderRegister", 0U);
 
 				// レジスタ空間
-				l_rootParameter.Descriptor.RegisterSpace = l_json.value("RegisterSpace", 0U);
+				l_rootParameterRecord.Descriptor.RegisterSpace = l_json.value("RegisterSpace", 0U);
 			}
 			break;
 
@@ -222,7 +222,7 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 {
 	auto l_jsonArray = nlohmann::json::array();
 
-	const auto& l_rootParameterList = a_rootSignature.GetREFRootParameterList();
+	const auto& l_rootParameterList = a_rootSignature.GetREFRootParameterRecordList();
 
 	// ルートパラメータの配列を保存
 	for (const auto& l_rootParameter : l_rootParameterList)
@@ -328,25 +328,27 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeStaticSa
 	return l_rootJsonArray;
 }
 
-void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeList(const nlohmann::json& a_rootJson, Struct::RootParameter& a_rootParameter) const
+void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeList(const nlohmann::json& a_rootJson, Struct::RootParameterRecord& a_rootParameterRecord) const
 {
 	// jsonに保存されていなかったということはD3D12_DESCRIPTOR_RANGEは使わなかったということなので
 	// NumDescriptorRangesは0になる
 	if (a_rootJson.is_null())										
 	{
-		a_rootParameter.rootParameter.DescriptorTable.NumDescriptorRanges = 0U;
-		a_rootParameter.rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
+		// 明示的にディスクリプタテーブルを使用しないように初期値を格納
+		a_rootParameterRecord.rootParameter.DescriptorTable.NumDescriptorRanges = k_invalidNUMDescriptorRange;
+		a_rootParameterRecord.rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
 		return; 
 	}
 
 	if (!Utility::Json::IsArray(a_rootJson, "DescriptorRangeList")) 
 	{
-		a_rootParameter.rootParameter.DescriptorTable.NumDescriptorRanges = 0U;
-		a_rootParameter.rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
+		// 明示的にディスクリプタテーブルを使用しないように初期値を格納
+		a_rootParameterRecord.rootParameter.DescriptorTable.NumDescriptorRanges = k_invalidNUMDescriptorRange;
+		a_rootParameterRecord.rootParameter.DescriptorTable.pDescriptorRanges   = nullptr;
 		return; 
 	}
 
-	auto& l_descriptorRangeList = a_rootParameter.descriptorRangeList;
+	auto& l_descriptorRangeList = a_rootParameterRecord.descriptorRangeList;
 
 	// もしインスタンス化されていなければする
 	if (!l_descriptorRangeList)
@@ -386,20 +388,21 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeL
 	}
 
 	// ディスクリプタテーブルで使用するディスクリプタレンジの数
-	a_rootParameter.rootParameter.DescriptorTable.NumDescriptorRanges = static_cast<UINT>(l_descriptorRangeList->size());
+	a_rootParameterRecord.rootParameter.DescriptorTable.NumDescriptorRanges = static_cast<UINT>(l_descriptorRangeList->size());
 
 	// ディスクリプタテーブルで参照するディスクリプタレンジのポインタ
-	a_rootParameter.rootParameter.DescriptorTable.pDescriptorRanges = l_descriptorRangeList->data();
+	a_rootParameterRecord.rootParameter.DescriptorTable.pDescriptorRanges = l_descriptorRangeList->data();
 }
 
-nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeDescriptorRangeList(const Struct::RootParameter& a_rootParameter) const
+nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeDescriptorRangeList(const Struct::RootParameterRecord& a_rootParameterRecord) const
 {
 	// ディスクリプタレンジリストが存在しなければreturn
-	if (!a_rootParameter.descriptorRangeList) { return {}; }
+	if (!a_rootParameterRecord.descriptorRangeList) { return {}; }
 
 	nlohmann::json l_rootJsonArray = nlohmann::json::array();
 	
-	for (const auto& l_descriptorRange : *a_rootParameter.descriptorRangeList)
+	// ディスクリプタレンジの内容をjsonに保存
+	for (const auto& l_descriptorRange : *a_rootParameterRecord.descriptorRangeList)
 	{
 		nlohmann::json l_json = {};
 

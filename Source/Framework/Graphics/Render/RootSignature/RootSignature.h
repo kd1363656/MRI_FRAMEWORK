@@ -27,12 +27,12 @@ namespace FWK::Graphics
 
 		const auto& GetREFRootParameterIndexMap() const { return m_rootParameterIndexMap; }
 
-		const auto& GetREFRootParameterList    () const { return m_rootParameterList; }
-		const auto& GetREFStaticSamplerDescList() const { return m_staticSamplerDescList; }
+		const auto& GetREFRootParameterRecordList() const { return m_rootParameterRecordList; }
+		const auto& GetREFStaticSamplerDescList  () const { return m_staticSamplerDescList; }
 
-		auto& GetMutableREFRootParameterIndexMap() { return m_rootParameterIndexMap; }
-		auto& GetMutableREFRootParameterList    () { return m_rootParameterList; }
-		auto& GetMutableREFStaticSamplerDescList() { return m_staticSamplerDescList; }
+		auto& GetMutableREFRootParameterIndexMap  () { return m_rootParameterIndexMap; }
+		auto& GetMutableREFRootParameterRecordList() { return m_rootParameterRecordList; }
+		auto& GetMutableREFStaticSamplerDescList  () { return m_staticSamplerDescList; }
 
 		auto GetVALRootSignatureFlags  () const { return m_rootSignatureFlags; }
 		auto GetVALRootSignatureVersion() const { return m_rootSignatureVersion; }
@@ -52,6 +52,6 @@ namespace FWK::Graphics
 
 		// D3D12_ROOT_PARAMETERは、内部にポインタを持つため要素の再確保が発生した場合に
 		// ポインタが無効になる可能性があるのでreserveするかemplace_backした後にポインタを渡す
-		std::vector<Struct::RootParameter> m_rootParameterList = {};
+		std::vector<Struct::RootParameterRecord> m_rootParameterRecordList = {};
 	};
 }

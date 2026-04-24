@@ -2,7 +2,7 @@
 
 namespace FWK::Concept
 {
-	// ディスクリプタヒープベースを継承したクラスかどうか
+	// ディスクリプタヒープベースを継承したクラスかどうかを確認するコンセプト
 	template <typename Type>
 	concept IsDerivedDescriptorHeapBaseConcept = IsDerivedBaseConcept<Type, Graphics::DescriptorHeapBase>;
 }

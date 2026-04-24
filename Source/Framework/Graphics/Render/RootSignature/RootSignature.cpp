@@ -19,12 +19,12 @@ bool FWK::Graphics::RootSignature::Create(const Device& a_device)
 	std::vector<D3D12_ROOT_PARAMETER> l_rootParameterList = {};
 
 	// ルートパラメータの数分予約しておく
-	l_rootParameterList.reserve(m_rootParameterList.size());
+	l_rootParameterList.reserve(m_rootParameterRecordList.size());
 
 	// std::vectorで管理しているリストは
 	// reserveなどであらかじめに確保する予定である要素数を指定しなければ
 	// 要素の再確保が発生し、ポインタが無効になるため全てを追加してからポインタを結び付ける
-	for (auto& l_rootParameterRecord : m_rootParameterList)
+	for (auto& l_rootParameterRecord : m_rootParameterRecordList)
 	{
 		// ディスクリプタレンジリストが存在するかつルートパラメータータイプが
 		// ディスクリプタテーブルの場合に実行

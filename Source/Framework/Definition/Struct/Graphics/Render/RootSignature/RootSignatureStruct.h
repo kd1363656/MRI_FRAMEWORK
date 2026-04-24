@@ -2,7 +2,7 @@
 
 namespace FWK::Struct
 {
-	struct RootParameter final
+	struct RootParameterRecord final
 	{
 		// 使わない可能性を考慮してディスクリプタテーブル用のD3D12_DESCRIPTOR_RANGEをまとめたリストはポインタとして保持しておく
 		// コピーコンストラクタ禁止を防ぐためにshared_ptrを使用

@@ -30,7 +30,7 @@ private:																													 \
 		~RegisterTypeINFO() = default;																						 \
 	};																														 \
 																															 \
-	inline static const RegisterTypeINFO k_autoRegister = RegisterTypeINFO();
+	inline static const RegisterTypeINFO k_autoRegister = {};
 
 // 型情報登録マクロ(派生)
 #define FWK_DEFINE_TYPE_INFO(Type, BaseType)																								  \
@@ -58,4 +58,4 @@ private:																																	  \
 		~RegisterTypeINFO() = default;																										  \
 	};																																		  \
 																																			  \
-	inline static const RegisterTypeINFO k_autoRegister = RegisterTypeINFO();
+	inline static const RegisterTypeINFO k_autoRegister = {};
