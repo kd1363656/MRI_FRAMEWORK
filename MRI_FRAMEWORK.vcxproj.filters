@@ -256,6 +256,21 @@
     <Filter Include="Asset\Shader\Sprite\Standard">
       <UniqueIdentifier>{1e1b915c-eb7c-49d8-927e-97b99a50be5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture">
+      <UniqueIdentifier>{bc7b0636-b1d9-4037-82fc-0452da688b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\Loader">
+      <UniqueIdentifier>{873cb714-304b-4878-b00c-7f10083bf24b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV">
+      <UniqueIdentifier>{334525f6-cafc-4c4f-a285-98fe23614e74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\ShaderVisible">
+      <UniqueIdentifier>{874ed081-cf93-4050-b4bb-91823711de6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\CPU">
+      <UniqueIdentifier>{d0d03df4-493a-40d9-b100-2280e2051920}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -467,6 +482,21 @@
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h">
       <Filter>Source\Framework\Tag\Graphics\Render\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeapBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\CPU\SRVCPUDescriptorHeap.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\ShaderVisible\SRVShaderVisibleDescriptorHeap.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\ShaderVisible</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -576,6 +606,21 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Render\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeapBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\CPU\SRVCPUDescriptorHeap.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\ShaderVisible\SRVShaderVisibleDescriptorHeap.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\ShaderVisible</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

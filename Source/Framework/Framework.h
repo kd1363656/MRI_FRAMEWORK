@@ -135,6 +135,9 @@
 // ディスクリプタヒープ
 #include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
 #include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeapBase.h"
+#include "Graphics/Resource/Descriptor/Heap/SRV/CPU/SRVCPUDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/Heap/SRV/ShaderVisible/SRVShaderVisibleDescriptorHeap.h"
 
 // ディスクリプタヒープスロットアロケータ
 #include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapIndexAllocator.h"
@@ -145,6 +148,10 @@
 // ディスクリプタプール
 #include "JsonConverter/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
 #include "Graphics/Resource/Descriptor/DescriptorPool.h"
+
+// テクスチャ
+#include "Graphics/Resource/Texture/Loader/TextureLoader.h"
+#include "Graphics/Resource/Texture/TextureSystem.h"
 
 // リソースコンテキスト
 #include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"

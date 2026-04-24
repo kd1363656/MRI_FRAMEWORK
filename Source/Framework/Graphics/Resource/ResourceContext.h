@@ -20,7 +20,11 @@ namespace FWK::Graphics
 
 	private:
 
-		DescriptorPool<RTVDescriptorHeap> m_rtvDescriptorPool = {};
+		DescriptorPool<RTVDescriptorHeap>              m_rtvDescriptorPool              = {};
+		DescriptorPool<SRVCPUDescriptorHeap>           m_srvCPUDescriptorPool           = {};
+		DescriptorPool<SRVShaderVisibleDescriptorHeap> m_srvShaderVisibleDescriptorPool = {};
+
+		TextureSystem m_textureSystem = {};
 
 		JsonConverter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
 	};

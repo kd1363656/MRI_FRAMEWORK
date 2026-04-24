@@ -53,14 +53,14 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 
 	// ヒープをシェーダーから見えるようにするかどうか
 	l_desc.Flags = m_isShaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-
+	
 	// どのGPUノードで使用するかを指定する
 	l_desc.NodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
 
 	// ディスクリプタヒープを作成する関数
 	// CreateDescriptorHeap(設定、
 	//					    受け取りたいCOMインターフェース型のID、
-	//					    作成結果のポインタを書き込むアドレス););
+	//					    作成結果のポインタを書き込むアドレス);
 
 	auto l_hr = l_device->CreateDescriptorHeap(&l_desc, IID_PPV_ARGS(m_descriptorHeap.ReleaseAndGetAddressOf()));
 

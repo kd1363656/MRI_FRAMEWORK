@@ -109,7 +109,7 @@ void FWK::Graphics::Renderer::SetupGraphicsPipelineByTag(const TypeAlias::TypeTa
 
 void FWK::Graphics::Renderer::Draw() const
 {
-	// スプライト病
+	// スプライト描画
 	SetupGraphicsPipelineByTag(Utility::Tag::GetTag<Tag::SpriteStandardPipelineStateTag>());
 
 	m_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);

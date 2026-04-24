@@ -271,7 +271,7 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeRTVFormatList(const 
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
-	// レンダーターゲット数をjsonが肥えていないかどうかを確認
+	// レンダーターゲット数がDirectX12の上限を超えていないかどうかを確認
 	if (a_rootJson.size() > D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT)
 	{
 		assert(false && "RTVFormatListの要素数がDirectX12のRenderTarget上限を超えています。");
@@ -374,7 +374,7 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeBlendDesc(co
 		// SrcBlendAlpha : alpha計算時のソース係数
 		l_json["SrcBlendAlpha"] = l_renderTarget.SrcBlendAlpha;
 
-		// DestBlendAlpha : alpha計算時のデスティネーション係数
+		// DestBlendAlpha : alpha計算時のソース係数
 		l_json["DestBlendAlpha"] = l_renderTarget.DestBlendAlpha;
 
 		// BlendOpAlpha : alpha計算時のブレンド演算

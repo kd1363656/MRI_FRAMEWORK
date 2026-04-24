@@ -85,7 +85,7 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 		l_pipelineStateDesc.PS = FetchShaderByteCode(*m_pixelShader);
 	}
 
-		// このPSOで使用するルートシグネチャを設定する
+	// このPSOで使用するルートシグネチャを設定する
 	// ルートシグネチャは「シェーダーへどのリソースをどう渡すか」のルール
 	l_pipelineStateDesc.pRootSignature = l_rootSignature.Get();
 	
@@ -146,13 +146,9 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	// 今回は一枚だけ描画先を使う
 	l_pipelineStateDesc.NumRenderTargets = static_cast<UINT>(m_rtvFormatList.size());
 
-	// 1枚目のRenderTargetのフォーマットを指定する
-	// 今回はRGBA8の通常的な8bit,UNORM形式
-	for (std::size_t l_i = 0ULL; l_i < m_rtvFormatList.size(); ++l_i)
-	{
-		l_pipelineStateDesc.RTVFormats[l_i] = m_rtvFormatList[l_i];
-	}
-
+	// RTVFormatListの内容をPSO作成用の固定長RTVFormats配列へコピーする
+	std::copy(m_rtvFormatList.begin(), m_rtvFormatList.end(), l_pipelineStateDesc.RTVFormats);
+	
 	// 深度ステンシルビューのフォーマットを設定する
 	// 深度を使うPSOでは、実際にOMへセットするDSVと同じフォーマットを指定する必要がある
 	l_pipelineStateDesc.DSVFormat = m_dsvFormat;
@@ -171,7 +167,7 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	// 上で設定したPSO情報をストリーム形式へまとめる
 	auto l_psoStream = CD3DX12_PIPELINE_MESH_STATE_STREAM(l_pipelineStateDesc);
 	
-	auto l_streamDesc = D3D12_PIPELINE_STATE_STREAM_DESC();
+	D3D12_PIPELINE_STATE_STREAM_DESC l_streamDesc = {};
 
 	// PSOサブオブジェクトストリームの先頭アドレス
 	l_streamDesc.pPipelineStateSubobjectStream = &l_psoStream;
