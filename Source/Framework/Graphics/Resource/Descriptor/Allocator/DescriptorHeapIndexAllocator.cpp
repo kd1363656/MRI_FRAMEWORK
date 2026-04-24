@@ -3,7 +3,7 @@
 bool FWK::Graphics::DescriptorHeapIndexAllocator::Create(const UINT a_descriptorCapacity)
 {
 	// 0個の確保は意味がないため失敗扱いとする
-	if (a_descriptorCapacity == k_invalidDescriptorCapacity)
+	if (a_descriptorCapacity == Constant::k_invalidDescriptorCapacity)
 	{
 		assert(false && "ディスクリプタ割り当て数が0で作成できませんでした。");
 		return false;

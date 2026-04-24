@@ -5,7 +5,6 @@ void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 	if (a_rootJson.is_null()) { return; }
 	m_rendererJsonConverter.Deserialize(a_rootJson, *this);
 }
-
 bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompiler& a_shaderCompiler)
 {
 	for (auto& l_frameResource : m_frameResourceList)
@@ -49,7 +48,6 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompile
 
 	return true;
 }
-
 void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
 	m_renderArea.SetupRenderArea(a_swapChain);
@@ -109,14 +107,13 @@ void FWK::Graphics::Renderer::SetupGraphicsPipelineByTag(const TypeAlias::TypeTa
 	m_directCommandList.SetupPipelineState(l_pipelineState);
 }
 
-void FWK::Graphics::Renderer::Draw()
+void FWK::Graphics::Renderer::Draw() const
 {
 	// スプライト病
 	SetupGraphicsPipelineByTag(Utility::Tag::GetTag<Tag::SpriteStandardPipelineStateTag>());
 
 	m_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
 }
-
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 {
 	auto* l_currentFrameResource = FetchMutablePTRCurrentFrameResource();

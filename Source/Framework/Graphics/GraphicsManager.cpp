@@ -63,7 +63,6 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 
     return true;
 }
-
 void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd)
 {
 	m_swapChain.PostCreateSetup(a_hwnd, m_factory);
@@ -76,7 +75,7 @@ void FWK::Graphics::GraphicsManager::BeginDraw()
 
 	m_renderer.BeginDraw(m_swapChain, l_rtvDescriptorHeap);
 }
-void FWK::Graphics::GraphicsManager::Draw()
+void FWK::Graphics::GraphicsManager::Draw() const
 {
 	m_renderer.Draw();
 }

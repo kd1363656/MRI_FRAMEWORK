@@ -163,8 +163,6 @@ FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(
 		return nullptr;
 	}
 
-
-
 	// HLSLをコンパイルする関数
 	// Compile(コンパイルするソース情報、
 	//		   コンパイル引数配列、

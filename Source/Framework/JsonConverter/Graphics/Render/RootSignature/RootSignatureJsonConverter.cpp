@@ -105,13 +105,13 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
 			{
 				// b番号担当のシェーダーレジスタ番号
-				l_rootParameterRecord.Constants.ShaderRegister = l_json.value("ShaderRegister", 0U);
+				l_rootParameterRecord.Constants.ShaderRegister = l_json.value("ShaderRegister", k_defaultShaderRegister);
 
 				// レジスタ空間
-				l_rootParameterRecord.Constants.RegisterSpace = l_json.value("RegisterSpace", 0U);
+				l_rootParameterRecord.Constants.RegisterSpace = l_json.value("RegisterSpace", k_defaultRegisterSpace);
 
 				// 32bit値の個数
-				l_rootParameterRecord.Constants.Num32BitValues = l_json.value("Num32BitValues", 0U);
+				l_rootParameterRecord.Constants.Num32BitValues = l_json.value("Num32BitValues", k_defaultRootConstantsNum32BitValues);
 			}
 			break;
 
@@ -120,10 +120,10 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 			case D3D12_ROOT_PARAMETER_TYPE_UAV:
 			{
 				// b / t/ u 番号
-				l_rootParameterRecord.Descriptor.ShaderRegister = l_json.value("ShaderRegister", 0U);
+				l_rootParameterRecord.Descriptor.ShaderRegister = l_json.value("ShaderRegister", k_defaultShaderRegister);
 
 				// レジスタ空間
-				l_rootParameterRecord.Descriptor.RegisterSpace = l_json.value("RegisterSpace", 0U);
+				l_rootParameterRecord.Descriptor.RegisterSpace = l_json.value("RegisterSpace", k_defaultRegisterSpace);
 			}
 			break;
 
@@ -170,10 +170,10 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeStaticSamplerDes
 		l_staticSamplerDesc.AddressW = l_json.value("AddressW", D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 
 		// MIPレベル計算時の補正値
-		l_staticSamplerDesc.MipLODBias = l_json.value("MipLODBias", 0.0F);
+		l_staticSamplerDesc.MipLODBias = l_json.value("MipLODBias", k_defaultStaticSamplerMIPLODBias);
 		
 		// 異方性フィルタ使用時の最大サンプル数
-		l_staticSamplerDesc.MaxAnisotropy = l_json.value("MaxAnisotropy", 1U);
+		l_staticSamplerDesc.MaxAnisotropy = l_json.value("MaxAnisotropy", k_defaultStaticSamplerMAXAnisotropy);
 		
 		// 比較サンプラーで使う比較関数
 		l_staticSamplerDesc.ComparisonFunc = l_json.value("ComparisonFunc", D3D12_COMPARISON_FUNC_ALWAYS);
@@ -182,16 +182,16 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeStaticSamplerDes
 		l_staticSamplerDesc.BorderColor = l_json.value("BorderColor", D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK);
 		
 		// 参照可能な最小MIPレベル
-		l_staticSamplerDesc.MinLOD = l_json.value("MinLOD", 0.0F);
+		l_staticSamplerDesc.MinLOD = l_json.value("MinLOD", k_defaultMINLOD);
 		
 		// 参照可能な最大MIPレベル
 		l_staticSamplerDesc.MaxLOD = l_json.value("MaxLOD", D3D12_FLOAT32_MAX);
 		
 		// シェーダー側のSamplerRegister番号
-		l_staticSamplerDesc.ShaderRegister = l_json.value("ShaderRegister", 0U);
+		l_staticSamplerDesc.ShaderRegister = l_json.value("ShaderRegister", k_defaultShaderRegister);
 
 		// Sampler用のRegisterSpace
-		l_staticSamplerDesc.RegisterSpace = l_json.value("RegisterSpace", 0U);
+		l_staticSamplerDesc.RegisterSpace = l_json.value("RegisterSpace", k_defaultRegisterSpace);
 		
 		// このSamplerをどのシェーダーステージから見えるようにするか
 		l_staticSamplerDesc.ShaderVisibility = l_json.value("ShaderVisibility", D3D12_SHADER_VISIBILITY_PIXEL);
@@ -375,13 +375,13 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeL
 		l_descriptorRange.RangeType = l_jsonArray[l_i].value("RangeType", D3D12_DESCRIPTOR_RANGE_TYPE_SRV);
 
 		// このレンジに含めるディスクリプタ数
-		l_descriptorRange.NumDescriptors = l_jsonArray[l_i].value("NumDescriptors", 0U);
+		l_descriptorRange.NumDescriptors = l_jsonArray[l_i].value("NumDescriptors", k_defaultDescriptorRangeNUMDescriptors);
 
 		// シェーダーレジスタの開始番号
-		l_descriptorRange.BaseShaderRegister = l_jsonArray[l_i].value("BaseShaderRegister", 0U);
+		l_descriptorRange.BaseShaderRegister = l_jsonArray[l_i].value("BaseShaderRegister", k_defaultBaseShaderRegister);
 
 		// レジスタ空間
-		l_descriptorRange.RegisterSpace = l_jsonArray[l_i].value("RegisterSpace", 0U);
+		l_descriptorRange.RegisterSpace = l_jsonArray[l_i].value("RegisterSpace", k_defaultRegisterSpace);
 
 		// ディスクリプタテーブル先頭からのオフセット
 		l_descriptorRange.OffsetInDescriptorsFromTableStart = l_jsonArray[l_i].value("OffsetInDescriptorsFromTableStart", D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND);

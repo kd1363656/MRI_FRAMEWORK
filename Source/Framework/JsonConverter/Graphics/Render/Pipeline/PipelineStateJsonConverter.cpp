@@ -148,7 +148,7 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeRasterizerDesc(const
 	l_rasterizerDesc.AntialiasedLineEnable = a_rootJson.value("AntialiasedLineEnable", FALSE);
 
 	// ForcedSampleCount : 強制サンプル数(通常は0)
-	l_rasterizerDesc.ForcedSampleCount = a_rootJson.value("ForcedSampleCount", 0U);
+	l_rasterizerDesc.ForcedSampleCount = a_rootJson.value("ForcedSampleCount", k_noForcedSampleCount);
 
 	// ConservativeRaster : 保守的ラスタライズを使うか
 	l_rasterizerDesc.ConservativeRaster = a_rootJson.value("ConservativeRaster", D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF);
@@ -493,6 +493,5 @@ void FWK::Converter::PipelineStateJsonConverter::EnsureShader(std::shared_ptr<Gr
 {
 	// 既にインスタンス化されていたら"return"
 	if (a_shader) { return; }
-
 	a_shader = std::make_shared<Graphics::Shader>();
 }

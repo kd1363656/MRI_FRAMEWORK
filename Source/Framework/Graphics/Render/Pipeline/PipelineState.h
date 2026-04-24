@@ -48,7 +48,7 @@ namespace FWK::Graphics
 		const auto& GetREFRTVFormatList() const { return m_rtvFormatList; }
 
 		auto& GetMutableREFAmplificationShader() { return m_amplificationShader; }
-		auto& GetMutableREFMeshShader() { return m_meshShader; }
+		auto& GetMutableREFMeshShader         () { return m_meshShader; }
 		auto& GetMutableREFPixelShader        () { return m_pixelShader; }
 
 		auto GetVALPrimitiveTopologyType() const { return m_primitiveTopologyType; }

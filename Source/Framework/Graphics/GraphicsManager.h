@@ -12,7 +12,7 @@ namespace FWK::Graphics
 		void PostCreateSetup(const HWND& a_hwnd);
 
 		void BeginDraw();
-		void Draw	  ();
+		void Draw	  () const;
 		void EndDraw  ();
 		void EndFrame ();
 

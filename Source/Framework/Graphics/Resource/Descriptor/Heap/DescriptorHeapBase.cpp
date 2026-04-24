@@ -28,7 +28,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 	}
 
 	// ディスクリプタ数0のヒープは意味がないので失敗扱い
-	if (a_descriptorCapacity == 0U)
+	if (a_descriptorCapacity == Constant::k_invalidDescriptorCapacity)
 	{
 		assert(false && "作成するディスクリプタ数が0です。");
 		return false;
@@ -43,7 +43,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 	}
 
 	// ディスクリプタヒープ作成設定を入れる構造体
-	auto l_desc = D3D12_DESCRIPTOR_HEAP_DESC();
+	D3D12_DESCRIPTOR_HEAP_DESC l_desc = {};
 
 	// このヒープの種類を設定する(RTV / DSV / CBV_SRV_UAV / SAMPLERの内どれか)
 	l_desc.Type = k_createDescriptorHeapType;

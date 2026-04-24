@@ -10,7 +10,7 @@ void FWK::Graphics::Shader::CompileFromFile(const ShaderCompiler& a_shaderCompil
 {
 	if (m_filePath.extension() != Constant::k_lowerHLSLExtension)
 	{
-		assert(false && "HLSLファイルの拡張子が.hlslではありません、もし.HLSLなら小文字にしてください。");
+		assert(false && "HLSLファイルの拡張子が.hlslではありません、もし.HLSLなら拡張子部分の全てを小文字にしてください。");
 		return;
 	}
 

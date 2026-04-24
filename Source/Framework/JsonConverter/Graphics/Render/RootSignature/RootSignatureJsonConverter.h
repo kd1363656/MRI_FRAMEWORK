@@ -32,6 +32,18 @@ namespace FWK::JsonConverter
 
 		nlohmann::json SerializeDescriptorRangeList(const Struct::RootParameterRecord& a_rootParameterRecord) const;
 
-		static constexpr UINT k_invalidNUMDescriptorRange = 0U;
+		static constexpr FLOAT k_defaultStaticSamplerMIPLODBias = 0.0F;
+		static constexpr FLOAT k_defaultMINLOD				    = 0.0F;
+
+		static constexpr UINT k_defaultRootConstantsNum32BitValues = 0U;
+
+		static constexpr UINT  k_defaultStaticSamplerMAXAnisotropy = 1U;
+
+		static constexpr UINT k_defaultShaderRegister = 0U;
+		static constexpr UINT k_defaultRegisterSpace  = 0U;
+
+		static constexpr UINT k_defaultDescriptorRangeNUMDescriptors = 0U;
+		static constexpr UINT k_defaultBaseShaderRegister            = 0U;
+		static constexpr UINT k_invalidNUMDescriptorRange            = 0U;
 	};
 }

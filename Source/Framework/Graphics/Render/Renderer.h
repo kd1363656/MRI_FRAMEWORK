@@ -22,7 +22,7 @@ namespace FWK::Graphics
 		
 		void SetupGraphicsPipelineByTag(const TypeAlias::TypeTag a_pipelineStateTag) const;
 
-		void Draw    ();
+		void Draw    () const;
 		void EndDraw (const SwapChain& a_swapChain);
 		void EndFrame();
 
@@ -34,14 +34,14 @@ namespace FWK::Graphics
 		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
 		const PipelineState* FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const;
 
-		auto& GetMutableREFFrameResourceList() { return m_frameResourceList; }
-		
 		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
 
 		const auto& GetREFRootSignatureMap() const { return m_rootSignatureMap; }
 		const auto& GetREFPipelineStateMap() const { return m_pipelineStateMap; }
 
 		const auto& GetREFResourceList() const { return m_frameResourceList; }
+
+		auto& GetMutableREFFrameResourceList() { return m_frameResourceList; }
 
 	private:
 

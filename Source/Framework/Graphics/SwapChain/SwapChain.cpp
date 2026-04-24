@@ -6,7 +6,6 @@ void FWK::Graphics::SwapChain::Deserialize(const nlohmann::json& a_rootJson)
 
 	m_swapChainJsonConverter.Deserialize(a_rootJson, *this);
 }
-
 bool FWK::Graphics::SwapChain::Create(const HWND&							   a_hwnd, 
 									  const Device&							   a_device,
 									  const Factory&						   a_factory,
@@ -31,7 +30,6 @@ bool FWK::Graphics::SwapChain::Create(const HWND&							   a_hwnd,
 
 	return true;
 }
-
 void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hwnd, const Factory& a_factory) const
 {
 	const auto& l_factory = a_factory.GetREFFactory();
