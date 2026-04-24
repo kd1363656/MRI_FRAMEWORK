@@ -101,7 +101,7 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 				DeserializeDescriptorRangeList(l_json, l_rootParameterRecordList[l_i]);
 			}
 			break;
-
+			
 			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
 			{
 				// b番号担当のシェーダーレジスタ番号
