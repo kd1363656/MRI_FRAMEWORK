@@ -13,15 +13,9 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 		return false;
 	}
 
-	if (!m_srvCPUDescriptorPool.Create(a_device))
+	if (!m_srvDescriptorPool.Create(a_device))
 	{
-		assert(false && "CPU用ディスクリプタプールの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_srvShaderVisibleDescriptorPool.Create(a_device))
-	{
-		assert(false && "ShaderVisible用SRVディスクリプタプールの作成処理に失敗しました。");
+		assert(false && "SRV用ディスクリプタプールの作成処理に失敗しました。");
 		return false;
 	}
 

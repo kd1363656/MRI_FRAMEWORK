@@ -74,7 +74,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 
 	if (!l_directCommandList)
 	{
-		assert(false && "ダイレクトコマンドリストが作成されておらず、バックバッファの設定が行えませんでした。。");
+		assert(false && "ダイレクトコマンドリストが作成されておらず、バックバッファの設定が行えませんでした。");
 		return;
 	}
 
@@ -98,7 +98,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 	}
 
 	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
-	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUHandle(l_rtvIndex);
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_rtvIndex);
 
 	// OMステージにレンダーターゲットを設定する関数
 	// OMSetRenderTargets(設定するレンダーターゲット数、

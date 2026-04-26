@@ -262,6 +262,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Texture\Loader">
       <UniqueIdentifier>{873cb714-304b-4878-b00c-7f10083bf24b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV">
+      <UniqueIdentifier>{a3d365cc-0c9c-47f4-b960-d7eb4800857a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -479,6 +482,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Loader</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -594,6 +600,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\SRV</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -184,6 +184,9 @@
     "ResourceContext": {
         "RTVDescriptorPool": {
             "DescriptorCapacity": 1024
+        },
+        "SRVDescriptorPool": {
+            "DescriptorCapacity": 1024
         }
     },
     "SwapChain": {

@@ -285,7 +285,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 
 		// RTVを置くディスクリプタ位置を取得する
 		// l_i番目のバックバッファに対応するRTVも、同じl_i番目の位置に書いている
-		const auto& l_rtvHandle = a_rtvDescriptorPool.FetchVALCPUHandle(l_rtvIndex);
+		const auto& l_rtvHandle = a_rtvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_rtvIndex);
 
 		// レンダーターゲットビューを作成する関数
 		// CreateRenderTargetView(RTVを作りたい対象リソース、

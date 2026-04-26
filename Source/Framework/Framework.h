@@ -135,9 +135,7 @@
 // ディスクリプタヒープ
 #include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
 #include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
-#include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeapBase.h"
-#include "Graphics/Resource/Descriptor/Heap/SRV/CPU/SRVCPUDescriptorHeap.h"
-#include "Graphics/Resource/Descriptor/Heap/SRV/ShaderVisible/SRVShaderVisibleDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeap.h"
 
 // ディスクリプタヒープスロットアロケータ
 #include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapIndexAllocator.h"

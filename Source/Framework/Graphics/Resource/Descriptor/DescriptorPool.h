@@ -42,11 +42,20 @@ namespace FWK::Graphics
 			return m_descriptorHeapIndexAllocator.Allocate();
 		}
 
+		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const UINT a_index, const Device& a_device) const
+		{
+			return m_descriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_index, a_device);
+		}
+
 		void SetDescriptorCapacity(const UINT a_set) { m_descriptorCapacity = a_set; }
 
-		auto FetchVALCPUHandle(const UINT a_index) const
+		auto FetchVALCPUOnlyCPUHandle(const UINT a_index) const
 		{
-			return m_descriptorHeap.FetchVALCPUHandle(a_index);
+			return m_descriptorHeap.FetchVALCPUOnlyCPUHandle(a_index);
+		}
+		auto FetchVALShaderVisibleCPUHandle(const UINT a_index) const
+		{
+			return m_descriptorHeap.FetchVALShaderVisibleCPUHandle(a_index);
 		}
 
 		const auto& GetREFDescriptorHeap() const { return m_descriptorHeap; }

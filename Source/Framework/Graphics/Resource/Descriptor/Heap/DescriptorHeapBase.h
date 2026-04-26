@@ -16,22 +16,31 @@ namespace FWK::Graphics
 
 	public:
 
-		// 派生クラスのコンストラクタで作るシェーダータイプやシェーダー可視性を決める設計
+		// 派生クラスのコンストラクタで作るディスクリプタヒープタイプやシェーダー可視性を決める設計
 		explicit DescriptorHeapBase(const D3D12_DESCRIPTOR_HEAP_TYPE a_createDescriptorHeapType, const bool a_isUseCPUOnly, const bool a_isUseShaderVisible);
 		virtual ~DescriptorHeapBase();
 
 		bool Create(const UINT a_descriptorCapacity, const Device& a_device);
 
+		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const UINT a_index, const Device& a_device) const;
+
+		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUOnlyCPUHandle      (const UINT a_index) const;
+		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleCPUHandle(const UINT a_index) const;
+		
 	private:
 
-		bool CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord&					 a_descriptorHeapRecord);
+		bool CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord& a_descriptorHeapRecord) const;
 		
-		bool CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS            a_descriptorHeapFlag,
-								        const Device&						         a_device, 
-								        const bool							         a_shouldCreate,
-											  std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord);
+		bool CreateDescriptorHeapRecordIfNeeded(const D3D12_DESCRIPTOR_HEAP_FLAGS            a_descriptorHeapFlag,
+											    const Device&						           a_device, 
+											    const bool							       a_shouldCreate,
+											  	    std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const;
+
+		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUHandle(const UINT a_index, const DescriptorHeapRecord& a_descriptorHeapRecord) const;
 
 		static constexpr UINT64 k_invalidDescriptorPTR = 0ULL;
+
+		static constexpr UINT k_copyDescriptorNum = 1U;
 
 		const D3D12_DESCRIPTOR_HEAP_TYPE k_createDescriptorHeapType;
 
