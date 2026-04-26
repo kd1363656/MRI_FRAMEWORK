@@ -1,19 +1,16 @@
 ﻿#include "DescriptorHeapBase.h"
 
-FWK::Graphics::DescriptorHeapBase::DescriptorHeapBase(const D3D12_DESCRIPTOR_HEAP_TYPE a_createDescriptorHeapType, const bool a_isShaderVisibleSupported, const bool a_isShaderVisible) : 
+FWK::Graphics::DescriptorHeapBase::DescriptorHeapBase(const D3D12_DESCRIPTOR_HEAP_TYPE a_createDescriptorHeapType, const bool a_isUseCPUOnly, const bool a_isUseShaderVisible) :
 	k_createDescriptorHeapType(a_createDescriptorHeapType),
 
-	k_isShaderVisibleSupported(a_isShaderVisibleSupported),
+	k_isUseCPUOnly      (a_isUseCPUOnly),
+	k_isUseShaderVisible(a_isUseShaderVisible),
 
-	m_descriptorHeap(nullptr),
-
-	m_cpuStart({}),
-	m_gpuStart({}),
+	m_cpuOnlyDescriptorHeapRecord      (nullptr),
+	m_shaderVisibleDescriptorHeapRecord(nullptr),
 
 	m_descriptorCapacity(0U),
-	m_descriptorSize    (0U),
-
-	m_isShaderVisible(a_isShaderVisible)
+	m_descriptorSize    (0U)
 {}
 FWK::Graphics::DescriptorHeapBase::~DescriptorHeapBase() = default;
 
@@ -34,87 +31,52 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 		return false;
 	}
 
-	// 作成するディスクリプタヒープのタイプによってシェーダー可視性をサポートするかどうかを判別する
-	// もしシェーダー可視性がサポートされていないならここで必ずfalseにする
-	if (!k_isShaderVisibleSupported && m_isShaderVisible)
+	// CPUOnlyかShaderVisibleのどちらも使用しない場合作る必要のないクラスになってしまうのでreturn
+	if (!k_isUseCPUOnly && !k_isUseShaderVisible)
 	{
-		assert(false && "このディスクリプタヒープ種別はShaderVisibleをサポートしていません、派生クラスのコンストラクタを見直してください。");
+		assert(false && "CPUOnlyとShaderVisibleのどちらのディスクリプタヒープも使用しない設定になっています。");
 		return false;
 	}
 
-	// ディスクリプタヒープ作成設定を入れる構造体
-	D3D12_DESCRIPTOR_HEAP_DESC l_desc = {};
-
-	// このヒープの種類を設定する(RTV / DSV / CBV_SRV_UAV / SAMPLERの内どれか)
-	l_desc.Type = k_createDescriptorHeapType;
-
-	// このヒープに何個ディスクリプタを入れるか
-	l_desc.NumDescriptors = a_descriptorCapacity;
-
-	// ヒープをシェーダーから見えるようにするかどうか
-	l_desc.Flags = m_isShaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	
-	// どのGPUノードで使用するかを指定する
-	l_desc.NodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
-
-	// ディスクリプタヒープを作成する関数
-	// CreateDescriptorHeap(設定、
-	//					    受け取りたいCOMインターフェース型のID、
-	//					    作成結果のポインタを書き込むアドレス);
-
-	auto l_hr = l_device->CreateDescriptorHeap(&l_desc, IID_PPV_ARGS(m_descriptorHeap.ReleaseAndGetAddressOf()));
-
-	if (FAILED(l_hr))
-	{
-		assert(false && "ディスクリプタヒープの作成に失敗しました。");
-		return false;
-	}
-
-	// ディスクリプタを何個確保したか保存
+	// ディスクリプタを何個確保するかを保存
 	m_descriptorCapacity = a_descriptorCapacity;
 
 	// ディスクリプタ1個分進めるのに必要なサイズを取得する
 	// これを使ってディスクリプタハンドルの位置を計算する
 	m_descriptorSize = l_device->GetDescriptorHandleIncrementSize(k_createDescriptorHeapType);
 
-	// ヒープ先頭のCPUハンドルを取得する
-	// CPUでCreateRenderTargetViewする際などに使う
-	m_cpuStart = m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	// CPUOnlyのディスクリプタヒープを使用する場合のみ作成する
+	if(k_isUseCPUOnly)
+	{
+		m_cpuOnlyDescriptorHeapRecord = std::make_shared<DescriptorHeapRecord>();
 
-	// ShaderVisibleのヒープだけGPU側の先頭ハンドルを持てる
-	if (m_isShaderVisible)
-	{
-		// GPUが参照するディスクリプタテーブルの開始位置
-		m_gpuStart = m_descriptorHeap->GetGPUDescriptorHandleForHeapStart();
+		if (!CreateDescriptorHeapRecord(D3D12_DESCRIPTOR_HEAP_FLAG_NONE, a_device, *m_cpuOnlyDescriptorHeapRecord))
+		{
+			assert(false && "CPUOnly用ディスクリプタヒープの作成に失敗しました。");
+			return false;
+		}
 	}
-	else
+
+	// ShaderVisibleのディスクリプタヒープを使用する場合のみ作成する
+	if (k_isUseShaderVisible)
 	{
-		// ShaderVisibleではないヒープはGPUハンドルを使えないので無効値を入れておく
-		m_gpuStart.ptr = k_invalidDescriptorPTR;
+		m_shaderVisibleDescriptorHeapRecord = std::make_shared<DescriptorHeapRecord>();
+
+		if (!CreateDescriptorHeapRecord(D3D12_DESCRIPTOR_HEAP_FLAG_NONE, a_device, *m_shaderVisibleDescriptorHeapRecord))
+		{
+			assert(false && "ShaderVisible用ディスクリプタヒープの作成に失敗しました。");
+			return false;
+		}
 	}
 
 	return true;	
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUHandle(const UINT a_index) const
+bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord& a_descriptorHeapRecord)
 {
-	if (!m_descriptorHeap)
-	{
-		assert(false && "ディスクリプタヒープが未作成でCPUハンドル取得ができません。");
-		return {};
-	}
-
-	if (a_index >= m_descriptorCapacity)
-	{
-		assert(false && "ディスクリプタヒープのCPUハンドル取得に失敗、確保数を超えています。");
-		return {};
-	}
-
-	// 先頭CPUハンドルを基準にする
-	auto l_handle = m_cpuStart;
-
-	// a_index個分先に進めて、目的のディスクリプタ位置を計算する
-	l_handle.ptr += static_cast<UINT64>(a_index) * static_cast<UINT64>(m_descriptorSize);
-
-	return l_handle;
+	return false;
+}
+bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, const bool a_shouldCreate, std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord)
+{
+	return false;
 }
