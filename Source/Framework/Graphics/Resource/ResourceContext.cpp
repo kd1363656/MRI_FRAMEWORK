@@ -19,6 +19,12 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 		return false;
 	}
 
+	if (!m_uploadSystem.Create(a_device))
+	{
+		assert(false && "アップロードシステムの作成処理に失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 

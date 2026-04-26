@@ -25,6 +25,7 @@ namespace FWK::Graphics
 		DescriptorPool<RTVDescriptorHeap> m_rtvDescriptorPool = {};
 		DescriptorPool<SRVDescriptorHeap> m_srvDescriptorPool = {};
 		
+		UploadSystem  m_uploadSystem  = {};
 		TextureSystem m_textureSystem = {};
 
 		JsonConverter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
