@@ -29,12 +29,13 @@ int WINAPI WinMain(_In_     HINSTANCE,
 void Application::Execute()
 {
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
+	auto& l_sceneManager    = FWK::SceneManager::GetInstance		     ();
 
 	// 初期化関係処理
 	Init    (l_graphicsManager);
 	LoadFile(l_graphicsManager);
 
-	if (!PostLoadSetup(l_graphicsManager))
+	if (!PostLoadSetup(l_graphicsManager, l_sceneManager))
 	{
 		assert(false && "アプリケーションのPostLoadSetup関数処理が失敗しました。");
 		return;
@@ -71,7 +72,7 @@ void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
 
 	a_graphicsManager.LoadCONFIG();
 }
-bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager)
+bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager)
 {
 	if (!m_window.Create(k_windowClassName, k_titleName))
 	{
@@ -87,6 +88,7 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 
 	// Create処理が終わった後に実行する処理
 	a_graphicsManager.PostCreateSetup(m_window.GetREFHWND());
+	a_sceneManager.PostLoadSetup     ();
 
 	return true;
 }

@@ -277,6 +277,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Upload">
       <UniqueIdentifier>{9432f8be-34ae-4990-80c8-68f6d5d02a27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Scene">
+      <UniqueIdentifier>{767e70e3-364e-4ded-a107-ff366a522cac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -509,6 +512,12 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.h">
       <Filter>Source\Framework\Graphics\Resource\Upload</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Scene\SceneManager.h">
+      <Filter>Source\Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Scene\Scene.h">
+      <Filter>Source\Framework\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -639,6 +648,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.cpp">
       <Filter>Source\Framework\Graphics\Resource\Upload</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Scene\SceneManager.cpp">
+      <Filter>Source\Framework\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Scene\Scene.cpp">
+      <Filter>Source\Framework\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

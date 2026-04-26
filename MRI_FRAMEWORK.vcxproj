@@ -343,6 +343,8 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.h" />
     <ClInclude Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Scene\Scene.h" />
+    <ClInclude Include="Source\Framework\Scene\SceneManager.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\RootSignatureTag.h" />
@@ -399,6 +401,8 @@ if errorlevel 1 exit /b 1</Command>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Scene\Scene.cpp" />
+    <ClCompile Include="Source\Framework\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Framework\TypeINFO\Registry\TypeINFORegistry.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\PCH.cpp">

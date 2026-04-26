@@ -193,3 +193,6 @@
 // グラフィックスマネージャー
 #include "JsonConverter/Graphics/GraphicsManagerJsonConverter.h"
 #include "Graphics/GraphicsManager.h"
+
+#include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
