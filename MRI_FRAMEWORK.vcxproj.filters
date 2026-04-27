@@ -334,6 +334,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Heap\Allocator">
       <UniqueIdentifier>{8e16bc2d-df96-409c-99c8-bfd57d586119}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Heap\Allocator\Texture">
+      <UniqueIdentifier>{e24b26a5-8df6-4158-95d0-f40cbecf6963}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -599,14 +602,17 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Heap</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Heap\HeapBlockStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Heap</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h">
       <Filter>Source\Framework\Utility\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\Allocator\HeapPageAllocatorBase.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\Allocator\PlacedResourceAllocatorBase.h">
       <Filter>Source\Framework\Graphics\Resource\Heap\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\Allocator\Texture\TexturePlacedResourceAllocator.h">
+      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Heap\HeapStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Heap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -754,8 +760,11 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Heap\HeapPage.cpp">
       <Filter>Source\Framework\Graphics\Resource\Heap</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\Allocator\HeapPageAllocatorBase.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\Allocator\PlacedResourceAllocatorBase.cpp">
       <Filter>Source\Framework\Graphics\Resource\Heap\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\Allocator\Texture\TexturePlacedResourceAllocator.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -71,8 +71,8 @@ bool FWK::Graphics::HeapPage::Create(const UINT64&               a_heapSize,
     // ヒープ領域のサイズ、ヒープページIDを格納
 	Struct::FreeHeapBlock l_initialFreeBlock = {};
 
-	l_initialFreeBlock.beginOffset = Constant::k_unusedFreeHeapBlockBeginOffset;
-	l_initialFreeBlock.size        = a_heapSize;
+	l_initialFreeBlock.m_beginOffset = Constant::k_unusedFreeHeapBlockBeginOffset;
+	l_initialFreeBlock.m_size        = a_heapSize;
 
     m_freeHeapBlockList.emplace_back(l_initialFreeBlock);
 
@@ -104,12 +104,12 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 	for (auto l_itr = m_freeHeapBlockList.begin(); l_itr != m_freeHeapBlockList.end(); ++l_itr)
 	{
 		// 今見ているFreeBlockの先頭オフセット
-		const auto& l_blockBegin = l_itr->beginOffset;
+		const auto& l_blockBegin = l_itr->m_beginOffset;
 
 		// 現在見ているFreeBlockの終端の「次」の位置。
 		// 例 : Offset = 100、FreeSize = 300の場合、FreeBlockの開始は100
 		// l_blockEndは400になる。
-		const auto& l_blockEnd = l_itr->beginOffset + l_itr->size;
+		const auto& l_blockEnd = l_itr->m_beginOffset + l_itr->m_size;
 
 		// FreeBlockの開始位置をa_alignment境界に切り上げた開始オフセット
 		// 例 : - l_blockBegin = 100
@@ -155,15 +155,15 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 		// 現在のFreeBlockを「後ろ側の残り領域に更新する」
 		else if (l_prefixSize == 0ULL)
 		{
-			l_itr->beginOffset = l_allocationEnd;
-			l_itr->size	       = l_suffixSize;
+			l_itr->m_beginOffset = l_allocationEnd;
+			l_itr->m_size	       = l_suffixSize;
 		}
 		// 確保領域がFreeBlockの終端ピッタリまで使うケース
 		// 後ろ側の空きは残らず、前側の空きだけ残るので、
 		// 現在のFreeBlockのサイズだけを前側の残りサイズに更新する
 		else if (l_suffixSize == 0ULL)
 		{
-			l_itr->size = l_prefixSize;
+			l_itr->m_size = l_prefixSize;
 		}
 		// 確保領域がFreeBlockの途中に入るケース
 		// そのためFreeBlockは前側の空きと後ろ側の空きの2つに分割される。
@@ -172,10 +172,10 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 		{
 			auto l_suffixBlock = Struct::FreeHeapBlock();
 			
-			l_suffixBlock.beginOffset = l_allocationEnd;
-			l_suffixBlock.size        = l_suffixSize;
+			l_suffixBlock.m_beginOffset = l_allocationEnd;
+			l_suffixBlock.m_size        = l_suffixSize;
 
-			l_itr->size = l_prefixSize;
+			l_itr->m_size = l_prefixSize;
 
 			m_freeHeapBlockList.insert(l_itr + 1ULL, l_suffixBlock);
 		}
@@ -226,8 +226,8 @@ bool FWK::Graphics::HeapPage::Release(const UINT64& a_heapOffset, const UINT64& 
 	auto l_releaseBlock = Struct::FreeHeapBlock();
 
 	// 解放したヒープブロックをフリーのヒープブロックリストとして追加する
-	l_releaseBlock.beginOffset = a_heapOffset;
-	l_releaseBlock.size        = a_allocationSize;
+	l_releaseBlock.m_beginOffset = a_heapOffset;
+	l_releaseBlock.m_size        = a_allocationSize;
 
 	m_freeHeapBlockList.emplace_back(l_releaseBlock);
 
@@ -248,8 +248,8 @@ bool FWK::Graphics::HeapPage::HasOverlappingFreeBlock(const UINT64& a_beginOffse
 
 	return std::ranges::any_of(m_freeHeapBlockList, [a_beginOffset, l_endOffset](const Struct::FreeHeapBlock& a_freeHeapBlock)
 	{
-		const auto& l_freeBlockBegin = a_freeHeapBlock.beginOffset;
-		const auto& l_freeBlockEnd   = a_freeHeapBlock.beginOffset + a_freeHeapBlock.size;
+		const auto& l_freeBlockBegin = a_freeHeapBlock.m_beginOffset;
+		const auto& l_freeBlockEnd   = a_freeHeapBlock.m_beginOffset + a_freeHeapBlock.m_size;
 
 		// [a_beginOffset, l_endOffset)と[l_freeBlockBegin, l_freeBlockEnd)が重なるか判定
 		return (a_beginOffset < l_freeBlockEnd) && (l_freeBlockBegin < l_endOffset);
@@ -265,7 +265,7 @@ void FWK::Graphics::HeapPage::MergeFreeBlocks()
 	// 連結できるかどうかを順番に判定できるようになる。
 	std::sort(m_freeHeapBlockList.begin(), m_freeHeapBlockList.end(), [](const Struct::FreeHeapBlock& a_first, const Struct::FreeHeapBlock& a_second) 
 	{
-		return a_first.beginOffset < a_second.beginOffset;
+		return a_first.m_beginOffset < a_second.m_beginOffset;
 	});
 
 	std::vector<Struct::FreeHeapBlock> l_mergedBlocks = {};
@@ -287,18 +287,18 @@ void FWK::Graphics::HeapPage::MergeFreeBlocks()
 		// 直前に確定したブロックの終端の「次」の位置。
 		// 例 : Offset = 100, FreeSize = 300なら実Rangeは100 - 399で、
 		// l_lastBlockEndは400になる
-		const UINT64& l_lastBlockEnd = l_lastBlock.beginOffset + l_lastBlock.size;
+		const UINT64& l_lastBlockEnd = l_lastBlock.m_beginOffset + l_lastBlock.m_size;
 
 		// 現在のブロックの開始位置が、直前のブロックの終端以前なら
 		// 2つのブロックは「隣接している」または「重なっている」。
 		// そのため1つのブロックにまとめられる
-		if (l_currentBlock.beginOffset <= l_lastBlockEnd)
+		if (l_currentBlock.m_beginOffset <= l_lastBlockEnd)
 		{
-			const UINT64& l_currentBlockEnd = l_currentBlock.beginOffset + l_currentBlock.size;
+			const UINT64& l_currentBlockEnd = l_currentBlock.m_beginOffset + l_currentBlock.m_size;
 
 			if (l_currentBlockEnd > l_lastBlockEnd)
 			{
-				l_lastBlock.size = l_currentBlockEnd - l_lastBlock.beginOffset;
+				l_lastBlock.m_size = l_currentBlockEnd - l_lastBlock.m_beginOffset;
 			}
 		}
 		else

@@ -45,11 +45,11 @@
 // ルートシグネチャ用構造体
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 
+// ヒープ用構造体
+#include "Definition/Struct/Graphics/Resource/Heap/HeapStruct.h"
+
 // テクスチャ用構造体
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
-
-// ヒープ用構造体
-#include "Definition/Struct/Graphics/Resource/Heap/HeapBlockStruct.h"
 
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス
@@ -174,7 +174,8 @@
 
 // ヒープ
 #include "Graphics/Resource/Heap/HeapPage.h"
-#include "Graphics/Resource/Heap/Allocator/HeapPageAllocatorBase.h"
+#include "Graphics/Resource/Heap/Allocator/PlacedResourceAllocatorBase.h"
+#include "Graphics/Resource/Heap/Allocator/Texture/TexturePlacedResourceAllocator.h"
 
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"

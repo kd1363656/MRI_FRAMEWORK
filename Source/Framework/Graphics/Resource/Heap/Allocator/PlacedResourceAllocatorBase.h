@@ -2,12 +2,19 @@
 
 namespace FWK::Graphics
 {
-	class HeapPageAllocatorBase
+	class PlacedResourceAllocatorBase
 	{
 	public:
 
-		explicit HeapPageAllocatorBase(const D3D12_HEAP_TYPE a_createHeapType, const D3D12_HEAP_FLAGS a_createHeapFlags);
-		virtual ~HeapPageAllocatorBase();
+		explicit PlacedResourceAllocatorBase(const D3D12_HEAP_TYPE a_createHeapType, const D3D12_HEAP_FLAGS a_createHeapFlags);
+		virtual ~PlacedResourceAllocatorBase();
+
+		bool CreatePlacedResource(const D3D12_RESOURCE_DESC&                    a_resourceDesc,
+								  const Device&				                    a_device,
+								  const D3D12_CLEAR_VALUE*                      a_clearValue,
+								  const D3D12_RESOURCE_STATES                   a_initialResourceState,
+										TypeAlias::ComPtr<ID3D12Resource2>&     a_resource,
+									    Struct::PlacedResourceAllocationRecord& a_allocationRecord);
 
 		bool Allocate(const UINT64&		           a_allocationSize,
 					  const UINT64&		           a_alignment,
@@ -16,6 +23,8 @@ namespace FWK::Graphics
 							TypeAlias::HeapPageID& a_heapPageID);
 
 		bool Release(const UINT64& a_heapOffset, const UINT64& a_allocationSize, TypeAlias::HeapPageID a_heapPageID);
+
+		const HeapPage* FindPTRHeapPage(const TypeAlias::HeapPageID a_heapPageID) const;
 
 		HeapPage* FindMutablePTRHeapPage(const TypeAlias::HeapPageID a_heapPageID);
 
@@ -28,6 +37,8 @@ namespace FWK::Graphics
 		static constexpr UINT64 k_defaultHeapPageSize = 64ULL * 1024ULL * 1024ULL;
 
 		static constexpr UINT k_initialOffset = 0U;
+		
+		static constexpr UINT k_resourceDescCount = 1U;
 
 		static constexpr TypeAlias::HeapPageID k_initialHeapPageID = 0U;
 

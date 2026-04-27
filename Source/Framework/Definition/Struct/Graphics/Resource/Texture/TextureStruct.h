@@ -6,6 +6,8 @@ namespace FWK::Struct
 	{
 		TypeAlias::ComPtr<ID3D12Resource2> m_textureResource = nullptr;
 
+		Struct::PlacedResourceAllocationRecord m_allocationRecord = {};
+
 		UINT m_srvIndex = Constant::k_invalidDescriptorHeapIndex;
 
 		TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
