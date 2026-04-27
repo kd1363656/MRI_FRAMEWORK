@@ -26,7 +26,7 @@ bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 
 	auto l_hr = l_device->CreateCommandList1(GraphicsManager::GetVALDefaultGPUNodeMask(),
 											 k_createCommandListType,
-											 D3D12_COMMAND_LIST_FLAG_NONE,
+											 k_createListFlags,
 											 IID_PPV_ARGS(m_commandList.ReleaseAndGetAddressOf()));
 
 	if (FAILED(l_hr))
@@ -38,7 +38,7 @@ bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 	return true;
 }
 
-void FWK::Graphics::CommandListBase::Reset(const CommandAllocatorBase& a_commandAllocator)
+void FWK::Graphics::CommandListBase::Reset(const CommandAllocatorBase& a_commandAllocator) const
 {
 	if (!m_commandList)
 	{

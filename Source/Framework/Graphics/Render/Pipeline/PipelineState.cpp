@@ -63,7 +63,7 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	}
 
 	// メッシュシェーダー用パイプラインステート設定構造体
-	auto l_pipelineStateDesc = D3DX12_MESH_SHADER_PIPELINE_STATE_DESC();
+	D3DX12_MESH_SHADER_PIPELINE_STATE_DESC l_pipelineStateDesc = {};
 
 	// AS(AmplificationShader)を設定する
 	// ASはメッシュレットの増幅や振り分けを行う前段シェーダー
@@ -215,7 +215,7 @@ D3D12_SHADER_BYTECODE FWK::Graphics::PipelineState::FetchShaderByteCode(const Sh
 	if (!l_blob)
 	{
 		assert(false && "シェーダーバイトコードの取得に失敗しました。");
-		return D3D12_SHADER_BYTECODE();
+		return {};
 	}
 
 	return { l_blob->GetBufferPointer(), l_blob->GetBufferSize() };

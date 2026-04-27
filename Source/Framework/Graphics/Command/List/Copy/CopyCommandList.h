@@ -16,5 +16,8 @@ namespace FWK::Graphics
 							   const UINT						  a_destinationY,
 							   const UINT						  a_destinationZ) const;
 
+	private:
+
+		static constexpr D3D12_COMMAND_LIST_TYPE k_createCommandListType = D3D12_COMMAND_LIST_TYPE_COPY;
 	};
 }

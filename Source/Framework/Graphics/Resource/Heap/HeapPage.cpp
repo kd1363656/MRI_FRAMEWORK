@@ -71,7 +71,7 @@ bool FWK::Graphics::HeapPage::Create(const UINT64&               a_heapSize,
     // ヒープ領域のサイズ、ヒープページIDを格納
 	Struct::FreeHeapBlock l_initialFreeBlock = {};
 
-	l_initialFreeBlock.m_beginOffset = Constant::k_unusedFreeHeapBlockBeginOffset;
+	l_initialFreeBlock.m_beginOffset = k_unusedFreeHeapBlockBeginOffset;
 	l_initialFreeBlock.m_size        = a_heapSize;
 
     m_freeHeapBlockList.emplace_back(l_initialFreeBlock);

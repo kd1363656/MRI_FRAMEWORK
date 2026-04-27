@@ -8,7 +8,7 @@ namespace FWK::Struct
 		// コピーコンストラクタ禁止を防ぐためにshared_ptrを使用
 		std::shared_ptr<std::vector<D3D12_DESCRIPTOR_RANGE>> m_descriptorRangeList = nullptr;
 
-		D3D12_ROOT_PARAMETER m_rootParameter = D3D12_ROOT_PARAMETER();
+		D3D12_ROOT_PARAMETER m_rootParameter = {};
 
 		TypeAlias::TypeTag m_rootParameterTag = Constant::k_invalidTypeTag;
 	};

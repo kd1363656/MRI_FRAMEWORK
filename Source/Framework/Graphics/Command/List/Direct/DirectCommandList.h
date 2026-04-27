@@ -31,6 +31,8 @@ namespace FWK::Graphics
 
 	private:
 
+		static constexpr D3D12_COMMAND_LIST_TYPE k_createCommandListType = D3D12_COMMAND_LIST_TYPE_DIRECT;
+
 		static constexpr UINT k_sendBarrierNum = 1U;
 
 		static constexpr UINT k_executeRenderTargetNum = 1U;

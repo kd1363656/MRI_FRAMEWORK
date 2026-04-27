@@ -337,6 +337,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Heap\Allocator\Texture">
       <UniqueIdentifier>{e24b26a5-8df6-4158-95d0-f40cbecf6963}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{3d716490-6f6e-401d-8332-fb54ca4a8019}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -613,6 +616,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Heap\HeapStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Heap</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Render\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

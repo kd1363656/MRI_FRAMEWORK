@@ -289,6 +289,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RootSignature\RootSignatureConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h" />

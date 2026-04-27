@@ -1,11 +1,16 @@
 ﻿#include "CopyCommandList.h"
 
 FWK::Graphics::CopyCommandList::CopyCommandList() : 
-	CommandListBase(D3D12_COMMAND_LIST_TYPE_COPY)
+	CommandListBase(k_createCommandListType)
 {}
 FWK::Graphics::CopyCommandList::~CopyCommandList() = default;
 
-void FWK::Graphics::CopyCommandList::CopyTextureRegion(const D3D12_TEXTURE_COPY_LOCATION& a_destination, const D3D12_TEXTURE_COPY_LOCATION& a_source, const D3D12_BOX* a_sourceBox, const UINT a_destinationX, const UINT a_destinationY, const UINT a_destinationZ) const
+void FWK::Graphics::CopyCommandList::CopyTextureRegion(const D3D12_TEXTURE_COPY_LOCATION& a_destination,
+													   const D3D12_TEXTURE_COPY_LOCATION& a_source,
+													   const D3D12_BOX*					  a_sourceBox,
+													   const UINT						  a_destinationX,
+													   const UINT						  a_destinationY,
+													   const UINT						  a_destinationZ) const
 {
 	const auto& l_copyCommandList = GetREFCommandList();
 

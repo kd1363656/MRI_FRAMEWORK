@@ -1,6 +1,6 @@
 ﻿#include "DirectCommandQueue.h"
 
 FWK::Graphics::DirectCommandQueue::DirectCommandQueue() : 
-	CommandQueueBase(D3D12_COMMAND_LIST_TYPE_DIRECT)
+	CommandQueueBase(k_createCommandListType)
 {}
 FWK::Graphics::DirectCommandQueue::~DirectCommandQueue() = default;

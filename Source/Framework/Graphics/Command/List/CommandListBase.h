@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device);
 
-		void Reset(const CommandAllocatorBase& a_commandAllocator);
+		void Reset(const CommandAllocatorBase& a_commandAllocator) const;
 
 		void Close() const;
 
@@ -20,6 +20,8 @@ namespace FWK::Graphics
 		auto GetVALCreateCommandListType() const { return k_createCommandListType; }
 
 	private:
+
+		static constexpr D3D12_COMMAND_LIST_FLAGS k_createListFlags = D3D12_COMMAND_LIST_FLAG_NONE;
 
 		const D3D12_COMMAND_LIST_TYPE k_createCommandListType;
 

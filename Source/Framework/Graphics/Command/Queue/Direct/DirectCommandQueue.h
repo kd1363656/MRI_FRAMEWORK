@@ -8,5 +8,9 @@ namespace FWK::Graphics
 
 		 DirectCommandQueue();
 		~DirectCommandQueue() override;
+
+	private:
+
+		static constexpr D3D12_COMMAND_LIST_TYPE k_createCommandListType = D3D12_COMMAND_LIST_TYPE_DIRECT;
 	};
 }

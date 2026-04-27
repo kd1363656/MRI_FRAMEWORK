@@ -48,7 +48,7 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 
 	if (a_rootJson.contains("DSVFormat"))
 	{
-		const auto l_dsvFormat = a_rootJson.value("DSVFormat", DXGI_FORMAT_UNKNOWN);
+		const auto l_dsvFormat = a_rootJson.value("DSVFormat", Constant::k_defaultDSVFormat);
 
 		a_pipelineState.SetDSVFormat(l_dsvFormat);
 	}
@@ -59,7 +59,7 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 	}
 
 	const auto l_useRootSignatureTag   = Utility::Json::DeserializeTag(a_rootJson,			    "UseRootSignatureTag");
-	const auto l_primitiveTopologyType = a_rootJson.value			  ("PrimitiveTopologyType", D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+	const auto l_primitiveTopologyType = a_rootJson.value			  ("PrimitiveTopologyType", Constant::k_defaultPrimitiveTopologyType);
 	const auto l_sampleMask			   = a_rootJson.value			  ("SampleMask",		    UINT_MAX);
 
 	a_pipelineState.SetUseRootSignatureTag  (l_useRootSignatureTag);
