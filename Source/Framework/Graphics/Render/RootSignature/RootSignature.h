@@ -18,10 +18,10 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		UINT FindRootParameterIndex(const TypeAlias::TypeTag a_tag) const;
-
 		void SetRootSignatureFlags  (const D3D12_ROOT_SIGNATURE_FLAGS a_set) { m_rootSignatureFlags   = a_set; }
 		void SetRootSignatureVersion(const D3D_ROOT_SIGNATURE_VERSION a_set) { m_rootSignatureVersion = a_set; }
+
+		UINT FindVALRootParameterIndex(const TypeAlias::TypeTag a_tag) const;
 
 		const auto& GetREFRootSignature() const { return m_rootSignature; }
 

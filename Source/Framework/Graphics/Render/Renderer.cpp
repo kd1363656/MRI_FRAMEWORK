@@ -73,7 +73,7 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	m_directCommandList.Reset(l_commandAllocator);
 
 	// バックバッファの状態遷移(PRESENT -> RESOURCE)
-	m_directCommandList.TransitionRenderTargetResource(D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET, a_swapChain);
+	m_directCommandList.TransitionRenderTargetResource(k_backBufferPresentState, k_backBufferRenderTargetState, a_swapChain);
 
 	// 今回使用するバックバッファを設定
 	m_directCommandList.SetupBackBuffer(a_swapChain, a_rtvDescriptorHeap);
@@ -127,7 +127,7 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 	auto& l_commandAllocator = l_currentFrameResource->GetMutableREFDirectCommandAllocator();
 
 	// バックバッファの状態遷移(RESOURCE -> PRESENT)
-	m_directCommandList.TransitionRenderTargetResource(D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT, a_swapChain);
+	m_directCommandList.TransitionRenderTargetResource(k_backBufferRenderTargetState, k_backBufferPresentState, a_swapChain);
 
 	// コマンドリストへの命令記録を終了
 	m_directCommandList.Close();
@@ -143,7 +143,7 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 void FWK::Graphics::Renderer::EndFrame()
 {
 	// 容量を超えないように次のフレームで使用するインデックスを計算
-	m_currentFrameResourceIndex = (m_currentFrameResourceIndex + k_incrementCurrentFrameIndex) % static_cast<UINT>(m_frameResourceList.size());
+	m_currentFrameResourceIndex = (m_currentFrameResourceIndex + k_frameResourceIndexIncrement) % static_cast<UINT>(m_frameResourceList.size());
 }
 
 nlohmann::json FWK::Graphics::Renderer::Serialize() const

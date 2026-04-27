@@ -11,7 +11,7 @@ bool FWK::Graphics::UploadBuffer::Create(const UINT64& a_bufferSize, const Devic
 	}
 
 	// サイズ0のバッファは作成する意味がないため失敗扱いにする
-	if (a_bufferSize == 0ULL)
+	if (a_bufferSize == k_invalidBufferSize)
 	{
 		assert(false && "UploadBufferの作成サイズが0のため、UploadBufferの作成に失敗しました。");
 		return false;
@@ -29,7 +29,7 @@ bool FWK::Graphics::UploadBuffer::Create(const UINT64& a_bufferSize, const Devic
 	// UploadBufferはCPUでデータを書き込み、
 	// その後CopyBufferRegionやCopyTextureRegionで本番リソースへ転送するため、
 	// D3D12_HEAP_TYPE_UPLOADで作成する
-	auto l_heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD, l_nodeMask, l_nodeMask);
+	auto l_heapProperties = CD3DX12_HEAP_PROPERTIES(k_uploadBufferHeapType, l_nodeMask, l_nodeMask);
 
 	// D3D12_RESOURCE_DESCについての説明
 	// Buffer(作成するバッファサイズ)
@@ -48,9 +48,9 @@ bool FWK::Graphics::UploadBuffer::Create(const UINT64& a_bufferSize, const Devic
 	// 初期状態にD3D12_RESOURCE_STATE_GENERIC_READを指定している理由
 	// UploadHeap上のリソースはCPUから書き込み、GPUから読み取ってコピー元として使う想定のため
 	const auto l_hr = l_device->CreateCommittedResource(&l_heapProperties,
-														D3D12_HEAP_FLAG_NONE,
+														k_defaultUploadBufferHeapFlags,
 													    &l_resourceDesc,
-														D3D12_RESOURCE_STATE_GENERIC_READ,
+														k_uploadBufferInitialResourceState,
 														nullptr,
 														IID_PPV_ARGS(m_uploadBuffer.ReleaseAndGetAddressOf()));
 
@@ -80,7 +80,7 @@ std::uint8_t* FWK::Graphics::UploadBuffer::Map() const
 	
 	// Bufferリソースなのでサブリソースは0固定で扱う
 	// UploadBufferはCPUから書き込みたい用途なのでMapして生ポインタを取得する
-	const auto l_hr = m_uploadBuffer->Map(k_mapSubresourceNum, nullptr, &l_mappedData);
+	const auto l_hr = m_uploadBuffer->Map(k_bufferSubresourceIndex, nullptr, &l_mappedData);
 
 	if (FAILED(l_hr))
 	{
@@ -104,5 +104,5 @@ void FWK::Graphics::UploadBuffer::UnMap() const
 
 	// Bufferリソースなのでサブリソースは0固定
 	// 今回は書き込み範囲を明示していないためnullptrを渡す
-	m_uploadBuffer->Unmap(k_unMapSubresourceNum, nullptr);
+	m_uploadBuffer->Unmap(k_bufferSubresourceIndex, nullptr);
 }

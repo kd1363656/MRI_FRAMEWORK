@@ -25,16 +25,6 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 	DXGI_ADAPTER_DESC3 l_selectedDesc = {};
 #endif
 
-	// グラフィックスカードのフィーチャーレベルを高い順で列挙
-	const std::vector<D3D_FEATURE_LEVEL> l_featureLevels =
-	{
-		D3D_FEATURE_LEVEL_12_2,
-		D3D_FEATURE_LEVEL_12_1,
-		D3D_FEATURE_LEVEL_12_0,
-		D3D_FEATURE_LEVEL_11_1,
-		D3D_FEATURE_LEVEL_11_0,
-	};
-
 	bool l_isFound = false;
 
 	// D3D12CreateDevice(どのGPUを使ってデバイスを作るか、
@@ -50,7 +40,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 
 	auto l_adapterIndex = k_firstAdapterIndex;
 
-	while (SUCCEEDED(l_factory->EnumAdapterByGpuPreference(l_adapterIndex, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(l_adapter.ReleaseAndGetAddressOf()))))
+	while (SUCCEEDED(l_factory->EnumAdapterByGpuPreference(l_adapterIndex, k_defaultGPUPreference, IID_PPV_ARGS(l_adapter.ReleaseAndGetAddressOf()))))
 	{
 		// 現在取得したGPUの詳細情報を受け取る構造体
 		DXGI_ADAPTER_DESC3 l_desc = {};
@@ -74,14 +64,14 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		}
 
 		// ソフトウェアアダプターは除外する
-		if (l_desc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)
+		if (l_desc.Flags & k_excludedAdapterFlag)
 		{
 			++l_adapterIndex;
 			continue; 
 		}
 
 		// このGPUでどのフィーチャーレベルまで使えるかを高い順に調べる
-		for (auto l_level : l_featureLevels)
+		for (auto l_level : k_preferredFeatureLevelList)
 		{
 			// 指定したGPUとフィーチャーレベルでDirectX12デバイスが作成できるかを確認する
 			// 第四引数にnullptrを渡しているため実際にデバイスを受け取るのではなく
@@ -117,13 +107,14 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 
 
 #if defined(_DEBUG)
-	std::wstring l_outPutLog = {};
+	std::wstring l_outputLog = {};
 
-	l_outPutLog += L"\n===================================================================\n使用GPU : ";
-	l_outPutLog += l_selectedDesc.Description;
-	l_outPutLog += L"\n===================================================================\n";
+	l_outputLog += k_deviceDebugLogSeparator;
+	l_outputLog += k_selectedGPUNameDebugLogLabel;
+	l_outputLog += l_selectedDesc.Description;
+	l_outputLog += k_deviceDebugLogSeparator;
 
-	OutputDebugString(l_outPutLog.c_str());
+	OutputDebugString(l_outputLog.c_str());
 #endif
 
 	// 事前チェックで使用可能と分かったGPUとフィーチャーレベルを使って、

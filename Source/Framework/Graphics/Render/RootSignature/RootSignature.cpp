@@ -104,7 +104,7 @@ nlohmann::json FWK::Graphics::RootSignature::Serialize() const
 	return m_rootSignatureJsonConverter.Serialize(*this);
 }
 
-UINT FWK::Graphics::RootSignature::FindRootParameterIndex(const TypeAlias::TypeTag a_tag) const
+UINT FWK::Graphics::RootSignature::FindVALRootParameterIndex(const TypeAlias::TypeTag a_tag) const
 {
 	const auto& l_itr = m_rootParameterIndexMap.find(a_tag);
 
