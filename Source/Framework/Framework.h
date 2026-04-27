@@ -48,6 +48,9 @@
 // テクスチャ用構造体
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 
+// ヒープ用構造体
+#include "Definition/Struct/Graphics/Resource/Heap/HeapBlockStruct.h"
+
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス
 //===============================================================================
@@ -108,6 +111,11 @@
 #include "Utility/String/StringUtility.h"
 
 //===============================================================================
+// 計算便利関数
+//===============================================================================
+#include "Utility/Math/MathUtility.h"
+
+//===============================================================================
 // ウィンドウクラス
 //===============================================================================
 #include "JsonConverter/Window/WindowJsonConverter.h"
@@ -163,6 +171,9 @@
 
 // アップロードシステム
 #include "Graphics/Resource/Upload/UploadSystem.h"
+
+// ヒープ
+#include "Graphics/Resource/Heap/HeapPage.h"
 
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"

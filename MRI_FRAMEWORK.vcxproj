@@ -301,6 +301,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\Tag\TagTypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\TypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Heap\HeapBlockStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\SwapChain\SwapChainStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\StringHash\StringHashStruct.h" />
@@ -363,6 +364,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\TypeINFO\StaticTypeID\StaticTypeIDGenerator.h" />
     <ClInclude Include="Source\Framework\Utility\File\FileUtility.h" />
     <ClInclude Include="Source\Framework\Utility\Json\JsonUtility.h" />
+    <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h" />
     <ClInclude Include="Source\Framework\Utility\String\StringUtility.h" />
     <ClInclude Include="Source\Framework\Utility\Tag\TagUtility.h" />
     <ClInclude Include="Source\Framework\Utility\TypeINFO\TypeINFOUtility.h" />
