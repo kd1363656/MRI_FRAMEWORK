@@ -128,7 +128,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVis
 {
 	if (!m_shaderVisibleDescriptorHeapRecord)
 	{
-		assert(false && "CPUOnly用ディスクリプタヒープが未作成でCPUハンドル取得ができません。");
+		assert(false && "ShaderVisible用ディスクリプタヒープが未作成でCPUハンドル取得ができません。");
 		return {};
 	}
 

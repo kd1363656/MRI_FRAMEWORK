@@ -17,8 +17,12 @@ namespace FWK::Graphics
 		const auto& GetREFRTVDescriptorPool() const { return m_rtvDescriptorPool; }
 		const auto& GetREFSRVDescriptorPool() const { return m_srvDescriptorPool; }
 
+		const auto& GetREFTextureSystem() const { return m_textureSystem; }
+
 		auto& GetMutableREFRTVDescriptorPool() { return m_rtvDescriptorPool; }
 		auto& GetMutableREFSRVDescriptorPool() { return m_srvDescriptorPool; }
+
+		auto& GetMutableREFTextureSystem() { return m_textureSystem; }
 
 	private:
 

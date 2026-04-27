@@ -40,6 +40,9 @@
 // ルートシグネチャ用構造体
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 
+// テクスチャ用構造体
+#include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
+
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス
 //===============================================================================
@@ -150,12 +153,16 @@
 #include "JsonConverter/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
 #include "Graphics/Resource/Descriptor/DescriptorPool.h"
 
-// テクスチャ
-#include "Graphics/Resource/Texture/Loader/TextureLoader.h"
-#include "Graphics/Resource/Texture/TextureSystem.h"
+// アップロードバッファー
+#include "Graphics/Resource/Buffer/UploadBuffer.h"
 
 // アップロードシステム
 #include "Graphics/Resource/Upload/UploadSystem.h"
+
+// テクスチャ
+#include "Graphics/Resource/Texture/Loader/TextureLoader.h"
+#include "Graphics/Resource/Texture/Uploader/TextureUploader.h"
+#include "Graphics/Resource/Texture/TextureSystem.h"
 
 // リソースコンテキスト
 #include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"
@@ -194,5 +201,6 @@
 #include "JsonConverter/Graphics/GraphicsManagerJsonConverter.h"
 #include "Graphics/GraphicsManager.h"
 
+// シーン
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"

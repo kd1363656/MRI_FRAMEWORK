@@ -280,6 +280,18 @@
     <Filter Include="Source\Framework\Scene">
       <UniqueIdentifier>{767e70e3-364e-4ded-a107-ff366a522cac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource">
+      <UniqueIdentifier>{d3ee3af8-f0fa-4005-8296-62b788b2c19d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture">
+      <UniqueIdentifier>{08449e46-bd5c-4fdc-a0e7-a3cdac01a3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\Uploader">
+      <UniqueIdentifier>{009d8341-f392-4fa7-8a3e-8b3b3bbc9b11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer">
+      <UniqueIdentifier>{469ef60a-b2d6-47f3-a8ec-feaf6267ecb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -518,6 +530,15 @@
     <ClInclude Include="Source\Framework\Scene\Scene.h">
       <Filter>Source\Framework\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Uploader\TextureUploader.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Uploader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -654,6 +675,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Scene\Scene.cpp">
       <Filter>Source\Framework\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Uploader\TextureUploader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Uploader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,5 +2,5 @@
 
 namespace FWK::Constant
 {
-	inline constexpr TypeAlias::StaticTypeID k_invalidStaticTypeID = std::numeric_limits<std::uint32_t>::max();
+	inline constexpr TypeAlias::StaticTypeID k_invalidStaticTypeID = std::numeric_limits<TypeAlias::StaticTypeID>::max();
 }

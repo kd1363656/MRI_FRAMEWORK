@@ -14,4 +14,6 @@ namespace FWK::Constant
 	inline constexpr UINT k_defaultSyncInterval = 1U;
 
 	inline constexpr UINT k_invalidRootParameterIndex = UINT_MAX;
+
+	inline constexpr TypeAlias::TextureID k_invalidTextureID = std::numeric_limits<TypeAlias::TextureID>::max();
 }

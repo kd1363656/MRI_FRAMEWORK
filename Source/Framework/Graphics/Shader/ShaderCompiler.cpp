@@ -32,7 +32,7 @@ bool FWK::Graphics::ShaderCompiler::Create()
 	return true;
 }
 
-FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(const std::filesystem::path& a_filePath, const std::string& a_entryPointName, const std::string& a_shaderModelVersionName) const
+FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(const std::wstring& a_filePath, const std::string& a_entryPointName, const std::string& a_shaderModelVersionName) const
 {
 	TypeAlias::ComPtr<IDxcBlobEncoding> l_source = nullptr;
 
@@ -72,7 +72,7 @@ FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(
 	//			読み込んだ結果を書き込むIDxcBlobEncodingの受取先);
 
 	// 読み込んだHLSLソースコードはl_sourceに入る。
-	auto l_hr = m_dxcUtils->LoadFile(a_filePath.wstring().c_str(), nullptr, l_source.ReleaseAndGetAddressOf());
+	auto l_hr = m_dxcUtils->LoadFile(a_filePath.c_str(), nullptr, l_source.ReleaseAndGetAddressOf());
 
 	if (FAILED(l_hr))
 	{
@@ -101,13 +101,12 @@ FWK::TypeAlias::ComPtr<IDxcBlob> FWK::Graphics::ShaderCompiler::CompileFromFile(
 	// コマンドラインのdxc.exeに渡すオプションとほぼ同じ意味を持つ
 	std::vector<LPCWSTR> l_args = {};
 
-	const auto& l_filePath               = a_filePath.wstring				  ();
 	const auto& l_entryPointName         = Utility::String::StringToWideString(a_entryPointName);
 	const auto& l_shaderModelVersionName = Utility::String::StringToWideString(a_shaderModelVersionName);
 
 	// 入力ファイル名
 	// エラーメッセージ表示などに使われる
-	l_args.emplace_back(l_filePath.c_str());
+	l_args.emplace_back(a_filePath.c_str());
 	
 	// -E : エントリーポイント名を指定するオプション
 	l_args.emplace_back(k_argEntryPointOption);

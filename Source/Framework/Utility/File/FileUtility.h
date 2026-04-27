@@ -32,7 +32,7 @@ namespace FWK::Utility::File
 
 	inline void SaveJsonFile(const nlohmann::json& a_json, const std::filesystem::path& a_filePath)
 	{
-		// 拡張子が".json"出なければreturn
+		// 拡張子が".json"でなければreturn
 		if (a_filePath.extension() != Constant::k_lowerJsonExtension) { return; }
 
 		std::ofstream l_ofs(a_filePath, std::ios::out);
@@ -40,5 +40,17 @@ namespace FWK::Utility::File
 		// ファイルパスにあるjsonにjsonデータを保存
 		l_ofs << a_json.dump(k_jsonIndentNum);
 		l_ofs.close         ();
+	}
+
+	inline std::filesystem::path MakeNormalizedFilePath(const std::filesystem::path& a_filePath)
+	{
+		// "."や".."などのパス表記を整理し、比較しやすいパスへ正規化
+		auto l_filePath = a_filePath.lexically_normal();
+
+		// 環境に合わせた区切り文字へ変換
+		// Windowsなら"\"を"\\"に寄せる
+		l_filePath.make_preferred();
+
+		return l_filePath;
 	}
 }

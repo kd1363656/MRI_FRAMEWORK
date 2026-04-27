@@ -8,13 +8,15 @@ void FWK::Graphics::Shader::Deserialize(const nlohmann::json& a_rootJson)
 
 void FWK::Graphics::Shader::CompileFromFile(const ShaderCompiler& a_shaderCompiler)
 {
-	if (m_filePath.extension() != Constant::k_lowerHLSLExtension)
+	const auto& l_filePath = Utility::File::MakeNormalizedFilePath(m_filePath);
+
+	if (l_filePath.extension() != Constant::k_lowerHLSLExtension)
 	{
 		assert(false && "HLSLファイルの拡張子が.hlslではありません、もし.HLSLなら拡張子部分の全てを小文字にしてください。");
 		return;
 	}
 
-	m_dxcBlob = a_shaderCompiler.CompileFromFile(m_filePath,
+	m_dxcBlob = a_shaderCompiler.CompileFromFile(l_filePath.c_str(),
 												 m_entryPointName,
 												 m_shaderModelVersionName);
 }
