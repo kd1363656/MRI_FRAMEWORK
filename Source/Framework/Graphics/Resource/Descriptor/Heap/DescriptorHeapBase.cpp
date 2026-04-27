@@ -9,8 +9,8 @@ FWK::Graphics::DescriptorHeapBase::DescriptorHeapBase(const D3D12_DESCRIPTOR_HEA
 	m_cpuOnlyDescriptorHeapRecord      (nullptr),
 	m_shaderVisibleDescriptorHeapRecord(nullptr),
 
-	m_descriptorCapacity(0U),
-	m_descriptorSize    (0U)
+	m_descriptorCapacity(Constant::k_invalidDescriptorCapacity),
+	m_descriptorSize    (k_initialDescriptorSize)
 {}
 FWK::Graphics::DescriptorHeapBase::~DescriptorHeapBase() = default;
 

@@ -1,6 +1,6 @@
 ﻿#include "SRVDescriptorHeap.h"
 
 FWK::Graphics::SRVDescriptorHeap::SRVDescriptorHeap() :
-	DescriptorHeapBase(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, true, true)
+	DescriptorHeapBase(k_descriptorHeapType, k_isUseCPUOnly, k_isUseShaderVisible)
 {}
 FWK::Graphics::SRVDescriptorHeap::~SRVDescriptorHeap() = default;

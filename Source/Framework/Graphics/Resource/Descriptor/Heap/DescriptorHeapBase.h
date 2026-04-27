@@ -40,7 +40,8 @@ namespace FWK::Graphics
 
 		static constexpr UINT64 k_invalidDescriptorPTR = 0ULL;
 
-		static constexpr UINT k_copyDescriptorNum = 1U;
+		static constexpr UINT k_copyDescriptorNum     = 1U;
+		static constexpr UINT k_initialDescriptorSize = 0U;
 
 		const D3D12_DESCRIPTOR_HEAP_TYPE k_createDescriptorHeapType;
 

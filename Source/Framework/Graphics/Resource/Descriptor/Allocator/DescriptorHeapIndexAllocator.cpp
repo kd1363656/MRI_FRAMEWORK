@@ -10,10 +10,10 @@ bool FWK::Graphics::DescriptorHeapIndexAllocator::Create(const UINT a_descriptor
 	}
 
 	m_descriptorCapacity = a_descriptorCapacity;
-	m_nextIndex			 = k_initialNextIndex;
+	m_nextIndex			 = k_firstDescriptorHeapIndex;
 	
 	// 全スロットを未使用状態で初期化する
-	m_isAllocatedList.assign(m_descriptorCapacity, false);
+	m_isAllocatedList.assign(m_descriptorCapacity, k_unallocatedDescriptorState);
 
 	// キューも何も保持していない状態にする
 	m_freeIndexQueue = {};
@@ -37,7 +37,7 @@ void FWK::Graphics::DescriptorHeapIndexAllocator::Release(const UINT a_index)
 		return;
 	}
 
-	m_isAllocatedList[a_index] = false;
+	m_isAllocatedList[a_index] = k_unallocatedDescriptorState;
 	m_freeIndexQueue.push(a_index);
 }
 
@@ -57,7 +57,7 @@ UINT FWK::Graphics::DescriptorHeapIndexAllocator::Allocate()
 			return Constant::k_invalidDescriptorHeapIndex;
 		}
 
-		m_isAllocatedList[l_reuseIndex] = true;
+		m_isAllocatedList[l_reuseIndex] = k_allocatedDescriptorState;
 
 		return l_reuseIndex;
 	}
@@ -70,7 +70,7 @@ UINT FWK::Graphics::DescriptorHeapIndexAllocator::Allocate()
 		++m_nextIndex;
 
 		// 新規払い出しするインデックス番号は割り当て済みにする
-		m_isAllocatedList[l_allocateIndex] = true;
+		m_isAllocatedList[l_allocateIndex] = k_allocatedDescriptorState;
 
 		return l_allocateIndex;
 	}

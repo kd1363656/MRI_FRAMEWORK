@@ -19,10 +19,13 @@ namespace FWK::Graphics
 
 		bool IsValidIndex(const UINT a_index) const;
 
-		static constexpr UINT k_initialNextIndex = 0U;
+		static constexpr UINT k_firstDescriptorHeapIndex = 0U;
+		
+		static constexpr bool k_unallocatedDescriptorState = false;
+		static constexpr bool k_allocatedDescriptorState   = true;
 
-		UINT m_descriptorCapacity = 0U;
-		UINT m_nextIndex		  = 0U;
+		UINT m_descriptorCapacity = Constant::k_invalidDescriptorCapacity;
+		UINT m_nextIndex		  = k_firstDescriptorHeapIndex;
 
 		std::vector<bool> m_isAllocatedList = {};
 
