@@ -288,7 +288,11 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RootSignature\RootSignatureConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\TextureConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\SwapChain\SwapChainConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\TypeTag\TypeTagConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h" />
@@ -328,6 +332,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\HeapPage.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h" />
@@ -389,6 +394,7 @@ if errorlevel 1 exit /b 1</Command>
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\HeapPage.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.cpp" />

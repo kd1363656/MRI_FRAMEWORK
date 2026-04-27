@@ -292,6 +292,36 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer">
       <UniqueIdentifier>{469ef60a-b2d6-47f3-a8ec-feaf6267ecb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Heap">
+      <UniqueIdentifier>{f6f78443-0e62-4dd5-8508-212a17a9f96e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Command">
+      <UniqueIdentifier>{16ec546f-9f31-4642-99a2-14ab55685672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Command\Queue">
+      <UniqueIdentifier>{e8a0c3b8-cd2f-48df-88de-96ce94e876fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence">
+      <UniqueIdentifier>{4430941d-9fce-4474-9929-5327559dcf13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource">
+      <UniqueIdentifier>{52ddfb03-a3a6-4b8f-94b4-1c5c0fe143d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor">
+      <UniqueIdentifier>{119c7c48-e41f-455f-b848-414b3d19ae74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\SwapChain">
+      <UniqueIdentifier>{491a044a-a4db-4da5-a1a8-8df064894ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Render">
+      <UniqueIdentifier>{db520e96-1866-4424-adf7-b9c5ae5189cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{f81169bd-79dd-4dcd-bce1-1d660ab16055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture">
+      <UniqueIdentifier>{8fd7d956-bd38-4292-bdc3-c030c9e4746f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -391,9 +421,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h">
       <Filter>Source\Framework\Graphics\Command\Allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h">
-      <Filter>Source\Framework\Definition\Constant\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\CommandQueueBase.h">
       <Filter>Source\Framework\Graphics\Command\Queue</Filter>
@@ -539,6 +566,24 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\HeapPage.h">
+      <Filter>Source\Framework\Graphics\Resource\Heap</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\SwapChain\SwapChainConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RootSignature\RootSignatureConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Render\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\TextureConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -681,6 +726,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\HeapPage.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Heap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

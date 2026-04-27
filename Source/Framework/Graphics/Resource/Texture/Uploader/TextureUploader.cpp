@@ -112,7 +112,7 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 															   const Device								 a_device,
 																	 UploadSystem&						 a_uploadSystem) const
 {
-	return false;
+	return true;
 }
 
 bool FWK::Graphics::TextureUploader::CreateTextureSRV(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource,
@@ -121,5 +121,5 @@ bool FWK::Graphics::TextureUploader::CreateTextureSRV(const TypeAlias::ComPtr<ID
 													  const Device&							    a_device,
 															DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap)
 {
-
+	return true;
 }

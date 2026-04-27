@@ -24,6 +24,11 @@
 
 // Graphics関係の定数
 #include "Definition/Constant/Graphics/GraphicsConstant.h"
+#include "Definition/Constant/Graphics/Command/Queue/Fence/FenceConstant.h"
+#include "Definition/Constant/Graphics/Resource/Descriptor/DescriptorConstant.h"
+#include "Definition/Constant/Graphics/SwapChain/SwapChainConstant.h"
+#include "Definition/Constant/Graphics/Render/RootSignature/RootSignatureConstant.h"
+#include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
 
 // ファイル関係の定数
 #include "Definition/Constant/FileExtension/FileExtensionConstant.h"
