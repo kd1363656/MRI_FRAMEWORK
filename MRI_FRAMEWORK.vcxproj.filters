@@ -322,6 +322,9 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture">
       <UniqueIdentifier>{8fd7d956-bd38-4292-bdc3-c030c9e4746f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap">
+      <UniqueIdentifier>{e83a6d0d-c314-4eec-ac8b-9707c7cd97a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -583,6 +586,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\TextureConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Heap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
