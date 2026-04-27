@@ -10,7 +10,7 @@ FWK::Graphics::DescriptorHeapBase::DescriptorHeapBase(const D3D12_DESCRIPTOR_HEA
 	m_shaderVisibleDescriptorHeapRecord(nullptr),
 
 	m_descriptorCapacity(Constant::k_invalidDescriptorCapacity),
-	m_descriptorSize    (k_initialDescriptorSize)
+	m_descriptorSize    (k_uninitializedDescriptorSize)
 {}
 FWK::Graphics::DescriptorHeapBase::~DescriptorHeapBase() = default;
 
@@ -40,8 +40,8 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 
 	// ShaderVisibleにできるのはCBV_SRV_UAVとSAMPLERだけ
 	if (k_isUseShaderVisible &&
-		k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV &&
-		k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER)
+		k_createDescriptorHeapType != k_cbvSRVUAVDescriptorHeapType &&
+		k_createDescriptorHeapType != k_samplerDescriptorHeapType)
 	{
 		assert(false && "ShaderVisibleにできない種類のディスクリプタヒープです。");
 		return false;
@@ -54,7 +54,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 	m_descriptorSize = l_device->GetDescriptorHandleIncrementSize(k_createDescriptorHeapType);
 
 	// CPUOnlyのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
+	if (!CreateDescriptorHeapRecordIfNeeded(k_cpuOnlyDescriptorHeapFlag,
 										    a_device,
 										    k_isUseCPUOnly,
 										    m_cpuOnlyDescriptorHeapRecord))
@@ -64,7 +64,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 	}
 
 	// ShaderVisibleのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
+	if (!CreateDescriptorHeapRecordIfNeeded(k_shaderVisibleDescriptorHeapFlag,
 										    a_device,
 										    k_isUseShaderVisible,
 										    m_shaderVisibleDescriptorHeapRecord))
@@ -106,7 +106,7 @@ bool FWK::Graphics::DescriptorHeapBase::CopyCPUOnlyDescriptorToShaderVisibleDesc
 	//						 コピー先のCPUディスクリプタハンドル、
 	//						 コピー元のCPUディスクリプタハンドル、
 	//						 コピーするディスクリプタヒープの種類);
-	l_device->CopyDescriptorsSimple(k_copyDescriptorNum,
+	l_device->CopyDescriptorsSimple(k_copyDescriptorCount,
 									l_dstCPUHandle,
 									l_srcCPUHandle,
 									k_createDescriptorHeapType);
@@ -180,7 +180,7 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_D
 	a_descriptorHeapRecord.m_cpuStart = a_descriptorHeapRecord.m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 
 	// ShaderVisibleのヒープだけGPU側の先頭ハンドルを持てる
-	if (a_descriptorHeapFlag == D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE)
+	if (a_descriptorHeapFlag == k_shaderVisibleDescriptorHeapFlag)
 	{
 		// GPUが参照するディスクリプタテーブルの開始位置を取得する
 		a_descriptorHeapRecord.m_gpuStart = a_descriptorHeapRecord.m_descriptorHeap->GetGPUDescriptorHandleForHeapStart();
@@ -188,7 +188,7 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_D
 	else 
 	{
 		// ShaderVisibleではないヒープはGPUハンドルを使えないので無効値を入れておく
-		a_descriptorHeapRecord.m_gpuStart.ptr = k_invalidDescriptorPTR;
+		a_descriptorHeapRecord.m_gpuStart.ptr = k_invalidGPUDescriptorHandlePTR;
 	}
 
 	return true;
