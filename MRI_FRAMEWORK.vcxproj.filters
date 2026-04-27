@@ -331,6 +331,9 @@
     <Filter Include="Source\Framework\Utility\Math">
       <UniqueIdentifier>{471fe9d6-bce8-4d97-b020-65d8b5760106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Heap\Allocator">
+      <UniqueIdentifier>{8e16bc2d-df96-409c-99c8-bfd57d586119}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -602,6 +605,9 @@
     <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h">
       <Filter>Source\Framework\Utility\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\Allocator\HeapPageAllocatorBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -747,6 +753,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Heap\HeapPage.cpp">
       <Filter>Source\Framework\Graphics\Resource\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\Allocator\HeapPageAllocatorBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

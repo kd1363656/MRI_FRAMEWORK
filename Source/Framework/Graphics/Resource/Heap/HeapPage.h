@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class HeapPage
+	class HeapPage final
 	{
 	public:
 
@@ -23,7 +23,7 @@ namespace FWK::Graphics
 
 		const auto& GetREFHeapSize() const { return m_heapSize; }
 
-		auto GetVALHeapPage() const { return m_heapPageID; }
+		auto GetVALHeapPageID() const { return m_heapPageID; }
 
 	private:
 

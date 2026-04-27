@@ -150,7 +150,6 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 		{
 			m_freeHeapBlockList.erase(l_itr);
 		}
-
 		// 確保領域がFreeBlockの先頭から始まるケース。
 		// 前側の空きは残らず、後ろ側の空きだけ残るので、
 		// 現在のFreeBlockを「後ろ側の残り領域に更新する」
@@ -159,7 +158,6 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 			l_itr->beginOffset = l_allocationEnd;
 			l_itr->size	       = l_suffixSize;
 		}
-
 		// 確保領域がFreeBlockの終端ピッタリまで使うケース
 		// 後ろ側の空きは残らず、前側の空きだけ残るので、
 		// 現在のFreeBlockのサイズだけを前側の残りサイズに更新する
@@ -167,7 +165,6 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 		{
 			l_itr->size = l_prefixSize;
 		}
-
 		// 確保領域がFreeBlockの途中に入るケース
 		// そのためFreeBlockは前側の空きと後ろ側の空きの2つに分割される。
 		// 現在のFreeBlockは前側として残し、後ろ側は新しいFreeBlockとして追加する
@@ -195,13 +192,13 @@ bool FWK::Graphics::HeapPage::Release(const UINT64& a_heapOffset, const UINT64& 
 {
     if (!m_heap)
     {
-        assert(false && "HeapPageが未作成のため、ヒープ領域開放処理に失敗しました。");
+        assert(false && "HeapPageが未作成のため、ヒープ領域解放処理に失敗しました。");
         return false;
     }
 
     if (a_allocationSize == 0ULL)
     {
-        assert(false && "解放サイズが0のため、ヒープ領域開放処理に失敗しました。");
+        assert(false && "解放サイズが0のため、ヒープ領域解放処理に失敗しました。");
         return false;
     }
 

@@ -174,6 +174,7 @@
 
 // ヒープ
 #include "Graphics/Resource/Heap/HeapPage.h"
+#include "Graphics/Resource/Heap/Allocator/HeapPageAllocatorBase.h"
 
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
