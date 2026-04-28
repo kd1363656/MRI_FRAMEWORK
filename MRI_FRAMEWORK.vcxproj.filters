@@ -292,9 +292,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer">
       <UniqueIdentifier>{469ef60a-b2d6-47f3-a8ec-feaf6267ecb7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Heap">
-      <UniqueIdentifier>{f6f78443-0e62-4dd5-8508-212a17a9f96e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Command">
       <UniqueIdentifier>{16ec546f-9f31-4642-99a2-14ab55685672}</UniqueIdentifier>
     </Filter>
@@ -330,12 +327,6 @@
     </Filter>
     <Filter Include="Source\Framework\Utility\Math">
       <UniqueIdentifier>{471fe9d6-bce8-4d97-b020-65d8b5760106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Heap\Allocator">
-      <UniqueIdentifier>{8e16bc2d-df96-409c-99c8-bfd57d586119}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Heap\Allocator\Texture">
-      <UniqueIdentifier>{e24b26a5-8df6-4158-95d0-f40cbecf6963}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline">
       <UniqueIdentifier>{3d716490-6f6e-401d-8332-fb54ca4a8019}</UniqueIdentifier>
@@ -584,9 +575,6 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\HeapPage.h">
-      <Filter>Source\Framework\Graphics\Resource\Heap</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence</Filter>
     </ClInclude>
@@ -607,12 +595,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h">
       <Filter>Source\Framework\Utility\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\Allocator\PlacedResourceAllocatorBase.h">
-      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Heap\Allocator\Texture\TexturePlacedResourceAllocator.h">
-      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Heap\HeapStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Heap</Filter>
@@ -771,15 +753,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\HeapPage.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Heap</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\Allocator\PlacedResourceAllocatorBase.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Heap\Allocator\Texture\TexturePlacedResourceAllocator.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Heap\Allocator\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
