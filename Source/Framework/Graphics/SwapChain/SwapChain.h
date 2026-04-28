@@ -47,8 +47,6 @@ namespace FWK::Graphics
 
 		static constexpr DXGI_FORMAT k_swapChainFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-		static constexpr UINT k_defaultSampleCount       = 1U;
-		static constexpr UINT k_defaultSampleQuality     = 0U;
 		static constexpr UINT k_swapChainPresentFlagNone = 0U;
 		static constexpr UINT k_swapChainDescFlags	     = 0U;
 

@@ -17,7 +17,7 @@ bool FWK::Graphics::UploadBuffer::Create(const UINT64& a_bufferSize, const Devic
 		return false;
 	}
 
-	constexpr auto l_nodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
+	constexpr auto l_nodeMask = Constant::k_defaultGPUNodeMask;
 
 	// D3D12_HEAP_PROPERTIESについての説明
 	// Type                 : どの種類のヒープにリソースを置くか
@@ -80,7 +80,7 @@ std::uint8_t* FWK::Graphics::UploadBuffer::Map() const
 	
 	// Bufferリソースなのでサブリソースは0固定で扱う
 	// UploadBufferはCPUから書き込みたい用途なのでMapして生ポインタを取得する
-	const auto l_hr = m_uploadBuffer->Map(k_bufferSubresourceIndex, nullptr, &l_mappedData);
+	const auto l_hr = m_uploadBuffer->Map(Constant::k_firstSubresourceIndex, nullptr, &l_mappedData);
 
 	if (FAILED(l_hr))
 	{
@@ -104,5 +104,5 @@ void FWK::Graphics::UploadBuffer::UnMap() const
 
 	// Bufferリソースなのでサブリソースは0固定
 	// 今回は書き込み範囲を明示していないためnullptrを渡す
-	m_uploadBuffer->Unmap(k_bufferSubresourceIndex, nullptr);
+	m_uploadBuffer->Unmap(Constant::k_firstSubresourceIndex, nullptr);
 }

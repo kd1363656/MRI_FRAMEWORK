@@ -24,8 +24,6 @@ namespace FWK::Graphics
 
 		static constexpr UINT64 k_invalidBufferSize = 0ULL;
 
-		static constexpr UINT k_bufferSubresourceIndex = 0U;
-		
 		TypeAlias::ComPtr<ID3D12Resource2> m_uploadBuffer = nullptr;
 	};
 }

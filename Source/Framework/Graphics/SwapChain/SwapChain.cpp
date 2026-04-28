@@ -147,11 +147,11 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 	// 1はMSAAを使わない通常設定
 	// 4などにするとアンチエイリアス用途になるが、
 	// スワップチェインのバックバッファでは1を使うことが多い
-	l_desc.SampleDesc.Count = k_defaultSampleCount;
+	l_desc.SampleDesc.Count = Constant::k_defaultSampleCount;
 
 	// マルチサンプリング品質レベル
 	// 通常設定では0を使うことが多い
-	l_desc.SampleDesc.Quality = k_defaultSampleQuality;
+	l_desc.SampleDesc.Quality = Constant::k_defaultSampleQuality;
 
 	// このバッファを何に使うかを指定する
 	// DXGI_USAGE_RENDER_TARGET_OUTPUTは

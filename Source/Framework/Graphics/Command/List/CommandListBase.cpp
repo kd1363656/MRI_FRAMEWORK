@@ -24,7 +24,7 @@ bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 	//					 受け取りたいCOMインターフェース型のID、
 	//					 作成結果のポインタを書き込むアドレス);
 
-	auto l_hr = l_device->CreateCommandList1(GraphicsManager::GetVALDefaultGPUNodeMask(),
+	auto l_hr = l_device->CreateCommandList1(Constant::k_defaultGPUNodeMask,
 											 k_createCommandListType,
 											 k_createListFlags,
 											 IID_PPV_ARGS(m_commandList.ReleaseAndGetAddressOf()));

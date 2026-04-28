@@ -85,7 +85,7 @@ bool FWK::Graphics::RootSignature::Create(const Device& a_device)
 	//					   受け取りたいCOMインターフェース型のID、
 	//					   作成結果のポインタを書き込むアドレス);
 
-	l_hr = l_device->CreateRootSignature(GraphicsManager::GetVALDefaultGPUNodeMask(),
+	l_hr = l_device->CreateRootSignature(Constant::k_defaultGPUNodeMask,
 										 l_serializedBlob->GetBufferPointer(),
 										 l_serializedBlob->GetBufferSize(),
 										 IID_PPV_ARGS(m_rootSignature.ReleaseAndGetAddressOf()));

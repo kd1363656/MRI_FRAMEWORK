@@ -134,7 +134,7 @@ bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
 	l_desc.Flags = k_defaultCommandQueueFlags;
 
 	// このコマンドキューをどのGPUノードで使用するかを指定する
-	l_desc.NodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
+	l_desc.NodeMask = Constant::k_defaultGPUNodeMask;
 
 	// コマンドキューを作成する関数
 	// CreateCommandQueue(コマンドキューの設定内容、

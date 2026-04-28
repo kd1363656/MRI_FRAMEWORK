@@ -623,6 +623,12 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\CommandConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\ResourceConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

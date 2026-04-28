@@ -38,11 +38,6 @@ namespace FWK::Graphics
 
 		static constexpr D3D12_RESOURCE_STATES k_initialTextureResourceState = D3D12_RESOURCE_STATE_COPY_DEST;
 
-		static constexpr UINT64 k_uploadBufferStartOffset = 0ULL;
-
-		static constexpr UINT k_textureResourceDescCount = 1U;
-		static constexpr UINT k_firstSubresourceIndex    = 0U;
-
 		static constexpr UINT k_mostDetailedMIP = 0U;
 		static constexpr UINT k_planeSlice		= 0U;
 

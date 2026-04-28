@@ -54,7 +54,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 	m_descriptorSize = l_device->GetDescriptorHandleIncrementSize(k_createDescriptorHeapType);
 
 	// CPUOnlyのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(k_cpuOnlyDescriptorHeapFlag,
+	if (!CreateDescriptorHeapRecordIfNeeded(Constant::k_cpuOnlyDescriptorHeapFlag,
 										    a_device,
 										    k_isUseCPUOnly,
 										    m_cpuOnlyDescriptorHeapRecord))
@@ -64,7 +64,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 	}
 
 	// ShaderVisibleのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(k_shaderVisibleDescriptorHeapFlag,
+	if (!CreateDescriptorHeapRecordIfNeeded(Constant::k_shaderVisibleDescriptorHeapFlag,
 										    a_device,
 										    k_isUseShaderVisible,
 										    m_shaderVisibleDescriptorHeapRecord))
@@ -158,7 +158,7 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_D
 	l_desc.Flags = a_descriptorHeapFlag;
 
 	// どのGPUノードで使用するかを指定する
-	l_desc.NodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
+	l_desc.NodeMask = Constant::k_defaultGPUNodeMask;
 
 	// ディスクリプタヒープを作成する関数
 	// CreateDescriptorHeap(設定、
@@ -180,7 +180,7 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_D
 	a_descriptorHeapRecord.m_cpuStart = a_descriptorHeapRecord.m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 
 	// ShaderVisibleのヒープだけGPU側の先頭ハンドルを持てる
-	if (a_descriptorHeapFlag == k_shaderVisibleDescriptorHeapFlag)
+	if (a_descriptorHeapFlag == Constant::k_shaderVisibleDescriptorHeapFlag)
 	{
 		// GPUが参照するディスクリプタテーブルの開始位置を取得する
 		a_descriptorHeapRecord.m_gpuStart = a_descriptorHeapRecord.m_descriptorHeap->GetGPUDescriptorHandleForHeapStart();

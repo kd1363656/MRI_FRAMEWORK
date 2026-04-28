@@ -34,7 +34,6 @@ namespace FWK::Graphics
 		static constexpr UINT64 k_heapBeginOffset	   = 0ULL;
 		static constexpr UINT64 k_emptyBlockSize       = 0ULL;
 		static constexpr UINT64 k_invalidHeapSize	   = 0ULL;
-		static constexpr UINT64 k_invalidAlignment     = 0ULL;
 		static constexpr UINT64 k_heapDefaultAlignment = 0ULL;
 		static constexpr UINT64 k_invalidFreeBlockSize = 0ULL;
 

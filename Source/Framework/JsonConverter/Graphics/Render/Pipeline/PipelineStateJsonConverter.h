@@ -39,8 +39,6 @@ namespace FWK::Converter
 
 		void EnsureShader(std::shared_ptr<Graphics::Shader>& a_shader) const;
 
-		static constexpr UINT k_defaultSampleCount   = 1U;
-		static constexpr UINT k_defaultSampleQuality = 0U;
 		static constexpr UINT k_noForcedSampleCount  = 0U;
 	};
 }

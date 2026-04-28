@@ -290,10 +290,12 @@ if errorlevel 1 exit /b 1</Command>
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\CommandConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RootSignature\RootSignatureConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\ResourceConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\TextureConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\SwapChain\SwapChainConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />

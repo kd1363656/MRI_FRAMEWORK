@@ -26,7 +26,7 @@ bool FWK::Graphics::HeapPage::Create(const UINT64&               a_heapSize,
         return false;
     }
 
-    constexpr auto l_nodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
+    constexpr auto l_nodeMask = Constant::k_defaultGPUNodeMask;
 
     // D3D12_HEAP_DESCについての説明
 	// SizeInBytes : ヒープ全体のサイズ(何バイト確保するのか)
@@ -95,7 +95,7 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 		return false;
 	}
 
-	if (a_alignment == k_invalidAlignment)
+	if (a_alignment == Constant::k_invalidAlignment)
 	{
 		assert(false && "アライメントが0のため、ヒープ領域確保処理に失敗しました。");
 		return false;

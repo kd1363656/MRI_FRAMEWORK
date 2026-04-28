@@ -125,7 +125,7 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	l_pipelineStateDesc.BlendState = m_blendDesc;
 
 	// 対象となるGPUのノードマスク
-	l_pipelineStateDesc.NodeMask = GraphicsManager::GetVALDefaultGPUNodeMask();
+	l_pipelineStateDesc.NodeMask = Constant::k_defaultGPUNodeMask;
 
 	// D3D12_DEPTH_STENCIL_DESCについての説明
 	// DepthEnable      : 深度テストを使うかどうか

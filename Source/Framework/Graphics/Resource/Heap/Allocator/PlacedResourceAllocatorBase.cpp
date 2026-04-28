@@ -32,15 +32,15 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::CreatePlacedResource(const D3D1
 	//							 リソース設定数、
 	//							 リソース設定配列、	
 	//							 指定したResourceをHeap内に配置するために必要なサイズとアライメントを取得する);
-	const auto l_allocationINFO = l_device->GetResourceAllocationInfo(GraphicsManager::GetVALDefaultGPUNodeMask(), k_resourceDescCount, &a_resourceDesc);
+	const auto l_allocationINFO = l_device->GetResourceAllocationInfo(Constant::k_defaultGPUNodeMask, Constant::k_singleResourceDescCount, &a_resourceDesc);
 
-	if (l_allocationINFO.SizeInBytes == k_invalidResourceSize)
+	if (l_allocationINFO.SizeInBytes == Constant::k_invalidAllocationSize)
 	{
 		assert(false && "Resourceの必要確保サイズが0のため、PlacedResource作成処理に失敗しました。");
 		return false;
 	}
 
-	if (l_allocationINFO.Alignment == k_invalidResourceAlignment)
+	if (l_allocationINFO.Alignment == Constant::k_invalidAlignment)
 	{
 		assert(false && "Resourceの必要アライメントが0のため、PlacedResource作成処理に失敗しました。");
 		return false;
@@ -128,7 +128,7 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::Allocate(const UINT64&         
 		return false;
 	}
 
-	if (a_alignment == k_invalidAlignment)
+	if (a_alignment == Constant::k_invalidAlignment)
 	{
 		assert(false && "アライメントが0のため、PlacedResourceAllocatorの領域確保処理に失敗しました。");
 		return false;
@@ -169,7 +169,7 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::Allocate(const UINT64&         
 
 	auto& l_heapPage = m_heapPageList.back();
 
-	UINT64 l_heapOffset = 0ULL;
+	UINT64 l_heapOffset = Constant::k_invalidHeapOffset;
 
 	if (!l_heapPage.Allocate(a_allocationSize, a_alignment, l_heapOffset))
 	{
@@ -246,7 +246,7 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::CreateHeapPage(const Device& a_
 		return false;
 	}
 
-	if (a_alignment == k_invalidAlignment)
+	if (a_alignment == Constant::k_invalidAlignment)
 	{
 		assert(false && "アライメントが0のため、HeapPage追加作成に失敗しました。");
 		return false;
@@ -266,7 +266,7 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::CreateHeapPage(const Device& a_
 	// そのため最低でも
 	// allocationSize + (alignment - 1)
 	// を見ておけば、最悪の切り上げが発生しても1個は配置できる
-	const UINT64& l_alignmentPaddingMax = a_alignment - k_alignmentPaddingAdjustment;
+	const auto& l_alignmentPaddingMax = a_alignment - k_alignmentPaddingAdjustment;
 
 	if (a_allocationSize > (std::numeric_limits<UINT64>::max() - l_alignmentPaddingMax))
 	{
@@ -274,10 +274,10 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::CreateHeapPage(const Device& a_
 		return false;
 	}
 
-	const UINT64& l_minimumRequiredPageSize = a_allocationSize + l_alignmentPaddingMax;
-	const UINT64& l_createHeapPageSize      = std::max(m_heapPageSize, l_minimumRequiredPageSize);
+	const auto& l_minimumRequiredPageSize = a_allocationSize + l_alignmentPaddingMax;
+	const auto& l_createHeapPageSize      = std::max(m_heapPageSize, l_minimumRequiredPageSize);
 
-	const TypeAlias::HeapPageID l_heapPageID = GenerateHeapPageID();
+	const auto l_heapPageID = GenerateHeapPageID();
 
 	if (l_heapPageID == Constant::k_invalidHeapPageID)
 	{
