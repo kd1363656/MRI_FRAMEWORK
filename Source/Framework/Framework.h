@@ -176,11 +176,6 @@
 // アップロードシステム
 #include "Graphics/Resource/Upload/UploadSystem.h"
 
-// ヒープ
-#include "Graphics/Resource/Heap/HeapPage.h"
-#include "Graphics/Resource/Heap/Allocator/PlacedResourceAllocatorBase.h"
-#include "Graphics/Resource/Heap/Allocator/Texture/TexturePlacedResourceAllocator.h"
-
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
 #include "Graphics/Resource/Texture/Uploader/TextureUploader.h"

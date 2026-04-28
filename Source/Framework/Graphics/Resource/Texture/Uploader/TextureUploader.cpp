@@ -3,7 +3,6 @@
 bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage&             a_scratchImage, 
 												   const DirectX::TexMetadata&              a_texMetadata,
 												   const Device&				            a_device,
-													     TexturePlacedResourceAllocator&    a_texturePlacedResourceAllocator, 
 														 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
 														 UploadSystem&						a_uploadSystem,
 														 Struct::TextureRecord&				a_textureRecord)
@@ -27,7 +26,6 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 	if (!CreateTextureResource(a_texMetadata,
 							   a_device,
 							   l_textureResource,
-							   a_texturePlacedResourceAllocator,
 							   l_allocationRecord))
 	{
 		assert(false && "TextureResource作成に失敗したため、テクスチャアップロード処理に失敗しました。");
@@ -68,7 +66,6 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMetadata&                   a_texMetadata,
 														   const Device&			                     a_device,
 																 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
-																 TexturePlacedResourceAllocator&	     a_texturePlacedResourceAllocator, 
 																 Struct::PlacedResourceAllocationRecord& a_allocationRecord)
 {
 	a_textureResource.Reset();
@@ -123,19 +120,19 @@ bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMet
 															  static_cast<UINT16>(a_texMetadata.arraySize),
 															  static_cast<UINT16>(a_texMetadata.mipLevels));
 
-	// 通常TextureはRenderTarget / DepthStencilではないためClearValueは使用しない
-	// TextureResourceはUploadBufferからCopyTextureRegionで画像データをコピーされるため、
-	// 作成直後のResourceStateはCOPY_DESTにしておく
-	if (!a_texturePlacedResourceAllocator.CreatePlacedResource(l_textureResourceDesc,
-															   a_device,
-															   nullptr,
-															   k_initialTextureResourceState,
-															   a_textureResource,
-															   a_allocationRecord))
-	{
-		assert(false && "PlacedResourceAllocatorによるTextureResource作成に失敗しました。");
-		return false;
-	}
+	//// 通常TextureはRenderTarget / DepthStencilではないためClearValueは使用しない
+	//// TextureResourceはUploadBufferからCopyTextureRegionで画像データをコピーされるため、
+	//// 作成直後のResourceStateはCOPY_DESTにしておく
+	//if (!a_texturePlacedResourceAllocator.CreatePlacedResource(l_textureResourceDesc,
+	//														   a_device,
+	//														   nullptr,
+	//														   k_initialTextureResourceState,
+	//														   a_textureResource,
+	//														   a_allocationRecord))
+	//{
+	//	assert(false && "PlacedResourceAllocatorによるTextureResource作成に失敗しました。");
+	//	return false;
+	//}
 
 	return true;
 }
