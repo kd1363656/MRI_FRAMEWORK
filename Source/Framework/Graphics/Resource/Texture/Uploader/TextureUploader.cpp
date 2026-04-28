@@ -73,20 +73,14 @@ bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMet
 	a_textureResource.Reset();
 	a_allocation.Reset	   ();
 
-	const auto& l_device = a_device.GetREFDevice();
-
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、テクスチャリソース作成に失敗しました。");
-		return false;
-	}
-
+	// フォーマットが無効の場合return;
 	if (a_texMetadata.format == DXGI_FORMAT_UNKNOWN)
 	{
 		assert(false && "テクスチャフォーマットが無効のため、テクスチャリソース作成に失敗しました。");
 		return false;
 	}
 
+	// テクスチャの種類がTexture2D以外の場合return;
 	if (a_texMetadata.dimension != DirectX::TEX_DIMENSION_TEXTURE2D)
 	{
 		assert(false && "現在のテクスチャリソース作成はTexture2Dのみ対応しています。");
@@ -110,22 +104,21 @@ bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMet
 	// Flags            : リソースの追加用途や制限
 
 	// Texture2D用のD3D12_RESOURCE_DESCを作成する関数
-	// format    : テクスチャの画素フォーマット
-	// width     : テクスチャの横幅
-	// height    : テクスチャの縦幅
-	// arraySize : 配列テクスチャの要素数
-	// mipLevels : mipmapの段数
-
-	auto l_textureResourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(a_texMetadata.format,
-															  a_texMetadata.width,
-															  static_cast<UINT>  (a_texMetadata.height),
-															  static_cast<UINT16>(a_texMetadata.arraySize),
-															  static_cast<UINT16>(a_texMetadata.mipLevels));
+	// CD3DX12_RESOURCE_DESC::Tex2D(テクスチャの画素フォーマット、
+	//								テクスチャの横幅、
+	//							    テクスチャの縦幅、
+	//							    配列テクスチャの要素数、
+	//							    mipmapの段数);
 
 	//// 通常TextureはRenderTarget / DepthStencilではないためClearValueは使用しない
 	//// TextureResourceはUploadBufferからCopyTextureRegionで画像データをコピーされるため、
 	//// 作成直後のResourceStateはCOPY_DESTにしておく
-	if (!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
+	if (const auto& l_textureResourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(a_texMetadata.format,
+															             a_texMetadata.width,
+															             static_cast<UINT>  (a_texMetadata.height),
+															             static_cast<UINT16>(a_texMetadata.arraySize),
+															             static_cast<UINT16>(a_texMetadata.mipLevels));
+		!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
 													nullptr,
 													k_initialTextureResourceState,
 													a_textureResource,

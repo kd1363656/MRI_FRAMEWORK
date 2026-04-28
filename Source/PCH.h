@@ -17,6 +17,8 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <deque>
 #include <memory>
 #include <limits>
 #include <filesystem>

@@ -6,8 +6,8 @@ namespace FWK::Graphics
 	{
 	public:
 
-		 GPUMemoryAllocator() = default;;
-		~GPUMemoryAllocator() = default;;
+		 GPUMemoryAllocator() = default;
+		~GPUMemoryAllocator() = default;
 
 		bool Create(const Device& a_device);
 
@@ -20,6 +20,8 @@ namespace FWK::Graphics
 		const auto& GetREFAllocator() const { return m_allocator; }
 
 	private:
+
+		D3D12_HEAP_TYPE k_textureResourceHeapType = D3D12_HEAP_TYPE_DEFAULT;
 
 		TypeAlias::ComPtr<D3D12MA::Allocator> m_allocator = nullptr;
 	};

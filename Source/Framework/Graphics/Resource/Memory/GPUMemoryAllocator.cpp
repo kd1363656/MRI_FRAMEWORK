@@ -42,7 +42,7 @@ bool FWK::Graphics::GPUMemoryAllocator::Create(const Device& a_device)
 bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOURCE_DESC& a_resourceDesc, const D3D12_CLEAR_VALUE* a_clearValue, const D3D12_RESOURCE_STATES a_initialResourceState, TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
 {
     a_textureResource.Reset();
-    a_allocation.Reset();
+    a_allocation.Reset     ();
 
     if (!m_allocator)
     {
@@ -55,7 +55,7 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOUR
     // D3D12MA::ALLOCATION_DESCについて
     // HeapType : リソースをどの種類のGPUメモリに置くか
     // TextureResourceはGPU側で使用する本番リソースなのでDEFAULTを指定する
-    l_allocationDesc.HeapType = D3D12_HEAP_TYPE_DEFAULT;
+    l_allocationDesc.HeapType = k_textureResourceHeapType;
 
     // D3D12MA::Allocator::CreateResource(割り当て設定、
     //                                    作成するリソース設定、
