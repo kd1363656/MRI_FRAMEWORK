@@ -174,6 +174,7 @@
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"
 
 // アップロードシステム
+#include "JsonConverter/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
 #include "Graphics/Resource/Upload/UploadSystem.h"
 
 // テクスチャ

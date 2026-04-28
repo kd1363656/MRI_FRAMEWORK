@@ -331,6 +331,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Memory">
       <UniqueIdentifier>{ca01cba4-1a80-414e-8cb4-3b7326367289}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Upload">
+      <UniqueIdentifier>{dc7fb989-7c3b-4480-85fe-48ee4b4e83b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -611,6 +614,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -756,6 +762,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

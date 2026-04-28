@@ -187,6 +187,9 @@
         },
         "SRVDescriptorPool": {
             "DescriptorCapacity": 1024
+        },
+        "UploadSystem": {
+            "CopyCommandAllocatorListSize": 3
         }
     },
     "SwapChain": {

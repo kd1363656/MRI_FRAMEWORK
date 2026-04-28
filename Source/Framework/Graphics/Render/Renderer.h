@@ -53,15 +53,12 @@ namespace FWK::Graphics
 		static constexpr D3D12_RESOURCE_STATES k_backBufferPresentState      = D3D12_RESOURCE_STATE_PRESENT;
 		static constexpr D3D12_RESOURCE_STATES k_backBufferRenderTargetState = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
-		static constexpr UINT k_frameResourceIndexIncrement = 1U;
-
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountX = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
 
-		static constexpr UINT k_initialFrameResourceIndex = 0U;
-
-		UINT m_currentFrameResourceIndex = k_initialFrameResourceIndex;
+		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
+		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};
@@ -74,5 +71,7 @@ namespace FWK::Graphics
 		PipelineStateMap m_pipelineStateMap = {};
 
 		std::vector<FrameResource> m_frameResourceList = {};
+
+		std::size_t m_currentFrameResourceIndex = k_initialFrameResourceIndex;
 	};
 }

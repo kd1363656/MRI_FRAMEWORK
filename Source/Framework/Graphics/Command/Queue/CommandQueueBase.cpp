@@ -108,6 +108,11 @@ void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(CommandAllocatorBa
 	m_commandQueue->Signal(l_fence.Get(), l_updatedFenceValue);
 }
 
+bool FWK::Graphics::CommandQueueBase::IsFenceValueCompleted(const UINT64& a_fenceValue) const
+{
+	return m_fence.IsFenceValueCompleted(a_fenceValue);
+}
+
 bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
 {
 	const auto& l_device = a_device.GetREFDevice();

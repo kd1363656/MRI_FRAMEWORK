@@ -143,7 +143,7 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 void FWK::Graphics::Renderer::EndFrame()
 {
 	// 容量を超えないように次のフレームで使用するインデックスを計算
-	m_currentFrameResourceIndex = (m_currentFrameResourceIndex + k_frameResourceIndexIncrement) % static_cast<UINT>(m_frameResourceList.size());
+	m_currentFrameResourceIndex = (m_currentFrameResourceIndex + k_frameResourceIndexIncrement) % m_frameResourceList.size();
 }
 
 nlohmann::json FWK::Graphics::Renderer::Serialize() const

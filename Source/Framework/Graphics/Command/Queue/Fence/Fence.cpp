@@ -105,3 +105,18 @@ void FWK::Graphics::Fence::WaitForFenceValueIfNeeded(const UINT64& a_fenceValue)
 		return;
 	}
 }
+
+bool FWK::Graphics::Fence::IsFenceValueCompleted(const UINT64& a_fenceValue) const
+{
+	// フェンス値が未使用の値なら、フェンス完了確認は不要なのでtrueを返す
+	if (a_fenceValue == Constant::k_unusedFenceValue) { return true; }
+
+	// フェンスが存在しなければreturn
+	if (!m_fence)
+	{
+		assert(false && "フェンスが作成されておらず、フェンス完了確認処理に失敗しました。");
+		return false;
+	}
+
+	return m_fence->GetCompletedValue() >= a_fenceValue;
+}

@@ -17,6 +17,13 @@ void FWK::JsonConverter::ResourceContextJsonConverter::Deserialize(const nlohman
 
 		l_srvDescriptorPool.Deserialize(a_rootJson["SRVDescriptorPool"]);
 	}
+
+	if (a_rootJson.contains("UploadSystem"))
+	{
+		auto& l_uploadSystem = a_resourceContext.GetMutableREFUploadSystem();
+
+		l_uploadSystem.Deserialize(a_rootJson["UploadSystem"]);
+	}
 }
 
 nlohmann::json FWK::JsonConverter::ResourceContextJsonConverter::Serialize(const Graphics::ResourceContext& a_resourceContext) const
@@ -25,9 +32,13 @@ nlohmann::json FWK::JsonConverter::ResourceContextJsonConverter::Serialize(const
 
 	const auto& l_rtvDescriptorPool = a_resourceContext.GetREFRTVDescriptorPool();
 	const auto& l_srvDescriptorPool = a_resourceContext.GetREFSRVDescriptorPool();
+	
+	const auto& l_uploadSystem = a_resourceContext.GetREFUploadSystem();
 
 	l_rootJson["RTVDescriptorPool"] = l_rtvDescriptorPool.Serialize();
 	l_rootJson["SRVDescriptorPool"] = l_srvDescriptorPool.Serialize();
+
+	l_rootJson["UploadSystem"] = l_uploadSystem.Serialize();
 
 	return l_rootJson;
 }

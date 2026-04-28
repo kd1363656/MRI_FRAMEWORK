@@ -13,6 +13,8 @@ namespace FWK::Graphics
 
 		void WaitForFenceValueIfNeeded(const UINT64& a_fenceValue);
 
+		bool IsFenceValueCompleted(const UINT64& a_fenceValue) const;
+
 		void SetFenceValue(const auto& a_set) { m_fenceValue = a_set; }
 
 		const auto& GetREFFenceValue() const { return m_fenceValue; }
