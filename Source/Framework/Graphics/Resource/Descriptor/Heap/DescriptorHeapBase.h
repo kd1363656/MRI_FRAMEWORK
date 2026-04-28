@@ -40,7 +40,6 @@ namespace FWK::Graphics
 
 		static constexpr D3D12_DESCRIPTOR_HEAP_FLAGS k_cpuOnlyDescriptorHeapFlag       = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 		static constexpr D3D12_DESCRIPTOR_HEAP_FLAGS k_shaderVisibleDescriptorHeapFlag = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-		static constexpr D3D12_DESCRIPTOR_HEAP_TYPE  k_cbvSRVUAVDescriptorHeapType     = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		static constexpr D3D12_DESCRIPTOR_HEAP_TYPE  k_samplerDescriptorHeapType       = D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER;
 
 		static constexpr UINT64 k_invalidGPUDescriptorHandlePTR = 0ULL;

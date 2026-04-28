@@ -20,7 +20,7 @@ bool FWK::Graphics::HeapPage::Create(const UINT64&               a_heapSize,
         return false;
     }
 
-    if (a_heapSize == 0ULL)
+    if (a_heapSize == k_invalidHeapSize)
     {
         assert(false && "ヒープサイズが0のため、HeapPage作成処理に失敗しました。");
         return false;
@@ -48,7 +48,7 @@ bool FWK::Graphics::HeapPage::Create(const UINT64&               a_heapSize,
     l_heapDesc.Properties = CD3DX12_HEAP_PROPERTIES(a_heapType, l_nodeMask, l_nodeMask);
 
     // 0を指定すると既定アライメントを使う
-	l_heapDesc.Alignment = 0ULL;
+	l_heapDesc.Alignment = k_heapDefaultAlignment;
 
 	// このHeapに配置できるリソース種別の制限を指定
 	l_heapDesc.Flags = a_heapFlags;
@@ -71,7 +71,7 @@ bool FWK::Graphics::HeapPage::Create(const UINT64&               a_heapSize,
     // ヒープ領域のサイズ、ヒープページIDを格納
 	Struct::FreeHeapBlock l_initialFreeBlock = {};
 
-	l_initialFreeBlock.m_beginOffset = k_unusedFreeHeapBlockBeginOffset;
+	l_initialFreeBlock.m_beginOffset = k_heapBeginOffset;
 	l_initialFreeBlock.m_size        = a_heapSize;
 
     m_freeHeapBlockList.emplace_back(l_initialFreeBlock);
@@ -81,7 +81,7 @@ bool FWK::Graphics::HeapPage::Create(const UINT64&               a_heapSize,
 
 bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UINT64& a_alignment, UINT64& a_heapOffset)
 {
-	a_heapOffset = 0ULL;
+	a_heapOffset = Constant::k_invalidHeapOffset;
 
 	if (!m_heap)
 	{
@@ -89,13 +89,13 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 		return false;
 	}
 
-	if (a_allocationSize == 0ULL)
+	if (a_allocationSize == Constant::k_invalidAllocationSize)
 	{
 		assert(false && "確保サイズが0のため、ヒープ領域確保処理に失敗しました。");
 		return false;
 	}
 
-	if (a_alignment == 0ULL)
+	if (a_alignment == k_invalidAlignment)
 	{
 		assert(false && "アライメントが0のため、ヒープ領域確保処理に失敗しました。");
 		return false;
@@ -146,22 +146,22 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 
 		// FreeBlock全体を丁度使い切るケース
 		// 前にも後ろにも空きが残らないので、このFreeBlock自体を削除する
-		if ((l_prefixSize == 0ULL) && (l_suffixSize == 0ULL))
+		if ((l_prefixSize == k_emptyBlockSize) && (l_suffixSize == k_emptyBlockSize))
 		{
 			m_freeHeapBlockList.erase(l_itr);
 		}
 		// 確保領域がFreeBlockの先頭から始まるケース。
 		// 前側の空きは残らず、後ろ側の空きだけ残るので、
 		// 現在のFreeBlockを「後ろ側の残り領域に更新する」
-		else if (l_prefixSize == 0ULL)
+		else if (l_prefixSize == k_emptyBlockSize)
 		{
 			l_itr->m_beginOffset = l_allocationEnd;
-			l_itr->m_size	       = l_suffixSize;
+			l_itr->m_size	     = l_suffixSize;
 		}
 		// 確保領域がFreeBlockの終端ピッタリまで使うケース
 		// 後ろ側の空きは残らず、前側の空きだけ残るので、
 		// 現在のFreeBlockのサイズだけを前側の残りサイズに更新する
-		else if (l_suffixSize == 0ULL)
+		else if (l_suffixSize == k_emptyBlockSize)
 		{
 			l_itr->m_size = l_prefixSize;
 		}
@@ -177,7 +177,7 @@ bool FWK::Graphics::HeapPage::Allocate(const UINT64& a_allocationSize, const UIN
 
 			l_itr->m_size = l_prefixSize;
 
-			m_freeHeapBlockList.insert(l_itr + 1ULL, l_suffixBlock);
+			m_freeHeapBlockList.insert(l_itr + k_nextFreeBlockIteratorOffset, l_suffixBlock);
 		}
 
 		a_heapOffset = l_alignedOffset;
@@ -196,7 +196,7 @@ bool FWK::Graphics::HeapPage::Release(const UINT64& a_heapOffset, const UINT64& 
         return false;
     }
 
-    if (a_allocationSize == 0ULL)
+    if (a_allocationSize == Constant::k_invalidAllocationSize)
     {
         assert(false && "解放サイズが0のため、ヒープ領域解放処理に失敗しました。");
         return false;
@@ -238,7 +238,7 @@ bool FWK::Graphics::HeapPage::Release(const UINT64& a_heapOffset, const UINT64& 
 
 bool FWK::Graphics::HeapPage::HasOverlappingFreeBlock(const UINT64& a_beginOffset, const UINT64& a_freeSize) const
 {
-	if (a_freeSize == 0ULL)
+	if (a_freeSize == k_invalidFreeBlockSize)
 	{
 		assert(false && "比較対象の解放サイズが0のため、空き領域重複判定に失敗しました。");
 		return true;
@@ -258,7 +258,7 @@ bool FWK::Graphics::HeapPage::HasOverlappingFreeBlock(const UINT64& a_beginOffse
 
 void FWK::Graphics::HeapPage::MergeFreeBlocks()
 {
-	if (m_freeHeapBlockList.size() <= k_mergeStartIndex) { return; }
+	if (m_freeHeapBlockList.size() <= k_firstMergeBlockIndex) { return; }
 
 	// Offsetの小さい順に並べる(昇順)
 	// これにより、「今見ているブロック」と「直前のブロック」が
@@ -279,7 +279,7 @@ void FWK::Graphics::HeapPage::MergeFreeBlocks()
 	l_mergedBlocks.emplace_back(m_freeHeapBlockList.front());
 
 	// FreeListの中で、重複している部分や、隣接していて結合可能な部分を一つのFreeBlockにまとめる
-	for (std::size_t l_index = k_mergeStartIndex; l_index < m_freeHeapBlockList.size(); ++l_index)
+	for (std::size_t l_index = k_firstMergeBlockIndex; l_index < m_freeHeapBlockList.size(); ++l_index)
 	{
 		const auto& l_currentBlock = m_freeHeapBlockList[l_index];
 			  auto& l_lastBlock    = l_mergedBlocks.back();
@@ -287,14 +287,14 @@ void FWK::Graphics::HeapPage::MergeFreeBlocks()
 		// 直前に確定したブロックの終端の「次」の位置。
 		// 例 : Offset = 100, FreeSize = 300なら実Rangeは100 - 399で、
 		// l_lastBlockEndは400になる
-		const UINT64& l_lastBlockEnd = l_lastBlock.m_beginOffset + l_lastBlock.m_size;
+		const auto& l_lastBlockEnd = l_lastBlock.m_beginOffset + l_lastBlock.m_size;
 
 		// 現在のブロックの開始位置が、直前のブロックの終端以前なら
 		// 2つのブロックは「隣接している」または「重なっている」。
 		// そのため1つのブロックにまとめられる
 		if (l_currentBlock.m_beginOffset <= l_lastBlockEnd)
 		{
-			const UINT64& l_currentBlockEnd = l_currentBlock.m_beginOffset + l_currentBlock.m_size;
+			const auto& l_currentBlockEnd = l_currentBlock.m_beginOffset + l_currentBlock.m_size;
 
 			if (l_currentBlockEnd > l_lastBlockEnd)
 			{

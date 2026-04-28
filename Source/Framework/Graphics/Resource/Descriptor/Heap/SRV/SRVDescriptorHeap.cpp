@@ -1,6 +1,6 @@
 ﻿#include "SRVDescriptorHeap.h"
 
 FWK::Graphics::SRVDescriptorHeap::SRVDescriptorHeap() :
-	DescriptorHeapBase(k_descriptorHeapType, k_isUseCPUOnly, k_isUseShaderVisible)
+	DescriptorHeapBase(Constant::k_cbvSRVUAVDescriptorHeapType, Constant::k_useCPUOnlyDescriptorHeap, Constant::k_useShaderVisibleDescriptorHeap)
 {}
 FWK::Graphics::SRVDescriptorHeap::~SRVDescriptorHeap() = default;

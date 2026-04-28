@@ -1,6 +1,6 @@
 ﻿#include "DirectCommandAllocator.h"
 
 FWK::Graphics::DirectCommandAllocator::DirectCommandAllocator() : 
-	CommandAllocatorBase(k_createCommandListType)
+	CommandAllocatorBase(Constant::k_directCommandListType)
 {}
 FWK::Graphics::DirectCommandAllocator::~DirectCommandAllocator() = default;

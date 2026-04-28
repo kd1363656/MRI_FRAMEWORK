@@ -1,7 +1,7 @@
 ﻿#include "DirectCommandList.h"
 
 FWK::Graphics::DirectCommandList::DirectCommandList() : 
-	CommandListBase(k_createCommandListType)
+	CommandListBase(Constant::k_directCommandListType)
 {}
 FWK::Graphics::DirectCommandList::~DirectCommandList() = default;
 

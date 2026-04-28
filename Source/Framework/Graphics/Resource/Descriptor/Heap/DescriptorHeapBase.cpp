@@ -40,7 +40,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, 
 
 	// ShaderVisibleにできるのはCBV_SRV_UAVとSAMPLERだけ
 	if (k_isUseShaderVisible &&
-		k_createDescriptorHeapType != k_cbvSRVUAVDescriptorHeapType &&
+		k_createDescriptorHeapType != Constant::k_cbvSRVUAVDescriptorHeapType &&
 		k_createDescriptorHeapType != k_samplerDescriptorHeapType)
 	{
 		assert(false && "ShaderVisibleにできない種類のディスクリプタヒープです。");

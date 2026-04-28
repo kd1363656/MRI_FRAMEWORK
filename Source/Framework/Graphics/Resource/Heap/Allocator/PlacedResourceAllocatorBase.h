@@ -34,10 +34,13 @@ namespace FWK::Graphics
 
 		TypeAlias::HeapPageID GenerateHeapPageID();
 
-		static constexpr UINT64 k_defaultHeapPageSize = 64ULL * 1024ULL * 1024ULL;
+		static constexpr UINT64 k_defaultHeapPageSize        = 64ULL * 1024ULL * 1024ULL;
+		static constexpr UINT64 k_invalidAlignment		     = 0ULL;
+		static constexpr UINT64 k_invalidHeapPageSize        = 0ULL;
+		static constexpr UINT64 k_invalidResourceSize        = 0ULL;
+		static constexpr UINT64 k_invalidResourceAlignment   = 0ULL;
+		static constexpr UINT64 k_alignmentPaddingAdjustment = 1ULL;
 
-		static constexpr UINT k_initialOffset = 0U;
-		
 		static constexpr UINT k_resourceDescCount = 1U;
 
 		static constexpr TypeAlias::HeapPageID k_initialHeapPageID = 0U;

@@ -1,6 +1,6 @@
 ﻿#include "DirectCommandQueue.h"
 
 FWK::Graphics::DirectCommandQueue::DirectCommandQueue() : 
-	CommandQueueBase(k_createCommandListType)
+	CommandQueueBase(Constant::k_directCommandListType)
 {}
 FWK::Graphics::DirectCommandQueue::~DirectCommandQueue() = default;

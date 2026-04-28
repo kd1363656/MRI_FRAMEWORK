@@ -23,6 +23,7 @@
 #include "Definition/Constant/FPS/FPSConstant.h"
 
 // Graphics関係の定数
+#include "Definition/Constant/Graphics/Command/CommandConstant.h"
 #include "Definition/Constant/Graphics/Command/Queue/Fence/FenceConstant.h"
 #include "Definition/Constant/Graphics/Resource/Descriptor/DescriptorConstant.h"
 #include "Definition/Constant/Graphics/SwapChain/SwapChainConstant.h"

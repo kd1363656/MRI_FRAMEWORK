@@ -34,19 +34,19 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::CreatePlacedResource(const D3D1
 	//							 指定したResourceをHeap内に配置するために必要なサイズとアライメントを取得する);
 	const auto l_allocationINFO = l_device->GetResourceAllocationInfo(GraphicsManager::GetVALDefaultGPUNodeMask(), k_resourceDescCount, &a_resourceDesc);
 
-	if (l_allocationINFO.SizeInBytes == 0ULL)
+	if (l_allocationINFO.SizeInBytes == k_invalidResourceSize)
 	{
 		assert(false && "Resourceの必要確保サイズが0のため、PlacedResource作成処理に失敗しました。");
 		return false;
 	}
 
-	if (l_allocationINFO.Alignment == 0ULL)
+	if (l_allocationINFO.Alignment == k_invalidResourceAlignment)
 	{
 		assert(false && "Resourceの必要アライメントが0のため、PlacedResource作成処理に失敗しました。");
 		return false;
 	}
 
-	UINT64 l_heapOffset = 0ULL;
+	UINT64 l_heapOffset = Constant::k_invalidHeapOffset;
 
 	auto l_heapPageID = Constant::k_invalidHeapPageID;
 
@@ -120,21 +120,21 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::Allocate(const UINT64&         
 														  TypeAlias::HeapPageID& a_heapPageID)
 {
 	a_heapPageID = Constant::k_invalidHeapPageID;
-	a_heapOffset = k_initialOffset;
+	a_heapOffset = Constant::k_invalidHeapOffset;
 
-	if (a_allocationSize == 0ULL)
+	if (a_allocationSize == Constant::k_invalidAllocationSize)
 	{
 		assert(false && "確保サイズが0のため、PlacedResourceAllocatorの領域確保処理に失敗しました。");
 		return false;
 	}
 
-	if (a_alignment == 0ULL)
+	if (a_alignment == k_invalidAlignment)
 	{
 		assert(false && "アライメントが0のため、PlacedResourceAllocatorの領域確保処理に失敗しました。");
 		return false;
 	}
 
-	if (m_heapPageSize == 0ULL)
+	if (m_heapPageSize == k_invalidHeapPageSize)
 	{
 		assert(false && "既定のヒープページサイズが未設定のため、PlacedResourceAllocatorの領域確保処理に失敗しました。");
 		return false;
@@ -143,7 +143,7 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::Allocate(const UINT64&         
 	// まず既存ページを先頭から順に調べ、空きページがあればそこへ確保する
 	for (auto& l_heapPage : m_heapPageList)
 	{
-		UINT64 l_heapOffset = 0ULL;
+		UINT64 l_heapOffset = Constant::k_invalidHeapOffset;
 
 		// 注意l_heapOffsetは参照渡しなので値がこの関数を通じて書き換わる
 		if (!l_heapPage.Allocate(a_allocationSize, a_alignment, l_heapOffset)) { continue; }
@@ -191,7 +191,7 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::Release(const UINT64& a_heapOff
 		return false;
 	}
 
-	if (a_allocationSize == 0ULL)
+	if (a_allocationSize == Constant::k_invalidAllocationSize)
 	{
 		assert(false && "解放対象のサイズが0のため、PlacedResourceAllocatorの領域解放処理に失敗しました。");
 		return false;
@@ -240,19 +240,19 @@ FWK::Graphics::HeapPage* FWK::Graphics::PlacedResourceAllocatorBase::FindMutable
 
 bool FWK::Graphics::PlacedResourceAllocatorBase::CreateHeapPage(const Device& a_device, const UINT64& a_allocationSize, const UINT64& a_alignment)
 {
-	if (a_allocationSize == 0ULL)
+	if (a_allocationSize == Constant::k_invalidAllocationSize)
 	{
 		assert(false && "確保サイズが0のため、HeapPage追加作成処理に失敗しました。");
 		return false;
 	}
 
-	if (a_alignment == 0ULL)
+	if (a_alignment == k_invalidAlignment)
 	{
 		assert(false && "アライメントが0のため、HeapPage追加作成に失敗しました。");
 		return false;
 	}
 
-	if (m_heapPageSize == 0ULL)
+	if (m_heapPageSize == k_invalidHeapPageSize)
 	{
 		assert(false && "基底のヒープページサイズが未設定のため、HeapPage追加作成処理に失敗しました。");
 		return false;
@@ -266,7 +266,7 @@ bool FWK::Graphics::PlacedResourceAllocatorBase::CreateHeapPage(const Device& a_
 	// そのため最低でも
 	// allocationSize + (alignment - 1)
 	// を見ておけば、最悪の切り上げが発生しても1個は配置できる
-	const UINT64& l_alignmentPaddingMax = a_alignment - 1ULL;
+	const UINT64& l_alignmentPaddingMax = a_alignment - k_alignmentPaddingAdjustment;
 
 	if (a_allocationSize > (std::numeric_limits<UINT64>::max() - l_alignmentPaddingMax))
 	{

@@ -31,13 +31,20 @@ namespace FWK::Graphics
 
 		void MergeFreeBlocks();
 
-		static constexpr UINT64 k_unusedFreeHeapBlockBeginOffset = 0ULL;
+		static constexpr UINT64 k_heapBeginOffset	   = 0ULL;
+		static constexpr UINT64 k_emptyBlockSize       = 0ULL;
+		static constexpr UINT64 k_invalidHeapSize	   = 0ULL;
+		static constexpr UINT64 k_invalidAlignment     = 0ULL;
+		static constexpr UINT64 k_heapDefaultAlignment = 0ULL;
+		static constexpr UINT64 k_invalidFreeBlockSize = 0ULL;
 
-		static constexpr std::size_t k_mergeStartIndex = 1ULL;
+		static constexpr std::size_t k_firstMergeBlockIndex = 1ULL;
+
+		static constexpr std::ptrdiff_t k_nextFreeBlockIteratorOffset = 1ULL;
 
 		TypeAlias::ComPtr<ID3D12Heap> m_heap = nullptr;
 
-		UINT64 m_heapSize = 0ULL;
+		UINT64 m_heapSize = k_invalidHeapSize;
 
 		TypeAlias::HeapPageID m_heapPageID = Constant::k_invalidHeapPageID;
 
