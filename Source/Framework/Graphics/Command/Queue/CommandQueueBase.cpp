@@ -37,7 +37,7 @@ void FWK::Graphics::CommandQueueBase::WaitForFenceValueIfNeeded(const UINT64& a_
 
 void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator)
 {
-	// このコマンドアロケータの全階送信分が完了していれば待機不要
+	// このコマンドアロケータの前回送信分が完了していれば待機不要
 	// 未完了なら安全に再利用できるまで待機する
 	WaitForFenceValueIfNeeded(a_commandAllocator.GetREFSubmittedFenceValue());
 }

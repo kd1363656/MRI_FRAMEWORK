@@ -11,7 +11,8 @@ namespace FWK::Graphics
 
 		bool Create(const Factory& a_factory);
 
-		const auto& GetREFDevice() const { return m_device; }
+		const auto& GetREFAdapter() const { return m_adapter; }
+		const auto& GetREFDevice () const { return m_device; }
 
 	private:
 
@@ -34,6 +35,7 @@ namespace FWK::Graphics
 		static constexpr std::wstring_view k_selectedGPUNameDebugLogLabel = L"使用GPU : ";
 #endif
 
-		TypeAlias::ComPtr<ID3D12Device9> m_device = nullptr;
+		TypeAlias::ComPtr<IDXGIAdapter4> m_adapter = nullptr;
+		TypeAlias::ComPtr<ID3D12Device9> m_device  = nullptr;
 	};
 }

@@ -128,5 +128,8 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		return false;
 	}
 
+	// デバイス作成に成功した際のアダプタを格納
+	m_adapter = l_selectedAdapter;
+
 	return true;
 }

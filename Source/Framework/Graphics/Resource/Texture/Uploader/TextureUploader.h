@@ -12,6 +12,7 @@ namespace FWK::Graphics
 		bool UploadTexture(const DirectX::ScratchImage&			    a_scratchImage,
 						   const DirectX::TexMetadata&				a_texMetadata,
 						   const Device&						    a_device,
+						   const GPUMemoryAllocator&				a_gpuMemoryAllocator,
 						         DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
 						         UploadSystem&					    a_uploadSystem,
 						         Struct::TextureRecord&			    a_textureRecord);
@@ -20,8 +21,9 @@ namespace FWK::Graphics
 
 		bool CreateTextureResource(const DirectX::TexMetadata&                   a_texMetadata,
 								   const Device&			                     a_device,
+								   const GPUMemoryAllocator&					 a_gpuMemoryAllocator,
 										 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
-										 Struct::PlacedResourceAllocationRecord& a_allocationRecord);
+										 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation);
 
 		bool UploadTextureSubresources(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource,
 									   const DirectX::ScratchImage&				 a_scratchImage,

@@ -3,6 +3,7 @@
 bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage&             a_scratchImage, 
 												   const DirectX::TexMetadata&              a_texMetadata,
 												   const Device&				            a_device,
+												   const GPUMemoryAllocator&				a_gpuMemoryAllocator,
 														 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
 														 UploadSystem&						a_uploadSystem,
 														 Struct::TextureRecord&				a_textureRecord)
@@ -19,14 +20,14 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 		return false;
 	}
 
-	TypeAlias::ComPtr<ID3D12Resource2> l_textureResource = nullptr;
-
-	Struct::PlacedResourceAllocationRecord l_allocationRecord = {};
-
+	TypeAlias::ComPtr<ID3D12Resource2>     l_textureResource = nullptr;
+	TypeAlias::ComPtr<D3D12MA::Allocation> l_allocation      = nullptr;
+	
 	if (!CreateTextureResource(a_texMetadata,
 							   a_device,
+							   a_gpuMemoryAllocator,
 							   l_textureResource,
-							   l_allocationRecord))
+							   l_allocation))
 	{
 		assert(false && "TextureResource作成に失敗したため、テクスチャアップロード処理に失敗しました。");
 		return false;
@@ -57,19 +58,20 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 		return false;
 	}
 
-	a_textureRecord.m_textureResource  = l_textureResource;
-	a_textureRecord.m_allocationRecord = l_allocationRecord;
+	a_textureRecord.m_textureResource = l_textureResource;
+	a_textureRecord.m_allocation	  = l_allocation;
 
 	return true;
 }
 
 bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMetadata&                   a_texMetadata,
 														   const Device&			                     a_device,
+														   const GPUMemoryAllocator&					 a_gpuMemoryAllocator,
 																 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
-																 Struct::PlacedResourceAllocationRecord& a_allocationRecord)
+																 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation)
 {
 	a_textureResource.Reset();
-	a_allocationRecord = {};
+	a_allocation.Reset	   ();
 
 	const auto& l_device = a_device.GetREFDevice();
 
@@ -123,16 +125,15 @@ bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMet
 	//// 通常TextureはRenderTarget / DepthStencilではないためClearValueは使用しない
 	//// TextureResourceはUploadBufferからCopyTextureRegionで画像データをコピーされるため、
 	//// 作成直後のResourceStateはCOPY_DESTにしておく
-	//if (!a_texturePlacedResourceAllocator.CreatePlacedResource(l_textureResourceDesc,
-	//														   a_device,
-	//														   nullptr,
-	//														   k_initialTextureResourceState,
-	//														   a_textureResource,
-	//														   a_allocationRecord))
-	//{
-	//	assert(false && "PlacedResourceAllocatorによるTextureResource作成に失敗しました。");
-	//	return false;
-	//}
+	if (!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
+													nullptr,
+													k_initialTextureResourceState,
+													a_textureResource,
+													a_allocation))
+	{
+		assert(false && "D3D12MAによるTextureResource作成処理に失敗しました。");
+		return false;
+	}
 
 	return true;
 }

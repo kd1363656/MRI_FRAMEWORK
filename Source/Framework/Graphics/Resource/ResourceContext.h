@@ -17,20 +17,23 @@ namespace FWK::Graphics
 		const auto& GetREFRTVDescriptorPool() const { return m_rtvDescriptorPool; }
 		const auto& GetREFSRVDescriptorPool() const { return m_srvDescriptorPool; }
 
-		const auto& GetREFTextureSystem() const { return m_textureSystem; }
+		const auto& GetREFGPUMemoryAllocator() const { return m_gpuMemoryAllocator; }
+		const auto& GetREFTextureSystem     () const { return m_textureSystem; }
 
 		auto& GetMutableREFRTVDescriptorPool() { return m_rtvDescriptorPool; }
 		auto& GetMutableREFSRVDescriptorPool() { return m_srvDescriptorPool; }
 
-		auto& GetMutableREFTextureSystem() { return m_textureSystem; }
+		auto& GetMutableREFGPUMemoryAllocator() { return m_gpuMemoryAllocator; }
+		auto& GetMutableREFTextureSystem     () { return m_textureSystem; }
 
 	private:
 
 		DescriptorPool<RTVDescriptorHeap> m_rtvDescriptorPool = {};
 		DescriptorPool<SRVDescriptorHeap> m_srvDescriptorPool = {};
 		
-		UploadSystem  m_uploadSystem  = {};
-		TextureSystem m_textureSystem = {};
+		GPUMemoryAllocator m_gpuMemoryAllocator = {};
+		UploadSystem       m_uploadSystem       = {};
+		TextureSystem      m_textureSystem      = {};
 
 		JsonConverter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
 	};

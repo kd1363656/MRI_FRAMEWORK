@@ -76,7 +76,7 @@ void FWK::Graphics::CommandListBase::Close() const
 		return;
 	}
 
-	// コマンドリストへの命令規則を終了するクラス
+	// コマンドリストへの命令記録を終了するクラス
 	// ※注意 : もしCloseをしなければコマンドキューのExecute処理を行うことができない
 	// Close();
 

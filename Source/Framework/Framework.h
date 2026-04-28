@@ -49,9 +49,6 @@
 // ルートシグネチャ用構造体
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 
-// ヒープ用構造体
-#include "Definition/Struct/Graphics/Resource/Heap/HeapStruct.h"
-
 // テクスチャ用構造体
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 
@@ -172,6 +169,9 @@
 
 // アップロードバッファー
 #include "Graphics/Resource/Buffer/UploadBuffer.h"
+
+// メモリアロケータクラス
+#include "Graphics/Resource/Memory/GPUMemoryAllocator.h"
 
 // アップロードシステム
 #include "Graphics/Resource/Upload/UploadSystem.h"

@@ -385,7 +385,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\Tag\TagTypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\TypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Heap\HeapStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\SwapChain\SwapChainStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\StringHash\StringHashStruct.h" />
@@ -418,6 +417,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h" />
@@ -480,6 +480,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.cpp" />
