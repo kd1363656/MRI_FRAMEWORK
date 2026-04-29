@@ -38,9 +38,15 @@ namespace FWK::Graphics
 
 	private:
 
-		void RecordTextureCopy(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer, const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList);
+		void RecordTextureCopy(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer, const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList) const;
 
 		CopyCommandAllocator* FetchMutablePTRCopyCommandAllocator();
+
+		static constexpr std::size_t k_pendingUploadBufferBeginIndex		             = 0ULL;
+		static constexpr std::size_t k_initialCurrentCopyCommandAllocatorIndex           = 0ULL;
+		static constexpr std::size_t k_pendingUploadBufferListSizeToLastIndexSubtraction = 1ULL;
+		static constexpr std::size_t k_nextCopyCommandAllocatorIndexStep				 = 1ULL;
+		static constexpr std::size_t k_defaultCopyCommandAllocatorListSize			     = 3ULL;
 
 		CopyCommandQueue m_copyCommandQueue = {};
 		CopyCommandList  m_copyCommandList  = {};
@@ -50,6 +56,6 @@ namespace FWK::Graphics
 		std::vector<CopyCommandAllocator> m_copyCommandAllocatorList = {};
 		std::vector<PendingUploadBuffer>  m_pendingUploadBufferList  = {};
 
-		std::size_t m_currentCopyCommandAllocatorIndex = 0ULL;
+		std::size_t m_currentCopyCommandAllocatorIndex = k_initialCurrentCopyCommandAllocatorIndex;
 	};
 }
