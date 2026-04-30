@@ -54,6 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="dxc.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -517,7 +518,7 @@ if "$(Configuration)"=="Debug" (
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
+    <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Mesh</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Mesh</ShaderType>
@@ -539,8 +540,8 @@ if "$(Configuration)"=="Debug" (
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">dxc.exe -E main -&amp; ms_6_5 -HV 2021 -Zpr -Fo "$(ProjectDir)\Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling Mesh Shader with DXC: %(Filename)%(Extension)</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso;%(Outputs)</Outputs>
-    </FxCompile>
-    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -550,9 +551,10 @@ if "$(Configuration)"=="Debug" (
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.5</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
       <FileType>Document</FileType>
-    </FxCompile>
+    </DXCTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="dxc.targets" />
   </ImportGroup>
 </Project>

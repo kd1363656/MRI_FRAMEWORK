@@ -774,11 +774,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
+    <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
       <Filter>Asset\Shader\Sprite\Standard</Filter>
-    </FxCompile>
-    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
       <Filter>Asset\Shader\Sprite\Standard</Filter>
-    </FxCompile>
+    </DXCTask>
   </ItemGroup>
 </Project>
