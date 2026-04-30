@@ -25,7 +25,6 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 	
 	// TexMetadataの情報をもとに、DEFAULTヒープ上へ配置するTextureResourceを作成する
 	if (!CreateTextureResource(a_texMetadata,
-							   a_device,
 							   a_gpuMemoryAllocator,
 							   l_textureResource,
 							   l_allocation))
@@ -70,11 +69,12 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 }
 
 bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMetadata&                   a_texMetadata,
-														   const Device&			                     a_device,
 														   const GPUMemoryAllocator&					 a_gpuMemoryAllocator,
 																 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
 																 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
 {
+	// メソッドが呼び出されたということは元のa_textureResource,a_allocationに変更があったということなので
+	// Reset()関数を呼び出してポインタを解放しておく
 	a_textureResource.Reset();
 	a_allocation.Reset	   ();
 
@@ -163,15 +163,22 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 
 	const auto& l_textureResourceDesc = a_textureResource->GetDesc();
 
+	// ScratchImageが持っている画像数を、D3D12のサブリソース数として扱う
+	// DDSの場合、MipMapやArraySliceなどを含めた各画像がサブリソースとして並んでいる
 	const auto l_subresourceCount = static_cast<UINT>(a_scratchImage.GetImageCount());
 
-	// リストをサブリソース数分確保する
+	// GetCopyableFootprintsで受け取るため、サブリソース数分の情報を確保する
+	// l_layoutList         : UploadBuffer内で各サブリソースをどの位置に配置するか
+	// l_rowCountList       : 各サブリソースの行数
+	// l_rowSizeInBytesList : 各サブリソースの1行当たりの有効なコピーサイズ
 	auto l_layoutList         = std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>(l_subresourceCount);
 	auto l_rowCountList       = std::vector<UINT>							   (l_subresourceCount);
 	auto l_rowSizeInBytesList = std::vector<UINT64>							   (l_subresourceCount);
 
-	UINT64 l_requiredUploadBufferSize = 0ULL;
+	// GetCopyableFootprintsで、必要なUploadBufferサイズを計算して受け取る
+	UINT64 l_requiredUploadBufferSize = k_initialRequiredUploadBufferSize;
 
+	// TextureResourceへコピーするために悲痛ようなUploadBuffer上の配置情報を計算する
 	// GetCopyableFootprints(コピー先TextureResourceの設定、	
 	// 　　　　　　　　　　　計算を開始するサブリソース番号、
 	//						 計算するサブリソース数、
@@ -191,12 +198,15 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 
 	UploadBuffer l_uploadBuffer = {};
 
+	// TextureResourceへ直接CPUから書き込むことはできないため、
+	// まずCPU書き込み可能なUploadBUfferを作成する
 	if (!l_uploadBuffer.Create(l_requiredUploadBufferSize, a_device))
 	{
 		assert(false && "テクスチャ用UploadBufferの作成に失敗したため、テクスチャサブリソースアップロード処理に失敗しました。");
 		return false;
 	}
 
+	// UploadBufferをCPU側から書き込めるようにMapする
 	auto* l_mappedData = l_uploadBuffer.Map();
 
 	if (!l_mappedData)
@@ -205,49 +215,69 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 		return false;
 	}
 
+	// DirectXTexが読み込んだ各サブリソースの画像データを取得する
 	const auto* l_imageList = a_scratchImage.GetImages();
 
 	if (!l_imageList)
 	{
 		assert(false && "ScratchImageの画像データ取得に失敗したため、テクスチャサブリソースアップロード処理に失敗しました。");
 		
-		// アップロードバッファのマッピングを解除
+		// UploadBufferのMapを解除してから失敗を返す
 		l_uploadBuffer.UnMap();
 		return false;
 	}
 
+	// ScratchImage上の画像データを、GetCopyableFootprintsで計算した配置に従ってUploadBufferへコピーする
 	for (UINT l_subresourceIndex = 0U; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
 	{
 		const auto& l_image  = l_imageList [l_subresourceIndex];
 		const auto& l_layout = l_layoutList[l_subresourceIndex];
 
+		// 現在のサブリソースを書き込むUploadBuffer上の戦闘アドレス
 		auto* l_destinationSubresource = l_mappedData + l_layout.Offset;
 
-		const auto  l_destinationRowPitch   = l_layout.Footprint.RowPitch;
+		// UploadBuffer側の1行当たりのサイズ
+		// RowPitchはD3D12_TEXTURE_DATA_PITH_ALIGNMENTにあわせてアライメントされている
+		const auto l_destinationRowPitch = l_layout.Footprint.RowPitch;
+
+		// UploadBuffer側の1スライス分のサイズ
+		// 3DTextureの場合、Depthごとにこのサイズ分だけ進める
 		const auto& l_destinationSlicePitch = l_destinationRowPitch * static_cast<std::size_t>(l_rowCountList[l_subresourceIndex]);
 
+		// DirectXTexが持っている元画像側の1行当たりのサイズ
 		const auto& l_sourceRowPitch   = l_image.rowPitch;
+
+		// DirectXTexが持っている元画像側の1スライス分のサイズ
 		const auto& l_sourceSlicePitch = l_image.slicePitch;
 
+		// 実際にコピーする1行当たりの有効データサイズ
+		// UploadBuffer側のRowPitch全体ではなく、有効な画像データ部分だけコピーする
 		const auto& l_copyRowSize = l_rowSizeInBytesList[l_subresourceIndex];
 
 		for (UINT l_depthIndex = 0U; l_depthIndex < l_layout.Footprint.Depth; ++l_depthIndex)
 		{
 			for (UINT l_rowIndex = 0U; l_rowIndex < l_rowCountList[l_subresourceIndex]; ++l_rowIndex)
 			{
+				// UploadBuffer側のコピー先アドレス
 				auto* l_destination = l_destinationSubresource + l_depthIndex * l_destinationSlicePitch + l_rowIndex * l_destinationRowPitch;
 			
+				// DirectXTex側のコピー元アドレス
 				const auto* l_source = l_image.pixels + l_depthIndex * l_sourceSlicePitch + l_rowIndex * l_sourceRowPitch;
 
+				// 1行ずつコピーする
+				// UploadBuffer側のRowPitchにはアライメント用の余白があるため、行単位でコピーする必要がある
 				std::memcpy(l_destination, l_source, l_copyRowSize);
 			}
 		}
 	}
 
+	// CPU側からの書き込みが完了したため、UploadBufferのMapを解除する
 	l_uploadBuffer.UnMap();
 
 	Struct::TextureUploadRecord l_textureUploadRecord = {};
 
+	// UploadSystemに渡すテクスチャコピー情報を作成する
+	// UploadBufferはGPUコピーが完了するまで生存している必要があるため、UploadSystem側へ渡して管理させる
 	l_textureUploadRecord.m_textureResource = a_textureResource;
 	l_textureUploadRecord.m_uploadBuffer    = l_uploadBuffer;
 	l_textureUploadRecord.m_layoutList      = l_layoutList;
@@ -256,6 +286,8 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 
 	l_textureUploadRecordList.emplace_back(l_textureUploadRecord);
 
+	// 現在はTextureUploadRecordを1件だけ渡しているため、実質的には1テクスチャ単位の同期コピー
+	// SubmitTextureCopyBatchAndWait自体は複数件に対応しているが、ここではコピー完了まで待機する
 	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_textureUploadRecordList))
 	{
 		assert(false && "UploadSystemへのテクスチャコピー送信に失敗したため、テクスチャサブリソースアップロード処理に失敗しました。");

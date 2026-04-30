@@ -20,7 +20,6 @@ namespace FWK::Graphics
 	private:
 
 		bool CreateTextureResource(const DirectX::TexMetadata&                   a_texMetadata,
-								   const Device&			                     a_device,
 								   const GPUMemoryAllocator&					 a_gpuMemoryAllocator,
 										 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
 										 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const;
@@ -36,8 +35,8 @@ namespace FWK::Graphics
 							  const Device&								a_device,
 							  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
 
-		static constexpr UINT64 k_uploadBufferBeginOffset = 0ULL;
-
+		static constexpr UINT64 k_uploadBufferBeginOffset         = 0ULL;
+		static constexpr UINT64 k_initialRequiredUploadBufferSize = 0ULL;
 
 		static constexpr UINT k_mostDetailedMIP = 0U;
 		static constexpr UINT k_planeSlice		= 0U;

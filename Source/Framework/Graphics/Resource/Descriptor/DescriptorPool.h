@@ -47,6 +47,11 @@ namespace FWK::Graphics
 			return m_descriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_index, a_device);
 		}
 
+		void Release(const UINT a_index)
+		{
+			m_descriptorHeapIndexAllocator.Release(a_index);
+		}
+
 		void SetDescriptorCapacity(const UINT a_set) { m_descriptorCapacity = a_set; }
 
 		auto FetchVALCPUOnlyCPUHandle(const UINT a_index) const
