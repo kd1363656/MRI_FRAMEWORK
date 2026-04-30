@@ -13,6 +13,8 @@ bool FWK::Graphics::UploadSystem::Create(const Device& a_device)
 		return false;
 	}
 
+	// Deserializeでコピーコマンドアロケータの数を設定ている、もしコマンドアロケータ数が0なら
+	// Descrialize処理を確認すること
 	for (auto& l_copyCommandAllocator : m_copyCommandAllocatorList)
 	{
 		if (!l_copyCommandAllocator.Create(a_device))
@@ -108,7 +110,6 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopy(const TypeAlias::ComPtr<ID3D
 	}
 
 	l_copyCommandAllocator->Reset();
-
 	m_copyCommandList.Reset(*l_copyCommandAllocator);
 
 	RecordTextureCopy(a_textureResource, a_uploadBuffer.GetREFUploadBuffer(), a_layoutList);
