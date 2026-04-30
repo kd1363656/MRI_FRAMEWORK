@@ -59,9 +59,12 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const std::vecto
 		return false;
 	}
 
+	// 命令を格納できるようにするためリセット
 	l_copyCommandAllocator->Reset();
 	m_copyCommandList.Reset      (*l_copyCommandAllocator);
 
+	// UploadBuffer内に配置した各サブリソースの画像データを
+	// D3D12_PLACED_SUBRESOURCE_FOOTPRINTの配置情報に従って、DEFAULTヒープ上のテクスチャリソースへコピーする
 	for (const auto& l_textureUploadRecord : a_textureUploadRecordList)
 	{
 		RecordTextureCopy(l_textureUploadRecord.m_textureResource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer(), l_textureUploadRecord.m_layoutList);

@@ -23,6 +23,7 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 	TypeAlias::ComPtr<ID3D12Resource2>     l_textureResource = nullptr;
 	TypeAlias::ComPtr<D3D12MA::Allocation> l_allocation      = nullptr;
 	
+	// TexMetadataの情報をもとに、DEFAULTヒープ上へ配置するTextureResourceを作成する
 	if (!CreateTextureResource(a_texMetadata,
 							   a_device,
 							   a_gpuMemoryAllocator,
@@ -33,6 +34,7 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 		return false;
 	}
 	
+	// ScratchImageの画像データをUploadBufferへ書き込み、UploadSystemを通してTextureResourceへコピーする
 	if (!UploadTextureSubresources(l_textureResource,
 								   a_scratchImage,
 								   a_device,
@@ -42,6 +44,7 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 		return false;
 	}
 
+	// 作成したTextureResourceをシェーダーから参照できるように、CPUOnly側のDescriptorHeapへSRVを作成する
 	if (!CreateTextureSRV(l_textureResource,
 						  a_texMetadata,
 						  a_textureRecord.m_srvIndex,
@@ -52,12 +55,14 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 		return false;
 	}
 
+	// CPUObly側に作成したSRVを、シェーダーから参照できるShaderVisible側のDescriptorHeapへコピーする
 	if (!a_srvDescriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_textureRecord.m_srvIndex, a_device))
 	{
 		assert(false && "CPUOnlySRVからShaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード処理に失敗しました。");
 		return false;
 	}
 
+	// 作成したTextureResourceとAllocationをTextureRecordに保存する
 	a_textureRecord.m_textureResource = l_textureResource;
 	a_textureRecord.m_allocation	  = l_allocation;
 
@@ -68,7 +73,7 @@ bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMet
 														   const Device&			                     a_device,
 														   const GPUMemoryAllocator&					 a_gpuMemoryAllocator,
 																 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
-																 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation)
+																 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
 {
 	a_textureResource.Reset();
 	a_allocation.Reset	   ();
@@ -264,7 +269,7 @@ bool FWK::Graphics::TextureUploader::CreateTextureSRV(const TypeAlias::ComPtr<ID
 													  const DirectX::TexMetadata&				a_texMetadata,
 													  const UINT								a_srvIndex,
 													  const Device&							    a_device,
-															DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap)
+															DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const
 {
 	if (!a_textureResource)
 	{

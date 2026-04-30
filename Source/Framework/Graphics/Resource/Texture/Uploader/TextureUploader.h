@@ -23,7 +23,7 @@ namespace FWK::Graphics
 								   const Device&			                     a_device,
 								   const GPUMemoryAllocator&					 a_gpuMemoryAllocator,
 										 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
-										 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation);
+										 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const;
 
 		bool UploadTextureSubresources(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource,
 									   const DirectX::ScratchImage&				 a_scratchImage,
@@ -34,7 +34,7 @@ namespace FWK::Graphics
 							  const DirectX::TexMetadata&               a_texMetadata,
 							  const UINT	                            a_srvIndex,
 							  const Device&								a_device,
-									DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap);
+									DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
 
 		static constexpr D3D12_RESOURCE_STATES k_initialTextureResourceState = D3D12_RESOURCE_STATE_COPY_DEST;
 
