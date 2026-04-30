@@ -13,9 +13,9 @@ namespace FWK::Graphics
 						   const DirectX::TexMetadata&				a_texMetadata,
 						   const Device&						    a_device,
 						   const GPUMemoryAllocator&				a_gpuMemoryAllocator,
-						         DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
+						   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
 						         UploadSystem&					    a_uploadSystem,
-						         Struct::TextureRecord&			    a_textureRecord);
+						         Struct::TextureRecord&			    a_textureRecord) const;
 
 	private:
 
@@ -34,9 +34,9 @@ namespace FWK::Graphics
 							  const DirectX::TexMetadata&               a_texMetadata,
 							  const UINT	                            a_srvIndex,
 							  const Device&								a_device,
-									DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
+							  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
 
-		static constexpr D3D12_RESOURCE_STATES k_initialTextureResourceState = D3D12_RESOURCE_STATE_COPY_DEST;
+		static constexpr D3D12_RESOURCE_STATES k_initialTextureResourceState = D3D12_RESOURCE_STATE_COMMON;
 
 		static constexpr UINT k_mostDetailedMIP = 0U;
 		static constexpr UINT k_planeSlice		= 0U;

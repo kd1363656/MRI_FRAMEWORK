@@ -14,7 +14,11 @@ namespace FWK::Graphics
 		 TextureSystem() = default;
 		~TextureSystem() = default;
 
-		TypeAlias::TextureID RegisterTexture(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, const std::filesystem::path& a_filePath);
+		TypeAlias::TextureID RegisterTexture(const Device&			                  a_device,
+											 const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+											 const std::filesystem::path&             a_filePath,
+												   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
+												   UploadSystem&					  a_uploadSystem);
 
 	private:
 	

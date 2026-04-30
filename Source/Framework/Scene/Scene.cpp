@@ -4,8 +4,17 @@ void FWK::Scene::PostLoadSetup()
 {
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 
-	auto& l_textureSystem     = l_graphicsManager.GetMutableREFResourceContext().GetMutableREFTextureSystem    ();
-	auto& l_srvDescriptorHeap = l_graphicsManager.GetMutableREFResourceContext().GetMutableREFSRVDescriptorPool();
+	const auto& l_device             = l_graphicsManager.GetREFDevice         ();
+	const auto& l_gpuMemoryAllocator = l_graphicsManager.GetREFResourceContext().GetREFGPUMemoryAllocator();
 
-	l_textureSystem.RegisterTexture(l_srvDescriptorHeap, "Asset/Texture/Test.dds");
+	auto& l_resourceContext   = l_graphicsManager.GetMutableREFResourceContext  ();
+	auto& l_textureSystem     = l_resourceContext.GetMutableREFTextureSystem    ();
+	auto& l_srvDescriptorHeap = l_resourceContext.GetMutableREFSRVDescriptorPool();
+	auto& l_uploadSystem      = l_resourceContext.GetMutableREFUploadSystem     ();
+
+	l_textureSystem.RegisterTexture(l_device,
+									l_gpuMemoryAllocator,
+									"Asset/Texture/Test.dds",
+									l_srvDescriptorHeap,
+									l_uploadSystem);
 }

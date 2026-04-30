@@ -1,6 +1,10 @@
 ﻿#include "TextureSystem.h"
 
-FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::RegisterTexture(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, const std::filesystem::path& a_filePath)
+FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::RegisterTexture(const Device&			                 a_device,
+																	    const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																		const std::filesystem::path&             a_filePath, 
+																			  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
+																			  UploadSystem&						 a_uploadSystem)
 {
 	if (a_filePath.empty())
 	{
@@ -62,6 +66,19 @@ FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::RegisterTexture(Descript
 	l_textureRecord.m_srvIndex  = l_srvIndex;
 	l_textureRecord.m_textureID = l_textureID;
 	l_textureRecord.m_filePath  = l_textureFilePath;
+
+	// 読み込んだDDSの画像データをTextureResourceへアップロードし、SRVを作成する
+	if (!m_textureUploader.UploadTexture(l_scratchImage,
+										 l_texMetadata,
+										 a_device,
+										 a_gpuMemoryAllocator,
+										 a_srvDescriptorHeap,
+										 a_uploadSystem,
+										 l_textureRecord))
+	{
+		assert(false && "テクスチャアップロードに失敗したため、テクスチャ登録に失敗しました。");
+		return Constant::k_invalidTextureID;
+	}
 
 	m_texturePathMap.try_emplace  (l_textureFilePath, l_textureID);
 	m_textureRecordMap.try_emplace(l_textureID,       std::move(l_textureRecord));

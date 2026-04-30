@@ -18,6 +18,7 @@ namespace FWK::Graphics
 
 		void SaveCONFIG() const;
 
+		const auto& GetREFDevice		 () const { return m_device; }
 		const auto& GetREFResourceContext() const { return m_resourceContext; }
 		const auto& GetREFRenderer       () const { return m_renderer; }
 		const auto& GetREFSwapChain      () const { return m_swapChain; }

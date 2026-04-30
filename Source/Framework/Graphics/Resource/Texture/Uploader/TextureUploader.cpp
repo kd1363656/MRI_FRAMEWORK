@@ -4,9 +4,9 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 												   const DirectX::TexMetadata&              a_texMetadata,
 												   const Device&				            a_device,
 												   const GPUMemoryAllocator&				a_gpuMemoryAllocator,
-														 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
+												   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
 														 UploadSystem&						a_uploadSystem,
-														 Struct::TextureRecord&				a_textureRecord)
+														 Struct::TextureRecord&				a_textureRecord) const
 {
 	if (a_textureRecord.m_textureID == Constant::k_invalidTextureID)
 	{
@@ -55,7 +55,7 @@ bool FWK::Graphics::TextureUploader::UploadTexture(const DirectX::ScratchImage& 
 		return false;
 	}
 
-	// CPUObly側に作成したSRVを、シェーダーから参照できるShaderVisible側のDescriptorHeapへコピーする
+	// CPUOnly側に作成したSRVを、シェーダーから参照できるShaderVisible側のDescriptorHeapへコピーする
 	if (!a_srvDescriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_textureRecord.m_srvIndex, a_device))
 	{
 		assert(false && "CPUOnlySRVからShaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード処理に失敗しました。");
@@ -269,7 +269,7 @@ bool FWK::Graphics::TextureUploader::CreateTextureSRV(const TypeAlias::ComPtr<ID
 													  const DirectX::TexMetadata&				a_texMetadata,
 													  const UINT								a_srvIndex,
 													  const Device&							    a_device,
-															DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const
+													  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const
 {
 	if (!a_textureResource)
 	{
