@@ -125,7 +125,7 @@ bool FWK::Graphics::TextureUploader::CreateTextureResource(const DirectX::TexMet
 															             static_cast<UINT16>(a_texMetadata.mipLevels));
 		!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
 													nullptr,
-													k_initialTextureResourceState,
+													D3D12_RESOURCE_STATE_COMMON,
 													a_textureResource,
 													a_allocation))
 	{
@@ -147,7 +147,7 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 		return false;
 	}
 
-	if (a_scratchImage.GetImageCount() == 0ULL)
+	if (a_scratchImage.GetImageCount() == k_emptyScratchImageCount)
 	{
 		assert(false && "ScratchImageの画像数が0のため、テクスチャサブリソースアップロード処理に失敗しました。");
 		return false;
@@ -183,7 +183,7 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 	l_device->GetCopyableFootprints(&l_textureResourceDesc,
 									Constant::k_firstSubresourceIndex,
 									l_subresourceCount,
-									0ULL,
+									k_uploadBufferBeginOffset,
 								    l_layoutList.data(),
 									l_rowCountList.data(),
 									l_rowSizeInBytesList.data(),
@@ -223,10 +223,10 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 
 		auto* l_destinationSubresource = l_mappedData + l_layout.Offset;
 
-		const auto  l_destinationRotPitch   = l_layout.Footprint.RowPitch;
-		const auto& l_destinationSlicePitch = l_destinationRotPitch * static_cast<std::size_t>(l_rowCountList[l_subresourceIndex]);
+		const auto  l_destinationRowPitch   = l_layout.Footprint.RowPitch;
+		const auto& l_destinationSlicePitch = l_destinationRowPitch * static_cast<std::size_t>(l_rowCountList[l_subresourceIndex]);
 
-		const auto& l_sourceRotPitch   = l_image.rowPitch;
+		const auto& l_sourceRowPitch   = l_image.rowPitch;
 		const auto& l_sourceSlicePitch = l_image.slicePitch;
 
 		const auto& l_copyRowSize = l_rowSizeInBytesList[l_subresourceIndex];
@@ -235,9 +235,9 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 		{
 			for (UINT l_rowIndex = 0U; l_rowIndex < l_rowCountList[l_subresourceIndex]; ++l_rowIndex)
 			{
-				auto* l_destination = l_destinationSubresource + l_depthIndex * l_destinationSlicePitch + l_rowIndex * l_destinationRotPitch;
+				auto* l_destination = l_destinationSubresource + l_depthIndex * l_destinationSlicePitch + l_rowIndex * l_destinationRowPitch;
 			
-				const auto* l_source = l_image.pixels + l_depthIndex * l_sourceSlicePitch + l_rowIndex * l_sourceRotPitch;
+				const auto* l_source = l_image.pixels + l_depthIndex * l_sourceSlicePitch + l_rowIndex * l_sourceRowPitch;
 
 				std::memcpy(l_destination, l_source, l_copyRowSize);
 			}

@@ -605,9 +605,6 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Render\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\CommandConstant.h">
-      <Filter>Source\Framework\Definition\Constant\Graphics\Command</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics</Filter>
     </ClInclude>

@@ -381,7 +381,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\CommandConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h" />

@@ -29,7 +29,7 @@ bool FWK::Graphics::UploadBuffer::Create(const UINT64& a_bufferSize, const Devic
 	// UploadBufferはCPUでデータを書き込み、
 	// その後CopyBufferRegionやCopyTextureRegionで本番リソースへ転送するため、
 	// D3D12_HEAP_TYPE_UPLOADで作成する
-	auto l_heapProperties = CD3DX12_HEAP_PROPERTIES(k_uploadBufferHeapType, l_nodeMask, l_nodeMask);
+	auto l_heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD, l_nodeMask, l_nodeMask);
 
 	// D3D12_RESOURCE_DESCについての説明
 	// Buffer(作成するバッファサイズ)
@@ -48,9 +48,9 @@ bool FWK::Graphics::UploadBuffer::Create(const UINT64& a_bufferSize, const Devic
 	// 初期状態にD3D12_RESOURCE_STATE_GENERIC_READを指定している理由
 	// UploadHeap上のリソースはCPUから書き込み、GPUから読み取ってコピー元として使う想定のため
 	const auto l_hr = l_device->CreateCommittedResource(&l_heapProperties,
-														k_defaultUploadBufferHeapFlags,
+														D3D12_HEAP_FLAG_NONE,
 													    &l_resourceDesc,
-														k_uploadBufferInitialResourceState,
+														D3D12_RESOURCE_STATE_GENERIC_READ,
 														nullptr,
 														IID_PPV_ARGS(m_uploadBuffer.ReleaseAndGetAddressOf()));
 

@@ -55,7 +55,7 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOUR
     // D3D12MA::ALLOCATION_DESCについて
     // HeapType : リソースをどの種類のGPUメモリに置くか
     // TextureResourceはGPU側で使用する本番リソースなのでDEFAULTを指定する
-    l_allocationDesc.HeapType = k_textureResourceHeapType;
+    l_allocationDesc.HeapType = D3D12_HEAP_TYPE_DEFAULT;
 
     // D3D12MA::Allocator::CreateResource(割り当て設定、
     //                                    作成するリソース設定、
@@ -64,6 +64,7 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOUR
     //                                    D3D12MA側Allocationの受取先、
     //                                    受け取りたいResourceインターフェース型ID、
     //                                    作成されたResourceの受け取り先);
+
     const auto l_hr = m_allocator->CreateResource(&l_allocationDesc,
                                                   &a_resourceDesc,
                                                   a_initialResourceState,

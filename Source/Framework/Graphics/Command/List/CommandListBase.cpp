@@ -26,7 +26,7 @@ bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 
 	auto l_hr = l_device->CreateCommandList1(Constant::k_defaultGPUNodeMask,
 											 k_createCommandListType,
-											 k_createListFlags,
+											 D3D12_COMMAND_LIST_FLAG_NONE,
 											 IID_PPV_ARGS(m_commandList.ReleaseAndGetAddressOf()));
 
 	if (FAILED(l_hr))

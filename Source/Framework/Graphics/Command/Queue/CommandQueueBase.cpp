@@ -133,10 +133,10 @@ bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
 	l_desc.Type = k_createCommandListType;
 
 	// コマンドキューの優先度を指定する
-	l_desc.Priority = k_defaultCommandQueuePriority;
+	l_desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
 	
 	// コマンドキューの追加オプションを指定する
-	l_desc.Flags = k_defaultCommandQueueFlags;
+	l_desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 
 	// このコマンドキューをどのGPUノードで使用するかを指定する
 	l_desc.NodeMask = Constant::k_defaultGPUNodeMask;

@@ -16,19 +16,7 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr DXGI_GPU_PREFERENCE k_defaultGPUPreference = DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE;
-		static constexpr DXGI_ADAPTER_FLAG3  k_excludedAdapterFlag  = DXGI_ADAPTER_FLAG3_SOFTWARE;
-
 		static constexpr UINT k_firstAdapterIndex = 0U;
-
-		static constexpr auto k_preferredFeatureLevelList =std::to_array<D3D_FEATURE_LEVEL>(
-		{
-			D3D_FEATURE_LEVEL_12_2,
-			D3D_FEATURE_LEVEL_12_1,
-			D3D_FEATURE_LEVEL_12_0,
-			D3D_FEATURE_LEVEL_11_1,
-			D3D_FEATURE_LEVEL_11_0,
-		});
 
 #if defined(_DEBUG)
 		static constexpr std::wstring_view k_deviceDebugLogSeparator      = L"\n===================================================================\n";

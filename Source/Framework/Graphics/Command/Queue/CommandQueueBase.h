@@ -38,10 +38,6 @@ namespace FWK::Graphics
 
 		void WaitForGPUIdleIfNeed();
 
-		static constexpr D3D12_COMMAND_QUEUE_PRIORITY k_defaultCommandQueuePriority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
-
-		static constexpr D3D12_COMMAND_QUEUE_FLAGS k_defaultCommandQueueFlags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-
 		static constexpr UINT64 k_incrementFenceValue = 1ULL;
 
 		static constexpr UINT k_executeListNum = 1U;

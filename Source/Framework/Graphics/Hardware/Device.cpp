@@ -11,6 +11,15 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		return false;
 	}
 
+	const auto l_preferredFeatureLevelList = std::to_array<D3D_FEATURE_LEVEL>({
+		D3D_FEATURE_LEVEL_12_2,
+		D3D_FEATURE_LEVEL_12_1,
+		D3D_FEATURE_LEVEL_12_0,
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+	});
+
+
 	// 現在調査中のGPUアダプターを一時的に受け取る変数
 	TypeAlias::ComPtr<IDXGIAdapter4> l_adapter = nullptr;
 
@@ -40,7 +49,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 
 	auto l_adapterIndex = k_firstAdapterIndex;
 
-	while (SUCCEEDED(l_factory->EnumAdapterByGpuPreference(l_adapterIndex, k_defaultGPUPreference, IID_PPV_ARGS(l_adapter.ReleaseAndGetAddressOf()))))
+	while (SUCCEEDED(l_factory->EnumAdapterByGpuPreference(l_adapterIndex, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(l_adapter.ReleaseAndGetAddressOf()))))
 	{
 		// 現在取得したGPUの詳細情報を受け取る構造体
 		DXGI_ADAPTER_DESC3 l_desc = {};
@@ -64,14 +73,14 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		}
 
 		// ソフトウェアアダプターは除外する
-		if (l_desc.Flags & k_excludedAdapterFlag)
+		if (l_desc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)
 		{
 			++l_adapterIndex;
 			continue; 
 		}
 
 		// このGPUでどのフィーチャーレベルまで使えるかを高い順に調べる
-		for (auto l_level : k_preferredFeatureLevelList)
+		for (auto l_level : l_preferredFeatureLevelList)
 		{
 			// 指定したGPUとフィーチャーレベルでDirectX12デバイスが作成できるかを確認する
 			// 第四引数にnullptrを渡しているため実際にデバイスを受け取るのではなく

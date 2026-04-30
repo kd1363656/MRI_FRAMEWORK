@@ -28,9 +28,6 @@ namespace FWK::Graphics
 
 		CopyCommandAllocator* FetchMutablePTRCopyCommandAllocator();
 
-		static constexpr D3D12_TEXTURE_COPY_TYPE k_destinationTextureCopyType = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-		static constexpr D3D12_TEXTURE_COPY_TYPE k_sourceTextureCopyType      = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
-
 		static constexpr UINT k_textureCopyDestinationX = 0U;
 		static constexpr UINT k_textureCopyDestinationY = 0U;
 		static constexpr UINT k_textureCopyDestinationZ = 0U;

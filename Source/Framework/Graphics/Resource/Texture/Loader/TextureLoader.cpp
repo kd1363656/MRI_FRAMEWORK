@@ -17,7 +17,7 @@ bool FWK::Graphics::TextureLoader::LoadTextureFile(DirectX::ScratchImage& a_scra
 	//				   DDSの幅、高さ、mip数、DXGI_FORMATなどを受け取る構造体、
 	//				   実際の画像ピクセルデータを受け取るScratchImage);
 	const auto l_hr = DirectX::LoadFromDDSFile(a_filePath.c_str(),
-											   k_ddsLoadFlags,
+											   DirectX::DDS_FLAGS_NONE,
 											   &a_texMetadata,
 											   a_scratchImage);
 

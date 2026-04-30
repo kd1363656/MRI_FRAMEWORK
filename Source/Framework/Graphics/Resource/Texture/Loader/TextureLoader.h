@@ -13,8 +13,6 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr DirectX::DDS_FLAGS k_ddsLoadFlags = DirectX::DDS_FLAGS_NONE;
-
 		static constexpr DXGI_FORMAT k_invalidTextureFormat = DXGI_FORMAT_UNKNOWN;
 	};
 }

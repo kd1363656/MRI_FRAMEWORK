@@ -21,8 +21,6 @@ namespace FWK::Graphics
 
 	private:
 
-		D3D12_HEAP_TYPE k_textureResourceHeapType = D3D12_HEAP_TYPE_DEFAULT;
-
 		TypeAlias::ComPtr<D3D12MA::Allocator> m_allocator = nullptr;
 	};
 }

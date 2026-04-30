@@ -113,13 +113,13 @@ void FWK::Graphics::UploadSystem::RecordTextureCopy(const TypeAlias::ComPtr<ID3D
 		// pResource        : コピー先になるTextureResource
 		// Type             : コピー先はTextureResourceのサブリソースなのでSUBRESOURCE_INDEXを指定する
 		// SubresourceIndex : コピー先TextureResourceのサブリソース番号
-		const D3D12_TEXTURE_COPY_LOCATION l_destinationCopyLocation = { a_textureResource.Get(), k_destinationTextureCopyType, l_subresourceIndex };
+		const D3D12_TEXTURE_COPY_LOCATION l_destinationCopyLocation = { a_textureResource.Get(), D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX, l_subresourceIndex };
 
 		// D3D12_TEXTURE_COPY_LOCATIONについて
 		// pResource        : コピー元になるUploadBuffer
 		// Type             : コピー元はUploadBuffer内の配置済みフットプリントなのでPLACED_FOOTPRINTを指定する
 		// PlacedFootprint  : UploadBuffer内にあるコピー元サブリソースの配置情報
-		const D3D12_TEXTURE_COPY_LOCATION l_sourceCopyLocation = { a_uploadBuffer.Get(), k_sourceTextureCopyType, a_layoutList[l_subresourceIndex]};
+		const D3D12_TEXTURE_COPY_LOCATION l_sourceCopyLocation = { a_uploadBuffer.Get(), D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT, a_layoutList[l_subresourceIndex]};
 
 		// CopyTextureRegion(コピー先の位置情報、
 		//					 コピー先X座標、

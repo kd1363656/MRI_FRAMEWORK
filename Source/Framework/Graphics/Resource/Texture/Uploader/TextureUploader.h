@@ -36,7 +36,8 @@ namespace FWK::Graphics
 							  const Device&								a_device,
 							  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
 
-		static constexpr D3D12_RESOURCE_STATES k_initialTextureResourceState = D3D12_RESOURCE_STATE_COMMON;
+		static constexpr UINT64 k_uploadBufferBeginOffset = 0ULL;
+
 
 		static constexpr UINT k_mostDetailedMIP = 0U;
 		static constexpr UINT k_planeSlice		= 0U;
@@ -45,6 +46,7 @@ namespace FWK::Graphics
 
 		static constexpr FLOAT k_resourceMINLODClamp = 0.0F;
 
+		static constexpr std::size_t k_emptyScratchImageCount     = 0ULL;
 		static constexpr std::size_t k_texture2DArrayMINArraySize = 2ULL;
 	};
 }

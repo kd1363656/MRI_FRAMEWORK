@@ -2,12 +2,6 @@
 
 namespace FWK::Constant
 {
-	inline constexpr D3D12_DESCRIPTOR_HEAP_TYPE k_cbvSRVUAVDescriptorHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	inline constexpr D3D12_DESCRIPTOR_HEAP_TYPE k_rtvDescriptorHeapType       = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	
-	inline constexpr D3D12_DESCRIPTOR_HEAP_FLAGS k_cpuOnlyDescriptorHeapFlag       = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	inline constexpr D3D12_DESCRIPTOR_HEAP_FLAGS k_shaderVisibleDescriptorHeapFlag = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	
 	inline constexpr UINT k_invalidDescriptorCapacity = 0U;
 
 	inline constexpr UINT k_defaultDescriptorCapacity  = 1024U;

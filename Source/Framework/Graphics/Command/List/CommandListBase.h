@@ -21,8 +21,6 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr D3D12_COMMAND_LIST_FLAGS k_createListFlags = D3D12_COMMAND_LIST_FLAG_NONE;
-
 		const D3D12_COMMAND_LIST_TYPE k_createCommandListType;
 
 		TypeAlias::ComPtr<ID3D12GraphicsCommandList6> m_commandList;

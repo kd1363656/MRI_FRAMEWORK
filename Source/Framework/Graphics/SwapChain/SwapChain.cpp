@@ -137,7 +137,7 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 	// 1ピクセルをどういう並びの色データとして持つかを表す。
 	// R8G8B8A8_UNORMは、RGBA各8bitの標準的なカラー形式
 	// ※注意 : RTVを作るときのフォーマットとも基本的にそろえる必要がある
-	l_desc.Format = k_swapChainFormat;
+	l_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	// 立体視表示を使うかどうか
 	// 通常の2D/3Dでは使わないためFALSEにする
@@ -249,7 +249,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 
 	// RTVから見たときの画素フォーマット
 	// ※注意 : バックバッファの実際のフォーマットと基本的にそろえる必要がある
-	l_rtvDesc.Format = k_swapChainFormat;
+	l_rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	// このRTVが「2Dテクスチャ」としてバックバッファを見ることを指定する。
 	// スワップチェインのバックバッファは通常2Dテクスチャとして扱う

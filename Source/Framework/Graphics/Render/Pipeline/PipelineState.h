@@ -73,9 +73,9 @@ namespace FWK::Graphics
 		D3D12_DEPTH_STENCIL_DESC m_depthStencilDesc = {};
 		DXGI_SAMPLE_DESC	     m_sampleDesc       = {};
 
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE m_primitiveTopologyType = Constant::k_defaultPrimitiveTopologyType;
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE m_primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-		DXGI_FORMAT m_dsvFormat = Constant::k_defaultDSVFormat;
+		DXGI_FORMAT m_dsvFormat = DXGI_FORMAT_UNKNOWN;
 
 		UINT m_sampleMask = Constant::k_initialSampleMask;
 

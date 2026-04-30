@@ -38,8 +38,6 @@ namespace FWK::Graphics
 
 		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUHandle(const UINT a_index, const DescriptorHeapRecord& a_descriptorHeapRecord) const;
 
-		static constexpr D3D12_DESCRIPTOR_HEAP_TYPE k_samplerDescriptorHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER;
-
 		static constexpr UINT64 k_invalidGPUDescriptorHandlePTR = 0ULL;
 
 		static constexpr UINT k_copyDescriptorCount         = 1U;

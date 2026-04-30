@@ -49,9 +49,6 @@ namespace FWK::Graphics
 
 		FrameResource* FetchMutablePTRCurrentFrameResource();
 
-		static constexpr D3D12_RESOURCE_STATES k_backBufferPresentState      = D3D12_RESOURCE_STATE_PRESENT;
-		static constexpr D3D12_RESOURCE_STATES k_backBufferRenderTargetState = D3D12_RESOURCE_STATE_RENDER_TARGET;
-
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountX = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
