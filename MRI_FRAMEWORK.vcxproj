@@ -54,7 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="dxc.props" />
+    <Import Project="Tools\BuildCustomizations\dxc.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -141,6 +141,9 @@ if "$(Configuration)"=="Debug" (
     if errorlevel 1 exit /b 1
 )</Command>
     </PostBuildEvent>
+    <DXCTask>
+      <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+    </DXCTask>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -214,6 +217,9 @@ if "$(Configuration)"=="Debug" (
     if errorlevel 1 exit /b 1
 )</Command>
     </PostBuildEvent>
+    <DXCTask>
+      <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+    </DXCTask>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -285,6 +291,9 @@ if "$(Configuration)"=="Debug" (
     if errorlevel 1 exit /b 1
 )</Command>
     </PostBuildEvent>
+    <DXCTask>
+      <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+    </DXCTask>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -358,6 +367,9 @@ if "$(Configuration)"=="Debug" (
     if errorlevel 1 exit /b 1
 )</Command>
     </PostBuildEvent>
+    <DXCTask>
+      <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+    </DXCTask>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt" />
@@ -523,10 +535,10 @@ if "$(Configuration)"=="Debug" (
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Mesh</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Mesh</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">6.5</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">6.5</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.5</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_6_5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_6_5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_6_5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_6_5</ShaderModel>
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">dxc.exe -E main -&amp; ms_6_5 -HV 2021 -Zpr -Fo "$(ProjectDir)\Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling Mesh Shader with DXC: %(Filename)%(Extension)</Message>
@@ -540,21 +552,29 @@ if "$(Configuration)"=="Debug" (
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">dxc.exe -E main -&amp; ms_6_5 -HV 2021 -Zpr -Fo "$(ProjectDir)\Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling Mesh Shader with DXC: %(Filename)%(Extension)</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso;%(Outputs)</Outputs>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
     </DXCTask>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">6.5</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">6.5</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.5</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_6_5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_6_5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_6_5</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_6_5</ShaderModel>
       <FileType>Document</FileType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
     </DXCTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="dxc.targets" />
+    <Import Project="Tools\BuildCustomizations\dxc.targets" />
   </ImportGroup>
 </Project>

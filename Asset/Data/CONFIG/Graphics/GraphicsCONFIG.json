@@ -1,4 +1,4 @@
-{
+﻿{
     "Renderer": {
         "FrameResourceList": [
             null,
@@ -133,12 +133,12 @@
                     },
                     "MeshShader": {
                         "EntryPointName": "main",
-                        "FilePath": "Asset/Shader/Sprite/Standard/SpriteStandard_MS.hlsl",
+                        "FilePath": "Asset/Shader/Sprite/Standard/SpriteStandard_MS.cso",
                         "ShaderModelVersionName": "ms_6_5"
                     },
                     "PixelShader": {
                         "EntryPointName": "main",
-                        "FilePath": "Asset/Shader/Sprite/Standard/SpriteStandard_PS.hlsl",
+                        "FilePath": "Asset/Shader/Sprite/Standard/SpriteStandard_PS.cso",
                         "ShaderModelVersionName": "ps_6_5"
                     },
                     "PrimitiveTopologyType": "D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE",
