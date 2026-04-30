@@ -4,15 +4,6 @@ namespace FWK::Graphics
 {
 	class UploadSystem final
 	{
-	private:
-
-		struct PendingUploadBuffer final
-		{
-			UploadBuffer m_uploadBuffer = {};
-
-			UINT64 m_fenceValue = Constant::k_unusedFenceValue;
-		};
-
 	public:
 
 		 UploadSystem() = default;
@@ -21,16 +12,9 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    (const Device& a_device);
 
-		void UpdateCompletedUploads();
+		bool SubmitTextureCopyBatchAndWait(const std::vector<Struct::TextureUploadRecord>& a_textureUploadRecordList);
 
 		nlohmann::json Serialize() const;
-
-		bool IsUploadCompleted(const UINT64& a_fenceValue) const;
-
-		bool SubmitTextureCopy(const TypeAlias::ComPtr<ID3D12Resource2>&              a_textureResource,
-							   const UploadBuffer&						              a_uploadBuffer,
-							   const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList,
-									 UINT64&										  a_submittedFenceValue);
 
 		const auto& GetREFCopyCommandAllocatorList() const { return m_copyCommandAllocatorList; }
 
@@ -40,22 +24,27 @@ namespace FWK::Graphics
 
 		void RecordTextureCopy(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer, const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList) const;
 
+		bool ValidateTextureUploadRecord(const Struct::TextureUploadRecord& a_textureUploadRecord) const;
+
 		CopyCommandAllocator* FetchMutablePTRCopyCommandAllocator();
 
-		static constexpr std::size_t k_pendingUploadBufferBeginIndex		             = 0ULL;
-		static constexpr std::size_t k_initialCurrentCopyCommandAllocatorIndex           = 0ULL;
-		static constexpr std::size_t k_pendingUploadBufferListSizeToLastIndexSubtraction = 1ULL;
-		static constexpr std::size_t k_nextCopyCommandAllocatorIndexStep				 = 1ULL;
-		static constexpr std::size_t k_defaultCopyCommandAllocatorListSize			     = 3ULL;
+		static constexpr D3D12_TEXTURE_COPY_TYPE k_destinationTextureCopyType = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+		static constexpr D3D12_TEXTURE_COPY_TYPE k_sourceTextureCopyType      = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
 
+		static constexpr UINT k_textureCopyDestinationX = 0U;
+		static constexpr UINT k_textureCopyDestinationY = 0U;
+		static constexpr UINT k_textureCopyDestinationZ = 0U;
+
+		static constexpr std::size_t k_initialCurrentCopyCommandAllocatorIndex = 0ULL;
+		static constexpr std::size_t k_copyCommandAllocatorIndexIncrement      = 1ULL;
+		
 		CopyCommandQueue m_copyCommandQueue = {};
 		CopyCommandList  m_copyCommandList  = {};
 
 		JsonConverter::UploadSystemJsonConverter m_uploadSystemJsonConverter = {};
 
 		std::vector<CopyCommandAllocator> m_copyCommandAllocatorList = {};
-		std::vector<PendingUploadBuffer>  m_pendingUploadBufferList  = {};
-
+		
 		std::size_t m_currentCopyCommandAllocatorIndex = k_initialCurrentCopyCommandAllocatorIndex;
 	};
 }

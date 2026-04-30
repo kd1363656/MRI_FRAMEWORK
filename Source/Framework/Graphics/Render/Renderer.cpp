@@ -190,7 +190,7 @@ const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFram
 
 FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchMutablePTRCurrentFrameResource()
 {
-	if (m_currentFrameResourceIndex >= static_cast<UINT>(m_frameResourceList.size()))
+	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
 	{
 		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
 		return nullptr;

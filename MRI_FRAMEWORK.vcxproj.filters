@@ -334,6 +334,9 @@
     <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Upload">
       <UniqueIdentifier>{dc7fb989-7c3b-4480-85fe-48ee4b4e83b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload">
+      <UniqueIdentifier>{8955f372-249c-4284-ac52-ad2eedc0223e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -616,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Upload</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

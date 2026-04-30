@@ -49,7 +49,6 @@ namespace FWK::Graphics
 
 		FrameResource* FetchMutablePTRCurrentFrameResource();
 
-
 		static constexpr D3D12_RESOURCE_STATES k_backBufferPresentState      = D3D12_RESOURCE_STATE_PRESENT;
 		static constexpr D3D12_RESOURCE_STATES k_backBufferRenderTargetState = D3D12_RESOURCE_STATE_RENDER_TARGET;
 

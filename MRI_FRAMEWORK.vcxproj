@@ -386,6 +386,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\TypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\SwapChain\SwapChainStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\StringHash\StringHashStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\TypeINFO\TypeINFOStruct.h" />

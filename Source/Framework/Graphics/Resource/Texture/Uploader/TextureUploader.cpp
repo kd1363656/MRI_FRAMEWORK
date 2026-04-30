@@ -136,6 +136,127 @@ bool FWK::Graphics::TextureUploader::UploadTextureSubresources(const TypeAlias::
 															   const Device&							 a_device,
 																	 UploadSystem&						 a_uploadSystem) const
 {
+	if (!a_textureResource)
+	{
+		assert(false && "TextureResourceが無効のため、テクスチャサブリソースアップロード処理に失敗しました。");
+		return false;
+	}
+
+	if (a_scratchImage.GetImageCount() == 0ULL)
+	{
+		assert(false && "ScratchImageの画像数が0のため、テクスチャサブリソースアップロード処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_device = a_device.GetREFDevice();
+
+	if (!l_device)
+	{
+		assert(false && "デバイスが作成されておらず、テクスチャサブリソースアップロード処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_textureResourceDesc = a_textureResource->GetDesc();
+
+	const auto l_subresourceCount = static_cast<UINT>(a_scratchImage.GetImageCount());
+
+	// リストをサブリソース数分確保する
+	auto l_layoutList         = std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>(l_subresourceCount);
+	auto l_rowCountList       = std::vector<UINT>							   (l_subresourceCount);
+	auto l_rowSizeInBytesList = std::vector<UINT64>							   (l_subresourceCount);
+
+	UINT64 l_requiredUploadBufferSize = 0ULL;
+
+	// GetCopyableFootprints(コピー先TextureResourceの設定、	
+	// 　　　　　　　　　　　計算を開始するサブリソース番号、
+	//						 計算するサブリソース数、
+	//	                     UploadBuffer内の開始オフセット、
+	//						 サブリソースごとのUploadBuffer配置情報の受取先、
+	//					     サブリソースごとの行数の受取先、
+	//                       サブリソースごとの1行当たりの受取先、
+	//					     必要なUploadBufferサイズの受取先);
+	l_device->GetCopyableFootprints(&l_textureResourceDesc,
+									Constant::k_firstSubresourceIndex,
+									l_subresourceCount,
+									0ULL,
+								    l_layoutList.data(),
+									l_rowCountList.data(),
+									l_rowSizeInBytesList.data(),
+									&l_requiredUploadBufferSize);
+
+	UploadBuffer l_uploadBuffer = {};
+
+	if (!l_uploadBuffer.Create(l_requiredUploadBufferSize, a_device))
+	{
+		assert(false && "テクスチャ用UploadBufferの作成に失敗したため、テクスチャサブリソースアップロード処理に失敗しました。");
+		return false;
+	}
+
+	auto* l_mappedData = l_uploadBuffer.Map();
+
+	if (!l_mappedData)
+	{
+		assert(false && "UploadBufferのMapに失敗したため、テクスチャサブリソースアップロード処理に失敗しました。");
+		return false;
+	}
+
+	const auto* l_imageList = a_scratchImage.GetImages();
+
+	if (!l_imageList)
+	{
+		assert(false && "ScratchImageの画像データ取得に失敗したため、テクスチャサブリソースアップロード処理に失敗しました。");
+		
+		// アップロードバッファのマッピングを解除
+		l_uploadBuffer.UnMap();
+		return false;
+	}
+
+	for (UINT l_subresourceIndex = 0U; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
+	{
+		const auto& l_image  = l_imageList [l_subresourceIndex];
+		const auto& l_layout = l_layoutList[l_subresourceIndex];
+
+		auto* l_destinationSubresource = l_mappedData + l_layout.Offset;
+
+		const auto  l_destinationRotPitch   = l_layout.Footprint.RowPitch;
+		const auto& l_destinationSlicePitch = l_destinationRotPitch * static_cast<std::size_t>(l_rowCountList[l_subresourceIndex]);
+
+		const auto& l_sourceRotPitch   = l_image.rowPitch;
+		const auto& l_sourceSlicePitch = l_image.slicePitch;
+
+		const auto& l_copyRowSize = l_rowSizeInBytesList[l_subresourceIndex];
+
+		for (UINT l_depthIndex = 0U; l_depthIndex < l_layout.Footprint.Depth; ++l_depthIndex)
+		{
+			for (UINT l_rowIndex = 0U; l_rowIndex < l_rowCountList[l_subresourceIndex]; ++l_rowIndex)
+			{
+				auto* l_destination = l_destinationSubresource + l_depthIndex * l_destinationSlicePitch + l_rowIndex * l_destinationRotPitch;
+			
+				const auto* l_source = l_image.pixels + l_depthIndex * l_sourceSlicePitch + l_rowIndex * l_sourceRotPitch;
+
+				std::memcpy(l_destination, l_source, l_copyRowSize);
+			}
+		}
+	}
+
+	l_uploadBuffer.UnMap();
+
+	Struct::TextureUploadRecord l_textureUploadRecord = {};
+
+	l_textureUploadRecord.m_textureResource = a_textureResource;
+	l_textureUploadRecord.m_uploadBuffer    = l_uploadBuffer;
+	l_textureUploadRecord.m_layoutList      = l_layoutList;
+
+	std::vector<Struct::TextureUploadRecord> l_textureUploadRecordList = {};
+
+	l_textureUploadRecordList.emplace_back(l_textureUploadRecord);
+
+	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_textureUploadRecordList))
+	{
+		assert(false && "UploadSystemへのテクスチャコピー送信に失敗したため、テクスチャサブリソースアップロード処理に失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 
