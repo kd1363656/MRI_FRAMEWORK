@@ -15,7 +15,8 @@ namespace FWK::Graphics
 		// しっかりコンパイルできたかどうかを"bool"で確認するため
 		// HLSLファイルを読み込み、指定エントリーポイントとシェーダーモデルでコンパイルし、
 		// DXILバイトコードを出力Blobとして返す
-		TypeAlias::ComPtr<IDxcBlob> CompileFromFile(const std::wstring& a_filePath, const std::string& a_entryPointName, const std::string& a_shaderModelVersionName) const;
+		TypeAlias::ComPtr<IDxcBlob> CompileFromFile   (const std::wstring& a_filePath, const std::string& a_entryPointName, const std::string& a_shaderModelVersionName) const;
+		TypeAlias::ComPtr<IDxcBlob> LoadBinaryFromFile(const std::wstring& a_filePath) const;
 
 	private:
 

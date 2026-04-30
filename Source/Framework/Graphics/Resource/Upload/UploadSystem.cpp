@@ -165,25 +165,18 @@ FWK::Graphics::CopyCommandAllocator* FWK::Graphics::UploadSystem::FetchMutablePT
 		return nullptr;
 	}
 
-	for (std::size_t l_count = 0ULL; l_count < m_copyCommandAllocatorList.size(); ++l_count)
+	if (m_currentCopyCommandAllocatorIndex >= m_copyCommandAllocatorList.size())
 	{
-		const auto& l_index = (m_currentCopyCommandAllocatorIndex + l_count) % m_copyCommandAllocatorList.size();
-
-		auto& l_copyCommandAllocator = m_copyCommandAllocatorList[l_index];
-
-		if (!m_copyCommandQueue.IsFenceValueCompleted(l_copyCommandAllocator.GetREFSubmittedFenceValue())) { continue; }
-
-		m_currentCopyCommandAllocatorIndex = (l_index + k_copyCommandAllocatorIndexIncrement) % m_copyCommandAllocatorList.size();
-
-		return &l_copyCommandAllocator;
+		assert(false && "コピーコマンドアロケータリストの容量を超えたインデックスのため、コピーコマンドアロケータ取得処理に失敗しました。");
+		return nullptr;
 	}
 
 	auto& l_copyCommandAllocator = m_copyCommandAllocatorList[m_currentCopyCommandAllocatorIndex];
 
-	// 全てのコピーコマンドアロケータがGPU使用中の場合だけ待機する。
-	// GPUが使用中のCommandAllocatorをResetすると危険なため、ここでは安全のため待つ
+	// もしWaitが必要なコマンドアロケータならWaitする
 	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
 
+	// 次のコピーコマンドアロケータを使用するようにインデックスを更新
 	m_currentCopyCommandAllocatorIndex = (m_currentCopyCommandAllocatorIndex + k_copyCommandAllocatorIndexIncrement) % m_copyCommandAllocatorList.size();
 
 	return &l_copyCommandAllocator;

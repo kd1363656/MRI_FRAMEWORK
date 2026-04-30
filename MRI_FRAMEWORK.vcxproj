@@ -527,6 +527,18 @@ if "$(Configuration)"=="Debug" (
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.5</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
       <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">dxc.exe -E main -&amp; ms_6_5 -HV 2021 -Zpr -Fo "$(ProjectDir)\Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling Mesh Shader with DXC: %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">dxc.exe -E main -&amp; ms_6_5 -HV 2021 -Zpr -Fo "$(ProjectDir)\Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling Mesh Shader with DXC: %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">dxc.exe -E main -&amp; ms_6_5 -HV 2021 -Zpr -Fo "$(ProjectDir)\Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling Mesh Shader with DXC: %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">dxc.exe -E main -&amp; ms_6_5 -HV 2021 -Zpr -Fo "$(ProjectDir)\Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling Mesh Shader with DXC: %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Asset\Shader\Sprite\Standard\SpriteStandard_MS.cso;%(Outputs)</Outputs>
     </FxCompile>
     <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

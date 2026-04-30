@@ -9,8 +9,8 @@ namespace FWK::Graphics
 		 Shader() = default;
 		~Shader() = default;
 
-		void Deserialize    (const nlohmann::json& a_rootJson);
-		void CompileFromFile(const ShaderCompiler& a_shaderCompiler);
+		void Deserialize   (const nlohmann::json& a_rootJson);
+		bool CreateFromFile(const ShaderCompiler& a_shaderCompiler);
 
 		nlohmann::json Serialize() const;
 

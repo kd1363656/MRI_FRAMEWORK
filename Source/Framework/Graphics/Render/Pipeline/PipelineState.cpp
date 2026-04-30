@@ -52,14 +52,26 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	// MeshShaderはこのPSOで必須なので必ずコンパイルする
 	if (m_amplificationShader)
 	{
-		m_amplificationShader->CompileFromFile(a_shaderCompiler);
+		if (!m_amplificationShader->CreateFromFile(a_shaderCompiler))
+		{
+			assert(false && "AmplificationShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。");
+			return false;
+		}
 	}
 
-	m_meshShader.CompileFromFile(a_shaderCompiler);
+	if (!m_meshShader.CreateFromFile(a_shaderCompiler))
+	{
+		assert(false && "MeshShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。");
+		return false;
+	}
 
 	if (m_pixelShader)
 	{
-		m_pixelShader->CompileFromFile(a_shaderCompiler);
+		if (!m_pixelShader->CreateFromFile(a_shaderCompiler))
+		{	
+			assert(false && "PixelShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。");
+			return false;
+		}
 	}
 
 	// メッシュシェーダー用パイプラインステート設定構造体

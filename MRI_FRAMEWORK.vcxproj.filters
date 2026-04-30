@@ -774,10 +774,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
+    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
       <Filter>Asset\Shader\Sprite\Standard</Filter>
     </FxCompile>
-    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
+    <FxCompile Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
       <Filter>Asset\Shader\Sprite\Standard</Filter>
     </FxCompile>
   </ItemGroup>

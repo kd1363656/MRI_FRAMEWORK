@@ -179,6 +179,12 @@ const FWK::Graphics::PipelineState* FWK::Graphics::Renderer::FindPTRPipelineStat
 
 const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFrameResource() const
 {
+	if (m_frameResourceList.empty())
+	{
+		assert(false && "フレームリソースが空のため、フレームリソース取得が行えませんでした。");
+		return nullptr;
+	}
+
 	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
 	{
 		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
@@ -190,6 +196,12 @@ const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFram
 
 FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchMutablePTRCurrentFrameResource()
 {
+	if (m_frameResourceList.empty())
+	{
+		assert(false && "フレームリソースが空のため、フレームリソース取得が行えませんでした。");
+		return nullptr;
+	}
+
 	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
 	{
 		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
