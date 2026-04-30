@@ -179,7 +179,7 @@
 
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
-#include "Graphics/Resource/Texture/Uploader/TextureUploader.h"
+#include "Graphics/Resource/Texture/Builder/TextureUploadRecordBuilder.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 
 // リソースコンテキスト

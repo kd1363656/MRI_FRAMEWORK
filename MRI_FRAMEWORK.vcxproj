@@ -432,9 +432,9 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureUploadRecordBuilder.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Uploader\TextureUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\ShaderCompiler.h" />
@@ -496,9 +496,9 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureUploadRecordBuilder.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Uploader\TextureUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\ShaderCompiler.cpp" />

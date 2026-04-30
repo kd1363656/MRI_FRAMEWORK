@@ -26,9 +26,9 @@ namespace FWK::Graphics
 
 		TypeAlias::TextureID GenerateTextureID();
 
-		TextureLoader   m_textureLoader   = {};
-		TextureUploader m_textureUploader = {};
-
+		TextureLoader			   m_textureLoader				= {};
+		TextureUploadRecordBuilder m_textureUploadRecordBuilder = {};
+		
 		TexturePathMap   m_texturePathMap   = {};
 		TextureRecordMap m_textureRecordMap = {};
 
