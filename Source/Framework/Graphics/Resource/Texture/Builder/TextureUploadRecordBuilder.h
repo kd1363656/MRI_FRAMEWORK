@@ -13,7 +13,7 @@ namespace FWK::Graphics
 									   const DirectX::TexMetadata&              a_texMetadata,
 									   const Device&                            a_device,
 									   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-									   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
+									   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 											 Struct::TextureRecord&             a_textureRecord,
 											 Struct::TextureUploadRecord&       a_textureUploadRecord) const;
 
@@ -33,7 +33,7 @@ namespace FWK::Graphics
 							  const DirectX::TexMetadata&               a_texMetadata,
 							  const UINT                                a_srvIndex,
 							  const Device&                             a_device,
-							  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
+							  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorPool) const;
 
 		static constexpr UINT64 k_uploadBufferBeginOffset         = 0ULL;
 		static constexpr UINT64 k_initialRequiredUploadBufferSize = 0ULL;

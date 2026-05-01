@@ -1,88 +1,214 @@
 ﻿#include "TextureSystem.h"
 
-FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::RegisterTexture(const Device&			                 a_device,
-																	    const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-																		const std::filesystem::path&             a_filePath, 
-																			  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
-																			  UploadSystem&						 a_uploadSystem)
+bool FWK::Graphics::TextureSystem::RequestTextureLoad(const std::filesystem::path& a_filePath)
 {
 	if (a_filePath.empty())
 	{
-		assert(false && "登録対象のテクスチャパスが空のため、テクスチャ登録に失敗しました。");
-		return Constant::k_invalidTextureID;
+		assert(false && "読み込み申請されたテクスチャファイルパスが空のため、テクスチャ読み込み申請に失敗しました。");
+		return false;
 	}
 
-	// "."や".."などの表記ゆれを整理した、TextureSystem内部の管理用ファイルパスを取得
-	const auto& l_normalizedTextureFilePath = Utility::File::MakeNormalizedFilePath(a_filePath);
-	
-	// 取得したファイルパスの拡張子が".dds"のようにすべて小文字でない場合return
-	if (l_normalizedTextureFilePath.extension() != Constant::k_lowerDDSExtension)
+	// 拡張子が.ddsでなければreturn
+	if (a_filePath.extension() != Constant::k_lowerDDSExtension)
 	{
-		assert(false && "拡張子が.ddsでないため、テクスチャ登録に失敗しました、.DDSのように大文字が含まれている可能性があります。");
-		return Constant::k_invalidTextureID;
+		assert(false && "読み込み申請されたテクスチャファイルパスの拡張子が.ddsではなく、テクスチャ読み込み申請に失敗しました。");
+		return false;
 	}
 
-	// テクスチャファイルパスをwstringに変換
-	const auto& l_textureFilePath = l_normalizedTextureFilePath.wstring();
+	const auto& l_filePath = a_filePath.wstring();
 
-	// 変換したファイルパスから一致するキーを持つならreturn(新規でテクスチャIDを発行する必要がないため)
-	if (const auto& l_itr = m_texturePathMap.find(l_textureFilePath);
+	// 既に登録済みのテクスチャなら再度ロード申請する必要はない
+	if (const auto& l_itr = m_texturePathMap.find(l_filePath);
 		l_itr != m_texturePathMap.end())
 	{
-		return l_itr->second;
+		return true;
 	}
 
-	DirectX::ScratchImage l_scratchImage = {};
-	DirectX::TexMetadata  l_texMetadata  = {};
-
-	// テクスチャファイルを読み込みl_scratchImageとl_texMetadataにデータを格納
-	if (!m_textureLoader.LoadTextureFile(l_scratchImage,
-										 l_texMetadata,
-										 l_textureFilePath))
+	// 現在のフレームで登録しようとしているパスが既に登録されているなら登録する必要はない
+	if (const auto& l_itr = m_pendingTextureFilePathSet.find(l_filePath);
+		l_itr != m_pendingTextureFilePathSet.end())
 	{
-		assert(false && "テクスチャ読み込みに失敗したため、テクスチャ登録に失敗しました。");
-		return Constant::k_invalidTextureID;
+		return true;
 	}
 
-	// テクスチャIDを発行
-	const auto l_textureID = GenerateTextureID();
+	m_pendingTextureFilePathSet.emplace(l_filePath);
 
-	if (l_textureID == Constant::k_invalidTextureID)
+	return true;
+}
+
+bool FWK::Graphics::TextureSystem::ProcessPendingTextureLoadsAndWait(const Device&			                  a_device,
+																	 const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																		   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+																		   UploadSystem&					  a_uploadSystem)
+{
+	if (m_pendingTextureFilePathSet.empty()) { return true; }
+
+	if (!RegisterTextureBatch(a_device,
+							  a_gpuMemoryAllocator,
+							  m_pendingTextureFilePathSet,
+							  a_srvDescriptorPool,
+							  a_uploadSystem))
 	{
-		assert(false && "TextureIDの採番に失敗したため、テクスチャ登録に失敗しました。");
-		return Constant::k_invalidTextureID;
+		assert(false && "処理待ちテクスチャのバッチ登録に失敗しました。");
+		
+		// 同じ失敗を毎フレーム繰り返さないため、今回は保留中テクスチャファイルパスをクリアする
+		m_pendingTextureFilePathSet.clear();
+		return false;
 	}
 
-	Struct::TextureRecord l_textureRecord = {};
+	m_pendingTextureFilePathSet.clear();
 
-	const auto l_srvIndex = a_srvDescriptorHeap.Allocate();
+	return true;
+}
 
-	if (l_srvIndex == Constant::k_invalidDescriptorHeapIndex)
+bool FWK::Graphics::TextureSystem::RegisterTextureBatch(const Device&			                 a_device,
+														const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+														const PendingTextureFilePathSet&         a_filePathSet,
+															  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+															  UploadSystem&						 a_uploadSystem)
+{
+	if (a_filePathSet.empty())
 	{
-		assert(false && "SRVディスクリプタヒープインデックスの確保に失敗したため、テクスチャ登録に失敗しました。");
-		return Constant::k_invalidTextureID;
+		assert(false && "登録対象のテクスチャファイルパスSetが空のため、バッチテクスチャ登録に失敗しました。");
+		return false;
 	}
 
-	l_textureRecord.m_srvIndex  = l_srvIndex;
-	l_textureRecord.m_textureID = l_textureID;
-	l_textureRecord.m_filePath  = l_textureFilePath;
+	std::vector<UINT>		                 l_allocatedSRVIndexList   = {};
+	std::vector<std::wstring>                l_filePathList		       = {};
+	std::vector<TypeAlias::TextureID>        l_textureIDList           = {};
+	std::vector<Struct::TextureRecord>       l_textureRecordList       = {};
+	std::vector<Struct::TextureUploadRecord> l_textureUploadRecordList = {};
 
-	m_texturePathMap.try_emplace  (l_textureFilePath, l_textureID);
-	m_textureRecordMap.try_emplace(l_textureID,       std::move(l_textureRecord));
+	l_allocatedSRVIndexList.reserve  (a_filePathSet.size());
+	l_filePathList.reserve		     (a_filePathSet.size());
+	l_textureIDList.reserve		     (a_filePathSet.size());
+	l_textureRecordList.reserve	     (a_filePathSet.size());
+	l_textureUploadRecordList.reserve(a_filePathSet.size());
 
-	return l_textureID;
+	for (const auto& l_filePath : a_filePathSet)
+	{
+		if (l_filePath.empty())
+		{
+			assert(false && "登録対象のテクスチャファイルパスが空のため、バッチテクスチャ登録に失敗しました。");
+			return false;
+		}
+
+		// 既に登録済みのテクスチャなら再度登録する必要はない
+		if (const auto& l_itr = m_texturePathMap.find(l_filePath);
+			l_itr != m_texturePathMap.end())
+		{
+			continue;
+		}
+
+		const auto l_srvIndex = a_srvDescriptorPool.Allocate();
+
+		// 取得したアロケータの値が無効ならreturn;
+		if (l_srvIndex == Constant::k_invalidDescriptorHeapIndex)
+		{
+			for (const auto l_allocatedSRVIndex : l_allocatedSRVIndexList)
+			{
+				a_srvDescriptorPool.Release(l_allocatedSRVIndex);
+			}
+
+			assert(false && "SRVインデックスの確保に失敗したため、バッチテクスチャ登録に失敗しました。");
+			return false;
+		}
+
+		l_allocatedSRVIndexList.emplace_back(l_srvIndex);
+
+		// 取得したTextureIDが無効ならreturn
+		const auto l_textureID = GenerateTextureID();
+
+		if (l_textureID == Constant::k_invalidTextureID)
+		{
+			for (const auto l_allocatedSRVIndex : l_allocatedSRVIndexList)
+			{
+				a_srvDescriptorPool.Release(l_allocatedSRVIndex);
+			}
+
+			assert(false && "TextureIDの採番に失敗したため、バッチテクスチャ登録に失敗しました。");
+			return false;
+		}
+
+		DirectX::ScratchImage l_scratchImage = {};
+		DirectX::TexMetadata  l_texMetadata  = {};
+
+		if (!m_textureLoader.LoadTextureFile(l_scratchImage, l_texMetadata, l_filePath))
+		{
+			for (const auto l_allocatedSRVIndex : l_allocatedSRVIndexList)
+			{
+				a_srvDescriptorPool.Release(l_allocatedSRVIndex);
+			}
+
+			assert(false && "DDSテクスチャ読み込みに失敗したため、バッチテクスチャ登録に失敗しました。");
+			return false;
+		}
+
+		Struct::TextureRecord		l_textureRecord		  = {};
+		Struct::TextureUploadRecord l_textureUploadRecord = {};
+
+		l_textureRecord.m_textureID    = l_textureID;
+		l_textureRecord.m_srvIndex     = l_srvIndex;
+		l_textureRecord.m_filePath     = l_filePath;
+		l_textureRecord.m_currentState = D3D12_RESOURCE_STATE_COPY_DEST;
+
+		if (!m_textureUploadRecordBuilder.CreateTextureUploadRecord(l_scratchImage,
+																	l_texMetadata,	
+																	a_device,
+																	a_gpuMemoryAllocator,
+																	a_srvDescriptorPool,
+																	l_textureRecord,
+																	l_textureUploadRecord))
+		{
+			for (const auto l_allocatedSRVIndex : l_allocatedSRVIndexList)
+			{
+				a_srvDescriptorPool.Release(l_allocatedSRVIndex);
+			}
+
+			assert(false && "テクスチャアップロード情報作成に失敗したため、バッチテクスチャ登録に失敗しました。");
+			return false;
+		}
+
+		l_filePathList.emplace_back           (l_filePath);
+		l_textureIDList.emplace_back          (l_textureID);
+		l_textureRecordList.emplace_back      (std::move(l_textureRecord));
+		l_textureUploadRecordList.emplace_back(std::move(l_textureUploadRecord));
+	}
+	
+	if (l_textureUploadRecordList.empty()) { return true; }
+
+	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_textureUploadRecordList))
+	{
+		for (const auto l_allocatedSRVIndex : l_allocatedSRVIndexList)
+		{
+			a_srvDescriptorPool.Release(l_allocatedSRVIndex);
+		}
+
+		assert(false && "UploadSystemでのバッチテクスチャコピーに失敗したため、バッチテクスチャ登録に失敗しました。");
+		return false;
+	}
+
+	for (std::size_t l_index = 0ULL; l_index < l_textureRecordList.size(); ++l_index)
+	{
+		m_texturePathMap.try_emplace  (l_filePathList [l_index], l_textureIDList[l_index]);
+		m_textureRecordMap.try_emplace(l_textureIDList[l_index], std::move(l_textureRecordList[l_index]));
+	}
+
+	return true;
 }
 
 FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::GenerateTextureID()
 {
-	// テクスチャIDを新規用に更新
-	++m_nextTextureID;
-
 	if (m_nextTextureID == Constant::k_invalidTextureID)
 	{
 		assert(false && "TextureIDが上限に到達したため、TextureIDの採番に失敗しました。");
 		return Constant::k_invalidTextureID;
 	}
 
-	return m_nextTextureID;
+	// テクスチャIDを新規用に更新
+	const auto l_textureID = m_nextTextureID;
+
+	++m_nextTextureID;
+
+	return l_textureID;
 }

@@ -6,19 +6,27 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using TexturePathMap   = std::unordered_map<std::wstring,		  TypeAlias::TextureID, Struct::WStringHash, std::equal_to<>>;
-		using TextureRecordMap = std::unordered_map<TypeAlias::TextureID, Struct::TextureRecord>;
-		
+		using TexturePathMap            = std::unordered_map<std::wstring,		   TypeAlias::TextureID, Struct::WStringHash, std::equal_to<>>;
+		using TextureRecordMap          = std::unordered_map<TypeAlias::TextureID, Struct::TextureRecord>;
+		using PendingTextureFilePathSet = std::unordered_set<std::wstring,		   Struct::WStringHash, std::equal_to<>>;
+
 	public:
 
 		 TextureSystem() = default;
 		~TextureSystem() = default;
+		
+		bool RequestTextureLoad(const std::filesystem::path& a_filePath);
 
-		TypeAlias::TextureID RegisterTexture(const Device&			                  a_device,
-											 const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-											 const std::filesystem::path&             a_filePath,
-												   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
-												   UploadSystem&					  a_uploadSystem);
+		bool ProcessPendingTextureLoadsAndWait(const Device&		                    a_device,
+										       const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+												     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+												     UploadSystem&                      a_uploadSystem);
+
+		bool RegisterTextureBatch(const Device&				                a_device,
+								  const GPUMemoryAllocator&                 a_gpuMemoryAllocator,
+								  const PendingTextureFilePathSet&			a_filePathSet,
+										DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorPool,
+										UploadSystem&						a_uploadSystem);
 
 	private:
 	
@@ -31,6 +39,8 @@ namespace FWK::Graphics
 		
 		TexturePathMap   m_texturePathMap   = {};
 		TextureRecordMap m_textureRecordMap = {};
+
+		PendingTextureFilePathSet m_pendingTextureFilePathSet = {};
 
 		TypeAlias::TextureID m_nextTextureID = k_initialNextTextureID;
 	};

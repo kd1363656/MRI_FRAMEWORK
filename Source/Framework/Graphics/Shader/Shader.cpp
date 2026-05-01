@@ -8,9 +8,7 @@ void FWK::Graphics::Shader::Deserialize(const nlohmann::json& a_rootJson)
 
 bool FWK::Graphics::Shader::CreateFromFile(const ShaderCompiler& a_shaderCompiler)
 {
-	const auto& l_filePath = Utility::File::MakeNormalizedFilePath(m_filePath);
-
-	if (l_filePath.extension() == Constant::k_lowerHLSLExtension)
+	if (m_filePath.extension() == Constant::k_lowerHLSLExtension)
 	{
 		if (m_entryPointName.empty())
 		{
@@ -24,11 +22,11 @@ bool FWK::Graphics::Shader::CreateFromFile(const ShaderCompiler& a_shaderCompile
 			return false;
 		}
 
-		m_dxcBlob = a_shaderCompiler.CompileFromFile(l_filePath.c_str(), m_entryPointName, m_shaderModelVersionName);
+		m_dxcBlob = a_shaderCompiler.CompileFromFile(m_filePath.c_str(), m_entryPointName, m_shaderModelVersionName);
 	}
-	else if (l_filePath.extension() == Constant::k_lowerCSOExtension)
+	else if (m_filePath.extension() == Constant::k_lowerCSOExtension)
 	{
-		m_dxcBlob = a_shaderCompiler.LoadBinaryFromFile(l_filePath.c_str());
+		m_dxcBlob = a_shaderCompiler.LoadBinaryFromFile(m_filePath.c_str());
 	}
 	else 
 	{

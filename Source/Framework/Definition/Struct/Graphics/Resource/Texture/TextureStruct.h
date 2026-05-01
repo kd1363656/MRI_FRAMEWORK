@@ -7,6 +7,8 @@ namespace FWK::Struct
 		TypeAlias::ComPtr<ID3D12Resource2>     m_textureResource = nullptr;
 		TypeAlias::ComPtr<D3D12MA::Allocation> m_allocation      = nullptr;
 
+		D3D12_RESOURCE_STATES m_currentState = D3D12_RESOURCE_STATE_COPY_DEST;
+
 		UINT m_srvIndex = Constant::k_invalidDescriptorHeapIndex;
 
 		TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;

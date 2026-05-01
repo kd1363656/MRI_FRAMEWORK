@@ -41,16 +41,4 @@ namespace FWK::Utility::File
 		l_ofs << a_json.dump(k_jsonIndentNum);
 		l_ofs.close         ();
 	}
-
-	inline std::filesystem::path MakeNormalizedFilePath(const std::filesystem::path& a_filePath)
-	{
-		// "."や".."などのパス表記を整理し、比較しやすいパスへ正規化
-		auto l_filePath = a_filePath.lexically_normal();
-
-		// 環境に合わせた区切り文字へ変換
-		// Windowsなら"\"を"\\"に寄せる
-		l_filePath.make_preferred();
-
-		return l_filePath;
-	}
 }

@@ -25,6 +25,7 @@
 #include <fstream>
 #include <thread>
 #include <queue>
+#include <unordered_set>
 
 //================================================
 // 外部ライブラリ

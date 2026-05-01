@@ -12,9 +12,5 @@ void FWK::Scene::PostLoadSetup()
 	auto& l_srvDescriptorHeap = l_resourceContext.GetMutableREFSRVDescriptorPool();
 	auto& l_uploadSystem      = l_resourceContext.GetMutableREFUploadSystem     ();
 
-	l_textureSystem.RegisterTexture(l_device,
-									l_gpuMemoryAllocator,
-									"Asset/Texture/Test.dds",
-									l_srvDescriptorHeap,
-									l_uploadSystem);
+	l_textureSystem.RequestTextureLoad("Asset/Texture/Test.dds");
 }

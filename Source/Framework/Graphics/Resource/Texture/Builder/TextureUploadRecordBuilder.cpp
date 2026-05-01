@@ -4,7 +4,7 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureUploadRecord(const 
 																		  const DirectX::TexMetadata&              a_texMetadata,
 																		  const Device&			                   a_device,
 																		  const GPUMemoryAllocator&	               a_gpuMemoryAllocator,
-																		  const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
+																		  const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 																				Struct::TextureRecord&			   a_textureRecord,
 																				Struct::TextureUploadRecord&	   a_textureUploadRecord) const
 {
@@ -52,14 +52,14 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureUploadRecord(const 
 						  a_texMetadata,
 						  a_textureRecord.m_srvIndex,
 						  a_device,
-						  a_srvDescriptorHeap))
+						  a_srvDescriptorPool))
 	{
 		assert(false && "TextureSRV作成に失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
 	}
 
 	// CPUOnly側に作成したSRVをShaderVisible側へコピーする
-	if (!a_srvDescriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_textureRecord.m_srvIndex, a_device))
+	if (!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_textureRecord.m_srvIndex, a_device))
 	{
 		assert(false && "CPUOnlyからShaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
@@ -247,7 +247,7 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureSRV(const TypeAlias
 																 const DirectX::TexMetadata&			   a_texMetadata,
 																 const UINT								   a_srvIndex, 
 																 const Device&							   a_device,
-																 const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const
+																 const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorPool) const
 {
 	if (!a_textureResource)
 	{
@@ -301,7 +301,7 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureSRV(const TypeAlias
 		l_srvDesc.Texture2D.ResourceMinLODClamp = k_resourceMINLODClamp;
 	}
 
-	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_srvIndex);
+	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(a_srvIndex);
 
 	// 作成したビューを用いてTextureResourceとSRVを結び付ける
 	l_device->CreateShaderResourceView(a_textureResource.Get(), &l_srvDesc, l_cpuOnlyCPUHandle);
