@@ -1,6 +1,6 @@
-﻿#include "TextureUploadRecordBuilder.h"
+﻿#include "TextureRegistrationBuilder.h"
 
-bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureUploadRecord(const DirectX::ScratchImage&             a_scratchImage, 
+bool FWK::Graphics::TextureRegistrationBuilder::CreateTextureUploadRecord(const DirectX::ScratchImage&             a_scratchImage, 
 																		  const DirectX::TexMetadata&              a_texMetadata,
 																		  const Device&			                   a_device,
 																		  const GPUMemoryAllocator&	               a_gpuMemoryAllocator,
@@ -71,7 +71,7 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureUploadRecord(const 
 	return true;
 }
 
-bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureResource(const DirectX::TexMetadata&                   a_texMetadata,
+bool FWK::Graphics::TextureRegistrationBuilder::CreateTextureResource(const DirectX::TexMetadata&                   a_texMetadata,
 																	  const GPUMemoryAllocator&                     a_gpuMemoryAllocator,
 																			TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource,
 																			TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
@@ -107,7 +107,7 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureResource(const Dire
 		// CopyTextureRegionのコピー先として使うため、初期状態はCOPY_DESTにする
 		!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
 													nullptr,
-													D3D12_RESOURCE_STATE_COPY_DEST,
+													D3D12_RESOURCE_STATE_COMMON,
 													a_textureResource,
 													a_allocation))
 	{
@@ -118,7 +118,7 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureResource(const Dire
 	return true;
 }
 
-bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureSubresourcesUploadRecord(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, 
+bool FWK::Graphics::TextureRegistrationBuilder::CreateTextureSubresourcesUploadRecord(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, 
 																					  const DirectX::ScratchImage&			    a_scratchImage,
 																					  const Device&							    a_device,
 																						    Struct::TextureUploadRecord&	    a_textureUploadRecord) const
@@ -243,7 +243,7 @@ bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureSubresourcesUploadR
 	return true;
 }
 
-bool FWK::Graphics::TextureUploadRecordBuilder::CreateTextureSRV(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, 
+bool FWK::Graphics::TextureRegistrationBuilder::CreateTextureSRV(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, 
 																 const DirectX::TexMetadata&			   a_texMetadata,
 																 const UINT								   a_srvIndex, 
 																 const Device&							   a_device,

@@ -15,7 +15,8 @@ private:
 	void LoadFile     (      FWK::Graphics::GraphicsManager& a_graphicsManager);
 	bool PostLoadSetup(      FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager);
 
-	bool BeginFrame();
+	bool BeginFrame ();
+	void EarlyUpdate(FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
 	void BeginDraw(      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 	void Draw     (const FWK::Graphics::GraphicsManager& a_graphicsManager) const;

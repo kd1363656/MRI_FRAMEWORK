@@ -13,4 +13,10 @@ namespace FWK::Struct
 		// 各サブリソースの配置情報をまとめたリスト
 		std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> m_layoutList = {};
 	};
+
+	struct TextureBatchUploadRecord final
+	{
+		Struct::TextureRecord		m_textureRecord = {};
+		Struct::TextureUploadRecord m_textureUploadRecord = {};
+	};
 }

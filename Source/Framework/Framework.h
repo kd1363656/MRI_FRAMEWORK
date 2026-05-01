@@ -32,6 +32,9 @@
 #include "Definition/Constant/Graphics/Render/Pipeline/PipelineStateConstant.h"
 #include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
+#include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
+#include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
+#include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 
 // ファイル関係の定数
 #include "Definition/Constant/FileExtension/FileExtensionConstant.h"
@@ -41,15 +44,6 @@
 
 // WindowCONFIG構造体
 #include "Definition/Struct/Window/WindowStruct.h"
-
-// バックバッファ構造体
-#include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
-
-// ルートシグネチャ用構造体
-#include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
-
-// テクスチャ用構造体
-#include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス
@@ -179,7 +173,7 @@
 
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
-#include "Graphics/Resource/Texture/Builder/TextureUploadRecordBuilder.h"
+#include "Graphics/Resource/Texture/Builder/TextureRegistrationBuilder.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 
 // リソースコンテキスト

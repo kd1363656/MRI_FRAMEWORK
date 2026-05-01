@@ -34,6 +34,14 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 	return true;
 }
 
+void FWK::Graphics::ResourceContext::EarlyUpdate(const Device& a_device)
+{
+	m_textureSystem.EarlyUpdate(a_device, 
+								m_gpuMemoryAllocator,
+								m_srvDescriptorPool,
+								m_uploadSystem);
+}
+
 nlohmann::json FWK::Graphics::ResourceContext::Serialize() const
 {
 	return m_resourceContextJsonConverter.Serialize(*this);

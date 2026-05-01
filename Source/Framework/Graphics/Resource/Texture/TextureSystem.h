@@ -10,18 +10,6 @@ namespace FWK::Graphics
 		using TextureRecordMap          = std::unordered_map<TypeAlias::TextureID, Struct::TextureRecord>;
 		using PendingTextureFilePathSet = std::unordered_set<std::wstring,		   Struct::WStringHash, std::equal_to<>>;
 
-		struct PendingTextureRegisterRecord final
-		{
-			UINT m_srvIndex = Constant::k_invalidDescriptorHeapIndex;
-
-			Struct::TextureRecord		m_textureRecord		  = {};
-			Struct::TextureUploadRecord m_textureUploadRecord = {};
-
-			TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
-
-			std::wstring m_filePath = {};
-		};
-
 	public:
 
 		 TextureSystem() = default;
@@ -29,10 +17,10 @@ namespace FWK::Graphics
 		
 		bool RequestTextureLoad(const std::filesystem::path& a_filePath);
 
-		bool ProcessPendingTextureLoadsAndWait(const Device&		                    a_device,
-										       const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-												     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-												     UploadSystem&                      a_uploadSystem);
+		void EarlyUpdate(const Device&		                      a_device,
+						 const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+						       DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+						       UploadSystem&                      a_uploadSystem);
 
 		bool RegisterTextureBatch(const Device&				                a_device,
 								  const GPUMemoryAllocator&                 a_gpuMemoryAllocator,
@@ -46,8 +34,13 @@ namespace FWK::Graphics
 
 		TypeAlias::TextureID GenerateTextureID();
 
+		bool ProcessPendingTextureLoadsAndWait(const Device&		                    a_device,
+										       const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+												     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+												     UploadSystem&                      a_uploadSystem);
+
 		TextureLoader			   m_textureLoader				= {};
-		TextureUploadRecordBuilder m_textureUploadRecordBuilder = {};
+		TextureRegistrationBuilder m_textureRegistrationBuilder = {};
 		
 		TexturePathMap   m_texturePathMap   = {};
 		TextureRecordMap m_textureRecordMap = {};

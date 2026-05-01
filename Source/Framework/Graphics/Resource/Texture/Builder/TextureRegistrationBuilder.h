@@ -2,12 +2,12 @@
 
 namespace FWK::Graphics
 {
-	class TextureUploadRecordBuilder final
+	class TextureRegistrationBuilder final
 	{
 	public:
 		
-		 TextureUploadRecordBuilder() = default;
-		~TextureUploadRecordBuilder() = default;
+		 TextureRegistrationBuilder() = default;
+		~TextureRegistrationBuilder() = default;
 
 		bool CreateTextureUploadRecord(const DirectX::ScratchImage&             a_scratchImage,
 									   const DirectX::TexMetadata&              a_texMetadata,

@@ -617,7 +617,7 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Upload</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureUploadRecordBuilder.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureRegistrationBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
   </ItemGroup>
@@ -766,7 +766,7 @@
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureUploadRecordBuilder.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureRegistrationBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClCompile>
   </ItemGroup>

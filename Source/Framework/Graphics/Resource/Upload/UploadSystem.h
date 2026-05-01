@@ -12,7 +12,7 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    (const Device& a_device);
 
-		bool SubmitTextureCopyBatchAndWait(const std::vector<Struct::TextureUploadRecord>& a_textureUploadRecordList);
+		bool SubmitTextureCopyBatchAndWait(const std::vector<Struct::TextureBatchUploadRecord>& a_textureBatchUploadRecordList);
 
 		nlohmann::json Serialize() const;
 
