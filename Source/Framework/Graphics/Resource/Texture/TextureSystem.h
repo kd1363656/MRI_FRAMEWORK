@@ -10,6 +10,18 @@ namespace FWK::Graphics
 		using TextureRecordMap          = std::unordered_map<TypeAlias::TextureID, Struct::TextureRecord>;
 		using PendingTextureFilePathSet = std::unordered_set<std::wstring,		   Struct::WStringHash, std::equal_to<>>;
 
+		struct PendingTextureRegisterRecord final
+		{
+			UINT m_srvIndex = Constant::k_invalidDescriptorHeapIndex;
+
+			Struct::TextureRecord		m_textureRecord		  = {};
+			Struct::TextureUploadRecord m_textureUploadRecord = {};
+
+			TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
+
+			std::wstring m_filePath = {};
+		};
+
 	public:
 
 		 TextureSystem() = default;
