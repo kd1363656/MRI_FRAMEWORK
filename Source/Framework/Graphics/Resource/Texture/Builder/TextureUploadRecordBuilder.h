@@ -9,12 +9,13 @@ namespace FWK::Graphics
 		 TextureUploadRecordBuilder() = default;
 		~TextureUploadRecordBuilder() = default;
 
-		bool CreateTextureUploadRecord(const DirectX::ScratchImage&       a_scratchImage,
-									   const DirectX::TexMetadata&        a_texMetadata,
-									   const Device&                      a_device,
-									   const GPUMemoryAllocator&          a_gpuMemoryAllocator,
-											 Struct::TextureRecord&       a_textureRecord,
-											 Struct::TextureUploadRecord& a_textureUploadRecord) const;
+		bool CreateTextureUploadRecord(const DirectX::ScratchImage&             a_scratchImage,
+									   const DirectX::TexMetadata&              a_texMetadata,
+									   const Device&                            a_device,
+									   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+									   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
+											 Struct::TextureRecord&             a_textureRecord,
+											 Struct::TextureUploadRecord&       a_textureUploadRecord) const;
 
 	private:
 
@@ -23,11 +24,16 @@ namespace FWK::Graphics
 										 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource,
 										 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const;
 
-		bool CreateTextureSubresourceUploadRecord(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource,
-												  const DirectX::TexMetadata&               a_texMetadata,
-												  const UINT				                a_srvIndex,
-												  const Device&							    a_device,
-												  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
+		bool CreateTextureSubresourcesUploadRecord(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource,
+												   const DirectX::ScratchImage&				 a_scratchImage,
+												   const Device&						     a_device,
+														 Struct::TextureUploadRecord&		 a_textureUploadRecord) const;
+
+		bool CreateTextureSRV(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource,
+							  const DirectX::TexMetadata&               a_texMetadata,
+							  const UINT                                a_srvIndex,
+							  const Device&                             a_device,
+							  const DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const;
 
 		static constexpr UINT64 k_uploadBufferBeginOffset         = 0ULL;
 		static constexpr UINT64 k_initialRequiredUploadBufferSize = 0ULL;
