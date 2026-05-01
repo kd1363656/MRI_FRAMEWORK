@@ -20,7 +20,7 @@ namespace FWK::Graphics
 		explicit DescriptorHeapBase(const D3D12_DESCRIPTOR_HEAP_TYPE a_createDescriptorHeapType, const bool a_isUseCPUOnly, const bool a_isUseShaderVisible);
 		virtual ~DescriptorHeapBase();
 
-		bool Create(const UINT a_descriptorCapacity, const Device& a_device);
+		bool Create(const Device& a_device, const UINT a_descriptorCapacity);
 
 		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const UINT a_index, const Device& a_device) const;
 

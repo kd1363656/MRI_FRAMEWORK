@@ -1,6 +1,6 @@
 ﻿#include "UploadBuffer.h"
 
-bool FWK::Graphics::UploadBuffer::Create(const UINT64& a_bufferSize, const Device& a_device)
+bool FWK::Graphics::UploadBuffer::Create(const Device& a_device, const UINT64& a_bufferSize)
 {
 	const auto& l_device = a_device.GetREFDevice();
 

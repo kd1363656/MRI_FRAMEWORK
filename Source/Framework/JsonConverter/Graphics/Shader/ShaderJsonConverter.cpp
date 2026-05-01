@@ -4,9 +4,9 @@ void FWK::JsonConverter::ShaderJsonConverter::Deserialize(const nlohmann::json& 
 {
 	if (a_rootJson.is_null()) { return; }
 
-		  auto	l_filePath               = a_rootJson.value("FilePath",               std::filesystem::path());
-	const auto& l_entryPointName         = a_rootJson.value("EntryPointName",         std::string          ());
-	const auto& l_shaderModelVersionName = a_rootJson.value("ShaderModelVersionName", std::string          ());
+		  auto	l_filePath               = a_rootJson.value(k_filePathJsonKey,               std::filesystem::path());
+	const auto& l_entryPointName         = a_rootJson.value(k_entryPointNameJsonKey,         std::string          ());
+	const auto& l_shaderModelVersionName = a_rootJson.value(k_shaderModelVersionNameJsonKey, std::string          ());
 
 	a_shader.SetFilePath              (l_filePath);
 	a_shader.SetEntryPointName        (l_entryPointName);
@@ -21,9 +21,9 @@ nlohmann::json FWK::JsonConverter::ShaderJsonConverter::Serialize(const Graphics
 	const auto& l_entryPointName         = a_shader.GetEntryPointName        ();
 	const auto& l_shaderModelVersionName = a_shader.GetShaderModelVersionName();
 
-	l_rootJson["FilePath"]               = l_filePath;
-	l_rootJson["EntryPointName"]         = l_entryPointName;
-	l_rootJson["ShaderModelVersionName"] = l_shaderModelVersionName;
+	l_rootJson[k_filePathJsonKey]               = l_filePath;
+	l_rootJson[k_entryPointNameJsonKey]         = l_entryPointName;
+	l_rootJson[k_shaderModelVersionNameJsonKey] = l_shaderModelVersionName;
 
 	return l_rootJson;
 }

@@ -17,7 +17,7 @@ namespace FWK::Graphics
 		}
 		bool Create(const Device& a_device)
 		{
-			if (!m_descriptorHeap.Create(m_descriptorCapacity, a_device))
+			if (!m_descriptorHeap.Create(a_device, m_descriptorCapacity))
 			{
 				assert(false && "ディスクリプタヒープの作成処理に失敗しました。");
 				return false;

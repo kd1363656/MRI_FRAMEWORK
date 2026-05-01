@@ -115,7 +115,7 @@ void Application::BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) c
 {
 	a_graphicsManager.BeginDraw();
 }
-void Application::Draw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
+void Application::Draw(const FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	a_graphicsManager.Draw();
 }

@@ -5,62 +5,62 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 	if (a_rootJson.is_null()) { return; }
 
 	// シェーダーのデシリアライズ
-	if (a_rootJson.contains("AmplificationShader"))
+	if (a_rootJson.contains(k_amplificationShaderJsonKey))
 	{
 		auto& l_amplificationShader = a_pipelineState.GetMutableREFAmplificationShader();
 
-		DeserializeOptionalShader(a_rootJson["AmplificationShader"], l_amplificationShader);
+		DeserializeOptionalShader(a_rootJson[k_amplificationShaderJsonKey], l_amplificationShader);
 	}
 
-	if (a_rootJson.contains("MeshShader"))
+	if (a_rootJson.contains(k_meshShaderJsonKey))
 	{
 		auto& l_meshShader = a_pipelineState.GetMutableREFMeshShader();
 
-		l_meshShader.Deserialize(a_rootJson["MeshShader"]);
+		l_meshShader.Deserialize(a_rootJson[k_meshShaderJsonKey]);
 	}
 
-	if (a_rootJson.contains("PixelShader"))
+	if (a_rootJson.contains(k_pixelShaderJsonKey))
 	{
 		auto& l_pixelShader = a_pipelineState.GetMutableREFPixelShader();
 
-		DeserializeOptionalShader(a_rootJson["PixelShader"], l_pixelShader);
+		DeserializeOptionalShader(a_rootJson[k_pixelShaderJsonKey], l_pixelShader);
 	}
 
-	if (a_rootJson.contains("RasterizerDesc"))
+	if (a_rootJson.contains(k_rasterizerDescJsonKey))
 	{
-		DeserializeRasterizerDesc(a_rootJson["RasterizerDesc"], a_pipelineState);
+		DeserializeRasterizerDesc(a_rootJson[k_rasterizerDescJsonKey], a_pipelineState);
 	}
 
-	if (a_rootJson.contains("BlendDesc"))
+	if (a_rootJson.contains(k_blendDescJsonKey))
 	{
-		DeserializeBlendDesc(a_rootJson["BlendDesc"], a_pipelineState);
+		DeserializeBlendDesc(a_rootJson[k_blendDescJsonKey], a_pipelineState);
 	}
 
-	if (a_rootJson.contains("DepthStencilDesc"))
+	if (a_rootJson.contains(k_depthStencilDescJsonKey))
 	{
-		DeserializeDepthStencilDesc(a_rootJson["DepthStencilDesc"], a_pipelineState);
+		DeserializeDepthStencilDesc(a_rootJson[k_depthStencilDescJsonKey], a_pipelineState);
 	}
 
-	if (a_rootJson.contains("RTVFormatList"))
+	if (a_rootJson.contains(k_rtvFormatListJsonKey))
 	{
-		DeserializeRTVFormatList(a_rootJson["RTVFormatList"], a_pipelineState);
+		DeserializeRTVFormatList(a_rootJson[k_rtvFormatListJsonKey], a_pipelineState);
 	}
 
-	if (a_rootJson.contains("DSVFormat"))
+	if (a_rootJson.contains(k_dsvFormatJsonKey))
 	{
-		const auto l_dsvFormat = a_rootJson.value("DSVFormat", DXGI_FORMAT_UNKNOWN);
+		const auto l_dsvFormat = a_rootJson.value(k_dsvFormatJsonKey, DXGI_FORMAT_UNKNOWN);
 
 		a_pipelineState.SetDSVFormat(l_dsvFormat);
 	}
 
-	if (a_rootJson.contains("SampleDesc"))
+	if (a_rootJson.contains(k_sampleDescJsonKey))
 	{
-		DeserializeSampleDesc(a_rootJson["SampleDesc"], a_pipelineState);
+		DeserializeSampleDesc(a_rootJson[k_sampleDescJsonKey], a_pipelineState);
 	}
 
-	const auto l_useRootSignatureTag   = Utility::Json::DeserializeTag(a_rootJson,			    "UseRootSignatureTag");
-	const auto l_primitiveTopologyType = a_rootJson.value			  ("PrimitiveTopologyType", D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
-	const auto l_sampleMask			   = a_rootJson.value			  ("SampleMask",		    UINT_MAX);
+	const auto l_useRootSignatureTag   = Utility::Json::DeserializeTag(a_rootJson,			           k_useRootSignatureTagJsonKey);
+	const auto l_primitiveTopologyType = a_rootJson.value			  (k_primitiveTopologyTypeJsonKey, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+	const auto l_sampleMask			   = a_rootJson.value			  (k_sampleMaskJsonKey,		       UINT_MAX);
 
 	a_pipelineState.SetUseRootSignatureTag  (l_useRootSignatureTag);
 	a_pipelineState.SetPrimitiveTopologyType(l_primitiveTopologyType);
@@ -74,31 +74,31 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::Serialize(const Graph
 	if (auto& l_amplificationShader = a_pipelineState.GetREFAmplificationShader();
 		l_amplificationShader)
 	{
-		l_rootJson["AmplificationShader"] = l_amplificationShader->Serialize();
+		l_rootJson[k_amplificationShaderJsonKey] = l_amplificationShader->Serialize();
 	}
 
 	auto& l_meshShader = a_pipelineState.GetREFMeshShader();
 	
-	l_rootJson["MeshShader"] = l_meshShader.Serialize();
+	l_rootJson[k_meshShaderJsonKey] = l_meshShader.Serialize();
 
 	if(auto& l_pixelShader = a_pipelineState.GetREFPixelShader();
 	   l_pixelShader)
 	{
-		l_rootJson["PixelShader"] = l_pixelShader->Serialize();
+		l_rootJson[k_pixelShaderJsonKey] = l_pixelShader->Serialize();
 	}
 
-	l_rootJson["RasterizerDesc"]   = SerializeRasterizerDesc        (a_pipelineState);
-	l_rootJson["BlendDesc"]        = SerializeBlendDesc	            (a_pipelineState);
-	l_rootJson["DepthStencilDesc"] = SerializeDepthStencilDesc      (a_pipelineState);
-	l_rootJson["RTVFormatList"]    = SerializeRTVFormatList         (a_pipelineState);
-	l_rootJson["DSVFormat"]        = a_pipelineState.GetVALDSVFormat();
-	l_rootJson["SampleDesc"]	   = SerializeSampleDesc	        (a_pipelineState);
+	l_rootJson[k_rasterizerDescJsonKey]   = SerializeRasterizerDesc        (a_pipelineState);
+	l_rootJson[k_blendDescJsonKey]        = SerializeBlendDesc	           (a_pipelineState);
+	l_rootJson[k_depthStencilDescJsonKey] = SerializeDepthStencilDesc      (a_pipelineState);
+	l_rootJson[k_rtvFormatListJsonKey]    = SerializeRTVFormatList         (a_pipelineState);
+	l_rootJson[k_dsvFormatJsonKey]        = a_pipelineState.GetVALDSVFormat();
+	l_rootJson[k_sampleDescJsonKey]	      = SerializeSampleDesc	           (a_pipelineState);
 
 	// 使用するルートシグネチャのタグをシリアライズ
-	Utility::Json::UpdateJson(l_rootJson, Utility::Json::SerializeTag(a_pipelineState.GetVALUseRootSignatureTag(), "UseRootSignatureTag"));
+	Utility::Json::UpdateJson(l_rootJson, Utility::Json::SerializeTag(a_pipelineState.GetVALUseRootSignatureTag(), k_useRootSignatureTagJsonKey));
 
-	l_rootJson["PrimitiveTopologyType"] = a_pipelineState.GetVALPrimitiveTopologyType();
-	l_rootJson["SampleMask"]            = a_pipelineState.GetVALSampleMask           ();
+	l_rootJson[k_primitiveTopologyTypeJsonKey] = a_pipelineState.GetVALPrimitiveTopologyType();
+	l_rootJson[k_sampleMaskJsonKey]            = a_pipelineState.GetVALSampleMask           ();
 
 	return l_rootJson;
 }
@@ -121,37 +121,37 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeRasterizerDesc(const
 	D3D12_RASTERIZER_DESC l_rasterizerDesc = {};
 
 	// FillMode : ポリゴンを塗りつぶすか、ワイヤーフレームで描くか
-	l_rasterizerDesc.FillMode = a_rootJson.value("FillMode", D3D12_FILL_MODE_SOLID);
+	l_rasterizerDesc.FillMode = a_rootJson.value(k_fillModeJsonKey, D3D12_FILL_MODE_SOLID);
 
 	// CullMode : 前面 / 背面のどちらを描画しないか
-	l_rasterizerDesc.CullMode = a_rootJson.value("CullMode", D3D12_CULL_MODE_BACK);
+	l_rasterizerDesc.CullMode = a_rootJson.value(k_cullModeJsonKey, D3D12_CULL_MODE_BACK);
 
 	// FrontCounterClockwise : 反時計回りを前面扱いするか
-	l_rasterizerDesc.FrontCounterClockwise = a_rootJson.value("FrontCounterClockwise", FALSE);
+	l_rasterizerDesc.FrontCounterClockwise = a_rootJson.value(k_frontCounterClockwiseJsonKey, FALSE);
 
 	// DepthBias : 深度値に加える補正値
-	l_rasterizerDesc.DepthBias = a_rootJson.value("DepthBias", D3D12_DEFAULT_DEPTH_BIAS);
+	l_rasterizerDesc.DepthBias = a_rootJson.value(k_depthBiasJsonKey, D3D12_DEFAULT_DEPTH_BIAS);
 
 	// DepthBiasClamp : 深度バイアスの最大補正量
-	l_rasterizerDesc.DepthBiasClamp = a_rootJson.value("DepthBiasClamp", D3D12_DEFAULT_DEPTH_BIAS_CLAMP);
+	l_rasterizerDesc.DepthBiasClamp = a_rootJson.value(k_depthBiasClampJsonKey, D3D12_DEFAULT_DEPTH_BIAS_CLAMP);
 
 	// SlopeScaledDepthBias : 面の傾きに応じて増える深度バイアス係数
-	l_rasterizerDesc.SlopeScaledDepthBias = a_rootJson.value("SlopeScaledDepthBias", D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS);
+	l_rasterizerDesc.SlopeScaledDepthBias = a_rootJson.value(k_slopeScaledDepthBiasJsonKey, D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS);
 
 	// DepthClipEnable : 深度範囲外のピクセルをクリップするか
-	l_rasterizerDesc.DepthClipEnable = a_rootJson.value("DepthClipEnable", TRUE);
+	l_rasterizerDesc.DepthClipEnable = a_rootJson.value(k_depthClipEnableJsonKey, TRUE);
 
 	// MultisampleEnable : MSAA関連のラスタライズ設定
-	l_rasterizerDesc.MultisampleEnable = a_rootJson.value("MultisampleEnable", FALSE);
+	l_rasterizerDesc.MultisampleEnable = a_rootJson.value(k_multisampleEnableJsonKey, FALSE);
 
 	// AntialiasedLineEnable : 線描画時のアンチエイリアスを有効にするか
-	l_rasterizerDesc.AntialiasedLineEnable = a_rootJson.value("AntialiasedLineEnable", FALSE);
+	l_rasterizerDesc.AntialiasedLineEnable = a_rootJson.value(k_antialiasedLineEnableJsonKey, FALSE);
 
 	// ForcedSampleCount : 強制サンプル数(通常は0)
-	l_rasterizerDesc.ForcedSampleCount = a_rootJson.value("ForcedSampleCount", k_noForcedSampleCount);
+	l_rasterizerDesc.ForcedSampleCount = a_rootJson.value(k_forcedSampleCountJsonKey, k_noForcedSampleCount);
 
 	// ConservativeRaster : 保守的ラスタライズを使うか
-	l_rasterizerDesc.ConservativeRaster = a_rootJson.value("ConservativeRaster", D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF);
+	l_rasterizerDesc.ConservativeRaster = a_rootJson.value(k_conservativeRasterJsonKey, D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF);
 
 	a_pipelineState.SetRasterizerDesc(l_rasterizerDesc);
 }
@@ -162,15 +162,15 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeBlendDesc(const nloh
 	D3D12_BLEND_DESC l_blendDesc = {};
 
 	// AlphaToCoverageEnable : MSAA使用時にalpha値からサンプル被覆率を作るか
-	l_blendDesc.AlphaToCoverageEnable = a_rootJson.value("AlphaToCoverageEnable", FALSE);
+	l_blendDesc.AlphaToCoverageEnable = a_rootJson.value(k_alphaToCoverageEnableJsonKey, FALSE);
 
 	// IndependentBlendEnable : 複数RenderTargetごとに別々のブレンド設定を使うか
-	l_blendDesc.IndependentBlendEnable = a_rootJson.value("IndependentBlendEnable", FALSE);
+	l_blendDesc.IndependentBlendEnable = a_rootJson.value(k_independentBlendEnableJsonKey, FALSE);
 
 	// RenderTarget : 各RenderTargetごとのブレンド設定配列
-	if (Utility::Json::IsArray(a_rootJson, "RenderTarget"))
+	if (Utility::Json::IsArray(a_rootJson, k_renderTargetJsonKey))
 	{
-		const auto& l_jsonArray = a_rootJson["RenderTarget"];
+		const auto& l_jsonArray = a_rootJson[k_renderTargetJsonKey];
 
 		for (std::size_t l_i = 0U; l_i < l_jsonArray.size(); ++l_i)
 		{
@@ -184,34 +184,34 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeBlendDesc(const nloh
 				  auto& l_renderTarget = l_blendDesc.RenderTarget[l_i];
 
 			// BlendEnable : ブレンド演算を有効にするか
-			l_renderTarget.BlendEnable = l_json.value("BlendEnable", FALSE);
+			l_renderTarget.BlendEnable = l_json.value(k_blendEnableJsonKey, FALSE);
 
 			// LogicOpEnable : 論理演算を有効にするか
-			l_renderTarget.LogicOpEnable = l_json.value("LogicOpEnable", FALSE);
+			l_renderTarget.LogicOpEnable = l_json.value(k_logicOPEnableJsonKey, FALSE);
 
 			// SrcBlend : カラー計算時のソース係数
-			l_renderTarget.SrcBlend = l_json.value("SrcBlend", D3D12_BLEND_ONE);
+			l_renderTarget.SrcBlend = l_json.value(k_srcBlendJsonKey, D3D12_BLEND_ONE);
 
 			// DestBlend : カラー計算時のデスティネーション係数
-			l_renderTarget.DestBlend = l_json.value("DestBlend", D3D12_BLEND_ZERO);
+			l_renderTarget.DestBlend = l_json.value(k_destBlendJsonKey, D3D12_BLEND_ZERO);
 
 			// BlendOp : カラー計算時のブレンド演算
-			l_renderTarget.BlendOp = l_json.value("BlendOp", D3D12_BLEND_OP_ADD);
+			l_renderTarget.BlendOp = l_json.value(k_blendOPJsonKey, D3D12_BLEND_OP_ADD);
 
 			// SrcBlendAlpha : alpha計算時のデスティネーション係数
-			l_renderTarget.SrcBlendAlpha = l_json.value("SrcBlendAlpha", D3D12_BLEND_ONE);
+			l_renderTarget.SrcBlendAlpha = l_json.value(k_srcBlendAlphaJsonKey, D3D12_BLEND_ONE);
 
 			// DestBlendAlpha : alpha計算時のデスティネーション係数
-			l_renderTarget.DestBlendAlpha = l_json.value("DestBlendAlpha", D3D12_BLEND_ZERO);
+			l_renderTarget.DestBlendAlpha = l_json.value(k_destBlendAlphaJsonKey, D3D12_BLEND_ZERO);
 
 			// BlendOpAlpha : alpha計算時のブレンド演算
-			l_renderTarget.BlendOpAlpha = l_json.value("BlendOpAlpha", D3D12_BLEND_OP_ADD);
+			l_renderTarget.BlendOpAlpha = l_json.value(k_blendOPAlphaJsonKey, D3D12_BLEND_OP_ADD);
 
 			// LogicOp : 論理演算の種類
-			l_renderTarget.LogicOp = l_json.value("LogicOp", D3D12_LOGIC_OP_NOOP);
+			l_renderTarget.LogicOp = l_json.value(k_logicOPJsonKey, D3D12_LOGIC_OP_NOOP);
 
 			// RenderTargetWriteMask : 書き込み対象RGBAチャンネルのビットマスク
-			l_renderTarget.RenderTargetWriteMask = l_json.value("RenderTargetWriteMask", static_cast<UINT8>(D3D12_COLOR_WRITE_ENABLE_ALL));
+			l_renderTarget.RenderTargetWriteMask = l_json.value(k_renderTargetWriteMaskJsonKey, static_cast<UINT8>(D3D12_COLOR_WRITE_ENABLE_ALL));
 		}
 	}
 
@@ -224,27 +224,27 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeDepthStencilDesc(con
 	D3D12_DEPTH_STENCIL_DESC l_depthStencilDesc = {};
 
 	// DepthEnable : 深度テストを有効にするか
-	l_depthStencilDesc.DepthEnable = a_rootJson.value("DepthEnable", FALSE);
+	l_depthStencilDesc.DepthEnable = a_rootJson.value(k_depthEnableJsonKey, FALSE);
 
 	// DepthWriteMask : 深度バッファへ書き込むか
-	l_depthStencilDesc.DepthWriteMask = a_rootJson.value("DepthWriteMask", D3D12_DEPTH_WRITE_MASK_ALL);
+	l_depthStencilDesc.DepthWriteMask = a_rootJson.value(k_depthWriteMaskJsonKey, D3D12_DEPTH_WRITE_MASK_ALL);
 
 	// DepthFunc : 深度比較方法
-	l_depthStencilDesc.DepthFunc = a_rootJson.value("DepthFunc", D3D12_COMPARISON_FUNC_LESS);
+	l_depthStencilDesc.DepthFunc = a_rootJson.value(k_depthFUNCJsonKey, D3D12_COMPARISON_FUNC_LESS);
 
 	// StencilEnable : ステンシルテストを有効にするか
-	l_depthStencilDesc.StencilEnable = a_rootJson.value("StencilEnable", FALSE);
+	l_depthStencilDesc.StencilEnable = a_rootJson.value(k_stencilEnableJsonKey, FALSE);
 
 	// StencilReadMask : ステンシル値を読むときのビットマスク
-	l_depthStencilDesc.StencilReadMask = a_rootJson.value("StencilReadMask", static_cast<UINT8>(D3D12_DEFAULT_STENCIL_READ_MASK));
+	l_depthStencilDesc.StencilReadMask = a_rootJson.value(k_stencilReadMaskJsonKey, static_cast<UINT8>(D3D12_DEFAULT_STENCIL_READ_MASK));
 
 	// StencilWriteMask : ステンシル値を書き込むときのビットマスク
-	l_depthStencilDesc.StencilWriteMask = a_rootJson.value("StencilWriteMask", static_cast<UINT8>(D3D12_DEFAULT_STENCIL_WRITE_MASK));
+	l_depthStencilDesc.StencilWriteMask = a_rootJson.value(k_stencilWriteMaskJsonKey, static_cast<UINT8>(D3D12_DEFAULT_STENCIL_WRITE_MASK));
 
 	// FrontFace : 前面ポリゴンに対するステンシル動作
-	if (a_rootJson.contains("FrontFace"))
+	if (a_rootJson.contains(k_frontFaceJsonKey))
 	{
-		DeserializeDepthStencilOpDesc(a_rootJson["FrontFace"], l_depthStencilDesc.FrontFace);
+		DeserializeDepthStencilOpDesc(a_rootJson[k_frontFaceJsonKey], l_depthStencilDesc.FrontFace);
 	}
 	else
 	{
@@ -255,9 +255,9 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeDepthStencilDesc(con
 	}
 
 	// BackFace : 背面ポリゴンに対するステンシル動作
-	if (a_rootJson.contains("BackFace"))
+	if (a_rootJson.contains(k_backFaceJsonKey))
 	{
-		DeserializeDepthStencilOpDesc(a_rootJson["BackFace"], l_depthStencilDesc.BackFace);
+		DeserializeDepthStencilOpDesc(a_rootJson[k_backFaceJsonKey], l_depthStencilDesc.BackFace);
 	}
 	else
 	{
@@ -290,10 +290,10 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeSampleDesc(const nlo
 	DXGI_SAMPLE_DESC l_sampleDesc = {};
 
 	// MSAAのサンプル数。通常描画の既定値は1。
-	l_sampleDesc.Count = a_rootJson.value("Count", Constant::k_defaultSampleCount);
+	l_sampleDesc.Count = a_rootJson.value(k_countJsonKey, Constant::k_defaultSampleCount);
 
 	// サンプル品質レベル通常の既定値は0。
-	l_sampleDesc.Quality = a_rootJson.value("Quality", Constant::k_defaultSampleQuality);
+	l_sampleDesc.Quality = a_rootJson.value(k_qualityJsonKey, Constant::k_defaultSampleQuality);
 
 	a_pipelineState.SetSampleDesc(l_sampleDesc);
 }
@@ -304,38 +304,38 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeRasterizerDe
 	const auto&    l_rasterizerDesc = a_pipelineState.GetREFRasterizerDesc();
 
 	// FillMode : ポリゴンを塗りつぶすか、ワイヤーフレームで描くか
-	l_rootJson["FillMode"] = l_rasterizerDesc.FillMode;
+	l_rootJson[k_fillModeJsonKey] = l_rasterizerDesc.FillMode;
 
 	// CullMode : 前面 / 背面のどちらを描画しないか
-	l_rootJson["CullMode"] = l_rasterizerDesc.CullMode;
+	l_rootJson[k_cullModeJsonKey] = l_rasterizerDesc.CullMode;
 
 	// FrontCounterClockwise : 反時計回りを前面扱いするか
-	l_rootJson["FrontCounterClockwise"] = l_rasterizerDesc.FrontCounterClockwise;
+	l_rootJson[k_frontCounterClockwiseJsonKey] = l_rasterizerDesc.FrontCounterClockwise;
 
 	// DepthBias : 深度値に加える補正値
-	l_rootJson["DepthBias"] = l_rasterizerDesc.DepthBias;
+	l_rootJson[k_depthBiasJsonKey] = l_rasterizerDesc.DepthBias;
 
 	// DepthBiasClamp : 深度バイアスの最大補正量
 	
-	l_rootJson["DepthBiasClamp"] = l_rasterizerDesc.DepthBiasClamp;
+	l_rootJson[k_depthBiasClampJsonKey] = l_rasterizerDesc.DepthBiasClamp;
 
 	// SlopeScaledDepthBias : 面の傾きに応じて増える深度バイアス係数
-	l_rootJson["SlopeScaledDepthBias"] = l_rasterizerDesc.SlopeScaledDepthBias;
+	l_rootJson[k_slopeScaledDepthBiasJsonKey] = l_rasterizerDesc.SlopeScaledDepthBias;
 
 	// DepthClipEnable : 深度範囲外のピクセルをクリップするか
-	l_rootJson["DepthClipEnable"] = l_rasterizerDesc.DepthClipEnable;
+	l_rootJson[k_depthClipEnableJsonKey] = l_rasterizerDesc.DepthClipEnable;
 
 	// MultisampleEnable : MSAA関連のラスタライズ設定
-	l_rootJson["MultisampleEnable"] = l_rasterizerDesc.MultisampleEnable;
+	l_rootJson[k_multisampleEnableJsonKey] = l_rasterizerDesc.MultisampleEnable;
 
 	// AntialiasedLineEnable : 線描画時のアンチエイリアスを有効にするか
-	l_rootJson["AntialiasedLineEnable"] = l_rasterizerDesc.AntialiasedLineEnable;
+	l_rootJson[k_antialiasedLineEnableJsonKey] = l_rasterizerDesc.AntialiasedLineEnable;
 
 	// ForcedSampleCount : 強制サンプル数(通常は0)
-	l_rootJson["ForcedSampleCount"] = l_rasterizerDesc.ForcedSampleCount;
+	l_rootJson[k_forcedSampleCountJsonKey] = l_rasterizerDesc.ForcedSampleCount;
 
 	// ConservativeRaster : 保守的ラスタライズを使うか
-	l_rootJson["ConservativeRaster"] = l_rasterizerDesc.ConservativeRaster;
+	l_rootJson[k_conservativeRasterJsonKey] = l_rasterizerDesc.ConservativeRaster;
 
 	return l_rootJson;
 }
@@ -345,10 +345,10 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeBlendDesc(co
 	const auto&    l_blendDesc = a_pipelineState.GetREFBlendDesc();
 
 	// AlphaToCoverageEnable : MSAA使用時にalpha値からサンプル被覆率を作るか
-	l_rootJson["AlphaToCoverageEnable"] = l_blendDesc.AlphaToCoverageEnable;
+	l_rootJson[k_alphaToCoverageEnableJsonKey] = l_blendDesc.AlphaToCoverageEnable;
 
 	// IndependentBlendEnable : 複数RenderTargetごとに別々のブレンド設定を使うか
-	l_rootJson["IndependentBlendEnable"] = l_blendDesc.IndependentBlendEnable;
+	l_rootJson[k_independentBlendEnableJsonKey] = l_blendDesc.IndependentBlendEnable;
 
 	auto l_jsonArray = nlohmann::json::array();
 
@@ -357,39 +357,39 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeBlendDesc(co
 		auto l_json = nlohmann::json();
 
 		// BlendEnable : ブレンド演算を有効にするか
-		l_json["BlendEnable"] = l_renderTarget.BlendEnable;
+		l_json[k_blendEnableJsonKey] = l_renderTarget.BlendEnable;
 
 		// LogicOpEnable : 論理演算を有効にするか
-		l_json["LogicOpEnable"] = l_renderTarget.LogicOpEnable;
+		l_json[k_logicOPEnableJsonKey] = l_renderTarget.LogicOpEnable;
 
 		// SrcBlend : カラー計算時のソース係数
-		l_json["SrcBlend"] = l_renderTarget.SrcBlend;
+		l_json[k_srcBlendJsonKey] = l_renderTarget.SrcBlend;
 
 		// DestBlend : カラー計算時のデスティネーション係数
-		l_json["DestBlend"] = l_renderTarget.DestBlend;
+		l_json[k_destBlendJsonKey] = l_renderTarget.DestBlend;
 
 		// BlendOp : カラー計算時のブレンド演算
-		l_json["BlendOp"] = l_renderTarget.BlendOp;
+		l_json[k_blendOPJsonKey] = l_renderTarget.BlendOp;
 
 		// SrcBlendAlpha : alpha計算時のソース係数
-		l_json["SrcBlendAlpha"] = l_renderTarget.SrcBlendAlpha;
+		l_json[k_srcBlendAlphaJsonKey] = l_renderTarget.SrcBlendAlpha;
 
 		// DestBlendAlpha : alpha計算時のソース係数
-		l_json["DestBlendAlpha"] = l_renderTarget.DestBlendAlpha;
+		l_json[k_destBlendAlphaJsonKey] = l_renderTarget.DestBlendAlpha;
 
 		// BlendOpAlpha : alpha計算時のブレンド演算
-		l_json["BlendOpAlpha"] = l_renderTarget.BlendOpAlpha;
+		l_json[k_blendOPAlphaJsonKey] = l_renderTarget.BlendOpAlpha;
 
 		// LogicOp : 論理演算の種類
-		l_json["LogicOp"] = l_renderTarget.LogicOp;
+		l_json[k_logicOPJsonKey] = l_renderTarget.LogicOp;
 
 		// RenderTargetWriteMask : 書き込み対象RGBAチャンネルのビットマスク
-		l_json["RenderTargetWriteMask"] = l_renderTarget.RenderTargetWriteMask;
+		l_json[k_renderTargetWriteMaskJsonKey] = l_renderTarget.RenderTargetWriteMask;
 
 		l_jsonArray.emplace_back(l_json);
 	}
 
-	l_rootJson["RenderTarget"] = l_jsonArray;
+	l_rootJson[k_renderTargetJsonKey] = l_jsonArray;
 
 	return l_rootJson;
 }
@@ -399,28 +399,28 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeDepthStencil
 	const auto&	   l_depthStencilDesc = a_pipelineState.GetREFDepthStencilDesc();
 
 	// DepthEnable : 深度テストを有効にするか
-	l_rootJson["DepthEnable"] = l_depthStencilDesc.DepthEnable;
+	l_rootJson[k_depthEnableJsonKey] = l_depthStencilDesc.DepthEnable;
 
 	// DepthWriteMask : 深度バッファへ書き込むか
-	l_rootJson["DepthWriteMask"] = l_depthStencilDesc.DepthWriteMask;
+	l_rootJson[k_depthWriteMaskJsonKey] = l_depthStencilDesc.DepthWriteMask;
 
 	// DepthFunc : 深度比較方法
-	l_rootJson["DepthFunc"] = l_depthStencilDesc.DepthFunc;
+	l_rootJson[k_depthFUNCJsonKey] = l_depthStencilDesc.DepthFunc;
 
 	// StencilEnable : ステンシルテストを有効にするか
-	l_rootJson["StencilEnable"] = l_depthStencilDesc.StencilEnable;
+	l_rootJson[k_stencilEnableJsonKey] = l_depthStencilDesc.StencilEnable;
 
 	// StencilReadMask : ステンシル値を読むときのビットマスク
-	l_rootJson["StencilReadMask"] = l_depthStencilDesc.StencilReadMask;
+	l_rootJson[k_stencilReadMaskJsonKey] = l_depthStencilDesc.StencilReadMask;
 	
 	// StencilWriteMask : ステンシル値を書き込むときのビットマスク
-	l_rootJson["StencilWriteMask"] = l_depthStencilDesc.StencilWriteMask;
+	l_rootJson[k_stencilWriteMaskJsonKey] = l_depthStencilDesc.StencilWriteMask;
 
 	// FrontFace : 前面ポリゴンに対するステンシル動作
-	l_rootJson["FrontFace"] = SerializeDepthStencilOPDesc(l_depthStencilDesc.FrontFace);
+	l_rootJson[k_frontFaceJsonKey] = SerializeDepthStencilOPDesc(l_depthStencilDesc.FrontFace);
 
 	// BackFace : 背面ポリゴンに対するステンシル動作
-	l_rootJson["BackFace"] = SerializeDepthStencilOPDesc(l_depthStencilDesc.BackFace);
+	l_rootJson[k_backFaceJsonKey] = SerializeDepthStencilOPDesc(l_depthStencilDesc.BackFace);
 
 	return l_rootJson;
 }
@@ -429,16 +429,16 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeDepthStencil
 	nlohmann::json l_rootJson = {};
 
 	// StencilFailOp : ステンシルテスト失敗時の動作
-	l_rootJson["StencilFailOp"] = a_depthStencilOPDesc.StencilFailOp;
+	l_rootJson[k_stencilFailOpJsonKey] = a_depthStencilOPDesc.StencilFailOp;
 
 	// StencilDepthFail : ステンシル成功かつ深度失敗時の動作
-	l_rootJson["StencilDepthFailOp"] = a_depthStencilOPDesc.StencilDepthFailOp;
+	l_rootJson[k_stencilDepthFailOpJsonKey] = a_depthStencilOPDesc.StencilDepthFailOp;
 
 	// StencilPassOp : ステンシル成功かつ深度成功時の動作
-	l_rootJson["StencilPassOp"] = a_depthStencilOPDesc.StencilPassOp;
+	l_rootJson[k_stencilPassOpJsonKey] = a_depthStencilOPDesc.StencilPassOp;
 
 	// StencilFunc : ステンシル比較方法
-	l_rootJson["StencilFunc"] = a_depthStencilOPDesc.StencilFunc;
+	l_rootJson[k_stencilFUNCJsonKey] = a_depthStencilOPDesc.StencilFunc;
 
 	return l_rootJson;
 }
@@ -459,8 +459,8 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeSampleDesc(c
 	nlohmann::json l_rootJson   = {};
 	const auto&	   l_sampleDesc = a_pipelineState.GetREFSampleDesc();
 
-	l_rootJson["Count"]   = l_sampleDesc.Count;
-	l_rootJson["Quality"] = l_sampleDesc.Quality;
+	l_rootJson[k_countJsonKey]   = l_sampleDesc.Count;
+	l_rootJson[k_qualityJsonKey] = l_sampleDesc.Quality;
 	
 	return l_rootJson;
 }
@@ -477,16 +477,16 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeDepthStencilOpDesc(c
 	}
 	
 	// StencilFailOp : ステンシルテスト失敗時の動作
-	a_depthStencilOPDesc.StencilFailOp = a_rootJson.value("StencilFailOp", D3D12_STENCIL_OP_KEEP);
+	a_depthStencilOPDesc.StencilFailOp = a_rootJson.value(k_stencilFailOpJsonKey, D3D12_STENCIL_OP_KEEP);
 
 	// StencilDepthFailOp : ステンシル成功かつ深度失敗時の動作
-	a_depthStencilOPDesc.StencilDepthFailOp = a_rootJson.value("StencilDepthFailOp", D3D12_STENCIL_OP_KEEP);
+	a_depthStencilOPDesc.StencilDepthFailOp = a_rootJson.value(k_stencilDepthFailOpJsonKey, D3D12_STENCIL_OP_KEEP);
 
 	// StencilPassOp : ステンシル成功かつ深度成功時の動作
-	a_depthStencilOPDesc.StencilPassOp = a_rootJson.value("StencilPassOp", D3D12_STENCIL_OP_KEEP);
+	a_depthStencilOPDesc.StencilPassOp = a_rootJson.value(k_stencilPassOpJsonKey, D3D12_STENCIL_OP_KEEP);
 
 	// StencilFunc : ステンシル比較方法
-	a_depthStencilOPDesc.StencilFunc = a_rootJson.value("StencilFunc", D3D12_COMPARISON_FUNC_ALWAYS);
+	a_depthStencilOPDesc.StencilFunc = a_rootJson.value(k_stencilFUNCJsonKey, D3D12_COMPARISON_FUNC_ALWAYS);
 }
 
 void FWK::Converter::PipelineStateJsonConverter::EnsureShader(std::shared_ptr<Graphics::Shader>& a_shader) const

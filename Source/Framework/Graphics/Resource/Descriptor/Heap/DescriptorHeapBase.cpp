@@ -14,7 +14,7 @@ FWK::Graphics::DescriptorHeapBase::DescriptorHeapBase(const D3D12_DESCRIPTOR_HEA
 {}
 FWK::Graphics::DescriptorHeapBase::~DescriptorHeapBase() = default;
 
-bool FWK::Graphics::DescriptorHeapBase::Create(const UINT a_descriptorCapacity, const Device& a_device)
+bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const UINT a_descriptorCapacity)
 {
 	const auto& l_device = a_device.GetREFDevice();
 

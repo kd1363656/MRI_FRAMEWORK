@@ -4,7 +4,7 @@ void FWK::JsonConverter::UploadSystemJsonConverter::Deserialize(const nlohmann::
 {
 	if (a_rootJson.is_null()) { return; }
 	
-	auto l_copyCommandAllocatorListSize = a_rootJson.value("CopyCommandAllocatorListSize", k_defaultCopyCommandAllocatorListSize);
+	auto l_copyCommandAllocatorListSize = a_rootJson.value(k_copyCommandAllocatorListSizeJsonKey, k_defaultCopyCommandAllocatorListSize);
 
 	// コピーコマンドアロケータが最低一つでもある状態にする
 	l_copyCommandAllocatorListSize = std::max(l_copyCommandAllocatorListSize, k_minCopyCommandAllocatorListSize);
@@ -21,7 +21,7 @@ nlohmann::json FWK::JsonConverter::UploadSystemJsonConverter::Serialize(const Gr
 
 	const auto& l_copyCommandAllocatorList = a_uploadSystem.GetREFCopyCommandAllocatorList();
 
-	l_rootJson["CopyCommandAllocatorListSize"] = l_copyCommandAllocatorList.size();
+	l_rootJson[k_copyCommandAllocatorListSizeJsonKey] = l_copyCommandAllocatorList.size();
 
 	return l_rootJson;
 }

@@ -5,29 +5,29 @@ void FWK::JsonConverter::RootSignatureJsonConverter::Deserialize(const nlohmann:
 	if (a_rootJson.is_null()) { return; }
 
 	// タグに対応したルートパラメータアクセス用インデックスを読み込む
-	if (Utility::Json::IsArray(a_rootJson, "RootParameterIndexMap"))
+	if (Utility::Json::IsArray(a_rootJson, k_rootParameterIndexMapJsonKey))
 	{
-		DeserializeRootParameterIndexMap(a_rootJson["RootParameterIndexMap"], a_rootSignature);
+		DeserializeRootParameterIndexMap(a_rootJson[k_rootParameterIndexMapJsonKey], a_rootSignature);
 	}
 
 	// ルートパラメータを読み込む
-	if (Utility::Json::IsArray(a_rootJson, "RootParameterList"))
+	if (Utility::Json::IsArray(a_rootJson, k_rootParameterListJsonKey))
 	{
-		DeserializeRootParameterList(a_rootJson["RootParameterList"], a_rootSignature);
+		DeserializeRootParameterList(a_rootJson[k_rootParameterListJsonKey], a_rootSignature);
 	}
 
 	// StaticSamplerDescを読み込む
-	if (Utility::Json::IsArray(a_rootJson, "StaticSamplerDescList"))
+	if (Utility::Json::IsArray(a_rootJson, k_staticSamplerDescListJsonKey))
 	{
-		DeserializeStaticSamplerDescList(a_rootJson["StaticSamplerDescList"], a_rootSignature);
+		DeserializeStaticSamplerDescList(a_rootJson[k_staticSamplerDescListJsonKey], a_rootSignature);
 	}
 
 	// このルートシグネチャをパイプラインからどう使うかを決定するフラグ
 	// どのシェーダーステージからアクセスするか、InputAssemblerを使うかLocalRootSignatureかを決める
-	const auto l_flags = a_rootJson.value("RootSignatureFlags", D3D12_ROOT_SIGNATURE_FLAG_NONE);
+	const auto l_flags = a_rootJson.value(k_rootSignatureFlagsJsonKey, D3D12_ROOT_SIGNATURE_FLAG_NONE);
 
 	// どのバージョンのルートシグネチャ仕様でシリアライズするかを決める
-	const auto l_version = a_rootJson.value("RootSignatureVersion", D3D_ROOT_SIGNATURE_VERSION_1);
+	const auto l_version = a_rootJson.value(k_rootSignatureVersionJsonKey, D3D_ROOT_SIGNATURE_VERSION_1);
 
 	a_rootSignature.SetRootSignatureFlags  (l_flags);
 	a_rootSignature.SetRootSignatureVersion(l_version);
@@ -37,12 +37,12 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::Serialize(const G
 	nlohmann::json l_rootJson = {};
 
 	// ルートパラメータインデックス、ルートパラメータリスト、
-	l_rootJson["RootParameterIndexMap"] = SerializeRootParameterIndexMap(a_rootSignature);
-	l_rootJson["RootParameterList"]     = SerializeRootParameterList    (a_rootSignature);
-	l_rootJson["StaticSamplerDescList"] = SerializeStaticSamplerDescList(a_rootSignature);
+	l_rootJson[k_rootParameterIndexMapJsonKey] = SerializeRootParameterIndexMap(a_rootSignature);
+	l_rootJson[k_rootParameterListJsonKey]     = SerializeRootParameterList    (a_rootSignature);
+	l_rootJson[k_staticSamplerDescListJsonKey] = SerializeStaticSamplerDescList(a_rootSignature);
 
-	l_rootJson["RootSignatureFlags"]   = a_rootSignature.GetVALRootSignatureFlags  ();
-	l_rootJson["RootSignatureVersion"] = a_rootSignature.GetVALRootSignatureVersion();
+	l_rootJson[k_rootSignatureFlagsJsonKey]   = a_rootSignature.GetVALRootSignatureFlags  ();
+	l_rootJson[k_rootSignatureVersionJsonKey] = a_rootSignature.GetVALRootSignatureVersion();
 	
 	return l_rootJson;
 }
@@ -59,8 +59,8 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterInd
 
 	for (const auto& l_json : a_rootJson)
 	{
-		const auto l_tag   = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
-		const auto l_index = l_json.value                 ("Index", Constant::k_invalidRootParameterIndex);
+		const auto l_tag   = Utility::Json::DeserializeTag(l_json,         k_rootParameterTagJsonKey);
+		const auto l_index = l_json.value                 (k_indexJsonKey, Constant::k_invalidRootParameterIndex);
 
 		l_rootParameterIndexMap.try_emplace(l_tag, l_index);
 	}
@@ -86,13 +86,13 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 		const auto& l_json = a_rootJson[l_i];
 		
 		// ルートパラメータインデックスを取得するためのタグを格納
-		l_rootParameterRecordList[l_i].m_rootParameterTag = Utility::Json::DeserializeTag(l_json, "RootParameterTag");
+		l_rootParameterRecordList[l_i].m_rootParameterTag = Utility::Json::DeserializeTag(l_json, k_rootParameterTagJsonKey);
 
 		auto& l_rootParameterRecord = l_rootParameterRecordList[l_i].m_rootParameter;
 
 		// ルートパラメータの種類、シェーダー可視性を格納
-		l_rootParameterRecord.ParameterType    = l_json.value("ParameterType",    D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE);
-		l_rootParameterRecord.ShaderVisibility = l_json.value("ShaderVisibility", D3D12_SHADER_VISIBILITY_ALL);
+		l_rootParameterRecord.ParameterType    = l_json.value(k_parameterTypeJsonKey,    D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE);
+		l_rootParameterRecord.ShaderVisibility = l_json.value(k_shaderVisibilityJsonKey, D3D12_SHADER_VISIBILITY_ALL);
 
 		switch (l_rootParameterRecord.ParameterType)
 		{
@@ -105,13 +105,13 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
 			{
 				// b番号担当のシェーダーレジスタ番号
-				l_rootParameterRecord.Constants.ShaderRegister = l_json.value("ShaderRegister", k_defaultShaderRegister);
+				l_rootParameterRecord.Constants.ShaderRegister = l_json.value(k_shaderRegisterJsonKey, k_defaultShaderRegister);
 
 				// レジスタ空間
-				l_rootParameterRecord.Constants.RegisterSpace = l_json.value("RegisterSpace", k_defaultRegisterSpace);
+				l_rootParameterRecord.Constants.RegisterSpace = l_json.value(k_registerSpaceJsonKey, k_defaultRegisterSpace);
 
 				// 32bit値の個数
-				l_rootParameterRecord.Constants.Num32BitValues = l_json.value("Num32BitValues", k_defaultRootConstantsNum32BitValues);
+				l_rootParameterRecord.Constants.Num32BitValues = l_json.value(k_num32BitValuesJsonKey, k_defaultRootConstantsNum32BitValues);
 			}
 			break;
 
@@ -120,10 +120,10 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeRootParameterLis
 			case D3D12_ROOT_PARAMETER_TYPE_UAV:
 			{
 				// b / t/ u 番号
-				l_rootParameterRecord.Descriptor.ShaderRegister = l_json.value("ShaderRegister", k_defaultShaderRegister);
+				l_rootParameterRecord.Descriptor.ShaderRegister = l_json.value(k_shaderRegisterJsonKey, k_defaultShaderRegister);
 
 				// レジスタ空間
-				l_rootParameterRecord.Descriptor.RegisterSpace = l_json.value("RegisterSpace", k_defaultRegisterSpace);
+				l_rootParameterRecord.Descriptor.RegisterSpace = l_json.value(k_registerSpaceJsonKey, k_defaultRegisterSpace);
 			}
 			break;
 
@@ -157,44 +157,44 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeStaticSamplerDes
 			  auto& l_staticSamplerDesc = l_staticSamplerDescList[l_i];
 
 		// サンプリング方法
-		l_staticSamplerDesc.Filter = l_json.value("Filter", D3D12_FILTER_MIN_MAG_MIP_POINT);
+		l_staticSamplerDesc.Filter = l_json.value(k_filterJsonKey, D3D12_FILTER_MIN_MAG_MIP_POINT);
 		
 		// U方向のアドレスモード
-		l_staticSamplerDesc.AddressU = l_json.value("AddressU", D3D12_TEXTURE_ADDRESS_MODE_WRAP);
+		l_staticSamplerDesc.AddressU = l_json.value(k_addressUJsonKey, D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 		
 		// V方向のアドレスモード
-		l_staticSamplerDesc.AddressV = l_json.value("AddressV", D3D12_TEXTURE_ADDRESS_MODE_WRAP);
+		l_staticSamplerDesc.AddressV = l_json.value(k_addressVJsonKey, D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 
 		// W方向のアドレスモード
 		// 2Dテクスチャでは直接使わないことが多いが、基本形として合わせて設定する
-		l_staticSamplerDesc.AddressW = l_json.value("AddressW", D3D12_TEXTURE_ADDRESS_MODE_WRAP);
+		l_staticSamplerDesc.AddressW = l_json.value(k_addressWJsonKey, D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 
 		// MIPレベル計算時の補正値
-		l_staticSamplerDesc.MipLODBias = l_json.value("MipLODBias", k_defaultStaticSamplerMIPLODBias);
+		l_staticSamplerDesc.MipLODBias = l_json.value(k_mipLODBiasJsonKey, k_defaultStaticSamplerMIPLODBias);
 		
 		// 異方性フィルタ使用時の最大サンプル数
-		l_staticSamplerDesc.MaxAnisotropy = l_json.value("MaxAnisotropy", k_defaultStaticSamplerMAXAnisotropy);
+		l_staticSamplerDesc.MaxAnisotropy = l_json.value(k_maxAnisotropyJsonKey, k_defaultStaticSamplerMAXAnisotropy);
 		
 		// 比較サンプラーで使う比較関数
-		l_staticSamplerDesc.ComparisonFunc = l_json.value("ComparisonFunc", D3D12_COMPARISON_FUNC_ALWAYS);
+		l_staticSamplerDesc.ComparisonFunc = l_json.value(k_comparisonFUNCJsonKey, D3D12_COMPARISON_FUNC_ALWAYS);
 
 		// アドレスモード使用時の境界色の色
-		l_staticSamplerDesc.BorderColor = l_json.value("BorderColor", D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK);
+		l_staticSamplerDesc.BorderColor = l_json.value(k_borderColorJsonKey, D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK);
 		
 		// 参照可能な最小MIPレベル
-		l_staticSamplerDesc.MinLOD = l_json.value("MinLOD", k_defaultMINLOD);
+		l_staticSamplerDesc.MinLOD = l_json.value(k_minLODJsonKey, k_defaultMINLOD);
 		
 		// 参照可能な最大MIPレベル
-		l_staticSamplerDesc.MaxLOD = l_json.value("MaxLOD", D3D12_FLOAT32_MAX);
+		l_staticSamplerDesc.MaxLOD = l_json.value(k_maxLODJsonKey, D3D12_FLOAT32_MAX);
 		
 		// シェーダー側のSamplerRegister番号
-		l_staticSamplerDesc.ShaderRegister = l_json.value("ShaderRegister", k_defaultShaderRegister);
+		l_staticSamplerDesc.ShaderRegister = l_json.value(k_shaderRegisterJsonKey, k_defaultShaderRegister);
 
 		// Sampler用のRegisterSpace
-		l_staticSamplerDesc.RegisterSpace = l_json.value("RegisterSpace", k_defaultRegisterSpace);
+		l_staticSamplerDesc.RegisterSpace = l_json.value(k_registerSpaceJsonKey, k_defaultRegisterSpace);
 		
 		// このSamplerをどのシェーダーステージから見えるようにするか
-		l_staticSamplerDesc.ShaderVisibility = l_json.value("ShaderVisibility", D3D12_SHADER_VISIBILITY_PIXEL);
+		l_staticSamplerDesc.ShaderVisibility = l_json.value(k_shaderVisibilityJsonKey, D3D12_SHADER_VISIBILITY_PIXEL);
 	}
 }
 
@@ -209,9 +209,9 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 	{
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, "RootParameterTag"));
+		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, k_rootParameterTagJsonKey));
 
-		l_json["Index"] = l_value;
+		l_json[k_indexJsonKey] = l_value;
 
 		l_rootJsonArray.emplace_back(l_json);
 	}
@@ -229,24 +229,24 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 	{
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_rootParameter.m_rootParameterTag, "RootParameterTag"));
+		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_rootParameter.m_rootParameterTag, k_rootParameterTagJsonKey));
 
-		l_json["ParameterType"]    = l_rootParameter.m_rootParameter.ParameterType;
-		l_json["ShaderVisibility"] = l_rootParameter.m_rootParameter.ShaderVisibility;
+		l_json[k_parameterTypeJsonKey]    = l_rootParameter.m_rootParameter.ParameterType;
+		l_json[k_shaderVisibilityJsonKey] = l_rootParameter.m_rootParameter.ShaderVisibility;
 
 		switch(l_rootParameter.m_rootParameter.ParameterType)
 		{
 			case D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE:
 			{
-				l_json["DescriptorRangeList"] = SerializeDescriptorRangeList(l_rootParameter);
+				l_json[k_descriptorRangeListJsonKey] = SerializeDescriptorRangeList(l_rootParameter);
 			}
 			break;
 
 			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
 			{
-				l_json["ShaderRegister"] = l_rootParameter.m_rootParameter.Constants.ShaderRegister;
-				l_json["RegisterSpace"]  = l_rootParameter.m_rootParameter.Constants.RegisterSpace;
-				l_json["Num32BitValues"] = l_rootParameter.m_rootParameter.Constants.Num32BitValues;
+				l_json[k_shaderRegisterJsonKey] = l_rootParameter.m_rootParameter.Constants.ShaderRegister;
+				l_json[k_registerSpaceJsonKey]  = l_rootParameter.m_rootParameter.Constants.RegisterSpace;
+				l_json[k_num32BitValuesJsonKey] = l_rootParameter.m_rootParameter.Constants.Num32BitValues;
 			}
 			break;
 
@@ -254,8 +254,8 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeRootPara
 			case D3D12_ROOT_PARAMETER_TYPE_SRV:
 			case D3D12_ROOT_PARAMETER_TYPE_UAV:
 			{
-				l_json["ShaderRegister"] = l_rootParameter.m_rootParameter.Descriptor.ShaderRegister;
-				l_json["RegisterSpace"]  = l_rootParameter.m_rootParameter.Descriptor.RegisterSpace;
+				l_json[k_shaderRegisterJsonKey] = l_rootParameter.m_rootParameter.Descriptor.ShaderRegister;
+				l_json[k_registerSpaceJsonKey]  = l_rootParameter.m_rootParameter.Descriptor.RegisterSpace;
 			}
 			break;
 
@@ -283,44 +283,44 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeStaticSa
 		nlohmann::json l_json = {};
 
 		// サンプリング方法
-		l_json["Filter"] = l_staticSamplerDesc.Filter;
+		l_json[k_filterJsonKey] = l_staticSamplerDesc.Filter;
 		
 		// U方向のアドレスモード
-		l_json["AddressU"] = l_staticSamplerDesc.AddressU;
+		l_json[k_addressUJsonKey] = l_staticSamplerDesc.AddressU;
 		
 		// V方向のアドレスモード
-		l_json["AddressV"] = l_staticSamplerDesc.AddressV;
+		l_json[k_addressVJsonKey] = l_staticSamplerDesc.AddressV;
 
 		// W方向のアドレスモード
 		// 2Dテクスチャでは直接使わないことが多いが、基本形として合わせて設定する
-		l_json["AddressW"] = l_staticSamplerDesc.AddressW;
+		l_json[k_addressWJsonKey] = l_staticSamplerDesc.AddressW;
 
 		// MIPレベル計算時の補正値
-		l_json["MipLODBias"] = l_staticSamplerDesc.MipLODBias;
+		l_json[k_mipLODBiasJsonKey] = l_staticSamplerDesc.MipLODBias;
 		
 		// 異方性フィルタ使用時の最大サンプル数
-		l_json["MaxAnisotropy"] = l_staticSamplerDesc.MaxAnisotropy;
+		l_json[k_maxAnisotropyJsonKey] = l_staticSamplerDesc.MaxAnisotropy;
 		
 		// 比較サンプラーで使う比較関数
-		l_json["ComparisonFunc"] = l_staticSamplerDesc.ComparisonFunc;
+		l_json[k_comparisonFUNCJsonKey] = l_staticSamplerDesc.ComparisonFunc;
 
 		// アドレスモード使用時の境界色の色
-		l_json["BorderColor"] = l_staticSamplerDesc.BorderColor;
+		l_json[k_borderColorJsonKey] = l_staticSamplerDesc.BorderColor;
 		
 		// 参照可能な最小MIPレベル
-		l_json["MinLOD"] = l_staticSamplerDesc.MinLOD;
+		l_json[k_minLODJsonKey] = l_staticSamplerDesc.MinLOD;
 		
 		// 参照可能な最大MIPレベル
-		l_json["MaxLOD"] = l_staticSamplerDesc.MaxLOD;
+		l_json[k_maxLODJsonKey] = l_staticSamplerDesc.MaxLOD;
 		
 		// シェーダー側のSamplerRegister番号
-		l_json["ShaderRegister"] = l_staticSamplerDesc.ShaderRegister;
+		l_json[k_shaderRegisterJsonKey] = l_staticSamplerDesc.ShaderRegister;
 
 		// Sampler用のRegisterSpace
-		l_json["RegisterSpace"] = l_staticSamplerDesc.RegisterSpace;
+		l_json[k_registerSpaceJsonKey] = l_staticSamplerDesc.RegisterSpace;
 		
 		// このSamplerをどのシェーダーステージから見えるようにするか
-		l_json["ShaderVisibility"] = l_staticSamplerDesc.ShaderVisibility;
+		l_json[k_shaderVisibilityJsonKey] = l_staticSamplerDesc.ShaderVisibility;
 
 		l_rootJsonArray.emplace_back(l_json);
 	}
@@ -340,7 +340,7 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeL
 		return; 
 	}
 
-	if (!Utility::Json::IsArray(a_rootJson, "DescriptorRangeList")) 
+	if (!Utility::Json::IsArray(a_rootJson, k_descriptorRangeListJsonKey)) 
 	{
 		// 明示的にディスクリプタテーブルを使用しないように初期値を格納
 		a_rootParameterRecord.m_rootParameter.DescriptorTable.NumDescriptorRanges = k_invalidNUMDescriptorRange;
@@ -356,7 +356,7 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeL
 		l_descriptorRangeList = std::make_shared<std::vector<D3D12_DESCRIPTOR_RANGE>>();
 	}
 
-	const auto& l_jsonArray = a_rootJson["DescriptorRangeList"];
+	const auto& l_jsonArray = a_rootJson[k_descriptorRangeListJsonKey];
 
 	const auto& l_jsonArraySize = l_jsonArray.size();
 
@@ -372,19 +372,19 @@ void FWK::JsonConverter::RootSignatureJsonConverter::DeserializeDescriptorRangeL
 		auto& l_descriptorRange = (*l_descriptorRangeList)[l_i];
 
 		// このレンジに入るディスクリプタの種類
-		l_descriptorRange.RangeType = l_jsonArray[l_i].value("RangeType", D3D12_DESCRIPTOR_RANGE_TYPE_SRV);
+		l_descriptorRange.RangeType = l_jsonArray[l_i].value(k_rangeTypeJsonKey, D3D12_DESCRIPTOR_RANGE_TYPE_SRV);
 
 		// このレンジに含めるディスクリプタ数
-		l_descriptorRange.NumDescriptors = l_jsonArray[l_i].value("NumDescriptors", k_defaultDescriptorRangeNUMDescriptors);
+		l_descriptorRange.NumDescriptors = l_jsonArray[l_i].value(k_numDescriptorsJsonKey, k_defaultDescriptorRangeNUMDescriptors);
 
 		// シェーダーレジスタの開始番号
-		l_descriptorRange.BaseShaderRegister = l_jsonArray[l_i].value("BaseShaderRegister", k_defaultBaseShaderRegister);
+		l_descriptorRange.BaseShaderRegister = l_jsonArray[l_i].value(k_baseShaderRegisterJsonKey, k_defaultBaseShaderRegister);
 
 		// レジスタ空間
-		l_descriptorRange.RegisterSpace = l_jsonArray[l_i].value("RegisterSpace", k_defaultRegisterSpace);
+		l_descriptorRange.RegisterSpace = l_jsonArray[l_i].value(k_registerSpaceJsonKey, k_defaultRegisterSpace);
 
 		// ディスクリプタテーブル先頭からのオフセット
-		l_descriptorRange.OffsetInDescriptorsFromTableStart = l_jsonArray[l_i].value("OffsetInDescriptorsFromTableStart", D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND);
+		l_descriptorRange.OffsetInDescriptorsFromTableStart = l_jsonArray[l_i].value(k_offsetInDescriptorsFromTableStartJsonKey, D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND);
 	}
 
 	// ディスクリプタテーブルで使用するディスクリプタレンジの数
@@ -406,11 +406,11 @@ nlohmann::json FWK::JsonConverter::RootSignatureJsonConverter::SerializeDescript
 	{
 		nlohmann::json l_json = {};
 
-		l_json["RangeType"]                         = l_descriptorRange.RangeType;
-		l_json["NumDescriptors"]                    = l_descriptorRange.NumDescriptors;
-		l_json["BaseShaderRegister"]                = l_descriptorRange.BaseShaderRegister;
-		l_json["RegisterSpace"]                     = l_descriptorRange.RegisterSpace;
-		l_json["OffsetInDescriptorsFromTableStart"] = l_descriptorRange.OffsetInDescriptorsFromTableStart;
+		l_json[k_rangeTypeJsonKey]                         = l_descriptorRange.RangeType;
+		l_json[k_numDescriptorsJsonKey]                    = l_descriptorRange.NumDescriptors;
+		l_json[k_baseShaderRegisterJsonKey]                = l_descriptorRange.BaseShaderRegister;
+		l_json[k_registerSpaceJsonKey]                     = l_descriptorRange.RegisterSpace;
+		l_json[k_offsetInDescriptorsFromTableStartJsonKey] = l_descriptorRange.OffsetInDescriptorsFromTableStart;
 
 		l_rootJsonArray.emplace_back(l_json);
 	}

@@ -9,7 +9,7 @@ namespace FWK::Graphics
 		 UploadBuffer() = default;
 		~UploadBuffer() = default;
 
-		bool Create(const UINT64& a_bufferSize, const Device& a_device);
+		bool Create(const Device& a_device, const UINT64& a_bufferSize);
 
 		std::uint8_t* Map  () const;
 		void		  UnMap() const;

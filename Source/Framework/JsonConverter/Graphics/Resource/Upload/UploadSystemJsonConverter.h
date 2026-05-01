@@ -20,6 +20,8 @@ namespace FWK::JsonConverter
 
 	private:
 
+		static constexpr std::string_view k_copyCommandAllocatorListSizeJsonKey = "CopyCommandAllocatorListSize";
+
 		static constexpr std::size_t k_defaultCopyCommandAllocatorListSize = 3ULL;
 		static constexpr std::size_t k_minCopyCommandAllocatorListSize     = 1ULL;
 	};

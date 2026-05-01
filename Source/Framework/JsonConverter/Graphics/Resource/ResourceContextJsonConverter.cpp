@@ -4,25 +4,25 @@ void FWK::JsonConverter::ResourceContextJsonConverter::Deserialize(const nlohman
 {
 	if (a_rootJson.is_null()) { return; }
 
-	if (a_rootJson.contains("RTVDescriptorPool"))
+	if (a_rootJson.contains(k_rtvDescriptorPoolJsonKey))
 	{
 		auto& l_rtvDescriptorPool = a_resourceContext.GetMutableREFRTVDescriptorPool();
 
-		l_rtvDescriptorPool.Deserialize(a_rootJson["RTVDescriptorPool"]);
+		l_rtvDescriptorPool.Deserialize(a_rootJson[k_rtvDescriptorPoolJsonKey]);
 	}
 
-	if (a_rootJson.contains("SRVDescriptorPool"))
+	if (a_rootJson.contains(k_srvDescriptorPoolJsonKey))
 	{
 		auto& l_srvDescriptorPool = a_resourceContext.GetMutableREFSRVDescriptorPool();
 
-		l_srvDescriptorPool.Deserialize(a_rootJson["SRVDescriptorPool"]);
+		l_srvDescriptorPool.Deserialize(a_rootJson[k_srvDescriptorPoolJsonKey]);
 	}
 
-	if (a_rootJson.contains("UploadSystem"))
+	if (a_rootJson.contains(k_uploadSystemJsonKey))
 	{
 		auto& l_uploadSystem = a_resourceContext.GetMutableREFUploadSystem();
 
-		l_uploadSystem.Deserialize(a_rootJson["UploadSystem"]);
+		l_uploadSystem.Deserialize(a_rootJson[k_uploadSystemJsonKey]);
 	}
 }
 
@@ -35,10 +35,10 @@ nlohmann::json FWK::JsonConverter::ResourceContextJsonConverter::Serialize(const
 	
 	const auto& l_uploadSystem = a_resourceContext.GetREFUploadSystem();
 
-	l_rootJson["RTVDescriptorPool"] = l_rtvDescriptorPool.Serialize();
-	l_rootJson["SRVDescriptorPool"] = l_srvDescriptorPool.Serialize();
+	l_rootJson[k_rtvDescriptorPoolJsonKey] = l_rtvDescriptorPool.Serialize();
+	l_rootJson[k_srvDescriptorPoolJsonKey] = l_srvDescriptorPool.Serialize();
 
-	l_rootJson["UploadSystem"] = l_uploadSystem.Serialize();
+	l_rootJson[k_uploadSystemJsonKey] = l_uploadSystem.Serialize();
 
 	return l_rootJson;
 }

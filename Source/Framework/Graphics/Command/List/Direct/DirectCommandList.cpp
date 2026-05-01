@@ -5,7 +5,7 @@ FWK::Graphics::DirectCommandList::DirectCommandList() :
 {}
 FWK::Graphics::DirectCommandList::~DirectCommandList() = default;
 
-void FWK::Graphics::DirectCommandList::TransitionResource(const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState, const TypeAlias::ComPtr<ID3D12Resource2>& a_resource) const
+void FWK::Graphics::DirectCommandList::TransitionResource(const TypeAlias::ComPtr<ID3D12Resource2>& a_resource, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const
 {
 	if (!a_resource)
 	{
@@ -65,7 +65,7 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const D3D1
 	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex].m_backBufferResourceREF;
 
 	// リソースの状態遷移(Present -> RenderTarget)
-	TransitionResource(a_beforeState, a_afterState, l_backBuffer);
+	TransitionResource(l_backBuffer, a_beforeState, a_afterState);
 }
 
 void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const

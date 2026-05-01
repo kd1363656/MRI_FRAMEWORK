@@ -45,5 +45,42 @@ namespace FWK::JsonConverter
 		static constexpr UINT k_defaultDescriptorRangeNUMDescriptors = 0U;
 		static constexpr UINT k_defaultBaseShaderRegister            = 0U;
 		static constexpr UINT k_invalidNUMDescriptorRange            = 0U;
+
+		// RootSignature
+		static constexpr std::string_view k_rootParameterIndexMapJsonKey = "RootParameterIndexMap";
+		static constexpr std::string_view k_rootParameterListJsonKey     = "RootParameterList";
+		static constexpr std::string_view k_staticSamplerDescListJsonKey = "StaticSamplerDescList";
+		static constexpr std::string_view k_rootSignatureFlagsJsonKey    = "RootSignatureFlags";
+		static constexpr std::string_view k_rootSignatureVersionJsonKey  = "RootSignatureVersion";
+
+		// RootParameterIndexMap
+		static constexpr std::string_view k_rootParameterTagJsonKey = "RootParameterTag";
+		static constexpr std::string_view k_indexJsonKey            = "Index";
+
+		// RootParameter
+		static constexpr std::string_view k_parameterTypeJsonKey       = "ParameterType";
+		static constexpr std::string_view k_shaderVisibilityJsonKey    = "ShaderVisibility";
+		static constexpr std::string_view k_descriptorRangeListJsonKey = "DescriptorRangeList";
+		static constexpr std::string_view k_shaderRegisterJsonKey      = "ShaderRegister";
+		static constexpr std::string_view k_registerSpaceJsonKey       = "RegisterSpace";
+		static constexpr std::string_view k_num32BitValuesJsonKey      = "Num32BitValues";
+
+		// StaticSamplerDesc
+		static constexpr std::string_view k_filterJsonKey         = "Filter";
+		static constexpr std::string_view k_addressUJsonKey       = "AddressU";
+		static constexpr std::string_view k_addressVJsonKey       = "AddressV";
+		static constexpr std::string_view k_addressWJsonKey       = "AddressW";
+		static constexpr std::string_view k_mipLODBiasJsonKey     = "MipLODBias";
+		static constexpr std::string_view k_maxAnisotropyJsonKey  = "MaxAnisotropy";
+		static constexpr std::string_view k_comparisonFUNCJsonKey = "ComparisonFunc";
+		static constexpr std::string_view k_borderColorJsonKey    = "BorderColor";
+		static constexpr std::string_view k_minLODJsonKey         = "MinLOD";
+		static constexpr std::string_view k_maxLODJsonKey         = "MaxLOD";
+
+		// DescriptorRange
+		static constexpr std::string_view k_rangeTypeJsonKey                         = "RangeType";
+		static constexpr std::string_view k_numDescriptorsJsonKey                    = "NumDescriptors";
+		static constexpr std::string_view k_baseShaderRegisterJsonKey                = "BaseShaderRegister";
+		static constexpr std::string_view k_offsetInDescriptorsFromTableStartJsonKey = "OffsetInDescriptorsFromTableStart";
 	};
 }

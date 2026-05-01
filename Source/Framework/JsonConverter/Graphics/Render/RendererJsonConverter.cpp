@@ -4,19 +4,19 @@ void FWK::JsonConverter::RendererJsonConverter::Deserialize(const nlohmann::json
 {
 	if (a_rootJson.is_null()) { return; }
 
-	if (a_rootJson.contains("FrameResourceList"))
+	if (a_rootJson.contains(k_frameResourceListJsonKey))
 	{
-		DeserializeFrameResourceList(a_rootJson["FrameResourceList"], a_renderer);
+		DeserializeFrameResourceList(a_rootJson[k_frameResourceListJsonKey], a_renderer);
 	}
 
-	if (a_rootJson.contains("RootSignatureMap"))
+	if (a_rootJson.contains(k_rootSignatureMapJsonKey))
 	{
-		DeserializeRootSignatureMap(a_rootJson["RootSignatureMap"], a_renderer);
+		DeserializeRootSignatureMap(a_rootJson[k_rootSignatureMapJsonKey], a_renderer);
 	}
 
-	if (a_rootJson.contains("PipelineStateMap"))
+	if (a_rootJson.contains(k_pipelineStateMapJsonKey))
 	{
-		DeserializePipelineStateMap(a_rootJson["PipelineStateMap"], a_renderer);
+		DeserializePipelineStateMap(a_rootJson[k_pipelineStateMapJsonKey], a_renderer);
 	}
 }
 
@@ -24,9 +24,9 @@ nlohmann::json FWK::JsonConverter::RendererJsonConverter::Serialize(const Graphi
 {
 	nlohmann::json l_rootJson = {};
 
-	l_rootJson["FrameResourceList"] = SerializeFrameResourceList(a_renderer);
-	l_rootJson["RootSignatureMap"]  = SerializeRootSignatureMap (a_renderer);
-	l_rootJson["PipelineStateMap"] = SerializePipelineStateMap  (a_renderer);
+	l_rootJson[k_frameResourceListJsonKey] = SerializeFrameResourceList(a_renderer);
+	l_rootJson[k_rootSignatureMapJsonKey]  = SerializeRootSignatureMap (a_renderer);
+	l_rootJson[k_pipelineStateMapJsonKey]  = SerializePipelineStateMap  (a_renderer);
 
 	return l_rootJson;
 }
@@ -50,11 +50,11 @@ void FWK::JsonConverter::RendererJsonConverter::DeserializeRootSignatureMap(cons
 	for (const auto& l_json : a_rootJson)
 	{
 			  Graphics::RootSignature l_rootSignature = {};
-		const auto					  l_tag           = Utility::Json::DeserializeTag(l_json, "RootSignatureTag");
+		const auto					  l_tag           = Utility::Json::DeserializeTag(l_json, k_rootSignatureTagJsonKey);
 
-		if (l_json.contains("RootSignature"))
+		if (l_json.contains(k_rootSignatureJsonKey))
 		{
-			l_rootSignature.Deserialize(l_json["RootSignature"]);
+			l_rootSignature.Deserialize(l_json[k_rootSignatureJsonKey]);
 		}
 
 		a_renderer.AddRootSignature(l_rootSignature, l_tag);
@@ -68,11 +68,11 @@ void FWK::JsonConverter::RendererJsonConverter::DeserializePipelineStateMap(cons
 	for (const auto& l_json : a_rootJson)
 	{
 			  Graphics::PipelineState l_pipelineState = {};
-		const auto					  l_tag           = Utility::Json::DeserializeTag(l_json, "PipelineStateTag");
+		const auto					  l_tag           = Utility::Json::DeserializeTag(l_json, k_pipelineStateTagJsonKey);
 
-		if (l_json.contains("PipelineState"))
+		if (l_json.contains(k_pipelineStateJsonKey))
 		{
-			l_pipelineState.Deserialize(l_json["PipelineState"]);
+			l_pipelineState.Deserialize(l_json[k_pipelineStateJsonKey]);
 		}
 
 		a_renderer.AddPipelineState(l_pipelineState, l_tag);
@@ -106,8 +106,8 @@ nlohmann::json FWK::JsonConverter::RendererJsonConverter::SerializeRootSignature
 	{
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, "RootSignatureTag"));
-		l_json["RootSignature"] = l_value.Serialize();
+		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, k_rootSignatureTagJsonKey));
+		l_json[k_rootSignatureJsonKey] = l_value.Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);
 	}
@@ -124,8 +124,8 @@ nlohmann::json FWK::JsonConverter::RendererJsonConverter::SerializePipelineState
 	{
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, "PipelineStateTag"));
-		l_json["PipelineState"] = l_value.Serialize();
+		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, k_pipelineStateTagJsonKey));
+		l_json[k_pipelineStateJsonKey] = l_value.Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);
 	}

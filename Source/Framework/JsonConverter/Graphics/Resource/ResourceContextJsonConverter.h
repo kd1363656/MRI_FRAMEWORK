@@ -17,5 +17,11 @@ namespace FWK::JsonConverter
 		void Deserialize(const nlohmann::json& a_rootJson, Graphics::ResourceContext& a_resourceContext) const;
 
 		nlohmann::json Serialize(const Graphics::ResourceContext& a_resourceContext) const;
+
+	private:
+
+		static constexpr std::string_view k_rtvDescriptorPoolJsonKey = "RTVDescriptorPool";
+		static constexpr std::string_view k_srvDescriptorPoolJsonKey = "SRVDescriptorPool";
+		static constexpr std::string_view k_uploadSystemJsonKey      = "UploadSystem";
 	};
 }
