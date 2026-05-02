@@ -1,5 +1,22 @@
 ﻿#include "TextureSystem.h"
 
+void FWK::Graphics::TextureSystem::Deserialize(const nlohmann::json& a_rootJson)
+{
+	if (a_rootJson.is_null()) { return; }
+	m_textureSystemJsonConverter.Deserialize(a_rootJson, *this);
+}
+
+bool FWK::Graphics::TextureSystem::Create()
+{
+	if (!m_textureIDAllocator.Create(m_textureIDAllocatorCapacity))
+	{
+		assert(false && "テクスチャIDアロケータの作成に失敗したため、TextureSystemの作成処理に失敗しました。。");
+		return false;
+	}
+
+	return true;
+}
+
 bool FWK::Graphics::TextureSystem::RequestTextureLoad(const std::filesystem::path& a_filePath)
 {
 	if (a_filePath.empty())
@@ -24,30 +41,10 @@ bool FWK::Graphics::TextureSystem::RequestTextureLoad(const std::filesystem::pat
 		return true;
 	}
 
-	// 現在のフレームで登録しようとしているパスが既に登録されているなら登録する必要はない
-	if (const auto& l_itr = m_pendingTextureFilePathSet.find(l_filePath);
-		l_itr != m_pendingTextureFilePathSet.end())
-	{
-		return true;
-	}
-
-	m_pendingTextureFilePathSet.emplace(l_filePath);
-
 	return true;
 }
 
-FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::GenerateTextureID()
+nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 {
-	if (m_nextTextureID == Constant::k_invalidTextureID)
-	{
-		assert(false && "TextureIDが上限に到達したため、TextureIDの採番に失敗しました。");
-		return Constant::k_invalidTextureID;
-	}
-
-	// テクスチャIDを新規用に更新
-	const auto l_textureID = m_nextTextureID;
-
-	++m_nextTextureID;
-
-	return l_textureID;
+	return m_textureSystemJsonConverter.Serialize(*this);
 }

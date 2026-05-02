@@ -175,6 +175,7 @@
 #include "Graphics/Resource/Texture/Allocator/TextureIDAllocator.h"
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
 #include "Graphics/Resource/Texture/Builder/TextureRegistrationBuilder.h"
+#include "JsonConverter/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 
 // リソースコンテキスト

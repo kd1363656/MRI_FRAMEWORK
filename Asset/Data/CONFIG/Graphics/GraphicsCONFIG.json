@@ -188,6 +188,9 @@
         "SRVDescriptorPool": {
             "DescriptorCapacity": 1024
         },
+        "TextureSystem": {
+            "TextureIDAllocatorCapacity": 3000
+        },
         "UploadSystem": {
             "CopyCommandAllocatorListSize": 3
         }

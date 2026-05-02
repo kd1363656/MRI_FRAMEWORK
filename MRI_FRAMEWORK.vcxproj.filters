@@ -337,6 +337,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Texture\Allocator">
       <UniqueIdentifier>{f96594b4-7906-4fb6-8de3-90cf4206542e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Texture">
+      <UniqueIdentifier>{a170957b-5b7b-4c10-a63c-abc85f55d666}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -620,6 +623,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -771,6 +777,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
