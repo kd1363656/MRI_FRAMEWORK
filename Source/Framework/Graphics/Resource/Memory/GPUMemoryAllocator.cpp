@@ -39,7 +39,11 @@ bool FWK::Graphics::GPUMemoryAllocator::Create(const Device& a_device)
     return true;
 }
 
-bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOURCE_DESC& a_resourceDesc, const D3D12_CLEAR_VALUE* a_clearValue, const D3D12_RESOURCE_STATES a_initialResourceState, TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
+bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOURCE_DESC&                    a_resourceDesc, 
+                                                              const D3D12_CLEAR_VALUE*                      a_clearValue,
+                                                              const D3D12_RESOURCE_STATES                   a_initialResourceState,
+                                                                    TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
+                                                                    TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
 {
     a_textureResource.Reset();
     a_allocation.Reset     ();
