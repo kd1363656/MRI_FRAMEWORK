@@ -280,12 +280,6 @@
     <Filter Include="Source\Framework\Scene">
       <UniqueIdentifier>{767e70e3-364e-4ded-a107-ff366a522cac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource">
-      <UniqueIdentifier>{d3ee3af8-f0fa-4005-8296-62b788b2c19d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture">
-      <UniqueIdentifier>{08449e46-bd5c-4fdc-a0e7-a3cdac01a3da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Buffer">
       <UniqueIdentifier>{469ef60a-b2d6-47f3-a8ec-feaf6267ecb7}</UniqueIdentifier>
     </Filter>
@@ -330,9 +324,6 @@
     </Filter>
     <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Upload">
       <UniqueIdentifier>{dc7fb989-7c3b-4480-85fe-48ee4b4e83b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload">
-      <UniqueIdentifier>{8955f372-249c-4284-ac52-ad2eedc0223e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Texture\Builder">
       <UniqueIdentifier>{bd32ef13-05be-4e3e-a3c3-2a5e935a5d1d}</UniqueIdentifier>
@@ -572,9 +563,6 @@
     <ClInclude Include="Source\Framework\Scene\Scene.h">
       <Filter>Source\Framework\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer</Filter>
     </ClInclude>
@@ -613,9 +601,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Upload</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureRegistrationBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>

@@ -162,7 +162,6 @@
 
 // アップロードバッファー
 #include "Graphics/Resource/Buffer/UploadBuffer.h"
-#include "Definition/Struct/Graphics/Resource/Upload/UploadSystemStruct.h"
 
 // メモリアロケータクラス
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"

@@ -46,8 +46,6 @@ void Application::Execute()
 		// 更新
 		if (!BeginFrame()) { break; }
 
-		EarlyUpdate(l_graphicsManager);
-
 		// 描画
 		BeginDraw(l_graphicsManager);
 		Draw	 (l_graphicsManager);
@@ -111,11 +109,6 @@ bool Application::BeginFrame()
 	}
 
 	return true;
-}
-
-void Application::EarlyUpdate(FWK::Graphics::GraphicsManager& a_graphicsManager) const
-{
-	a_graphicsManager.EarlyUpdate();
 }
 
 void Application::BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const

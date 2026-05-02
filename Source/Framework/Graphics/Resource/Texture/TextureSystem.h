@@ -17,27 +17,11 @@ namespace FWK::Graphics
 		
 		bool RequestTextureLoad(const std::filesystem::path& a_filePath);
 
-		void EarlyUpdate(const Device&		                      a_device,
-						 const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-						       DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-						       UploadSystem&                      a_uploadSystem);
-
-		bool RegisterTextureBatch(const Device&				                a_device,
-								  const GPUMemoryAllocator&                 a_gpuMemoryAllocator,
-								  const PendingTextureFilePathSet&			a_filePathSet,
-										DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorPool,
-										UploadSystem&						a_uploadSystem);
-
 	private:
 	
 		static constexpr TypeAlias::TextureID k_initialNextTextureID = 0U;
 
 		TypeAlias::TextureID GenerateTextureID();
-
-		bool ProcessPendingTextureLoadsAndWait(const Device&		                    a_device,
-										       const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-												     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-												     UploadSystem&                      a_uploadSystem);
 
 		TextureLoader			   m_textureLoader				= {};
 		TextureRegistrationBuilder m_textureRegistrationBuilder = {};

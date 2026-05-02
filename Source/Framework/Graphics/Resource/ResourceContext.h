@@ -12,8 +12,6 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    (const Device&		   a_device);
 
-		void EarlyUpdate(const Device& a_deivce);
-
 		nlohmann::json Serialize() const;
 
 		const auto& GetREFRTVDescriptorPool() const { return m_rtvDescriptorPool; }
