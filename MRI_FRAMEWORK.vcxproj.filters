@@ -340,6 +340,9 @@
     <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Texture">
       <UniqueIdentifier>{a170957b-5b7b-4c10-a63c-abc85f55d666}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload">
+      <UniqueIdentifier>{f550d18c-d86a-40dc-8ab6-0a83a4705128}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
