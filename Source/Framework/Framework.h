@@ -35,6 +35,7 @@
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
+#include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 
 // ファイル関係の定数
 #include "Definition/Constant/FileExtension/FileExtensionConstant.h"
@@ -171,6 +172,7 @@
 #include "Graphics/Resource/Upload/UploadSystem.h"
 
 // テクスチャ
+#include "Graphics/Resource/Texture/Allocator/TextureIDAllocator.h"
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
 #include "Graphics/Resource/Texture/Builder/TextureRegistrationBuilder.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"

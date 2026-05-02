@@ -328,6 +328,15 @@
     <Filter Include="Source\Framework\Graphics\Resource\Texture\Builder">
       <UniqueIdentifier>{bd32ef13-05be-4e3e-a3c3-2a5e935a5d1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource">
+      <UniqueIdentifier>{dcd8d386-3c77-480f-bf42-84f52786b8ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture">
+      <UniqueIdentifier>{c420a18e-cfb4-4036-9601-25b6d079424a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\Allocator">
+      <UniqueIdentifier>{f96594b4-7906-4fb6-8de3-90cf4206542e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -605,6 +614,12 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureRegistrationBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -753,6 +768,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureRegistrationBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
