@@ -168,6 +168,7 @@ bool FWK::Graphics::TextureSystem::ProcessPendingTextureLoadsAndWait(const Devic
 																		   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 																		   UploadSystem&					  a_uploadSystem)
 {
+	// テクスチャ登録申請がなければreturn
 	if (m_pendingTextureFilePathSet.empty()) { return true; }
 
 	if (!RegisterTextureBatch(a_device,
