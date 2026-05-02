@@ -6,9 +6,10 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using TexturePathMap   = std::unordered_map<std::wstring,		   TypeAlias::TextureID, Struct::WStringHash, std::equal_to<>>;
-		using TextureRecordMap = std::unordered_map<TypeAlias::TextureID, Struct::TextureRecord>;
-		
+		using TexturePathMap            = std::unordered_map<std::wstring,		   TypeAlias::TextureID, Struct::WStringHash, std::equal_to<>>;
+		using TextureRecordMap          = std::unordered_map<TypeAlias::TextureID, Struct::TextureRecord>;
+		using PendingTextureFilePathSet = std::unordered_set<std::wstring,		   Struct::WStringHash,  std::equal_to<>>;
+
 	public:
 
 		 TextureSystem() = default;
@@ -19,6 +20,8 @@ namespace FWK::Graphics
 
 		bool RequestTextureLoad(const std::filesystem::path& a_filePath);
 
+		bool LoadPendingTexturesAndWait();
+
 		nlohmann::json Serialize() const;
 
 		auto GetVALTextureIDAllocatorCapacity() const { return m_textureIDAllocatorCapacity; }
@@ -27,14 +30,17 @@ namespace FWK::Graphics
 
 	private:
 
+		bool LoadTextureBatch();
+
 		TextureIDAllocator		   m_textureIDAllocator			= {};
 		TextureLoader			   m_textureLoader				= {};
 		TextureRegistrationBuilder m_textureRegistrationBuilder = {};
 
 		JsonConverter::TextureSystemJsonConverter m_textureSystemJsonConverter = {};
 
-		TexturePathMap   m_texturePathMap   = {};
-		TextureRecordMap m_textureRecordMap = {};
+		TexturePathMap            m_texturePathMap            = {};
+		TextureRecordMap          m_textureRecordMap          = {};
+		PendingTextureFilePathSet m_pendingTextureFilePathSet = {};
 
 		TypeAlias::TextureID m_textureIDAllocatorCapacity = Constant::k_defaultCreateTextureIDCapacity;
 	};

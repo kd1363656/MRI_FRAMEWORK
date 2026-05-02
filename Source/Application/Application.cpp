@@ -44,7 +44,7 @@ void Application::Execute()
 	while (true)
 	{
 		// 更新
-		if (!BeginFrame()) { break; }
+		if (!BeginFrame(l_graphicsManager)) { break; }
 
 		// 描画
 		BeginDraw(l_graphicsManager);
@@ -93,7 +93,7 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 	return true;
 }
 
-bool Application::BeginFrame()
+bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	// FPSの計測開始
 	m_fpsController.BeginFrame();
@@ -107,6 +107,9 @@ bool Application::BeginFrame()
 	{
 		return false;
 	}
+
+	// 描画するためのテクスチャなどを動的にロードする処理
+	a_graphicsManager.BeginFrame();
 
 	return true;
 }

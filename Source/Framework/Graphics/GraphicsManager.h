@@ -11,6 +11,8 @@ namespace FWK::Graphics
 		bool Create         (const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG);
 		void PostCreateSetup(const HWND& a_hwnd);
 
+		void BeginFrame();
+
 		void BeginDraw();
 		void Draw	  () const;
 		void EndDraw  ();

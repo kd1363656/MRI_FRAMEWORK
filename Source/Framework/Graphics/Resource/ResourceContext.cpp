@@ -34,6 +34,11 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 	return true;
 }
 
+void FWK::Graphics::ResourceContext::BeginFrame()
+{
+	m_textureSystem.LoadPendingTexturesAndWait();
+}
+
 nlohmann::json FWK::Graphics::ResourceContext::Serialize() const
 {
 	return m_resourceContextJsonConverter.Serialize(*this);

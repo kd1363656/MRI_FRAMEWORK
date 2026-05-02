@@ -69,6 +69,11 @@ void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd)
 	m_renderer.PostCreateSetup (m_swapChain);
 }
 
+void FWK::Graphics::GraphicsManager::BeginFrame()
+{
+	m_resourceContext.BeginFrame();
+}
+
 void FWK::Graphics::GraphicsManager::BeginDraw()
 {
 	const auto& l_rtvDescriptorHeap = m_resourceContext.GetREFRTVDescriptorPool().GetREFDescriptorHeap();
