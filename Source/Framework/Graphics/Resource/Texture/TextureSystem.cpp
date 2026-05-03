@@ -47,7 +47,7 @@ FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	if (const auto& l_itr = m_pendingTextureBatchUploadRecordMap.find(l_filePath);
 		l_itr != m_pendingTextureBatchUploadRecordMap.end())
 	{
-		return l_itr->second.m_textureRecord.m_textureID;;
+		return l_itr->second.m_textureRecord.m_textureID;
 	}	
 	
 	DirectX::ScratchImage l_scratchImage = {};
@@ -57,28 +57,30 @@ FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	if (!m_textureLoader.LoadTextureFile(l_scratchImage, l_texMetadata, l_filePath))
 	{
 		assert(false && "DDSテクスチャ読み込みに失敗したため、テクスチャのバッチロード処理に失敗しました。");
-		return false;
+		return Constant::k_invalidTextureID;
 	}
 
 	Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
 
 	// テクスチャを作成、管理するのに必要な情報全てを作成
-	if (!m_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecordBuilder(l_scratchImage, 
-																				 l_texMetadata,
-																				 a_device,
-																				 a_gpuMemoryAllocator,
-																				 a_srvDescriptorPool,
-																				 m_textureIDAllocator,
-																				 l_textureBatchUploadRecord))
+	if (!m_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecord(l_scratchImage, 
+																		  l_texMetadata,
+																		  a_device,
+																		  a_gpuMemoryAllocator,
+																		  a_srvDescriptorPool,
+																		  m_textureIDAllocator,
+																		  l_textureBatchUploadRecord))
 	{
 		assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
-		return false;
+		return Constant::k_invalidTextureID;
 	}
+
+	const auto l_textureID = l_textureBatchUploadRecord.m_textureRecord.m_textureID;
 
 	// 作成し終えたTextureBatchUploadRecordをリストに格納する
 	m_pendingTextureBatchUploadRecordMap.try_emplace(l_filePath, std::move(l_textureBatchUploadRecord));
 
-	return true;
+	return l_textureID;
 }
 
 void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_uploadSystem)
@@ -100,6 +102,25 @@ void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_up
 nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 {
 	return m_textureSystemJsonConverter.Serialize(*this);
+}
+
+const FWK::Struct::TextureRecord* FWK::Graphics::TextureSystem::FindPTRTextureRecord(const TypeAlias::TextureID a_textureID) const
+{
+	if (a_textureID == Constant::k_invalidTextureID)
+	{
+		assert(false && "TextureIDが無効のため、TextureRecordの取得に失敗しました。");
+		return nullptr;
+	}
+
+	const auto& l_itr = m_textureRecordMap.find(a_textureID);
+
+	if (l_itr == m_textureRecordMap.end())
+	{
+		assert(false && "指定されたTextureIDに対応するTextureRecordが見つかりませんでした。");
+		return nullptr;
+	}
+
+	return &l_itr->second;
 }
 
 bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem)

@@ -185,6 +185,7 @@
 #include "Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilder.h"
 #include "JsonConverter/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
+#include "Graphics/Resource/Texture/Texture.h"
 
 // リソースコンテキスト
 #include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"

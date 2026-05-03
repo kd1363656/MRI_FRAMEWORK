@@ -54,6 +54,11 @@ namespace FWK::Graphics
 
 		void SetDescriptorCapacity(const UINT a_set) { m_descriptorCapacity = a_set; }
 
+		auto FetchShaderVisibleDescriptorHeap() const 
+		{
+			return m_descriptorHeap.FetchPTRShaderVisibleDescriptorHeap();
+		}
+
 		auto FetchVALCPUOnlyCPUHandle(const UINT a_index) const
 		{
 			return m_descriptorHeap.FetchVALCPUOnlyCPUHandle(a_index);
@@ -61,6 +66,11 @@ namespace FWK::Graphics
 		auto FetchVALShaderVisibleCPUHandle(const UINT a_index) const
 		{
 			return m_descriptorHeap.FetchVALShaderVisibleCPUHandle(a_index);
+		}
+
+		auto FetchVALShaderVisibleGPUHandle(const UINT a_index) const
+		{
+			return m_descriptorHeap.FetchVALShaderVisibleGPUHandle(a_index);
 		}
 
 		const auto& GetREFDescriptorHeap() const { return m_descriptorHeap; }

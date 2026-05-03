@@ -14,13 +14,13 @@ namespace FWK::Graphics
 		 TextureBatchUploadRecordBuilder() = default;
 		~TextureBatchUploadRecordBuilder() = default;
 
-		bool CreateTextureBatchUploadRecordBuilder(const DirectX::ScratchImage&             a_scratchImage,
-												   const DirectX::TexMetadata&              a_texMetadata,
-												   const Device&                            a_device,
-												   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-														 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-														 TextureIDAllocator&				a_textureIDAllocator,
-														 Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord);
+		bool CreateTextureBatchUploadRecord(const DirectX::ScratchImage&             a_scratchImage,
+											const DirectX::TexMetadata&              a_texMetadata,
+											const Device&                            a_device,
+											const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+												  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+												  TextureIDAllocator&				 a_textureIDAllocator,
+												  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord);
 
 	private:
 

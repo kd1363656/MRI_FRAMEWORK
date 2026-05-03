@@ -31,7 +31,7 @@ void FWK::Graphics::DirectCommandList::TransitionResource(const TypeAlias::ComPt
 	// Type                   : このバリアがどういうバリアであるかを指定
 	// Flags                  : バリアの特別な追加設定
 	// Transition.pResource   : 状態を切り替える対象のGPUリソース
-	// Transition.StateBefor  : 切り替える前のリソース状態
+	// Transition.StateBefore : 切り替える前のリソース状態
 	// Transition.StateAfter  : 切り替えた後のリソース状態
 	// Transition.Subresource : どのサブリソースを遷移対象にするか
 
@@ -111,7 +111,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 								            true,
 								            nullptr);
 
-	// 現在のレンダーターゲットを指定職でクリアする関数
+	// 現在のレンダーターゲットを指定色でクリアする関数
 	// ClearRenderTargetView(クリア対象のRTVハンドル、
 	//						 クリア色RGBA配列、
 	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし前面クリアとなる)、

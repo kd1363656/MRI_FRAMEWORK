@@ -10,5 +10,9 @@ namespace FWK
 		~Scene() = default;
 
 		void PostLoadSetup();
+
+	private:
+
+		Graphics::Texture m_texture = {};
 	};
 }

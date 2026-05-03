@@ -1,12 +1,12 @@
 ﻿#include "TextureBatchUploadRecordBuilder.h"
 
-bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRecordBuilder(const DirectX::ScratchImage&             a_scratchImage,
-																						   const DirectX::TexMetadata&              a_texMetadata, 
-																						   const Device&			                a_device,
-																						   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-																							     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
-																								 TextureIDAllocator&				a_textureIDAllocator,
-																								 Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord)
+bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRecord(const DirectX::ScratchImage&             a_scratchImage,
+																					const DirectX::TexMetadata&              a_texMetadata, 
+																					const Device&			                 a_device,
+																					const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+																						  TextureIDAllocator&				 a_textureIDAllocator,
+																						  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord)
 {
 	// まずはGPU側用のテクスチャリソースのヒープ領域を確保
 	if (!CreateTextureResource(a_texMetadata, a_gpuMemoryAllocator, a_textureBatchUploadRecord.m_textureRecord))

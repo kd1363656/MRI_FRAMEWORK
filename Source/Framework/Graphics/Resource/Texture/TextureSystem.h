@@ -26,6 +26,8 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
+		const Struct::TextureRecord* FindPTRTextureRecord(const TypeAlias::TextureID a_textureID) const;
+
 		auto GetVALTextureIDAllocatorCapacity() const { return m_textureIDAllocatorCapacity; }
 
 		void SetTextureIDAllocatorCapacity(const TypeAlias::TextureID a_set) { m_textureIDAllocatorCapacity = a_set; }

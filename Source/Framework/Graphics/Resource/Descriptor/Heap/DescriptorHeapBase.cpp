@@ -135,6 +135,28 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVis
 	return FetchVALCPUHandle(a_index, *m_shaderVisibleDescriptorHeapRecord);
 }
 
+D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVisibleGPUHandel(const UINT a_index) const
+{
+	if (!m_shaderVisibleDescriptorHeapRecord)
+	{
+		assert(false && "ShaderVisible用ディスクリプタヒープが無効でGPUハンドル取得が出来ません。");
+		return {};
+	}
+
+	return FetchVALGPUHandle(a_index, *m_shaderVisibleDescriptorHeapRecord);
+}
+
+FWK::TypeAlias::ComPtr<ID3D12DescriptorHeap> FWK::Graphics::DescriptorHeapBase::FetchPTRShaderVisibleDescriptorHeap() const
+{
+	if (!m_shaderVisibleDescriptorHeapRecord)
+	{
+		assert(false && "ShaderVisible用ディスクリプタヒープが未作製でディスクリプタヒープ取得ができませんでした。");
+		return nullptr;
+	}
+
+	return m_shaderVisibleDescriptorHeapRecord->m_descriptorHeap;
+}
+
 bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord& a_descriptorHeapRecord) const
 {
 	const auto& l_device = a_device.GetREFDevice();
@@ -234,6 +256,29 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUHandle
 
 	// 先頭CPUハンドルを基準にする
 	auto l_handle = a_descriptorHeapRecord.m_cpuStart;
+
+	// a_index個分先に進めて、目的のディスクリプタ位置を計算する
+	l_handle.ptr += static_cast<UINT64>(a_index) * static_cast<UINT64>(m_descriptorSize);
+
+	return l_handle;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALGPUHandle(const UINT a_index, const DescriptorHeapRecord& a_descriptorHeapRecord) const
+{
+	if (!a_descriptorHeapRecord.m_descriptorHeap)
+	{
+		assert(false && "ディスクリプタヒープが未作成でGPUハンドル取得ができません。");
+		return {};
+	}
+
+	if (a_index >= m_descriptorCapacity)
+	{
+		assert(false && "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのGPUハンドル取得に失敗しました。");
+		return {};
+	}
+
+	// 先頭CPUハンドルを基準にする
+	auto l_handle = a_descriptorHeapRecord.m_gpuStart;
 
 	// a_index個分先に進めて、目的のディスクリプタ位置を計算する
 	l_handle.ptr += static_cast<UINT64>(a_index) * static_cast<UINT64>(m_descriptorSize);
