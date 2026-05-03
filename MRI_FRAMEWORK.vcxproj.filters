@@ -638,6 +638,9 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilderStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -792,6 +795,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
