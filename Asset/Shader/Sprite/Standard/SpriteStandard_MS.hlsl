@@ -5,13 +5,13 @@
 struct MeshOutput
 {
 	float4 position : SV_Position;
-	float4 color    : COLOR;
+	float2 uv       : TEXCOORD0;
 };
 
 [outputtopology("triangle")]
 [numthreads(1, 1, 1)]
 void main(out vertices MeshOutput a_vertexList[3],
-		  out indices uint3 a_primitiveList[1])
+		  out indices  uint3      a_primitiveList[1])
 {
 	// SetMeshOutputCounts(出力頂点数、出力プリミティブ数);
 	SetMeshOutputCounts(3, 1);
@@ -20,9 +20,9 @@ void main(out vertices MeshOutput a_vertexList[3],
 	a_vertexList[1].position = float4( 0.5f, -0.5f, 0.0f, 1.0f);
 	a_vertexList[2].position = float4(-0.5f, -0.5f, 0.0f, 1.0f);
 
-	a_vertexList[0].color = float4(1.0f, 0.0f, 0.0f, 1.0f);
-	a_vertexList[1].color = float4(0.0f, 1.0f, 0.0f, 1.0f);
-	a_vertexList[2].color = float4(0.0f, 0.0f, 1.0f, 1.0f);
-
+    a_vertexList[0].uv = float2(0.5F, 0.0F);
+    a_vertexList[1].uv = float2(1.0F, 1.0F);
+    a_vertexList[2].uv = float2(0.0F, 1.0F);
+	
 	a_primitiveList[0] = uint3(0, 1, 2);
 }
