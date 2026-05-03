@@ -59,4 +59,38 @@ namespace FWK::Utility::Json
 			{ a_key.data(), l_typeINFO->k_name.data() }
 		};
 	}
+
+	// ※注意 : FWK_REGISTER_FACTORY_METHODマクロを使用していないと使用できないので注意
+	template <typename FactoryType , typename Type>
+		requires Concept::IsSmartPTRConcept<Type>
+	inline void DeserializeInstanceType(const nlohmann::json& a_json, const std::string_view& a_key, Type& a_instance)
+	{
+		if (a_json.is_null()) { return; }
+
+		const auto& l_factory = FactoryType::GetInstance();
+
+		const std::string l_createName = a_json.value(a_key.data(), std::string());
+
+		if (l_createName.empty()) { return; }
+
+		a_instance = l_factory.Create(l_createName.c_str());
+	}
+
+	// インスタンスから型名を取得し保存する
+	// ※注意 : FWK_REGISTER_FACTORY_METHODマクロを使用していないと使用できないので注意
+	template <typename Type>
+		requires Concept::IsSmartPTRConcept<Type>
+	inline nlohmann::json SerializeInstanceType(const Type& a_instance, const std::string_view& a_key)
+	{
+		if (!a_instance)
+		{
+			return nlohmann::json();
+		}
+
+		auto l_rootJson = nlohmann::json();
+
+		l_rootJson[a_key.data()] = a_instance->GetRuntimeTypeINFO().k_name.data();
+
+		return l_rootJson;
+	}
 }

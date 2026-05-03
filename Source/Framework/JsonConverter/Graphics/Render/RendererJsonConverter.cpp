@@ -18,6 +18,11 @@ void FWK::JsonConverter::RendererJsonConverter::Deserialize(const nlohmann::json
 	{
 		DeserializePipelineStateMap(a_rootJson[k_pipelineStateMapJsonKey], a_renderer);
 	}
+
+	if (a_rootJson.contains(k_drawCommandMapJsonKey))
+	{
+		DeserializeDrawCommandMap(a_rootJson[k_drawCommandMapJsonKey], a_renderer);
+	}
 }
 
 nlohmann::json FWK::JsonConverter::RendererJsonConverter::Serialize(const Graphics::Renderer& a_renderer) const
@@ -26,7 +31,8 @@ nlohmann::json FWK::JsonConverter::RendererJsonConverter::Serialize(const Graphi
 
 	l_rootJson[k_frameResourceListJsonKey] = SerializeFrameResourceList(a_renderer);
 	l_rootJson[k_rootSignatureMapJsonKey]  = SerializeRootSignatureMap (a_renderer);
-	l_rootJson[k_pipelineStateMapJsonKey]  = SerializePipelineStateMap  (a_renderer);
+	l_rootJson[k_pipelineStateMapJsonKey]  = SerializePipelineStateMap (a_renderer);
+	l_rootJson[k_drawCommandMapJsonKey]    = SerializeDrawCommandMap   (a_renderer);
 
 	return l_rootJson;
 }
@@ -78,6 +84,25 @@ void FWK::JsonConverter::RendererJsonConverter::DeserializePipelineStateMap(cons
 		a_renderer.AddPipelineState(l_pipelineState, l_tag);
 	}	
 }
+void FWK::JsonConverter::RendererJsonConverter::DeserializeDrawCommandMap(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
+{
+	if (a_rootJson.is_null())				 { return; }
+	if (!Utility::Json::IsArray(a_rootJson)) { return; }
+	
+	for (const auto& l_json : a_rootJson)
+	{
+		std::shared_ptr<Graphics::IDrawCommand> l_drawCommand = nullptr;
+		
+		// ファクトリーからDrawCommandを作成
+		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryDrawCommand>(l_json, k_drawCommandTypeNameJsonKey, l_drawCommand);
+		
+		// 作成に成功していれば中身にポインタがしっかり入っているので初期化とデシリアライズを行う
+		if (l_drawCommand)
+		{
+			a_renderer.AddDrawCommandMap(l_drawCommand, l_drawCommand->GetRuntimeTypeINFO().k_staticTypeID);
+		}
+	}
+}
 
 nlohmann::json FWK::JsonConverter::RendererJsonConverter::SerializeFrameResourceList(const Graphics::Renderer& a_renderer) const
 {
@@ -128,6 +153,19 @@ nlohmann::json FWK::JsonConverter::RendererJsonConverter::SerializePipelineState
 		l_json[k_pipelineStateJsonKey] = l_value.Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);
+	}
+
+	return l_rootJsonArray;
+}
+nlohmann::json FWK::JsonConverter::RendererJsonConverter::SerializeDrawCommandMap(const Graphics::Renderer& a_renderer) const
+{
+	auto l_rootJsonArray = nlohmann::json::array();
+
+	const auto& l_drawCommandMap = a_renderer.GetREFDrawCommandMap();
+
+	for (const auto& [l_key, l_value] : l_drawCommandMap)
+	{
+		l_rootJsonArray.emplace_back(Utility::Json::SerializeInstanceType(l_value, k_drawCommandTypeNameJsonKey));
 	}
 
 	return l_rootJsonArray;

@@ -34,11 +34,23 @@ namespace FWK::Graphics
 		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
 		const PipelineState* FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const;
 
+		template <typename Type>
+		std::weak_ptr<Type> FetchVALDrawCommand() const 
+		{
+			if (const auto& l_itr = m_drawCommandMap.find(Type::GetTypeINFO().k_staticTypeID);
+				l_itr != m_drawCommandMap.end())
+			{
+				return std::static_pointer_cast<Type>(l_itr->second);
+			}
+
+			return std::weak_ptr<Type>();
+		}
+
 		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
 
-		const auto& GetREFRootSignatureMap     () const { return m_rootSignatureMap; }
-		const auto& GetREFPipelineStateMap     () const { return m_pipelineStateMap; }
-		const auto& GetREFFindPTRDrawCommandMap() const { return m_drawCommandMap; }
+		const auto& GetREFRootSignatureMap() const { return m_rootSignatureMap; }
+		const auto& GetREFPipelineStateMap() const { return m_pipelineStateMap; }
+		const auto& GetREFDrawCommandMap  () const { return m_drawCommandMap; }
 
 		const auto& GetREFResourceList() const { return m_frameResourceList; }
 

@@ -142,9 +142,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Allocator">
       <UniqueIdentifier>{4a929dd8-e337-4dcb-8a33-77c653cb6d6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Descriptor">
-      <UniqueIdentifier>{7f5421fb-0641-4a57-acd1-5ea37449e707}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\JsonConverter">
       <UniqueIdentifier>{d32598c8-3ce0-4cc2-9d09-72ca1ac7150a}</UniqueIdentifier>
     </Filter>
@@ -385,6 +382,54 @@
     <Filter Include="Source\Framework\Graphics\Render\Command\Sprite\Standard">
       <UniqueIdentifier>{4132537e-d29d-43b5-82e0-fb227891e1cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Factory">
+      <UniqueIdentifier>{89e673fa-280f-43c2-b9f8-0b28c5179027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum">
+      <UniqueIdentifier>{8c0bfc14-0bd0-471a-a01f-907c343c300d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsSmartPTR">
+      <UniqueIdentifier>{a68eaca9-2b55-4243-a157-d6b077862f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Trait">
+      <UniqueIdentifier>{3b9e4fc1-45e0-4028-94fc-5d4ed3f07464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Trait\PTR">
+      <UniqueIdentifier>{f673742f-cae8-43d5-95b8-ed220f7960b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory">
+      <UniqueIdentifier>{01cb7f9b-4a68-4d51-b012-b20ab5e9cc60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared">
+      <UniqueIdentifier>{11779097-dd4f-4762-9efe-1294bd58d744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics">
+      <UniqueIdentifier>{c0907a49-e9bc-42a7-a8b7-78eae3c7240c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render">
+      <UniqueIdentifier>{926051ed-e587-42e0-979b-08b1ed9f9ea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command">
+      <UniqueIdentifier>{a014c919-5503-416f-b5cd-0f7ca8b0c00a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Macros\Factory">
+      <UniqueIdentifier>{5e97d169-a494-4e0a-ab69-fcb42796d440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics">
+      <UniqueIdentifier>{521efc6f-3dc2-42f3-852f-04cafc773ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource">
+      <UniqueIdentifier>{dd7872bf-5986-4c2a-901d-65333f0099cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor">
+      <UniqueIdentifier>{7f5421fb-0641-4a57-acd1-5ea37449e707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer">
+      <UniqueIdentifier>{079c3dad-3710-4262-980d-ea1ad4d3ccc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command">
+      <UniqueIdentifier>{ec203b5b-ed7d-4d94-a7a4-96acb4c78499}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -496,9 +541,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Descriptor\IsDerivedDescriptorBaseConcept.h">
-      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Descriptor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor</Filter>
@@ -680,7 +722,7 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\UploadSystemTypeAlias.h">
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\TypeAliasUploadSystem.h">
       <Filter>Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter\RootParameterTag.h">
@@ -700,6 +742,30 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.h">
       <Filter>Source\Framework\Graphics\Render\Command\Sprite\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Enum\Enum.h">
+      <Filter>Source\Framework\Definition\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsSmartPTR\IsSmartPTRConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsSmartPTR</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Trait\PTR\TypeTraitPTR.h">
+      <Filter>Source\Framework\Definition\Type\Trait\PTR</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Factory\GenericFactory.h">
+      <Filter>Source\Framework\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shader\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Macros\Factory\FactoryMacros.h">
+      <Filter>Source\Framework\Definition\Macros\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

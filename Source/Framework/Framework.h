@@ -32,19 +32,21 @@
 #include "Definition/Constant/Graphics/Render/Pipeline/PipelineStateConstant.h"
 #include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
+#include "Definition/Constant/FileExtension/FileExtensionConstant.h"
+
+// 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 #include "Definition/Struct/Graphics/Render/Command/DrawCommandStruct.h"
-
-// ファイル関係の定数
-#include "Definition/Constant/FileExtension/FileExtensionConstant.h"
-
-// 文字列ハッシュ構造体
 #include "Definition/Struct/StringHash/StringHashStruct.h"
-
-// WindowCONFIG構造体
 #include "Definition/Struct/Window/WindowStruct.h"
+
+// Enum
+#include "Definition/Enum/Enum.h"
+
+// TypeTrait
+#include "Definition/Type/Trait/PTR/TypeTraitPTR.h"
 
 //===============================================================================
 // シングルトンを安全に扱うための基底クラス
@@ -87,6 +89,15 @@
 #include "Definition/Concept/IsDerivedBase/Tag/IsDerivedTagBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/Graphics/Render/Pipeline/IsDerivedPipelineStateTagBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/Graphics/Render/RootSignature/Parameter/IsDerivedRootParameterTagBaseConcept.h"
+#include "Definition/Concept/IsSmartPTR/IsSmartPTRConcept.h"
+
+//===============================================================================
+// 凡庸ファクトリークラス
+//===============================================================================
+#include "Factory/GenericFactory.h"
+
+// ファクトリー登録自動化マクロ
+#include "Definition/Macros/Factory/FactoryMacros.h"
 
 //===============================================================================
 // Jsonのシリアライズ、デシリアライズ補助関数
@@ -162,7 +173,7 @@
 #include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapIndexAllocator.h"
 
 // ディスクリプタベースを継承しているかどうかを確認するコンセプト
-#include "Definition/Concept/IsDerivedBase/Descriptor/IsDerivedDescriptorBaseConcept.h"
+#include "Definition/Concept/IsDerivedBase/Graphics/Resource/Descriptor/IsDerivedDescriptorBaseConcept.h"
 
 // ディスクリプタプール
 #include "JsonConverter/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
@@ -181,7 +192,7 @@
 #include "Definition/Struct/Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilderStruct.h"
 
 // アップロードシステム用TypeAlias
-#include "Definition/Type/Alias/Graphics/Resource/Upload/UploadSystemTypeAlias.h"
+#include "Definition/Type/Alias/Graphics/Resource/Upload/TypeAliasUploadSystem.h"
 
 // アップロードシステム
 #include "JsonConverter/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
@@ -206,10 +217,6 @@
 // フレームリソースクラス
 #include "Graphics/Render/Frame/FrameResource.h"
 
-// 描画コマンドクラス
-#include "Graphics/Render/Command/IDrawCommand.h"
-#include "Graphics/Render/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
-
 // レンダーエリアクラス
 #include "Graphics/Render/Rasterizer/RenderArea.h"
 
@@ -223,6 +230,17 @@
 // パイプラインステート
 #include "JsonConverter/Graphics/Render/Pipeline/PipelineStateJsonConverter.h"
 #include "Graphics/Render/Pipeline/PipelineState.h"
+
+// 描画コマンドクラス
+#include "Graphics/Render/Command/IDrawCommand.h"
+
+// 描画コマンドクラス用ファクトリTypeAlias
+#include "Definition/Type/Alias/Factory/Shader/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"
+
+#include "Graphics/Render/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
+
+// 描画コマンドの基底クラスを継承しているかどうかを確認するConcept
+#include "Definition/Concept/IsDerivedBase/Graphics/Renderer/Command/IsDerivedIDrawCommandConcept.h"
 
 // レンダラー
 #include "JsonConverter/Graphics/Render/RendererJsonConverter.h"

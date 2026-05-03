@@ -2,11 +2,6 @@
 
 namespace FWK::Graphics
 {
-	class TextureSystem
-}
-
-namespace FWK::Graphics
-{
 	// Rendererクラスでそのフレームで必要な座標だったりサイズだったりを持つためのクラス
 	class IDrawCommand
 	{

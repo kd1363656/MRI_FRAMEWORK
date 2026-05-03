@@ -380,11 +380,13 @@ if "$(Configuration)"=="Debug" (
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Descriptor\IsDerivedDescriptorBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline\IsDerivedPipelineStateTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter\IsDerivedRootParameterTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsSmartPTR\IsSmartPTRConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h" />
@@ -399,6 +401,8 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\TypeTag\TypeTagConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Enum\Enum.h" />
+    <ClInclude Include="Source\Framework\Definition\Macros\Factory\FactoryMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\Json\JsonSerializeEnumMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\Tag\TagTypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\TypeINFOMacros.h" />
@@ -411,8 +415,11 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\StringHash\StringHashStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\TypeINFO\TypeINFOStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Window\WindowStruct.h" />
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\UploadSystemTypeAlias.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shader\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\TypeAliasUploadSystem.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\Trait\PTR\TypeTraitPTR.h" />
+    <ClInclude Include="Source\Framework\Factory\GenericFactory.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.h" />

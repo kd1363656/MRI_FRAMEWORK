@@ -22,3 +22,5 @@ namespace FWK::Graphics
 		FWK_DEFINE_TYPE_INFO(DrawSpriteStandardCommand, IDrawCommand);
 	};
 }
+
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryDrawCommand, FWK::Graphics::DrawSpriteStandardCommand);

@@ -1,5 +1,10 @@
 {
     "Renderer": {
+        "DrawCommandMap": [
+            {
+                "DrawCommandTypeName": "DrawSpriteStandardCommand"
+            }
+        ],
         "FrameResourceList": [
             null,
             null,
