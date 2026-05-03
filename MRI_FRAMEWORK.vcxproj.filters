@@ -629,6 +629,9 @@
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\Resource\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Upload</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

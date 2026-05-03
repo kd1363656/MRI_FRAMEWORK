@@ -20,7 +20,7 @@ namespace FWK::Graphics
 
 		bool RequestTextureLoad(const std::filesystem::path& a_filePath);
 
-		bool LoadPendingTexturesAndWait();
+		bool LoadPendingTexturesAndWait(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 
 		nlohmann::json Serialize() const;
 
@@ -30,7 +30,9 @@ namespace FWK::Graphics
 
 	private:
 
-		bool LoadTextureBatch();
+		bool LoadTextureBatch(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
+
+		static constexpr std::uint32_t k_initialTextureReferenceCount = 1U;
 
 		TextureIDAllocator		   m_textureIDAllocator			= {};
 		TextureLoader			   m_textureLoader				= {};
