@@ -20,8 +20,6 @@ namespace FWK::Graphics
 
 		void BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
 		
-		void SetupGraphicsPipelineByTag(const TypeAlias::TypeTag a_pipelineStateTag) const;
-
 		void Draw    () const;
 		void EndDraw (const SwapChain& a_swapChain);
 		void EndFrame();
@@ -44,6 +42,33 @@ namespace FWK::Graphics
 		auto& GetMutableREFFrameResourceList() { return m_frameResourceList; }
 
 	private:
+
+		template <Concept::IsDerivedPipelineStateTagBaseConcept Type>
+		void SetupGraphicsPipelineStateByTag() const
+		{
+			auto* l_pipelineState = FindPTRPipelineState(Utility::Tag::GetTag<Type>());
+
+			if (!l_pipelineState) 
+			{
+				assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
+				return; 
+			}
+
+			// パイプラインステートが使用するルートシグネチャを取得
+			auto* l_rootSignature = FindPTRRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
+
+			if (!l_rootSignature)
+			{
+				assert(false && "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。");
+				return;
+			}
+
+			// ルートシグネチャをセット
+			m_directCommandList.SetupRootSignature(l_rootSignature);
+
+			// パイプラインステートをセット
+			m_directCommandList.SetupPipelineState(l_pipelineState);
+		}
 
 		const FrameResource* FetchPTRCurrentFrameResource() const;
 

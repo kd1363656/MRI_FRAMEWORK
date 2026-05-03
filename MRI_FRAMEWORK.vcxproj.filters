@@ -370,6 +370,9 @@
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter">
       <UniqueIdentifier>{5a4497b5-cdb7-445f-9bb9-7c583350a980}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{fb103923-f94e-4c51-8042-e79ab6ab34e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -673,6 +676,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter\IsDerivedRootParameterTagBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline\IsDerivedPipelineStateTagBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -82,35 +82,10 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	m_directCommandList.SetupRenderArea(m_renderArea);
 }
 
-void FWK::Graphics::Renderer::SetupGraphicsPipelineByTag(const TypeAlias::TypeTag a_pipelineStateTag) const
-{
-	auto* l_pipelineState = FindPTRPipelineState(a_pipelineStateTag);
-
-	if (!l_pipelineState) 
-	{
-		assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
-		return; 
-	}
-
-	// パイプラインステートが使用するルートシグネチャを取得
-	auto* l_rootSignature = FindPTRRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
-
-	if (!l_rootSignature)
-	{
-		assert(false && "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。");
-		return;
-	}
-
-	m_directCommandList.SetupRootSignature(l_rootSignature);
-
-	// パイプラインステートをセット
-	m_directCommandList.SetupPipelineState(l_pipelineState);
-}
-
 void FWK::Graphics::Renderer::Draw() const
 {
 	// スプライト描画
-	SetupGraphicsPipelineByTag(Utility::Tag::GetTag<Tag::SpriteStandardPipelineStateTag>());
+	SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>();
 
 	m_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
 }
