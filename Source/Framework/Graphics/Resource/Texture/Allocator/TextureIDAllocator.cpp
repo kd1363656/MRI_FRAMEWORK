@@ -54,7 +54,7 @@ FWK::TypeAlias::TextureID FWK::Graphics::TextureIDAllocator::Allocate()
 		if (!IsValidTextureID(l_reuseTextureID))
 		{
 			assert(false && "再利用しようとしたテクスチャIDが確保範囲外です。");
-			return Constant::k_invalidDescriptorHeapIndex;
+			return Constant::k_invalidTextureID;
 		}
 
 		m_isAllocatedList[l_reuseTextureID] = k_allocatedTextureIDState;

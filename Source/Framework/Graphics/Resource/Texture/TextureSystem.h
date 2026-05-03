@@ -20,7 +20,7 @@ namespace FWK::Graphics
 
 		bool RequestTextureLoad(const std::filesystem::path& a_filePath);
 
-		bool LoadPendingTexturesAndWait(const Device&			                 a_device, 
+		void LoadPendingTexturesAndWait(const Device&			                 a_device, 
 										const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 											  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 											  UploadSystem&						 a_uploadSystem);

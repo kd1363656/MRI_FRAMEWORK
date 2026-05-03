@@ -54,13 +54,13 @@ bool FWK::Graphics::TextureSystem::RequestTextureLoad(const std::filesystem::pat
 }
 
 
-bool FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(const Device&			                   a_device, 
+void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(const Device&			                   a_device, 
 															  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 																	DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 																	UploadSystem&					   a_uploadSystem)
 {
 	// std::unordered_set内にロードするテクスチャのファイルパスが一つもなければreturn
-	if (m_pendingTextureFilePathSet.empty()) { return false; }
+	if (m_pendingTextureFilePathSet.empty()) { return; }
 
 	// ロード申請が来ていたテクスチャを一括ロードする
 	if (!LoadTextureBatch(a_device, 
@@ -69,13 +69,11 @@ bool FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(const Device&			  
 						 a_uploadSystem))
 	{
 		assert(false && "ロード待ちテクスチャのバッチ登録に失敗しました。");
-		return false;
+		return;
 	}
 
 	// そのフレーム内でロードすべきテクスチャをすべてロードし終えた状態なのでクリア
 	m_pendingTextureFilePathSet.clear();
-
-	return false;
 }
 
 nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
@@ -90,7 +88,7 @@ bool FWK::Graphics::TextureSystem::LoadTextureBatch(const Device&			            
 {
 	if (m_pendingTextureFilePathSet.empty())
 	{
-		assert(false && "テクスチャ読み込み町std::unordered_setが空のため、テクスチャのバッチロード処理に失敗しました。");
+		assert(false && "テクスチャ読み込み待ちstd::unordered_setが空のため、テクスチャのバッチロード処理に失敗しました。");
 		return false;
 	}
 

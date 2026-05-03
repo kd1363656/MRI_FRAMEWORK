@@ -39,15 +39,23 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	// CPUOnlyに作成したSRVをShaderVisible側へコピーする
 	if (!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_textureRecord.m_srvIndex, a_device))
 	{
-		assert(false && "CPUOnlyからshaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗ました。");
+		assert(false && "CPUOnlyからshaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
 	}
 
 	// std::unordered_mapのファイルパスをTextureIDに変換するマップ用にファイルパスを格納
 	a_textureBatchUploadRecord.m_filePath = a_filePath;
 
+	const auto l_textureID = a_textureIDAllocator.Allocate();
+
+	if (l_textureID == Constant::k_invalidTextureID)
+	{
+		assert(false && "TextureIDの割り当てに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
+		return false;
+	}
+
 	// 最後にD3D12_RESOURCE_STATESと参照カウント、ファイルパスを格納する
-	l_textureRecord.m_textureID      = a_textureIDAllocator.Allocate();
+	l_textureRecord.m_textureID      = l_textureID;
 	l_textureRecord.m_currentState   = D3D12_RESOURCE_STATE_COMMON;
 	l_textureRecord.m_referenceCount = k_initialTextureReferenceCount;
 	
@@ -177,7 +185,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 	}
 
 	// DirectXTexで読み込んだ画像データをUploadBufferへコピーする
-	// 各サブリソースひとつづつに対して実行
+	// 各サブリソースひとつずつに対して実行
 	for (UINT l_subresourceIndex = 0U; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
 	{
 		// 現在処理するサブリソースの元画像データと、UploadBuffer上の配置情報を取得する
@@ -185,7 +193,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 		const auto& l_layout = l_layoutList[l_subresourceIndex];
 
 		// 現在のサブリソースを書き込むUploadBuffer上の先頭アドレスを取得する
-		// l_layout.OffsetはGetCoypableFootprints()が計算したサブリソースごとの開始位置
+		// l_layout.OffsetはGetCopyableFootprints()が計算したサブリソースごとの開始位置
 		auto* l_destinationSubresource = l_mappedData + l_layout.Offset;
 
 		// UploadBuffer側で1行進むためのバイト数を取得する
@@ -199,7 +207,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 		// ScratchImage側で1行進むためのバイト数を取得する
 		const auto& l_sourceRowPitch = l_image.rowPitch;
 
-		// ScratchImage側でDepth方向に1毎進むためのバイト数を首都ｋする
+		// ScratchImage側でDepth方向に1枚進むためのバイト数を取得する
 		const auto& l_sourceSlicePitch = l_image.slicePitch;
 
 		// 実際にコピーする1行当たりの有効データサイズ
@@ -285,7 +293,15 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const Dire
 	}
 
 	// SRVインデックスを格納
-	a_textureRecord.m_srvIndex = a_srvDescriptorPool.Allocate();
+	const auto l_srvIndex = a_srvDescriptorPool.Allocate();
+
+	if (l_srvIndex == Constant::k_invalidDescriptorHeapIndex)
+	{
+		assert(false && "SRV用ディスクリプタインデックスの確保に失敗したため、TextureSRV作成処理に失敗しました。");
+		return false;
+	}
+
+	a_textureRecord.m_srvIndex = l_srvIndex;
 
 	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(a_textureRecord.m_srvIndex);
 

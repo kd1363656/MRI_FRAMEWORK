@@ -43,7 +43,7 @@ namespace FWK::Graphics
 
 		static constexpr FLOAT k_resourceMINLODClamp = 0.0F;
 
-		static constexpr std::size_t k_texture2DArrayMINArraySize = 1ULL;
+		static constexpr std::size_t k_texture2DArrayMINArraySize = 2ULL;
 
 		static constexpr std::uint32_t k_initialTextureReferenceCount = 1U;
 	};
