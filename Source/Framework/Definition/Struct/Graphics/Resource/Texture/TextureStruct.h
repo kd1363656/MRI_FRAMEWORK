@@ -14,10 +14,4 @@ namespace FWK::Struct
 
 		TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
 	};
-
-	struct TextureBatchUploadRecord
-	{
-		Struct::TextureRecord	    m_textureRecord       = {};
-		Struct::TextureUploadRecord m_textureUploadRecord = {};
-	};
 }

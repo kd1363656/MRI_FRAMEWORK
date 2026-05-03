@@ -343,6 +343,9 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload">
       <UniqueIdentifier>{f550d18c-d86a-40dc-8ab6-0a83a4705128}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder">
+      <UniqueIdentifier>{5cfc900a-45b0-4a13-9584-ab3809f60605}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -617,7 +620,7 @@
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureRegistrationBuilder.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h">
@@ -631,6 +634,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Upload</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilderStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -778,7 +784,7 @@
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureRegistrationBuilder.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp">

@@ -54,13 +54,19 @@ bool FWK::Graphics::TextureSystem::RequestTextureLoad(const std::filesystem::pat
 }
 
 
-bool FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
+bool FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(const Device&			                   a_device, 
+															  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																	DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+																	UploadSystem&					   a_uploadSystem)
 {
 	// std::unordered_set内にロードするテクスチャのファイルパスが一つもなければreturn
 	if (m_pendingTextureFilePathSet.empty()) { return false; }
 
 	// ロード申請が来ていたテクスチャを一括ロードする
-	if (LoadTextureBatch(a_srvDescriptorPool))
+	if (LoadTextureBatch(a_device, 
+						 a_gpuMemoryAllocator,
+						 a_srvDescriptorPool,
+						 a_uploadSystem))
 	{
 		assert(false && "ロード待ちテクスチャのバッチ登録に失敗しました。");
 		return false;
@@ -77,7 +83,10 @@ nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 	return m_textureSystemJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::TextureSystem::LoadTextureBatch(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
+bool FWK::Graphics::TextureSystem::LoadTextureBatch(const Device&			                 a_device, 
+													const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+														  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+														  UploadSystem&						 a_uploadSystem)
 {
 	if (m_pendingTextureFilePathSet.empty())
 	{
@@ -114,36 +123,37 @@ bool FWK::Graphics::TextureSystem::LoadTextureBatch(DescriptorPool<SRVDescriptor
 
 		Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
 
-		auto& l_textureRecord = l_textureBatchUploadRecord.m_textureRecord;
-
-		// SRV作成用にインデックス番号を格納
-		const auto l_srvIndex = a_srvDescriptorPool.Allocate();
-
-		if (l_srvIndex == Constant::k_invalidDescriptorHeapIndex)
+		// テクスチャを作成、管理するのに必要な情報全てを作成
+		if (!m_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecordBuilder(l_scratchImage, 
+																					 l_texMetadata,
+																					 a_device,
+																					 a_gpuMemoryAllocator,
+																					 l_pendingTextureFilePath,
+																					 a_srvDescriptorPool,
+																					 *this,
+																					 l_textureBatchUploadRecord))
 		{
-			assert(false && "TextureIDが無効なため、バッチテクスチャ登録に失敗しました。");
+			assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
 			return false;
 		}
 
-		const auto l_textureID = m_textureIDAllocator.Allocate();
-		
-		if (l_textureID == Constant::k_invalidTextureID)
-		{
-			assert(false && "テクスチャIDが無効なため、バッチテクスチャ登録に失敗しました。");
-			return false;
-		}
-		
-		l_textureRecord.m_srvIndex       = l_srvIndex;
-		l_textureRecord.m_textureID      = l_textureID;
-		l_textureRecord.m_currentState   = D3D12_RESOURCE_STATE_COMMON;
-		l_textureRecord.m_referenceCount = k_initialTextureReferenceCount;
-
-		// CPU、GPUから編集可能なUPLOADヒープにテクスチャ情報を詰め込み
-		// GPU側でしか使用できないDEFAULTヒープにUPLOADヒープの状態をコピーする
-
-
+		// 作成し終えたTextureBatchUploadRecordをリストに格納する
+		l_textureBatchUploadRecordList.emplace_back(std::move(l_textureBatchUploadRecord));
 	}
 
+	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_textureBatchUploadRecordList))
+	{
+		assert(false && "UploadSystemでのバッチテクスチャコピーに失敗したため、バッチテクスチャ登録に失敗しました。。");
+		return false;
+	}
 
-	return false;
+	for (auto& l_record : l_textureBatchUploadRecordList)
+	{
+		auto& l_textureRecord = l_record.m_textureRecord;
+
+		m_texturePathMap.try_emplace  (l_record.m_filePath,			l_textureRecord.m_textureID);
+		m_textureRecordMap.try_emplace(l_textureRecord.m_textureID, std::move(l_record.m_textureRecord));
+	}
+
+	return true;
 }

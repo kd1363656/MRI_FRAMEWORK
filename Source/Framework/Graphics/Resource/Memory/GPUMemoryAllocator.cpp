@@ -45,9 +45,6 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOUR
                                                                     TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource, 
                                                                     TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
 {
-    a_textureResource.Reset();
-    a_allocation.Reset     ();
-
     if (!m_allocator)
     {
         assert(false && "D3D12MAアロケータが作成されておらず、TextureResourceの作成に失敗しました。");

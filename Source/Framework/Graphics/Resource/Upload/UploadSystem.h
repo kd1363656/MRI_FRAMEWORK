@@ -12,6 +12,8 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    (const Device& a_device);
 
+		bool SubmitTextureCopyBatchAndWait(const std::vector<Struct::TextureBatchUploadRecord>& a_textureBatchUploadRecordList);
+
 		nlohmann::json Serialize() const;
 
 		const auto& GetREFCopyCommandAllocatorList() const { return m_copyCommandAllocatorList; }
@@ -19,6 +21,10 @@ namespace FWK::Graphics
 		auto& GetMutableREFCopyCommandAllocatorList() { return m_copyCommandAllocatorList; }
 
 	private:
+
+		void RecordTextureCopy(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer, const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList) const;
+
+		CopyCommandAllocator* FetchMutablePTRCopyCommandAllocator();
 
 		static constexpr UINT k_textureCopyDestinationX = 0U;
 		static constexpr UINT k_textureCopyDestinationY = 0U;
