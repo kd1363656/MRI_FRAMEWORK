@@ -8,6 +8,7 @@ namespace FWK::Graphics
 
 		using RootSignatureMap = std::unordered_map<TypeAlias::TypeTag, RootSignature>;
 		using PipelineStateMap = std::unordered_map<TypeAlias::TypeTag, PipelineState>;
+		using DrawCommandMap   = std::unordered_map<TypeAlias::TypeTag, std::shared_ptr<IDrawCommand>>;
 
 	public:
 
@@ -26,16 +27,18 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		void AddRootSignature(const RootSignature& a_rootSignature, const TypeAlias::TypeTag a_tag);
-		void AddPipelineState(const PipelineState& a_pipelineState, const TypeAlias::TypeTag a_tag);
+		void AddRootSignature (const RootSignature&                 a_rootSignature, const TypeAlias::TypeTag a_tag);
+		void AddPipelineState (const PipelineState&                 a_pipelineState, const TypeAlias::TypeTag a_tag);
+		void AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand,   const TypeAlias::TypeTag a_tag);
 
 		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
 		const PipelineState* FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const;
 
 		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
 
-		const auto& GetREFRootSignatureMap() const { return m_rootSignatureMap; }
-		const auto& GetREFPipelineStateMap() const { return m_pipelineStateMap; }
+		const auto& GetREFRootSignatureMap     () const { return m_rootSignatureMap; }
+		const auto& GetREFPipelineStateMap     () const { return m_pipelineStateMap; }
+		const auto& GetREFFindPTRDrawCommandMap() const { return m_drawCommandMap; }
 
 		const auto& GetREFResourceList() const { return m_frameResourceList; }
 
@@ -90,6 +93,7 @@ namespace FWK::Graphics
 
 		RootSignatureMap m_rootSignatureMap = {};
 		PipelineStateMap m_pipelineStateMap = {};
+		DrawCommandMap   m_drawCommandMap   = {};
 
 		std::vector<FrameResource> m_frameResourceList = {};
 

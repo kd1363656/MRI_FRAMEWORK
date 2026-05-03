@@ -35,6 +35,7 @@
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
+#include "Definition/Struct/Graphics/Render/Command/DrawCommandStruct.h"
 
 // ファイル関係の定数
 #include "Definition/Constant/FileExtension/FileExtensionConstant.h"
@@ -204,6 +205,10 @@
 
 // フレームリソースクラス
 #include "Graphics/Render/Frame/FrameResource.h"
+
+// 描画コマンドクラス
+#include "Graphics/Render/Command/IDrawCommand.h"
+#include "Graphics/Render/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
 
 // レンダーエリアクラス
 #include "Graphics/Render/Rasterizer/RenderArea.h"

@@ -134,6 +134,10 @@ void FWK::Graphics::Renderer::AddPipelineState(const PipelineState& a_pipelineSt
 {
 	m_pipelineStateMap.try_emplace(a_tag, a_pipelineState);
 }
+void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::TypeTag a_tag)
+{
+	m_drawCommandMap.try_emplace(a_tag, a_drawCommand);
+}
 
 const FWK::Graphics::RootSignature* FWK::Graphics::Renderer::FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const
 {

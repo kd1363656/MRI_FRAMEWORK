@@ -373,6 +373,18 @@
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline">
       <UniqueIdentifier>{fb103923-f94e-4c51-8042-e79ab6ab34e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command">
+      <UniqueIdentifier>{e432040f-c2ea-4740-9fd3-2380f7ef2fbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Command">
+      <UniqueIdentifier>{1100bbc2-39f3-4799-a2ab-f1c71bb6b598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Sprite">
+      <UniqueIdentifier>{60cd8527-d702-4419-bfb3-819731eb37da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Sprite\Standard">
+      <UniqueIdentifier>{4132537e-d29d-43b5-82e0-fb227891e1cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -680,6 +692,15 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline\IsDerivedPipelineStateTagBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\IDrawCommand.h">
+      <Filter>Source\Framework\Graphics\Render\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Command\DrawCommandStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Render\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.h">
+      <Filter>Source\Framework\Graphics\Render\Command\Sprite\Standard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -837,6 +858,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp">
+      <Filter>Source\Framework\Graphics\Render\Command\Sprite\Standard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
