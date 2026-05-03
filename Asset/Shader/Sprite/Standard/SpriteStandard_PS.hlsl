@@ -1,5 +1,5 @@
-﻿// SpriteStandard の最小動作確認用PixelShader
-// いまはテクスチャサンプリング前段階なので、入力色をそのまま返す
+﻿// SpriteStandardShaderの最小動作確認用PixelShader
+// RootSignatureから渡されたSRVとStaticSamplerを使ってテクスチャをサンプリングする
 
 Texture2D    g_baseColorTexture : register(t0);
 SamplerState g_baseColorSampler : register(s0);

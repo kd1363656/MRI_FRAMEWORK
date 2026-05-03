@@ -171,11 +171,47 @@
         "RootSignatureMap": [
             {
                 "RootSignature": {
-                    "RootParameterIndexMap": [],
-                    "RootParameterList": [],
+                    "RootParameterIndexMap": [
+                        {
+                            "Index": 0,
+                            "RootParameterTag": "RootParameterSpriteBaseColorTextureTag"
+                        }
+                    ],
+                    "RootParameterList": [
+                        {
+                            "DescriptorRangeList": [
+                                {
+                                    "BaseShaderRegister": 0,
+                                    "NumDescriptors": 1,
+                                    "OffsetInDescriptorsFromTableStart": 0,
+                                    "RangeType": "D3D12_DESCRIPTOR_RANGE_TYPE_SRV",
+                                    "RegisterSpace": 0
+                                }
+                            ],
+                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
+                            "RootParameterTag": "RootParameterSpriteBaseColorTextureTag",
+                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_PIXEL"
+                        }
+                    ],
                     "RootSignatureFlags": "D3D12_ROOT_SIGNATURE_FLAG_NONE",
                     "RootSignatureVersion": "D3D_ROOT_SIGNATURE_VERSION_1",
-                    "StaticSamplerDescList": []
+                    "StaticSamplerDescList": [
+                        {
+                            "AddressU": "D3D12_TEXTURE_ADDRESS_MODE_WRAP",
+                            "AddressV": "D3D12_TEXTURE_ADDRESS_MODE_WRAP",
+                            "AddressW": "D3D12_TEXTURE_ADDRESS_MODE_WRAP",
+                            "BorderColor": "D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK",
+                            "ComparisonFunc": "D3D12_COMPARISON_FUNC_ALWAYS",
+                            "Filter": "D3D12_FILTER_MIN_MAG_MIP_LINEAR",
+                            "MaxAnisotropy": 1,
+                            "MaxLOD": 3.4028234663852886e+38,
+                            "MinLOD": 0.0,
+                            "MipLODBias": 0.0,
+                            "RegisterSpace": 0,
+                            "ShaderRegister": 0,
+                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_PIXEL"
+                        }
+                    ]
                 },
                 "RootSignatureTag": "SpriteStandardRootSignatureTag"
             }
