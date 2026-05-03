@@ -33,9 +33,9 @@ bool FWK::Graphics::UploadSystem::Create(const Device& a_device)
 	return true;
 }
 
-bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const std::vector<Struct::TextureBatchUploadRecord>& a_textureBatchUploadRecordList)
+bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias::PendingTextureBatchUploadRecordMap& a_pendingTextureBatchUploadRecordMap)
 {
-	if (a_textureBatchUploadRecordList.empty())
+	if (a_pendingTextureBatchUploadRecordMap.empty())
 	{
 		assert(false && "テクスチャのバッチアップロード用の情報リストが空のため、バッチテクスチャコピー送信処理に失敗しました。");
 		return false;
@@ -55,10 +55,10 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const std::vecto
 
 	// UploadBuffer内に配置した各サブリソースの画像データを
 	// D3D12_PLACED_SUBRESOURCE_FOOTPRINTの配置情報に従って、DEFAULTヒープ上のテクスチャリソースへコピーする
-	for (const auto& l_textureBatchUploadRecord : a_textureBatchUploadRecordList)
+	for (const auto& [l_filePath, l_pendingTextureBatchUploadRecord] : a_pendingTextureBatchUploadRecordMap)
 	{
-		const auto& l_textureRecord		  = l_textureBatchUploadRecord.m_textureRecord;
-		const auto& l_textureUploadRecord = l_textureBatchUploadRecord.m_textureUploadRecord;
+		const auto& l_textureRecord		  = l_pendingTextureBatchUploadRecord.m_textureRecord;
+		const auto& l_textureUploadRecord = l_pendingTextureBatchUploadRecord.m_textureUploadRecord;
 
 		RecordTextureCopy(l_textureRecord.m_textureResource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer(), l_textureUploadRecord.m_layoutList);
 	}

@@ -172,6 +172,9 @@
 // テクスチャ一括アップロード用構造体
 #include "Definition/Struct/Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilderStruct.h"
 
+// アップロードシステム用TypeAlias
+#include "Definition/Type/Alias/Graphics/Resource/Upload/UploadSystemTypeAlias.h"
+
 // アップロードシステム
 #include "JsonConverter/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
 #include "Graphics/Resource/Upload/UploadSystem.h"

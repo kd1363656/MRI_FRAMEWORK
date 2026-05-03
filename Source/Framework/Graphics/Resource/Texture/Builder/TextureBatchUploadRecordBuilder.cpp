@@ -4,7 +4,6 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 																						   const DirectX::TexMetadata&              a_texMetadata, 
 																						   const Device&			                a_device,
 																						   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-																						   const std::wstring&						a_filePath,
 																							     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 																								 TextureIDAllocator&				a_textureIDAllocator,
 																								 Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord)
@@ -42,9 +41,6 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 		assert(false && "CPUOnlyからshaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
 	}
-
-	// std::unordered_mapのファイルパスをTextureIDに変換するマップ用にファイルパスを格納
-	a_textureBatchUploadRecord.m_filePath = a_filePath;
 
 	const auto l_textureID = a_textureIDAllocator.Allocate();
 

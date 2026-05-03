@@ -346,6 +346,15 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder">
       <UniqueIdentifier>{5cfc900a-45b0-4a13-9584-ab3809f60605}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Graphics">
+      <UniqueIdentifier>{5472e0b9-9049-4612-b581-dd42e408526a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Graphics\Resource">
+      <UniqueIdentifier>{c6d489e2-9345-4555-83c1-b66dc83abfa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload">
+      <UniqueIdentifier>{4bf55b54-7a0d-4c58-b4c6-4d93a9f45ed1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -640,6 +649,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\UploadSystemTypeAlias.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

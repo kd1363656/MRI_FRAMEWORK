@@ -71,7 +71,7 @@ void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd)
 
 void FWK::Graphics::GraphicsManager::BeginFrame()
 {
-	m_resourceContext.BeginFrame(m_device);
+	m_resourceContext.BeginFrame();
 }
 
 void FWK::Graphics::GraphicsManager::BeginDraw()

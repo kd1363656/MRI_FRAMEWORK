@@ -16,19 +16,22 @@ bool FWK::Graphics::TextureSystem::Create()
 	return true;
 }
 
-bool FWK::Graphics::TextureSystem::RequestTextureLoad(const std::filesystem::path& a_filePath)
+FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::LoadTextureForBatchUpload(const Device&			                   a_device,
+																				  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																				  const std::filesystem::path&			   a_filePath,
+																						DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
 	if (a_filePath.empty())
 	{
 		assert(false && "読み込み申請されたテクスチャファイルパスが空のため、テクスチャ読み込み申請に失敗しました。");
-		return false;
+		return Constant::k_invalidTextureID;
 	}
 
 	// 拡張子が.ddsでなければreturn
 	if (a_filePath.extension() != Constant::k_lowerDDSExtension)
 	{
 		assert(false && "読み込み申請されたテクスチャファイルパスの拡張子が.ddsではなく、テクスチャ読み込み申請に失敗しました。");
-		return false;
+		return Constant::k_invalidTextureID;
 	}
 
 	const auto& l_filePath = a_filePath.wstring();
@@ -37,43 +40,61 @@ bool FWK::Graphics::TextureSystem::RequestTextureLoad(const std::filesystem::pat
 	if (const auto& l_itr = m_texturePathMap.find(l_filePath);
 		l_itr != m_texturePathMap.end())
 	{
-		return true;
+		return l_itr->second;
 	}
 
 	// 現在のフレームで登録しようとしているパスが既に登録されているなら登録する必要がないためreturn
-	if (const auto& l_itr = m_pendingTextureFilePathSet.find(l_filePath);
-		l_itr != m_pendingTextureFilePathSet.end())
+	if (const auto& l_itr = m_pendingTextureBatchUploadRecordMap.find(l_filePath);
+		l_itr != m_pendingTextureBatchUploadRecordMap.end())
 	{
-		return true;
+		return l_itr->second.m_textureRecord.m_textureID;;
 	}	
-
-	// 現在のフレームでロードするテクスチャのファイルパスをstd::unordered_setに格納
-	m_pendingTextureFilePathSet.emplace(l_filePath);
 	
+	DirectX::ScratchImage l_scratchImage = {};
+	DirectX::TexMetadata  l_texMetadata  = {};
+
+	// まずはテクスチャをロードしてロードできるかどうかを確認
+	if (!m_textureLoader.LoadTextureFile(l_scratchImage, l_texMetadata, l_filePath))
+	{
+		assert(false && "DDSテクスチャ読み込みに失敗したため、テクスチャのバッチロード処理に失敗しました。");
+		return false;
+	}
+
+	Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
+
+	// テクスチャを作成、管理するのに必要な情報全てを作成
+	if (!m_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecordBuilder(l_scratchImage, 
+																				 l_texMetadata,
+																				 a_device,
+																				 a_gpuMemoryAllocator,
+																				 a_srvDescriptorPool,
+																				 m_textureIDAllocator,
+																				 l_textureBatchUploadRecord))
+	{
+		assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
+		return false;
+	}
+
+	// 作成し終えたTextureBatchUploadRecordをリストに格納する
+	m_pendingTextureBatchUploadRecordMap.try_emplace(l_filePath, std::move(l_textureBatchUploadRecord));
+
 	return true;
 }
 
-
-void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(const Device&			                   a_device, 
-															  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-																	DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-																	UploadSystem&					   a_uploadSystem)
+void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_uploadSystem)
 {
 	// std::unordered_set内にロードするテクスチャのファイルパスが一つもなければreturn
-	if (m_pendingTextureFilePathSet.empty()) { return; }
+	if (m_pendingTextureBatchUploadRecordMap.empty()) { return; }
 
 	// ロード申請が来ていたテクスチャを一括ロードする
-	if (!LoadTextureBatch(a_device, 
-						 a_gpuMemoryAllocator,
-						 a_srvDescriptorPool,
-						 a_uploadSystem))
+	if (!TextureCopyBatch(a_uploadSystem))
 	{
 		assert(false && "ロード待ちテクスチャのバッチ登録に失敗しました。");
 		return;
 	}
 
 	// そのフレーム内でロードすべきテクスチャをすべてロードし終えた状態なのでクリア
-	m_pendingTextureFilePathSet.clear();
+	m_pendingTextureBatchUploadRecordMap.clear();
 }
 
 nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
@@ -81,76 +102,20 @@ nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 	return m_textureSystemJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::TextureSystem::LoadTextureBatch(const Device&			                 a_device, 
-													const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-														  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-														  UploadSystem&						 a_uploadSystem)
+bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem)
 {
-	if (m_pendingTextureFilePathSet.empty())
-	{
-		assert(false && "テクスチャ読み込み待ちstd::unordered_setが空のため、テクスチャのバッチロード処理に失敗しました。");
-		return false;
-	}
-
-	// テクスチャアップロード用データと実際に保存するTextureRecordの情報を持ったリスト
-	std::vector<Struct::TextureBatchUploadRecord> l_textureBatchUploadRecordList = {};
-
-	l_textureBatchUploadRecordList.reserve(m_pendingTextureFilePathSet.size());
-
-	// このフレームでロード申請されたテクスチャのファイルパスを使用してテクスチャをロードしていく
-	for (const auto& l_pendingTextureFilePath : m_pendingTextureFilePathSet)
-	{
-		if (l_pendingTextureFilePath.empty()) { continue; }
-
-		if (const auto& l_itr = m_texturePathMap.find(l_pendingTextureFilePath);
-			l_itr != m_texturePathMap.end())
-		{
-			assert(false && "登録済みテクスチャがバッチロード処理に含まれていたため、テクスチャのバッチロード処理に失敗しました。");
-			return false;
-		}
-
-		DirectX::ScratchImage l_scratchImage = {};
-		DirectX::TexMetadata  l_texMetadata  = {};
-
-		// まずはテクスチャをロードしてロードできるかどうかを確認
-		if (!m_textureLoader.LoadTextureFile(l_scratchImage, l_texMetadata, l_pendingTextureFilePath))
-		{
-			assert(false && "DDSテクスチャ読み込みに失敗したため、テクスチャのバッチロード処理に失敗しました。");
-			return false;
-		}
-
-		Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
-
-		// テクスチャを作成、管理するのに必要な情報全てを作成
-		if (!m_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecordBuilder(l_scratchImage, 
-																					 l_texMetadata,
-																					 a_device,
-																					 a_gpuMemoryAllocator,
-																					 l_pendingTextureFilePath,
-																					 a_srvDescriptorPool,
-																					 m_textureIDAllocator,
-																					 l_textureBatchUploadRecord))
-		{
-			assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
-			return false;
-		}
-
-		// 作成し終えたTextureBatchUploadRecordをリストに格納する
-		l_textureBatchUploadRecordList.emplace_back(std::move(l_textureBatchUploadRecord));
-	}
-
-	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_textureBatchUploadRecordList))
+	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(m_pendingTextureBatchUploadRecordMap))
 	{
 		assert(false && "UploadSystemでのバッチテクスチャコピーに失敗したため、バッチテクスチャ登録に失敗しました。。");
 		return false;
 	}
 
-	for (auto& l_record : l_textureBatchUploadRecordList)
+	for (auto& [l_filePath, l_pendingTextureBatchUploadRecord] : m_pendingTextureBatchUploadRecordMap)
 	{
-		auto& l_textureRecord = l_record.m_textureRecord;
+		auto& l_textureRecord = l_pendingTextureBatchUploadRecord.m_textureRecord;
 
-		m_texturePathMap.try_emplace  (l_record.m_filePath,			l_textureRecord.m_textureID);
-		m_textureRecordMap.try_emplace(l_textureRecord.m_textureID, std::move(l_record.m_textureRecord));
+		m_texturePathMap.try_emplace  (l_filePath,					l_textureRecord.m_textureID);
+		m_textureRecordMap.try_emplace(l_textureRecord.m_textureID,	std::move(l_pendingTextureBatchUploadRecord.m_textureRecord));
 	}
 
 	return true;

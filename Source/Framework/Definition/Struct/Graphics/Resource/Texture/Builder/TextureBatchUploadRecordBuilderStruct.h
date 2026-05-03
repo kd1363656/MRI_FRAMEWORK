@@ -6,6 +6,5 @@ namespace FWK::Struct
 	{
 		Struct::TextureRecord	    m_textureRecord       = {};
 		Struct::TextureUploadRecord m_textureUploadRecord = {};
-		std::wstring				m_filePath			  = {};
 	};
 }

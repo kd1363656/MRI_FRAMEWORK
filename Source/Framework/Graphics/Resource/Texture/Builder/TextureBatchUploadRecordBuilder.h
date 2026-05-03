@@ -18,7 +18,6 @@ namespace FWK::Graphics
 												   const DirectX::TexMetadata&              a_texMetadata,
 												   const Device&                            a_device,
 												   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-												   const std::wstring&						a_filePath,
 														 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 														 TextureIDAllocator&				a_textureIDAllocator,
 														 Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord);

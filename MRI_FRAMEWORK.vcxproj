@@ -408,6 +408,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\StringHash\StringHashStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\TypeINFO\TypeINFOStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Window\WindowStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\UploadSystemTypeAlias.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
