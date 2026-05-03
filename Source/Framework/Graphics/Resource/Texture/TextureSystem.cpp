@@ -63,7 +63,7 @@ bool FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(const Device&			  
 	if (m_pendingTextureFilePathSet.empty()) { return false; }
 
 	// ロード申請が来ていたテクスチャを一括ロードする
-	if (LoadTextureBatch(a_device, 
+	if (!LoadTextureBatch(a_device, 
 						 a_gpuMemoryAllocator,
 						 a_srvDescriptorPool,
 						 a_uploadSystem))
@@ -130,7 +130,7 @@ bool FWK::Graphics::TextureSystem::LoadTextureBatch(const Device&			            
 																					 a_gpuMemoryAllocator,
 																					 l_pendingTextureFilePath,
 																					 a_srvDescriptorPool,
-																					 *this,
+																					 m_textureIDAllocator,
 																					 l_textureBatchUploadRecord))
 		{
 			assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");

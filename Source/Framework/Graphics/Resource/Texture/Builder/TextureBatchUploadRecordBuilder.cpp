@@ -6,7 +6,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 																						   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 																						   const std::wstring&						a_filePath,
 																							     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
-																								 TextureSystem&						a_textureSystem, 
+																								 TextureIDAllocator&				a_textureIDAllocator,
 																								 Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord)
 {
 	// まずはGPU側用のテクスチャリソースのヒープ領域を確保
@@ -47,6 +47,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	a_textureBatchUploadRecord.m_filePath = a_filePath;
 
 	// 最後にD3D12_RESOURCE_STATESと参照カウント、ファイルパスを格納する
+	l_textureRecord.m_textureID      = a_textureIDAllocator.Allocate();
 	l_textureRecord.m_currentState   = D3D12_RESOURCE_STATE_COMMON;
 	l_textureRecord.m_referenceCount = k_initialTextureReferenceCount;
 	

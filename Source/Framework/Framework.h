@@ -163,14 +163,16 @@
 // アップロードバッファー
 #include "Graphics/Resource/Buffer/UploadBuffer.h"
 
-// テクスチャ一括アップロード用構造体
-#include "Definition/Struct/Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilderStruct.h"
-
 // メモリアロケータクラス
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"
 
-// アップロードシステム
+// アップロードシステム用構造体
 #include "Definition/Struct/Graphics/Resource/Upload/UploadSystemStruct.h"
+
+// テクスチャ一括アップロード用構造体
+#include "Definition/Struct/Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilderStruct.h"
+
+// アップロードシステム
 #include "JsonConverter/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
 #include "Graphics/Resource/Upload/UploadSystem.h"
 

@@ -143,6 +143,7 @@ if "$(Configuration)"=="Debug" (
     </PostBuildEvent>
     <DXCTask>
       <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <AdditionalOptions>-Qembed_debug %(AdditionalOptions)</AdditionalOptions>
     </DXCTask>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -219,6 +220,7 @@ if "$(Configuration)"=="Debug" (
     </PostBuildEvent>
     <DXCTask>
       <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <AdditionalOptions>-Qembed_debug %(AdditionalOptions)</AdditionalOptions>
     </DXCTask>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -293,6 +295,7 @@ if "$(Configuration)"=="Debug" (
     </PostBuildEvent>
     <DXCTask>
       <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <AdditionalOptions>-Qembed_debug %(AdditionalOptions)</AdditionalOptions>
     </DXCTask>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -369,6 +372,7 @@ if "$(Configuration)"=="Debug" (
     </PostBuildEvent>
     <DXCTask>
       <ObjectFileOutput>%(RootDir)%(Directory)%(Filename).cso</ObjectFileOutput>
+      <AdditionalOptions>-Qembed_debug %(AdditionalOptions)</AdditionalOptions>
     </DXCTask>
   </ItemDefinitionGroup>
   <ItemGroup>

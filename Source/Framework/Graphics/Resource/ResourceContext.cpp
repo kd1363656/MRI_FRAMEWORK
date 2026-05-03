@@ -31,12 +31,21 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 		return false;
 	}
 
+	if (!m_textureSystem.Create())
+	{
+		assert(false && "テクスチャシステムの作成処理に失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 
 void FWK::Graphics::ResourceContext::BeginFrame(const Device& a_device)
 {
-	m_textureSystem.LoadPendingTexturesAndWait(a_device, m_gpuMemoryAllocator, m_srvDescriptorPool);
+	m_textureSystem.LoadPendingTexturesAndWait(a_device, 
+											   m_gpuMemoryAllocator,
+											   m_srvDescriptorPool,
+											   m_uploadSystem);
 }
 
 nlohmann::json FWK::Graphics::ResourceContext::Serialize() const
