@@ -135,7 +135,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVis
 	return FetchVALCPUHandle(a_index, *m_shaderVisibleDescriptorHeapRecord);
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVisibleGPUHandel(const UINT a_index) const
+D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVisibleGPUHandle(const UINT a_index) const
 {
 	if (!m_shaderVisibleDescriptorHeapRecord)
 	{

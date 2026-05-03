@@ -29,7 +29,7 @@ namespace FWK::Graphics
 		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUOnlyCPUHandle      (const UINT a_index) const;
 		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleCPUHandle(const UINT a_index) const;
 		
-		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleGPUHandel(const UINT a_index) const;
+		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleGPUHandle(const UINT a_index) const;
 
 		
 	private:

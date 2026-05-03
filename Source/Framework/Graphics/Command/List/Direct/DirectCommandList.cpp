@@ -106,7 +106,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 	//					  ディスクリプタが連続は位置かどうか、
 	//					　深度ステンシルビューのアドレス);
 
-	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNum,
+	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
 								            &l_rtvHandle,
 								            true,
 								            nullptr);
@@ -119,7 +119,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 
 	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
 											   k_clearColor, 
-											   k_executeClearRectNum,
+											   k_executeClearRectNUM,
 											   nullptr);
 }
 
@@ -138,14 +138,14 @@ void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_rende
 	// RSSetViewports(設定するViewportの数、
 	//				  Viewport構造体のアドレス);
 
-	l_directCommandList->RSSetViewports(k_setViewportNum, &a_renderArea.GetREFViewport());
+	l_directCommandList->RSSetViewports(k_setViewportNUM, &a_renderArea.GetREFViewport());
 
 	// ScissorRectをコマンドリストへ設定する
 	// ScissorRectは実際に描画してよいピクセル範囲を制限する四角形
 	// RSSetScissorRects(設定するScissorRectの数、
 	//					 ScissorRectの先頭アドレス)
 
-	l_directCommandList->RSSetScissorRects(k_setScissorRectNum, &a_renderArea.GetScissorRect());
+	l_directCommandList->RSSetScissorRects(k_setScissorRectNUM, &a_renderArea.GetScissorRect());
 }
 void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a_rootSignature) const
 {
@@ -211,6 +211,36 @@ void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a
 	// 深度テストを使うか、など
 	// 描画パイプラインの重要な設定がまとめて入っている
 	l_directCommandList->SetPipelineState(l_pipelineState.Get());
+}
+
+void FWK::Graphics::DirectCommandList::SetupDescriptorHeap(const DescriptorHeapBase& a_descriptorHeap) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、ShaderVisibleなディスクリプタヒープの設定ができませんでした。");
+		return;
+	}
+
+	const auto& l_descriptorHeap = a_descriptorHeap.FetchPTRShaderVisibleDescriptorHeap();
+
+	if (!l_descriptorHeap)
+	{
+		assert(false && "ShaderVisibleなディスクリプタヒープが作成されておらず、ShaderVisibleなディスクリプタヒープの設定ができませんでした。");
+		return;
+	}
+
+	ID3D12DescriptorHeap* l_descriptorHeapList[] =
+	{
+		l_descriptorHeap.Get()
+	};
+
+	// シェーダーから参照するDescriptorHeapを設定する
+	// SetDescriptorHeap(設定するヒープ数,
+	//					 ヒープ配列の先頭アドレス);
+	
+	l_directCommandList->SetDescriptorHeaps(k_setDescriptorHeapNUM, l_descriptorHeapList);
 }
 
 void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const

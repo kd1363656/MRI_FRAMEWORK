@@ -355,6 +355,21 @@
     <Filter Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload">
       <UniqueIdentifier>{4bf55b54-7a0d-4c58-b4c6-4d93a9f45ed1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics">
+      <UniqueIdentifier>{e039c715-3d1c-4def-a9fc-bc5f7939fc62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render">
+      <UniqueIdentifier>{80b1f11e-f542-41ab-9c16-0c23cd8ee29c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{72663f8a-7071-4d84-b81a-d6608af5b071}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter">
+      <UniqueIdentifier>{d43936af-e673-4d73-80ed-24689f42c289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter">
+      <UniqueIdentifier>{5a4497b5-cdb7-445f-9bb9-7c583350a980}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -652,6 +667,12 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\UploadSystemTypeAlias.h">
       <Filter>Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter\RootParameterTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\RootSignature\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter\IsDerivedRootParameterTagBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

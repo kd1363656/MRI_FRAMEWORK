@@ -76,6 +76,7 @@
 #include "Tag/TagBase.h"
 #include "Tag/Window/WindowStyleTag.h"
 #include "Tag/Graphics/Render/RootSignature/RootSignatureTag.h"
+#include "Tag/Graphics/Render/RootSignature/Parameter/RootParameterTag.h"
 #include "Tag/Graphics/Render/PipelineState/PipelineStateTag.h"
 
 //===============================================================================
@@ -83,6 +84,7 @@
 //===============================================================================
 #include "Definition/Concept/IsDerivedBase/IsDerivedBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/IsDerivedTagBaseConcept.h"
+#include "Definition/Concept/IsDerivedBase/Tag/Graphics/Render/RootSignature/Parameter/IsDerivedRootParameterTagBaseConcept.h"
 
 //===============================================================================
 // Jsonのシリアライズ、デシリアライズ補助関数
@@ -129,6 +131,15 @@
 #include "Graphics/Hardware/Factory.h"
 #include "Graphics/Hardware/Device.h"
 
+// ディスクリプタヒープ
+#include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
+#include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeap.h"
+
+// ルートシグネチャ
+#include "JsonConverter/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
+#include "Graphics/Render/RootSignature/RootSignature.h"
+
 // コマンドキュー管理クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"
 #include "Graphics/Command/Queue/CommandQueueBase.h"
@@ -144,11 +155,6 @@
 #include "Graphics/Command/List/CommandListBase.h"
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Command/List/Copy/CopyCommandList.h"
-
-// ディスクリプタヒープ
-#include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
-#include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
-#include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeap.h"
 
 // ディスクリプタヒープスロットアロケータ
 #include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapIndexAllocator.h"
@@ -200,10 +206,6 @@
 
 // レンダーエリアクラス
 #include "Graphics/Render/Rasterizer/RenderArea.h"
-
-// ルートシグネチャ
-#include "JsonConverter/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
-#include "Graphics/Render/RootSignature/RootSignature.h"
 
 // DXCコンパイラクラス
 #include "Graphics/Shader/ShaderCompiler.h"
