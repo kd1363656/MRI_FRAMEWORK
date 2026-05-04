@@ -2,6 +2,11 @@
 
 namespace FWK::Graphics
 {
+	class IDrawCommand;
+}
+
+namespace FWK::Graphics
+{
 	class Renderer final
 	{
 	private:
@@ -28,36 +33,6 @@ namespace FWK::Graphics
 		void EndFrame();
 
 		nlohmann::json Serialize() const;
-
-		template <Concept::IsDerivedPipelineStateTagBaseConcept Type>
-		void SetupGraphicsPipelineStateByTag(const RootSignature*& a_outRootSignature) const
-		{
-			auto* l_pipelineState = FindPTRPipelineState(Utility::Tag::GetTag<Type>());
-
-			if (!l_pipelineState) 
-			{
-				assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
-				return; 
-			}
-
-			// パイプラインステートが使用するルートシグネチャを取得
-			auto* l_rootSignature = FindPTRRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
-
-			if (!l_rootSignature)
-			{
-				assert(false && "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。");
-				return;
-			}
-
-			// ルートシグネチャをセット
-			m_directCommandList.SetupRootSignature(l_rootSignature);
-
-			// パイプラインステートをセット
-			m_directCommandList.SetupPipelineState(l_pipelineState);
-
-			// 外部に渡す
-			a_outRootSignature = l_rootSignature;
-		}
 
 		void AddRootSignature  (const RootSignature&                 a_rootSignature, const TypeAlias::TypeTag      a_tag);
 		void AddPipelineState  (const PipelineState&                 a_pipelineState, const TypeAlias::TypeTag      a_tag);
@@ -99,10 +74,6 @@ namespace FWK::Graphics
 		const FrameResource* FetchPTRCurrentFrameResource() const;
 
 		FrameResource* FetchMutablePTRCurrentFrameResource();
-
-		static constexpr UINT k_defaultDispatchMeshThreadGroupCountX = 1U;
-		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
-		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
 
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;

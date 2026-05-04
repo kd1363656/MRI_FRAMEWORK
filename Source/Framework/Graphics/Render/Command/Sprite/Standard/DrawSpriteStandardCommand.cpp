@@ -3,11 +3,9 @@
 void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem)
 {
 	// スプライト用ルートシグネチャとパイプラインステートをセット
-	const RootSignature* l_currentUseRootSignature = nullptr;
-	
-	a_renderer.SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>(l_currentUseRootSignature);
+	const auto& l_graphicsPipelineStateSetupResult = SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>(a_renderer);
 
-	if (!l_currentUseRootSignature)
+	if (!l_graphicsPipelineStateSetupResult.m_rootSignature)
 	{
 		assert(false && "使用しようとしたルートシグネチャが無効なため、描画処理に失敗しました。");
 		return;
@@ -39,6 +37,11 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 		}
 
 		// ディスクリプタテーブルにテクスチャをセット
-		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_currentUseRootSignature, l_textureRecord->m_srvIndex);
+		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_graphicsPipelineStateSetupResult.m_rootSignature, l_textureRecord->m_srvIndex);
+
+		DispatchMesh(a_renderer,
+					 k_defaultDispatchMeshThreadGroupCountX,
+					 k_defaultDispatchMeshThreadGroupCountY,
+					 k_defaultDispatchMeshThreadGroupCountZ);
 	}
 }

@@ -5,6 +5,14 @@ namespace FWK::Graphics
 	template <typename Type>
 	class DrawCommandBase : public IDrawCommand
 	{
+	private:
+
+		struct GraphicsPipelineSetupResult final
+		{
+			const RootSignature* m_rootSignature = nullptr;
+			const PipelineState* m_pipelineState = nullptr;
+		};
+
 	public:
 
 		DrawCommandBase() = default;
@@ -21,6 +29,49 @@ namespace FWK::Graphics
 		}
 
 		const auto& GetDrawCommandList() const { return m_drawCommandList; }
+
+	protected:
+
+		template <Concept::IsDerivedPipelineStateTagBaseConcept PipelineStateType>
+		GraphicsPipelineSetupResult SetupGraphicsPipelineStateByTag(const Renderer& a_renderer) const
+		{
+			auto* l_pipelineState = a_renderer.FindPTRPipelineState(Utility::Tag::GetTag<PipelineStateType>());
+
+			if (!l_pipelineState) 
+			{
+				assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
+				return {};
+			}
+
+			// パイプラインステートが使用するルートシグネチャを取得
+			auto* l_rootSignature = a_renderer.FindPTRRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
+
+			if (!l_rootSignature)
+			{
+				assert(false && "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。");
+				return {};
+			}
+
+			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
+			// ルートシグネチャをセット
+			l_directCommandList.SetupRootSignature(l_rootSignature);
+
+			// パイプラインステートをセット
+			l_directCommandList.SetupPipelineState(l_pipelineState);
+
+			return { l_rootSignature, l_pipelineState };
+		}
+
+		void DispatchMesh(const Renderer& a_renderer,
+						  const UINT      a_threadGroupCountX,
+						  const UINT      a_threadGroupCountY,
+						  const UINT      a_threadGroupCountZ)
+		{
+			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
+			l_directCommandList.DispatchMesh(a_threadGroupCountX, a_threadGroupCountY, a_threadGroupCountZ);
+		}
 
 	private:
 

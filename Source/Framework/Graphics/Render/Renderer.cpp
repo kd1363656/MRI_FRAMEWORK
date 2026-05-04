@@ -101,8 +101,6 @@ void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_sr
 
 		l_drawCommand->Draw(*this, a_srvDescriptorPool, a_textureSystem);
 	}
-
-	m_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
 }
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 {
