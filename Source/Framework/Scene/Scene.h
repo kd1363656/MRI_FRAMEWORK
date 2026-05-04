@@ -11,6 +11,8 @@ namespace FWK
 
 		void PostLoadSetup();
 
+		void RequestDraw() const;
+
 	private:
 
 		Graphics::Texture m_texture = {};

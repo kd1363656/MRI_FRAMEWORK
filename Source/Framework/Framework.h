@@ -233,6 +233,7 @@
 
 // 描画コマンドクラス
 #include "Graphics/Render/Command/IDrawCommand.h"
+#include "Graphics/Render/Command/DrawCommandBase.h"
 
 // 描画コマンドクラス用ファクトリTypeAlias
 #include "Definition/Type/Alias/Factory/Shader/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"

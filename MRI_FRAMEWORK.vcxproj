@@ -435,6 +435,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\IDrawCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />

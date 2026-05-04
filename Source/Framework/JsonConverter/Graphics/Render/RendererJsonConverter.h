@@ -23,17 +23,17 @@ namespace FWK::JsonConverter
 		void DeserializeFrameResourceList(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const;
 		void DeserializeRootSignatureMap (const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const;
 		void DeserializePipelineStateMap (const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const;
-		void DeserializeDrawCommandMap   (const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const;
+		void DeserializeDrawCommand      (const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const;
 
 		nlohmann::json SerializeFrameResourceList(const Graphics::Renderer& a_renderer) const;
 		nlohmann::json SerializeRootSignatureMap (const Graphics::Renderer& a_renderer) const;
 		nlohmann::json SerializePipelineStateMap (const Graphics::Renderer& a_renderer) const;
-		nlohmann::json SerializeDrawCommandMap   (const Graphics::Renderer& a_renderer) const;
+		nlohmann::json SerializeDrawCommand      (const Graphics::Renderer& a_renderer) const;
 
 		static constexpr std::string_view k_frameResourceListJsonKey = "FrameResourceList";
 		static constexpr std::string_view k_rootSignatureMapJsonKey  = "RootSignatureMap";
 		static constexpr std::string_view k_pipelineStateMapJsonKey  = "PipelineStateMap";
-		static constexpr std::string_view k_drawCommandMapJsonKey    = "DrawCommandMap";
+		static constexpr std::string_view k_drawCommandJsonKey       = "DrawCommand";
 
 		static constexpr std::string_view k_rootSignatureTagJsonKey    = "RootSignatureTag";
 		static constexpr std::string_view k_rootSignatureJsonKey       = "RootSignature";

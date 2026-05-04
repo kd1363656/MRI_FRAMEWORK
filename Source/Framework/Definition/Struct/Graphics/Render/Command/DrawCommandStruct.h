@@ -4,6 +4,6 @@ namespace FWK::Struct
 {
 	struct SpriteDrawCommand final
 	{
-		TypeAlias::TextureID textureID = Constant::k_invalidTextureID;
+		TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
 	};
 }

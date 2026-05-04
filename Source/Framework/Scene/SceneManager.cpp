@@ -4,3 +4,8 @@ void FWK::SceneManager::PostLoadSetup()
 {
 	m_scene.PostLoadSetup();
 }
+
+void FWK::SceneManager::RequestDraw() const
+{
+	m_scene.RequestDraw();
+}

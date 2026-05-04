@@ -72,6 +72,7 @@ void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd)
 void FWK::Graphics::GraphicsManager::BeginFrame()
 {
 	m_resourceContext.BeginFrame();
+	m_renderer.BeginFrame       ();
 }
 
 void FWK::Graphics::GraphicsManager::BeginDraw()
@@ -80,9 +81,12 @@ void FWK::Graphics::GraphicsManager::BeginDraw()
 
 	m_renderer.BeginDraw(m_swapChain, l_rtvDescriptorHeap);
 }
-void FWK::Graphics::GraphicsManager::Draw() const
+void FWK::Graphics::GraphicsManager::Draw()
 {
-	m_renderer.Draw();
+	const auto& l_srvDescriptorPool = m_resourceContext.GetREFSRVDescriptorPool   ();
+		  auto& l_textureSystem     = m_resourceContext.GetMutableREFTextureSystem();
+
+	m_renderer.Draw(l_srvDescriptorPool, l_textureSystem);
 }
 void FWK::Graphics::GraphicsManager::EndDraw()
 {

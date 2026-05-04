@@ -53,6 +53,17 @@ void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 	m_renderArea.SetupRenderArea(a_swapChain);
 }
 
+void FWK::Graphics::Renderer::BeginFrame() const
+{
+	// 前フレームの描画申請を削除、現フレームで描画する必要のあるものだけ取り入れるようにする
+	for (const auto& l_drawCommand : m_drawCommandList)
+	{
+		if (!l_drawCommand) { continue; }
+
+		l_drawCommand->BeginFrame();
+	}
+}
+
 void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
 {
 	const auto* const l_currentFrameResource = FetchPTRCurrentFrameResource();
@@ -82,10 +93,14 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	m_directCommandList.SetupRenderArea(m_renderArea);
 }
 
-void FWK::Graphics::Renderer::Draw() const
+void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem) const
 {
-	// スプライト描画
-	SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>();
+	for (const auto& l_drawCommand : m_drawCommandList)
+	{
+		if (!l_drawCommand) { continue; }
+
+		l_drawCommand->Draw(*this, a_srvDescriptorPool, a_textureSystem);
+	}
 
 	m_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
 }
@@ -134,9 +149,13 @@ void FWK::Graphics::Renderer::AddPipelineState(const PipelineState& a_pipelineSt
 {
 	m_pipelineStateMap.try_emplace(a_tag, a_pipelineState);
 }
-void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::TypeTag a_tag)
+void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
 {
-	m_drawCommandMap.try_emplace(a_tag, a_drawCommand);
+	m_drawCommandMap.try_emplace(a_staticTypeID, a_drawCommand);
+}
+void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand)
+{
+	m_drawCommandList.emplace_back(a_drawCommand);
 }
 
 const FWK::Graphics::RootSignature* FWK::Graphics::Renderer::FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const

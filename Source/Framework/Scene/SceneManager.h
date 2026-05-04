@@ -8,6 +8,8 @@ namespace FWK
 
 		void PostLoadSetup();
 
+		void RequestDraw() const;
+
 	private:
 
 		Scene m_scene = {};

@@ -17,9 +17,10 @@ private:
 
 	bool BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 	
-	void BeginDraw(      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
-	void Draw     (const FWK::Graphics::GraphicsManager& a_graphicsManager) const;
-	void EndDraw  (      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void RequestDraw(const FWK::SceneManager&			   a_sceneManager)    const;
+	void BeginDraw  (      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void Draw       (	   FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void EndDraw    (      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
 	void EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 

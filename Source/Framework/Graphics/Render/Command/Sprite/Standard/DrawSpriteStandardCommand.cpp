@@ -1,16 +1,44 @@
 ﻿#include "DrawSpriteStandardCommand.h"
 
-void FWK::Graphics::DrawSpriteStandardCommand::BeginFrame()
-{
-	m_spriteStandardCommandList.clear();
-}
-
 void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem)
 {
+	// スプライト用ルートシグネチャとパイプラインステートをセット
+	const RootSignature* l_currentUseRootSignature = nullptr;
+	
+	a_renderer.SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>(l_currentUseRootSignature);
 
-}
+	if (!l_currentUseRootSignature)
+	{
+		assert(false && "使用しようとしたルートシグネチャが無効なため、描画処理に失敗しました。");
+		return;
+	}
 
-void FWK::Graphics::DrawSpriteStandardCommand::RequestSpriteStandardDraw(const Struct::SpriteDrawCommand& a_spriteStandardDraw)
-{
-	m_spriteStandardCommandList.emplace_back(a_spriteStandardDraw);
+	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
+	// PixelShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
+	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
+
+	const auto& l_spriteDrawCommandList = GetDrawCommandList();
+
+	for (const auto& l_spriteDrawCommand : l_spriteDrawCommandList)
+	{
+		auto* l_textureRecord = a_textureSystem.FindMutablePTRTextureRecord(l_spriteDrawCommand.m_textureID);
+
+		if (!l_textureRecord)					                                   { continue; }
+		if (!l_textureRecord->m_textureResource)                                   { continue; }
+		if (l_textureRecord->m_srvIndex == Constant::k_invalidDescriptorHeapIndex) { continue; }
+
+		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
+		if (l_textureRecord->m_currentState != D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
+		{
+			l_directCommandList.TransitionResource(l_textureRecord->m_textureResource,
+												   l_textureRecord->m_currentState,
+												   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+			l_textureRecord->m_currentState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		}
+
+		// ディスクリプタテーブルにテクスチャをセット
+		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_currentUseRootSignature, l_textureRecord->m_srvIndex);
+	}
 }

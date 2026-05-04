@@ -123,6 +123,25 @@ const FWK::Struct::TextureRecord* FWK::Graphics::TextureSystem::FindPTRTextureRe
 	return &l_itr->second;
 }
 
+FWK::Struct::TextureRecord* FWK::Graphics::TextureSystem::FindMutablePTRTextureRecord(const TypeAlias::TextureID a_textureID)
+{
+	if (a_textureID == Constant::k_invalidTextureID)
+	{
+		assert(false && "TextureIDが無効のため、TextureRecordの取得に失敗しました。");
+		return nullptr;
+	}
+
+	const auto& l_itr = m_textureRecordMap.find(a_textureID);
+
+	if (l_itr == m_textureRecordMap.end())
+	{
+		assert(false && "指定されたTextureIDに対応するTextureRecordが見つかりませんでした。");
+		return nullptr;
+	}
+
+	return &l_itr->second;
+}
+
 bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem)
 {
 	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(m_pendingTextureBatchUploadRecordMap))

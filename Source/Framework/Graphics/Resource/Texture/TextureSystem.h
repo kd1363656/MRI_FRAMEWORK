@@ -28,6 +28,8 @@ namespace FWK::Graphics
 
 		const Struct::TextureRecord* FindPTRTextureRecord(const TypeAlias::TextureID a_textureID) const;
 
+		Struct::TextureRecord* FindMutablePTRTextureRecord(const TypeAlias::TextureID a_textureID);
+
 		auto GetVALTextureIDAllocatorCapacity() const { return m_textureIDAllocatorCapacity; }
 
 		void SetTextureIDAllocatorCapacity(const TypeAlias::TextureID a_set) { m_textureIDAllocatorCapacity = a_set; }

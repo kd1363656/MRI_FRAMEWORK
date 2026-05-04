@@ -767,6 +767,9 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h">
+      <Filter>Source\Framework\Graphics\Render\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

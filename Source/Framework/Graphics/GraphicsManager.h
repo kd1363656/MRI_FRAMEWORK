@@ -14,7 +14,7 @@ namespace FWK::Graphics
 		void BeginFrame();
 
 		void BeginDraw();
-		void Draw	  () const;
+		void Draw	  ();
 		void EndDraw  ();
 		void EndFrame ();
 
