@@ -60,7 +60,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 		const auto& l_textureRecord		  = l_pendingTextureBatchUploadRecord.m_textureRecord;
 		const auto& l_textureUploadRecord = l_pendingTextureBatchUploadRecord.m_textureUploadRecord;
 
-		RecordTextureCopy(l_textureRecord.m_textureResource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer(), l_textureUploadRecord.m_layoutList);
+		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord.m_textureResource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
 	}
 
 	m_copyCommandList.Close				  ();
@@ -80,7 +80,7 @@ nlohmann::json FWK::Graphics::UploadSystem::Serialize() const
 	return m_uploadSystemJsonConverter.Serialize(*this);
 }
 
-void FWK::Graphics::UploadSystem::RecordTextureCopy(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer, const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList) const
+void FWK::Graphics::UploadSystem::RecordTextureCopy(const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList, const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer) const
 {
 	if (!a_textureResource)
 	{

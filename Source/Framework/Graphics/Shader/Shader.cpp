@@ -3,6 +3,7 @@
 void FWK::Graphics::Shader::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+
 	m_shaderJsonConverter.Deserialize(a_rootJson, *this);
 }
 

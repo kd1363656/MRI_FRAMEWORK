@@ -30,9 +30,9 @@ namespace FWK::Graphics
 
 		UINT FetchVALCurrentBackBufferIndex() const;
 
-		const auto& GetREFSwapChain() const { return m_swapChain; }
-
 		const auto& GetREFBackBufferList() const { return m_backBufferList; }
+
+		const auto& GetREFSwapChain() const { return m_swapChain; }
 
 		auto GetVALSyncInterval() const { return m_syncInterval; }
 
@@ -48,12 +48,12 @@ namespace FWK::Graphics
 		static constexpr UINT k_swapChainPresentFlagNone = 0U;
 		static constexpr UINT k_swapChainDescFlags	     = 0U;
 
+		std::vector<Struct::BackBuffer> m_backBufferList = {};
+
 		TypeAlias::ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
 
 		UINT m_syncInterval = Constant::k_defaultSyncInterval;
 
 		JsonConverter::SwapChainJsonConverter m_swapChainJsonConverter = {};
-
-		std::vector<Struct::BackBuffer> m_backBufferList = {};
 	};
 }

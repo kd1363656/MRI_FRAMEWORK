@@ -43,17 +43,17 @@ namespace FWK::Graphics
 
 		bool TextureCopyBatch(UploadSystem& a_uploadSystem);
 
+		TexturePathMap   m_texturePathMap   = {};
+		TextureRecordMap m_textureRecordMap = {};
+
+		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
+
 		TextureIDAllocator		        m_textureIDAllocator		      = {};
 		TextureLoader			        m_textureLoader				      = {};
 		TextureBatchUploadRecordBuilder m_textureBatchUploadRecordBuilder = {};
 
 		JsonConverter::TextureSystemJsonConverter m_textureSystemJsonConverter = {};
 
-		TexturePathMap   m_texturePathMap   = {};
-		TextureRecordMap m_textureRecordMap = {};
-
 		TypeAlias::TextureID m_textureIDAllocatorCapacity = Constant::k_defaultCreateTextureIDCapacity;
-
-		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
 	};
 }

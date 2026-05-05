@@ -7,7 +7,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 																					const std::wstring&						 a_filePath,
 																						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 																						  TextureIDAllocator&				 a_textureIDAllocator,
-																						  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord)
+																						  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord) const
 {
 	// まずはGPU側用のテクスチャリソースのヒープ領域を確保
 	if (!CreateTextureResource(a_texMetadata, a_gpuMemoryAllocator, a_textureBatchUploadRecord.m_textureRecord))
@@ -185,7 +185,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 
 	// DirectXTexで読み込んだ画像データをUploadBufferへコピーする
 	// 各サブリソースひとつずつに対して実行
-	for (UINT l_subresourceIndex = 0U; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
+	for (UINT l_subresourceIndex = k_initialSubresourceIndex; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
 	{
 		// 現在処理するサブリソースの元画像データと、UploadBuffer上の配置情報を取得する
 		const auto& l_image  = l_imageList [l_subresourceIndex];

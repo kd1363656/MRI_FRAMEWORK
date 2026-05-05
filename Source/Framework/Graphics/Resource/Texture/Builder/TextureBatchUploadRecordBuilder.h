@@ -21,7 +21,7 @@ namespace FWK::Graphics
 											const std::wstring&						 a_filePath,
 												  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 												  TextureIDAllocator&				 a_textureIDAllocator,
-												  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord);
+												  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord) const;
 
 	private:
 
@@ -41,6 +41,7 @@ namespace FWK::Graphics
 		static constexpr UINT k_planeSlice		= 0U;
 		static constexpr UINT k_firstArraySlice = 0U;
 
+		static constexpr UINT k_initialSubresourceIndex = 0U;
 		static constexpr UINT k_initialLayoutDepthIndex = 0U;
 		static constexpr UINT k_initialRowIndex			= 0U;
 

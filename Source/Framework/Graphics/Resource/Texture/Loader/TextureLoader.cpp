@@ -27,7 +27,7 @@ bool FWK::Graphics::TextureLoader::LoadTextureFile(DirectX::ScratchImage& a_scra
 		return false;
 	}
 
-	if (a_texMetadata.format == k_invalidTextureFormat)
+	if (a_texMetadata.format == DXGI_FORMAT_UNKNOWN)
 	{
 		assert(false && "DDSのDXGI_FORMATが不明なため、DDS読み込みに失敗しました。");
 		return false;

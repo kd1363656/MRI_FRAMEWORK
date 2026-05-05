@@ -22,7 +22,7 @@ namespace FWK::Graphics
 
 	private:
 
-		void RecordTextureCopy(const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer, const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList) const;
+		void RecordTextureCopy(const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList, const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer) const;
 
 		CopyCommandAllocator* FetchMutablePTRCopyCommandAllocator();
 
@@ -32,14 +32,14 @@ namespace FWK::Graphics
 
 		static constexpr std::size_t k_initialCurrentCopyCommandAllocatorIndex = 0ULL;
 		static constexpr std::size_t k_copyCommandAllocatorIndexIncrement      = 1ULL;
-		
+
+		std::vector<CopyCommandAllocator> m_copyCommandAllocatorList = {};
+
 		CopyCommandQueue m_copyCommandQueue = {};
 		CopyCommandList  m_copyCommandList  = {};
 
 		JsonConverter::UploadSystemJsonConverter m_uploadSystemJsonConverter = {};
 
-		std::vector<CopyCommandAllocator> m_copyCommandAllocatorList = {};
-		
 		std::size_t m_currentCopyCommandAllocatorIndex = k_initialCurrentCopyCommandAllocatorIndex;
 	};
 }

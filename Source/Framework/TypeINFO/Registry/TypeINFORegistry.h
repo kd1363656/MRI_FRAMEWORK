@@ -7,10 +7,9 @@ namespace FWK
 	{
 	private:
 
-		using AllTypeINFOStaticTypeIDMap = std::unordered_map<TypeAlias::StaticTypeID, const Struct::TypeINFO* const>;
-
 		// k_nameは静的寿命であることを前提にstd::string_viewをキーとして使用
-		using AllTypeINFONameMap = std::unordered_map<std::string_view, const Struct::TypeINFO* const, Struct::StringHash, std::equal_to<>>;
+		using AllTypeINFONameMap         = std::unordered_map<std::string_view,        const Struct::TypeINFO* const, Struct::StringHash, std::equal_to<>>;
+		using AllTypeINFOStaticTypeIDMap = std::unordered_map<TypeAlias::StaticTypeID, const Struct::TypeINFO* const>;
 
 	public:
 
@@ -37,14 +36,14 @@ namespace FWK
 			return l_list;
 		}
 		
-		const Struct::TypeINFO* FindTypeINFOByID  (const TypeAlias::StaticTypeID a_staticTypeID) const;
 		const Struct::TypeINFO* FindTypeINFOByName(const std::string_view&       a_name)         const;
+		const Struct::TypeINFO* FindTypeINFOByID  (const TypeAlias::StaticTypeID a_staticTypeID) const;
 
 	private:
 
 		// 文字列がキーのマップはjsonのシリアライズ時に使用
-		AllTypeINFOStaticTypeIDMap m_allTypeINFOStaticTypeIDMap = AllTypeINFOStaticTypeIDMap();
-		AllTypeINFONameMap         m_allTypeINFONameMap         = AllTypeINFONameMap        ();
+		AllTypeINFONameMap         m_allTypeINFONameMap         = {};
+		AllTypeINFOStaticTypeIDMap m_allTypeINFOStaticTypeIDMap = {};
 
 		//=========================
 		// シングルトン
