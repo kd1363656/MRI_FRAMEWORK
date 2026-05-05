@@ -11,8 +11,8 @@ namespace FWK::Graphics
 
 		bool SetupRenderArea(const SwapChain& a_swapChain);
 
-		const auto& GetREFViewport    () const { return m_viewport; }
-		const auto& GetREFScissorRRECt() const { return m_scissorRECT; }
+		const auto& GetREFViewport   () const { return m_viewport; }
+		const auto& GetREFScissorRECT() const { return m_scissorRECT; }
 
 	private:
 

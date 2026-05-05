@@ -10,7 +10,7 @@
                 "ConstantBufferMap": [
                     {
                         "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 0
+                            "CreateConstantBufferNUM": 1024
                         },
                         "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                     }
@@ -20,7 +20,7 @@
                 "ConstantBufferMap": [
                     {
                         "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 0
+                            "CreateConstantBufferNUM": 1024
                         },
                         "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                     }
@@ -30,7 +30,7 @@
                 "ConstantBufferMap": [
                     {
                         "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 0
+                            "CreateConstantBufferNUM": 1024
                         },
                         "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                     }

@@ -1,19 +1,25 @@
 ﻿#include "ConstantBufferBase.h"
 
-FWK::Graphics::ConstantBufferBase::ConstantBufferBase() = default;
-FWK::Graphics::ConstantBufferBase::ConstantBufferBase(const UINT64& a_constantBufferTypeSize) : 
-	m_constantBufferTypeSize (a_constantBufferTypeSize),
-	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM),
-
+FWK::Graphics::ConstantBufferBase::ConstantBufferBase() : 
+	m_uploadConstantBuffer({}),
 	m_constantBufferJsonConverter({}),
 
-	m_uploadConstantBuffer({})
+	m_constantBufferTypeSize (k_invalidBufferTypeSize),
+	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
+{}
+FWK::Graphics::ConstantBufferBase::ConstantBufferBase(const UINT64& a_constantBufferTypeSize) : 
+	m_uploadConstantBuffer({}),
+	m_constantBufferJsonConverter({}),
+
+	m_constantBufferTypeSize (a_constantBufferTypeSize),
+	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
 {}
 FWK::Graphics::ConstantBufferBase::~ConstantBufferBase() = default;
 
 void FWK::Graphics::ConstantBufferBase::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+
 	m_constantBufferJsonConverter.Deserialize(a_rootJson, *this);
 }
 bool FWK::Graphics::ConstantBufferBase::Create(const Device& a_device)

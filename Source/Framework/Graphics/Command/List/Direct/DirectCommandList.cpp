@@ -145,7 +145,7 @@ void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_rende
 	// RSSetScissorRects(設定するScissorRectの数、
 	//					 ScissorRectの先頭アドレス)
 
-	l_directCommandList->RSSetScissorRects(k_setScissorRectNUM, &a_renderArea.GetScissorRect());
+	l_directCommandList->RSSetScissorRects(k_setScissorRectNUM, &a_renderArea.GetREFScissorRECT());
 }
 void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a_rootSignature) const
 {

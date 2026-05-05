@@ -24,13 +24,13 @@ namespace FWK::Graphics
 	private:
 		
 		static constexpr UINT k_invalidBufferTypeSize = 0U;
-		
-		UINT64 m_constantBufferTypeSize;
-		UINT64 m_createConstantBufferNUM;
+
+		UploadBuffer m_uploadConstantBuffer = UploadBuffer();
 
 		JsonConverter::ConstantBufferBaseJsonConverter m_constantBufferJsonConverter = {};
 
-		UploadBuffer m_uploadConstantBuffer = UploadBuffer();
+		UINT64 m_constantBufferTypeSize;
+		UINT64 m_createConstantBufferNUM;
 
 		FWK_DEFINE_TYPE_INFO_ROOT(ConstantBufferBase);
 	};

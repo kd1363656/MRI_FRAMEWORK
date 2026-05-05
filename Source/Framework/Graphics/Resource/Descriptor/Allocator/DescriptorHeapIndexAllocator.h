@@ -24,11 +24,11 @@ namespace FWK::Graphics
 		static constexpr bool k_unallocatedDescriptorState = false;
 		static constexpr bool k_allocatedDescriptorState   = true;
 
-		UINT m_descriptorCapacity = Constant::k_invalidDescriptorCapacity;
-		UINT m_nextIndex		  = k_firstDescriptorHeapIndex;
-
 		std::vector<bool> m_isAllocatedList = {};
 
 		std::queue<UINT> m_freeIndexQueue = {};
+
+		UINT m_descriptorCapacity = Constant::k_invalidDescriptorCapacity;
+		UINT m_nextIndex		  = k_firstDescriptorHeapIndex;
 	};
 }

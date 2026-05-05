@@ -9,15 +9,15 @@ bool FWK::Graphics::DescriptorHeapIndexAllocator::Create(const UINT a_descriptor
 		return false;
 	}
 
-	m_descriptorCapacity = a_descriptorCapacity;
-	m_nextIndex			 = k_firstDescriptorHeapIndex;
-	
 	// 全スロットを未使用状態で初期化する
-	m_isAllocatedList.assign(m_descriptorCapacity, k_unallocatedDescriptorState);
+	m_isAllocatedList.assign(a_descriptorCapacity, k_unallocatedDescriptorState);
 
 	// キューも何も保持していない状態にする
 	m_freeIndexQueue = {};
 
+	m_descriptorCapacity = static_cast<UINT>(m_isAllocatedList.size());
+	m_nextIndex			 = k_firstDescriptorHeapIndex;
+	
 	return true;
 }
 

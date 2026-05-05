@@ -31,7 +31,6 @@ namespace FWK::Graphics
 		
 		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleGPUHandle(const UINT a_index) const;
 
-		
 	private:
 
 		bool CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord& a_descriptorHeapRecord) const;
