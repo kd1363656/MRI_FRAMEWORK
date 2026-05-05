@@ -93,10 +93,10 @@ void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(CommandAllocatorBa
 		return;
 	}
 
-	const auto& l_updatedFenceValue = m_fence.GetREFFenceValue() + k_incrementFenceValue;
+	const auto& l_updatedFenceValue = FetchREFLastSignaledFenceValue() + k_incrementFenceValue;
 
 	// "FenceValue"を進めて、このフレームの完了目標として保存
-	m_fence.SetFenceValue(l_updatedFenceValue);
+	m_fence.SetLastSignaledFenceValue(l_updatedFenceValue);
 
 	// ※重要
 	// 更新したフェンス値を持たせて置く、こうすることで次のフレームでフェンス値を超えていない場合
@@ -111,6 +111,16 @@ void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(CommandAllocatorBa
 bool FWK::Graphics::CommandQueueBase::IsFenceValueCompleted(const UINT64& a_fenceValue) const
 {
 	return m_fence.IsFenceValueCompleted(a_fenceValue);
+}
+
+const UINT64& FWK::Graphics::CommandQueueBase::FetchREFLastSignaledFenceValue() const
+{
+	return m_fence.GetREFLastSignaledFenceValue();
+}
+
+UINT64 FWK::Graphics::CommandQueueBase::FetchVALCompletedFenceValue() const
+{
+	return m_fence.FetchVALCompletedFenceValue();
 }
 
 bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
@@ -180,9 +190,9 @@ void FWK::Graphics::CommandQueueBase::WaitForGPUIdleIfNeed()
 
 	// 今回の待機用に新しいフェンス値を発行する
 	// 同じ値を使いまわすとどこまでの処理完了を待っているのか分からなくなるため
-	const auto& l_incrementedFenceValue = m_fence.GetREFFenceValue() + k_incrementFenceValue;
+	const auto& l_incrementedFenceValue = FetchREFLastSignaledFenceValue() + k_incrementFenceValue;
 
-	m_fence.SetFenceValue(l_incrementedFenceValue);
+	m_fence.SetLastSignaledFenceValue(l_incrementedFenceValue);
 
 	// コマンドキューに対して「命令したGPU処理が終わったら、m_fenceの値をl_targetFenceValueに更新してください」
 	// と命令をする関数

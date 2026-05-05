@@ -9,3 +9,8 @@ void FWK::SceneManager::RequestDraw() const
 {
 	m_scene.RequestDraw();
 }
+
+void FWK::SceneManager::Update()
+{
+	m_scene.Update();
+}

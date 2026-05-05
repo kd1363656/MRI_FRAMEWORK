@@ -1,21 +1,21 @@
 ﻿#include "Fence.h"
 
 FWK::Graphics::Fence::Fence() : 
-	m_fenceEvent(nullptr),
+	m_event(nullptr),
 
 	m_fence(nullptr),
 
-	m_fenceValue(Constant::k_unusedFenceValue)
+	m_lastSignaledFenceValue(Constant::k_unusedFenceValue)
 {}
 FWK::Graphics::Fence::~Fence() 
 {
 	// イベントハンドルが作成されていなければreturn
-	if (!m_fenceEvent) { return; }
+	if (!m_event) { return; }
 
 	// イベントハンドルを開放
-	CloseHandle(m_fenceEvent);
+	CloseHandle(m_event);
 
-	m_fenceEvent = nullptr;
+	m_event = nullptr;
 }
 
 bool FWK::Graphics::Fence::Create(const Device& a_device)
@@ -35,7 +35,7 @@ bool FWK::Graphics::Fence::Create(const Device& a_device)
 	//			   受け取りたいCOMインターフェース型のID、
 	//			   作成結果のポインタを書き込むアドレス);
 
-	auto l_hr = l_device->CreateFence(m_fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(m_fence.ReleaseAndGetAddressOf()));
+	auto l_hr = l_device->CreateFence(m_lastSignaledFenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(m_fence.ReleaseAndGetAddressOf()));
 
 	if (FAILED(l_hr))
 	{
@@ -49,12 +49,12 @@ bool FWK::Graphics::Fence::Create(const Device& a_device)
 	//			   作成直後にシグナル状態にするかどうか、
 	//			   イベント名);
 
-	m_fenceEvent = CreateEvent(nullptr,
-							   FALSE,
-							   FALSE,
-							   nullptr);
+	m_event = CreateEvent(nullptr,
+						  FALSE,
+						  FALSE,
+						  nullptr);
 
-	if (!m_fenceEvent)
+	if (!m_event)
 	{
 		assert(false && "イベントの作成に失敗しました。");
 		return false;
@@ -84,7 +84,7 @@ void FWK::Graphics::Fence::WaitForFenceValueIfNeeded(const UINT64& a_fenceValue)
 	// SetEventOnCompletion(CPUが待ちたい目標のフェンス値、
 	//						GPUが完了通知を受け取るイベント);
 
-	const auto l_hr = m_fence->SetEventOnCompletion(a_fenceValue, m_fenceEvent);
+	const auto l_hr = m_fence->SetEventOnCompletion(a_fenceValue, m_event);
 
 	if (FAILED(l_hr))
 	{
@@ -97,7 +97,7 @@ void FWK::Graphics::Fence::WaitForFenceValueIfNeeded(const UINT64& a_fenceValue)
 	// WaitForSingleObject(待機対象のイベント、
 	//					   待機時間);
 
-	const auto l_waitResult = WaitForSingleObject(m_fenceEvent, INFINITE);
+	const auto l_waitResult = WaitForSingleObject(m_event, INFINITE);
 
 	if (l_waitResult != WAIT_OBJECT_0)
 	{
@@ -119,4 +119,15 @@ bool FWK::Graphics::Fence::IsFenceValueCompleted(const UINT64& a_fenceValue) con
 	}
 
 	return m_fence->GetCompletedValue() >= a_fenceValue;
+}
+
+UINT64 FWK::Graphics::Fence::FetchVALCompletedFenceValue() const
+{
+	if (!m_fence)
+	{
+		assert(false && "フェンスの作成に失敗しており完了フェンス値の取得に失敗しました。");
+		return Constant::k_unusedFenceValue;
+	}
+
+	return m_fence->GetCompletedValue();
 }

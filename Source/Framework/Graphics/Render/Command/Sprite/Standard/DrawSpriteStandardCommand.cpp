@@ -3,6 +3,7 @@
 void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem)
 {
 	// スプライト用ルートシグネチャとパイプラインステートをセット
+	// その際にセットしたルートシグネチャとパイプラインステートのポインタを取得
 	const auto& l_graphicsPipelineStateSetupResult = SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>(a_renderer);
 
 	if (!l_graphicsPipelineStateSetupResult.m_rootSignature)
@@ -16,6 +17,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 	// PixelShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
 	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
 
+	// 貯めこんでいたテクスチャ描画命令を回す
 	const auto& l_spriteDrawCommandList = GetDrawCommandList();
 
 	for (const auto& l_spriteDrawCommand : l_spriteDrawCommandList)
@@ -39,9 +41,6 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 		// ディスクリプタテーブルにテクスチャをセット
 		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_graphicsPipelineStateSetupResult.m_rootSignature, l_textureRecord->m_srvIndex);
 
-		DispatchMesh(a_renderer,
-					 k_defaultDispatchMeshThreadGroupCountX,
-					 k_defaultDispatchMeshThreadGroupCountY,
-					 k_defaultDispatchMeshThreadGroupCountZ);
+		l_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
 	}
 }

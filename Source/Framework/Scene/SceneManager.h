@@ -10,6 +10,8 @@ namespace FWK
 
 		void RequestDraw() const;
 
+		void Update();
+
 	private:
 
 		Scene m_scene = {};

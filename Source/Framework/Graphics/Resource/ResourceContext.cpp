@@ -40,9 +40,13 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 	return true;
 }
 
-void FWK::Graphics::ResourceContext::BeginFrame()
+void FWK::Graphics::ResourceContext::BeginFrame(const DirectCommandQueue& a_directCommandQueue)
 {
+	// ロード予約のあったテクスチャを一括ロード
 	m_textureSystem.LoadPendingTexturesAndWait(m_uploadSystem);
+
+	// 参照カウントが0で削除すべきテクスチャを削除
+	m_textureSystem.ReleaseCompletedUnusedTexture(a_directCommandQueue, m_srvDescriptorPool);
 }
 
 nlohmann::json FWK::Graphics::ResourceContext::Serialize() const

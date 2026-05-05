@@ -12,7 +12,7 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    (const Device&		   a_device);
 
-		void BeginFrame();
+		void BeginFrame(const DirectCommandQueue& a_directCommandQueue);
 
 		nlohmann::json Serialize() const;
 

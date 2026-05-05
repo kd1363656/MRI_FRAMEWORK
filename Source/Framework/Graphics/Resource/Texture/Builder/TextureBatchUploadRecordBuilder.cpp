@@ -4,6 +4,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 																					const DirectX::TexMetadata&              a_texMetadata, 
 																					const Device&			                 a_device,
 																					const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																					const std::wstring&						 a_filePath,
 																						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 																						  TextureIDAllocator&				 a_textureIDAllocator,
 																						  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord)
@@ -51,10 +52,12 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	}
 
 	// 最後にD3D12_RESOURCE_STATESと参照カウント、ファイルパスを格納する
-	l_textureRecord.m_textureID      = l_textureID;
-	l_textureRecord.m_currentState   = D3D12_RESOURCE_STATE_COMMON;
-	l_textureRecord.m_referenceCount = k_initialTextureReferenceCount;
-	
+	l_textureRecord.m_currentState      = D3D12_RESOURCE_STATE_COMMON;
+	l_textureRecord.m_retiredFenceValue = Constant::k_unusedFenceValue;
+	l_textureRecord.m_referenceCount    = k_initialTextureReferenceCount;
+	l_textureRecord.m_textureID         = l_textureID;
+	l_textureRecord.m_filePath          = a_filePath;
+
 	return true;
 }
 

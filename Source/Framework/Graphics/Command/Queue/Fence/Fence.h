@@ -15,18 +15,20 @@ namespace FWK::Graphics
 
 		bool IsFenceValueCompleted(const UINT64& a_fenceValue) const;
 
-		void SetFenceValue(const auto& a_set) { m_fenceValue = a_set; }
+		void SetLastSignaledFenceValue(const auto& a_set) { m_lastSignaledFenceValue = a_set; }
 
-		const auto& GetREFFenceValue() const { return m_fenceValue; }
+		UINT64 FetchVALCompletedFenceValue() const;
+
+		const auto& GetREFLastSignaledFenceValue() const { return m_lastSignaledFenceValue; }
 
 		const auto& GetREFFence() const { return m_fence; }
 
 	private:
 
-		HANDLE m_fenceEvent;
+		HANDLE m_event;
 
 		TypeAlias::ComPtr<ID3D12Fence1> m_fence;
 
-		UINT64 m_fenceValue;
+		UINT64 m_lastSignaledFenceValue;
 	};
 }

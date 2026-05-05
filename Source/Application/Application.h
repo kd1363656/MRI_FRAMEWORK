@@ -22,6 +22,8 @@ private:
 	void Draw       (	   FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 	void EndDraw    (      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
+	void Update(FWK::SceneManager& a_sceneManager) const;
+
 	void EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 
 	void SaveFile(const FWK::Graphics::GraphicsManager& a_graphicsManager) const;

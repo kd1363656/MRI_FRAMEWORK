@@ -63,16 +63,6 @@ namespace FWK::Graphics
 			return { l_rootSignature, l_pipelineState };
 		}
 
-		void DispatchMesh(const Renderer& a_renderer,
-						  const UINT      a_threadGroupCountX,
-						  const UINT      a_threadGroupCountY,
-						  const UINT      a_threadGroupCountZ)
-		{
-			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
-
-			l_directCommandList.DispatchMesh(a_threadGroupCountX, a_threadGroupCountY, a_threadGroupCountZ);
-		}
-
 	private:
 
 		std::vector<Type> m_drawCommandList = {};

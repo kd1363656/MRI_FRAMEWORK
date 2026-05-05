@@ -24,15 +24,20 @@ namespace FWK::Graphics
 
 		void LoadPendingTexturesAndWait(UploadSystem& a_uploadSystem);
 
+		void ReleaseCompletedUnusedTexture(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
+
 		nlohmann::json Serialize() const;
+
+		bool AddTextureReference    (const TypeAlias::TextureID a_textureID);
+		bool ReleaseTextureReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::TextureID a_textureID);
+
+		void SetTextureIDAllocatorCapacity(const TypeAlias::TextureID a_set) { m_textureIDAllocatorCapacity = a_set; }
 
 		const Struct::TextureRecord* FindPTRTextureRecord(const TypeAlias::TextureID a_textureID) const;
 
 		Struct::TextureRecord* FindMutablePTRTextureRecord(const TypeAlias::TextureID a_textureID);
 
 		auto GetVALTextureIDAllocatorCapacity() const { return m_textureIDAllocatorCapacity; }
-
-		void SetTextureIDAllocatorCapacity(const TypeAlias::TextureID a_set) { m_textureIDAllocatorCapacity = a_set; }
 
 	private:
 

@@ -27,6 +27,10 @@ namespace FWK::Graphics
 
 		bool IsFenceValueCompleted(const UINT64& a_fenceValue) const;
 
+		const UINT64& FetchREFLastSignaledFenceValue() const;
+
+		UINT64 FetchVALCompletedFenceValue() const;
+
 		const auto& GetREFCommandQueue() const { return m_commandQueue; }
 
 		D3D12_COMMAND_LIST_TYPE GetVALCreateCommandListType() const { return k_createCommandListType; }

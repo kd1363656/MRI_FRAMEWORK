@@ -52,6 +52,9 @@ void Application::Execute()
 		Draw	   (l_graphicsManager);
 		EndDraw    (l_graphicsManager);
 
+		// 更新
+		Update(l_sceneManager);
+
 		// FPSの更新
 		EndFrame(l_graphicsManager);
 	}
@@ -130,6 +133,11 @@ void Application::Draw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 void Application::EndDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	a_graphicsManager.EndDraw();
+}
+
+void Application::Update(FWK::SceneManager& a_sceneManager) const
+{
+	a_sceneManager.Update();
 }
 
 void Application::EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)

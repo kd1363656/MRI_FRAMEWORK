@@ -6,8 +6,13 @@ namespace FWK::Graphics
 	{
 	public:
 		
-		 Texture() = default;
-		~Texture() = default;
+		 Texture();
+		 Texture(const Texture&  a_other);
+		 Texture(	   Texture&& a_other) noexcept;
+		~Texture();
+
+		Texture& operator=(const Texture&  a_other);
+		Texture& operator=(		 Texture&& a_other) noexcept;
 
 		void Load(const std::filesystem::path& a_filePath);
 
@@ -15,6 +20,10 @@ namespace FWK::Graphics
 
 	private:
 
-		TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
+		void AddTextureReference() const;
+
+		void ReleaseTextureReference();
+
+		TypeAlias::TextureID m_textureID;
 	};
 }

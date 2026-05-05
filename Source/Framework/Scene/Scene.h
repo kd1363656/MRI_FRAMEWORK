@@ -13,8 +13,6 @@ namespace FWK
 
 		void RequestDraw() const;
 
-	private:
-
-		Graphics::Texture m_texture = {};
+		void Update();
 	};
 }
