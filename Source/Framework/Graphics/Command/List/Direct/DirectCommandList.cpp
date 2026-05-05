@@ -41,10 +41,10 @@ void FWK::Graphics::DirectCommandList::TransitionResource(const TypeAlias::ComPt
 	// ResourceBarrier(送るバリア数、
 	//				   バリア情報の先頭アドレス)
 
-	l_directCommandList->ResourceBarrier(k_sendBarrierNum, &l_barrier);
+	l_directCommandList->ResourceBarrier(k_sendBarrierNUM, &l_barrier);
 }
 
-void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState, const SwapChain& a_swapChain) const
+void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const SwapChain& a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const
 {
 	const auto& l_backBufferList = a_swapChain.GetREFBackBufferList();
 	

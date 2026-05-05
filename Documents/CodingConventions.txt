@@ -114,7 +114,7 @@
 	※注意 : 左から右に行くにつれ優先度が高いもの順であること
 	参照、ポインタ、値それぞれのカテゴリで以下の並びを意識すること
 
-	クラス、構造体、Enum、型エイリアス(外部、自身定義、TypeAliasで外部クラス、構造体などをラップしたら自身定義とする)
+	クラス、構造体、Enum、型エイリアス(外部、自身定義、TypeAliasで外部クラス、構造体などをラップしたら自身定義とする、例 : Class& , Class* ,Class, Struct& ,Struct*, Struct)
 	std::ライブラリが定義したクラス、構造体、Enum、型エイリアス
 	組み込み型(wchar, char, double, float, unsigned ,int, bool);
 }

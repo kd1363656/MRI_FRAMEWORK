@@ -17,8 +17,8 @@ namespace FWK::Graphics
 		 DirectCommandList();
 		~DirectCommandList() override;
 
-		void TransitionResource            (const TypeAlias::ComPtr<ID3D12Resource2>& a_resource,    const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
-		void TransitionRenderTargetResource(const D3D12_RESOURCE_STATES				  a_beforeState, const D3D12_RESOURCE_STATES a_afterState,  const SwapChain&			a_swapChain)  const;
+		void TransitionResource            (const TypeAlias::ComPtr<ID3D12Resource2>& a_resource,  const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
+		void TransitionRenderTargetResource(const SwapChain&						  a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 
 		void SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
@@ -80,7 +80,7 @@ namespace FWK::Graphics
 
 		static constexpr UINT64 k_invalidGPUDescriptorHandle = 0ULL;
 
-		static constexpr UINT k_sendBarrierNum = 1U;
+		static constexpr UINT k_sendBarrierNUM = 1U;
 
 		static constexpr UINT k_executeRenderTargetNUM = 1U;
 		static constexpr UINT k_executeClearRectNUM    = 0U;
