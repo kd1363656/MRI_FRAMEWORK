@@ -81,9 +81,6 @@ void FWK::Graphics::Texture::AddTextureReference() const
 
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 
-	const auto& l_renderer		     = l_graphicsManager.GetREFRenderer   ();
-	const auto& l_directCommandQueue = l_renderer.GetREFDirectCommandQueue();
-
 	auto& l_resourceContext = l_graphicsManager.GetMutableREFResourceContext();
 	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
 

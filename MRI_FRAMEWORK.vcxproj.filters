@@ -445,6 +445,30 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant">
       <UniqueIdentifier>{aee8008f-074a-4e8c-ad87-aa3bc3fd89d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer">
+      <UniqueIdentifier>{3b5471c7-6ab2-4a1d-a068-efee91ca893b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant">
+      <UniqueIdentifier>{155b25e2-4df8-48ab-b30b-fc3779cf744b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource">
+      <UniqueIdentifier>{a6a84b01-2f66-4cb5-8597-0963ce9dcd70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer">
+      <UniqueIdentifier>{16ccc897-c530-425d-878f-90d675405347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant">
+      <UniqueIdentifier>{b4cf711b-443c-4452-bcd2-a180c99a09ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite">
+      <UniqueIdentifier>{af0397a2-d042-4e17-9ea7-f42cd8405195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw">
+      <UniqueIdentifier>{7fd1b47f-3308-4b03-b6b1-641c4ab6f064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\JsonConverter\Graphics\Render\Frame">
+      <UniqueIdentifier>{95ff7970-215d-45ea-ac0e-2d90ddb8985e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -770,9 +794,6 @@
     <ClInclude Include="Source\Framework\Factory\GenericFactory.h">
       <Filter>Source\Framework\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shader\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h">
-      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Macros\Factory\FactoryMacros.h">
       <Filter>Source\Framework\Definition\Macros\Factory</Filter>
     </ClInclude>
@@ -793,6 +814,21 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasShaderFactoryConstantBuffer.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.h">
+      <Filter>Source\Framework\JsonConverter\Graphics\Render\Frame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -957,6 +993,15 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.cpp">
+      <Filter>Source\Framework\JsonConverter\Graphics\Render\Frame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

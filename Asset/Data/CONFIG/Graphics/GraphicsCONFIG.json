@@ -6,9 +6,33 @@
             }
         ],
         "FrameResourceList": [
-            null,
-            null,
-            null
+            {
+                "ConstantBufferMap": [
+                    {
+                        "ConstantBuffer": {
+                            "ConstantBuffer": "SpriteDrawConstantBuffer"
+                        }
+                    }
+                ]
+            },
+            {
+                "ConstantBufferMap": [
+                    {
+                        "ConstantBuffer": {
+                            "ConstantBuffer": "SpriteDrawConstantBuffer"
+                        }
+                    }
+                ]
+            },
+            {
+                "ConstantBufferMap": [
+                    {
+                        "ConstantBuffer": {
+                            "ConstantBuffer": "SpriteDrawConstantBuffer"
+                        }
+                    }
+                ]
+            }
         ],
         "PipelineStateMap": [
             {

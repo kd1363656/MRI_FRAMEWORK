@@ -42,11 +42,16 @@ void FWK::JsonConverter::RendererJsonConverter::DeserializeFrameResourceList(con
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
-	const auto& l_arrayNum = a_rootJson.size();
-
 	auto& l_resourceList = a_renderer.GetMutableREFFrameResourceList();
 
-	l_resourceList.resize(l_arrayNum);
+	for (const auto& l_json : a_rootJson)
+	{
+		Graphics::FrameResource l_frameResource = {};
+
+		l_frameResource.Deserialize(l_json);
+
+		l_resourceList.emplace_back(l_frameResource);
+	}
 }
 void FWK::JsonConverter::RendererJsonConverter::DeserializeRootSignatureMap(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
 {
@@ -115,7 +120,7 @@ nlohmann::json FWK::JsonConverter::RendererJsonConverter::SerializeFrameResource
 	// 数だけ記録するため空のjsonを保存させる
 	for (const auto& l_frameResource : l_frameResourceList)
 	{
-		nlohmann::json l_json = {};
+		nlohmann::json l_json = l_frameResource.Serialize();;
 
 		l_rootJsonArray.emplace_back(l_json);
 	}

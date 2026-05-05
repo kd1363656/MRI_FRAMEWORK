@@ -17,9 +17,9 @@ namespace FWK::Graphics
 
 		void SetCreateConstantBufferNUM(const UINT64& a_set) { m_createConstantBufferNUM = a_set; }
 
-		const auto& GetCreateConstantBufferNUM() const { return m_createConstantBufferNUM; }
+		const auto& GetREFCreateConstantBufferNUM() const { return m_createConstantBufferNUM; }
 
-		const auto& GetUploadConstantBuffer() const { return m_uploadConstantBuffer; }
+		const auto& GetREFUploadConstantBuffer() const { return m_uploadConstantBuffer; }
 
 	private:
 		
@@ -27,6 +27,8 @@ namespace FWK::Graphics
 		
 		UINT64 m_constantBufferTypeSize;
 		UINT64 m_createConstantBufferNUM;
+
+		JsonConverter::ConstantBufferBaseJsonConverter m_constantBufferJsonConverter = {};
 
 		UploadBuffer m_uploadConstantBuffer = UploadBuffer();
 

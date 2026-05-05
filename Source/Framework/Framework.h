@@ -159,7 +159,12 @@
 #include "Graphics/Resource/Buffer/UploadBuffer.h"
 
 // 定数バッファ
+#include "JsonConverter/Graphics/Resource/Buffer/Constant/ConstantBufferJsonConverter.h"
 #include "Graphics/Resource/Buffer/Constant/ConstantBufferBase.h"
+
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"
+
+#include "Graphics/Resource/Buffer/Constant/Sprite/Draw/SpriteDrawConstantBuffer.h"
 
 // コマンドキュー管理クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"
@@ -220,6 +225,7 @@
 #include "Graphics/SwapChain/SwapChain.h"
 
 // フレームリソースクラス
+#include "JsonConverter/Graphics/Render/Frame/FrameResourceJsonConverter.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
 // レンダーエリアクラス
@@ -245,7 +251,7 @@
 #include "Graphics/Render/Command/DrawCommandBase.h"
 
 // 描画コマンドクラス用ファクトリTypeAlias
-#include "Definition/Type/Alias/Factory/Shader/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"
 
 #include "Graphics/Render/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
 
