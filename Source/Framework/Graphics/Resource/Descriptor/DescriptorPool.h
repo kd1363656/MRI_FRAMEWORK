@@ -13,6 +13,7 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson)
 		{
 			if (a_rootJson.is_null()) { return; }
+
 			m_descriptorPoolJsonConverter.Deserialize(a_rootJson, *this);
 		}
 		bool Create(const Device& a_device)

@@ -70,7 +70,10 @@ void FWK::Graphics::CommandQueueBase::ExecuteCommandLists(const CommandListBase&
 
 	// ExecuteCommandLists()はID3D12CommandList*の配列を受け取るため、
 	// 1個だけ実行する場合でも配列にして渡す必要がある
-	ID3D12CommandList* l_list[] = { l_commandList.Get() };
+	ID3D12CommandList* l_list[] = 
+	{
+		l_commandList.Get() 
+	};
 
 	// ExecuteCommandLists(実行するコマンドリストの数、
 	//					   コマンドリスト配列の先頭アドレス)

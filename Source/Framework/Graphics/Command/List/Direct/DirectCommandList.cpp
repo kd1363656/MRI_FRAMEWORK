@@ -106,10 +106,10 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 	//					  ディスクリプタが連続は位置かどうか、
 	//					　深度ステンシルビューのアドレス);
 
-	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
+	l_directCommandList->OMSetRenderTargets( k_executeRenderTargetNUM,
 								            &l_rtvHandle,
-								            true,
-								            nullptr);
+								             true,
+								             nullptr);
 
 	// 現在のレンダーターゲットを指定色でクリアする関数
 	// ClearRenderTargetView(クリア対象のRTVハンドル、
