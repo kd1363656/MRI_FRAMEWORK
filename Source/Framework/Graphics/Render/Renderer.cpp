@@ -3,6 +3,7 @@
 void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+
 	m_rendererJsonConverter.Deserialize(a_rootJson, *this);
 }
 bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompiler& a_shaderCompiler)
@@ -139,6 +140,15 @@ nlohmann::json FWK::Graphics::Renderer::Serialize() const
 	return m_rendererJsonConverter.Serialize(*this);
 }
 
+void FWK::Graphics::Renderer::AddFrameResource(const FrameResource& a_frameResource)
+{
+	m_frameResourceList.emplace_back(a_frameResource);
+}
+void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand)
+{
+	m_drawCommandList.emplace_back(a_drawCommand);
+}
+
 void FWK::Graphics::Renderer::AddRootSignature(const RootSignature& a_rootSignature, const TypeAlias::TypeTag a_tag)
 {
 	m_rootSignatureMap.try_emplace(a_tag, a_rootSignature);
@@ -150,10 +160,6 @@ void FWK::Graphics::Renderer::AddPipelineState(const PipelineState& a_pipelineSt
 void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
 {
 	m_drawCommandMap.try_emplace(a_staticTypeID, a_drawCommand);
-}
-void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand)
-{
-	m_drawCommandList.emplace_back(a_drawCommand);
 }
 
 const FWK::Graphics::RootSignature* FWK::Graphics::Renderer::FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const

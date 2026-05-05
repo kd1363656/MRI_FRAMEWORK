@@ -215,10 +215,10 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 		const auto l_copyRowSize = l_rowSizeInBytesList[l_subresourceIndex];
 
 		// Depth方向にコピーする
-		for (UINT l_depthIndex = 0U; l_depthIndex < l_layout.Footprint.Depth; ++l_depthIndex)
+		for (UINT l_depthIndex = k_initialLayoutDepthIndex; l_depthIndex < l_layout.Footprint.Depth; ++l_depthIndex)
 		{
 			// RowPitchがコピー元とコピー先で異なる可能性があるため、1行ずつコピーする
-			for (UINT l_rowIndex = 0U; l_rowIndex < l_rowCountList[l_subresourceIndex]; ++l_rowIndex)
+			for (UINT l_rowIndex = k_initialRowIndex; l_rowIndex < l_rowCountList[l_subresourceIndex]; ++l_rowIndex)
 			{
 				// UploadBuffer側の現在の行の書き込み先アドレスを計算する
 				auto* l_destination = l_destinationSubresource + l_depthIndex * l_destinationSlicePitch + l_rowIndex * l_destinationRowPitch;

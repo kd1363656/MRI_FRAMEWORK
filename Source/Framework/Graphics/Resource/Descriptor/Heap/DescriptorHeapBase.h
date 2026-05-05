@@ -33,12 +33,12 @@ namespace FWK::Graphics
 
 	private:
 
-		bool CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord& a_descriptorHeapRecord) const;
+		bool CreateDescriptorHeapRecord(const Device& a_device, const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, DescriptorHeapRecord& a_descriptorHeapRecord) const;
 		
-		bool CreateDescriptorHeapRecordIfNeeded(const D3D12_DESCRIPTOR_HEAP_FLAGS          a_descriptorHeapFlag,
-											    const Device&						       a_device, 
-											    const bool							       a_shouldCreate,
-											  	    std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const;
+		bool CreateDescriptorHeapRecordIfNeeded(const Device&								 a_device, 
+												const D3D12_DESCRIPTOR_HEAP_FLAGS            a_descriptorHeapFlag, 
+											    const bool							         a_shouldCreate,
+											  	      std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const;
 
 		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUHandle(const UINT a_index, const DescriptorHeapRecord& a_descriptorHeapRecord) const;
 		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALGPUHandle(const UINT a_index, const DescriptorHeapRecord& a_descriptorHeapRecord) const;

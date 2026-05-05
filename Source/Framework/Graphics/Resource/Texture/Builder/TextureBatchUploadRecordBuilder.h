@@ -41,6 +41,9 @@ namespace FWK::Graphics
 		static constexpr UINT k_planeSlice		= 0U;
 		static constexpr UINT k_firstArraySlice = 0U;
 
+		static constexpr UINT k_initialLayoutDepthIndex = 0U;
+		static constexpr UINT k_initialRowIndex			= 0U;
+
 		static constexpr FLOAT k_resourceMINLODClamp = 0.0F;
 
 		static constexpr std::size_t k_texture2DArrayMINArraySize = 2ULL;

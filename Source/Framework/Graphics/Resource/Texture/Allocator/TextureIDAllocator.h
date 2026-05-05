@@ -26,11 +26,11 @@ namespace FWK::Graphics
 		static constexpr bool k_unallocatedTextureIDState = false;
 		static constexpr bool k_allocatedTextureIDState   = true;
 
-		TypeAlias::TextureID m_textureIDCapacity = Constant::k_invalidTextureID;
-		TypeAlias::TextureID m_nextTextureID     = k_firstNextTextureID;
-
 		std::vector<bool> m_isAllocatedList = {};
 
 		std::queue<TypeAlias::TextureID> m_freeTextureIDQueue = {};
+
+		TypeAlias::TextureID m_textureIDCapacity = Constant::k_invalidTextureID;
+		TypeAlias::TextureID m_nextTextureID     = k_firstNextTextureID;
 	};
 }

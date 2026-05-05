@@ -1,14 +1,14 @@
 ﻿#include "ConstantBufferBase.h"
 
 FWK::Graphics::ConstantBufferBase::ConstantBufferBase() : 
-	m_uploadConstantBuffer({}),
+	m_uploadConstantBuffer       ({}),
 	m_constantBufferJsonConverter({}),
 
 	m_constantBufferTypeSize (k_invalidBufferTypeSize),
 	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
 {}
 FWK::Graphics::ConstantBufferBase::ConstantBufferBase(const UINT64& a_constantBufferTypeSize) : 
-	m_uploadConstantBuffer({}),
+	m_uploadConstantBuffer       ({}),
 	m_constantBufferJsonConverter({}),
 
 	m_constantBufferTypeSize (a_constantBufferTypeSize),

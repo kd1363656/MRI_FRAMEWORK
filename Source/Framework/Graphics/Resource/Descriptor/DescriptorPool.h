@@ -7,7 +7,7 @@ namespace FWK::Graphics
 	{
 	public:
 
-		DescriptorPool () = default;
+		 DescriptorPool() = default;
 		~DescriptorPool() = default;
 
 		void Deserialize(const nlohmann::json& a_rootJson)
@@ -79,11 +79,11 @@ namespace FWK::Graphics
 
 	private:
 
-		UINT m_descriptorCapacity = Constant::k_defaultDescriptorCapacity;
-
 		Type						 m_descriptorHeap			    = {};
 		DescriptorHeapIndexAllocator m_descriptorHeapIndexAllocator = {};
 
 		JsonConverter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
+
+		UINT m_descriptorCapacity = Constant::k_defaultDescriptorCapacity;
 	};
 }

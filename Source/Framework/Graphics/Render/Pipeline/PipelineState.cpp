@@ -178,7 +178,7 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	l_pipelineStateDesc.PrimitiveTopologyType = m_primitiveTopologyType;
 
 	// 上で設定したPSO情報をストリーム形式へまとめる
-	auto l_psoStream = CD3DX12_PIPELINE_MESH_STATE_STREAM(l_pipelineStateDesc);
+	auto l_psoStream = CD3DX12_PIPELINE_MESH_STATE_STREAM{ l_pipelineStateDesc };
 	
 	D3D12_PIPELINE_STATE_STREAM_DESC l_streamDesc = {};
 

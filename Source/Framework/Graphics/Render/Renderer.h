@@ -11,9 +11,9 @@ namespace FWK::Graphics
 	{
 	private:
 
+		using DrawCommandMap   = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<IDrawCommand>>;
 		using RootSignatureMap = std::unordered_map<TypeAlias::TypeTag, RootSignature>;
 		using PipelineStateMap = std::unordered_map<TypeAlias::TypeTag, PipelineState>;
-		using DrawCommandMap   = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<IDrawCommand>>;
 
 	public:
 
@@ -34,10 +34,12 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
+		void AddFrameResource  (const FrameResource&				 a_frameResource);
+		void AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand);
+
+		void AddDrawCommandMap (const std::shared_ptr<IDrawCommand>& a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
 		void AddRootSignature  (const RootSignature&                 a_rootSignature, const TypeAlias::TypeTag      a_tag);
 		void AddPipelineState  (const PipelineState&                 a_pipelineState, const TypeAlias::TypeTag      a_tag);
-		void AddDrawCommandMap (const std::shared_ptr<IDrawCommand>& a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
-		void AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand);
 
 		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
 		const PipelineState* FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const;
@@ -57,17 +59,15 @@ namespace FWK::Graphics
 			return std::shared_ptr<Type>();
 		}
 
-		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
-		const auto& GetREFDirectCommandList () const { return m_directCommandList; }
+		const auto& GetREFFrameResourceList() const { return m_frameResourceList; }
+		const auto& GetREFDrawCommandList  () const { return m_drawCommandList; }
 
+		const auto& GetREFDrawCommandMap  () const { return m_drawCommandMap; }
 		const auto& GetREFRootSignatureMap() const { return m_rootSignatureMap; }
 		const auto& GetREFPipelineStateMap() const { return m_pipelineStateMap; }
-		const auto& GetREFDrawCommandMap  () const { return m_drawCommandMap; }
-		const auto& GetREFDrawCommandList () const { return m_drawCommandList; }
 
-		const auto& GetREFResourceList() const { return m_frameResourceList; }
-
-		auto& GetMutableREFFrameResourceList() { return m_frameResourceList; }
+		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
+		const auto& GetREFDirectCommandList () const { return m_directCommandList; }
 
 	private:
 
@@ -78,12 +78,12 @@ namespace FWK::Graphics
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
-		RootSignatureMap m_rootSignatureMap = {};
-		PipelineStateMap m_pipelineStateMap = {};
-		DrawCommandMap   m_drawCommandMap   = {};
-
 		std::vector<FrameResource>				   m_frameResourceList = {};
 		std::vector<std::shared_ptr<IDrawCommand>> m_drawCommandList   = {};
+
+		DrawCommandMap   m_drawCommandMap   = {};
+		RootSignatureMap m_rootSignatureMap = {};
+		PipelineStateMap m_pipelineStateMap = {};
 
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};

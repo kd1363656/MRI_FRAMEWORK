@@ -54,8 +54,8 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const UIN
 	m_descriptorSize = l_device->GetDescriptorHandleIncrementSize(k_createDescriptorHeapType);
 
 	// CPUOnlyのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
-										    a_device,
+	if (!CreateDescriptorHeapRecordIfNeeded(a_device,
+											D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
 										    k_isUseCPUOnly,
 										    m_cpuOnlyDescriptorHeapRecord))
 	{
@@ -64,8 +64,8 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const UIN
 	}
 
 	// ShaderVisibleのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
-										    a_device,
+	if (!CreateDescriptorHeapRecordIfNeeded(a_device, 
+											D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
 										    k_isUseShaderVisible,
 										    m_shaderVisibleDescriptorHeapRecord))
 	{
@@ -157,7 +157,7 @@ FWK::TypeAlias::ComPtr<ID3D12DescriptorHeap> FWK::Graphics::DescriptorHeapBase::
 	return m_shaderVisibleDescriptorHeapRecord->m_descriptorHeap;
 }
 
-bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord& a_descriptorHeapRecord) const
+bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const Device& a_device, const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, DescriptorHeapRecord& a_descriptorHeapRecord) const
 {
 	const auto& l_device = a_device.GetREFDevice();
 
@@ -215,8 +215,8 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_D
 
 	return true;
 }
-bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecordIfNeeded(const D3D12_DESCRIPTOR_HEAP_FLAGS            a_descriptorHeapFlag, 
-																		   const Device&					            a_device,
+bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecordIfNeeded(const Device&								a_device, 
+																		   const D3D12_DESCRIPTOR_HEAP_FLAGS            a_descriptorHeapFlag,
 																		   const bool						            a_shouldCreate,
 																			     std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const
 {
@@ -231,7 +231,7 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecordIfNeeded(const
 		return false;
 	}
 
-	if (!CreateDescriptorHeapRecord(a_descriptorHeapFlag, a_device, *a_descriptorHeapRecord))
+	if (!CreateDescriptorHeapRecord(a_device, a_descriptorHeapFlag, *a_descriptorHeapRecord))
 	{
 		assert(false && "ディスクリプタヒープの作成に失敗しました。");
 		return false;

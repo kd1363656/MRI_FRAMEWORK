@@ -42,7 +42,7 @@ void FWK::JsonConverter::RendererJsonConverter::DeserializeFrameResourceList(con
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
-	auto& l_resourceList = a_renderer.GetMutableREFFrameResourceList();
+	auto& l_resourceList = a_renderer.GetREFFrameResourceList();
 
 	for (const auto& l_json : a_rootJson)
 	{
@@ -50,7 +50,7 @@ void FWK::JsonConverter::RendererJsonConverter::DeserializeFrameResourceList(con
 
 		l_frameResource.Deserialize(l_json);
 
-		l_resourceList.emplace_back(l_frameResource);
+		a_renderer.AddFrameResource(l_frameResource);
 	}
 }
 void FWK::JsonConverter::RendererJsonConverter::DeserializeRootSignatureMap(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
@@ -115,7 +115,7 @@ nlohmann::json FWK::JsonConverter::RendererJsonConverter::SerializeFrameResource
 	// フレームリソースリストの保存
 	auto l_rootJsonArray = nlohmann::json::array();
 
-	const auto& l_frameResourceList = a_renderer.GetREFResourceList();
+	const auto& l_frameResourceList = a_renderer.GetREFFrameResourceList();
 
 	// 数だけ記録するため空のjsonを保存させる
 	for (const auto& l_frameResource : l_frameResourceList)
