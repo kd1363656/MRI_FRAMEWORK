@@ -1,4 +1,4 @@
-﻿{
+{
     "Renderer": {
         "DrawCommand": [
             {
@@ -9,21 +9,30 @@
             {
                 "ConstantBufferMap": [
                     {
-                            "ConstantBuffer": "SpriteDrawConstantBuffer"
+                        "ConstantBuffer": {
+                            "CreateConstantBufferNUM": 0
+                        },
+                        "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                     }
                 ]
             },
             {
                 "ConstantBufferMap": [
                     {
-                            "ConstantBuffer": "SpriteDrawConstantBuffer"
+                        "ConstantBuffer": {
+                            "CreateConstantBufferNUM": 0
+                        },
+                        "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                     }
                 ]
             },
             {
                 "ConstantBufferMap": [
                     {
-                            "ConstantBuffer": "SpriteDrawConstantBuffer"
+                        "ConstantBuffer": {
+                            "CreateConstantBufferNUM": 0
+                        },
+                        "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                     }
                 ]
             }

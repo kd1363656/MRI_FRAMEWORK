@@ -9,7 +9,7 @@ void FWK::JsonConverter::FrameResourceJsonConverter::Deserialize(const nlohmann:
 		std::shared_ptr<Graphics::ConstantBufferBase> l_constantBuffer = {};
 
 		// 定数バッファクラスをデシリアライズ
-		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryConstantBuffer>(l_json, k_constantBufferJsonKey, l_constantBuffer);
+		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryConstantBuffer>(l_json, k_constantBufferTypeNameJsonKey, l_constantBuffer);
 
 		// 作製に成功していれば中身にポインタがしっかり入っているので初期化とデシリアライズを行う
 		if (l_constantBuffer)
@@ -37,7 +37,8 @@ nlohmann::json FWK::JsonConverter::FrameResourceJsonConverter::Serialize(const G
 
 		nlohmann::json l_json = {};
 
-		l_json = Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferJsonKey);
+		Utility::Json::UpdateJson								     (l_json, Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferTypeNameJsonKey));
+		l_json[k_constantBufferJsonKey] = l_constantBuffer->Serialize();
 
 		l_jsonArray.emplace_back(l_json);
 	}
