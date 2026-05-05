@@ -42,8 +42,6 @@ void FWK::JsonConverter::RendererJsonConverter::DeserializeFrameResourceList(con
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
-	auto& l_resourceList = a_renderer.GetREFFrameResourceList();
-
 	for (const auto& l_json : a_rootJson)
 	{
 		Graphics::FrameResource l_frameResource = {};

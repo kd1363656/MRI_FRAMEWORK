@@ -17,6 +17,11 @@ namespace FWK::Graphics
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
 
+		static constexpr float k_defaultNearClip = 0.0F;
+		static constexpr float k_defaultFarClip  = 1.0F;
+		
+		static constexpr std::size_t k_initialSpriteDrawCommandListIndex = 0ULL;
+
 		// ※注意 テンプレートクラスをDrawCommandBaseは使っているのでそのDrawCommandBaseを継承している
 		// 基底クラスとして設定する
 		FWK_DEFINE_TYPE_INFO(DrawSpriteStandardCommand, IDrawCommand);

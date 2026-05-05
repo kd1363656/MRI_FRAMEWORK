@@ -26,7 +26,7 @@ bool FWK::Graphics::ConstantBufferBase::Create(const Device& a_device)
 {
 	if (m_createConstantBufferNUM == Constant::k_invalidCreateConstantBufferNUM)
 	{
-		assert(false && "定数バッファの作成個数が0このため作成処理に失敗しました。");
+		assert(false && "定数バッファの作成個数が0のため作成処理に失敗しました。");
 		return false;
 	}
 

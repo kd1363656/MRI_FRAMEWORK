@@ -106,3 +106,15 @@ void FWK::Graphics::UploadBuffer::UnMap() const
 	// 今回は書き込み範囲を明示していないためnullptrを渡す
 	m_uploadBuffer->Unmap(Constant::k_firstSubresourceIndex, nullptr);
 }
+
+D3D12_GPU_VIRTUAL_ADDRESS FWK::Graphics::UploadBuffer::FetchVALGPUVirtualAddress() const
+{
+	if (!m_uploadBuffer)
+	{
+		assert(false && "UploadBufferが作成されておらず、GPU仮想アドレスの取得に失敗しました。");
+		return Constant::k_invalidGPUVirtualAddress;
+	}
+
+	// SetGraphcisRootConstantBufferViewに渡すためのGPU仮想アドレスを取得する
+	return m_uploadBuffer->GetGPUVirtualAddress();
+}

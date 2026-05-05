@@ -20,6 +20,18 @@ namespace FWK::Graphics
 
 		void AddConstantBuffer(const std::shared_ptr<ConstantBufferBase>& a_constantBuffer);
 
+		template <typename Type>
+		std::weak_ptr<ConstantBufferBase> FindPTRConstantBuffer() const
+		{
+			const auto& l_itr = m_constantBufferMap.find(Type::GetTypeINFO().k_staticTypeID);
+
+			if (l_itr == m_constantBufferMap.end()) { return std::weak_ptr<ConstantBufferBase>(); }
+
+			if (!l_itr->second) { return std::weak_ptr<ConstantBufferBase>();; }
+
+			return l_itr->second;
+		}
+		
 		const auto& GetREFConstantBufferMap() const { return m_constantBufferMap; }
 
 		const auto& GetREFDirectCommandAllocator() const { return m_directCommandAllocator; }

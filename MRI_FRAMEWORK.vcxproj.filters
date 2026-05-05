@@ -836,6 +836,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\UploadBufferConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1020,5 +1023,10 @@
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
       <Filter>Asset\Shader\Sprite\Standard</Filter>
     </DXCTask>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli">
+      <Filter>Asset\Shader\Sprite\Standard</Filter>
+    </None>
   </ItemGroup>
 </Project>

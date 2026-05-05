@@ -74,6 +74,39 @@ namespace FWK::Graphics
 			l_directCommandList->SetGraphicsRootDescriptorTable(l_rootParameterIndex, l_gpuHandle);
 		}
 
+		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
+		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const RootSignature* a_rootSignature) const
+		{
+			const auto& l_directCommandList = GetREFCommandList();
+
+			if (!l_directCommandList)
+			{
+				assert(false && "ルートシグネチャが作成されておらず、定数バッファビュー設定が出来ませんでした。");
+				return;
+			}
+
+			if (!a_rootSignature)
+			{
+				assert(false && "ルートシグネチャが作成されておらず、定数バッファビューが設定できませんでした。");
+				return;
+			}
+
+			const auto l_rootParameterIndex = a_rootSignature->FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
+
+			if (l_rootParameterIndex == Constant::k_invalidRootParameterIndex)
+			{
+				assert(false && "パラメータインデックスが無効なため、定数バッファビュー設定ができませんでした。");
+				return;
+			}
+
+			// SetGraphicsRootConstantBufferView(ルートパラメータ番号、
+			//									 CBVとして参照させるGPU仮想アドレス);
+
+			// RootSignature側でD3D12_ROOT_PARAMETER_TYPE_CBVにした場所へ、
+			// UploadBuffer上の定数バッファ位置を直接結びつける
+			l_directCommandList->SetGraphicsRootConstantBufferView(l_rootParameterIndex, a_gpuVirtualAddress);
+		}
+
 		void DispatchMesh(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const;
 
 	private:

@@ -59,6 +59,8 @@ namespace FWK::Graphics
 			return std::shared_ptr<Type>();
 		}
 
+		const FrameResource* FetchPTRCurrentFrameResource() const;
+
 		const auto& GetREFFrameResourceList() const { return m_frameResourceList; }
 		const auto& GetREFDrawCommandList  () const { return m_drawCommandList; }
 
@@ -69,9 +71,9 @@ namespace FWK::Graphics
 		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
 		const auto& GetREFDirectCommandList () const { return m_directCommandList; }
 
-	private:
+		const auto& GetREFRenderArea() const { return m_renderArea; }
 
-		const FrameResource* FetchPTRCurrentFrameResource() const;
+	private:
 
 		FrameResource* FetchMutablePTRCurrentFrameResource();
 

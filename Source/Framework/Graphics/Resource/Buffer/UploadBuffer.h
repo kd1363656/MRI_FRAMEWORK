@@ -14,6 +14,8 @@ namespace FWK::Graphics
 		std::uint8_t* Map  () const;
 		void		  UnMap() const;
 
+		D3D12_GPU_VIRTUAL_ADDRESS FetchVALGPUVirtualAddress() const;
+
 		const auto& GetREFUploadBuffer() const { return m_uploadBuffer; }
 
 	private:

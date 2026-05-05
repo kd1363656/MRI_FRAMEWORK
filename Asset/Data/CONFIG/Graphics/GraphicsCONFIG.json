@@ -63,15 +63,15 @@
                         "IndependentBlendEnable": 0,
                         "RenderTarget": [
                             {
-                                "BlendEnable": 0,
+                                "BlendEnable": 1,
                                 "BlendOp": "D3D12_BLEND_OP_ADD",
                                 "BlendOpAlpha": "D3D12_BLEND_OP_ADD",
-                                "DestBlend": "D3D12_BLEND_ZERO",
+                                "DestBlend": "D3D12_BLEND_INV_SRC_ALPHA",
                                 "DestBlendAlpha": "D3D12_BLEND_ZERO",
                                 "LogicOp": "D3D12_LOGIC_OP_NOOP",
                                 "LogicOpEnable": 0,
                                 "RenderTargetWriteMask": 15,
-                                "SrcBlend": "D3D12_BLEND_ONE",
+                                "SrcBlend": "D3D12_BLEND_SRC_ALPHA",
                                 "SrcBlendAlpha": "D3D12_BLEND_ONE"
                             },
                             {
@@ -224,10 +224,32 @@
                     "RootParameterIndexMap": [
                         {
                             "Index": 0,
+                            "RootParameterTag": "RootParameterCBSpritePassTag"
+                        },
+                        {
+                            "Index": 1,
+                            "RootParameterTag": "RootParameterCBSpriteDrawTag"
+                        },
+                        {
+                            "Index": 2,
                             "RootParameterTag": "RootParameterSpriteBaseColorTextureTag"
                         }
                     ],
                     "RootParameterList": [
+                        {
+                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
+                            "RegisterSpace": 0,
+                            "RootParameterTag": "RootParameterCBSpritePassTag",
+                            "ShaderRegister": 0,
+                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
+                        },
+                        {
+                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
+                            "RegisterSpace": 0,
+                            "RootParameterTag": "RootParameterCBSpriteDrawTag",
+                            "ShaderRegister": 1,
+                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
+                        },
                         {
                             "DescriptorRangeList": [
                                 {
@@ -240,7 +262,7 @@
                             ],
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
                             "RootParameterTag": "RootParameterSpriteBaseColorTextureTag",
-                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_PIXEL"
+                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         }
                     ],
                     "RootSignatureFlags": "D3D12_ROOT_SIGNATURE_FLAG_NONE",

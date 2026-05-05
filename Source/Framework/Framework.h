@@ -22,6 +22,9 @@
 // FPS関係の定数
 #include "Definition/Constant/FPS/FPSConstant.h"
 
+// File関係の定数
+#include "Definition/Constant/FileExtension/FileExtensionConstant.h"
+
 // Graphics関係の定数
 #include "Definition/Constant/Graphics/GraphicsConstant.h"
 #include "Definition/Constant/Graphics/Command/Queue/Fence/FenceConstant.h"
@@ -32,8 +35,8 @@
 #include "Definition/Constant/Graphics/Render/Pipeline/PipelineStateConstant.h"
 #include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
-#include "Definition/Constant/FileExtension/FileExtensionConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/Constant/ConstantBufferConstant.h"
+#include "Definition/Constant/Graphics/Resource/Buffer/UploadBufferConstant.h"
 
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"

@@ -1,16 +1,16 @@
-﻿// SpriteStandardShaderの最小動作確認用PixelShader
-// RootSignatureから渡されたSRVとStaticSamplerを使ってテクスチャをサンプリングする
+﻿#include "SpriteStandardShader.hlsli"
 
-Texture2D    g_baseColorTexture : register(t0);
-SamplerState g_baseColorSampler : register(s0);
-
-struct PixelInput
+float4 main(MeshOutput a_input) : SV_Target0
 {
-	float4 position : SV_Position;
-	float2 uv		: TEXCOORD0;
-};
+    float4 l_textureColor = g_baseColorTexture.Sample(g_baseColorSampler, a_input.uv);
+    
+    float4 l_outputColor = l_textureColor;
 
-float4 main(PixelInput a_input) : SV_Target0
-{
-    return g_baseColorTexture.Sample(g_baseColorSampler, a_input.uv);
+    // RGBは加算職として扱う
+    l_outputColor.rgb += g_color.rgb;
+    
+    // Alphaは透過率として扱う
+    l_outputColor.a *= g_color.a;
+    
+    return l_outputColor;
 }
