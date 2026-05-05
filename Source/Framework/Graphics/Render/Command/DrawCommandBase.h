@@ -15,7 +15,7 @@ namespace FWK::Graphics
 
 	public:
 
-		 DrawCommandBase() = default;
+		 DrawCommandBase()		    = default;
 		~DrawCommandBase() override = default;
 
 		void BeginFrame() override

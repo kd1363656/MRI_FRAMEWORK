@@ -48,7 +48,7 @@ bool FWK::Graphics::RenderArea::SetupRenderArea(const SwapChain& a_swapChain)
 	// MaxDepth : 深度値の最大値
 
 	// 実際の画面上に画面全体の大きさをどのようにして描画するかを決める設定
-	m_viewport = CD3DX12_VIEWPORT(l_firstBackBuffer);
+	m_viewport = CD3DX12_VIEWPORT{ l_firstBackBuffer };
 
 	// D3D12_RECT構造体について説明
 	// left   : 描画可能範囲の左端X座標
@@ -57,10 +57,10 @@ bool FWK::Graphics::RenderArea::SetupRenderArea(const SwapChain& a_swapChain)
 	// bottom : 描画可能範囲の下端Y座標
 
 	// 実際に描画する範囲を矩形で切り取る設定
-	m_scissorRECT = CD3DX12_RECT(k_defaultScissorRECTLeft, 
-								 k_defaultScissorRECTTop, 
-								 static_cast<LONG>(l_desc.Width),
-								 static_cast<LONG>(l_desc.Height));
+	m_scissorRECT = CD3DX12_RECT{ k_defaultScissorRECTLeft,
+								  k_defaultScissorRECTTop,
+								  static_cast<LONG>(l_desc.Width),
+								  static_cast<LONG>(l_desc.Height) };
 	
 	return true;
 }

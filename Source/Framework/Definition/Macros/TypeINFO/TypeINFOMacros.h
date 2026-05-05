@@ -13,7 +13,7 @@ public:																														 \
 																															 \
 	static const auto& GetTypeINFO()																						 \
 	{																														 \
-		static const auto l_typeINFO = FWK::Struct::TypeINFO(nullptr, FWK::StaticTypeIDGenerator::GetTypeID<Type>(), #Type); \
+		static const auto l_typeINFO = FWK::Struct::TypeINFO(nullptr, #Type, FWK::StaticTypeIDGenerator::GetTypeID<Type>()); \
 																															 \
 		return l_typeINFO;																									 \
 	};																														 \
@@ -41,7 +41,7 @@ public:																																		  \
 																																			  \
 	static const auto& GetTypeINFO()																										  \
 	{																																		  \
-		static const auto l_typeINFO = FWK::Struct::TypeINFO(&BaseType::GetTypeINFO(), FWK::StaticTypeIDGenerator::GetTypeID<Type>(), #Type); \
+		static const auto l_typeINFO = FWK::Struct::TypeINFO(&BaseType::GetTypeINFO(), #Type, FWK::StaticTypeIDGenerator::GetTypeID<Type>()); \
 																																			  \
 		return l_typeINFO;																													  \
 	};																																		  \

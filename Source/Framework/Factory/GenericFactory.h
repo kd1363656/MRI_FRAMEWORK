@@ -61,7 +61,7 @@ namespace FWK
 
 	private:
 
-		FactoryMap m_factoryMap = FactoryMap();
+		FactoryMap m_factoryMap = {};
 
 		//=========================
 		// シングルトン

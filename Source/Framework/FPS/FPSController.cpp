@@ -50,7 +50,7 @@ void FWK::FPSController::LimitFramerate() const
 	const auto& l_currentTime = std::chrono::steady_clock::now();
 
 	// 1000ミリ秒 / 目標FPSで今回使用すべき時間を算出
-	const auto& l_frameTime = std::chrono::milliseconds(static_cast<int>(k_milliSecond / m_targetFPS));
+	const auto& l_frameTime = std::chrono::milliseconds{ static_cast<int>(k_milliSecond / m_targetFPS) };
 
 	// 現在の時間を過去の時間と引いてやることで経過時間を算出
 	const auto& l_elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(l_currentTime - m_frameBeginTime);

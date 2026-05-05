@@ -39,7 +39,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const UIN
 	}
 
 	// ShaderVisibleにできるのはCBV_SRV_UAVとSAMPLERだけ
-	if (k_isUseShaderVisible &&
+	if (k_isUseShaderVisible												 &&
 		k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV &&
 		k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER)
 	{
@@ -216,9 +216,9 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const D3D12_D
 	return true;
 }
 bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecordIfNeeded(const D3D12_DESCRIPTOR_HEAP_FLAGS            a_descriptorHeapFlag, 
-																		 const Device&					              a_device,
-																		 const bool						              a_shouldCreate,
-																			   std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const
+																		   const Device&					            a_device,
+																		   const bool						            a_shouldCreate,
+																			     std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const
 {
 	// 作る必要がなければ成功扱いでreturn
 	if (!a_shouldCreate) { return true; }

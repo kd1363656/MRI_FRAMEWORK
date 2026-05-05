@@ -35,8 +35,8 @@ namespace FWK::Graphics
 
 		bool CreateDescriptorHeapRecord(const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, const Device& a_device, DescriptorHeapRecord& a_descriptorHeapRecord) const;
 		
-		bool CreateDescriptorHeapRecordIfNeeded(const D3D12_DESCRIPTOR_HEAP_FLAGS            a_descriptorHeapFlag,
-											    const Device&						           a_device, 
+		bool CreateDescriptorHeapRecordIfNeeded(const D3D12_DESCRIPTOR_HEAP_FLAGS          a_descriptorHeapFlag,
+											    const Device&						       a_device, 
 											    const bool							       a_shouldCreate,
 											  	    std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const;
 
