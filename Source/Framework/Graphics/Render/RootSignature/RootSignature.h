@@ -23,12 +23,12 @@ namespace FWK::Graphics
 
 		UINT FindVALRootParameterIndex(const TypeAlias::TypeTag a_tag) const;
 
-		const auto& GetREFRootSignature() const { return m_rootSignature; }
-
 		const auto& GetREFRootParameterIndexMap() const { return m_rootParameterIndexMap; }
 
-		const auto& GetREFRootParameterRecordList() const { return m_rootParameterRecordList; }
 		const auto& GetREFStaticSamplerDescList  () const { return m_staticSamplerDescList; }
+		const auto& GetREFRootParameterRecordList() const { return m_rootParameterRecordList; }
+
+		const auto& GetREFRootSignature() const { return m_rootSignature; }
 
 		auto& GetMutableREFRootParameterIndexMap  () { return m_rootParameterIndexMap; }
 		auto& GetMutableREFRootParameterRecordList() { return m_rootParameterRecordList; }
@@ -39,13 +39,6 @@ namespace FWK::Graphics
 
 	private:
 
-		TypeAlias::ComPtr<ID3D12RootSignature> m_rootSignature = nullptr;
-
-		D3D12_ROOT_SIGNATURE_FLAGS m_rootSignatureFlags   = {};
-		D3D_ROOT_SIGNATURE_VERSION m_rootSignatureVersion = {};
-
-		JsonConverter::RootSignatureJsonConverter m_rootSignatureJsonConverter = {};
-
 		RootParameterIndexMap m_rootParameterIndexMap = {};
 
 		std::vector<D3D12_STATIC_SAMPLER_DESC> m_staticSamplerDescList = {};
@@ -53,5 +46,12 @@ namespace FWK::Graphics
 		// D3D12_ROOT_PARAMETERは、内部にポインタを持つため要素の再確保が発生した場合に
 		// ポインタが無効になる可能性があるのでreserveするかemplace_backした後にポインタを渡す
 		std::vector<Struct::RootParameterRecord> m_rootParameterRecordList = {};
+
+		TypeAlias::ComPtr<ID3D12RootSignature> m_rootSignature = nullptr;
+
+		JsonConverter::RootSignatureJsonConverter m_rootSignatureJsonConverter = {};
+
+		D3D12_ROOT_SIGNATURE_FLAGS m_rootSignatureFlags   = {};
+		D3D_ROOT_SIGNATURE_VERSION m_rootSignatureVersion = {};
 	};
 }

@@ -78,19 +78,19 @@ namespace FWK::Graphics
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
-		DirectCommandQueue m_directCommandQueue = {};
-		DirectCommandList  m_directCommandList  = {};
-		
-		RenderArea m_renderArea = {};
-
-		JsonConverter::RendererJsonConverter m_rendererJsonConverter = {};
-
 		RootSignatureMap m_rootSignatureMap = {};
 		PipelineStateMap m_pipelineStateMap = {};
 		DrawCommandMap   m_drawCommandMap   = {};
 
 		std::vector<FrameResource>				   m_frameResourceList = {};
 		std::vector<std::shared_ptr<IDrawCommand>> m_drawCommandList   = {};
+
+		DirectCommandQueue m_directCommandQueue = {};
+		DirectCommandList  m_directCommandList  = {};
+		
+		RenderArea m_renderArea = {};
+
+		JsonConverter::RendererJsonConverter m_rendererJsonConverter = {};
 
 		std::size_t m_currentFrameResourceIndex = k_initialFrameResourceIndex;
 	};

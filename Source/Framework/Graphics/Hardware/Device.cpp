@@ -19,7 +19,6 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		D3D_FEATURE_LEVEL_11_0,
 	});
 
-
 	// 現在調査中のGPUアダプターを一時的に受け取る変数
 	TypeAlias::ComPtr<IDXGIAdapter4> l_adapter = nullptr;
 

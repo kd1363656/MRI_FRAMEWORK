@@ -3,6 +3,7 @@
 void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+
 	m_frameResourceJsonConverter.Deserialize(a_rootJson, *this);
 }
 bool FWK::Graphics::FrameResource::Create(const Device& a_device)
@@ -13,16 +14,12 @@ bool FWK::Graphics::FrameResource::Create(const Device& a_device)
 		return false;
 	}
 
-	for (auto& [l_staticTypeID, l_constantBuffer] : m_constantBufferMap)
+	for (const auto& [l_staticTypeID, l_constantBuffer] : m_constantBufferMap)
 	{
 		if (!l_constantBuffer) { continue; }
 
 		l_constantBuffer->Create(a_device);
 	}
-
-	const auto& l_constantBuffer = std::make_shared<SpriteDrawConstantBuffer>();
-
-	AddConstantBuffer(l_constantBuffer);
 
 	return true;
 }

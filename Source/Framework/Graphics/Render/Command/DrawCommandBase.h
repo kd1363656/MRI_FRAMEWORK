@@ -15,7 +15,7 @@ namespace FWK::Graphics
 
 	public:
 
-		DrawCommandBase() = default;
+		 DrawCommandBase() = default;
 		~DrawCommandBase() override = default;
 
 		void BeginFrame() override
@@ -28,7 +28,7 @@ namespace FWK::Graphics
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}
 
-		const auto& GetDrawCommandList() const { return m_drawCommandList; }
+		const auto& GetREFDrawCommandList() const { return m_drawCommandList; }
 
 	protected:
 
@@ -60,6 +60,7 @@ namespace FWK::Graphics
 			// パイプラインステートをセット
 			l_directCommandList.SetupPipelineState(l_pipelineState);
 
+			// 使用したルートシグネチャ、パイプラインステートを外部に渡す
 			return { l_rootSignature, l_pipelineState };
 		}
 

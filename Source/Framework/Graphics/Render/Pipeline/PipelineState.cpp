@@ -3,6 +3,7 @@
 void FWK::Graphics::PipelineState::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+
 	m_pipelineStateJsonConverter.Deserialize(a_rootJson, *this);
 }
 

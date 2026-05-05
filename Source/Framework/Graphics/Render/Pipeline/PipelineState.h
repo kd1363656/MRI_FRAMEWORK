@@ -34,6 +34,8 @@ namespace FWK::Graphics
 
 		void SetUseRootSignatureTag(const TypeAlias::TypeTag a_set) { m_useRootSignatureTag = a_set; }
 
+		const auto& GetREFRTVFormatList() const { return m_rtvFormatList; }
+
 		const auto& GetREFPipelineState() const { return m_pipelineState; }
 
 		const auto& GetREFRasterizerDesc  () const { return m_rasterizerDesc; }
@@ -44,8 +46,6 @@ namespace FWK::Graphics
 		const auto& GetREFAmplificationShader() const { return m_amplificationShader; }
 		const auto& GetREFMeshShader         () const { return m_meshShader; }
 		const auto& GetREFPixelShader        () const { return m_pixelShader; }
-
-		const auto& GetREFRTVFormatList() const { return m_rtvFormatList; }
 
 		auto& GetMutableREFAmplificationShader() { return m_amplificationShader; }
 		auto& GetMutableREFMeshShader         () { return m_meshShader; }
@@ -63,10 +63,16 @@ namespace FWK::Graphics
 
 		D3D12_SHADER_BYTECODE FetchShaderByteCode(const Shader& a_shader) const;
 
+		std::vector<DXGI_FORMAT> m_rtvFormatList = {};
+
 		TypeAlias::ComPtr<ID3D12PipelineState> m_pipelineState = nullptr;
 
 		std::shared_ptr<Shader> m_amplificationShader = nullptr;
 		std::shared_ptr<Shader> m_pixelShader         = nullptr;
+
+		Shader m_meshShader = {};
+
+		Converter::PipelineStateJsonConverter m_pipelineStateJsonConverter = {};
 
 		D3D12_RASTERIZER_DESC    m_rasterizerDesc   = {};
 		D3D12_BLEND_DESC         m_blendDesc        = {};
@@ -79,12 +85,6 @@ namespace FWK::Graphics
 
 		UINT m_sampleMask = Constant::k_initialSampleMask;
 
-		Shader m_meshShader = {};
-
-		Converter::PipelineStateJsonConverter m_pipelineStateJsonConverter = {};
-
 		TypeAlias::TypeTag m_useRootSignatureTag = Constant::k_invalidTypeTag;
-
-		std::vector<DXGI_FORMAT> m_rtvFormatList = {};
 	};
 }

@@ -18,15 +18,15 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
 
 	// 貯めこんでいたテクスチャ描画命令を回す
-	const auto& l_spriteDrawCommandList = GetDrawCommandList();
+	const auto& l_spriteDrawCommandList = GetREFDrawCommandList();
 
 	for (const auto& l_spriteDrawCommand : l_spriteDrawCommandList)
 	{
 		auto* l_textureRecord = a_textureSystem.FindMutablePTRTextureRecord(l_spriteDrawCommand.m_textureID);
 
-		if (!l_textureRecord)					                                   { continue; }
-		if (!l_textureRecord->m_textureResource)                                   { continue; }
-		if (l_textureRecord->m_srvIndex == Constant::k_invalidDescriptorHeapIndex) { continue; }
+		if (!l_textureRecord)					                                    { continue; }
+		if (!l_textureRecord->m_textureResource)                                    { continue; }
+		if ( l_textureRecord->m_srvIndex == Constant::k_invalidDescriptorHeapIndex) { continue; }
 
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		if (l_textureRecord->m_currentState != D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)

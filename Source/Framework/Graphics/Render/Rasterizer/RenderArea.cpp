@@ -57,8 +57,8 @@ bool FWK::Graphics::RenderArea::SetupRenderArea(const SwapChain& a_swapChain)
 	// bottom : 描画可能範囲の下端Y座標
 
 	// 実際に描画する範囲を矩形で切り取る設定
-	m_scissorRect = CD3DX12_RECT(k_defaultScissorRectLeft, 
-								 k_defaultScissorRectTop, 
+	m_scissorRECT = CD3DX12_RECT(k_defaultScissorRECTLeft, 
+								 k_defaultScissorRECTTop, 
 								 static_cast<LONG>(l_desc.Width),
 								 static_cast<LONG>(l_desc.Height));
 	

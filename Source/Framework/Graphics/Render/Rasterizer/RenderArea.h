@@ -11,15 +11,15 @@ namespace FWK::Graphics
 
 		bool SetupRenderArea(const SwapChain& a_swapChain);
 
-		const auto& GetREFViewport() const { return m_viewport; }
-		const auto& GetScissorRect() const { return m_scissorRect; }
+		const auto& GetREFViewport    () const { return m_viewport; }
+		const auto& GetREFScissorRRECt() const { return m_scissorRECT; }
 
 	private:
 
-		static constexpr LONG k_defaultScissorRectLeft = 0L;
-		static constexpr LONG k_defaultScissorRectTop  = 0L;
+		static constexpr LONG k_defaultScissorRECTLeft = 0L;
+		static constexpr LONG k_defaultScissorRECTTop  = 0L;
 
 		D3D12_VIEWPORT m_viewport    = {};
-		D3D12_RECT     m_scissorRect = {};
+		D3D12_RECT     m_scissorRECT = {};
 	};
 }

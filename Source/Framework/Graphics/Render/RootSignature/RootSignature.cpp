@@ -3,6 +3,7 @@
 void FWK::Graphics::RootSignature::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+
 	m_rootSignatureJsonConverter.Deserialize(a_rootJson, *this);
 }
 bool FWK::Graphics::RootSignature::Create(const Device& a_device)
