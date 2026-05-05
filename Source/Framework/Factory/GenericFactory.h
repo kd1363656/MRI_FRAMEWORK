@@ -9,7 +9,10 @@ namespace FWK
 	private:
 
 		using FactoryMap = std::unordered_map<std::string, std::function<Type()>, Struct::StringHash, std::equal_to<>>;
-		using BaseType   = typename Type::element_type;
+
+		// Typeはスマートポインタを想定している
+		// std::shared_ptr<Base> / std::unique_ptr<Base>が管理している実態型Baseを取り出す
+		using BaseType = typename Type::element_type;
 
 	public:
 
@@ -21,7 +24,7 @@ namespace FWK
 			std::function<Type()> l_factoryMethod = {};
 
 			// もしシェアードポインタ型ならシェアードポインタ型を
-			// そうでないかつユニークポインタ型ならユニークポインタ型を、
+			// そうでないかつユニークポインタ型ならユニークポインタ型を
 			// どちらにも該当しないなら"nullptr"を作るファクトリーを保存
 			// "C++20"以降の"return"文は右辺値なら"RVO"が強制的に実行されるため所有権のコピーが発生しない
 			if constexpr (TypeTrait::PTRType<Type>::k_kind == Enum::PTRKind::Shared)
