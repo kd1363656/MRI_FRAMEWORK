@@ -469,6 +469,9 @@
     <Filter Include="Source\Framework\JsonConverter\Graphics\Render\Frame">
       <UniqueIdentifier>{95ff7970-215d-45ea-ac0e-2d90ddb8985e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass">
+      <UniqueIdentifier>{690a2292-e371-430b-9f19-1054c870cd70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -830,6 +833,9 @@
     <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.h">
       <Filter>Source\Framework\JsonConverter\Graphics\Render\Frame</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1002,6 +1008,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.cpp">
       <Filter>Source\Framework\JsonConverter\Graphics\Render\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

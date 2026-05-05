@@ -88,8 +88,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
@@ -165,8 +165,8 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
@@ -240,8 +240,8 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
@@ -317,8 +317,8 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
@@ -448,6 +448,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h" />
@@ -522,6 +523,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />

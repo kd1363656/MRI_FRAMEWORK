@@ -13,6 +13,12 @@
                             "CreateConstantBufferNUM": 1024
                         },
                         "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
+                    },
+                    {
+                        "ConstantBuffer": {
+                            "CreateConstantBufferNUM": 1024
+                        },
+                        "ConstantBufferTypeName": "SpritePassConstantBuffer"
                     }
                 ]
             },
@@ -23,6 +29,12 @@
                             "CreateConstantBufferNUM": 1024
                         },
                         "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
+                    },
+                    {
+                        "ConstantBuffer": {
+                            "CreateConstantBufferNUM": 1024
+                        },
+                        "ConstantBufferTypeName": "SpritePassConstantBuffer"
                     }
                 ]
             },
@@ -33,6 +45,12 @@
                             "CreateConstantBufferNUM": 1024
                         },
                         "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
+                    },
+                    {
+                        "ConstantBuffer": {
+                            "CreateConstantBufferNUM": 1024
+                        },
+                        "ConstantBufferTypeName": "SpritePassConstantBuffer"
                     }
                 ]
             }

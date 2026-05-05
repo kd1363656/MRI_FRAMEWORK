@@ -165,6 +165,7 @@
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"
 
 #include "Graphics/Resource/Buffer/Constant/Sprite/Draw/SpriteDrawConstantBuffer.h"
+#include "Graphics/Resource/Buffer/Constant/Sprite/Pass/SpritePassConstantBuffer.h"
 
 // コマンドキュー管理クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"

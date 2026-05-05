@@ -3,9 +3,9 @@
 namespace FWK::Struct
 {
 	// ※ 注意
-	// HLSLのcbufferは16バイト単位でパッキングされるため、
+	// HLSLのConstantBufferは16バイト単位でパッキングされるため、
 	// C++側の構造体レイアウトも16バイト境界を意識して定義すること
-	struct CBSprite
+	struct CBSpriteDraw final
 	{
 		TypeAlias::Math::Color m_color = Constant::k_noColor;
 
@@ -16,5 +16,10 @@ namespace FWK::Struct
 		TypeAlias::Math::Vector2 m_padding = TypeAlias::Math::Vector2::Zero;
 
 		Struct::SpriteRECT m_sourceRECT = {};
+	};
+
+	struct CBSpritePass final
+	{
+		TypeAlias::Math::Matrix m_projectionMatrix = TypeAlias::Math::Matrix::Identity;
 	};
 }
