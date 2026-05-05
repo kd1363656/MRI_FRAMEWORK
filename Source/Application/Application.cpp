@@ -59,7 +59,7 @@ void Application::Execute()
 		EndFrame(l_graphicsManager);
 	}
 
-	// もしゲームデータがセーブされていなくても変更が適用されるべき項目をセーブする
+	// もしゲームデータがセーブされていなくても変更が適用されるべき項目を自動セーブする
 	SaveFile(l_graphicsManager);
 }
 
