@@ -4,10 +4,10 @@ namespace FWK::Constant
 {
 	inline constexpr UINT k_emptyTextureReferenceCount = 0U;
 
-	inline constexpr UINT k_defaultSpriteRectX      = 0U;
-	inline constexpr UINT k_defaultSpriteRectY      = 0U;
-	inline constexpr UINT k_defaultSpriteRectWidth  = 0U;
-	inline constexpr UINT k_defaultSpriteRectHeight = 0U;
+	inline constexpr UINT k_defaultSpriteRECTX      = 0U;
+	inline constexpr UINT k_defaultSpriteRECTY      = 0U;
+	inline constexpr UINT k_defaultSpriteRECTWidth  = 0U;
+	inline constexpr UINT k_defaultSpriteRECTHeight = 0U;
 
 	inline constexpr TypeAlias::Math::Color k_noColor = { 0.0F, 0.0F, 0.0F, 1.0F };
 

@@ -69,11 +69,11 @@ namespace FWK::Utility::Json
 
 		const auto& l_factory = FactoryType::GetInstance();
 
-		const std::string l_createName = a_json.value(a_key.data(), std::string());
+		const auto& l_createName = a_json.value(a_key.data(), std::string());
 
 		if (l_createName.empty()) { return; }
 
-		a_instance = l_factory.Create(l_createName.c_str());
+		a_instance = l_factory.Create(l_createName);
 	}
 
 	// インスタンスから型名を取得し保存する

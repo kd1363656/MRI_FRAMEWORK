@@ -62,7 +62,7 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const D3D1
 		return;
 	}
 	
-	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex].m_backBufferResourceREF;
+	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex].m_backBufferResource;
 
 	// リソースの状態遷移(Present -> RenderTarget)
 	TransitionResource(l_backBuffer, a_beforeState, a_afterState);

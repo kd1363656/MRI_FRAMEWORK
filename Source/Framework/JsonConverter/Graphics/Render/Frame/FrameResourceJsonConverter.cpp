@@ -37,7 +37,7 @@ nlohmann::json FWK::JsonConverter::FrameResourceJsonConverter::Serialize(const G
 
 		nlohmann::json l_json = {};
 
-		l_json[k_constantBufferJsonKey] = Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferJsonKey);
+		l_json = Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferJsonKey);
 
 		l_jsonArray.emplace_back(l_json);
 	}

@@ -17,5 +17,9 @@ namespace FWK::JsonConverter
 		void Deserialize(const nlohmann::json& a_rootJson, Graphics::ConstantBufferBase& a_constantBufferBase) const;
 
 		nlohmann::json Serialize(const Graphics::ConstantBufferBase& a_constantBufferBase) const;
+
+	private:
+
+		static constexpr std::string_view k_createConstantBufferNUMJsonKey = "CreateConstantBufferNUM";
 	};
 }
