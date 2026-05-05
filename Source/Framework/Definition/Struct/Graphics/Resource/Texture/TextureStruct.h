@@ -18,4 +18,12 @@ namespace FWK::Struct
 
 		std::wstring m_filePath = {};
 	};
+
+	struct SpriteRECT final
+	{
+		std::uint32_t x      = Constant::k_defaultSpriteRectX;
+		std::uint32_t y      = Constant::k_defaultSpriteRectY;
+		std::uint32_t width  = Constant::k_defaultSpriteRectWidth;
+		std::uint32_t height = Constant::k_defaultSpriteRectHeight;
+	};
 }

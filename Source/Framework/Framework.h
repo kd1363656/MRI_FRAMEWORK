@@ -33,6 +33,7 @@
 #include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
 #include "Definition/Constant/FileExtension/FileExtensionConstant.h"
+#include "Definition/Constant/Graphics/Resource/Buffer/Constant/ConstantBufferConstant.h"
 
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
@@ -41,6 +42,7 @@
 #include "Definition/Struct/Graphics/Render/Command/DrawCommandStruct.h"
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 #include "Definition/Struct/Window/WindowStruct.h"
+#include "Definition/Struct/Graphics/Resource/Buffer/Constant/ConstantBufferStruct.h"
 
 // Enum
 #include "Definition/Enum/Enum.h"
@@ -153,6 +155,12 @@
 #include "JsonConverter/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
 #include "Graphics/Render/RootSignature/RootSignature.h"
 
+// アップロードバッファー
+#include "Graphics/Resource/Buffer/UploadBuffer.h"
+
+// 定数バッファ
+#include "Graphics/Resource/Buffer/Constant/ConstantBufferBase.h"
+
 // コマンドキュー管理クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"
 #include "Graphics/Command/Queue/CommandQueueBase.h"
@@ -178,9 +186,6 @@
 // ディスクリプタプール
 #include "JsonConverter/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
 #include "Graphics/Resource/Descriptor/DescriptorPool.h"
-
-// アップロードバッファー
-#include "Graphics/Resource/Buffer/UploadBuffer.h"
 
 // メモリアロケータクラス
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"

@@ -430,6 +430,21 @@
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command">
       <UniqueIdentifier>{ec203b5b-ed7d-4d94-a7a4-96acb4c78499}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant">
+      <UniqueIdentifier>{7ecc2bec-f144-4c43-911a-ec4ca9c088e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer">
+      <UniqueIdentifier>{d48b73ab-3115-4d7d-a24a-35d02066d148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant">
+      <UniqueIdentifier>{562e028c-5a2e-440e-9c87-8f5e68b20147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer">
+      <UniqueIdentifier>{a1ae9820-2605-4b66-9055-5eea5e9f4a20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant">
+      <UniqueIdentifier>{aee8008f-074a-4e8c-ad87-aa3bc3fd89d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -770,6 +785,15 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h">
       <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\ConstantBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -930,6 +954,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp">
       <Filter>Source\Framework\Graphics\Render\Command\Sprite\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

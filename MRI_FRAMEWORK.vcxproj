@@ -80,7 +80,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,7 +88,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -157,7 +157,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -165,7 +165,7 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -232,7 +232,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -240,7 +240,7 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -309,7 +309,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -317,7 +317,7 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -393,6 +393,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RootSignature\RootSignatureConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\ResourceConstant.h" />
@@ -408,6 +409,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\TypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Command\DrawCommandStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\ConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilderStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h" />
@@ -443,6 +445,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h" />
@@ -513,6 +516,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />

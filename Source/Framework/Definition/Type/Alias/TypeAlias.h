@@ -9,4 +9,6 @@ namespace FWK::TypeAlias
 	using TypeTag = StaticTypeID;
 
 	using TextureID = std::uint32_t;
+
+	namespace Math = DirectX::SimpleMath;
 }
