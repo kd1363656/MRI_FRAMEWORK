@@ -525,10 +525,11 @@
 	if      (m_isA)  { return false; }
 	else if (m_isAB) { return false; }
 }
-・jsonのみ改行して書く
+・jsonの場合
 {
 	例↓
-	return nlohmann::json{
+	return nlohmann::json
+	{
 		{ a_key.data(), l_typeINFO->k_name.data() }
 	};
 }

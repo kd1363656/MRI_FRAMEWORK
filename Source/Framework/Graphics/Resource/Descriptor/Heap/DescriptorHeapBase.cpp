@@ -114,6 +114,17 @@ bool FWK::Graphics::DescriptorHeapBase::CopyCPUOnlyDescriptorToShaderVisibleDesc
 	return true;
 }
 
+FWK::TypeAlias::ComPtr<ID3D12DescriptorHeap> FWK::Graphics::DescriptorHeapBase::FetchPTRShaderVisibleDescriptorHeap() const
+{
+	if (!m_shaderVisibleDescriptorHeapRecord)
+	{
+		assert(false && "ShaderVisible用ディスクリプタヒープが未作成でディスクリプタヒープ取得ができませんでした。");
+		return nullptr;
+	}
+
+	return m_shaderVisibleDescriptorHeapRecord->m_descriptorHeap;
+}
+
 D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUOnlyCPUHandle(const UINT a_index) const
 {
 	if (!m_cpuOnlyDescriptorHeapRecord)
@@ -139,22 +150,11 @@ D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVis
 {
 	if (!m_shaderVisibleDescriptorHeapRecord)
 	{
-		assert(false && "ShaderVisible用ディスクリプタヒープが無効でGPUハンドル取得が出来ません。");
+		assert(false && "ShaderVisible用ディスクリプタヒープが無効でGPUハンドル取得ができません。");
 		return {};
 	}
 
 	return FetchVALGPUHandle(a_index, *m_shaderVisibleDescriptorHeapRecord);
-}
-
-FWK::TypeAlias::ComPtr<ID3D12DescriptorHeap> FWK::Graphics::DescriptorHeapBase::FetchPTRShaderVisibleDescriptorHeap() const
-{
-	if (!m_shaderVisibleDescriptorHeapRecord)
-	{
-		assert(false && "ShaderVisible用ディスクリプタヒープが未作製でディスクリプタヒープ取得ができませんでした。");
-		return nullptr;
-	}
-
-	return m_shaderVisibleDescriptorHeapRecord->m_descriptorHeap;
 }
 
 bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const Device& a_device, const D3D12_DESCRIPTOR_HEAP_FLAGS a_descriptorHeapFlag, DescriptorHeapRecord& a_descriptorHeapRecord) const

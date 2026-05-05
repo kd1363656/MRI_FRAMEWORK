@@ -20,10 +20,10 @@ namespace FWK::Utility::Json
 		if (a_key.empty()) { return a_json.is_array(); }
 
 		// もしキーが含まれているがa_jsonに含まれていな得ればreturn
-		if (!a_json.contains(a_key.data())) { return false; }
+		if (!a_json.contains(a_key)) { return false; }
 
 		// キーが含まれていればa_json[a_key.data()]が配列なのかどうかの結果を返す
-		return a_json[a_key.data()].is_array();
+		return a_json[a_key].is_array();
 	}
 
 	inline TypeAlias::TypeTag DeserializeTag(const nlohmann::json& a_json, const std::string_view& a_key)
@@ -32,7 +32,7 @@ namespace FWK::Utility::Json
 
 		// jsonからTag名を取得
 		const auto& l_registry = TypeINFORegistry::GetInstance();
-		const auto& l_tagName  = a_json.value                 (a_key.data(), std::string());
+		const auto& l_tagName  = a_json.value                 (a_key, std::string());
 
 		// 取得したタグ名から型情報を検索
 		const auto* l_typeINFO = l_registry.FindTypeINFOByName(l_tagName);
@@ -50,13 +50,15 @@ namespace FWK::Utility::Json
 
 		if (!l_typeINFO)
 		{
-			return nlohmann::json{ 
-				{ a_key.data(), std::string() } 
+			return nlohmann::json
+			{ 
+				{ a_key, std::string() } 
 			};
 		}
 
-		return nlohmann::json{
-			{ a_key.data(), l_typeINFO->k_name.data() }
+		return nlohmann::json
+		{
+			{ a_key, l_typeINFO->k_name }
 		};
 	}
 
@@ -69,9 +71,7 @@ namespace FWK::Utility::Json
 
 		const auto& l_factory = FactoryType::GetInstance();
 
-		const auto& l_createName = a_json.value(a_key.data(), std::string());
-
-		if (l_createName.empty()) { return; }
+		const auto& l_createName = a_json.value(a_key, std::string());
 
 		a_instance = l_factory.Create(l_createName);
 	}
@@ -82,14 +82,11 @@ namespace FWK::Utility::Json
 		requires Concept::IsSmartPTRConcept<Type>
 	inline nlohmann::json SerializeInstanceType(const Type& a_instance, const std::string_view& a_key)
 	{
-		if (!a_instance)
-		{
-			return nlohmann::json();
-		}
+		if (!a_instance) { return nlohmann::json(); }
 
 		auto l_rootJson = nlohmann::json();
 
-		l_rootJson[a_key.data()] = a_instance->GetRuntimeTypeINFO().k_name.data();
+		l_rootJson[a_key] = a_instance->GetRuntimeTypeINFO().k_name;
 
 		return l_rootJson;
 	}

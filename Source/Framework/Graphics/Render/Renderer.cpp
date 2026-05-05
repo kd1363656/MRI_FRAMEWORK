@@ -149,6 +149,10 @@ void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawComm
 	m_drawCommandList.emplace_back(a_drawCommand);
 }
 
+void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
+{
+	m_drawCommandMap.try_emplace(a_staticTypeID, a_drawCommand);
+}
 void FWK::Graphics::Renderer::AddRootSignature(const RootSignature& a_rootSignature, const TypeAlias::TypeTag a_tag)
 {
 	m_rootSignatureMap.try_emplace(a_tag, a_rootSignature);
@@ -156,10 +160,6 @@ void FWK::Graphics::Renderer::AddRootSignature(const RootSignature& a_rootSignat
 void FWK::Graphics::Renderer::AddPipelineState(const PipelineState& a_pipelineState, const TypeAlias::TypeTag a_tag)
 {
 	m_pipelineStateMap.try_emplace(a_tag, a_pipelineState);
-}
-void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
-{
-	m_drawCommandMap.try_emplace(a_staticTypeID, a_drawCommand);
 }
 
 const FWK::Graphics::RootSignature* FWK::Graphics::Renderer::FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const

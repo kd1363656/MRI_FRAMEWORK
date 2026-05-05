@@ -12,15 +12,14 @@ void FWK::JsonConverter::FrameResourceJsonConverter::Deserialize(const nlohmann:
 		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryConstantBuffer>(l_json, k_constantBufferTypeNameJsonKey, l_constantBuffer);
 
 		// 作製に成功していれば中身にポインタがしっかり入っているので初期化とデシリアライズを行う
-		if (l_constantBuffer)
+		if (!l_constantBuffer) { continue; }
+		
+		if (l_json.contains(k_constantBufferJsonKey))
 		{
-			if (l_json.contains(k_constantBufferJsonKey))
-			{
-				l_constantBuffer->Deserialize(l_json[k_constantBufferJsonKey]);
-			}
-
-			a_frameResource.AddConstantBuffer(l_constantBuffer);
+			l_constantBuffer->Deserialize(l_json[k_constantBufferJsonKey]);
 		}
+
+		a_frameResource.AddConstantBuffer(l_constantBuffer);
 	}
 }
 
