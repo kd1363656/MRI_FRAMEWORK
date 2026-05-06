@@ -21,16 +21,10 @@ FWK::TypeAlias::TextureID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 																				  const std::filesystem::path&			   a_filePath,
 																						DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
-	if (a_filePath.empty())
+	// 読み込めるファイルかどうかを確認
+	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerDDSExtension))
 	{
-		assert(false && "読み込み申請されたテクスチャファイルパスが空のため、テクスチャ読み込み申請に失敗しました。");
-		return Constant::k_invalidTextureID;
-	}
-
-	// 拡張子が.ddsでなければreturn
-	if (a_filePath.extension() != Constant::k_lowerDDSExtension)
-	{
-		assert(false && "読み込み申請されたテクスチャファイルパスの拡張子が.ddsではなく、テクスチャ読み込み申請に失敗しました。");
+		assert(false && "テクスチャファイルパスが読み込めるファイルパスではありません。");
 		return Constant::k_invalidTextureID;
 	}
 

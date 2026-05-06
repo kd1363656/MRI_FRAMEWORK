@@ -9,15 +9,13 @@ void FWK::Graphics::Shader::Deserialize(const nlohmann::json& a_rootJson)
 
 bool FWK::Graphics::Shader::CreateFromFile(const ShaderCompiler& a_shaderCompiler)
 {
-	if (m_filePath.extension() == Constant::k_lowerCSOExtension)
+	if (!Utility::File::CanLoadFilePath(m_filePath, Constant::k_lowerCSOExtension))
 	{
-		m_dxcBlob = a_shaderCompiler.LoadBinaryFromFile(m_filePath.c_str());
-	}
-	else 
-	{
-		assert(false && "シェーダーファイルの拡張子が.hlslまたは.csoではありません");
+		assert(false && "シェーダーファイルの拡張子が.csoではありません");
 		return false;
 	}
+
+	m_dxcBlob = a_shaderCompiler.LoadBinaryFromFile(m_filePath.wstring());
 
 	if (!m_dxcBlob)
 	{
