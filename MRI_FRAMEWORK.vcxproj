@@ -80,7 +80,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,8 +88,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);..\Library\FBXSDK\Lib\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;libfbxsdk.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
@@ -157,7 +157,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -165,8 +165,8 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);..\Library\FBXSDK\Lib\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;libfbxsdk.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
@@ -232,7 +232,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -240,8 +240,8 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);..\Library\FBXSDK\Lib\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;libfbxsdk.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
@@ -309,7 +309,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -317,8 +317,8 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);..\Library\FBXSDK\Lib\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;libfbxsdk.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"

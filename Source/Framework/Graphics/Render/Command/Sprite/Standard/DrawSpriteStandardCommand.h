@@ -15,7 +15,7 @@ namespace FWK::Graphics
 
 		bool SetupCBSpritePass(const Renderer&		     a_renderer,
 							   const DirectCommandList&  a_directCommandList,
-							   const UploadBuffer&	     a_spritePssUploadBuffer,
+							   const UploadBuffer&	     a_spritePassUploadBuffer,
 							   const RootSignature*	     a_rootSignature,
 								     std::uint8_t* const a_spritePassMappedData);
 

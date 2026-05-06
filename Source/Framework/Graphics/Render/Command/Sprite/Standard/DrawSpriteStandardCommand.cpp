@@ -109,7 +109,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 
 bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer&           a_renderer, 
 															     const DirectCommandList&  a_directCommandList,
-															     const UploadBuffer&       a_spritePssUploadBuffer, 
+															     const UploadBuffer&       a_spritePassUploadBuffer, 
 															     const RootSignature*      a_rootSignature, 
 																	   std::uint8_t* const a_spritePassMappedData)
 {
@@ -132,7 +132,7 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer&
 	l_cbSpritePass.m_projectionMatrix = l_projectionMatrix;
 
 	return SetupConstantBuffer<Tag::RootParameterCBSpritePassTag>(a_directCommandList,
-																  a_spritePssUploadBuffer,
+																  a_spritePassUploadBuffer,
 																  l_cbSpritePass,
 																  a_rootSignature,
 																  k_cbSpritePassIndex,
