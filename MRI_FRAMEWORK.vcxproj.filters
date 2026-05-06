@@ -472,6 +472,15 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass">
       <UniqueIdentifier>{690a2292-e371-430b-9f19-1054c870cd70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Model">
+      <UniqueIdentifier>{9e45bb34-5281-4d26-ad17-c1119853d449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model">
+      <UniqueIdentifier>{c0bef69e-b1a7-42c7-bb19-dd10315ad39f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Loader">
+      <UniqueIdentifier>{ccfcb519-c057-4d39-aa15-fbab4c91c3c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -839,6 +848,12 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\UploadBufferConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Loader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1014,6 +1029,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Loader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

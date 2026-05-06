@@ -46,6 +46,7 @@
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 #include "Definition/Struct/Window/WindowStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/ConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
 
 // Enum
 #include "Definition/Enum/Enum.h"
@@ -219,6 +220,9 @@
 #include "JsonConverter/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
+
+// モデル
+#include "Graphics/Resource/Model/Loader/FBXModelLoader.h"
 
 // リソースコンテキスト
 #include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"
