@@ -43,7 +43,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 	const auto& l_spritePassUploadBuffer = l_spritePassConstantBuffer->GetREFUploadConstantBuffer();
 	const auto& l_spriteDrawUploadBuffer = l_spriteDrawConstantBuffer->GetREFUploadConstantBuffer();
 
-	auto* const l_spirteDrawMappedData = l_spriteDrawUploadBuffer.Map();
+	auto* const l_spriteDrawMappedData = l_spriteDrawUploadBuffer.Map();
 	auto* const l_spritePassMappedData = l_spritePassUploadBuffer.Map();
 
 	if (!l_spritePassMappedData)
@@ -52,12 +52,67 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 		return;
 	}
 
-	if (!l_spirteDrawMappedData)
+	if (!l_spriteDrawMappedData)
 	{
 		assert(false && "スプライト描画用定数バッファのMapに失敗したため、描画処理に失敗しました。");
+		l_spritePassUploadBuffer.UnMap();
 		return;
 	}
 
+	// もし共通定数バッファの設定に失敗したらマップを解除
+	if (!SetupCBSpritePass(a_renderer,
+						   l_directCommandList,
+						   l_spritePassUploadBuffer,
+						   l_graphicsPipelineStateSetupResult.m_rootSignature,
+						   l_spritePassMappedData))
+	{
+		l_spriteDrawUploadBuffer.UnMap();
+		l_spritePassUploadBuffer.UnMap();
+		return;
+	}
+	
+	// 貯めこんでいたテクスチャ描画命令を回す
+	const auto& l_spriteDrawCommandList = GetREFDrawCommandList();
+
+	for (std::size_t l_i = k_initialSpriteDrawCommandListIndex; l_i < l_spriteDrawCommandList.size(); ++l_i)
+	{
+		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_i];
+		
+		auto* l_textureRecord = a_textureSystem.FindMutablePTRTextureRecord(l_spriteDrawCommand.m_textureID);
+
+		if (!l_textureRecord)					                                    { continue; }
+		if (!l_textureRecord->m_textureResource)                                    { continue; }
+		if ( l_textureRecord->m_srvIndex == Constant::k_invalidDescriptorHeapIndex) { continue; }
+
+		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
+		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
+
+		// ディスクリプタテーブルにテクスチャをセット
+		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_graphicsPipelineStateSetupResult.m_rootSignature, l_textureRecord->m_srvIndex);
+
+		if (!SetupCBSpriteDraw(l_spriteDrawCommand,
+							   l_directCommandList,
+							   l_spriteDrawUploadBuffer,
+							   l_graphicsPipelineStateSetupResult.m_rootSignature,
+							   l_i,
+							   l_spriteDrawMappedData))
+		{
+			continue;
+		}
+		
+		l_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
+	}
+
+	l_spriteDrawUploadBuffer.UnMap();
+	l_spritePassUploadBuffer.UnMap();
+}
+
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer&           a_renderer, 
+															     const DirectCommandList&  a_directCommandList,
+															     const UploadBuffer&       a_spritePssUploadBuffer, 
+															     const RootSignature*      a_rootSignature, 
+																	   std::uint8_t* const a_spritePassMappedData)
+{
 	const auto& l_viewport = a_renderer.GetREFRenderArea().GetREFViewport();
 
 	// CreateOrthographic(描画空間の横幅、
@@ -73,63 +128,36 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 
 	Struct::CBSpritePass l_cbSpritePass = {};
 
-	// 正射影行列を格納ん
+	// 正射影行列を格納
 	l_cbSpritePass.m_projectionMatrix = l_projectionMatrix;
 
-	// 格納した正射影行列をアップロードバッファにコピー
-	std::memcpy(l_spritePassMappedData, &l_cbSpritePass, sizeof(Struct::CBSpritePass));
+	return SetupConstantBuffer<Tag::RootParameterCBSpritePassTag>(a_directCommandList,
+																  a_spritePssUploadBuffer,
+																  l_cbSpritePass,
+																  a_rootSignature,
+																  k_cbSpritePassIndex,
+																  a_spritePassMappedData);
+}
 
-	// ルートシグネチャへスプライトパス共通定数バッファを結びつける
-	l_directCommandList.SetupConstantBufferView<Tag::RootParameterCBSpritePassTag>(l_spritePassUploadBuffer.FetchVALGPUVirtualAddress(), l_graphicsPipelineStateSetupResult.m_rootSignature);
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const Struct::SpriteDrawCommand& a_spriteDrawCommand, 
+																 const DirectCommandList&         a_directCommandList,
+																 const UploadBuffer&              a_spriteDrawUploadBuffer,
+																 const RootSignature*             a_rootSignature, 
+																 const std::size_t		          a_spriteDrawCommandIndex, 
+																	   std::uint8_t* const        a_spriteDrawMappedData) const
+{
+	Struct::CBSpriteDraw l_cbSpriteDraw = {};
 
-	const auto& l_cbSpriteDrawAlignedSize = Utility::Math::AlignUp(sizeof(Struct::CBSpriteDraw), Constant::k_constantBufferAlignment);
+	l_cbSpriteDraw.m_color      = a_spriteDrawCommand.m_color;
+	l_cbSpriteDraw.m_position   = a_spriteDrawCommand.m_position;
+	l_cbSpriteDraw.m_scale      = a_spriteDrawCommand.m_scale;
+	l_cbSpriteDraw.m_pivot      = a_spriteDrawCommand.m_pivot;
+	l_cbSpriteDraw.m_sourceRECT = a_spriteDrawCommand.m_sourceRECT;
 
-	// 貯めこんでいたテクスチャ描画命令を回す
-	const auto& l_spriteDrawCommandList = GetREFDrawCommandList();
-
-	for (std::size_t l_i = k_initialSpriteDrawCommandListIndex; l_i < l_spriteDrawCommandList.size(); ++l_i)
-	{
-		const auto l_spriteDrawCommand = l_spriteDrawCommandList[l_i];
-		
-		auto* l_textureRecord = a_textureSystem.FindMutablePTRTextureRecord(l_spriteDrawCommand.m_textureID);
-
-		if (!l_textureRecord)					                                    { continue; }
-		if (!l_textureRecord->m_textureResource)                                    { continue; }
-		if ( l_textureRecord->m_srvIndex == Constant::k_invalidDescriptorHeapIndex) { continue; }
-
-		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
-		if (l_textureRecord->m_currentState != D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
-		{
-			l_directCommandList.TransitionResource(l_textureRecord->m_textureResource,
-												   l_textureRecord->m_currentState,
-												   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
-			l_textureRecord->m_currentState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-		}
-
-		Struct::CBSpriteDraw l_spriteDrawConstant = {};
-
-		l_spriteDrawConstant.m_color      = l_spriteDrawCommand.m_color;
-		l_spriteDrawConstant.m_position   = l_spriteDrawCommand.m_position;
-		l_spriteDrawConstant.m_scale      = l_spriteDrawCommand.m_scale;
-		l_spriteDrawConstant.m_pivot      = l_spriteDrawCommand.m_pivot;
-		l_spriteDrawConstant.m_sourceRECT = l_spriteDrawCommand.m_sourceRECT;
-
-		const auto& l_constantBufferOffset = l_i * l_cbSpriteDrawAlignedSize;
-
-		std::memcpy(l_spirteDrawMappedData + l_constantBufferOffset, &l_spriteDrawConstant, sizeof(Struct::CBSpriteDraw));
-
-		const auto l_gpuVirtualAddress = l_spriteDrawUploadBuffer.FetchVALGPUVirtualAddress() + l_constantBufferOffset;
-
-		// ルートシグネチャへスプライト一枚分の定数バッファを結び付ける
-		l_directCommandList.SetupConstantBufferView<Tag::RootParameterCBSpriteDrawTag>(l_gpuVirtualAddress, l_graphicsPipelineStateSetupResult.m_rootSignature);
-
-		// ディスクリプタテーブルにテクスチャをセット
-		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_graphicsPipelineStateSetupResult.m_rootSignature, l_textureRecord->m_srvIndex);
-
-		l_directCommandList.DispatchMesh(k_defaultDispatchMeshThreadGroupCountX, k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
-	}
-
-	l_spriteDrawUploadBuffer.UnMap();
-	l_spritePassUploadBuffer.UnMap();
+	return SetupConstantBuffer<Tag::RootParameterCBSpriteDrawTag>(a_directCommandList,
+																  a_spriteDrawUploadBuffer,
+																  l_cbSpriteDraw,
+																  a_rootSignature,
+																  a_spriteDrawCommandIndex,
+																  a_spriteDrawMappedData);
 }
