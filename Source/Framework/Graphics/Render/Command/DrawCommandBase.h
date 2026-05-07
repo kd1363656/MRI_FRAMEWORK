@@ -33,7 +33,7 @@ namespace FWK::Graphics
 	protected:
 
 		template <Concept::IsDerivedPipelineStateTagBaseConcept PipelineStateType>
-		GraphicsPipelineSetupResult SetupGraphicsPipelineStateByTag(const Renderer& a_renderer) const
+		GraphicsPipelineSetupResult SetupGraphicsPipelineStateByTag(Renderer& a_renderer) const
 		{
 			auto* l_pipelineState = a_renderer.FindPTRPipelineState(Utility::Tag::GetTag<PipelineStateType>());
 
@@ -52,14 +52,14 @@ namespace FWK::Graphics
 				return {};
 			}
 
-			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+			auto& l_directCommandList = a_renderer.GetMutableREFDirectCommandList();
 
 			// ルートシグネチャをセット
 			l_directCommandList.SetupRootSignature(l_rootSignature);
 
 			// パイプラインステートをセット
 			l_directCommandList.SetupPipelineState(l_pipelineState);
-
+			
 			// 使用したルートシグネチャ、パイプラインステートを外部に渡す
 			return { l_rootSignature, l_pipelineState };
 		}

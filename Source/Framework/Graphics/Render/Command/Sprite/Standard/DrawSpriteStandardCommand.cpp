@@ -1,7 +1,8 @@
 ﻿#include "DrawSpriteStandardCommand.h"
 
-void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem)
+void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer, TextureSystem& a_textureSystem)
 {
+
 	// スプライト用ルートシグネチャとパイプラインステートをセット
 	// その際にセットしたルートシグネチャとパイプラインステートのポインタを取得
 	const auto& l_graphicsPipelineStateSetupResult = SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>(a_renderer);
@@ -104,10 +105,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const Renderer& a_renderer, 
 	}
 
 	l_spriteDrawUploadBuffer.UnMap();
-	l_spritePassUploadBuffer.UnMap();
-}
+	l_spritePassUploadBuffer.UnMap();}
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer&           a_renderer, 
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer&           a_renderer,
 															     const DirectCommandList&  a_directCommandList,
 															     const UploadBuffer&       a_spritePassUploadBuffer, 
 															     const RootSignature*      a_rootSignature, 

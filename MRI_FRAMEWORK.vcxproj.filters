@@ -481,6 +481,12 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\Loader">
       <UniqueIdentifier>{ccfcb519-c057-4d39-aa15-fbab4c91c3c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Builder">
+      <UniqueIdentifier>{99a1e242-dd72-41b6-8295-06cfb7292201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet">
+      <UniqueIdentifier>{dd68a6b6-c047-424e-aff7-86becc0e8b84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -854,6 +860,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Loader</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Builder\Meshlet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1032,6 +1041,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Builder\Meshlet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

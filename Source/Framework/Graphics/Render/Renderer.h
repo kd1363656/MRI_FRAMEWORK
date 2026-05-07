@@ -28,7 +28,7 @@ namespace FWK::Graphics
 
 		void BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
 		
-		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem) const;
+		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem);
 		void EndDraw (const SwapChain&						   a_swapChain);
 		void EndFrame();
 
@@ -72,6 +72,8 @@ namespace FWK::Graphics
 		const auto& GetREFDirectCommandList () const { return m_directCommandList; }
 
 		const auto& GetREFRenderArea() const { return m_renderArea; }
+
+		auto& GetMutableREFDirectCommandList() { return m_directCommandList; }
 
 	private:
 

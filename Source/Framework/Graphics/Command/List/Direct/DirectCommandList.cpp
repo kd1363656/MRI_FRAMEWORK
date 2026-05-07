@@ -163,6 +163,10 @@ void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a
 		return;
 	}
 
+	// 現在セット済みのルートシグネチャと同じ場合は、
+	// 再度セットする必要がないためreturn
+	if (m_currentRootSignature == a_rootSignature) { return; }
+
 	const auto& l_directCommandList = GetREFCommandList();
 
 	if (!l_directCommandList)
@@ -183,8 +187,11 @@ void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a
 	// SetGraphicsRootSignature(描画パイプラインで使用するルートシグネチャのポインタ);
 
 	// ルートシグネチャは、シェーダーにどのリソースをどう渡すかを表す設定情報
-	// これを先に設定しておかない、後続の描画で使用するリリースの結び付けルールが決まらない
+	// これを先に設定しておかない、後続の描画で使用するリソースの結び付けルールが決まらない
 	l_directCommandList->SetGraphicsRootSignature(l_rootSignature.Get());
+
+	// 現在セット済みのルートシグネチャとして記録する
+	m_currentRootSignature = a_rootSignature;
 }
 void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a_pipelineState)
 {
@@ -193,6 +200,10 @@ void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a
 		assert(false && "無効なパイプラインステートで、パイプラインステートの設定が出来ませんでした。");
 		return;
 	}
+
+	// 現在セット済みのパイプラインステートと同じ場合は、
+	// 再度セットする必要がないためreturn
+	if (m_currentPipelineState == a_pipelineState) { return; }
 
 	const auto& l_directCommandList = GetREFCommandList();
 
@@ -219,6 +230,9 @@ void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a
 	// 深度テストを使うか、など
 	// 描画パイプラインの重要な設定がまとめて入っている
 	l_directCommandList->SetPipelineState(l_pipelineState.Get());
+
+	// 現在セット済みのパイプラインステートとして記録する
+	m_currentPipelineState = a_pipelineState;
 }
 
 void FWK::Graphics::DirectCommandList::SetupDescriptorHeap(const DescriptorHeapBase& a_descriptorHeap) const
@@ -271,6 +285,6 @@ void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGrou
 
 void FWK::Graphics::DirectCommandList::ClearCurrentRootSignatureAndPipelineStateCache()
 {
-	m_currentPipelineState = nullptr;
+	m_currentRootSignature = nullptr;
 	m_currentPipelineState = nullptr;
 }

@@ -57,7 +57,7 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	// 念のため初期化
 	a_staticModelData = {};
 
-	// FBXシーンを作成する
+	// FBXファイルの内容を一時的に保存するSceneを作成する
 	// FbxScene::Create(FbxManager, 
 	//					シーン名);
 
@@ -70,6 +70,9 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	}
 
 	// FBXファイルを読み込むImporterを作成する
+	// FbxImporter::Create(FbxManager,
+	//					   Importer名);
+
 	auto* l_fbxImporter = FbxImporter::Create(m_fbxManager, k_defaultModelImporterName.data());
 
 	if (!l_fbxImporter)
@@ -80,13 +83,13 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 		return false;
 	}
 
-	const auto l_filePathString = a_filePath.string();
-
 	// FBXファイルを開く
 	// Initialize(FBXファイルパス、
 	//			  ファイル形式自動判定用のID(-1で自動判定)、
 	//			  FbxManagerに登録した読み込み設定);
-	if (!l_fbxImporter->Initialize(l_filePathString.c_str(), k_autoDetectFBXFileFormatID, m_fbxManager->GetIOSettings()))
+
+	if (const auto& l_filePathString = a_filePath.string();
+		!l_fbxImporter->Initialize(l_filePathString.c_str(), k_autoDetectFBXFileFormatID, m_fbxManager->GetIOSettings()))
 	{
 		l_fbxImporter->Destroy();
 		l_fbxScene->Destroy   ();
@@ -97,6 +100,7 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 
 	// Importerで開いたFBXファイル内容をSceneへ読み込む
 	// Import(読み込み先のFBXシーン);
+
 	if (!l_fbxImporter->Import(l_fbxScene))
 	{
 		l_fbxImporter->Destroy();
@@ -109,14 +113,16 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	// ImporterはSceneへ読み込み終わったら不要なので破棄する
 	l_fbxImporter->Destroy();
 
-	// FBX内のメッシュ、NURBS、Patchなどを三角形メッシュへ変換する
+	// FBX内のジオメトリを変換するためのコンバーターを作成する
+	// ここではメッシュを三角形ポリゴンへ変換するために使用する
 	// FbxGeometryConverter(FbxManager);
-	FbxGeometryConverter l_fbxGeometryConverter(m_fbxManager);
-
+	
 	// Triangulate(FBXシーン、
 	//			   変換後の属性を置き換えるかどうか);
 	// trueにすることでScene内のジオメトリを三角形化後のものへ置き換える
-	if (!l_fbxGeometryConverter.Triangulate(l_fbxScene, true))
+
+	if (FbxGeometryConverter l_fbxGeometryConverter(m_fbxManager);
+		!l_fbxGeometryConverter.Triangulate(l_fbxScene, true))
 	{
 		l_fbxScene->Destroy();
 
@@ -135,6 +141,9 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 		return false;
 	}
 
+	// FBXのNode階層を再帰的に探索し、Meshを持つNodeから静的メッシュ情報を抽出する
+	// a_fbxNode		 : 探索開始Node
+	// a_staticModelData : 抽出したStaticModelMeshの追加先
 	if (!ExtractMeshFromNode(l_rootNode, a_staticModelData))
 	{
 		l_fbxScene->Destroy();
@@ -170,10 +179,12 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 		assert(false && "FbxNodeが無効のため、FBXメッシュ抽出に失敗しました。");
 		return false;
 	}
-
-	auto* l_fbxNodeAttribute = a_fbxNode->GetNodeAttribute();
-
-	if (l_fbxNodeAttribute && 
+	
+	// Nodeがっ持つ属性を取得する
+	// 属性にはMesh / Camera / Light / Skeltonなどがある
+	// Nodeの属性がMeshの場合のみFbxMeshとして取得する
+	if (const auto* l_fbxNodeAttribute = a_fbxNode->GetNodeAttribute();
+		l_fbxNodeAttribute					   &&
 		l_fbxNodeAttribute->GetAttributeType() == FbxNodeAttribute::eMesh)
 	{
 		auto* l_fbxMesh = a_fbxNode->GetMesh();
@@ -186,6 +197,9 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 
 		Struct::StaticModelMesh l_staticModelMesh = {};
 
+		// FbxMeshからStaticModelMeshへ頂点情報とインデックス情報を変換する
+		// 現在は三角形一つにつき頂点3つを作成する
+		// 頂点の重複削除や最適化はまだ行わない
 		if (!ExtractMesh(l_fbxMesh, l_staticModelMesh))
 		{
 			assert(false && "FbxMeshからStaticModelMeshへの変換に失敗しました。");
@@ -199,6 +213,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 		}
 	}
 
+	// FBXはNode階層でデータを持っているため、子Nodemも再帰的に探索する
 	const auto l_childCount = a_fbxNode->GetChildCount();
 
 	for (int l_childIndex = 0; l_childIndex < l_childCount; ++l_childIndex)
@@ -222,13 +237,17 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 
 	a_staticModelMesh = {};
 
+	// FbxMeshに含まれるポリゴン数を取得する
+	// Triangulate済みなので、基本的に1ポリゴンは1三角形になる
 	const auto l_polygonCount = a_fbxMesh->GetPolygonCount();
 
 	if (l_polygonCount <= k_emptyPolygonCount) { return true; }
 
+	// FBXメッシュが持っているUVセット名一覧を取得する
+	// FBXは複数のUVセットを持てるが、現在は最初のUVセットだけを使用する
 	FbxStringList l_uvSetNameList = {};
 
-	// GetUVSetNames(FBXメッシュが持っているUVセット名一覧の格納先);
+	// GetUVSetNames(UVセット名一覧の格納先);
 	a_fbxMesh->GetUVSetNames(l_uvSetNameList);
 
 	const char* l_uvSetName = nullptr;
@@ -243,9 +262,10 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 
 	for (int l_polygonIndex = 0; l_polygonIndex < l_polygonCount; ++l_polygonIndex)
 	{
-		const auto l_polygonVertexCount = a_fbxMesh->GetPolygonSize(l_polygonIndex);
-
-		if (l_polygonVertexCount != k_triangleVertexCount)
+		// 現在のポリゴンを構成する頂点数を取得する
+		// Triangulate済みなので3頂点であることを期待する
+		if (const auto l_polygonVertexCount = a_fbxMesh->GetPolygonSize(l_polygonIndex);
+			l_polygonVertexCount != k_triangleVertexCount)
 		{
 			assert(false && "三角形化後のFBXメッシュに三角形以外のポリゴンが含まれています。");
 			return false;
@@ -259,7 +279,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 				return false;
 			}
 
-			// 戻り値としてControlPointの番号を取得する
+			// ポリゴン頂点が参照しているControlPointの番号を取得する
 			// GetPolygonVertex(ポリゴン番号、
 			//					ポリゴン内の頂点番号);
 
@@ -267,14 +287,21 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 
 			Struct::StaticModelVertex l_staticModelVertex = {};
 
+			// ControlPointIndexから頂点座標を取得する
+			// FBXでは頂点座標はControlPointとして保持される
 			l_staticModelVertex.m_position = FetchVertexPosition(a_fbxMesh, l_controlPointIndex);
 
+			// ポリゴン頂点に対応する法線を取得する
+			// FBXでは法線がControlPoint単位ではなく、ポリゴン頂点単位で異なる場合がある
 			l_staticModelVertex.m_normal = FetchVertexNormal(a_fbxMesh, l_polygonIndex, l_polygonVertexIndex);
 
+			// ポリゴン頂点に対応するUVを取得する
+			// FBXではUVがポリゴン頂点単位で異なる場合がある
+			// 読み込んだV座標はエンジン側のUVに合わせるため反転する
 			l_staticModelVertex.m_uv = FetchVertexUV(a_fbxMesh,
-											   l_polygonIndex,
-											   l_polygonVertexIndex,
-											   l_uvSetName);
+													 l_polygonIndex,
+													 l_polygonVertexIndex,
+													 l_uvSetName);
 
 			const auto l_index = static_cast<std::uint32_t>(a_staticModelMesh.m_staticModelVertexList.size());
 
