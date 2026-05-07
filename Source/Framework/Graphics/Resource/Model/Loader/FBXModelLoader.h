@@ -30,8 +30,25 @@ namespace FWK::Graphics
 											   const int	  a_polygonVertexIndex,
 											   const char*	  a_uvSetName) const;
 
+		TypeAlias::Math::Vector3 ConvertFbxVector4ToVector3(const FbxVector4& a_fbxVector) const;
+
 		static constexpr std::string_view k_defaultSceneName		 = "ModelScene";
-		static constexpr std::string_view k_defaultModelImporterName = "ModelScene";
+		static constexpr std::string_view k_defaultModelImporterName = "ModelImporter";
+
+		static constexpr float k_uvVFlipOffset = 1.0F;
+
+		static constexpr int k_autoDetectFBXFileFormatID = -1;
+		static constexpr int k_emptyPolygonCount		 =  0;
+		static constexpr int k_emptyUVSetCount           =  0;
+		static constexpr int k_minControlPointIndex      =  0;
+		static constexpr int k_firstUVSetIndex           =  0;
+
+		static constexpr int k_fbxVectorXIndex = 0;
+		static constexpr int k_fbxVectorYIndex = 1;
+		static constexpr int k_fbxVectorZIndex = 2;
+
+		static constexpr int k_fbxUVUIndex = 0;
+		static constexpr int k_fbxUVVIndex = 1;
 
 		static constexpr int k_triangleVertexCount = 3;
 

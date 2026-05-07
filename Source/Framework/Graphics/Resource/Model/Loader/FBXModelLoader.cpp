@@ -33,7 +33,7 @@ bool FWK::Graphics::FBXModelLoader::Create()
 		return false;
 	}
 
-	// FbxManagerに組み込み設定を登録する
+	// FbxManagerに読み込み設定を登録する
 	// SetIOSettings(使用するFBX読み込み設定)
 	m_fbxManager->SetIOSettings(l_fbxIOSettings);
 
@@ -44,7 +44,7 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 {
 	if (!m_fbxManager)
 	{
-		assert(false && "FBXManagerが作成されておらず、FBX読み込みに失敗しました。");
+		assert(false && "FbxManagerが作成されておらず、FBX読み込みに失敗しました。");
 		return false;
 	}
 
@@ -57,7 +57,7 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	// 念のため初期化
 	a_staticModelData = {};
 
-	// FBXシーンをsカウ生する
+	// FBXシーンを作成する
 	// FbxScene::Create(FbxManager, 
 	//					シーン名);
 
@@ -86,7 +86,7 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	// Initialize(FBXファイルパス、
 	//			  ファイル形式自動判定用のID(-1で自動判定)、
 	//			  FbxManagerに登録した読み込み設定);
-	if (!l_fbxImporter->Initialize(l_filePathString.c_str(), -1, m_fbxManager->GetIOSettings()))
+	if (!l_fbxImporter->Initialize(l_filePathString.c_str(), k_autoDetectFBXFileFormatID, m_fbxManager->GetIOSettings()))
 	{
 		l_fbxImporter->Destroy();
 		l_fbxScene->Destroy   ();
@@ -96,7 +96,7 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	}
 
 	// Importerで開いたFBXファイル内容をSceneへ読み込む
-	// Importer(読み込み先のFBXシーン);
+	// Import(読み込み先のFBXシーン);
 	if (!l_fbxImporter->Import(l_fbxScene))
 	{
 		l_fbxImporter->Destroy();
@@ -113,9 +113,9 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	// FbxGeometryConverter(FbxManager);
 	FbxGeometryConverter l_fbxGeometryConverter(m_fbxManager);
 
-	// Triangulate(FBXシーンｍｍ
-	//			   返還後の属性を置き換えるかどうか);
-	// trueにすることでScene内のジオメトリを三角形後のものへ置き換える
+	// Triangulate(FBXシーン、
+	//			   変換後の属性を置き換えるかどうか);
+	// trueにすることでScene内のジオメトリを三角形化後のものへ置き換える
 	if (!l_fbxGeometryConverter.Triangulate(l_fbxScene, true))
 	{
 		l_fbxScene->Destroy();
@@ -180,22 +180,22 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 
 		if (!l_fbxMesh)
 		{
-			assert(false && "FbxNodeからFbxNeshの取得に失敗しました。");
+			assert(false && "FbxNodeからFbxMeshの取得に失敗しました。");
 			return false;
 		}
 
-		Struct::StaticModelMesh l_modelMesh = {};
+		Struct::StaticModelMesh l_staticModelMesh = {};
 
-		if (!ExtractMesh(l_fbxMesh, l_modelMesh))
+		if (!ExtractMesh(l_fbxMesh, l_staticModelMesh))
 		{
-			assert(false && "FbxMeshからModelMeshへの変換に失敗しました。");
+			assert(false && "FbxMeshからStaticModelMeshへの変換に失敗しました。");
 			return false;
 		}
 
-		if (!l_modelMesh.m_staticModelVertexList.empty() &&
-			!l_modelMesh.m_indexList.empty())
+		if (!l_staticModelMesh.m_staticModelVertexList.empty() &&
+			!l_staticModelMesh.m_indexList.empty())
 		{ 
-			a_staticModelData.m_staticModelMeshList.emplace_back(std::move(l_modelMesh));
+			a_staticModelData.m_staticModelMeshList.emplace_back(std::move(l_staticModelMesh));
 		}
 	}
 
@@ -216,7 +216,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 {
 	if (!a_fbxMesh)
 	{
-		assert(false && "FbxMeshが無効のため、ModelMeshへの変換に失敗しました。");
+		assert(false && "FbxMeshが無効のため、StaticModelMeshへの変換に失敗しました。");
 		return false;
 	}
 
@@ -224,7 +224,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 
 	const auto l_polygonCount = a_fbxMesh->GetPolygonCount();
 
-	if (l_polygonCount <= 0) { return true; }
+	if (l_polygonCount <= k_emptyPolygonCount) { return true; }
 
 	FbxStringList l_uvSetNameList = {};
 
@@ -233,9 +233,9 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 
 	const char* l_uvSetName = nullptr;
 
-	if (l_uvSetNameList.GetCount() > 0)
+	if (l_uvSetNameList.GetCount() > k_emptyUVSetCount)
 	{
-		l_uvSetName = l_uvSetNameList.GetStringAt(0);
+		l_uvSetName = l_uvSetNameList.GetStringAt(k_firstUVSetIndex);
 	}
 
 	a_staticModelMesh.m_staticModelVertexList.reserve(static_cast<std::size_t>(l_polygonCount) * k_triangleVertexCount);
@@ -255,7 +255,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 		{
 			if (a_staticModelMesh.m_staticModelVertexList.size() >= std::numeric_limits<std::uint32_t>::max())
 			{
-				assert(false && "ModelMeshの頂点数がuint32_tで扱える範囲を超えたため、FBX読み込みに失敗しました。");
+				assert(false && "StaticModelMeshの頂点数がuint32_tで扱える範囲を超えたため、FBX読み込みに失敗しました。");
 				return false;
 			}
 
@@ -294,7 +294,7 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoader::FetchVertexPosition
 		return TypeAlias::Math::Vector3::Zero;
 	}
 
-	if (a_controlPointIndex < 0 ||
+	if (a_controlPointIndex < k_minControlPointIndex ||
 		a_controlPointIndex >= a_fbxMesh->GetControlPointsCount())
 	{
 		assert(false && "ControlPointIndexが範囲外のため、頂点座標の取得に失敗しました。");
@@ -305,18 +305,13 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoader::FetchVertexPosition
 
 	if (!l_controlPointList)
 	{
-		assert(false && "FVXメッシュのControlPointListが無効のため、頂点座標の取得に失敗しました。");
+		assert(false && "FBXメッシュのControlPointListが無効のため、頂点座標の取得に失敗しました。");
 		return TypeAlias::Math::Vector3::Zero;
 	}
 
 	const auto& l_controlPoint = l_controlPointList[a_controlPointIndex];
 
-	return TypeAlias::Math::Vector3
-	{
-		static_cast<float>(l_controlPoint[0]),
-		static_cast<float>(l_controlPoint[1]),
-		static_cast<float>(l_controlPoint[2])
-	};
+	return ConvertFbxVector4ToVector3(l_controlPoint);
 }
 
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoader::FetchVertexNormal(const FbxMesh* a_fbxMesh, const int a_polygonIndex, const int a_polygonVertexIndex) const
@@ -335,12 +330,7 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoader::FetchVertexNormal(c
 
 	if (!a_fbxMesh->GetPolygonVertexNormal(a_polygonIndex, a_polygonVertexIndex, l_fbxNormal)) { return TypeAlias::Math::Vector3::Zero; }
 
-	return TypeAlias::Math::Vector3
-	{
-		static_cast<float>(l_fbxNormal[0]),
-		static_cast<float>(l_fbxNormal[1]),
-		static_cast<float>(l_fbxNormal[2])
-	};
+	return ConvertFbxVector4ToVector3(l_fbxNormal);
 }
 
 FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoader::FetchVertexUV(const FbxMesh* a_fbxMesh,
@@ -360,11 +350,11 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoader::FetchVertexUV(const
 
 	bool l_isUnmapped = false;
 
-	// GetPolygonVertexUv(ポリゴン番号、
+	// GetPolygonVertexUV(ポリゴン番号、
 	//					  ポリゴン内の頂点番号、
 	//					  使用するUVセット名、
 	//					  取得したUVの格納先、
-	//					  UVが未割り当かどうかの格納先);
+	//					  UVが未割り当てかどうかの格納先);
 	if (!a_fbxMesh->GetPolygonVertexUV(a_polygonIndex,
 									   a_polygonVertexIndex,
 									   a_uvSetName,
@@ -378,7 +368,17 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoader::FetchVertexUV(const
 
 	return TypeAlias::Math::Vector2
 	{
-		static_cast<float>(l_fbxUV[0]),
-		static_cast<float>(l_fbxUV[1] + 1.0F)
+		static_cast<float>(l_fbxUV[k_fbxUVUIndex]),
+		k_uvVFlipOffset - static_cast<float>(l_fbxUV[k_fbxUVVIndex])
+	};
+}
+
+FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoader::ConvertFbxVector4ToVector3(const FbxVector4& a_fbxVector) const 
+{
+	return TypeAlias::Math::Vector3
+	{
+		static_cast<float>(a_fbxVector[k_fbxVectorXIndex]),
+		static_cast<float>(a_fbxVector[k_fbxVectorYIndex]),
+		static_cast<float>(a_fbxVector[k_fbxVectorZIndex])
 	};
 }
