@@ -11,15 +11,15 @@ namespace FWK::Graphics
 
 		bool Create();
 
-		bool LoadModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData) const;
+		bool LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::StaticModelData& a_staticModelData) const;
 
 	private:
 
 		void Destroy();
 
-		bool ExtractMeshFromNode(FbxNode* a_fbxNode, Struct::ModelData& a_modelData) const;
+		bool ExtractMeshFromNode(FbxNode* a_fbxNode, Struct::StaticModelData& a_staticModelData) const;
 		
-		bool ExtractMesh(FbxMesh* a_fbxMesh, Struct::ModelMesh& a_modelMesh) const;
+		bool ExtractMesh(FbxMesh* a_fbxMesh, Struct::StaticModelMesh& a_staticModelMesh) const;
 
 		TypeAlias::Math::Vector3 FetchVertexPosition(const FbxMesh* a_fbxMesh, const int a_controlPointIndex) const;
 

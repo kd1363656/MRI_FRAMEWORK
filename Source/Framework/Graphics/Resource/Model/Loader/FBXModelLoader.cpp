@@ -40,7 +40,7 @@ bool FWK::Graphics::FBXModelLoader::Create()
 	return true;
 }
 
-bool FWK::Graphics::FBXModelLoader::LoadModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData) const
+bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::StaticModelData& a_staticModelData) const
 {
 	if (!m_fbxManager)
 	{
@@ -55,7 +55,7 @@ bool FWK::Graphics::FBXModelLoader::LoadModelFile(const std::filesystem::path& a
 	}
 
 	// 念のため初期化
-	a_modelData = {};
+	a_staticModelData = {};
 
 	// FBXシーンをsカウ生する
 	// FbxScene::Create(FbxManager, 
@@ -135,7 +135,7 @@ bool FWK::Graphics::FBXModelLoader::LoadModelFile(const std::filesystem::path& a
 		return false;
 	}
 
-	if (!ExtractMeshFromNode(l_rootNode, a_modelData))
+	if (!ExtractMeshFromNode(l_rootNode, a_staticModelData))
 	{
 		l_fbxScene->Destroy();
 
@@ -145,7 +145,7 @@ bool FWK::Graphics::FBXModelLoader::LoadModelFile(const std::filesystem::path& a
 
 	l_fbxScene->Destroy();
 
-	if (a_modelData.m_meshList.empty())
+	if (a_staticModelData.m_staticModelMeshList.empty())
 	{
 		assert(false && "FBX内に読み込み可能なメッシュが存在しません。");
 		return false;
@@ -163,7 +163,7 @@ void FWK::Graphics::FBXModelLoader::Destroy()
 	m_fbxManager = nullptr;
 }
 
-bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Struct::ModelData& a_modelData) const
+bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Struct::StaticModelData& a_staticModelData) const
 {
 	if (!a_fbxNode)
 	{
@@ -184,7 +184,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 			return false;
 		}
 
-		Struct::ModelMesh l_modelMesh = {};
+		Struct::StaticModelMesh l_modelMesh = {};
 
 		if (!ExtractMesh(l_fbxMesh, l_modelMesh))
 		{
@@ -192,10 +192,10 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 			return false;
 		}
 
-		if (!l_modelMesh.m_vertexList.empty() &&
+		if (!l_modelMesh.m_staticModelVertexList.empty() &&
 			!l_modelMesh.m_indexList.empty())
 		{ 
-			a_modelData.m_meshList.emplace_back(std::move(l_modelMesh));
+			a_staticModelData.m_staticModelMeshList.emplace_back(std::move(l_modelMesh));
 		}
 	}
 
@@ -203,7 +203,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 
 	for (int l_childIndex = 0; l_childIndex < l_childCount; ++l_childIndex)
 	{
-		if (!ExtractMeshFromNode(a_fbxNode->GetChild(l_childIndex), a_modelData))
+		if (!ExtractMeshFromNode(a_fbxNode->GetChild(l_childIndex), a_staticModelData))
 		{
 			return false;
 		}
@@ -212,7 +212,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 	return true;
 }
 
-bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::ModelMesh& a_modelMesh) const
+bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::StaticModelMesh& a_staticModelMesh) const
 {
 	if (!a_fbxMesh)
 	{
@@ -220,7 +220,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Mode
 		return false;
 	}
 
-	a_modelMesh = {};
+	a_staticModelMesh = {};
 
 	const auto l_polygonCount = a_fbxMesh->GetPolygonCount();
 
@@ -238,8 +238,8 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Mode
 		l_uvSetName = l_uvSetNameList.GetStringAt(0);
 	}
 
-	a_modelMesh.m_vertexList.reserve(static_cast<std::size_t>(l_polygonCount) * k_triangleVertexCount);
-	a_modelMesh.m_indexList.reserve (static_cast<std::size_t>(l_polygonCount) * k_triangleVertexCount);
+	a_staticModelMesh.m_staticModelVertexList.reserve(static_cast<std::size_t>(l_polygonCount) * k_triangleVertexCount);
+	a_staticModelMesh.m_indexList.reserve			 (static_cast<std::size_t>(l_polygonCount) * k_triangleVertexCount);
 
 	for (int l_polygonIndex = 0; l_polygonIndex < l_polygonCount; ++l_polygonIndex)
 	{
@@ -253,7 +253,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Mode
 
 		for (int l_polygonVertexIndex = 0; l_polygonVertexIndex < k_triangleVertexCount; ++l_polygonVertexIndex)
 		{
-			if (a_modelMesh.m_vertexList.size() >= std::numeric_limits<std::uint32_t>::max())
+			if (a_staticModelMesh.m_staticModelVertexList.size() >= std::numeric_limits<std::uint32_t>::max())
 			{
 				assert(false && "ModelMeshの頂点数がuint32_tで扱える範囲を超えたため、FBX読み込みに失敗しました。");
 				return false;
@@ -265,21 +265,21 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Mode
 
 			const auto l_controlPointIndex = a_fbxMesh->GetPolygonVertex(l_polygonIndex, l_polygonVertexIndex);
 
-			Struct::ModelVertex l_modelVertex = {};
+			Struct::StaticModelVertex l_staticModelVertex = {};
 
-			l_modelVertex.m_position = FetchVertexPosition(a_fbxMesh, l_controlPointIndex);
+			l_staticModelVertex.m_position = FetchVertexPosition(a_fbxMesh, l_controlPointIndex);
 
-			l_modelVertex.m_normal = FetchVertexNormal(a_fbxMesh, l_polygonIndex, l_polygonVertexIndex);
+			l_staticModelVertex.m_normal = FetchVertexNormal(a_fbxMesh, l_polygonIndex, l_polygonVertexIndex);
 
-			l_modelVertex.m_uv = FetchVertexUV(a_fbxMesh, 
+			l_staticModelVertex.m_uv = FetchVertexUV(a_fbxMesh,
 											   l_polygonIndex,
 											   l_polygonVertexIndex,
 											   l_uvSetName);
 
-			const auto l_index = static_cast<std::uint32_t>(a_modelMesh.m_vertexList.size());
+			const auto l_index = static_cast<std::uint32_t>(a_staticModelMesh.m_staticModelVertexList.size());
 
-			a_modelMesh.m_vertexList.emplace_back(l_modelVertex);
-			a_modelMesh.m_indexList.emplace_back (l_index);
+			a_staticModelMesh.m_staticModelVertexList.emplace_back(l_staticModelVertex);
+			a_staticModelMesh.m_indexList.emplace_back			  (l_index);
 		}
 	}
 

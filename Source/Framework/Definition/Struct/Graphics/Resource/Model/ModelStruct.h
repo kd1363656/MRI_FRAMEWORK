@@ -2,21 +2,21 @@
 
 namespace FWK::Struct
 {
-	struct ModelVertex final
+	struct StaticModelVertex final
 	{
 		TypeAlias::Math::Vector3 m_position = TypeAlias::Math::Vector3::Zero;
 		TypeAlias::Math::Vector3 m_normal   = TypeAlias::Math::Vector3::Zero;
 		TypeAlias::Math::Vector2 m_uv       = TypeAlias::Math::Vector2::Zero;
 	};
 
-	struct ModelMesh final
+	struct StaticModelMesh final
 	{
-		std::vector<ModelVertex>   m_vertexList = {};
-		std::vector<std::uint32_t> m_indexList  = {};
+		std::vector<StaticModelVertex> m_staticModelVertexList = {};
+		std::vector<std::uint32_t>	   m_indexList			   = {};
 	};
 
-	struct ModelData final
+	struct StaticModelData final
 	{
-		std::vector<ModelMesh> m_meshList = {};
+		std::vector<StaticModelMesh> m_staticModelMeshList = {};
 	};
 }
