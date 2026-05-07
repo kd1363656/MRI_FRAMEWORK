@@ -869,6 +869,9 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\ModelConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\ModelSystem.h">
+      <Filter>Source\Framework\Graphics\Resource\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1050,6 +1053,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Meshlet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\ModelSystem.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

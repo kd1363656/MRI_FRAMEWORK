@@ -78,7 +78,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 								l_optimizedVertexList.size());
 
 	// メッシュレット作成に必要な最大メッシュレット数を取得する
-	// meshopt_buildMeshletBound(インデックス数、
+	// meshopt_buildMeshletsBound(インデックス数、
 	//							 1メッシュレットの最大頂点数、
 	//							 1メッシュレットの最大三角形数);
 	const auto l_meshletBound = meshopt_buildMeshletsBound(l_optimizedIndexList.size(),
@@ -99,7 +99,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	//						 頂点座標配列の先頭アドレス、
 	//					     頂点数、
 	//						 頂点座標配列の1要素あたりのバイト数、
-	//						 1メッシュレットの最大長点数、
+	//						 1メッシュレットの最大頂点数、
 	//						 1メッシュレットの最大三角形数、
 	//						 コーンカリング用の重み);
 	const auto l_meshletCount = meshopt_buildMeshlets(l_meshoptMeshletList.data(),

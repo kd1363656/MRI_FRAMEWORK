@@ -37,6 +37,12 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 		return false;
 	}
 
+	if (!m_modelSystem.Create())
+	{
+		assert(false && "モデルシステムの作成処理に失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 

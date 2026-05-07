@@ -225,6 +225,7 @@
 // モデル
 #include "Graphics/Resource/Model/Loader/FBXModelLoader.h"
 #include "Graphics/Resource/Model/Builder/Meshlet/ModelMeshletBuilder.h"
+#include "Graphics/Resource/Model/ModelSystem.h"
 
 // リソースコンテキスト
 #include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"

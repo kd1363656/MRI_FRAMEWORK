@@ -180,8 +180,8 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 		return false;
 	}
 	
-	// Nodeがっ持つ属性を取得する
-	// 属性にはMesh / Camera / Light / Skeltonなどがある
+	// Nodeが持つ属性を取得する
+	// 属性にはMesh / Camera / Light / Skeletonなどがある
 	// Nodeの属性がMeshの場合のみFbxMeshとして取得する
 	if (const auto* l_fbxNodeAttribute = a_fbxNode->GetNodeAttribute();
 		l_fbxNodeAttribute					   &&
@@ -213,7 +213,7 @@ bool FWK::Graphics::FBXModelLoader::ExtractMeshFromNode(FbxNode* a_fbxNode, Stru
 		}
 	}
 
-	// FBXはNode階層でデータを持っているため、子Nodemも再帰的に探索する
+	// FBXはNode階層でデータを持っているため、子Nodeも再帰的に探索する
 	const auto l_childCount = a_fbxNode->GetChildCount();
 
 	for (int l_childIndex = 0; l_childIndex < l_childCount; ++l_childIndex)

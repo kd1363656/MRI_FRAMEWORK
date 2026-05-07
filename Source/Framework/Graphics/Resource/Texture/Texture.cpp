@@ -43,7 +43,7 @@ FWK::Graphics::Texture& FWK::Graphics::Texture::operator=(Texture&& a_other) noe
 	// コピー元のテクスチャIDを格納
 	m_textureID = a_other.m_textureID;
 
-	// 参照元のテクスチャ愛ディーを無効化
+	// 参照元のテクスチャIDを無効化
 	a_other.m_textureID = Constant::k_invalidTextureID;
 
 	return *this;

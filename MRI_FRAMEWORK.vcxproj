@@ -461,6 +461,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\ModelSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.h" />
@@ -537,6 +538,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\ModelSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp" />
