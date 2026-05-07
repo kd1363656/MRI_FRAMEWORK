@@ -9,13 +9,15 @@ namespace FWK::Graphics
 		 ModelMeshletBuilder() = default;
 		~ModelMeshletBuilder() = default;
 
-		bool BuildStaticModelMeshletData(const Struct::StaticModelMesh& a_staticModelMesh, Struct::ModelMeshletData& a_modelMeshlettData) const;
+		bool BuildStaticModelMeshletData(const Struct::StaticModelMesh& a_staticModelMesh, Struct::ModelMeshletData& a_modelMeshletData) const;
 
 	private:
 
-		static constexpr std::size_t k_maxMEshletVertexCount   = 64ULL;
-		static constexpr std::size_t k_maxMeshletTriangleCount = 124ULL;
-
 		static constexpr float k_meshletConeWeight = 0.0F;
+
+		static constexpr std::size_t k_maxMeshletVertexCount   = 64ULL;
+		static constexpr std::size_t k_maxMeshletTriangleCount = 124ULL;
+		static constexpr std::size_t k_initialMeshletIndex	   = 0ULL;
+		static constexpr std::size_t k_noIndexRemainder		   = 0ULL;
 	};
 }

@@ -37,6 +37,7 @@
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/Constant/ConstantBufferConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/UploadBufferConstant.h"
+#include "Definition/Constant/Graphics/Resource/Model/ModelConstant.h"
 
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
@@ -223,6 +224,7 @@
 
 // モデル
 #include "Graphics/Resource/Model/Loader/FBXModelLoader.h"
+#include "Graphics/Resource/Model/Builder/Meshlet/ModelMeshletBuilder.h"
 
 // リソースコンテキスト
 #include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"

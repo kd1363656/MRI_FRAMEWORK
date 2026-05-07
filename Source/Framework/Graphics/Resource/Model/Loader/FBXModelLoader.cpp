@@ -257,21 +257,21 @@ bool FWK::Graphics::FBXModelLoader::ExtractMesh(FbxMesh* a_fbxMesh, Struct::Stat
 		l_uvSetName = l_uvSetNameList.GetStringAt(k_firstUVSetIndex);
 	}
 
-	a_staticModelMesh.m_staticModelVertexList.reserve(static_cast<std::size_t>(l_polygonCount) * k_triangleVertexCount);
-	a_staticModelMesh.m_indexList.reserve			 (static_cast<std::size_t>(l_polygonCount) * k_triangleVertexCount);
+	a_staticModelMesh.m_staticModelVertexList.reserve(static_cast<std::size_t>(l_polygonCount) * Constant::k_triangleVertexCount);
+	a_staticModelMesh.m_indexList.reserve			 (static_cast<std::size_t>(l_polygonCount) * Constant::k_triangleVertexCount);
 
 	for (int l_polygonIndex = 0; l_polygonIndex < l_polygonCount; ++l_polygonIndex)
 	{
 		// 現在のポリゴンを構成する頂点数を取得する
 		// Triangulate済みなので3頂点であることを期待する
 		if (const auto l_polygonVertexCount = a_fbxMesh->GetPolygonSize(l_polygonIndex);
-			l_polygonVertexCount != k_triangleVertexCount)
+			l_polygonVertexCount != Constant::k_triangleVertexCount)
 		{
 			assert(false && "三角形化後のFBXメッシュに三角形以外のポリゴンが含まれています。");
 			return false;
 		}
 
-		for (int l_polygonVertexIndex = 0; l_polygonVertexIndex < k_triangleVertexCount; ++l_polygonVertexIndex)
+		for (int l_polygonVertexIndex = 0; l_polygonVertexIndex < Constant::k_triangleVertexCount; ++l_polygonVertexIndex)
 		{
 			if (a_staticModelMesh.m_staticModelVertexList.size() >= std::numeric_limits<std::uint32_t>::max())
 			{

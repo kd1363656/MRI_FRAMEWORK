@@ -487,6 +487,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet">
       <UniqueIdentifier>{dd68a6b6-c047-424e-aff7-86becc0e8b84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Model">
+      <UniqueIdentifier>{1b171da7-3bdd-454c-8ca0-272c1d4c369d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -862,6 +865,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Meshlet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\ModelConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
