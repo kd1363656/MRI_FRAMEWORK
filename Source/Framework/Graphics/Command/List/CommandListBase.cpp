@@ -38,7 +38,7 @@ bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 	return true;
 }
 
-void FWK::Graphics::CommandListBase::Reset(const CommandAllocatorBase& a_commandAllocator) const
+void FWK::Graphics::CommandListBase::Reset(const CommandAllocatorBase& a_commandAllocator)
 {
 	if (!m_commandList)
 	{

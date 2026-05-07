@@ -5,6 +5,14 @@ FWK::Graphics::DirectCommandList::DirectCommandList() :
 {}
 FWK::Graphics::DirectCommandList::~DirectCommandList() = default;
 
+void FWK::Graphics::DirectCommandList::Reset(const CommandAllocatorBase& a_commandAllocator)
+{
+	CommandListBase::Reset(a_commandAllocator);
+
+	// パイプラインステートとルートシグネチャをセットするかどうかを判断するキャッシュのクリア
+	ClearCurrentRootSignatureAndPipelineStateCache();
+}
+
 void FWK::Graphics::DirectCommandList::TransitionResource(const TypeAlias::ComPtr<ID3D12Resource2>& a_resource, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const
 {
 	if (!a_resource)
@@ -147,7 +155,7 @@ void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_rende
 
 	l_directCommandList->RSSetScissorRects(k_setScissorRectNUM, &a_renderArea.GetREFScissorRECT());
 }
-void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a_rootSignature) const
+void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a_rootSignature)
 {
 	if (!a_rootSignature)
 	{
@@ -178,7 +186,7 @@ void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a
 	// これを先に設定しておかない、後続の描画で使用するリリースの結び付けルールが決まらない
 	l_directCommandList->SetGraphicsRootSignature(l_rootSignature.Get());
 }
-void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a_pipelineState) const
+void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a_pipelineState)
 {
 	if (!a_pipelineState)
 	{
@@ -259,4 +267,10 @@ void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGrou
 	//				Z方向のグループ数);
 
 	l_directCommandList->DispatchMesh(a_threadCountGroupX, a_threadCountGroupY, a_threadCountGroupZ);
+}
+
+void FWK::Graphics::DirectCommandList::ClearCurrentRootSignatureAndPipelineStateCache()
+{
+	m_currentPipelineState = nullptr;
+	m_currentPipelineState = nullptr;
 }

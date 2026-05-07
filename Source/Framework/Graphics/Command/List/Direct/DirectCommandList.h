@@ -17,14 +17,16 @@ namespace FWK::Graphics
 		 DirectCommandList();
 		~DirectCommandList() override;
 
+		void Reset(const CommandAllocatorBase& a_commandAllocator) override;
+
 		void TransitionResource            (const TypeAlias::ComPtr<ID3D12Resource2>& a_resource,  const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 		void TransitionRenderTargetResource(const SwapChain&						  a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 
 		void SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
 		void SetupRenderArea    (const RenderArea&         a_renderArea)     const;
-		void SetupRootSignature (const RootSignature*      a_rootSignature)  const;
-		void SetupPipelineState (const PipelineState*      a_pipelineState)  const;
+		void SetupRootSignature (const RootSignature*      a_rootSignature);
+		void SetupPipelineState (const PipelineState*      a_pipelineState);
 		void SetupDescriptorHeap(const DescriptorHeapBase& a_descriptorHeap) const;
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
@@ -111,6 +113,8 @@ namespace FWK::Graphics
 
 	private:
 
+		void ClearCurrentRootSignatureAndPipelineStateCache();
+
 		static constexpr UINT64 k_invalidGPUDescriptorHandle = 0ULL;
 
 		static constexpr UINT k_sendBarrierNUM = 1U;
@@ -129,5 +133,8 @@ namespace FWK::Graphics
 			1.0F,
 			1.0F
 		};
+
+		const RootSignature* m_currentRootSignature = nullptr;
+		const PipelineState* m_currentPipelineState = nullptr;
 	};
 }

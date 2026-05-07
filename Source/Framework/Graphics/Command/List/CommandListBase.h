@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device);
 
-		void Reset(const CommandAllocatorBase& a_commandAllocator) const;
+		virtual void Reset(const CommandAllocatorBase& a_commandAllocator);
 
 		void Close() const;
 
