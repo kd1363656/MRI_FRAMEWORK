@@ -101,6 +101,8 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 	// Importerで開いたFBXファイル内容をSceneへ読み込む
 	// Import(読み込み先のFBXシーン);
 
+	const auto l_beginTime = std::chrono::high_resolution_clock::now();
+
 	if (!l_fbxImporter->Import(l_fbxScene))
 	{
 		l_fbxImporter->Destroy();
@@ -109,6 +111,16 @@ bool FWK::Graphics::FBXModelLoader::LoadStaticModelFile(const std::filesystem::p
 		assert(false && "FbxImporter::Importに失敗したため、FBX読み込みに失敗しました。");
 		return false;
 	}
+
+	const auto l_endTime = std::chrono::high_resolution_clock::now();
+
+	const auto l_elapsedMilliseconds = std::chrono::duration_cast<std::chrono::milliseconds>
+		(
+			l_endTime - l_beginTime
+		).count();
+
+	OutputDebugStringA(("FBX Load Time : " + std::to_string(l_elapsedMilliseconds) + " ms\n").c_str());
+
 
 	// ImporterはSceneへ読み込み終わったら不要なので破棄する
 	l_fbxImporter->Destroy();
