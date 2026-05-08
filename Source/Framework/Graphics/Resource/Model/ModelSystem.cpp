@@ -15,7 +15,7 @@ bool FWK::Graphics::ModelSystem::LoadStaticModel(const std::filesystem::path& a_
 {
 	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerFBXExtension))
 	{
-		assert(false && "静的モデルファイルの読み込みに失敗したため、ModelMeshletDataListの作成に失敗しました。");
+		assert(false && "静的モデルファイルの読み込みに失敗しました。");
 		return false;
 	}
 
