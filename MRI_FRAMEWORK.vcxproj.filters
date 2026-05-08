@@ -424,15 +424,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass">
       <UniqueIdentifier>{690a2292-e371-430b-9f19-1054c870cd70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Model">
-      <UniqueIdentifier>{9e45bb34-5281-4d26-ad17-c1119853d449}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model">
-      <UniqueIdentifier>{c0bef69e-b1a7-42c7-bb19-dd10315ad39f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Model">
-      <UniqueIdentifier>{1b171da7-3bdd-454c-8ca0-272c1d4c369d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Converter">
       <UniqueIdentifier>{d32598c8-3ce0-4cc2-9d09-72ca1ac7150a}</UniqueIdentifier>
     </Filter>
@@ -483,33 +474,6 @@
     </Filter>
     <Filter Include="Source\Framework\Converter\Json\Window">
       <UniqueIdentifier>{04455cbf-b18f-475f-a4b5-821cf6f464e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Converter\Binary">
-      <UniqueIdentifier>{a3160452-5dee-4760-8d2c-4c8f3145707b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Converter\Binary\Graphics">
-      <UniqueIdentifier>{5dac6849-560f-4de0-8b5c-a99434f683b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource">
-      <UniqueIdentifier>{e885ca5e-8c58-4885-90e1-812e38dfca09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource\Model">
-      <UniqueIdentifier>{2c2eb079-8e61-446b-9881-35217280612d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Static">
-      <UniqueIdentifier>{f41847fa-a4e1-41bc-8fc4-67b1bc981e28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Static\Loader">
-      <UniqueIdentifier>{ccfcb519-c057-4d39-aa15-fbab4c91c3c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Common">
-      <UniqueIdentifier>{dbd54415-9f8b-4581-81cd-b137c8ba8f40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Common\Loader">
-      <UniqueIdentifier>{020d1bb5-fba1-4b94-91dc-fdff44ed436a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Common\Builder">
-      <UniqueIdentifier>{4c9ef1f4-a202-4fc0-b9fb-8c898f04d565}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -836,12 +800,6 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\UploadBufferConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\ModelConstant.h">
-      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\FPS</Filter>
     </ClInclude>
@@ -883,24 +841,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.h">
-      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h">
-      <Filter>Source\Framework\Converter\Binary</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\Loader\FBXModelLoaderBase.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\Common\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\Loader\StaticFBXModelLoader.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\Static\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\Builder\ModelMeshletBuilder.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\Common\Builder</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\ModelSystemBase.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1077,24 +1017,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp">
-      <Filter>Source\Framework\Converter\Binary</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.cpp">
-      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\Loader\FBXModelLoaderBase.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\Common\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\Loader\StaticFBXModelLoader.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\Static\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\Builder\ModelMeshletBuilder.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\Common\Builder</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\ModelSystemBase.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

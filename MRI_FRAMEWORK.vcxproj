@@ -380,8 +380,6 @@ if "$(Configuration)"=="Debug" (
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
-    <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h" />
-    <ClInclude Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.h" />
@@ -413,7 +411,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\UploadBufferConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h" />
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\ModelConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\ResourceConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\TextureConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\SwapChain\SwapChainConstant.h" />
@@ -428,7 +425,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Command\DrawCommandStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\ConstantBufferStruct.h" />
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilderStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h" />
@@ -475,10 +471,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\Builder\ModelMeshletBuilder.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\Loader\FBXModelLoaderBase.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\ModelSystemBase.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\Loader\StaticFBXModelLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.h" />
@@ -510,8 +502,6 @@ if "$(Configuration)"=="Debug" (
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
-    <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp" />
-    <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.cpp" />
@@ -554,10 +544,6 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\SRV\SRVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\Builder\ModelMeshletBuilder.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\Loader\FBXModelLoaderBase.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\ModelSystemBase.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\Loader\StaticFBXModelLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp" />

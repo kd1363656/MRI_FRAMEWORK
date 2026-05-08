@@ -3,12 +3,6 @@
 void FWK::Scene::PostLoadSetup()
 {
 	m_texture.Load("Asset/Texture/Test.dds");
-
-	// モデルロード
-	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance ();
-	const auto& l_resourceContext = l_graphicsManager.GetREFResourceContext();
-	
-	l_resourceContext.GetREFModelSystem().LoadStaticModel("Asset/Model/Antike.fbx");
 }
 
 void FWK::Scene::RequestDraw() const
