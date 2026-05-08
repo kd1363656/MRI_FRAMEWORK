@@ -228,10 +228,11 @@
 #include "Graphics/Resource/Texture/Texture.h"
 
 // モデル
-#include "Graphics/Resource/Model/Loader/FBXModelLoader.h"
-#include "Graphics/Resource/Model/Builder/Meshlet/ModelMeshletBuilder.h"
+#include "Graphics/Resource/Model/Common/Loader/FBXModelLoaderBase.h"
+#include "Graphics/Resource/Model/Static/Loader/StaticFBXModelLoader.h"
+#include "Graphics/Resource/Model/Common/Builder/ModelMeshletBuilder.h"
+#include "Graphics/Resource/Model/Static/StaticModelSystem.h"
 #include "Converter/Binary/Graphics/Resource/Model/ModelBinaryConverter.h"
-#include "Graphics/Resource/Model/ModelSystem.h"
 
 // リソースコンテキスト
 #include "Converter/Json/Graphics/Resource/ResourceContextJsonConverter.h"

@@ -430,9 +430,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model">
       <UniqueIdentifier>{c0bef69e-b1a7-42c7-bb19-dd10315ad39f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Loader">
-      <UniqueIdentifier>{ccfcb519-c057-4d39-aa15-fbab4c91c3c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Model">
       <UniqueIdentifier>{1b171da7-3bdd-454c-8ca0-272c1d4c369d}</UniqueIdentifier>
     </Filter>
@@ -499,11 +496,20 @@
     <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource\Model">
       <UniqueIdentifier>{2c2eb079-8e61-446b-9881-35217280612d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Builder">
-      <UniqueIdentifier>{99a1e242-dd72-41b6-8295-06cfb7292201}</UniqueIdentifier>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Static">
+      <UniqueIdentifier>{f41847fa-a4e1-41bc-8fc4-67b1bc981e28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet">
-      <UniqueIdentifier>{dd68a6b6-c047-424e-aff7-86becc0e8b84}</UniqueIdentifier>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Static\Loader">
+      <UniqueIdentifier>{ccfcb519-c057-4d39-aa15-fbab4c91c3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Common">
+      <UniqueIdentifier>{dbd54415-9f8b-4581-81cd-b137c8ba8f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Common\Loader">
+      <UniqueIdentifier>{020d1bb5-fba1-4b94-91dc-fdff44ed436a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Common\Builder">
+      <UniqueIdentifier>{4c9ef1f4-a202-4fc0-b9fb-8c898f04d565}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -884,14 +890,17 @@
     <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h">
       <Filter>Source\Framework\Converter\Binary</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\ModelSystem.h">
-      <Filter>Source\Framework\Graphics\Resource\Model</Filter>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\Loader\FBXModelLoaderBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Common\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\Builder\Meshlet</Filter>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\Loader\StaticFBXModelLoader.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\Loader</Filter>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\Builder\ModelMeshletBuilder.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Common\Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Common\ModelSystemBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1075,14 +1084,17 @@
     <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.cpp">
       <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\ModelSystem.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model</Filter>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\Loader\FBXModelLoaderBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Common\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Meshlet\ModelMeshletBuilder.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\Builder\Meshlet</Filter>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\Loader\StaticFBXModelLoader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Loader\FBXModelLoader.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\Loader</Filter>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\Builder\ModelMeshletBuilder.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Common\Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Common\ModelSystemBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
