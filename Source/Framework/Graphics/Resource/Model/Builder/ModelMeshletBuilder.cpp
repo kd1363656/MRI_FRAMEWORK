@@ -1,30 +1,30 @@
 ﻿#include "ModelMeshletBuilder.h"
 
-bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struct::StaticModelMesh& a_staticModelMesh, Struct::ModelMeshletData& a_modelMeshletData) const
+bool FWK::Graphics::ModelMeshletBuilder::BuildModelMeshletData(Struct::ModelMesh& a_modelMesh, Struct::ModelMeshletData& a_modelMeshletData) const
 {
-	if (a_staticModelMesh.m_staticModelVertexList.empty())
+	if (a_modelMesh.m_modelVertexList.empty())
 	{
-		assert(false && "StaticModelMeshの頂点リストが空のため、ModelMeshletDataの作成に失敗しました。");
+		assert(false && "ModelMeshの頂点リストが空のため、ModelMeshletDataの作成に失敗しました。");
 		return false;
 	}
 
-	if (a_staticModelMesh.m_indexList.empty())
+	if (a_modelMesh.m_indexList.empty())
 	{
-		assert(false && "StaticModelMeshのインデックスリストが空のため、ModelMeshletDataの作成に失敗しました。");
+		assert(false && "ModelMeshのインデックスリストが空のため、ModelMeshletDataの作成に失敗しました。");
 		return false;
 	}
 
-	if (a_staticModelMesh.m_indexList.size() % Constant::k_triangleVertexCount != k_noIndexRemainder)
+	if (a_modelMesh.m_indexList.size() % Constant::k_triangleVertexCount != k_noIndexRemainder)
 	{
-		assert(false && "StaticModelMeshのインデックス数が3の倍数ではないため、ModelMeshletDataの作成に失敗しました。");
+		assert(false && "ModelMeshのインデックス数が3の倍数ではないため、ModelMeshletDataの作成に失敗しました。");
 		return false;
 	}
 
 	// 念のため初期化
 	a_modelMeshletData = {};
 
-	const auto& l_sourceVertexList = a_staticModelMesh.m_staticModelVertexList;
-	const auto& l_sourceIndexList  = a_staticModelMesh.m_indexList;
+	const auto& l_sourceVertexList = a_modelMesh.m_modelVertexList;
+	const auto& l_sourceIndexList  = a_modelMesh.m_indexList;
 
 	std::vector<unsigned int> l_remapList(l_sourceIndexList.size());
 
@@ -41,10 +41,10 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 																 l_sourceIndexList.size(),
 																 l_sourceVertexList.data(),
 																 l_sourceVertexList.size(),
-																 sizeof(Struct::StaticModelVertex));
+																 sizeof(Struct::ModelVertex));
 
-	std::vector<Struct::StaticModelVertex> l_optimizedVertexList(l_uniqueVertexCount);
-	std::vector<unsigned int>			   l_optimizedIndexList (l_sourceIndexList.size());
+	std::vector<Struct::ModelVertex> l_optimizedVertexList(l_uniqueVertexCount);
+	std::vector<unsigned int>		 l_optimizedIndexList (l_sourceIndexList.size());
 
 	// リマップ情報を使って、インデックス配列を作り直す
 	// meshopt_remapIndexBuffer(変換後インデックス配列、
@@ -67,7 +67,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	meshopt_remapVertexBuffer(l_optimizedVertexList.data(),
 							  l_sourceVertexList.data(),
 							  l_sourceVertexList.size(),
-							  sizeof(Struct::StaticModelVertex),
+							  sizeof(Struct::ModelVertex),
 							  l_remapList.data());
 
 	// 頂点キャッシュ効率が良くなるようにインデックス配列を並び替える
@@ -113,10 +113,21 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 													  l_optimizedIndexList.size(),
 													  &l_optimizedVertexList.front().m_position.x,
 													  l_optimizedVertexList.size(),
-													  sizeof(Struct::StaticModelVertex),
+													  sizeof(Struct::ModelVertex),
 													  k_maxMeshletVertexCount,
 													  k_maxMeshletTriangleCount,
 													  k_meshletConeWeight);
+
+	if (l_meshletCount == k_emptyMeshletCount)
+	{
+		assert(false && "ModelMeshletの作成数が0のため、ModelMeshletDataの作成に失敗しました。");
+		return false;
+	}
+
+	const auto& l_lastMeshoptMeshlet = l_meshoptMeshletList[l_meshletCount - k_lastElementOffset];
+	
+	a_modelMeshletData.m_uniqueVertexIndexList.resize(l_lastMeshoptMeshlet.vertex_offset   + l_lastMeshoptMeshlet.vertex_count);
+	a_modelMeshletData.m_primitiveIndexList.resize   (l_lastMeshoptMeshlet.triangle_offset + l_lastMeshoptMeshlet.triangle_count * Constant::k_triangleVertexCount);
 
 	a_modelMeshletData.m_meshletList.resize(l_meshletCount);
 
@@ -132,6 +143,11 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 		l_modelMeshlet.m_vertexCount   = l_meshoptMeshlet.vertex_count;
 		l_modelMeshlet.m_triangleCount = l_meshoptMeshlet.triangle_count;
 	}
+
+	// メッシュレットは最適化後の頂点・インデックスを参照するため、
+	// ModelMesh側も同じ最適化後のデータへ差し替える
+	a_modelMesh.m_modelVertexList = std::move(l_optimizedVertexList);
+	a_modelMesh.m_indexList		  = std::move(l_optimizedIndexList);
 
 	return true;
 }

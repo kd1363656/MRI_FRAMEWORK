@@ -1,6 +1,6 @@
 ﻿#include "ModelBinaryConverter.h"
 
-bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::StaticModelData& a_staticModelData, const std::filesystem::path& a_filePath)
+bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::ModelData& a_modelData, const std::filesystem::path& a_filePath)
 {
     if (a_filePath.extension() != Constant::k_lowerAssetExtension)
     {
@@ -8,19 +8,19 @@ bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vecto
         return false;
     }
 
-    if (a_staticModelData.m_staticModelMeshList.empty())
+    if (a_modelData.m_modelMeshList.empty())
     {
-        assert(false && "StaticModelDataのMeshListが空のため、ModelAssetの保存に失敗しました。");
+        assert(false && "ModelDataのMeshListが空のため、ModelAssetの保存に失敗しました。");
         return false;
     }
 
-    if (a_staticModelData.m_staticModelMeshList.size() != a_modelMeshletDataList.size())
+    if (a_modelData.m_modelMeshList.size() != a_modelMeshletDataList.size())
     {
-        assert(false && "StaticModelMesh数とModelMeshletData数が一致しないため、ModelAssetの保存に失敗しました。");
+        assert(false && "ModelMesh数とModelMeshletData数が一致しないため、ModelAssetの保存に失敗しました。");
         return false;
     }
 
-    const auto l_fileSize = CalculateStaticModelAssetFileSize(a_modelMeshletDataList, a_staticModelData);
+    const auto l_fileSize = CalculateStaticModelAssetFileSize(a_modelMeshletDataList, a_modelData);
 
     if (l_fileSize == k_emptyFileSize)
     {
@@ -51,13 +51,13 @@ bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vecto
     l_modelAssetHeader.m_version  = k_modelAssetVersion;
 
     // モデルのメッシュ数がstd::uint32_t型を超えるならreturn
-    if (a_staticModelData.m_staticModelMeshList.size() > std::numeric_limits<std::uint32_t>::max())
+    if (a_modelData.m_modelMeshList.size() > std::numeric_limits<std::uint32_t>::max())
     {
         assert(false && "StaticModelMesh数がuint32_tの最大値を超えているため、ModelAssetの保存に失敗しました。");
         return false;
     }
 
-    l_modelAssetHeader.m_meshCount = static_cast<std::uint32_t>(a_staticModelData.m_staticModelMeshList.size());
+    l_modelAssetHeader.m_meshCount = static_cast<std::uint32_t>(a_modelData.m_modelMeshList.size());
 
     if (!WriteBinaryData(sizeof(ModelAssetHeader),
                          l_fileSize,
@@ -69,14 +69,14 @@ bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vecto
         return false;
     }
 
-    for (std::size_t l_meshIndex = 0ULL; l_meshIndex < a_staticModelData.m_staticModelMeshList.size(); ++l_meshIndex)
+    for (std::size_t l_meshIndex = 0ULL; l_meshIndex < a_modelData.m_modelMeshList.size(); ++l_meshIndex)
     {
-        const auto& l_staticModelMesh  = a_staticModelData.m_staticModelMeshList[l_meshIndex];
-        const auto& l_modelMeshletData = a_modelMeshletDataList                 [l_meshIndex];
+        const auto& l_staticModelMesh  = a_modelData.m_modelMeshList[l_meshIndex];
+        const auto& l_modelMeshletData = a_modelMeshletDataList     [l_meshIndex];
 
         ModelAssetMeshHeader l_modelAssetMeshHeader = {};
 
-        l_modelAssetMeshHeader.m_vertexCount            = l_staticModelMesh.m_staticModelVertexList.size ();
+        l_modelAssetMeshHeader.m_vertexCount            = l_staticModelMesh.m_modelVertexList.size       ();
         l_modelAssetMeshHeader.m_indexCount             = l_staticModelMesh.m_indexList.size             ();
         l_modelAssetMeshHeader.m_meshletCount           = l_modelMeshletData.m_meshletList.size          ();
         l_modelAssetMeshHeader.m_uniqueVertexIndexCount = l_modelMeshletData.m_uniqueVertexIndexList.size();
@@ -92,9 +92,9 @@ bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vecto
             return false;
         }
         
-        if (!WriteBinaryData(l_staticModelMesh.m_staticModelVertexList.size() * sizeof(Struct::StaticModelVertex),
+        if (!WriteBinaryData(l_staticModelMesh.m_modelVertexList.size() * sizeof(Struct::ModelVertex),
                              l_fileSize,
-                             l_staticModelMesh.m_staticModelVertexList.data(),
+                             l_staticModelMesh.m_modelVertexList.data(),
                              l_writeOffset,
                              l_basePTR))
         {
@@ -152,19 +152,19 @@ bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vecto
     return true;
 }
 
-std::uint64_t FWK::Converter::ModelBinaryConverter::CalculateStaticModelAssetFileSize(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::StaticModelData& a_staticModelData) const
+std::uint64_t FWK::Converter::ModelBinaryConverter::CalculateStaticModelAssetFileSize(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::ModelData& a_modelData) const
 {
     std::uint64_t l_fileSize = sizeof(ModelAssetHeader);
 
-    for (std::size_t l_meshIndex = 0U; l_meshIndex < a_staticModelData.m_staticModelMeshList.size(); ++l_meshIndex)
+    for (std::size_t l_meshIndex = 0U; l_meshIndex < a_modelData.m_modelMeshList.size(); ++l_meshIndex)
     {
-        const auto& l_staticModelMesh  = a_staticModelData.m_staticModelMeshList[l_meshIndex];
-        const auto& l_modelMeshletData = a_modelMeshletDataList                 [l_meshIndex];
+        const auto& l_modelMesh        = a_modelData.m_modelMeshList[l_meshIndex];
+        const auto& l_modelMeshletData = a_modelMeshletDataList     [l_meshIndex];
 
         l_fileSize += sizeof(ModelAssetMeshHeader);
 
-        l_fileSize += l_staticModelMesh.m_staticModelVertexList.size() * sizeof(Struct::StaticModelVertex);
-        l_fileSize += l_staticModelMesh.m_indexList.size            () * sizeof(std::uint32_t);
+        l_fileSize += l_modelMesh.m_modelVertexList.size() * sizeof(Struct::ModelVertex);
+        l_fileSize += l_modelMesh.m_indexList.size      () * sizeof(std::uint32_t);
 
         l_fileSize += l_modelMeshletData.m_meshletList.size          () * sizeof(Struct::ModelMeshlet);
         l_fileSize += l_modelMeshletData.m_uniqueVertexIndexList.size() * sizeof(std::uint32_t);

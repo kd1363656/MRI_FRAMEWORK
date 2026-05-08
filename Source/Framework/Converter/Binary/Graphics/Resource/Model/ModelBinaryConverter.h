@@ -28,11 +28,11 @@ namespace FWK::Converter
 		 ModelBinaryConverter()			 = default;
 		~ModelBinaryConverter() override = default;
 
-		bool SaveStaticModelAsset(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::StaticModelData& a_staticModelData, const std::filesystem::path& a_filePath);
+		bool SaveStaticModelAsset(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::ModelData& a_modelData, const std::filesystem::path& a_filePath);
 
 	private:
 
-		std::uint64_t CalculateStaticModelAssetFileSize(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::StaticModelData& a_staticModelData) const;
+		std::uint64_t CalculateStaticModelAssetFileSize(const std::vector<Struct::ModelMeshletData>& a_modelMeshletDataList, const Struct::ModelData& a_modelData) const;
 
 		bool WriteBinaryData(const std::uint64_t& a_writeSize,
 							 const std::uint64_t& a_fileSize, 
