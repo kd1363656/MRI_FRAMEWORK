@@ -13,6 +13,8 @@ namespace FWK::Graphics
 
 		bool LoadStaticModel(const std::filesystem::path& a_filePath) const;
 
+		//
+
 	private:
 
 		ModelMeshletBuilder m_modelMeshletBuilder = {};
