@@ -23,7 +23,6 @@ namespace FWK::Converter
 			std::uint64_t m_primitiveIndexCount    = k_initialElementCount;
 		};
 
-
 	public:
 
 		 ModelBinaryConverter()			 = default;
