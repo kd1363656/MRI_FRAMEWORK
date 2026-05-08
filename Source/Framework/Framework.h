@@ -230,6 +230,7 @@
 // モデル
 #include "Graphics/Resource/Model/Loader/FBXModelLoader.h"
 #include "Graphics/Resource/Model/Builder/Meshlet/ModelMeshletBuilder.h"
+#include "Converter/Binary/Graphics/Resource/Model/ModelBinaryConverter.h"
 #include "Graphics/Resource/Model/ModelSystem.h"
 
 // リソースコンテキスト

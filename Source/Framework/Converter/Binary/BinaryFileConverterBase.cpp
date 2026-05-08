@@ -16,6 +16,7 @@ FWK::Converter::BinaryFileConverterBase::~BinaryFileConverterBase()
 
 bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const std::filesystem::path& a_filePath)
 {
+	// 既に別のファイルを開いていた場合に備えて前のマッピングを破棄する
 	DestroyMemoryMappedFile();
 
 	// ファイルを読み込めるかを確認
@@ -25,6 +26,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 		return false;
 	}
 
+	// ファイルを開く
 	// CreateFileW(開くファイルパス、
 	//			   読み込み専用で開く指定、
 	//			   他の読み込みアクセスを指定、
@@ -63,17 +65,19 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 	m_mappedDataSize = static_cast<std::uint64_t>(l_fileSize.QuadPart);
 	m_isWritable	 = k_isReadOnlyMappedFile;
 
+	// マッピングオブジェクトを作成
 	// CreateFileMappingW(マッピング対象のファイルハンドル、
 	//					  セキュリティ属性,
 	// 			　		  読み込み専用ページとして作成する指定、
 	//					  最大サイズ上位32bit、0ならファイルサイズを使用、
 	//					  最大サイズ下位32bit、0ならファイルサイズを使用、
 	//					  名前付きマッピング);
+
 	m_fileMappingHandle = CreateFileMappingW(m_fileHandle,
 											 nullptr,
 											 PAGE_READONLY,
-											 k_fileOffsetHighFromBegin,
-											 k_fileOffsetLowFromBegin,
+											 k_mappingMAXSizeHighUseFileSize,
+											 k_mappingMAXSizeLowUseFileSize,
 											 nullptr);
 
 	if (!m_fileMappingHandle)
@@ -90,8 +94,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 	//				 マップするサイズ、0ならファイル全体);
 	m_mappedData = static_cast<std::uint8_t*>(MapViewOfFile(m_fileMappingHandle,
 															FILE_MAP_READ,
-															k_fileOffsetHighFromBegin,
-															k_fileOffsetLowFromBegin,
+															k_viewFileOffsetHighFromBegin,
+															k_viewFileOffsetLowFromBegin,
 															k_mapEntireFileSize));
 
 	if (!m_mappedData)
@@ -183,8 +187,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	m_fileMappingHandle = CreateFileMappingW(m_fileHandle,
 											 nullptr,
 											 PAGE_READWRITE,
-											 k_fileOffsetHighFromBegin,
-											 k_fileOffsetLowFromBegin,
+											 k_mappingMAXSizeHighUseFileSize,
+											 k_mappingMAXSizeLowUseFileSize,
 											 nullptr);
 
 	if (!m_fileMappingHandle)
@@ -201,8 +205,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	//				 マップするサイズ、0ならファイル全体);
 	m_mappedData = static_cast<std::uint8_t*>(MapViewOfFile(m_fileMappingHandle,
 															FILE_MAP_READ | FILE_MAP_WRITE,
-															k_fileOffsetHighFromBegin,
-															k_fileOffsetLowFromBegin,
+															k_viewFileOffsetHighFromBegin,
+															k_viewFileOffsetLowFromBegin,
 															k_mapEntireFileSize));
 
 	if (!m_mappedData)
@@ -231,6 +235,7 @@ void FWK::Converter::BinaryFileConverterBase::DestroyMemoryMappedFile()
 		m_mappedData = nullptr;
 	}
 
+	// 使用中のハンドルを破棄
 	if (m_fileMappingHandle)
 	{
 		CloseHandle(m_fileMappingHandle);
@@ -244,5 +249,5 @@ void FWK::Converter::BinaryFileConverterBase::DestroyMemoryMappedFile()
 	}
 
 	m_mappedDataSize = k_initialMappedDataSize;
-	m_isWritable	 = k_initialIsWritable;
+	m_isWritable	 = k_isInitialWritable;
 }

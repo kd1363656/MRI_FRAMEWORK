@@ -1078,11 +1078,11 @@
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.cpp">
-      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp">
       <Filter>Source\Framework\Converter\Binary</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.cpp">
+      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

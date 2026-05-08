@@ -12,8 +12,6 @@ namespace FWK::Converter
 		bool CreateReadMemoryMappedFile (const std::filesystem::path& a_filePath);
 		bool CreateWriteMemoryMappedFile(const std::filesystem::path& a_filePath, const std::uint64_t& a_fileSize);
 
-		void DestroyMemoryMappedFile();
-
 		const auto& GetREFMappedDataSize() const { return m_mappedDataSize; }
 
 		const std::uint8_t* GetPTRMappedData() const { return m_mappedData; }
@@ -22,16 +20,20 @@ namespace FWK::Converter
 
 	private:
 
+		void DestroyMemoryMappedFile();
+
 		static constexpr std::uint64_t k_initialMappedDataSize = 0ULL;
 		static constexpr std::uint64_t k_emptyWriteFileSize    = 0ULL;
 		static constexpr SIZE_T		   k_mapEntireFileSize     = 0ULL;
 		static constexpr SIZE_T		   k_flushEntireViewSize   = 0ULL;
 
-		static constexpr DWORD k_fileOffsetHighFromBegin = 0U;
-		static constexpr DWORD k_fileOffsetLowFromBegin	 = 0U;
-		static constexpr DWORD k_noFileShareMode		 = 0U;
-
-		static constexpr bool k_initialIsWritable    = false;
+		static constexpr DWORD k_mappingMAXSizeHighUseFileSize = 0U;
+		static constexpr DWORD k_mappingMAXSizeLowUseFileSize  = 0U;
+		static constexpr DWORD k_viewFileOffsetHighFromBegin   = 0U;
+		static constexpr DWORD k_viewFileOffsetLowFromBegin    = 0U;
+		static constexpr DWORD k_noFileShareMode			   = 0U;
+		
+		static constexpr bool k_isInitialWritable    = false;
 		static constexpr bool k_isReadOnlyMappedFile = false;
 		static constexpr bool k_isWriteMappedFile	 = true;
 
@@ -42,6 +44,6 @@ namespace FWK::Converter
 
 		std::uint64_t m_mappedDataSize = k_initialMappedDataSize;
 
-		bool m_isWritable = false;
+		bool m_isWritable = k_isInitialWritable;
 	};
 }
