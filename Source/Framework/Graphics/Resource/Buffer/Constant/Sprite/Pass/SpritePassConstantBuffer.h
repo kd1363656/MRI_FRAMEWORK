@@ -10,6 +10,10 @@ namespace FWK::Graphics
 		~SpritePassConstantBuffer() override ;
 
 		FWK_DEFINE_TYPE_INFO(SpritePassConstantBuffer, ConstantBufferBase);
+
+	private:
+
+		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBSpritePass);
 	};
 }
 

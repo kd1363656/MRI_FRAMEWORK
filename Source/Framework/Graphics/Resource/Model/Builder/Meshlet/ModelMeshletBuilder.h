@@ -17,7 +17,6 @@ namespace FWK::Graphics
 
 		static constexpr std::size_t k_maxMeshletVertexCount   = 64ULL;
 		static constexpr std::size_t k_maxMeshletTriangleCount = 124ULL;
-		static constexpr std::size_t k_initialMeshletIndex	   = 0ULL;
 		static constexpr std::size_t k_noIndexRemainder		   = 0ULL;
 	};
 }

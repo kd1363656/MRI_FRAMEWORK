@@ -1,6 +1,6 @@
 ﻿#include "SpritePassConstantBuffer.h"
 
 FWK::Graphics::SpritePassConstantBuffer::SpritePassConstantBuffer() : 
-	ConstantBufferBase(sizeof(Struct::CBSpritePass))
+	ConstantBufferBase(k_bufferTypeSize)
 {}
 FWK::Graphics::SpritePassConstantBuffer::~SpritePassConstantBuffer() = default;

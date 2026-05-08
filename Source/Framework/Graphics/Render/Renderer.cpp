@@ -29,18 +29,18 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompile
 		return false;
 	}
 
-	for (auto& [l_key, l_value] : m_rootSignatureMap)
+	for (auto& [l_tag, l_rootSignature] : m_rootSignatureMap)
 	{
-		if (!l_value.Create(a_device))
+		if (!l_rootSignature.Create(a_device))
 		{
 			assert(false && "ルートシグネチャの作成に失敗しました。");
 			return false;
 		}
 	}
 
-	for (auto& [l_key, l_value] : m_pipelineStateMap)
+	for (auto& [l_tag, l_pipelineState] : m_pipelineStateMap)
 	{
-		if (!l_value.Create(a_device, a_shaderCompiler, *this))
+		if (!l_pipelineState.Create(a_device, a_shaderCompiler, *this))
 		{
 			assert(false && "パイプラインステートの作成に失敗しました。");
 			return false;

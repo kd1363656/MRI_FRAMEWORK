@@ -39,13 +39,13 @@ namespace FWK::Graphics
 
 	private:
 
-		RootParameterIndexMap m_rootParameterIndexMap = {};
-
 		std::vector<D3D12_STATIC_SAMPLER_DESC> m_staticSamplerDescList = {};
 
 		// D3D12_ROOT_PARAMETERは、内部にポインタを持つため要素の再確保が発生した場合に
 		// ポインタが無効になる可能性があるのでreserveするかemplace_backした後にポインタを渡す
 		std::vector<Struct::RootParameterRecord> m_rootParameterRecordList = {};
+
+		RootParameterIndexMap m_rootParameterIndexMap = {};
 
 		TypeAlias::ComPtr<ID3D12RootSignature> m_rootSignature = nullptr;
 

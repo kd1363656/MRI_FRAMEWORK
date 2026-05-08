@@ -77,12 +77,12 @@ namespace FWK::Graphics
 		}
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupConstantBuffer(const DirectCommandList &       a_directCommandList,
-								 const UploadBuffer		 &	     a_uploadBuffer,
-								 const ConstantBufferType&       a_constantBuffer,
-								 const RootSignature     *	     a_rootSignature,
-								 const std::size_t		         a_constantBufferIndex,
-									   std::uint8_t      * const a_mappedData) const
+		bool SetupConstantBuffer(const DirectCommandList & a_directCommandList,
+								 const UploadBuffer&	   a_uploadBuffer,
+								 const ConstantBufferType& a_constantBuffer,
+								 const RootSignature*	   a_rootSignature,
+								 const std::size_t		   a_constantBufferIndex,
+									   std::uint8_t* const a_mappedData) const
 		{
 			if (!a_rootSignature)
 			{

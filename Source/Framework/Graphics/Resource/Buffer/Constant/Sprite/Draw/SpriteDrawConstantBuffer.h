@@ -10,6 +10,10 @@ namespace FWK::Graphics
 		~SpriteDrawConstantBuffer() override ;
 
 		FWK_DEFINE_TYPE_INFO(SpriteDrawConstantBuffer, ConstantBufferBase);
+
+	private:
+
+		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBSpriteDraw);
 	};
 }
 

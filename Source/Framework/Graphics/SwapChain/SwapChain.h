@@ -52,8 +52,8 @@ namespace FWK::Graphics
 
 		TypeAlias::ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
 
-		UINT m_syncInterval = Constant::k_defaultSyncInterval;
-
 		Converter::SwapChainJsonConverter m_swapChainJsonConverter = {};
+
+		UINT m_syncInterval = Constant::k_defaultSyncInterval;
 	};
 }

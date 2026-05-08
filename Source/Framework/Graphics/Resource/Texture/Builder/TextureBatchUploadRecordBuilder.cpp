@@ -154,7 +154,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 									l_rowSizeInBytesList.data(),
 									&l_requiredUploadBufferSize);
 
-	auto& l_uploadBuffer        = l_textureUploadRecord.m_uploadBuffer;
+	auto& l_uploadBuffer = l_textureUploadRecord.m_uploadBuffer;
 
 	// DEFAULTヒープ上にあるTextureResourceは直接CPUから書き込むことはできないため
 	// CPU書き込み可能なUploadBufferを作成する
@@ -185,7 +185,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 
 	// DirectXTexで読み込んだ画像データをUploadBufferへコピーする
 	// 各サブリソースひとつずつに対して実行
-	for (UINT l_subresourceIndex = k_initialSubresourceIndex; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
+	for (UINT l_subresourceIndex = 0U; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
 	{
 		// 現在処理するサブリソースの元画像データと、UploadBuffer上の配置情報を取得する
 		const auto& l_image  = l_imageList [l_subresourceIndex];
@@ -215,10 +215,10 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 		const auto l_copyRowSize = l_rowSizeInBytesList[l_subresourceIndex];
 
 		// Depth方向にコピーする
-		for (UINT l_depthIndex = k_initialLayoutDepthIndex; l_depthIndex < l_layout.Footprint.Depth; ++l_depthIndex)
+		for (UINT l_depthIndex = 0U; l_depthIndex < l_layout.Footprint.Depth; ++l_depthIndex)
 		{
 			// RowPitchがコピー元とコピー先で異なる可能性があるため、1行ずつコピーする
-			for (UINT l_rowIndex = k_initialRowIndex; l_rowIndex < l_rowCountList[l_subresourceIndex]; ++l_rowIndex)
+			for (UINT l_rowIndex = 0U; l_rowIndex < l_rowCountList[l_subresourceIndex]; ++l_rowIndex)
 			{
 				// UploadBuffer側の現在の行の書き込み先アドレスを計算する
 				auto* l_destination = l_destinationSubresource + l_depthIndex * l_destinationSlicePitch + l_rowIndex * l_destinationRowPitch;

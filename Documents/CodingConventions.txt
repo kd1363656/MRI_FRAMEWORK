@@ -120,8 +120,10 @@
 	int m_int     = 0; // TypeAliasなし
 	I_N_T m_i_n_t = 0; // TypeAliasあり
 
+	型別大まかな優先順位は外部定義、自身定義、stdコンテナ定義、型エイリアス
+
 	右に行くにつれて定義優先順位が弱い
-	外部クラス、外部構造体、自身定義クラス、自身定義構造体、std::コンテナ(std::sringなど)、組み込み型(double、float、unsigned long long、unsigned int、int、bool、void(外部のTypeAlias, 自身のTypeAlias, stdコンテナのTypeAlias))
+	クラス、構造体、Enum、組み込み型(double、float、unsigned long long、unsigned int、int、bool、void(外部のTypeAlias, 自身のTypeAlias, stdコンテナのTypeAlias))
 }
 5.変数の命名規則について=====================================================================================================================================
 ・定数はk_

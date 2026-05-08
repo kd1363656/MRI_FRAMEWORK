@@ -81,9 +81,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	// meshopt_buildMeshletsBound(インデックス数、
 	//							 1メッシュレットの最大頂点数、
 	//							 1メッシュレットの最大三角形数);
-	const auto l_meshletBound = meshopt_buildMeshletsBound(l_optimizedIndexList.size(),
-														   k_maxMeshletVertexCount,
-														   k_maxMeshletTriangleCount);
+	const auto l_meshletBound = meshopt_buildMeshletsBound(l_optimizedIndexList.size(), k_maxMeshletVertexCount, k_maxMeshletTriangleCount);
 
 	std::vector<meshopt_Meshlet> l_meshoptMeshletList(l_meshletBound);
 
@@ -116,7 +114,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 
 	a_modelMeshletData.m_meshletList.resize(l_meshletCount);
 
-	for (std::size_t l_meshletIndex = k_initialMeshletIndex; l_meshletIndex < l_meshletCount; ++l_meshletIndex)
+	for (std::size_t l_meshletIndex = 0ULL; l_meshletIndex < l_meshletCount; ++l_meshletIndex)
 	{
 		const auto& l_meshoptMeshlet = l_meshoptMeshletList[l_meshletIndex];
 
