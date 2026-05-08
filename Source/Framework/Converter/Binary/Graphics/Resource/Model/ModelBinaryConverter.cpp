@@ -42,7 +42,7 @@ bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vecto
         return false;
     }
 
-    std::uint64_t l_writeOffset = k_initialWriteOffset;
+    auto l_writeOffset = k_initialWriteOffset;
 
     ModelAssetHeader l_modelAssetHeader = {};
 
@@ -69,7 +69,7 @@ bool FWK::Converter::ModelBinaryConverter::SaveStaticModelAsset(const std::vecto
         return false;
     }
 
-    for (std::size_t l_meshIndex = k_initialMeshIndex; l_meshIndex < a_staticModelData.m_staticModelMeshList.size(); ++l_meshIndex)
+    for (std::size_t l_meshIndex = 0ULL; l_meshIndex < a_staticModelData.m_staticModelMeshList.size(); ++l_meshIndex)
     {
         const auto& l_staticModelMesh  = a_staticModelData.m_staticModelMeshList[l_meshIndex];
         const auto& l_modelMeshletData = a_modelMeshletDataList                 [l_meshIndex];
@@ -156,7 +156,7 @@ std::uint64_t FWK::Converter::ModelBinaryConverter::CalculateStaticModelAssetFil
 {
     std::uint64_t l_fileSize = sizeof(ModelAssetHeader);
 
-    for (std::size_t l_meshIndex = k_initialMeshIndex; l_meshIndex < a_staticModelData.m_staticModelMeshList.size(); ++l_meshIndex)
+    for (std::size_t l_meshIndex = 0U; l_meshIndex < a_staticModelData.m_staticModelMeshList.size(); ++l_meshIndex)
     {
         const auto& l_staticModelMesh  = a_staticModelData.m_staticModelMeshList[l_meshIndex];
         const auto& l_modelMeshletData = a_modelMeshletDataList                 [l_meshIndex];

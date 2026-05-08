@@ -4,7 +4,7 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 {
 	if (a_rootJson.is_null()) { return; }
 
-	// シェーダーのデシリアライズ
+	// アンプリフィケーションシェーダーのデシリアライズ
 	if (a_rootJson.contains(k_amplificationShaderJsonKey))
 	{
 		auto& l_amplificationShader = a_pipelineState.GetMutableREFAmplificationShader();
@@ -12,6 +12,7 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 		DeserializeOptionalShader(a_rootJson[k_amplificationShaderJsonKey], l_amplificationShader);
 	}
 
+	// メッシュシェーダーのデシリアライズ
 	if (a_rootJson.contains(k_meshShaderJsonKey))
 	{
 		auto& l_meshShader = a_pipelineState.GetMutableREFMeshShader();
@@ -19,6 +20,7 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 		l_meshShader.Deserialize(a_rootJson[k_meshShaderJsonKey]);
 	}
 
+	// ピクセルシェーダーのデシリアライズ
 	if (a_rootJson.contains(k_pixelShaderJsonKey))
 	{
 		auto& l_pixelShader = a_pipelineState.GetMutableREFPixelShader();
@@ -26,26 +28,31 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 		DeserializeOptionalShader(a_rootJson[k_pixelShaderJsonKey], l_pixelShader);
 	}
 
+	// ラスタライザーデスクのデシリアライズ
 	if (a_rootJson.contains(k_rasterizerDescJsonKey))
 	{
 		DeserializeRasterizerDesc(a_rootJson[k_rasterizerDescJsonKey], a_pipelineState);
 	}
 
+	// ブレンドのデシリアライズ
 	if (a_rootJson.contains(k_blendDescJsonKey))
 	{
 		DeserializeBlendDesc(a_rootJson[k_blendDescJsonKey], a_pipelineState);
 	}
 
+	// 深度ステンシルのデシリアライズ
 	if (a_rootJson.contains(k_depthStencilDescJsonKey))
 	{
 		DeserializeDepthStencilDesc(a_rootJson[k_depthStencilDescJsonKey], a_pipelineState);
 	}
 
+	// RTVフォーマットリストのデシリアライズ
 	if (a_rootJson.contains(k_rtvFormatListJsonKey))
 	{
 		DeserializeRTVFormatList(a_rootJson[k_rtvFormatListJsonKey], a_pipelineState);
 	}
 
+	// DSVフォーマットののデシリアライズ
 	if (a_rootJson.contains(k_dsvFormatJsonKey))
 	{
 		const auto l_dsvFormat = a_rootJson.value(k_dsvFormatJsonKey, DXGI_FORMAT_UNKNOWN);
@@ -53,6 +60,7 @@ void FWK::Converter::PipelineStateJsonConverter::Deserialize(const nlohmann::jso
 		a_pipelineState.SetDSVFormat(l_dsvFormat);
 	}
 
+	// サンプルデスクのデシリアライズ
 	if (a_rootJson.contains(k_sampleDescJsonKey))
 	{
 		DeserializeSampleDesc(a_rootJson[k_sampleDescJsonKey], a_pipelineState);
@@ -71,6 +79,7 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::Serialize(const Graph
 {
 	nlohmann::json l_rootJson = {};
 	
+	// アンプリフィケーションシェーダーのシリアライズ
 	if (auto& l_amplificationShader = a_pipelineState.GetREFAmplificationShader();
 		l_amplificationShader)
 	{
@@ -79,20 +88,33 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::Serialize(const Graph
 
 	auto& l_meshShader = a_pipelineState.GetREFMeshShader();
 	
+	// メッシュシェーダーのシリアライズ
 	l_rootJson[k_meshShaderJsonKey] = l_meshShader.Serialize();
 
+	// ピクセルシェーダーのシリアライズ
 	if(auto& l_pixelShader = a_pipelineState.GetREFPixelShader();
 	   l_pixelShader)
 	{
 		l_rootJson[k_pixelShaderJsonKey] = l_pixelShader->Serialize();
 	}
 
-	l_rootJson[k_rasterizerDescJsonKey]   = SerializeRasterizerDesc        (a_pipelineState);
-	l_rootJson[k_blendDescJsonKey]        = SerializeBlendDesc	           (a_pipelineState);
-	l_rootJson[k_depthStencilDescJsonKey] = SerializeDepthStencilDesc      (a_pipelineState);
-	l_rootJson[k_rtvFormatListJsonKey]    = SerializeRTVFormatList         (a_pipelineState);
-	l_rootJson[k_dsvFormatJsonKey]        = a_pipelineState.GetVALDSVFormat();
-	l_rootJson[k_sampleDescJsonKey]	      = SerializeSampleDesc	           (a_pipelineState);
+	// ラスタライザーデスクシェーダーのシリアライズ
+	l_rootJson[k_rasterizerDescJsonKey] = SerializeRasterizerDesc(a_pipelineState);
+
+	// ブレンドデスクのシリアライズ
+	l_rootJson[k_blendDescJsonKey] = SerializeBlendDesc(a_pipelineState);
+
+	// 深度バッファデスクのシリアライズ
+	l_rootJson[k_depthStencilDescJsonKey] = SerializeDepthStencilDesc(a_pipelineState);
+
+	// RTVフォーマットリストのシリアライズ
+	l_rootJson[k_rtvFormatListJsonKey] = SerializeRTVFormatList(a_pipelineState);
+
+	// DSVフォーマトのシリアライズ
+	l_rootJson[k_dsvFormatJsonKey] = a_pipelineState.GetVALDSVFormat();
+
+	// サンプルデスクのシリアライズ
+	l_rootJson[k_sampleDescJsonKey] = SerializeSampleDesc(a_pipelineState);
 
 	// 使用するルートシグネチャのタグをシリアライズ
 	Utility::Json::UpdateJson(l_rootJson, Utility::Json::SerializeTag(a_pipelineState.GetVALUseRootSignatureTag(), k_useRootSignatureTagJsonKey));

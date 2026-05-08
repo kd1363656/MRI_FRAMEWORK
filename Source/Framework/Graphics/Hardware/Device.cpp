@@ -85,7 +85,10 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 			// 指定したGPUとフィーチャーレベルでDirectX12デバイスが作成できるかを確認する
 			// 第四引数にnullptrを渡しているため実際にデバイスを受け取るのではなく
 			// 「この条件でデバイス作成が可能かどうかのテスト」だけを行っている
-			auto l_createDeviceResult = D3D12CreateDevice(l_adapter.Get(), l_level, __uuidof(ID3D12Device), nullptr);
+			auto l_createDeviceResult = D3D12CreateDevice(l_adapter.Get(),
+														  l_level,
+														  __uuidof(ID3D12Device),	
+														  nullptr);
 			
 			// もし作成テストに失敗したらもう一段階フィーチャーレベルを落として再確認する
 			if (FAILED(l_createDeviceResult)) { continue; }

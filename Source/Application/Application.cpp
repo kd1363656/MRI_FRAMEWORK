@@ -12,11 +12,10 @@ int WINAPI WinMain(_In_     HINSTANCE,
 	               _In_     int)
 {
 	// デバッグ時にメモリリークを検出する設定
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF |
-				   _CRTDBG_LEAK_CHECK_DF);
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// COMライブラリの初期化(WICやDXGI内部でも使用される)
-	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED))) { return Application::GetVALExitCodeCOMInitFailed(); }
+	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED))) { return Application::GetVALExitCodeCOMInitializeFailed(); }
 
 	Application::GetInstance().Execute();
 
@@ -65,15 +64,13 @@ void Application::Execute()
 
 void Application::Init(const FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
-	m_window.Init();
-
+	m_window.Init		  ();
 	a_graphicsManager.Init();
 }
 void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
-	m_window.LoadCONFIG       ();
-	m_fpsController.LoadCONFIG();
-
+	m_window.LoadCONFIG			();
+	m_fpsController.LoadCONFIG  ();
 	a_graphicsManager.LoadCONFIG();
 }
 bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager)
@@ -106,7 +103,7 @@ bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	if (!m_window.ProcessMessages()) { return false; }
 
 	// ウィンドウズハンドルを所持していないかエスケープキーを押されたらreturn
-	if (GetAsyncKeyState(VK_ESCAPE) ||
+	if ( GetAsyncKeyState(VK_ESCAPE) ||
 		!m_window.HasHWND())
 	{
 		return false;
@@ -152,9 +149,8 @@ void Application::EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 
 void Application::SaveFile(const FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
-	m_window.SaveCONFIG		  ();
-	m_fpsController.SaveCONFIG();
-
+	m_window.SaveCONFIG         ();
+	m_fpsController.SaveCONFIG  ();
 	a_graphicsManager.SaveCONFIG();
 }
 

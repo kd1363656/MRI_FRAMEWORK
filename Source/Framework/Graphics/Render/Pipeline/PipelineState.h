@@ -15,16 +15,16 @@ namespace FWK::Graphics
 		~PipelineState() = default;
 
 		void Deserialize(const nlohmann::json& a_rootJson);
-		bool Create     (const Device&         a_device, const ShaderCompiler& a_shaderCompiler, const Renderer& a_renderer);
+		bool Create     (const Device		 & a_device, const ShaderCompiler& a_shaderCompiler, const Renderer& a_renderer);
 
 		nlohmann::json Serialize() const;
 
 		void AddRTVFormat(const DXGI_FORMAT a_format);
 
-		void SetRasterizerDesc  (const D3D12_RASTERIZER_DESC&    a_set) { m_rasterizerDesc   = a_set; }
-		void SetBlendDesc       (const D3D12_BLEND_DESC&         a_set) { m_blendDesc        = a_set; }
+		void SetRasterizerDesc  (const D3D12_RASTERIZER_DESC   & a_set) { m_rasterizerDesc   = a_set; }
+		void SetBlendDesc       (const D3D12_BLEND_DESC        & a_set) { m_blendDesc        = a_set; }
 		void SetDepthStencilDesc(const D3D12_DEPTH_STENCIL_DESC& a_set) { m_depthStencilDesc = a_set; }
-		void SetSampleDesc      (const DXGI_SAMPLE_DESC&         a_set) { m_sampleDesc       = a_set; }
+		void SetSampleDesc      (const DXGI_SAMPLE_DESC        & a_set) { m_sampleDesc       = a_set; }
 
 		void SetPrimitiveTopologyType(const D3D12_PRIMITIVE_TOPOLOGY_TYPE a_set) { m_primitiveTopologyType = a_set; }
 

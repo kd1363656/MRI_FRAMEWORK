@@ -1,9 +1,9 @@
 ﻿#include "Fence.h"
 
 FWK::Graphics::Fence::Fence() : 
-	m_event(nullptr),
-
 	m_fence(nullptr),
+
+	m_event(nullptr),
 
 	m_lastSignaledFenceValue(Constant::k_unusedFenceValue)
 {}

@@ -24,9 +24,9 @@ namespace FWK::Graphics
 
 		void SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
-		void SetupRenderArea    (const RenderArea&         a_renderArea)     const;
-		void SetupRootSignature (const RootSignature*      a_rootSignature);
-		void SetupPipelineState (const PipelineState*      a_pipelineState);
+		void SetupRenderArea    (const RenderArea&		   a_renderArea)     const;
+		void SetupRootSignature (const RootSignature*	   a_rootSignature);
+		void SetupPipelineState (const PipelineState*	   a_pipelineState);
 		void SetupDescriptorHeap(const DescriptorHeapBase& a_descriptorHeap) const;
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
@@ -115,6 +115,14 @@ namespace FWK::Graphics
 
 		void ClearCurrentRootSignatureAndPipelineStateCache();
 
+		static constexpr float k_clearColor[] = 
+		{
+			1.0F,
+			0.80F,
+			1.0F,
+			1.0F
+		};
+
 		static constexpr UINT64 k_invalidGPUDescriptorHandle = 0ULL;
 
 		static constexpr UINT k_sendBarrierNUM = 1U;
@@ -125,14 +133,6 @@ namespace FWK::Graphics
 		static constexpr UINT k_setViewportNUM       = 1U;
 		static constexpr UINT k_setScissorRectNUM    = 1U;
 		static constexpr UINT k_setDescriptorHeapNUM = 1U;
-
-		static constexpr float k_clearColor[] = 
-		{
-			1.0F,
-			0.80F,
-			1.0F,
-			1.0F
-		};
 
 		const RootSignature* m_currentRootSignature = nullptr;
 		const PipelineState* m_currentPipelineState = nullptr;

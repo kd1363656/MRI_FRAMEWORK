@@ -4,6 +4,7 @@ void FWK::Converter::GraphicsManagerJsonConverter::Deserialize(const nlohmann::j
 {
 	if (a_rootJson.is_null()) { return; }
 
+	// リソースコンテキストのデシリアライズ
 	if (a_rootJson.contains(k_resourceContextJsonKey))
 	{
 		auto& l_resourceContext = a_graphicsManager.GetMutableREFResourceContext();
@@ -11,6 +12,7 @@ void FWK::Converter::GraphicsManagerJsonConverter::Deserialize(const nlohmann::j
 		l_resourceContext.Deserialize(a_rootJson[k_resourceContextJsonKey]);
 	}
 
+	// レンダラーのデシリアライズ
 	if (a_rootJson.contains(k_rendererJsonKey))
 	{
 		auto& l_renderer = a_graphicsManager.GetMutableREFRenderer();
@@ -18,6 +20,7 @@ void FWK::Converter::GraphicsManagerJsonConverter::Deserialize(const nlohmann::j
 		l_renderer.Deserialize(a_rootJson[k_rendererJsonKey]);
 	}
 
+	// スワップチェインのデシリアライズ
 	if (a_rootJson.contains(k_swapChainJsonKey))
 	{
 		auto& l_swapChain = a_graphicsManager.GetMutableREFSwapChain();
@@ -34,9 +37,14 @@ nlohmann::json FWK::Converter::GraphicsManagerJsonConverter::Serialize(const Gra
 	const auto& l_renderer		  = a_graphicsManager.GetREFRenderer       ();
 	const auto& l_swapChain		  = a_graphicsManager.GetREFSwapChain	   ();
 
+	// リソースコンテキストのシリアライズ
 	l_rootJson[k_resourceContextJsonKey] = l_resourceContext.Serialize();
-	l_rootJson[k_rendererJsonKey]        = l_renderer.Serialize	      ();
-	l_rootJson[k_swapChainJsonKey]		 = l_swapChain.Serialize	  ();
+
+	// レンダラーのシリアライズ
+	l_rootJson[k_rendererJsonKey] = l_renderer.Serialize();
+
+	// スワップチェインのシリアライズ
+	l_rootJson[k_swapChainJsonKey] = l_swapChain.Serialize();
 
 	return l_rootJson;
 }

@@ -37,9 +37,15 @@ namespace FWK::Converter
 		bool WriteBinaryData(const std::uint64_t& a_writeSize,
 							 const std::uint64_t& a_fileSize, 
 						     const void*          a_sourcePTR,
-						     std::uint64_t&		  a_writeOffset,
+						     std::uint64_t&       a_writeOffset,
 						     std::uint8_t*        a_basePTR) const;
 		
+		static constexpr std::uint64_t k_initialFileSize     = 0ULL;
+		static constexpr std::uint64_t k_initialElementCount = 0ULL;
+		static constexpr std::uint64_t k_emptyFileSize		 = 0ULL;
+		static constexpr std::uint64_t k_emptyWriteSize		 = 0ULL;
+		static constexpr std::uint64_t k_initialWriteOffset  = 0ULL;
+
 		// ModelAssetファイルかどうかを判定するための識別値
 		// リトルエンディアン環境では"FWKM"として保存される
 		static constexpr std::uint32_t k_modelAssetMagic = 0x4D4B5746U;
@@ -47,13 +53,5 @@ namespace FWK::Converter
 		static constexpr std::uint32_t k_modelAssetVersion = 1U;
 
 		static constexpr std::uint32_t k_initialMeshCount = 0U;
-
-		static constexpr std::uint64_t k_initialFileSize     = 0ULL;
-		static constexpr std::uint64_t k_initialElementCount = 0ULL;
-		static constexpr std::uint64_t k_emptyFileSize		 = 0ULL;
-		static constexpr std::uint64_t k_emptyWriteSize		 = 0ULL;
-		static constexpr std::uint64_t k_initialWriteOffset  = 0ULL;
-
-		static constexpr std::size_t k_initialMeshIndex = 0ULL;
 	};
 }

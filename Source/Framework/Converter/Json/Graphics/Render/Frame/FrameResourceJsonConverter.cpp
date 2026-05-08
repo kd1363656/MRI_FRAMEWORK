@@ -6,7 +6,7 @@ void FWK::Converter::FrameResourceJsonConverter::Deserialize(const nlohmann::jso
 	
 	for (const auto& l_json : a_rootJson[k_constantBufferMapJsonKey])
 	{
-		std::shared_ptr<Graphics::ConstantBufferBase> l_constantBuffer = {};
+		std::shared_ptr<Graphics::ConstantBufferBase> l_constantBuffer = nullptr;
 
 		// 定数バッファクラスをデシリアライズ
 		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryConstantBuffer>(l_json, k_constantBufferTypeNameJsonKey, l_constantBuffer);
@@ -30,6 +30,7 @@ nlohmann::json FWK::Converter::FrameResourceJsonConverter::Serialize(const Graph
 
 	const auto& l_constantBufferMap = a_frameResource.GetREFConstantBufferMap();
 
+	// 生成する定数バッファの名前とその定数バッファに必要な情報をSerialize
 	for (const auto& [l_staticTypeID, l_constantBuffer] : l_constantBufferMap)
 	{
 		if (!l_constantBuffer) { continue; }

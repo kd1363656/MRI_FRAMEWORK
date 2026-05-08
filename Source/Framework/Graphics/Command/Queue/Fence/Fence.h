@@ -25,9 +25,9 @@ namespace FWK::Graphics
 
 	private:
 
-		HANDLE m_event;
-
 		TypeAlias::ComPtr<ID3D12Fence1> m_fence;
+
+		HANDLE m_event;
 
 		UINT64 m_lastSignaledFenceValue;
 	};

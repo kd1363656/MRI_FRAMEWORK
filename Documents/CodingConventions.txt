@@ -95,13 +95,14 @@
 }
 ・配列かどうかでの記述順
 {
-	複数値を保持する型  (std::arrayなど(記述順はstd::array<int>,std::array<double>をメンバとして持つ必要があるなら
-	後述する型別記述順を適用すること))
+	複数値を保持する型  (std::arrayなど(隣り合う配列の記述順は型別記述順を参照))
 	例↓
+
 	std::array<double> m_arrayA = {};
 	std::array<int>    m_arrayB = {};
 
 	単一の値を保持する型(intなど)
+	int m_a = 0;
 }
 ・参照、ポインタ、値の記述順
 {
@@ -111,14 +112,16 @@
 }
 ・型別記述順
 {
-	※注意 : 左から右に行くにつれ優先度が高いもの順であること
-	参照、ポインタ、値それぞれのカテゴリで以下の並びを意識すること
-	型エイリアスで名前を書ているがその元がクラスだったり構造体だったりする場合以下の記述順を意識すること
+	型エイリアスは各型の後に記述順位がつくものとする
+	例↓
 
-	定義優先順位は外部定義、TypeAlias(外部定義)、自身定義、TypeAlias(自身定義)、stdコンテナ定義
-	(スマートポインタ、std::vectorといった配列、Mapをのぞくスマートポインタはポインタに属する、std::vectorなどは配列に属する);
-	TypeAlias = std::uint32_tでstd::uint32_tが隣接しているならstd::uint32_tが上でTypeAliasが下に定義される
-	クラス、構造体、Enum、組み込み型(wchar, char, double, float, unsigned ,int, bool);
+	using I_N_T = int;
+
+	int m_int     = 0; // TypeAliasなし
+	I_N_T m_i_n_t = 0; // TypeAliasあり
+
+	右に行くにつれて定義優先順位が弱い
+	外部クラス、外部構造体、自身定義クラス、自身定義構造体、std::コンテナ(std::sringなど)、組み込み型(double、float、unsigned long long、unsigned int、int、bool、void(外部のTypeAlias, 自身のTypeAlias, stdコンテナのTypeAlias))
 }
 5.変数の命名規則について=====================================================================================================================================
 ・定数はk_
@@ -219,14 +222,18 @@
 		0ULL
 	};
 }
-・論理演算子、ビット演算子を使う場合は改行する(assertは除外)
+・論理演算子使う場合は改行する(assertは除外)
 {
 	例↓
 	      bool l_isB    = true;
 	      bool l_isC    = true;
 	const bool l_result = l_isB &&
 						  l_isC;
-
+}
+・ビット演算子を使う場合は改行しない
+{
+	例↓
+	
 	const int l_num = 11 & 1;
 }
 ・符号の位置は合わせる

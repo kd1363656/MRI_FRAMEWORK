@@ -4,21 +4,25 @@ void FWK::Converter::RendererJsonConverter::Deserialize(const nlohmann::json& a_
 {
 	if (a_rootJson.is_null()) { return; }
 
+	// フレームリソースリストのデシリアライズ
 	if (a_rootJson.contains(k_frameResourceListJsonKey))
 	{
 		DeserializeFrameResourceList(a_rootJson[k_frameResourceListJsonKey], a_renderer);
 	}
 
+	// ルートシグネチャのデシリアライズ
 	if (a_rootJson.contains(k_rootSignatureMapJsonKey))
 	{
 		DeserializeRootSignatureMap(a_rootJson[k_rootSignatureMapJsonKey], a_renderer);
 	}
 
+	// パイプラインステートのデシリアライズ
 	if (a_rootJson.contains(k_pipelineStateMapJsonKey))
 	{
 		DeserializePipelineStateMap(a_rootJson[k_pipelineStateMapJsonKey], a_renderer);
 	}
 
+	// 描画コマンドのデシリアライズ
 	if (a_rootJson.contains(k_drawCommandJsonKey))
 	{
 		DeserializeDrawCommand(a_rootJson[k_drawCommandJsonKey], a_renderer);
@@ -29,10 +33,17 @@ nlohmann::json FWK::Converter::RendererJsonConverter::Serialize(const Graphics::
 {
 	nlohmann::json l_rootJson = {};
 
+	// フレームリソースリストのシリアライズ
 	l_rootJson[k_frameResourceListJsonKey] = SerializeFrameResourceList(a_renderer);
-	l_rootJson[k_rootSignatureMapJsonKey]  = SerializeRootSignatureMap (a_renderer);
-	l_rootJson[k_pipelineStateMapJsonKey]  = SerializePipelineStateMap (a_renderer);
-	l_rootJson[k_drawCommandJsonKey]       = SerializeDrawCommand      (a_renderer);
+
+	// ルートシグネチャマップのシリアライズ
+	l_rootJson[k_rootSignatureMapJsonKey] = SerializeRootSignatureMap(a_renderer);
+
+	// パイプラインステートのシリアライズ
+	l_rootJson[k_pipelineStateMapJsonKey] = SerializePipelineStateMap(a_renderer);
+
+	// 描画コマンドリストのシリアライズ
+	l_rootJson[k_drawCommandJsonKey] = SerializeDrawCommand(a_renderer);
 
 	return l_rootJson;
 }
@@ -135,7 +146,7 @@ nlohmann::json FWK::Converter::RendererJsonConverter::SerializeRootSignatureMap(
 	{
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, k_rootSignatureTagJsonKey));
+		Utility::Json::UpdateJson						  (l_json, Utility::Json::SerializeTag(l_key, k_rootSignatureTagJsonKey));
 		l_json[k_rootSignatureJsonKey] = l_value.Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);
@@ -153,7 +164,7 @@ nlohmann::json FWK::Converter::RendererJsonConverter::SerializePipelineStateMap(
 	{
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_key, k_pipelineStateTagJsonKey));
+		Utility::Json::UpdateJson						  (l_json, Utility::Json::SerializeTag(l_key, k_pipelineStateTagJsonKey));
 		l_json[k_pipelineStateJsonKey] = l_value.Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);

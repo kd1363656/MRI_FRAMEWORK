@@ -90,7 +90,10 @@ bool FWK::Window::HasHWND() const
 	return m_hwnd ? true : false;
 }
 
-LRESULT FWK::Window::CallWindowProcedure(const HWND a_hwnd, const UINT a_message, const WPARAM a_wParam, const LPARAM a_lParam)
+LRESULT FWK::Window::CallWindowProcedure(const HWND   a_hwnd, 
+										 const UINT   a_message, 
+										 const WPARAM a_wParam,
+										 const LPARAM a_lParam)
 {
 	// ウィンドウに関連付けたWindowクラスのインスタンスアドレスを取得する
 	auto* l_this = static_cast<Window*>(GetProp(a_hwnd, k_windowInstancePropertyName.data()));
@@ -130,7 +133,10 @@ LRESULT FWK::Window::CallWindowProcedure(const HWND a_hwnd, const UINT a_message
 								   a_lParam);
 }
 
-LRESULT FWK::Window::WindowProcedure(const HWND a_hwnd, const UINT a_message, const WPARAM a_wParam, const LPARAM a_lParam)
+LRESULT FWK::Window::WindowProcedure(const HWND   a_hwnd, 
+									 const UINT   a_message,
+									 const WPARAM a_wParam,
+									 const LPARAM a_lParam)
 {
 	// Windowsから送られてきたメッセージの種類ごとに処理を分ける
 	switch(a_message)

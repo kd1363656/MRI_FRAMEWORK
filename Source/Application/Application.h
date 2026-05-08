@@ -6,8 +6,8 @@ public:
 
 	void Execute();
 	
-	static constexpr int GetVALExitCodeSuccess		() { return k_exitCodeSuccess; }
-	static constexpr int GetVALExitCodeCOMInitFailed() { return k_exitCodeCOMInitFailed; }
+	static constexpr int GetVALExitCodeSuccess			  () { return k_exitCodeSuccess; }
+	static constexpr int GetVALExitCodeCOMInitializeFailed() { return k_exitCodeCOMInitializeFailed; }
 
 private:
 
@@ -30,8 +30,8 @@ private:
 
 	void UpdateWindowTitleBar() const;
 
-	static constexpr int k_exitCodeSuccess       =  0;
-	static constexpr int k_exitCodeCOMInitFailed = -1;
+	static constexpr int k_exitCodeSuccess			   =  0;
+	static constexpr int k_exitCodeCOMInitializeFailed = -1;
 
 	const std::wstring k_windowClassName = L"Window";
 	const std::string  k_titleName       = "MRI_FRAMEWORK";

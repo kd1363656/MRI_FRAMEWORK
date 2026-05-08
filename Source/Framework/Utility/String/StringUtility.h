@@ -2,9 +2,12 @@
 
 namespace FWK::Utility::String
 {
+	inline constexpr wchar_t k_wideNullCaracter = L'\0';
+
 	inline constexpr DWORD k_multiByteToWideCharFlags = 0UL;
 
 	inline constexpr int k_multiByteToWideCharQueryBufferSize = 0;
+	inline constexpr int k_invalidConvertedWideCharSize       = 0;
 
 	inline std::wstring StringToWideString(const std::string& a_string)
 	{
@@ -29,7 +32,7 @@ namespace FWK::Utility::String
 											   nullptr,
 											   k_multiByteToWideCharQueryBufferSize);
 		
-		if (l_size == 0)
+		if (l_size == k_invalidConvertedWideCharSize)
 		{
 			assert(false && "MultiByteToWideChar(UTF-8からUTF-16への変換)に失敗しました。");
 			return {};

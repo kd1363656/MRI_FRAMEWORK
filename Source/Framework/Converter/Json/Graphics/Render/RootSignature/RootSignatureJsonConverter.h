@@ -37,7 +37,7 @@ namespace FWK::Converter
 
 		static constexpr UINT k_defaultRootConstantsNum32BitValues = 0U;
 
-		static constexpr UINT  k_defaultStaticSamplerMAXAnisotropy = 1U;
+		static constexpr UINT k_defaultStaticSamplerMAXAnisotropy = 1U;
 
 		static constexpr UINT k_defaultShaderRegister = 0U;
 		static constexpr UINT k_defaultRegisterSpace  = 0U;

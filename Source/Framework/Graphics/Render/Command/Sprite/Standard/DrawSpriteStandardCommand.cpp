@@ -107,11 +107,11 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	l_spriteDrawUploadBuffer.UnMap();
 	l_spritePassUploadBuffer.UnMap();}
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer&           a_renderer,
-															     const DirectCommandList&  a_directCommandList,
-															     const UploadBuffer&       a_spritePassUploadBuffer, 
-															     const RootSignature*      a_rootSignature, 
-																	   std::uint8_t* const a_spritePassMappedData)
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer         &       a_renderer,
+															     const DirectCommandList&       a_directCommandList,
+															     const UploadBuffer     &       a_spritePassUploadBuffer, 
+															     const RootSignature    *       a_rootSignature, 
+																	   std::uint8_t     * const a_spritePassMappedData)
 {
 	const auto& l_viewport = a_renderer.GetREFRenderArea().GetREFViewport();
 
@@ -139,12 +139,12 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const Renderer&
 																  a_spritePassMappedData);
 }
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const Struct::SpriteDrawCommand& a_spriteDrawCommand, 
-																 const DirectCommandList&         a_directCommandList,
-																 const UploadBuffer&              a_spriteDrawUploadBuffer,
-																 const RootSignature*             a_rootSignature, 
-																 const std::size_t		          a_spriteDrawCommandIndex, 
-																	   std::uint8_t* const        a_spriteDrawMappedData) const
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const Struct::SpriteDrawCommand&	    a_spriteDrawCommand, 
+																 const DirectCommandList        &       a_directCommandList,
+																 const UploadBuffer             &       a_spriteDrawUploadBuffer,
+																 const RootSignature            *       a_rootSignature, 
+																 const std::size_t					    a_spriteDrawCommandIndex, 
+																	   std::uint8_t				* const a_spriteDrawMappedData) const
 {
 	Struct::CBSpriteDraw l_cbSpriteDraw = {};
 

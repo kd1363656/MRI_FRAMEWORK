@@ -1,13 +1,14 @@
 ﻿#include "BinaryFileConverterBase.h"
 
 FWK::Converter::BinaryFileConverterBase::BinaryFileConverterBase() : 
-	
 	m_fileHandle	   (INVALID_HANDLE_VALUE),
 	m_fileMappingHandle(nullptr),
 
 	m_mappedData(nullptr),
 
-	m_mappedDataSize(k_initialMappedDataSize)
+	m_mappedDataSize(k_initialMappedDataSize),
+
+	m_isWritable(k_isReadOnlyMappedFile)
 {}
 FWK::Converter::BinaryFileConverterBase::~BinaryFileConverterBase()
 {
@@ -26,7 +27,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 		return false;
 	}
 
-	// ファイルを開く
+	// ファイルを開く関数
 	// CreateFileW(開くファイルパス、
 	//			   読み込み専用で開く指定、
 	//			   他の読み込みアクセスを指定、
@@ -65,7 +66,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 	m_mappedDataSize = static_cast<std::uint64_t>(l_fileSize.QuadPart);
 	m_isWritable	 = k_isReadOnlyMappedFile;
 
-	// マッピングオブジェクトを作成
+	// ファイルをメモリマップできるようにするための中間オブジェクトを作成
 	// CreateFileMappingW(マッピング対象のファイルハンドル、
 	//					  セキュリティ属性,
 	// 			　		  読み込み専用ページとして作成する指定、
@@ -87,6 +88,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 		return false;
 	}
 
+	// 実際にファイルをメモリ空間へマップする
 	// MapViewOfFile(マッピングオブジェクトのハンドル、
 	//				 読み込み専用でビューを作成する指定、
 	//				 ファイルオフセット上位32bit、先頭から読むため0、
@@ -175,7 +177,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	}
 
 	m_mappedDataSize = a_fileSize;
-	m_isWritable	 = k_isWriteMappedFile;
+	m_isWritable	 = k_isWriteableMappedFile;
 
 	// CreateFileMappingW(マッピング対象のファイルハンドル、
 	//					  セキュリティ属性、
@@ -203,6 +205,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	//				 ファイルオフセット上位32bit、先頭から書き込むため0、
 	//				 ファイルオフセット下位32bit、先頭から書き込むため0、
 	//				 マップするサイズ、0ならファイル全体);
+
 	m_mappedData = static_cast<std::uint8_t*>(MapViewOfFile(m_fileMappingHandle,
 															FILE_MAP_READ | FILE_MAP_WRITE,
 															k_viewFileOffsetHighFromBegin,
@@ -225,12 +228,14 @@ void FWK::Converter::BinaryFileConverterBase::DestroyMemoryMappedFile()
 	{
 		if (m_isWritable)
 		{
+			// 書き込んだメモリ内容をファイルへ反映する
 			// FlushViewOfFile(書き込んだメモリマップ先頭アドレス、
 			//				   フラッシュするバイト数(0ならビュー全体));
 
 			FlushViewOfFile(m_mappedData, k_flushEntireViewSize);
 		}
 
+		// メモリマップを解除する
 		UnmapViewOfFile(m_mappedData);
 		m_mappedData = nullptr;
 	}
@@ -238,6 +243,9 @@ void FWK::Converter::BinaryFileConverterBase::DestroyMemoryMappedFile()
 	// 使用中のハンドルを破棄
 	if (m_fileMappingHandle)
 	{
+		// ファイルやマッピングのハンドルを閉じる
+		// CloseHandle(ハンドル);
+
 		CloseHandle(m_fileMappingHandle);
 		m_fileMappingHandle = nullptr;
 	}
@@ -249,5 +257,5 @@ void FWK::Converter::BinaryFileConverterBase::DestroyMemoryMappedFile()
 	}
 
 	m_mappedDataSize = k_initialMappedDataSize;
-	m_isWritable	 = k_isInitialWritable;
+	m_isWritable	 = k_isReadOnlyMappedFile;
 }
