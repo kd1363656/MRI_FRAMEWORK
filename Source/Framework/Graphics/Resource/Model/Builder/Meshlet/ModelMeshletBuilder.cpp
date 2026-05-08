@@ -35,6 +35,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	//							   元頂点配列、	
 	//							   元頂点数、
 	//							   1頂点あたりのバイト数);
+
 	const auto l_uniqueVertexCount = meshopt_generateVertexRemap(l_remapList.data(),
 																 l_sourceIndexList.data(),
 																 l_sourceIndexList.size(),
@@ -50,6 +51,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	//							元インデックス配列、
 	//							元インデックス数、
 	//							リマップ情報);
+
 	meshopt_remapIndexBuffer(l_optimizedIndexList.data(),
 							 l_sourceIndexList.data(),
 							 l_sourceIndexList.size(),
@@ -61,6 +63,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	//							 元頂点数、
 	//							 1頂点あたりのバイト数、
 	//							 リマップ情報);
+
 	meshopt_remapVertexBuffer(l_optimizedVertexList.data(),
 							  l_sourceVertexList.data(),
 							  l_sourceVertexList.size(),
@@ -72,6 +75,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	//							   元インデックス配列、
 	//							   インデックス数、
 	//								頂点数);
+
 	meshopt_optimizeVertexCache(l_optimizedIndexList.data(),
 								l_optimizedIndexList.data(),
 								l_optimizedIndexList.size(),
@@ -81,6 +85,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	// meshopt_buildMeshletsBound(インデックス数、
 	//							 1メッシュレットの最大頂点数、
 	//							 1メッシュレットの最大三角形数);
+
 	const auto l_meshletBound = meshopt_buildMeshletsBound(l_optimizedIndexList.size(), k_maxMeshletVertexCount, k_maxMeshletTriangleCount);
 
 	std::vector<meshopt_Meshlet> l_meshoptMeshletList(l_meshletBound);
@@ -100,6 +105,7 @@ bool FWK::Graphics::ModelMeshletBuilder::BuildStaticModelMeshletData(const Struc
 	//						 1メッシュレットの最大頂点数、
 	//						 1メッシュレットの最大三角形数、
 	//						 コーンカリング用の重み);
+
 	const auto l_meshletCount = meshopt_buildMeshlets(l_meshoptMeshletList.data(),
 													  a_modelMeshletData.m_uniqueVertexIndexList.data(),
 													  a_modelMeshletData.m_primitiveIndexList.data(),
