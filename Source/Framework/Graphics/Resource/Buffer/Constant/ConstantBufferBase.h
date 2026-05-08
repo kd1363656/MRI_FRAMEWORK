@@ -27,7 +27,7 @@ namespace FWK::Graphics
 
 		UploadBuffer m_uploadConstantBuffer = UploadBuffer();
 
-		JsonConverter::ConstantBufferBaseJsonConverter m_constantBufferJsonConverter = {};
+		Converter::ConstantBufferBaseJsonConverter m_constantBufferJsonConverter = {};
 
 		UINT64 m_constantBufferTypeSize;
 		UINT64 m_createConstantBufferNUM;

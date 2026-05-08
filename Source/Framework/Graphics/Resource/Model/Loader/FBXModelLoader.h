@@ -50,6 +50,6 @@ namespace FWK::Graphics
 		static constexpr int k_fbxUVUIndex = 0;
 		static constexpr int k_fbxUVVIndex = 1;
 
-		FbxManager* m_fbxManager = nullptr;
+		FbxManager* m_fbxManager;
 	};
 }

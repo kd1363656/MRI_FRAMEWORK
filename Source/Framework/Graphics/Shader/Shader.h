@@ -28,7 +28,7 @@ namespace FWK::Graphics
 
 		TypeAlias::ComPtr<IDxcBlob> m_dxcBlob = nullptr;
 
-		JsonConverter::ShaderJsonConverter m_shaderJsonConverter = JsonConverter::ShaderJsonConverter();
+		Converter::ShaderJsonConverter m_shaderJsonConverter = {};
 
 		std::filesystem::path m_filePath               = {};
 		std::string           m_entryPointName         = {};

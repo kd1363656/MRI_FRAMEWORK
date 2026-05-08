@@ -38,7 +38,7 @@ namespace FWK::Graphics
 		CopyCommandQueue m_copyCommandQueue = {};
 		CopyCommandList  m_copyCommandList  = {};
 
-		JsonConverter::UploadSystemJsonConverter m_uploadSystemJsonConverter = {};
+		Converter::UploadSystemJsonConverter m_uploadSystemJsonConverter = {};
 
 		std::size_t m_currentCopyCommandAllocatorIndex = k_initialCurrentCopyCommandAllocatorIndex;
 	};

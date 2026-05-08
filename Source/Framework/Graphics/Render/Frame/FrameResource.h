@@ -44,6 +44,6 @@ namespace FWK::Graphics
 
 		DirectCommandAllocator m_directCommandAllocator = {};
 
-		JsonConverter::FrameResourceJsonConverter m_frameResourceJsonConverter = {};
+		Converter::FrameResourceJsonConverter m_frameResourceJsonConverter = {};
 	};
 }

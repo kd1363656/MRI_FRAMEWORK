@@ -52,7 +52,7 @@ namespace FWK::Graphics
 		TextureLoader			        m_textureLoader				      = {};
 		TextureBatchUploadRecordBuilder m_textureBatchUploadRecordBuilder = {};
 
-		JsonConverter::TextureSystemJsonConverter m_textureSystemJsonConverter = {};
+		Converter::TextureSystemJsonConverter m_textureSystemJsonConverter = {};
 
 		TypeAlias::TextureID m_textureIDAllocatorCapacity = Constant::k_defaultCreateTextureIDCapacity;
 	};

@@ -134,14 +134,19 @@
 //===============================================================================
 // ウィンドウクラス
 //===============================================================================
-#include "JsonConverter/Window/WindowJsonConverter.h"
+#include "Converter/Json/Window/WindowJsonConverter.h"
 #include "Window/Window.h"
 
 //===============================================================================
 // FPS計測クラス
 //===============================================================================
-#include "JsonConverter/FPS/FPSControllerJsonConverter.h"
+#include "Converter/Json/FPS/FPSControllerJsonConverter.h"
 #include "FPS/FPSController.h"
+
+//===============================================================================
+// Binaryファイル既定クラス
+//===============================================================================
+#include "Converter/Binary/BinaryFileConverterBase.h"
 
 //===============================================================================
 // 描画管理クラス
@@ -157,14 +162,14 @@
 #include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeap.h"
 
 // ルートシグネチャ
-#include "JsonConverter/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
+#include "Converter/Json/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
 #include "Graphics/Render/RootSignature/RootSignature.h"
 
 // アップロードバッファー
 #include "Graphics/Resource/Buffer/UploadBuffer.h"
 
 // 定数バッファ
-#include "JsonConverter/Graphics/Resource/Buffer/Constant/ConstantBufferJsonConverter.h"
+#include "Converter/Json/Graphics/Resource/Buffer/Constant/ConstantBufferJsonConverter.h"
 #include "Graphics/Resource/Buffer/Constant/ConstantBufferBase.h"
 
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"
@@ -195,7 +200,7 @@
 #include "Definition/Concept/IsDerivedBase/Graphics/Resource/Descriptor/IsDerivedDescriptorBaseConcept.h"
 
 // ディスクリプタプール
-#include "JsonConverter/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
+#include "Converter/Json/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
 #include "Graphics/Resource/Descriptor/DescriptorPool.h"
 
 // メモリアロケータクラス
@@ -211,14 +216,14 @@
 #include "Definition/Type/Alias/Graphics/Resource/Upload/TypeAliasUploadSystem.h"
 
 // アップロードシステム
-#include "JsonConverter/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
+#include "Converter/Json/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
 #include "Graphics/Resource/Upload/UploadSystem.h"
 
 // テクスチャ
 #include "Graphics/Resource/Texture/Allocator/TextureIDAllocator.h"
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
 #include "Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilder.h"
-#include "JsonConverter/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
+#include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
 
@@ -228,15 +233,15 @@
 #include "Graphics/Resource/Model/ModelSystem.h"
 
 // リソースコンテキスト
-#include "JsonConverter/Graphics/Resource/ResourceContextJsonConverter.h"
+#include "Converter/Json/Graphics/Resource/ResourceContextJsonConverter.h"
 #include "Graphics/Resource/ResourceContext.h"
 
 // スワップチェイン
-#include "JsonConverter/Graphics/SwapChain/SwapChainJsonConverter.h"
+#include "Converter/Json/Graphics/SwapChain/SwapChainJsonConverter.h"
 #include "Graphics/SwapChain/SwapChain.h"
 
 // フレームリソースクラス
-#include "JsonConverter/Graphics/Render/Frame/FrameResourceJsonConverter.h"
+#include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
 // レンダーエリアクラス
@@ -246,15 +251,15 @@
 #include "Graphics/Shader/ShaderCompiler.h"
 
 // シェーダークラス
-#include "JsonConverter/Graphics/Shader/ShaderJsonConverter.h"
+#include "Converter/Json/Graphics/Shader/ShaderJsonConverter.h"
 #include "Graphics/Shader/Shader.h"
 
 // パイプラインステート
-#include "JsonConverter/Graphics/Render/Pipeline/PipelineStateJsonConverter.h"
+#include "Converter/Json/Graphics/Render/Pipeline/PipelineStateJsonConverter.h"
 #include "Graphics/Render/Pipeline/PipelineState.h"
 
 // レンダラー
-#include "JsonConverter/Graphics/Render/RendererJsonConverter.h"
+#include "Converter/Json/Graphics/Render/RendererJsonConverter.h"
 #include "Graphics/Render/Renderer.h"
 
 // 描画コマンドクラス
@@ -270,7 +275,7 @@
 #include "Definition/Concept/IsDerivedBase/Graphics/Renderer/Command/IsDerivedIDrawCommandConcept.h"
 
 // グラフィックスマネージャー
-#include "JsonConverter/Graphics/GraphicsManagerJsonConverter.h"
+#include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"
 #include "Graphics/GraphicsManager.h"
 
 // シーン

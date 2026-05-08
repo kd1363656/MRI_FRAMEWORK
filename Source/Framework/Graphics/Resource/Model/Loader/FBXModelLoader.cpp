@@ -1,6 +1,8 @@
 ﻿#include "FBXModelLoader.h"
 
-FWK::Graphics::FBXModelLoader::FBXModelLoader() = default;
+FWK::Graphics::FBXModelLoader::FBXModelLoader() : 
+	m_fbxManager(nullptr)
+{}
 FWK::Graphics::FBXModelLoader::~FBXModelLoader()
 {
 	Destroy();

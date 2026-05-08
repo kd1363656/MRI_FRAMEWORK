@@ -41,6 +41,6 @@ namespace FWK::Graphics
 		TextureSystem      m_textureSystem      = {};
 		ModelSystem		   m_modelSystem		= {};
 
-		JsonConverter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
+		Converter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
 	};
 }

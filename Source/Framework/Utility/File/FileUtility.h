@@ -33,6 +33,29 @@ namespace FWK::Utility::File
 		return true;
 	}
 
+	inline bool CanLoadFilePath(const std::filesystem::path& a_filePath)
+	{
+		if (a_filePath.empty()) 
+		{
+			assert(false && "ファイルパスが空です、読み込めるファイルパスではありません。");
+			return false; 
+		}
+
+		if (!std::filesystem::exists(a_filePath))
+		{
+			assert(false && "指定されたファイルパスが存在しません、読み込めるファイルパスではありません。");
+			return false;
+		}
+
+		if (!std::filesystem::is_regular_file(a_filePath))
+		{
+			assert(false && "通常ファイルでないため、読み込めるファイルではありません。");
+			return false;
+		}
+
+		return true;
+	}
+
 	inline nlohmann::json LoadJsonFile(const std::filesystem::path& a_filePath)
 	{
 		// 読み込めないファイルならreturn

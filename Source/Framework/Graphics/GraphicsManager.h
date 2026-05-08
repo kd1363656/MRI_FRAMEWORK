@@ -46,7 +46,7 @@ namespace FWK::Graphics
 		ShaderCompiler  m_shaderCompiler  = {};
 		Renderer        m_renderer        = {};
 
-		JsonConverter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};
+		Converter::GraphicsManagerJsonConverter m_graphicsManagerJsonConverter = {};
 		
 		//=========================
 		// シングルトン

@@ -49,7 +49,7 @@ namespace FWK::Graphics
 
 		TypeAlias::ComPtr<ID3D12RootSignature> m_rootSignature = nullptr;
 
-		JsonConverter::RootSignatureJsonConverter m_rootSignatureJsonConverter = {};
+		Converter::RootSignatureJsonConverter m_rootSignatureJsonConverter = {};
 
 		D3D12_ROOT_SIGNATURE_FLAGS m_rootSignatureFlags   = {};
 		D3D_ROOT_SIGNATURE_VERSION m_rootSignatureVersion = {};

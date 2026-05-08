@@ -76,7 +76,7 @@ namespace FWK
 
 		HWND m_hwnd = nullptr;
 
-		JsonConverter::WindowJsonConverter m_windowJsonConverter = {};
+		Converter::WindowJsonConverter m_windowJsonConverter = {};
 
 		Struct::WindowCONFIG m_windowCONFIG = {};
 	};

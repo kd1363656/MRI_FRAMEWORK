@@ -83,7 +83,7 @@ namespace FWK::Graphics
 		Type						 m_descriptorHeap			    = {};
 		DescriptorHeapIndexAllocator m_descriptorHeapIndexAllocator = {};
 
-		JsonConverter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
+		Converter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
 
 		UINT m_descriptorCapacity = Constant::k_defaultDescriptorCapacity;
 	};

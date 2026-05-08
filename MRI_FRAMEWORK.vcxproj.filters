@@ -142,24 +142,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Allocator">
       <UniqueIdentifier>{4a929dd8-e337-4dcb-8a33-77c653cb6d6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\JsonConverter">
-      <UniqueIdentifier>{d32598c8-3ce0-4cc2-9d09-72ca1ac7150a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Window">
-      <UniqueIdentifier>{04455cbf-b18f-475f-a4b5-821cf6f464e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\FPS">
-      <UniqueIdentifier>{b5ff15bc-9b71-4df5-b2a4-da1b9492fd55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics">
-      <UniqueIdentifier>{124db175-8f8c-435e-8b85-76f13d3f18c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource">
-      <UniqueIdentifier>{b98d408f-b3ed-40ca-9e0d-d0feea680b79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Descriptor">
-      <UniqueIdentifier>{27820d5f-aa8a-441e-8ede-376b3c24c242}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Command\Allocator\Direct">
       <UniqueIdentifier>{2fd5b8da-d639-4caa-b23b-9044f2b532c5}</UniqueIdentifier>
     </Filter>
@@ -175,17 +157,11 @@
     <Filter Include="Source\Framework\Graphics\Render\Frame">
       <UniqueIdentifier>{0c843316-97f3-41d3-b199-a54cf302a244}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Render">
-      <UniqueIdentifier>{9c973f91-af91-46c3-99d2-a126ad9d47b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\SwapChain">
       <UniqueIdentifier>{e7a026b9-dc9b-4469-988c-4245b4c898a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Graphics">
       <UniqueIdentifier>{7bf9d74d-9249-4af5-a0ae-25e29aca929f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\SwapChain">
-      <UniqueIdentifier>{f9570971-5cb9-4069-9ec4-a945ce5b5198}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Command\Queue\Fence">
       <UniqueIdentifier>{651aa252-be63-42a7-82c9-b46eb308de9e}</UniqueIdentifier>
@@ -198,9 +174,6 @@
     </Filter>
     <Filter Include="Source\Framework\Graphics\Render\RootSignature">
       <UniqueIdentifier>{585ca044-1997-4df3-8237-39cb24aa67ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature">
-      <UniqueIdentifier>{e201d83a-a2bc-477d-9809-6a35c9b0e8f6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Window">
       <UniqueIdentifier>{c539aed6-97ca-45f9-b038-4bf13d15e845}</UniqueIdentifier>
@@ -217,17 +190,11 @@
     <Filter Include="Source\Framework\Graphics\Shader">
       <UniqueIdentifier>{9cabef64-e3a3-4c4b-b3a0-25f747de6c25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Shader">
-      <UniqueIdentifier>{53cd901a-9ab9-40f9-8d11-346c63f7aff6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Constant\FileExtnsion">
       <UniqueIdentifier>{72cd5aac-7305-4594-b450-5aaa3986bbe1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Render\Pipeline">
       <UniqueIdentifier>{e0a0886d-177f-432c-9403-ff62ec98afb5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline">
-      <UniqueIdentifier>{77d18339-4865-44eb-96a8-13a87994e535}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Tag\Graphics">
       <UniqueIdentifier>{ca2ec248-9d06-43fc-994a-a3e11cdbc485}</UniqueIdentifier>
@@ -319,9 +286,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Memory">
       <UniqueIdentifier>{ca01cba4-1a80-414e-8cb4-3b7326367289}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Upload">
-      <UniqueIdentifier>{dc7fb989-7c3b-4480-85fe-48ee4b4e83b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Texture\Builder">
       <UniqueIdentifier>{bd32ef13-05be-4e3e-a3c3-2a5e935a5d1d}</UniqueIdentifier>
     </Filter>
@@ -333,9 +297,6 @@
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Texture\Allocator">
       <UniqueIdentifier>{f96594b4-7906-4fb6-8de3-90cf4206542e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Texture">
-      <UniqueIdentifier>{a170957b-5b7b-4c10-a63c-abc85f55d666}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload">
       <UniqueIdentifier>{f550d18c-d86a-40dc-8ab6-0a83a4705128}</UniqueIdentifier>
@@ -445,12 +406,6 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant">
       <UniqueIdentifier>{aee8008f-074a-4e8c-ad87-aa3bc3fd89d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer">
-      <UniqueIdentifier>{3b5471c7-6ab2-4a1d-a068-efee91ca893b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant">
-      <UniqueIdentifier>{155b25e2-4df8-48ab-b30b-fc3779cf744b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource">
       <UniqueIdentifier>{a6a84b01-2f66-4cb5-8597-0963ce9dcd70}</UniqueIdentifier>
     </Filter>
@@ -465,9 +420,6 @@
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw">
       <UniqueIdentifier>{7fd1b47f-3308-4b03-b6b1-641c4ab6f064}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\JsonConverter\Graphics\Render\Frame">
-      <UniqueIdentifier>{95ff7970-215d-45ea-ac0e-2d90ddb8985e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass">
       <UniqueIdentifier>{690a2292-e371-430b-9f19-1054c870cd70}</UniqueIdentifier>
@@ -489,6 +441,69 @@
     </Filter>
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Model">
       <UniqueIdentifier>{1b171da7-3bdd-454c-8ca0-272c1d4c369d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter">
+      <UniqueIdentifier>{d32598c8-3ce0-4cc2-9d09-72ca1ac7150a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json">
+      <UniqueIdentifier>{6cc8fbc0-2c93-4287-8881-e665e5591d8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\FPS">
+      <UniqueIdentifier>{b5ff15bc-9b71-4df5-b2a4-da1b9492fd55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics">
+      <UniqueIdentifier>{124db175-8f8c-435e-8b85-76f13d3f18c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource">
+      <UniqueIdentifier>{b98d408f-b3ed-40ca-9e0d-d0feea680b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Descriptor">
+      <UniqueIdentifier>{27820d5f-aa8a-441e-8ede-376b3c24c242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Upload">
+      <UniqueIdentifier>{dc7fb989-7c3b-4480-85fe-48ee4b4e83b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Texture">
+      <UniqueIdentifier>{a170957b-5b7b-4c10-a63c-abc85f55d666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer">
+      <UniqueIdentifier>{3b5471c7-6ab2-4a1d-a068-efee91ca893b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant">
+      <UniqueIdentifier>{155b25e2-4df8-48ab-b30b-fc3779cf744b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Render">
+      <UniqueIdentifier>{9c973f91-af91-46c3-99d2-a126ad9d47b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{e201d83a-a2bc-477d-9809-6a35c9b0e8f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{77d18339-4865-44eb-96a8-13a87994e535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Frame">
+      <UniqueIdentifier>{95ff7970-215d-45ea-ac0e-2d90ddb8985e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\SwapChain">
+      <UniqueIdentifier>{f9570971-5cb9-4069-9ec4-a945ce5b5198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Shader">
+      <UniqueIdentifier>{53cd901a-9ab9-40f9-8d11-346c63f7aff6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Window">
+      <UniqueIdentifier>{04455cbf-b18f-475f-a4b5-821cf6f464e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Binary">
+      <UniqueIdentifier>{a3160452-5dee-4760-8d2c-4c8f3145707b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Binary\Graphics">
+      <UniqueIdentifier>{5dac6849-560f-4de0-8b5c-a99434f683b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource">
+      <UniqueIdentifier>{e885ca5e-8c58-4885-90e1-812e38dfca09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource\Model">
+      <UniqueIdentifier>{2c2eb079-8e61-446b-9881-35217280612d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -605,23 +620,8 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\FPS</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h">
       <Filter>Source\Framework\Graphics\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Descriptor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.h">
       <Filter>Source\Framework\Graphics\Command\Allocator\Direct</Filter>
@@ -638,14 +638,8 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h">
       <Filter>Source\Framework\Graphics\Render\Frame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h">
       <Filter>Source\Framework\Graphics\SwapChain</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.h">
       <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
@@ -658,9 +652,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h">
       <Filter>Source\Framework\Graphics\Render\RootSignature</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render\RootSignature</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Window\WindowStruct.h">
       <Filter>Source\Framework\Definition\Struct\Window</Filter>
@@ -677,17 +668,11 @@
     <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h">
       <Filter>Source\Framework\Graphics\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h">
       <Filter>Source\Framework\Definition\Constant\FileExtnsion</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h">
       <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\RootSignatureTag.h">
       <Filter>Source\Framework\Tag\Graphics\Render\RootSignature</Filter>
@@ -758,9 +743,6 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
@@ -769,9 +751,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Upload</Filter>
@@ -836,9 +815,6 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command</Filter>
     </ClInclude>
@@ -847,9 +823,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.h">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render\Frame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
@@ -871,6 +844,54 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\ModelSystem.h">
       <Filter>Source\Framework\Graphics\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature\RootSignatureJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Upload</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.h">
+      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h">
+      <Filter>Source\Framework\Converter\Binary</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -916,20 +937,8 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\FPS</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Window</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp">
       <Filter>Source\Framework\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Direct\DirectCommandAllocator.cpp">
       <Filter>Source\Framework\Graphics\Command\Allocator\Direct</Filter>
@@ -946,14 +955,8 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp">
       <Filter>Source\Framework\Graphics\Render\Frame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp">
       <Filter>Source\Framework\Graphics\SwapChain</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Command\Queue\Fence\Fence.cpp">
       <Filter>Source\Framework\Graphics\Command\Queue\Fence</Filter>
@@ -964,23 +967,14 @@
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp">
       <Filter>Source\Framework\Graphics\Render\RootSignature</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render\RootSignature</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Shader\ShaderCompiler.cpp">
       <Filter>Source\Framework\Graphics\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp">
       <Filter>Source\Framework\Graphics\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.cpp">
       <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
@@ -1015,17 +1009,11 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Upload</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
@@ -1036,14 +1024,8 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.cpp">
-      <Filter>Source\Framework\JsonConverter\Graphics\Render\Frame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
@@ -1056,6 +1038,51 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\ModelSystem.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Upload</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.cpp">
+      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp">
+      <Filter>Source\Framework\Converter\Binary</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

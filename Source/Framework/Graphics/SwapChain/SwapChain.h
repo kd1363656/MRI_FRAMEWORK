@@ -54,6 +54,6 @@ namespace FWK::Graphics
 
 		UINT m_syncInterval = Constant::k_defaultSyncInterval;
 
-		JsonConverter::SwapChainJsonConverter m_swapChainJsonConverter = {};
+		Converter::SwapChainJsonConverter m_swapChainJsonConverter = {};
 	};
 }

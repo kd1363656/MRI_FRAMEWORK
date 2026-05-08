@@ -380,6 +380,22 @@ if "$(Configuration)"=="Debug" (
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
+    <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h" />
+    <ClInclude Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature\RootSignatureJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
@@ -472,20 +488,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h" />
     <ClInclude Include="Source\Framework\Graphics\Shader\ShaderCompiler.h" />
     <ClInclude Include="Source\Framework\Graphics\SwapChain\SwapChain.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.h" />
-    <ClInclude Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Scene\Scene.h" />
     <ClInclude Include="Source\Framework\Scene\SceneManager.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
@@ -507,6 +509,21 @@ if "$(Configuration)"=="Debug" (
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\ModelBinaryConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Copy\CopyCommandAllocator.cpp" />
@@ -549,19 +566,6 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Shader\Shader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Shader\ShaderCompiler.cpp" />
     <ClCompile Include="Source\Framework\Graphics\SwapChain\SwapChain.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\FPS\FPSControllerJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\GraphicsManagerJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Frame\FrameResourceJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RendererJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\ResourceContextJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\Shader\ShaderJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
-    <ClCompile Include="Source\Framework\JsonConverter\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Scene\Scene.cpp" />
     <ClCompile Include="Source\Framework\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Framework\TypeINFO\Registry\TypeINFORegistry.cpp" />

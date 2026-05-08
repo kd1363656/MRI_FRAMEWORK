@@ -94,7 +94,7 @@ namespace FWK::Graphics
 		
 		RenderArea m_renderArea = {};
 
-		JsonConverter::RendererJsonConverter m_rendererJsonConverter = {};
+		Converter::RendererJsonConverter m_rendererJsonConverter = {};
 
 		std::size_t m_currentFrameResourceIndex = k_initialFrameResourceIndex;
 	};
