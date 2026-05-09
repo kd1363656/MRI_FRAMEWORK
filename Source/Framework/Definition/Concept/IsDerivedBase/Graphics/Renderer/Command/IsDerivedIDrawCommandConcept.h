@@ -4,5 +4,5 @@ namespace FWK::Concept
 {
 	// ディスクリプタヒープベースを継承したクラスかどうかを確認するコンセプト
 	template <typename Type>
-	concept IsDerivedDrawCommandConcept = IsDerivedBaseConcept<Type, Graphics::IDrawCommand>;
+	concept IsDerivedIDrawCommandConcept = IsDerivedBaseConcept<Type, Graphics::IDrawCommand>;
 }

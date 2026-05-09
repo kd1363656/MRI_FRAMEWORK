@@ -14,5 +14,4 @@ namespace FWK::Struct
 		std::vector<ModelVertex>   m_modelVertexList = {};
 		std::vector<std::uint32_t> m_indexList	     = {};
 	};
-
 }

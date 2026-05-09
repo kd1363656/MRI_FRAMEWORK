@@ -44,7 +44,7 @@ namespace FWK::Graphics
 		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
 		const PipelineState* FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const;
 
-		template <typename Type>
+		template <Concept::IsDerivedIDrawCommandConcept Type>
 		std::shared_ptr<Type> FetchVALDrawCommand() const 
 		{
 			if (const auto& l_itr = m_drawCommandMap.find(Type::GetTypeINFO().k_staticTypeID);
