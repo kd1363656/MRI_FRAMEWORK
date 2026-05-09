@@ -281,7 +281,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 		}
 
 		// l_i番目のバックバッファと紐づいているRTVのインデックスを格納
-		m_backBufferList[l_i].m_rtvIndex = l_rtvIndex;
+		m_backBufferList[l_backBufferIndex].m_rtvIndex = l_rtvIndex;
 
 		// RTVを置くディスクリプタ位置を取得する
 		// l_i番目のバックバッファに対応するRTVも、同じl_i番目の位置に書いている
@@ -293,7 +293,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 		//						  作成したRTVを書き込むディスクリプタ位置);
 
 		// このバックバッファを「描画先」として使えるようにする
-		l_device->CreateRenderTargetView(m_backBufferList[l_i].m_backBufferResource.Get(), &l_rtvDesc, l_rtvHandle);
+		l_device->CreateRenderTargetView(m_backBufferList[l_backBufferIndex].m_backBufferResource.Get(), &l_rtvDesc, l_rtvHandle);
 	}
 
 	return true;
