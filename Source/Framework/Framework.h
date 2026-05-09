@@ -220,6 +220,11 @@
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
 
+// モデル
+#include "Graphics/Resource/Model/FBXLoader/FBXLoaderBase.h"
+#include "Graphics/Resource/Model/FBXLoader/Static/StaticModelFBXLoader.h"
+#include "Graphics/Resource/Model/FBXLoader/FBXLoaderContext.h"
+
 // リソースコンテキスト
 #include "Converter/Json/Graphics/Resource/ResourceContextJsonConverter.h"
 #include "Graphics/Resource/ResourceContext.h"

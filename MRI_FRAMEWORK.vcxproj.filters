@@ -475,6 +475,15 @@
     <Filter Include="Source\Framework\Converter\Json\Window">
       <UniqueIdentifier>{04455cbf-b18f-475f-a4b5-821cf6f464e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model">
+      <UniqueIdentifier>{a0b404b4-fe39-49b0-9692-c038bf8ffd5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader">
+      <UniqueIdentifier>{42512832-d678-4157-bb81-c08888acc75d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static">
+      <UniqueIdentifier>{33373e06-4491-44f6-a709-c3e4d0d5fd22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -842,6 +851,15 @@
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderContext.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1017,6 +1035,15 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderContext.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
