@@ -194,16 +194,16 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeBlendDesc(const nloh
 	{
 		const auto& l_jsonArray = a_rootJson[k_renderTargetJsonKey];
 
-		for (std::size_t l_i = 0U; l_i < l_jsonArray.size(); ++l_i)
+		for (std::size_t l_renderTargetIndex = 0U; l_renderTargetIndex < l_jsonArray.size(); ++l_renderTargetIndex)
 		{
-			if (l_i >= D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT) 
+			if (l_renderTargetIndex >= D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT)
 			{
 				assert(false && "BlendDescのRenderTarget配列数がDirectX12の上限を超えています。");
 				break;
 			}
 
-			const auto& l_json         = l_jsonArray			 [l_i];
-				  auto& l_renderTarget = l_blendDesc.RenderTarget[l_i];
+			const auto& l_json         = l_jsonArray			 [l_renderTargetIndex];
+				  auto& l_renderTarget = l_blendDesc.RenderTarget[l_renderTargetIndex];
 
 			// BlendEnable : ブレンド演算を有効にするか
 			l_renderTarget.BlendEnable = l_json.value(k_blendEnableJsonKey, FALSE);

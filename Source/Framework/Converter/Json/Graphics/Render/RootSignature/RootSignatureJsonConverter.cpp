@@ -81,14 +81,14 @@ void FWK::Converter::RootSignatureJsonConverter::DeserializeRootParameterList(co
 
 	// リサイズをjson配列の大きさで行っているのでif文で配列外かどうかのインデックス確認を行わない
 	// json内部で保存されているデータをl_rootParameterListにパースする
-	for (size_t l_i = 0ULL; l_i < l_jsonArraySize; ++l_i)
+	for (size_t l_rootParameterIndex = 0ULL; l_rootParameterIndex < l_jsonArraySize; ++l_rootParameterIndex)
 	{
-		const auto& l_json = a_rootJson[l_i];
+		const auto& l_json = a_rootJson[l_rootParameterIndex];
 		
 		// ルートパラメータインデックスを取得するためのタグを格納
-		l_rootParameterRecordList[l_i].m_rootParameterTag = Utility::Json::DeserializeTag(l_json, k_rootParameterTagJsonKey);
+		l_rootParameterRecordList[l_rootParameterIndex].m_rootParameterTag = Utility::Json::DeserializeTag(l_json, k_rootParameterTagJsonKey);
 
-		auto& l_rootParameterRecord = l_rootParameterRecordList[l_i].m_rootParameter;
+		auto& l_rootParameterRecord = l_rootParameterRecordList[l_rootParameterIndex].m_rootParameter;
 
 		// ルートパラメータの種類、シェーダー可視性を格納
 		l_rootParameterRecord.ParameterType    = l_json.value(k_parameterTypeJsonKey,    D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE);
@@ -98,7 +98,7 @@ void FWK::Converter::RootSignatureJsonConverter::DeserializeRootParameterList(co
 		{
 			case D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE:
 			{
-				DeserializeDescriptorRangeList(l_json, l_rootParameterRecordList[l_i]);
+				DeserializeDescriptorRangeList(l_json, l_rootParameterRecordList[l_rootParameterIndex]);
 			}
 			break;
 			
@@ -151,10 +151,10 @@ void FWK::Converter::RootSignatureJsonConverter::DeserializeStaticSamplerDescLis
 	l_staticSamplerDescList.resize(l_jsonArraySize);
 
 	// リサイズをjson配列の大きさで行っているのでif文で配列外かどうかのインデックス確認を行わない
-	for (size_t l_i = 0ULL; l_i < l_jsonArraySize; ++l_i)
+	for (size_t l_staticSamplerIndex = 0ULL; l_staticSamplerIndex < l_jsonArraySize; ++l_staticSamplerIndex)
 	{
-		const auto& l_json			    = a_rootJson			 [l_i];
-			  auto& l_staticSamplerDesc = l_staticSamplerDescList[l_i];
+		const auto& l_json			    = a_rootJson			 [l_staticSamplerIndex];
+			  auto& l_staticSamplerDesc = l_staticSamplerDescList[l_staticSamplerIndex];
 
 		// サンプリング方法
 		l_staticSamplerDesc.Filter = l_json.value(k_filterJsonKey, D3D12_FILTER_MIN_MAG_MIP_POINT);

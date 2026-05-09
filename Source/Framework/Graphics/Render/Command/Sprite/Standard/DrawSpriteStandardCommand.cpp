@@ -75,9 +75,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	// 貯めこんでいたテクスチャ描画命令を回す
 	const auto& l_spriteDrawCommandList = GetREFDrawCommandList();
 
-	for (std::size_t l_i = k_initialSpriteDrawCommandListIndex; l_i < l_spriteDrawCommandList.size(); ++l_i)
+	for (std::size_t l_spriteDrawCommandIndex = 0ULL; l_spriteDrawCommandIndex < l_spriteDrawCommandList.size(); ++l_spriteDrawCommandIndex)
 	{
-		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_i];
+		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_spriteDrawCommandIndex];
 		
 		auto* l_textureRecord = a_textureSystem.FindMutablePTRTextureRecord(l_spriteDrawCommand.m_textureID);
 
@@ -95,7 +95,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 							   l_directCommandList,
 							   l_spriteDrawUploadBuffer,
 							   l_graphicsPipelineStateSetupResult.m_rootSignature,
-							   l_i,
+							   l_spriteDrawCommandIndex,
 							   l_spriteDrawMappedData))
 		{
 			continue;

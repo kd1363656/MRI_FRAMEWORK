@@ -33,8 +33,7 @@ namespace FWK::Graphics
 		static constexpr float k_defaultNearClip = 0.0F;
 		static constexpr float k_defaultFarClip  = 1.0F;
 		
-		static constexpr std::size_t k_initialSpriteDrawCommandListIndex = 0ULL;
-		static constexpr std::size_t k_cbSpritePassIndex			     = 0ULL;
+		static constexpr std::size_t k_cbSpritePassIndex = 0ULL;
 
 		// ※注意 テンプレートクラスをDrawCommandBaseは使っているのでそのDrawCommandBaseを継承している
 		// 基底クラスとして設定する

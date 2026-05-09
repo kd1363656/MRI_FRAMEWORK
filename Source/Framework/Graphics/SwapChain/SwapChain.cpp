@@ -256,14 +256,14 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 	l_rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
 	// バックバッファーを一枚ずつ取得して、それぞれに対応するRTVを作成する
-	for (UINT l_i = 0U; l_i < static_cast<UINT>(m_backBufferList.size()); ++l_i)
+	for (UINT l_backBufferIndex = 0U; l_backBufferIndex < static_cast<UINT>(m_backBufferList.size()); ++l_backBufferIndex)
 	{
 		// スワップチェインが内部に持っているバックバッファリソースを取得する関数
 		// GetBuffer(取得したいバックバッファーのインデックス、
 		//			 受け取りたいCOMインターフェース型のID、
 		//			 作成結果のポインタを書き込むアドレス);
 
-		const auto l_hr = m_swapChain->GetBuffer(l_i, IID_PPV_ARGS(m_backBufferList[l_i].m_backBufferResource.ReleaseAndGetAddressOf()));
+		const auto l_hr = m_swapChain->GetBuffer(l_backBufferIndex, IID_PPV_ARGS(m_backBufferList[l_backBufferIndex].m_backBufferResource.ReleaseAndGetAddressOf()));
 
 		if (FAILED(l_hr))
 		{
