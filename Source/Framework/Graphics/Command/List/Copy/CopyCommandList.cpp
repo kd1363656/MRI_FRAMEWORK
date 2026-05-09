@@ -1,7 +1,7 @@
 ﻿#include "CopyCommandList.h"
 
 FWK::Graphics::CopyCommandList::CopyCommandList() : 
-	CommandListBase(D3D12_COMMAND_LIST_TYPE_COPY)
+	CommandListBase(Constant::k_createCommandListTypeCopy)
 {}
 FWK::Graphics::CopyCommandList::~CopyCommandList() = default;
 

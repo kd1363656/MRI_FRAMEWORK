@@ -1,6 +1,6 @@
 ﻿#include "CopyCommandAllocator.h"
 
 FWK::Graphics::CopyCommandAllocator::CopyCommandAllocator() : 
-	CommandAllocatorBase(D3D12_COMMAND_LIST_TYPE_COPY)
+	CommandAllocatorBase(Constant::k_createCommandListTypeCopy)
 {}
 FWK::Graphics::CopyCommandAllocator::~CopyCommandAllocator() = default;
