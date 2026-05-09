@@ -484,6 +484,12 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static">
       <UniqueIdentifier>{33373e06-4491-44f6-a709-c3e4d0d5fd22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Model">
+      <UniqueIdentifier>{6fb960fc-f2da-4515-8b02-a34f1f3848b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\Static">
+      <UniqueIdentifier>{efaffaae-877a-407e-8fe2-7dae4d566dbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -859,6 +865,12 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h">
       <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\Static\StaticModelStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Model\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

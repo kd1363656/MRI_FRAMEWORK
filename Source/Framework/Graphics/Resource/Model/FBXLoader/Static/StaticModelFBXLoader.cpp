@@ -10,6 +10,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
+	// シーンからルートノードを取得
 	auto* l_rootNode = l_fbxScene->GetRootNode();
 
 	if (!l_rootNode)
@@ -22,7 +23,8 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
-	const int l_meshCount = CountMeshNode(l_rootNode);
+	// ルートノードを介してメッシュノードの数をカウント
+	const int l_meshCount = RecursiveCountMeshNode(l_rootNode);
 
 	if (l_meshCount <= k_emptyMeshCount)
 	{
@@ -34,16 +36,13 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
-	const int l_childNodeCount = l_rootNode->GetChildCount();
-
-
 	l_fbxScene->Destroy();
 	l_fbxScene = nullptr;
 
 	return true;
 }
 
-int FWK::Graphics::StaticModelFBXLoader::CountMeshNode(FbxNode* a_fbxNode) const
+int FWK::Graphics::StaticModelFBXLoader::RecursiveCountMeshNode(FbxNode* a_fbxNode) const
 {
 	if (!a_fbxNode)
 	{
@@ -76,7 +75,7 @@ int FWK::Graphics::StaticModelFBXLoader::CountMeshNode(FbxNode* a_fbxNode) const
 		// FbxNode::GetChild(取得したい子ノードのIndex)
 		auto* l_childNode = a_fbxNode->GetChild(l_childNodeIndex);
 
-		l_meshCount += CountMeshNode(l_childNode);
+		l_meshCount += RecursiveCountMeshNode(l_childNode);
 	}
 
 	return l_meshCount;

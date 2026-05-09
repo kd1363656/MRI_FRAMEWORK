@@ -13,7 +13,7 @@ namespace FWK::Graphics
 
 	private:
 
-		int CountMeshNode(FbxNode* a_fbxNode) const;
+		int RecursiveCountMeshNode(FbxNode* a_fbxNode) const;
 
 		static constexpr int k_emptyMeshCount = 0;
 	};

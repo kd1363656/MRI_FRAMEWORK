@@ -46,6 +46,8 @@
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 #include "Definition/Struct/Window/WindowStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/ConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
+#include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
 
 // Enum
 #include "Definition/Enum/Enum.h"
