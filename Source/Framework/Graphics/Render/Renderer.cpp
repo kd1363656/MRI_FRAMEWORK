@@ -8,9 +8,11 @@ void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 }
 bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompiler& a_shaderCompiler)
 {
-	for (auto& l_frameResource : m_frameResourceList)
+	for (const auto& l_frameResource : m_frameResourceList)
 	{
-		if (!l_frameResource.Create(a_device))
+		if (!l_frameResource) { continue; }
+
+		if (!l_frameResource->Create(a_device))
 		{
 			assert(false && "フレームリソースの作成処理に失敗しました。");
 			return false;
@@ -79,7 +81,7 @@ void FWK::Graphics::Renderer::BeginFrame() const
 
 void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
 {
-	const auto* const l_currentFrameResource = FetchPTRCurrentFrameResource();
+	const auto& l_currentFrameResource = FetchVALCurrentFrameResource().lock();
 
 	if (!l_currentFrameResource)
 	{
@@ -117,7 +119,7 @@ void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_sr
 }
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 {
-	auto* l_currentFrameResource = FetchMutablePTRCurrentFrameResource();
+	const auto& l_currentFrameResource = FetchVALCurrentFrameResource().lock();
 
 	if (!l_currentFrameResource)
 	{
@@ -152,15 +154,26 @@ nlohmann::json FWK::Graphics::Renderer::Serialize() const
 	return m_rendererJsonConverter.Serialize(*this);
 }
 
-void FWK::Graphics::Renderer::AddFrameResource(const FrameResource& a_frameResource)
+void FWK::Graphics::Renderer::AddFrameResource(const std::shared_ptr<FrameResource>& a_frameResource)
 {
+	if (!a_frameResource) 
+	{
+		assert(false && "FrameResourceが無効のため、FrameResourceListへの登録に失敗しました。");
+		return; 
+	}
+
 	m_frameResourceList.emplace_back(a_frameResource);
 }
 void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand)
 {
+	if (!a_drawCommand) 
+	{
+		assert(false && "DrawCommandが無効のため、DrawCommandListへの登録に失敗しました。");
+		return;
+	}
+
 	m_drawCommandList.emplace_back(a_drawCommand);
 }
-
 void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
 {
 	if (!a_drawCommand)
@@ -209,36 +222,19 @@ std::weak_ptr<FWK::Graphics::PipelineState> FWK::Graphics::Renderer::FindVALPipe
 	return l_itr->second;
 }
 
-const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFrameResource() const
+std::weak_ptr<FWK::Graphics::FrameResource> FWK::Graphics::Renderer::FetchVALCurrentFrameResource() const
 {
 	if (m_frameResourceList.empty())
 	{
 		assert(false && "フレームリソースが空のため、フレームリソース取得が行えませんでした。");
-		return nullptr;
+		return {};
 	}
 
 	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
 	{
 		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
-		return nullptr;
+		return {};
 	}
 
-	return &m_frameResourceList[m_currentFrameResourceIndex];
-}
-
-FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchMutablePTRCurrentFrameResource()
-{
-	if (m_frameResourceList.empty())
-	{
-		assert(false && "フレームリソースが空のため、フレームリソース取得が行えませんでした。");
-		return nullptr;
-	}
-
-	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
-	{
-		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
-		return nullptr;
-	}
-
-	return &m_frameResourceList[m_currentFrameResourceIndex];
+	return m_frameResourceList[m_currentFrameResourceIndex];
 }

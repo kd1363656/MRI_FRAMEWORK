@@ -34,9 +34,8 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		void AddFrameResource  (const FrameResource&				 a_frameResource);
-		void AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand);
-
+		void AddFrameResource  (const std::shared_ptr<FrameResource>& a_frameResource);
+		void AddDrawCommandList(const std::shared_ptr<IDrawCommand>&  a_drawCommand);
 		void AddDrawCommandMap (const std::shared_ptr<IDrawCommand>&  a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
 		void AddRootSignature  (const std::shared_ptr<RootSignature>& a_rootSignature, const TypeAlias::TypeTag      a_tag);
 		void AddPipelineState  (const std::shared_ptr<PipelineState>& a_pipelineState, const TypeAlias::TypeTag      a_tag);
@@ -59,7 +58,7 @@ namespace FWK::Graphics
 			return std::shared_ptr<Type>();
 		}
 
-		const FrameResource* FetchPTRCurrentFrameResource() const;
+		std::weak_ptr<FrameResource> FetchVALCurrentFrameResource() const;
 
 		const auto& GetREFFrameResourceList() const { return m_frameResourceList; }
 		const auto& GetREFDrawCommandList  () const { return m_drawCommandList; }
@@ -77,13 +76,11 @@ namespace FWK::Graphics
 
 	private:
 
-		FrameResource* FetchMutablePTRCurrentFrameResource();
-
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
-		std::vector<FrameResource>				   m_frameResourceList = {};
-		std::vector<std::shared_ptr<IDrawCommand>> m_drawCommandList   = {};
+		std::vector<std::shared_ptr<FrameResource>>	m_frameResourceList = {};
+		std::vector<std::shared_ptr<IDrawCommand>>  m_drawCommandList   = {};
 
 		DrawCommandMap   m_drawCommandMap   = {};
 		RootSignatureMap m_rootSignatureMap = {};

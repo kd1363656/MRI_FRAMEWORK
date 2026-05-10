@@ -13,7 +13,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		return;
 	}
 
-	const auto* const l_currentFrameResource = a_renderer.FetchPTRCurrentFrameResource();
+	const auto& l_currentFrameResource = a_renderer.FetchVALCurrentFrameResource().lock();
 
 	if (!l_currentFrameResource)
 	{

@@ -55,9 +55,9 @@ void FWK::Converter::RendererJsonConverter::DeserializeFrameResourceList(const n
 
 	for (const auto& l_json : a_rootJson)
 	{
-		Graphics::FrameResource l_frameResource = {};
+		const auto& l_frameResource = std::make_shared<Graphics::FrameResource>();
 
-		l_frameResource.Deserialize(l_json);
+		l_frameResource->Deserialize(l_json);
 
 		a_renderer.AddFrameResource(l_frameResource);
 	}
@@ -130,7 +130,9 @@ nlohmann::json FWK::Converter::RendererJsonConverter::SerializeFrameResourceList
 	// 数だけ記録するため空のjsonを保存させる
 	for (const auto& l_frameResource : l_frameResourceList)
 	{
-		nlohmann::json l_json = l_frameResource.Serialize();;
+		if (!l_frameResource) { continue; }
+
+		nlohmann::json l_json = l_frameResource->Serialize();;
 
 		l_rootJsonArray.emplace_back(l_json);
 	}
