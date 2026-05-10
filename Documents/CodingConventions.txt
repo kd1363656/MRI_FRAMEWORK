@@ -277,17 +277,20 @@
 	void Set(int a_num) const;
 
 	値を取得してくる処理(あとはFindなど(Findだけじゃなくてよい))
-	const std::string& FetchREFName(int a_index) const;
-	const std::string* FetchPTRName(int a_index) const;
+	const std::shared_ptr<std::string>& FetchREFPTRName(int a_index) const;
+	const std::string&                  FetchREFName   (int a_index) const;
+	const std::string*                  FetchPTRName   (int a_index) const;
 
-	std::string& FetchMutableREFName(int a_index);
-	std::string* FetchMutablePTRName(int a_index);
+    std::shared_ptr<std::string>& FetchMutableREFPTRName(int a_index) const;
+	std::string&				  FetchMutableREFName   (int a_index);
+	std::string*				  FetchMutablePTRName   (int a_index);
 
 	std::string FetchVALName (int a_index) const;
 
 	// 変数の取得のみの関数
-	const Hoge& GetREFHoge() const;
-	const Hoge* GetPTRHoge() const;
+	const std::weak_ptr<Hoge>& GetREFPTRHoge() const;
+	const Hoge&                GetREFHoge   () const;
+	const Hoge*                GetPTRHoge   () const;
 
 	Hoge& GetMutableREFName();
 	Hoge* GetMutablePTRName();
