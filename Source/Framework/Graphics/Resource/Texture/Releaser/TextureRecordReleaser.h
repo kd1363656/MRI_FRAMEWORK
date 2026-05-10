@@ -2,6 +2,9 @@
 
 namespace FWK::Graphics
 {
+	// ※注意
+	// 参照を保持する関係上メンバ変数にすると未定義動作を招く可能性がある
+	// ローカル変数として扱うこと前提のクラスである
 	class TextureRecordReleaser final
 	{
 	public:

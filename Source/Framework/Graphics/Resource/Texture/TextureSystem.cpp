@@ -28,19 +28,19 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		return Constant::k_invalidStorageID;
 	}
 
-	const auto& l_filePath  = a_filePath.wstring						   ();
-	const auto  l_storageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
+	const auto& l_filePath       = a_filePath.wstring						    ();
+	const auto  l_foundStorageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
 
 	// 既に登録済みのテクスチャなら再度ロード申請する必要がないのでreturn
-	if (l_storageID == Constant::k_invalidStorageID)
+	if (l_foundStorageID != Constant::k_invalidStorageID)
 	{
-		if (!AddTextureReference(l_storageID))
+		if (!AddTextureReference(l_foundStorageID))
 		{
 			assert(false && "登録済みテクスチャの参照数加算に失敗したため、テクスチャ読み込み処理に失敗しました。");
 			return Constant::k_invalidStorageID;
 		}
 
-		return l_storageID;
+		return l_foundStorageID;
 	}
 
 	// 現在のフレームで登録しようとしているパスが既に登録されているなら登録する必要がないためreturn
@@ -65,9 +65,9 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 
 	Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
 
-	const auto l_storageID = m_textureStorage.Allocate();
+	const auto l_allocateStorageID = m_textureStorage.Allocate();
 
-	if (l_storageID == Constant::k_invalidStorageID)
+	if (l_allocateStorageID == Constant::k_invalidStorageID)
 	{
 		assert(false && "StorageIDの割り当てに失敗したため、テクスチャ読み込み処理に失敗しました。");
 		return Constant::k_invalidStorageID;
@@ -79,10 +79,14 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 																		  a_device,
 																		  a_gpuMemoryAllocator,
 																		  l_filePath,
-																		  l_storageID,
+																		  l_allocateStorageID,
 																		  a_srvDescriptorPool,
 																		  l_textureBatchUploadRecord))
 	{
+		// テクスチャアップロード情報作成に失敗したなら
+		// StorageIDを開放しておく
+		m_textureStorage.Release(l_allocateStorageID);
+
 		assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
 		return Constant::k_invalidStorageID;
 	}
@@ -113,57 +117,9 @@ void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_up
 
 void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
-	const auto& l_completedFenceValue = a_directCommandQueue.FetchVALCompletedFenceValue();
+	TextureRecordReleaser l_textureRecordReleaser(a_srvDescriptorPool);
 
-	auto l_itr = m_textureRecordMap.begin();
-
-	while (l_itr != m_textureRecordMap.end())
-	{
-		auto& l_textureRecord = l_itr->second;
-
-		// まだ参照されているテクスチャは解放しない
-		if (l_textureRecord.m_referenceCount > Constant::k_emptyAssetReferenceCount)
-		{
-			++l_itr;
-			continue;
-		}
-
-		// 解放予約用のFence値が初期値なら解放しない
-		if (l_textureRecord.m_retiredFenceValue == Constant::k_unusedFenceValue)
-		{
-			++l_itr;
-			continue;
-		}
-
-		// GPUがまだこのテクスチャを利用している可能性があるため解放しない
-		if (l_completedFenceValue < l_textureRecord.m_retiredFenceValue)
-		{
-			++l_itr;
-			continue;
-		}
-
-		// TextureResourceを解放
-		if (l_textureRecord.m_textureResource)
-		{
-			l_textureRecord.m_textureResource.Reset();
-		}
-
-		// SRV用ストレージIDを返却する
-		if (l_textureRecord.m_srvStorageID != Constant::k_invalidStorageID)
-		{
-			a_srvDescriptorPool.Release(l_textureRecord.m_srvStorageID);
-		}
-
-		// ファイルパスから対応するStorageIDを見つるMapの要素を削除
-		m_texturePathStorageIDMap.erase(l_textureRecord.m_filePath);
-
-		// StorageIDを返却する
-		m_storageIDAllocator.Release(l_textureRecord.m_storageID);
-
-		// TextureRecordMapから削除する
-		// erase()は削除した次のイテレーターを返す
-		l_itr = m_textureRecordMap.erase(l_itr);
-	}
+	m_textureStorage.ReleaseCompletedUnusedRecords(a_directCommandQueue, l_textureRecordReleaser);
 }
 
 nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
@@ -211,7 +167,7 @@ bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem
 		return false;
 	}
 
-	for (auto& [l_filePath, l_pendingTextureBatchUploadRecord] : m_pendingTextureBatchUploadRecordMap)
+	for (const auto& [l_filePath, l_pendingTextureBatchUploadRecord] : m_pendingTextureBatchUploadRecordMap)
 	{
 		if (!m_textureStorage.RegisterRecord(l_filePath, l_pendingTextureBatchUploadRecord.m_textureRecord))
 		{
