@@ -475,27 +475,6 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator">
       <UniqueIdentifier>{802c59e0-1bce-43ae-95ea-300180901f1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Tag">
-      <UniqueIdentifier>{9aee4cc8-c441-446b-ac12-ca7bc419fed0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Tag\WindowStyle">
-      <UniqueIdentifier>{3797548e-35af-49b2-a286-1f8ec0af90c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Tag\Graphics">
-      <UniqueIdentifier>{ca2ec248-9d06-43fc-994a-a3e11cdbc485}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Tag\Graphics\Render">
-      <UniqueIdentifier>{6469d63a-9c8b-44ab-b091-d1a897f9750e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Tag\Graphics\Render\Pipeline">
-      <UniqueIdentifier>{3106d411-aa5b-4fcd-a650-21dd00095fad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Tag\Graphics\Render\RootSignature">
-      <UniqueIdentifier>{64a8cd29-dd3c-4039-b004-7f9bb1b57aa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Tag\Graphics\Render\RootSignature\Parameter">
-      <UniqueIdentifier>{d43936af-e673-4d73-80ed-24689f42c289}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Storage">
       <UniqueIdentifier>{5b113738-58d3-4155-a9d9-ee86d6fd4b49}</UniqueIdentifier>
     </Filter>
@@ -513,6 +492,33 @@
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Texture\Releaser">
       <UniqueIdentifier>{0650d9e1-699c-4112-ad71-c35996c3b760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag">
+      <UniqueIdentifier>{9aee4cc8-c441-446b-ac12-ca7bc419fed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\WindowStyle">
+      <UniqueIdentifier>{3797548e-35af-49b2-a286-1f8ec0af90c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics">
+      <UniqueIdentifier>{ca2ec248-9d06-43fc-994a-a3e11cdbc485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render">
+      <UniqueIdentifier>{6469d63a-9c8b-44ab-b091-d1a897f9750e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{3106d411-aa5b-4fcd-a650-21dd00095fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{64a8cd29-dd3c-4039-b004-7f9bb1b57aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter">
+      <UniqueIdentifier>{d43936af-e673-4d73-80ed-24689f42c289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\AssetPipeline">
+      <UniqueIdentifier>{0312d87c-7e2c-4df7-9b93-dbdb25c033ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static">
+      <UniqueIdentifier>{7b08ed4a-a893-4b72-8c4e-7980f2a1ae4a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -561,10 +567,10 @@
       <Filter>Source\Framework\Definition\Macros\TypeINFO\Tag</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\TagBase.h">
-      <Filter>Source\Tag</Filter>
+      <Filter>Source\Framework\Tag</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Window\WindowStyleTag.h">
-      <Filter>Source\Tag\WindowStyle</Filter>
+      <Filter>Source\Framework\Tag\WindowStyle</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase</Filter>
@@ -681,10 +687,10 @@
       <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\RootSignatureTag.h">
-      <Filter>Source\Tag\Graphics\Render\RootSignature</Filter>
+      <Filter>Source\Framework\Tag\Graphics\Render\RootSignature</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h">
-      <Filter>Source\Tag\Graphics\Render\Pipeline</Filter>
+      <Filter>Source\Framework\Tag\Graphics\Render\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
@@ -768,7 +774,7 @@
       <Filter>Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter\RootParameterTag.h">
-      <Filter>Source\Tag\Graphics\Render\RootSignature\Parameter</Filter>
+      <Filter>Source\Framework\Tag\Graphics\Render\RootSignature\Parameter</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter\IsDerivedRootParameterTagBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter</Filter>
@@ -913,6 +919,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static\StaticModelAssetPipeline.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\AssetPipeline\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1098,6 +1107,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static\StaticModelAssetPipeline.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\AssetPipeline\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
