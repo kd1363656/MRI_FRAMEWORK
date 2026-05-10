@@ -297,7 +297,7 @@
             "DescriptorCapacity": 1024
         },
         "TextureSystem": {
-            "TextureIDAllocatorCapacity": 3000
+            "StorageIDAllocatorCapacity": 3000
         },
         "UploadSystem": {
             "CopyCommandAllocatorListSize": 3

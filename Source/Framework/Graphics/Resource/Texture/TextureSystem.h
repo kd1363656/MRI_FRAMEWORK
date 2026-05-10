@@ -17,7 +17,7 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    ();
 
-		TypeAlias::TextureID LoadTextureForBatchUpload(const Device&			                a_device, 
+		TypeAlias::StorageID LoadTextureForBatchUpload(const Device&			                a_device, 
 													   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 													   const std::filesystem::path&				a_filePath,
 															 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
@@ -28,16 +28,16 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		bool AddTextureReference    (const TypeAlias::TextureID a_textureID);
-		bool ReleaseTextureReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::TextureID a_textureID);
+		bool AddTextureReference    (const TypeAlias::StorageID a_storageID);
+		bool ReleaseTextureReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::StorageID a_storageID);
 
-		void SetTextureIDAllocatorCapacity(const TypeAlias::TextureID a_set) { m_textureIDAllocatorCapacity = a_set; }
+		void SetTextureIDAllocatorCapacity(const TypeAlias::StorageID a_set) { m_storageIDAllocatorCapacity = a_set; }
 
-		const Struct::TextureRecord* FindPTRTextureRecord(const TypeAlias::TextureID a_textureID) const;
+		const Struct::TextureRecord* FindPTRTextureRecord(const TypeAlias::StorageID a_storageID) const;
 
-		Struct::TextureRecord* FindMutablePTRTextureRecord(const TypeAlias::TextureID a_textureID);
+		Struct::TextureRecord* FindMutablePTRTextureRecord(const TypeAlias::StorageID a_storageID);
 
-		auto GetVALTextureIDAllocatorCapacity() const { return m_textureIDAllocatorCapacity; }
+		auto GetVALStorageIDAllocatorCapacity() const { return m_storageIDAllocatorCapacity; }
 
 	private:
 
@@ -48,12 +48,12 @@ namespace FWK::Graphics
 
 		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
 
-		TextureIDAllocator		        m_textureIDAllocator		      = {};
+		StorageIDAllocator		        m_storageIDAllocator		      = {};
 		TextureLoader			        m_textureLoader				      = {};
 		TextureBatchUploadRecordBuilder m_textureBatchUploadRecordBuilder = {};
 
 		Converter::TextureSystemJsonConverter m_textureSystemJsonConverter = {};
 
-		TypeAlias::TextureID m_textureIDAllocatorCapacity = Constant::k_defaultCreateTextureIDCapacity;
+		TypeAlias::StorageID m_storageIDAllocatorCapacity = Constant::k_defaultCreateStorageIDCapacity;
 	};
 }
