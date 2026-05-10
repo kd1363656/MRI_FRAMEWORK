@@ -7,52 +7,58 @@
         ],
         "FrameResourceList": [
             {
-                "ConstantBufferMap": [
-                    {
-                        "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 1024
+                "FrameResource": {
+                    "ConstantBufferMap": [
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                         },
-                        "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
-                    },
-                    {
-                        "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 1024
-                        },
-                        "ConstantBufferTypeName": "SpritePassConstantBuffer"
-                    }
-                ]
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpritePassConstantBuffer"
+                        }
+                    ]
+                }
             },
             {
-                "ConstantBufferMap": [
-                    {
-                        "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 1024
+                "FrameResource": {
+                    "ConstantBufferMap": [
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                         },
-                        "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
-                    },
-                    {
-                        "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 1024
-                        },
-                        "ConstantBufferTypeName": "SpritePassConstantBuffer"
-                    }
-                ]
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpritePassConstantBuffer"
+                        }
+                    ]
+                }
             },
             {
-                "ConstantBufferMap": [
-                    {
-                        "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 1024
+                "FrameResource": {
+                    "ConstantBufferMap": [
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
                         },
-                        "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
-                    },
-                    {
-                        "ConstantBuffer": {
-                            "CreateConstantBufferNUM": 1024
-                        },
-                        "ConstantBufferTypeName": "SpritePassConstantBuffer"
-                    }
-                ]
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpritePassConstantBuffer"
+                        }
+                    ]
+                }
             }
         ],
         "PipelineStateMap": [

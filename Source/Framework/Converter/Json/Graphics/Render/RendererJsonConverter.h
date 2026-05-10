@@ -39,6 +39,7 @@ namespace FWK::Converter
 		static constexpr std::string_view k_rootSignatureJsonKey       = "RootSignature";
 		static constexpr std::string_view k_drawCommandTypeNameJsonKey = "DrawCommandTypeName";
 
+		static constexpr std::string_view k_frameResourceJsonKey	= "FrameResource";
 		static constexpr std::string_view k_pipelineStateTagJsonKey = "PipelineStateTag";
 		static constexpr std::string_view k_pipelineStateJsonKey    = "PipelineState";
 	};
