@@ -490,6 +490,12 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\Static">
       <UniqueIdentifier>{efaffaae-877a-407e-8fe2-7dae4d566dbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Storage">
+      <UniqueIdentifier>{d46d2898-6ee8-49a7-8398-4b2e7e0b72cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Storage\Allocator">
+      <UniqueIdentifier>{8cc183e3-b6dc-44fb-a48f-02d378d1c7d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -875,6 +881,9 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\CommandConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.h">
+      <Filter>Source\Framework\Graphics\Resource\Storage\Allocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1059,6 +1068,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Storage\Allocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

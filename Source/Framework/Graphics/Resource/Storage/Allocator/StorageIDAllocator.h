@@ -4,22 +4,22 @@ namespace FWK::Graphics
 {
 	// ※注意
 	// TextureIDを要素数としても使っています
-	class TextureIDAllocator final
+	class StorageIDAllocator final
 	{
 	public:
 
-		 TextureIDAllocator() = default;
-		~TextureIDAllocator() = default;
+		 StorageIDAllocator() = default;
+		~StorageIDAllocator() = default;
 
-		bool Create(const TypeAlias::TextureID a_textureIDCapacity);
+		bool Create(const TypeAlias::TextureID a_storageIDCapacity);
 
-		void Release(const TypeAlias::TextureID a_textureID);
+		void Release(const TypeAlias::TextureID a_storageID);
 
 		TypeAlias::TextureID Allocate();
 
 	private:
 
-		bool IsValidTextureID(const TypeAlias::TextureID a_textureID) const;
+		bool IsValidTextureID(const TypeAlias::TextureID a_storageID) const;
 
 		static constexpr TypeAlias::TextureID k_firstNextTextureID = 0U;
 

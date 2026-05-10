@@ -1,4 +1,4 @@
-﻿#include "TextureIDAllocator.h"
+﻿#include "StorageIDAllocator.h"
 
 bool FWK::Graphics::TextureIDAllocator::Create(const TypeAlias::TextureID a_textureIDCapacity)
 {
