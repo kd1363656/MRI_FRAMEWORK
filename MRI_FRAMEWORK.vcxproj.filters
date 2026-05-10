@@ -496,6 +496,24 @@
     <Filter Include="Source\Tag\Graphics\Render\RootSignature\Parameter">
       <UniqueIdentifier>{d43936af-e673-4d73-80ed-24689f42c289}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Storage">
+      <UniqueIdentifier>{5b113738-58d3-4155-a9d9-ee86d6fd4b49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct">
+      <UniqueIdentifier>{0b60662f-56d8-4ec4-a29e-89808e2d5e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics">
+      <UniqueIdentifier>{e201af20-a90c-4ee8-81c4-7554adb298e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource">
+      <UniqueIdentifier>{310aa646-d189-42e0-914c-b2e056e76063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage">
+      <UniqueIdentifier>{aa9c62ad-314d-4573-b6f6-3da903886ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\Releaser">
+      <UniqueIdentifier>{0650d9e1-699c-4112-ad71-c35996c3b760}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -887,6 +905,15 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\StorageConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Storage</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Storage\StorageStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage\IsDerivedAssetRecordBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1068,6 +1095,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Storage\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

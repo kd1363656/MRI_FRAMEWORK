@@ -44,6 +44,7 @@
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
+#include "Definition/Struct/Graphics/Resource/Storage/StorageStruct.h"
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 #include "Definition/Struct/Graphics/Render/Command/DrawCommandStruct.h"
 #include "Definition/Struct/StringHash/StringHashStruct.h"
@@ -97,6 +98,7 @@
 //===============================================================================
 #include "Definition/Concept/IsDerivedBase/IsDerivedBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/IsDerivedTagBaseConcept.h"
+#include "Definition/Concept/IsDerivedBase/Struct/Graphics/Resource/Storage/IsDerivedAssetRecordBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/Graphics/Render/Pipeline/IsDerivedPipelineStateTagBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/Graphics/Render/RootSignature/Parameter/IsDerivedRootParameterTagBaseConcept.h"
 #include "Definition/Concept/IsSmartPTR/IsSmartPTRConcept.h"
@@ -222,6 +224,7 @@
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
 #include "Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilder.h"
 #include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
+#include "Graphics/Resource/Texture/Releaser/TextureRecordReleaser.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
 

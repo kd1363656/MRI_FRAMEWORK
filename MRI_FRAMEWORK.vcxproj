@@ -397,6 +397,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage\IsDerivedAssetRecordBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline\IsDerivedPipelineStateTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter\IsDerivedRootParameterTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
@@ -430,6 +431,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\ConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\Static\StaticModelStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Storage\StorageStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilderStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h" />
@@ -483,6 +485,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Storage\AssetStorage.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.h" />
@@ -558,6 +561,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.cpp" />

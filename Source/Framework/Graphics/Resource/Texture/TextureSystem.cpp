@@ -7,9 +7,9 @@ void FWK::Graphics::TextureSystem::Deserialize(const nlohmann::json& a_rootJson)
 }
 bool FWK::Graphics::TextureSystem::Create()
 {
-	if (!m_storageIDAllocator.Create(m_storageIDAllocatorCapacity))
+	if (!m_textureStorage.Create(m_storageIDAllocatorCapacity))
 	{
-		assert(false && "ストレージIDアロケータの作成に失敗したため、TextureSystemの作成処理に失敗しました。");
+		assert(false && "AssetStorageの作成に失敗したため、TextureSystemの作成処理に失敗しました。");
 		return false;
 	}
 
@@ -28,19 +28,19 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		return Constant::k_invalidStorageID;
 	}
 
-	const auto& l_filePath = a_filePath.wstring();
+	const auto& l_filePath  = a_filePath.wstring						   ();
+	const auto  l_storageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
 
 	// 既に登録済みのテクスチャなら再度ロード申請する必要がないのでreturn
-	if (const auto& l_itr = m_texturePathStorageIDMap.find(l_filePath);
-		l_itr != m_texturePathStorageIDMap.end())
+	if (l_storageID == Constant::k_invalidStorageID)
 	{
-		if (!AddTextureReference(l_itr->second))
+		if (!AddTextureReference(l_storageID))
 		{
 			assert(false && "登録済みテクスチャの参照数加算に失敗したため、テクスチャ読み込み処理に失敗しました。");
 			return Constant::k_invalidStorageID;
 		}
 
-		return l_itr->second;
+		return l_storageID;
 	}
 
 	// 現在のフレームで登録しようとしているパスが既に登録されているなら登録する必要がないためreturn
@@ -65,14 +65,22 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 
 	Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
 
+	const auto l_storageID = m_textureStorage.Allocate();
+
+	if (l_storageID == Constant::k_invalidStorageID)
+	{
+		assert(false && "StorageIDの割り当てに失敗したため、テクスチャ読み込み処理に失敗しました。");
+		return Constant::k_invalidStorageID;
+	}
+
 	// テクスチャを作成、管理するのに必要な情報全てを作成
 	if (!m_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecord(l_scratchImage, 
 																		  l_texMetadata,
 																		  a_device,
 																		  a_gpuMemoryAllocator,
 																		  l_filePath,
+																		  l_storageID,
 																		  a_srvDescriptorPool,
-																		  m_storageIDAllocator,
 																		  l_textureBatchUploadRecord))
 	{
 		assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
@@ -165,98 +173,34 @@ nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 
 bool FWK::Graphics::TextureSystem::AddTextureReference(const TypeAlias::StorageID a_storageID)
 {
-	if (a_storageID == Constant::k_invalidStorageID)
+	if (!m_textureStorage.AddReference(a_storageID))
 	{
-		assert(false && "無効なStorageIDが指定されたため、テクスチャ参照数加算に失敗しました。");
+		assert(false && "AssetStorageでの参照数加算に失敗したため、テクスチャ参照数加算に失敗しました。");
 		return false;
 	}
-
-	auto* l_textureRecord = FindMutablePTRTextureRecord(a_storageID);
-
-	if (!l_textureRecord)
-	{
-		assert(false && "指定されたStorageIDのTextureRecordが見つからないため、テクスチャ参照数加算に失敗しました。");
-		return false;
-	}
-
-	// 参照数を加算
-	++l_textureRecord->m_referenceCount;
 
 	return true;
 }
 
 bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
 {
-	if (a_storageID == Constant::k_invalidStorageID)
+	if (!m_textureStorage.ReleaseReference(a_directCommandQueue, a_storageID))
 	{
-		assert(false && "無効なStorageIDが指定されたため、テクスチャ解放予約に失敗しました。");
+		assert(false && "AssetStorageでの参照数減算に失敗したため、テクスチャ解放予約に失敗しました。");
 		return false;
 	}
-
-	auto* l_textureRecord = FindMutablePTRTextureRecord(a_storageID);
-
-	if (!l_textureRecord)
-	{
-		assert(false && "指定されたStorageIDのTextureRecordが見つからないため、テクスチャ解放予約に失敗しました。");
-		return false;
-	}
-
-	if (l_textureRecord->m_referenceCount == Constant::k_emptyAssetReferenceCount)
-	{
-		assert(false && "参照数が0のTextureRecordに対してさらに解放要求が行われました。");
-		return false;
-	}
-
-	--l_textureRecord->m_referenceCount;
-
-	// まだ利用者が残っているなら何もしない
-	if (l_textureRecord->m_referenceCount > Constant::k_emptyAssetReferenceCount) { return true; }
-
-	const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
-
-	// GPUに対して発行されたフェンス値を格納する
-	// GPUのフェンス値がこの格納されたフェンス値を超えていたら安全にリリースできるということ(GPU側での使用が終わっているから)
-	l_textureRecord->m_retiredFenceValue = l_lastSignaledFenceValue;
 
 	return true;
 }
 
 const FWK::Struct::TextureRecord* FWK::Graphics::TextureSystem::FindPTRTextureRecord(const TypeAlias::StorageID a_storageID) const
 {
-	if (a_storageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "StorageIDが無効のため、TextureRecordの取得に失敗しました。");
-		return nullptr;
-	}
-
-	const auto& l_itr = m_textureRecordMap.find(a_storageID);
-
-	if (l_itr == m_textureRecordMap.end())
-	{
-		assert(false && "指定されたStorageIDに対応するTextureRecordが見つかりませんでした。");
-		return nullptr;
-	}
-
-	return &l_itr->second;
+	return m_textureStorage.FindPTRRecord(a_storageID);
 }
 
 FWK::Struct::TextureRecord* FWK::Graphics::TextureSystem::FindMutablePTRTextureRecord(const TypeAlias::StorageID a_storageID)
 {
-	if (a_storageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "StorageIDが無効のため、TextureRecordの取得に失敗しました。");
-		return nullptr;
-	}
-
-	const auto& l_itr = m_textureRecordMap.find(a_storageID);
-
-	if (l_itr == m_textureRecordMap.end())
-	{
-		assert(false && "指定されたStorageIDに対応するTextureRecordが見つかりませんでした。");
-		return nullptr;
-	}
-
-	return &l_itr->second;
+	return m_textureStorage.FindMutablePTRRecord(a_storageID);
 }
 
 bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem)
@@ -269,10 +213,11 @@ bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem
 
 	for (auto& [l_filePath, l_pendingTextureBatchUploadRecord] : m_pendingTextureBatchUploadRecordMap)
 	{
-		auto& l_textureRecord = l_pendingTextureBatchUploadRecord.m_textureRecord;
-
-		m_texturePathStorageIDMap.try_emplace(l_filePath,					l_textureRecord.m_storageID);
-		m_textureRecordMap.try_emplace		 (l_textureRecord.m_storageID,	std::move(l_pendingTextureBatchUploadRecord.m_textureRecord));
+		if (!m_textureStorage.RegisterRecord(l_filePath, l_pendingTextureBatchUploadRecord.m_textureRecord))
+		{
+			assert(false && "TextureRecordの登録に失敗したため、バッチテクスチャ登録に失敗しました。");
+			return false;
+		}
 	}
 
 	return true;

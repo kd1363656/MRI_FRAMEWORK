@@ -4,11 +4,6 @@ namespace FWK::Graphics
 {
 	class TextureSystem final
 	{
-	private:
-
-		using TexturePathStorageIDMap = std::unordered_map<std::wstring,	     TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
-		using TextureRecordMap		  = std::unordered_map<TypeAlias::StorageID, Struct::TextureRecord>;
-		
 	public:
 
 		 TextureSystem() = default;
@@ -43,12 +38,10 @@ namespace FWK::Graphics
 
 		bool TextureCopyBatch(UploadSystem& a_uploadSystem);
 
-		TexturePathStorageIDMap m_texturePathStorageIDMap = {};
-		TextureRecordMap		m_textureRecordMap		  = {};
-
 		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
 
-		StorageIDAllocator		        m_storageIDAllocator		      = {};
+		AssetStorage<Struct::TextureRecord> m_textureStorage = {};
+		
 		TextureLoader			        m_textureLoader				      = {};
 		TextureBatchUploadRecordBuilder m_textureBatchUploadRecordBuilder = {};
 

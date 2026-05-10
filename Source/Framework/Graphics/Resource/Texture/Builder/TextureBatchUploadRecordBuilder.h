@@ -19,8 +19,8 @@ namespace FWK::Graphics
 											const Device&                            a_device,
 											const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 											const std::wstring&						 a_filePath,
+											const TypeAlias::StorageID				 a_storageID,
 												  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-												  StorageIDAllocator&				 a_storageIDAllocator,
 												  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord) const;
 
 	private:
