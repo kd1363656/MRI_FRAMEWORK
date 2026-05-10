@@ -153,12 +153,24 @@ void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawComma
 {
 	m_drawCommandMap.try_emplace(a_staticTypeID, a_drawCommand);
 }
-void FWK::Graphics::Renderer::AddRootSignature(const RootSignature& a_rootSignature, const TypeAlias::TypeTag a_tag)
+void FWK::Graphics::Renderer::AddRootSignature(const std::shared_ptr<RootSignature>& a_rootSignature, const TypeAlias::TypeTag a_tag)
 {
+	if (!a_rootSignature)
+	{
+		assert(false && "RootSignatureが無効のため、RootSignatureMapへの登録に失敗しました。");
+		return;
+	}
+
 	m_rootSignatureMap.try_emplace(a_tag, a_rootSignature);
 }
-void FWK::Graphics::Renderer::AddPipelineState(const PipelineState& a_pipelineState, const TypeAlias::TypeTag a_tag)
+void FWK::Graphics::Renderer::AddPipelineState(const std::shared_ptr<PipelineState>& a_pipelineState, const TypeAlias::TypeTag a_tag)
 {
+	if (!a_pipelineState)
+	{
+		assert(false && "PipelineStateが無効のため、PipelineStateMapMapへの登録に失敗しました。");
+		return;
+	}
+
 	m_pipelineStateMap.try_emplace(a_tag, a_pipelineState);
 }
 

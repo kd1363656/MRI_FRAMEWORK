@@ -12,8 +12,8 @@ namespace FWK::Graphics
 	private:
 
 		using DrawCommandMap   = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<IDrawCommand>>;
-		using RootSignatureMap = std::unordered_map<TypeAlias::TypeTag, RootSignature>;
-		using PipelineStateMap = std::unordered_map<TypeAlias::TypeTag, PipelineState>;
+		using RootSignatureMap = std::unordered_map<TypeAlias::TypeTag, std::shared_ptr<RootSignature>>;
+		using PipelineStateMap = std::unordered_map<TypeAlias::TypeTag, std::shared_ptr<PipelineState>>;
 
 	public:
 
@@ -37,9 +37,9 @@ namespace FWK::Graphics
 		void AddFrameResource  (const FrameResource&				 a_frameResource);
 		void AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand);
 
-		void AddDrawCommandMap (const std::shared_ptr<IDrawCommand>& a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
-		void AddRootSignature  (const RootSignature&                 a_rootSignature, const TypeAlias::TypeTag      a_tag);
-		void AddPipelineState  (const PipelineState&                 a_pipelineState, const TypeAlias::TypeTag      a_tag);
+		void AddDrawCommandMap (const std::shared_ptr<IDrawCommand>&  a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
+		void AddRootSignature  (const std::shared_ptr<RootSignature>& a_rootSignature, const TypeAlias::TypeTag      a_tag);
+		void AddPipelineState  (const std::shared_ptr<PipelineState>& a_pipelineState, const TypeAlias::TypeTag      a_tag);
 
 		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
 		const PipelineState* FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const;
