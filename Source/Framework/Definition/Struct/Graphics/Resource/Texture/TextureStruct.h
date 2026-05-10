@@ -13,7 +13,7 @@ namespace FWK::Struct
 
 		UINT64 m_retiredFenceValue = Constant::k_unusedFenceValue;
 
-		UINT m_referenceCount = Constant::k_emptyTextureReferenceCount;
+		UINT m_referenceCount = Constant::k_emptyAssetReferenceCount;
 
 		TypeAlias::StorageID m_srvStorageID = Constant::k_invalidStorageID;
 		TypeAlias::StorageID m_storageID    = Constant::k_invalidStorageID;

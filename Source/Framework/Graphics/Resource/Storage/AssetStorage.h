@@ -2,13 +2,13 @@
 
 namespace FWK::Graphics
 {
-	template <typename Type>
+	template <typename RecordType>
 	class AssetStorage final
 	{
 	private:
 
 		using FilePathStorageIDMap = std::unordered_map<std::wstring,		  TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
-		using RecordMap            = std::unordered_map<TypeAlias::StorageID, Type>;
+		using RecordMap            = std::unordered_map<TypeAlias::StorageID, RecordType>;
 
 	public:
 
@@ -75,18 +75,18 @@ namespace FWK::Graphics
 			--l_record->m_referenceCount;
 
 			// 参照カウントが0以上ならreturn
-			if (l_record->m_refereneceCount > Constant::k_emptyAssetReferenceCount) { return true; }
+			if (l_record->m_referenceCount > Constant::k_emptyAssetReferenceCount) { return true; }
 
 			const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
 
 			// GPUに対して発行されたフェンス値を格納する
-			// GPUのフェンス値がこの書くのされたフェンス値を超えていたら安全に開放できるということ
-			l_record->m_referenceFenceValue = l_lastSignaledFenceValue;
+			// GPUのフェンス値がこの格納されたフェンス値を超えていたら安全に開放できるということ
+			l_record->m_retiredFenceValue = l_lastSignaledFenceValue;
 
 			return true;
 		}
 
-		const Type* FindPTRRecord(const TypeAlias::StorageID a_storageID) const
+		const RecordType* FindPTRRecord(const TypeAlias::StorageID a_storageID) const
 		{
 			if (a_storageID == Constant::k_invalidStorageID)
 			{
@@ -105,7 +105,7 @@ namespace FWK::Graphics
 			return &l_itr->second;
 		}
 
-		const Type* FindMutablePTRRecord(const TypeAlias::StorageID a_storageID) const
+		RecordType* FindMutablePTRRecord(const TypeAlias::StorageID a_storageID)
 		{
 			if (a_storageID == Constant::k_invalidStorageID)
 			{
