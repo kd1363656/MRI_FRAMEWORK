@@ -29,18 +29,30 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompile
 		return false;
 	}
 
-	for (auto& [l_tag, l_rootSignature] : m_rootSignatureMap)
+	for (const auto& [l_tag, l_rootSignature] : m_rootSignatureMap)
 	{
-		if (!l_rootSignature.Create(a_device))
+		if (!l_rootSignature) 
+		{
+			assert(false && "RootSignatureが無効のため、RootSignatureの作成に失敗しました。");
+			return false;
+		}
+
+		if (!l_rootSignature->Create(a_device))
 		{
 			assert(false && "ルートシグネチャの作成に失敗しました。");
 			return false;
 		}
 	}
 
-	for (auto& [l_tag, l_pipelineState] : m_pipelineStateMap)
+	for (const auto& [l_tag, l_pipelineState] : m_pipelineStateMap)
 	{
-		if (!l_pipelineState.Create(a_device, a_shaderCompiler, *this))
+		if (!l_pipelineState)
+		{
+			assert(false && "PipelineStateが無効のため、PipelineStateの作成に失敗しました。");
+			return false;
+		}
+		
+		if (!l_pipelineState->Create(a_device, a_shaderCompiler, *this))
 		{
 			assert(false && "パイプラインステートの作成に失敗しました。");
 			return false;
@@ -151,6 +163,12 @@ void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawComm
 
 void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
 {
+	if (!a_drawCommand)
+	{
+		assert(false && "DrawCommandが無効のため、DrawCommandMapへの登録に失敗しました。");
+		return;
+	}
+
 	m_drawCommandMap.try_emplace(a_staticTypeID, a_drawCommand);
 }
 void FWK::Graphics::Renderer::AddRootSignature(const std::shared_ptr<RootSignature>& a_rootSignature, const TypeAlias::TypeTag a_tag)
@@ -167,28 +185,28 @@ void FWK::Graphics::Renderer::AddPipelineState(const std::shared_ptr<PipelineSta
 {
 	if (!a_pipelineState)
 	{
-		assert(false && "PipelineStateが無効のため、PipelineStateMapMapへの登録に失敗しました。");
+		assert(false && "PipelineStateが無効のため、PipelineStateMapへの登録に失敗しました。");
 		return;
 	}
 
 	m_pipelineStateMap.try_emplace(a_tag, a_pipelineState);
 }
 
-const FWK::Graphics::RootSignature* FWK::Graphics::Renderer::FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const
+std::weak_ptr<FWK::Graphics::RootSignature> FWK::Graphics::Renderer::FindVALRootSignature(const TypeAlias::TypeTag a_tag) const
 {
 	const auto& l_itr = m_rootSignatureMap.find(a_tag);
 
-	if (l_itr == m_rootSignatureMap.end()) { return nullptr; }
+	if (l_itr == m_rootSignatureMap.end()) { return {}; }
 
-	return &l_itr->second;
+	return l_itr->second;
 }
-const FWK::Graphics::PipelineState* FWK::Graphics::Renderer::FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const
+std::weak_ptr<FWK::Graphics::PipelineState> FWK::Graphics::Renderer::FindVALPipelineState(const TypeAlias::TypeTag a_tag) const
 {
 	const auto& l_itr = m_pipelineStateMap.find(a_tag);
 
-	if (l_itr == m_pipelineStateMap.end()) { return nullptr; }
+	if (l_itr == m_pipelineStateMap.end()) { return {}; }
 
-	return &l_itr->second;
+	return l_itr->second;
 }
 
 const FWK::Graphics::FrameResource* FWK::Graphics::Renderer::FetchPTRCurrentFrameResource() const

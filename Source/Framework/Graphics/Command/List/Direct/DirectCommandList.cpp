@@ -153,17 +153,19 @@ void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_rende
 
 	l_directCommandList->RSSetScissorRects(k_setScissorRectNUM, &a_renderArea.GetREFScissorRECT());
 }
-void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a_rootSignature)
+void FWK::Graphics::DirectCommandList::SetupRootSignature(const std::weak_ptr<RootSignature>& a_rootSignature)
 {
-	if (!a_rootSignature)
+	// 現在セットしようとしているルートシグネチャと前回セットしたルートシグネチャが同一
+	// であるならばセットしない
+	if (IsSameWeakOwner(m_currentRootSignature, a_rootSignature)) { return; }
+
+	const auto l_rootSignature = a_rootSignature.lock();
+
+	if (!l_rootSignature)
 	{
-		assert(false && "無効なルートシグネチャで、ルートシグネチャの設定ができませんでした。");
+		assert(false && "ルートシグネチャが破棄されているため、ルートシグネチャの設定に失敗しました。");
 		return;
 	}
-
-	// 現在セット済みのルートシグネチャと同じ場合は、
-	// 再度セットする必要がないためreturn
-	if (m_currentRootSignature == a_rootSignature) { return; }
 
 	const auto& l_directCommandList = GetREFCommandList();
 
@@ -173,9 +175,9 @@ void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a
 		return;
 	}
 
-	const auto& l_rootSignature = a_rootSignature->GetREFRootSignature();
+	const auto& l_d3dRootSignature = l_rootSignature->GetREFRootSignature();
 
-	if (!l_rootSignature)
+	if (!l_d3dRootSignature)
 	{
 		assert(false && "ルートシグネチャが作成されておらず、ルートシグネチャの設定が出来ませんでした。");
 		return;
@@ -185,23 +187,25 @@ void FWK::Graphics::DirectCommandList::SetupRootSignature(const RootSignature* a
 	// SetGraphicsRootSignature(描画パイプラインで使用するルートシグネチャのポインタ);
 
 	// ルートシグネチャは、シェーダーにどのリソースをどう渡すかを表す設定情報
-	// これを先に設定しておかない、後続の描画で使用するリソースの結び付けルールが決まらない
-	l_directCommandList->SetGraphicsRootSignature(l_rootSignature.Get());
+	// これを先に設定しておかないと、後続の描画で使用するリソースの結び付けルールが決まらない
+	l_directCommandList->SetGraphicsRootSignature(l_d3dRootSignature.Get());
 
 	// 現在セット済みのルートシグネチャとして記録する
 	m_currentRootSignature = a_rootSignature;
 }
-void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a_pipelineState)
+void FWK::Graphics::DirectCommandList::SetupPipelineState(const std::weak_ptr<PipelineState>& a_pipelineState)
 {
-	if (!a_pipelineState)
+	// 現在セットしようとしているパイプラインステートと前回セットしたパイプラインステートが同一
+	// であるならばセットしない
+	if (IsSameWeakOwner(m_currentPipelineState, a_pipelineState)) { return; }
+
+	const auto& l_pipelineState = a_pipelineState.lock();
+
+	if (!l_pipelineState)
 	{
-		assert(false && "無効なパイプラインステートで、パイプラインステートの設定が出来ませんでした。");
+		assert(false && "パイプラインステートが破棄されているため、パイプラインステートの設定が出来ませんでした。");
 		return;
 	}
-
-	// 現在セット済みのパイプラインステートと同じ場合は、
-	// 再度セットする必要がないためreturn
-	if (m_currentPipelineState == a_pipelineState) { return; }
 
 	const auto& l_directCommandList = GetREFCommandList();
 
@@ -211,9 +215,9 @@ void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a
 		return;
 	}
 
-	const auto& l_pipelineState = a_pipelineState->GetREFPipelineState();
+	const auto& l_d3dPipelineState = l_pipelineState->GetREFPipelineState();
 
-	if (!l_pipelineState)
+	if (!l_d3dPipelineState)
 	{
 		assert(false && "パイプラインステートが作成されておらず、パイプラインステートの設定が出来ませんでした。");
 		return;
@@ -227,7 +231,7 @@ void FWK::Graphics::DirectCommandList::SetupPipelineState(const PipelineState* a
 	// どうラスタライズするか
 	// 深度テストを使うか、など
 	// 描画パイプラインの重要な設定がまとめて入っている
-	l_directCommandList->SetPipelineState(l_pipelineState.Get());
+	l_directCommandList->SetPipelineState(l_d3dPipelineState.Get());
 
 	// 現在セット済みのパイプラインステートとして記録する
 	m_currentPipelineState = a_pipelineState;
@@ -283,6 +287,6 @@ void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGrou
 
 void FWK::Graphics::DirectCommandList::ClearCurrentRootSignatureAndPipelineStateCache()
 {
-	m_currentRootSignature = nullptr;
-	m_currentPipelineState = nullptr;
+	m_currentRootSignature.reset();
+	m_currentPipelineState.reset();
 }

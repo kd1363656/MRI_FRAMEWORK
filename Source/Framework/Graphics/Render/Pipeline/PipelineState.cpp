@@ -17,7 +17,7 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 		return false;
 	}
 
-	const auto* l_useRootSignature = a_renderer.FindPTRRootSignature(m_useRootSignatureTag);
+	const auto& l_useRootSignature = a_renderer.FindVALRootSignature(m_useRootSignatureTag).lock();
 
 	if (!l_useRootSignature)
 	{

@@ -24,13 +24,13 @@ namespace FWK::Graphics
 
 		void SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
-		void SetupRenderArea    (const RenderArea&		   a_renderArea)     const;
-		void SetupRootSignature (const RootSignature*	   a_rootSignature);
-		void SetupPipelineState (const PipelineState*	   a_pipelineState);
-		void SetupDescriptorHeap(const DescriptorHeapBase& a_descriptorHeap) const;
+		void SetupRenderArea    (const RenderArea&					 a_renderArea)     const;
+		void SetupRootSignature (const std::weak_ptr<RootSignature>& a_rootSignature);
+		void SetupPipelineState (const std::weak_ptr<PipelineState>& a_pipelineState);
+		void SetupDescriptorHeap(const DescriptorHeapBase&			 a_descriptorHeap) const;
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
-		void SetupDescriptorTable(const DescriptorHeapBase& a_descriptorHeap, const RootSignature* a_rootSignature, const UINT a_srvIndex) const
+		void SetupDescriptorTable(const DescriptorHeapBase& a_descriptorHeap, const std::weak_ptr<RootSignature>& a_rootSignature, const UINT a_srvIndex) const
 		{
 			const auto& l_directCommandList = GetREFCommandList();
 
@@ -40,7 +40,9 @@ namespace FWK::Graphics
 				return;
 			}
 
-			if (!a_rootSignature)
+			const auto& l_rootSignature = a_rootSignature.lock();
+
+			if (!l_rootSignature)
 			{
 				assert(false && "ルートシグネチャが作成されておらず、ディスクリプタテーブル設定ができませんでした。");
 				return;
@@ -57,7 +59,7 @@ namespace FWK::Graphics
 			// SetGraphicsRootDescriptorTable(ルートパラメータ番号、
 			//								  ディスクリプタテーブル先頭GPUハンドル);
 
-			const auto l_rootParameterIndex = a_rootSignature->FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
+			const auto l_rootParameterIndex = l_rootSignature->FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
 
 			if (l_rootParameterIndex == Constant::k_invalidRootParameterIndex)
 			{
@@ -77,7 +79,7 @@ namespace FWK::Graphics
 		}
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
-		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const RootSignature* a_rootSignature) const
+		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const std::weak_ptr<RootSignature>& a_rootSignature) const
 		{
 			const auto& l_directCommandList = GetREFCommandList();
 
@@ -87,13 +89,15 @@ namespace FWK::Graphics
 				return;
 			}
 
-			if (!a_rootSignature)
+			const auto& l_rootSignature = a_rootSignature.lock();
+
+			if (!l_rootSignature)
 			{
 				assert(false && "ルートシグネチャが作成されておらず、定数バッファビューが設定できませんでした。");
 				return;
 			}
 
-			const auto l_rootParameterIndex = a_rootSignature->FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
+			const auto l_rootParameterIndex = l_rootSignature->FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
 
 			if (l_rootParameterIndex == Constant::k_invalidRootParameterIndex)
 			{
@@ -115,6 +119,13 @@ namespace FWK::Graphics
 
 		void ClearCurrentRootSignatureAndPipelineStateCache();
 
+		template <typename Type>
+		bool IsSameWeakOwner(const std::weak_ptr<Type>& a_left, const std::weak_ptr<Type>& a_right) const
+		{
+			return !a_left.owner_before (a_right) &&
+				   !a_right.owner_before(a_left);
+		}
+
 		static constexpr float k_clearColor[] = 
 		{
 			1.0F,
@@ -134,7 +145,7 @@ namespace FWK::Graphics
 		static constexpr UINT k_setScissorRectNUM    = 1U;
 		static constexpr UINT k_setDescriptorHeapNUM = 1U;
 
-		const RootSignature* m_currentRootSignature = nullptr;
-		const PipelineState* m_currentPipelineState = nullptr;
+		std::weak_ptr<RootSignature> m_currentRootSignature = {};
+		std::weak_ptr<PipelineState> m_currentPipelineState = {};
 	};
 }

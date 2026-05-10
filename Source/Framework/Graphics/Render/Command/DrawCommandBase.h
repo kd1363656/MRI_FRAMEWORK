@@ -9,8 +9,8 @@ namespace FWK::Graphics
 
 		struct GraphicsPipelineSetupResult final
 		{
-			const RootSignature* m_rootSignature = nullptr;
-			const PipelineState* m_pipelineState = nullptr;
+			std::weak_ptr<RootSignature> m_rootSignature = {};
+			std::weak_ptr<PipelineState> m_pipelineState = {};
 		};
 
 	public:
@@ -35,7 +35,8 @@ namespace FWK::Graphics
 		template <Concept::IsDerivedPipelineStateTagBaseConcept PipelineStateType>
 		GraphicsPipelineSetupResult SetupGraphicsPipelineStateByTag(Renderer& a_renderer) const
 		{
-			auto* l_pipelineState = a_renderer.FindPTRPipelineState(Utility::Tag::GetTag<PipelineStateType>());
+				  auto  l_pipelineStateWeak = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<PipelineStateType>());
+			const auto& l_pipelineState    = l_pipelineStateWeak.lock		 ();
 
 			if (!l_pipelineState) 
 			{
@@ -44,7 +45,8 @@ namespace FWK::Graphics
 			}
 
 			// パイプラインステートが使用するルートシグネチャを取得
-			auto* l_rootSignature = a_renderer.FindPTRRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
+				  auto  l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
+			const auto& l_rootSignature     = l_rootSignatureWeak.lock		 ();
 
 			if (!l_rootSignature)
 			{
@@ -55,20 +57,20 @@ namespace FWK::Graphics
 			auto& l_directCommandList = a_renderer.GetMutableREFDirectCommandList();
 
 			// ルートシグネチャをセット
-			l_directCommandList.SetupRootSignature(l_rootSignature);
+			l_directCommandList.SetupRootSignature(l_rootSignatureWeak);
 
 			// パイプラインステートをセット
-			l_directCommandList.SetupPipelineState(l_pipelineState);
+			l_directCommandList.SetupPipelineState(l_pipelineStateWeak);
 			
 			// 使用したルートシグネチャ、パイプラインステートを外部に渡す
-			return { l_rootSignature, l_pipelineState };
+			return { l_rootSignatureWeak, l_pipelineStateWeak };
 		}
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord)
 		{
 			if (a_textureRecord.m_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) { return; }
 
-			// PixelsShaderからSRVとして読むため、現在の状態からPIXEL_SHADER_RESOURCEへ遷移する
+			// PixelShaderからSRVとして読むため、現在の状態からPIXEL_SHADER_RESOURCEへ遷移する
 			a_directCommandList.TransitionResource(a_textureRecord.m_textureResource,
 												   a_textureRecord.m_currentState,
 												   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
@@ -77,14 +79,14 @@ namespace FWK::Graphics
 		}
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupConstantBuffer(const DirectCommandList&  a_directCommandList,
-								 const UploadBuffer&	   a_uploadBuffer,
-								 const ConstantBufferType& a_constantBuffer,
-								 const RootSignature*	   a_rootSignature,
-								 const std::size_t		   a_constantBufferIndex,
-									   std::uint8_t* const a_mappedData) const
+		bool SetupConstantBuffer(const std::weak_ptr<RootSignature>& a_rootSignature,
+								 const DirectCommandList&			 a_directCommandList,
+								 const UploadBuffer&				 a_uploadBuffer,
+								 const ConstantBufferType&			 a_constantBuffer,
+								 const std::size_t					 a_constantBufferIndex,
+									   std::uint8_t* const			 a_mappedData) const
 		{
-			if (!a_rootSignature)
+			if (a_rootSignature.expired())
 			{
 				assert(false && "ルートシグネチャが無効なため、定数バッファの設定に失敗しました。");
 				return false;

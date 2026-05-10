@@ -41,8 +41,8 @@ namespace FWK::Graphics
 		void AddRootSignature  (const std::shared_ptr<RootSignature>& a_rootSignature, const TypeAlias::TypeTag      a_tag);
 		void AddPipelineState  (const std::shared_ptr<PipelineState>& a_pipelineState, const TypeAlias::TypeTag      a_tag);
 
-		const RootSignature* FindPTRRootSignature(const TypeAlias::TypeTag a_tag) const;
-		const PipelineState* FindPTRPipelineState(const TypeAlias::TypeTag a_tag) const;
+		std::weak_ptr<RootSignature> FindVALRootSignature(const TypeAlias::TypeTag a_tag) const;
+		std::weak_ptr<PipelineState> FindVALPipelineState(const TypeAlias::TypeTag a_tag) const;
 
 		template <Concept::IsDerivedIDrawCommandConcept Type>
 		std::shared_ptr<Type> FetchVALDrawCommand() const 
