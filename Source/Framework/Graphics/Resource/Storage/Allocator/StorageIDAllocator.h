@@ -11,26 +11,26 @@ namespace FWK::Graphics
 		 StorageIDAllocator() = default;
 		~StorageIDAllocator() = default;
 
-		bool Create(const TypeAlias::TextureID a_storageIDCapacity);
+		bool Create(const TypeAlias::StorageID a_storageIDCapacity);
 
-		void Release(const TypeAlias::TextureID a_storageID);
+		void Release(const TypeAlias::StorageID a_storageID);
 
-		TypeAlias::TextureID Allocate();
+		TypeAlias::StorageID Allocate();
 
 	private:
 
-		bool IsValidTextureID(const TypeAlias::TextureID a_storageID) const;
+		bool IsValidTextureID(const TypeAlias::StorageID a_storageID) const;
 
-		static constexpr TypeAlias::TextureID k_firstNextTextureID = 0U;
+		static constexpr TypeAlias::StorageID k_initialNextStorageID = 0U;
 
-		static constexpr bool k_unallocatedTextureIDState = false;
-		static constexpr bool k_allocatedTextureIDState   = true;
+		static constexpr bool k_unallocatedStorageIDState = false;
+		static constexpr bool k_allocatedStorageIDState   = true;
 
 		std::vector<bool> m_isAllocatedList = {};
 
-		std::queue<TypeAlias::TextureID> m_freeTextureIDQueue = {};
+		std::queue<TypeAlias::StorageID> m_freeStorageIDQueue = {};
 
-		TypeAlias::TextureID m_textureIDCapacity = Constant::k_invalidTextureID;
-		TypeAlias::TextureID m_nextTextureID     = k_firstNextTextureID;
+		TypeAlias::StorageID m_storageIDCapacity = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_nextStorageID     = k_firstNextStorageID;
 	};
 }

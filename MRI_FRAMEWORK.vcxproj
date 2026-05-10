@@ -413,6 +413,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\ResourceConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator\StorageIDAllocatorConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\TextureConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\SwapChain\SwapChainConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />
@@ -479,7 +480,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h" />
@@ -556,7 +556,6 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp" />

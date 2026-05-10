@@ -10,5 +10,5 @@ namespace FWK::TypeAlias
 
 	using TypeTag = StaticTypeID;
 
-	using TextureID = std::uint32_t;
+	using StorageID = std::uint32_t;
 }

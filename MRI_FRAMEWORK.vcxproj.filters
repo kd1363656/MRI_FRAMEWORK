@@ -295,9 +295,6 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture">
       <UniqueIdentifier>{c420a18e-cfb4-4036-9601-25b6d079424a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Texture\Allocator">
-      <UniqueIdentifier>{f96594b4-7906-4fb6-8de3-90cf4206542e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload">
       <UniqueIdentifier>{f550d18c-d86a-40dc-8ab6-0a83a4705128}</UniqueIdentifier>
     </Filter>
@@ -495,6 +492,12 @@
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Storage\Allocator">
       <UniqueIdentifier>{8cc183e3-b6dc-44fb-a48f-02d378d1c7d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage">
+      <UniqueIdentifier>{5e42a750-bd75-47f3-a8d3-1a8e1c750093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator">
+      <UniqueIdentifier>{802c59e0-1bce-43ae-95ea-300180901f1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -740,9 +743,6 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.h">
-      <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Upload\UploadSystemStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Upload</Filter>
     </ClInclude>
@@ -884,6 +884,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.h">
       <Filter>Source\Framework\Graphics\Resource\Storage\Allocator</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator\StorageIDAllocatorConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1002,9 +1005,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Allocator\TextureIDAllocator.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Texture\Allocator</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>

@@ -31,6 +31,7 @@
 #include "Definition/Constant/Graphics/Command/Queue/Fence/FenceConstant.h"
 #include "Definition/Constant/Graphics/Resource/ResourceConstant.h"
 #include "Definition/Constant/Graphics/Resource/Descriptor/DescriptorConstant.h"
+#include "Definition/Constant/Graphics/Resource/Storage/Allocator/StorageIDAllocatorConstant.h"
 #include "Definition/Constant/Graphics/SwapChain/SwapChainConstant.h"
 #include "Definition/Constant/Graphics/Render/RootSignature/RootSignatureConstant.h"
 #include "Definition/Constant/Graphics/Render/Pipeline/PipelineStateConstant.h"
@@ -215,8 +216,10 @@
 #include "Converter/Json/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
 #include "Graphics/Resource/Upload/UploadSystem.h"
 
+// Storage
+#include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
+
 // テクスチャ
-#include "Graphics/Resource/Texture/Allocator/TextureIDAllocator.h"
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
 #include "Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilder.h"
 #include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"

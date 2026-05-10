@@ -12,8 +12,4 @@ namespace FWK::Constant
 	inline constexpr UINT k_defaultSpriteRECTY      = 0U;
 	inline constexpr UINT k_defaultSpriteRECTWidth  = 0U;
 	inline constexpr UINT k_defaultSpriteRECTHeight = 0U;
-
-	inline constexpr TypeAlias::TextureID k_invalidTextureID = std::numeric_limits<TypeAlias::TextureID>::max();
-
-	inline constexpr TypeAlias::TextureID k_defaultCreateTextureIDCapacity = 3000U;
 }
