@@ -114,7 +114,7 @@ void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCom
 		auto& l_textureRecord = l_itr->second;
 
 		// まだ参照されているテクスチャは解放しない
-		if (l_textureRecord.m_referenceCount > Constant::k_emptyTextureReferenceCount)
+		if (l_textureRecord.m_referenceCount > Constant::k_emptyAssetReferenceCount)
 		{
 			++l_itr;
 			continue;
@@ -201,7 +201,7 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 		return false;
 	}
 
-	if (l_textureRecord->m_referenceCount == Constant::k_emptyTextureReferenceCount)
+	if (l_textureRecord->m_referenceCount == Constant::k_emptyAssetReferenceCount)
 	{
 		assert(false && "参照数が0のTextureRecordに対してさらに解放要求が行われました。");
 		return false;
@@ -210,7 +210,7 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 	--l_textureRecord->m_referenceCount;
 
 	// まだ利用者が残っているなら何もしない
-	if (l_textureRecord->m_referenceCount > Constant::k_emptyTextureReferenceCount) { return true; }
+	if (l_textureRecord->m_referenceCount > Constant::k_emptyAssetReferenceCount) { return true; }
 
 	const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
 
