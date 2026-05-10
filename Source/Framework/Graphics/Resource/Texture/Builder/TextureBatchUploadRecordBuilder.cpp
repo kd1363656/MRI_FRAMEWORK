@@ -6,7 +6,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 																					const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 																					const std::wstring&						 a_filePath,
 																						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
-																						  TextureIDAllocator&				 a_textureIDAllocator,
+																						  StorageIDAllocator&				 a_storageIDAllocator,
 																						  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord) const
 {
 	// まずはGPU側用のテクスチャリソースのヒープ領域を確保
@@ -43,11 +43,11 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 		return false;
 	}
 
-	const auto l_textureID = a_textureIDAllocator.Allocate();
+	const auto l_storageID = a_storageIDAllocator.Allocate();
 
-	if (l_textureID == Constant::k_invalidTextureID)
+	if (l_storageID == Constant::k_invalidStorageID)
 	{
-		assert(false && "TextureIDの割り当てに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
+		assert(false && "StorageIDの割り当てに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
 	}
 
@@ -55,7 +55,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	l_textureRecord.m_currentState      = D3D12_RESOURCE_STATE_COMMON;
 	l_textureRecord.m_retiredFenceValue = Constant::k_unusedFenceValue;
 	l_textureRecord.m_referenceCount    = k_initialTextureReferenceCount;
-	l_textureRecord.m_textureID         = l_textureID;
+	l_textureRecord.m_storageID         = l_storageID;
 	l_textureRecord.m_filePath          = a_filePath;
 
 	return true;

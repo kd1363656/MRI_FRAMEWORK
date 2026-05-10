@@ -6,8 +6,8 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using TexturePathMap   = std::unordered_map<std::wstring,			TypeAlias::TextureID, Struct::WStringHash, std::equal_to<>>;
-		using TextureRecordMap = std::unordered_map<TypeAlias::TextureID, Struct::TextureRecord>;
+		using TexturePathMap   = std::unordered_map<std::wstring,			TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
+		using TextureRecordMap = std::unordered_map<TypeAlias::StorageID, Struct::TextureRecord>;
 		
 	public:
 

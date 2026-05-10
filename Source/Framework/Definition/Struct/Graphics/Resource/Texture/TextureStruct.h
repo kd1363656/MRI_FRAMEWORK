@@ -16,7 +16,7 @@ namespace FWK::Struct
 		UINT m_srvIndex       = Constant::k_invalidDescriptorHeapIndex;
 		UINT m_referenceCount = Constant::k_emptyTextureReferenceCount;
 
-		TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
+		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
 	};
 
 	struct SpriteRECT final

@@ -20,7 +20,7 @@ namespace FWK::Graphics
 											const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 											const std::wstring&						 a_filePath,
 												  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-												  TextureIDAllocator&				 a_textureIDAllocator,
+												  StorageIDAllocator&				 a_storageIDAllocator,
 												  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord) const;
 
 	private:

@@ -1,17 +1,17 @@
 ﻿#include "Texture.h"
 
 FWK::Graphics::Texture::Texture() : 
-	m_textureID(Constant::k_invalidTextureID)
+	m_storageID(Constant::k_invalidStorageID)
 {}
 FWK::Graphics::Texture::Texture(const Texture & a_other) : 
-	m_textureID(a_other.m_textureID)
+	m_storageID(a_other.m_storageID)
 {
 	AddTextureReference();
 }
 FWK::Graphics::Texture::Texture(Texture&& a_other) noexcept : 
-	m_textureID(a_other.m_textureID)
+	m_storageID(a_other.m_storageID)
 {
-	a_other.m_textureID = Constant::k_invalidTextureID;
+	a_other.m_storageID = Constant::k_invalidStorageID;
 }
 FWK::Graphics::Texture::~Texture()
 {
@@ -25,8 +25,8 @@ FWK::Graphics::Texture& FWK::Graphics::Texture::operator=(const Texture& a_other
 	// 所持しているテクスチャを破棄
 	ReleaseTextureReference();
 
-	// コピー元のテクスチャIDを格納
-	m_textureID = a_other.m_textureID;
+	// コピー元のストレージIDを格納
+	m_storageID = a_other.m_storageID;
 
 	// 参照数の加算
 	AddTextureReference();
@@ -40,11 +40,11 @@ FWK::Graphics::Texture& FWK::Graphics::Texture::operator=(Texture&& a_other) noe
 	// 所持しているテクスチャを破棄
 	ReleaseTextureReference();
 
-	// コピー元のテクスチャIDを格納
-	m_textureID = a_other.m_textureID;
+	// コピー元のストレージIDを格納
+	m_storageID = a_other.m_storageID;
 
 	// 参照元のテクスチャIDを無効化
-	a_other.m_textureID = Constant::k_invalidTextureID;
+	a_other.m_storageID = Constant::k_invalidStorageID;
 
 	return *this;
 }
@@ -63,12 +63,12 @@ void FWK::Graphics::Texture::Load(const std::filesystem::path& a_filePath)
 	      auto& l_textureSystem      = l_resourceContext.GetMutableREFTextureSystem    ();
 	      auto& l_srvDescriptorPool  = l_resourceContext.GetMutableREFSRVDescriptorPool();
 	
-	m_textureID = l_textureSystem.LoadTextureForBatchUpload(l_device,
+	m_storageID = l_textureSystem.LoadTextureForBatchUpload(l_device,
 															l_gpuMemoryAllocator,
 															a_filePath,
 															l_srvDescriptorPool);
 
-	if (m_textureID == Constant::k_invalidTextureID)
+	if (m_storageID == Constant::k_invalidStorageID)
 	{
 		assert(false && "テクスチャ読み込みに失敗しました。");
 		return;
@@ -77,14 +77,14 @@ void FWK::Graphics::Texture::Load(const std::filesystem::path& a_filePath)
 
 void FWK::Graphics::Texture::AddTextureReference() const
 {
-	if (m_textureID == Constant::k_invalidTextureID) { return; }
+	if (m_storageID == Constant::k_invalidStorageID) { return; }
 
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 
 	auto& l_resourceContext = l_graphicsManager.GetMutableREFResourceContext();
 	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
 
-	if (!l_textureSystem.AddTextureReference(m_textureID))
+	if (!l_textureSystem.AddTextureReference(m_storageID))
 	{
 		assert(false && "テクスチャ参照数加算に失敗しました。");
 		return;
@@ -92,7 +92,7 @@ void FWK::Graphics::Texture::AddTextureReference() const
 }
 void FWK::Graphics::Texture::ReleaseTextureReference()
 {
-	if (m_textureID == Constant::k_invalidTextureID) { return; }
+	if (m_storageID == Constant::k_invalidStorageID) { return; }
 
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 
@@ -103,11 +103,11 @@ void FWK::Graphics::Texture::ReleaseTextureReference()
 	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
 
 	// 参照カウントを減らす
-	if (!l_textureSystem.ReleaseTextureReference(l_directCommandQueue, m_textureID))
+	if (!l_textureSystem.ReleaseTextureReference(l_directCommandQueue, m_storageID))
 	{
 		assert(false && "テクスチャ参照数解放に失敗しました。");
 		return;
 	}
 
-	m_textureID = Constant::k_invalidTextureID;
+	m_storageID = Constant::k_invalidStorageID;
 }

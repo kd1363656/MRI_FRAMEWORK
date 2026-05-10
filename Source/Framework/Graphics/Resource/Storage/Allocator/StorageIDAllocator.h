@@ -31,6 +31,6 @@ namespace FWK::Graphics
 		std::queue<TypeAlias::StorageID> m_freeStorageIDQueue = {};
 
 		TypeAlias::StorageID m_storageIDCapacity = Constant::k_invalidStorageID;
-		TypeAlias::StorageID m_nextStorageID     = k_firstNextStorageID;
+		TypeAlias::StorageID m_nextStorageID     = k_initialNextStorageID;
 	};
 }

@@ -12,6 +12,6 @@ namespace FWK::Struct
 
 		SpriteRECT m_sourceRECT = {};
 
-		TypeAlias::TextureID m_textureID = Constant::k_invalidTextureID;
+		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
 	};
 }
