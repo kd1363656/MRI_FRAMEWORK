@@ -881,6 +881,12 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator\StorageIDAllocatorConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Storage\AssetStorage.h">
+      <Filter>Source\Framework\Graphics\Resource\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\StorageConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Storage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

@@ -32,6 +32,7 @@
 #include "Definition/Constant/Graphics/Resource/ResourceConstant.h"
 #include "Definition/Constant/Graphics/Resource/Descriptor/DescriptorConstant.h"
 #include "Definition/Constant/Graphics/Resource/Storage/Allocator/StorageIDAllocatorConstant.h"
+#include "Definition/Constant/Graphics/Resource/Storage/StorageConstant.h"
 #include "Definition/Constant/Graphics/SwapChain/SwapChainConstant.h"
 #include "Definition/Constant/Graphics/Render/RootSignature/RootSignatureConstant.h"
 #include "Definition/Constant/Graphics/Render/Pipeline/PipelineStateConstant.h"
@@ -192,6 +193,7 @@
 
 // Storage
 #include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
+#include "Graphics/Resource/Storage/AssetStorage.h"
 
 // ディスクリプタベースを継承しているかどうかを確認するコンセプト
 #include "Definition/Concept/IsDerivedBase/Graphics/Resource/Descriptor/IsDerivedDescriptorBaseConcept.h"
