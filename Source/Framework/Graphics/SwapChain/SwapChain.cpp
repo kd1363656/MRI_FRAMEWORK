@@ -237,7 +237,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 	}
 
 	// ディスクリプタヒープの容量を超えてしまっていたらreturn
-	if (static_cast<UINT>(m_backBufferList.size()) > a_rtvDescriptorPool.GetVALDescriptorCapacity())
+	if (static_cast<UINT>(m_backBufferList.size()) > a_rtvDescriptorPool.GetVALStorageIDCapacity())
 	{
 		assert(false && "バックバッファリストのサイズがディスクリプタヒープの容量を超えています。");
 		return false;
@@ -272,20 +272,20 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 		}
 
 		// レンダーターゲット用アロケータを進める
-		const auto l_rtvIndex = a_rtvDescriptorPool.Allocate();
+		const auto l_rtvStorageID = a_rtvDescriptorPool.Allocate();
 
-		if (l_rtvIndex == Constant::k_invalidDescriptorHeapIndex)
+		if (l_rtvStorageID == Constant::k_invalidStorageID)
 		{
-			assert(false && "バックバッファ用RTVインデックスの確保に失敗しました。");
+			assert(false && "バックバッファ用RTVStorageIDの確保に失敗しました。");
 			return false;
 		}
 
-		// l_i番目のバックバッファと紐づいているRTVのインデックスを格納
-		m_backBufferList[l_backBufferIndex].m_rtvIndex = l_rtvIndex;
+		// l_backBufferIndex番目のバックバッファと紐づいているRTVのStorageIDを格納
+		m_backBufferList[l_backBufferIndex].m_rtvStorageID = l_rtvStorageID;
 
 		// RTVを置くディスクリプタ位置を取得する
 		// l_i番目のバックバッファに対応するRTVも、同じl_i番目の位置に書いている
-		const auto& l_rtvHandle = a_rtvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_rtvIndex);
+		const auto& l_rtvHandle = a_rtvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_rtvStorageID);
 
 		// レンダーターゲットビューを作成する関数
 		// CreateRenderTargetView(RTVを作りたい対象リソース、

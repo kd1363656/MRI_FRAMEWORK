@@ -20,16 +20,16 @@ namespace FWK::Graphics
 		explicit DescriptorHeapBase(const D3D12_DESCRIPTOR_HEAP_TYPE a_createDescriptorHeapType, const bool a_isUseCPUOnly, const bool a_isUseShaderVisible);
 		virtual ~DescriptorHeapBase();
 
-		bool Create(const Device& a_device, const UINT a_descriptorCapacity);
+		bool Create(const Device& a_device, const TypeAlias::StorageID a_storageIDCapacity);
 
-		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const UINT a_index, const Device& a_device) const;
+		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const TypeAlias::StorageID a_storageID, const Device& a_device) const;
 
 		TypeAlias::ComPtr<ID3D12DescriptorHeap> FetchPTRShaderVisibleDescriptorHeap() const;
 
-		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUOnlyCPUHandle      (const UINT a_index) const;
-		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleCPUHandle(const UINT a_index) const;
+		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUOnlyCPUHandle      (const TypeAlias::StorageID a_storageID) const;
+		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleCPUHandle(const TypeAlias::StorageID a_storageID) const;
 		
-		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleGPUHandle(const UINT a_index) const;
+		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleGPUHandle(const TypeAlias::StorageID a_storageID) const;
 
 	private:
 
@@ -40,8 +40,8 @@ namespace FWK::Graphics
 											    const bool							         a_shouldCreate,
 											  	      std::shared_ptr<DescriptorHeapRecord>& a_descriptorHeapRecord) const;
 
-		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUHandle(const UINT a_index, const DescriptorHeapRecord& a_descriptorHeapRecord) const;
-		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALGPUHandle(const UINT a_index, const DescriptorHeapRecord& a_descriptorHeapRecord) const;
+		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUHandle(const TypeAlias::StorageID a_storageID, const DescriptorHeapRecord& a_descriptorHeapRecord) const;
+		D3D12_GPU_DESCRIPTOR_HANDLE FetchVALGPUHandle(const TypeAlias::StorageID a_storageID, const DescriptorHeapRecord& a_descriptorHeapRecord) const;
 
 		static constexpr UINT64 k_invalidGPUDescriptorHandlePTR = 0ULL;
 

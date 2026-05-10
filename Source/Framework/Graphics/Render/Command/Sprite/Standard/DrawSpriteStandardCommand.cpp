@@ -81,15 +81,15 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		
 		auto* l_textureRecord = a_textureSystem.FindMutablePTRTextureRecord(l_spriteDrawCommand.m_storageID);
 
-		if (!l_textureRecord)					                                   { continue; }
-		if (!l_textureRecord->m_textureResource)                                   { continue; }
-		if (l_textureRecord->m_srvIndex == Constant::k_invalidDescriptorHeapIndex) { continue; }
+		if (!l_textureRecord)					                          { continue; }
+		if (!l_textureRecord->m_textureResource)                          { continue; }
+		if (l_textureRecord->m_storageID == Constant::k_invalidStorageID) { continue; }
 
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 
 		// ディスクリプタテーブルにテクスチャをセット
-		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_graphicsPipelineStateSetupResult.m_rootSignature, l_textureRecord->m_srvIndex);
+		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_graphicsPipelineStateSetupResult.m_rootSignature, l_textureRecord->m_srvStorageID);
 
 		if (!SetupCBSpriteDraw(l_spriteDrawCommand,
 							   l_directCommandList,

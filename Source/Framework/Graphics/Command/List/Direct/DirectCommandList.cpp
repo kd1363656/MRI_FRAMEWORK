@@ -97,16 +97,14 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 
 	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex];
 
-	const auto& l_rtvIndex = l_backBuffer.m_rtvIndex;
-
-	if (l_rtvIndex == Constant::k_invalidDescriptorHeapIndex)
+	if (l_backBuffer.m_rtvStorageID == Constant::k_invalidStorageID)
 	{
-		assert(false && "RTVインデックスが無効のため、バックバッファの設定が行えませんでした。");
+		assert(false && "RTVStorageIDが無効のため、バックバッファの設定が行えませんでした。");
 		return;
 	}
 
 	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
-	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_rtvIndex);
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_backBuffer.m_rtvStorageID);
 
 	// OMステージにレンダーターゲットを設定する関数
 	// OMSetRenderTargets(設定するレンダーターゲット数、
@@ -114,10 +112,10 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 	//					  ディスクリプタが連続は位置かどうか、
 	//					　深度ステンシルビューのアドレス);
 
-	l_directCommandList->OMSetRenderTargets( k_executeRenderTargetNUM,
+	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
 								            &l_rtvHandle,
-								             true,
-								             nullptr);
+								            true,
+								            nullptr);
 
 	// 現在のレンダーターゲットを指定色でクリアする関数
 	// ClearRenderTargetView(クリア対象のRTVハンドル、

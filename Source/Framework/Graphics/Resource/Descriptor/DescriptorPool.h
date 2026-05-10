@@ -24,7 +24,7 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			if (!m_storageIDAllocator.Create(m_descriptorCapacity))
+			if (!m_storageIDAllocator.Create(m_storageIDCapacity))
 			{
 				assert(false && "ディスクリプタヒープインデックスアロケータの作成処理に失敗しました。");
 				return false;

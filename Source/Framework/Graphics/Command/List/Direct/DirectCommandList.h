@@ -46,9 +46,9 @@ namespace FWK::Graphics
 				return;
 			}
 
-			if (a_srvIndex == Constant::k_invalidDescriptorHeapIndex)
+			if (a_srvIndex == Constant::k_invalidStorageID)
 			{
-				assert(false && "SRVインデックスが無効なため、ディスクリプタテーブル設定ができませんでした。");
+				assert(false && "SRVストレージIDが無効なため、ディスクリプタテーブル設定ができませんでした。");
 				return;
 			}
 

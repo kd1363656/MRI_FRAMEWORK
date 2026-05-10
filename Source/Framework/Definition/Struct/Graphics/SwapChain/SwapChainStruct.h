@@ -6,6 +6,6 @@ namespace FWK::Struct
 	{
 		TypeAlias::ComPtr<ID3D12Resource2> m_backBufferResource = nullptr;
 
-		UINT m_rtvIndex = Constant::k_invalidDescriptorHeapIndex;
+		TypeAlias::StorageID m_rtvStorageID = Constant::k_invalidStorageID;
 	};
 }

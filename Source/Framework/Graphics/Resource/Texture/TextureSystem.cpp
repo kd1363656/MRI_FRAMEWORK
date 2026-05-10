@@ -140,10 +140,10 @@ void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCom
 			l_textureRecord.m_textureResource.Reset();
 		}
 
-		// SRV用ディスクリプタインデックスを返却する
-		if (l_textureRecord.m_srvIndex != Constant::k_invalidDescriptorHeapIndex)
+		// SRV用ストレージIDを返却する
+		if (l_textureRecord.m_srvStorageID != Constant::k_invalidStorageID)
 		{
-			a_srvDescriptorPool.Release(l_textureRecord.m_srvIndex);
+			a_srvDescriptorPool.Release(l_textureRecord.m_srvStorageID);
 		}
 
 		// ファイルパスからそれに対応するTextureIDを見つけ出すMapの要素を削除
