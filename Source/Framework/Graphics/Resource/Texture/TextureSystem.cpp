@@ -9,7 +9,7 @@ bool FWK::Graphics::TextureSystem::Create()
 {
 	if (!m_storageIDAllocator.Create(m_storageIDAllocatorCapacity))
 	{
-		assert(false && "ストレージIDアロケータの作成に失敗したため、TextureSystemの作成処理に失敗しました。。");
+		assert(false && "ストレージIDアロケータの作成に失敗したため、TextureSystemの作成処理に失敗しました。");
 		return false;
 	}
 
@@ -31,8 +31,8 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	const auto& l_filePath = a_filePath.wstring();
 
 	// 既に登録済みのテクスチャなら再度ロード申請する必要がないのでreturn
-	if (const auto& l_itr = m_texturePathMap.find(l_filePath);
-		l_itr != m_texturePathMap.end())
+	if (const auto& l_itr = m_texturePathStorageIDMap.find(l_filePath);
+		l_itr != m_texturePathStorageIDMap.end())
 	{
 		if (!AddTextureReference(l_itr->second))
 		{
@@ -47,7 +47,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	if (const auto& l_itr = m_pendingTextureBatchUploadRecordMap.find(l_filePath);
 		l_itr != m_pendingTextureBatchUploadRecordMap.end())
 	{
-		// すでに予約登録予約済みテクスチャが再度登録されたら参照カウントを増やす
+		// すでに登録予約済みのテクスチャが再度登録されたら参照カウントを増やす
 		++l_itr->second.m_textureRecord.m_referenceCount;
 
 		return l_itr->second.m_textureRecord.m_storageID;
@@ -79,17 +79,17 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		return Constant::k_invalidStorageID;
 	}
 
-	const auto l_textureID = l_textureBatchUploadRecord.m_textureRecord.m_storageID;
+	const auto l_storageID = l_textureBatchUploadRecord.m_textureRecord.m_storageID;
 
 	// 作成し終えたTextureBatchUploadRecordをリストに格納する
 	m_pendingTextureBatchUploadRecordMap.try_emplace(l_filePath, std::move(l_textureBatchUploadRecord));
 
-	return l_textureID;
+	return l_storageID;
 }
 
 void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_uploadSystem)
 {
-	// std::unordered_set内にロードするテクスチャのファイルパスが一つもなければreturn
+	// ロード待ちテクスチャが一つもなければreturn;
 	if (m_pendingTextureBatchUploadRecordMap.empty()) { return; }
 
 	// ロード申請が来ていたテクスチャを一括ロードする
@@ -105,7 +105,7 @@ void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_up
 
 void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
-	const auto& l_completedFernceValue   = a_directCommandQueue.FetchVALCompletedFenceValue();
+	const auto& l_completedFenceValue = a_directCommandQueue.FetchVALCompletedFenceValue();
 
 	auto l_itr = m_textureRecordMap.begin();
 
@@ -128,13 +128,13 @@ void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCom
 		}
 
 		// GPUがまだこのテクスチャを利用している可能性があるため解放しない
-		if (l_completedFernceValue < l_textureRecord.m_retiredFenceValue)
+		if (l_completedFenceValue < l_textureRecord.m_retiredFenceValue)
 		{
 			++l_itr;
 			continue;
 		}
 
-		// TextureResourceを開放
+		// TextureResourceを解放
 		if (l_textureRecord.m_textureResource)
 		{
 			l_textureRecord.m_textureResource.Reset();
@@ -146,8 +146,8 @@ void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCom
 			a_srvDescriptorPool.Release(l_textureRecord.m_srvStorageID);
 		}
 
-		// ファイルパスからそれに対応するTextureIDを見つけ出すMapの要素を削除
-		m_texturePathMap.erase(l_textureRecord.m_filePath);
+		// ファイルパスから対応するStorageIDを見つるMapの要素を削除
+		m_texturePathStorageIDMap.erase(l_textureRecord.m_filePath);
 
 		// StorageIDを返却する
 		m_storageIDAllocator.Release(l_textureRecord.m_storageID);
@@ -203,7 +203,7 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 
 	if (l_textureRecord->m_referenceCount == Constant::k_emptyTextureReferenceCount)
 	{
-		assert(false && "参照数が0のTextureRecordに対してさらに解放要求が行われました");
+		assert(false && "参照数が0のTextureRecordに対してさらに解放要求が行われました。");
 		return false;
 	}
 
@@ -215,7 +215,7 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 	const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
 
 	// GPUに対して発行されたフェンス値を格納する
-	// GPUのフェンス値がこの格納されたフェンス値を超えていたら安全にリリースできるということ(GPu側での使用が終わっているから)
+	// GPUのフェンス値がこの格納されたフェンス値を超えていたら安全にリリースできるということ(GPU側での使用が終わっているから)
 	l_textureRecord->m_retiredFenceValue = l_lastSignaledFenceValue;
 
 	return true;
@@ -263,7 +263,7 @@ bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem
 {
 	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(m_pendingTextureBatchUploadRecordMap))
 	{
-		assert(false && "UploadSystemでのバッチテクスチャコピーに失敗したため、バッチテクスチャ登録に失敗しました。。");
+		assert(false && "UploadSystemでのバッチテクスチャコピーに失敗したため、バッチテクスチャ登録に失敗しました。");
 		return false;
 	}
 
@@ -271,8 +271,8 @@ bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem
 	{
 		auto& l_textureRecord = l_pendingTextureBatchUploadRecord.m_textureRecord;
 
-		m_texturePathMap.try_emplace  (l_filePath,					l_textureRecord.m_storageID);
-		m_textureRecordMap.try_emplace(l_textureRecord.m_storageID,	std::move(l_pendingTextureBatchUploadRecord.m_textureRecord));
+		m_texturePathStorageIDMap.try_emplace(l_filePath,					l_textureRecord.m_storageID);
+		m_textureRecordMap.try_emplace		 (l_textureRecord.m_storageID,	std::move(l_pendingTextureBatchUploadRecord.m_textureRecord));
 	}
 
 	return true;

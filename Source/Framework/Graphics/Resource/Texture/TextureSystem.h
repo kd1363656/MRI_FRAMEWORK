@@ -6,8 +6,8 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using TexturePathMap   = std::unordered_map<std::wstring,			TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
-		using TextureRecordMap = std::unordered_map<TypeAlias::StorageID, Struct::TextureRecord>;
+		using TexturePathStorageIDMap = std::unordered_map<std::wstring,	     TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
+		using TextureRecordMap		  = std::unordered_map<TypeAlias::StorageID, Struct::TextureRecord>;
 		
 	public:
 
@@ -31,7 +31,7 @@ namespace FWK::Graphics
 		bool AddTextureReference    (const TypeAlias::StorageID a_storageID);
 		bool ReleaseTextureReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::StorageID a_storageID);
 
-		void SetTextureIDAllocatorCapacity(const TypeAlias::StorageID a_set) { m_storageIDAllocatorCapacity = a_set; }
+		void SetStorageIDAllocatorCapacity(const TypeAlias::StorageID a_set) { m_storageIDAllocatorCapacity = a_set; }
 
 		const Struct::TextureRecord* FindPTRTextureRecord(const TypeAlias::StorageID a_storageID) const;
 
@@ -43,8 +43,8 @@ namespace FWK::Graphics
 
 		bool TextureCopyBatch(UploadSystem& a_uploadSystem);
 
-		TexturePathMap   m_texturePathMap   = {};
-		TextureRecordMap m_textureRecordMap = {};
+		TexturePathStorageIDMap m_texturePathStorageIDMap = {};
+		TextureRecordMap		m_textureRecordMap		  = {};
 
 		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
 

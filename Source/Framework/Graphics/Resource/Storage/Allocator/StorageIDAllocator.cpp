@@ -3,9 +3,15 @@
 bool FWK::Graphics::StorageIDAllocator::Create(const TypeAlias::StorageID a_storageIDCapacity)
 {
 	// 無効値を容量として指定された場合は作成失敗とする
+	if (a_storageIDCapacity == Constant::k_invalidStorageIDCapacity)
+	{
+		assert(false && "ストレージIDの割り当て可能数が0です。");
+		return false;
+	}
+
 	if (a_storageIDCapacity == Constant::k_invalidStorageID)
 	{
-		assert(false && "ストレージIDの割り当て可能数を超えています。");
+		assert(false && "StorageIDの割り当て可能数が無効値です。");
 		return false;
 	}
 
@@ -23,14 +29,14 @@ bool FWK::Graphics::StorageIDAllocator::Create(const TypeAlias::StorageID a_stor
 
 void FWK::Graphics::StorageIDAllocator::Release(const TypeAlias::StorageID a_storageID)
 {
-	// 範囲外StorageIDの開放は不正
-	if (!IsValidTextureID(a_storageID))
+	// 範囲外StorageIDの解放は不正
+	if (!IsValidStorageID(a_storageID))
 	{
 		assert(false && "解放しようとしたStorageIDが確保範囲外です。");
 		return;
 	}
 
-	// 未使用スロットの二重開放を防ぐ
+	// 未使用スロットの二重解放を防ぐ
 	if (!m_isAllocatedList[a_storageID])
 	{
 		assert(false && "未使用のStorageIDを解放しようとしました。");
@@ -50,8 +56,8 @@ FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
 
 		m_freeStorageIDQueue.pop();
 
-		// 有効なインデックスがかどうかを確認
-		if (!IsValidTextureID(l_reuseStorageID))
+		// 有効なインデックスかどうかを確認
+		if (!IsValidStorageID(l_reuseStorageID))
 		{
 			assert(false && "再利用しようとしたストレージIDが確保範囲外です。");
 			return Constant::k_invalidStorageID;
@@ -63,9 +69,9 @@ FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
 	}
 
 	// 未使用領域が残っているなら新規払い出しする
-	if (IsValidTextureID(m_nextStorageID))
+	if (IsValidStorageID(m_nextStorageID))
 	{
-		const UINT l_allocateStorageID = m_nextStorageID;
+		const auto l_allocateStorageID = m_nextStorageID;
 
 		++m_nextStorageID;
 
@@ -79,7 +85,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
 	return Constant::k_invalidStorageID;
 }
 
-bool FWK::Graphics::StorageIDAllocator::IsValidTextureID(const TypeAlias::StorageID a_storageID) const
+bool FWK::Graphics::StorageIDAllocator::IsValidStorageID(const TypeAlias::StorageID a_storageID) const
 {
 	// 範囲外インデックスを指し示すならfalseを返す
 	if (a_storageID >= m_storageIDCapacity ||

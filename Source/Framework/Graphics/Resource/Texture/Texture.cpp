@@ -43,7 +43,7 @@ FWK::Graphics::Texture& FWK::Graphics::Texture::operator=(Texture&& a_other) noe
 	// コピー元のストレージIDを格納
 	m_storageID = a_other.m_storageID;
 
-	// 参照元のテクスチャIDを無効化
+	// 参照元のストレージIDを無効化
 	a_other.m_storageID = Constant::k_invalidStorageID;
 
 	return *this;
@@ -51,7 +51,7 @@ FWK::Graphics::Texture& FWK::Graphics::Texture::operator=(Texture&& a_other) noe
 
 void FWK::Graphics::Texture::Load(const std::filesystem::path& a_filePath)
 {
-	// 既に別のTextureIDを持っている場合は先に参照を外す
+	// 既に別のStorageIDを持っている場合は先に参照を外す
 	ReleaseTextureReference();
 
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();

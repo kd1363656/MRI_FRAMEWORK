@@ -56,7 +56,7 @@ namespace FWK::Graphics
 		std::shared_ptr<DescriptorHeapRecord> m_cpuOnlyDescriptorHeapRecord       = nullptr;
 		std::shared_ptr<DescriptorHeapRecord> m_shaderVisibleDescriptorHeapRecord = nullptr;
 
-		UINT m_descriptorCapacity;
-		UINT m_descriptorSize;
+		TypeAlias::StorageID m_descriptorStorageIDCapacity;
+		UINT				 m_descriptorSize;
 	};
 }

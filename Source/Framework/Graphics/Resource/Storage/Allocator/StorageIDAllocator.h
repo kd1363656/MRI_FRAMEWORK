@@ -3,7 +3,7 @@
 namespace FWK::Graphics
 {
 	// ※注意
-	// TextureIDを要素数としても使っています
+	// StorageIDを配列のインデックスとしても使用します
 	class StorageIDAllocator final
 	{
 	public:
@@ -19,7 +19,7 @@ namespace FWK::Graphics
 
 	private:
 
-		bool IsValidTextureID(const TypeAlias::StorageID a_storageID) const;
+		bool IsValidStorageID(const TypeAlias::StorageID a_storageID) const;
 
 		static constexpr TypeAlias::StorageID k_initialNextStorageID = 0U;
 

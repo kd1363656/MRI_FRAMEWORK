@@ -9,8 +9,8 @@ FWK::Graphics::DescriptorHeapBase::DescriptorHeapBase(const D3D12_DESCRIPTOR_HEA
 	m_cpuOnlyDescriptorHeapRecord      (nullptr),
 	m_shaderVisibleDescriptorHeapRecord(nullptr),
 
-	m_descriptorCapacity(Constant::k_invalidStorageIDCapacity),
-	m_descriptorSize    (k_uninitializedDescriptorSize)
+	m_descriptorStorageIDCapacity(Constant::k_invalidStorageIDCapacity),
+	m_descriptorSize			 (k_uninitializedDescriptorSize)
 {}
 FWK::Graphics::DescriptorHeapBase::~DescriptorHeapBase() = default;
 
@@ -25,7 +25,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const Typ
 	}
 
 	// ディスクリプタ数0のヒープは意味がないので失敗扱い
-	if (a_storageIDCapacity == Constant::k_invalidStorageID)
+	if (a_storageIDCapacity == Constant::k_invalidStorageIDCapacity)
 	{
 		assert(false && "作成するディスクリプタ数が0です。");
 		return false;
@@ -48,7 +48,7 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const Typ
 	}
 
 	// ディスクリプタを何個確保するかを保存
-	m_descriptorCapacity = a_storageIDCapacity;
+	m_descriptorStorageIDCapacity = a_storageIDCapacity;
 
 	// ディスクリプタ1個分進めるのに必要なサイズを取得する
 	// これを使ってディスクリプタハンドルの位置を計算する
@@ -176,7 +176,7 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const Device&
 	l_desc.Type = k_createDescriptorHeapType;
 
 	// このヒープに何個ディスクリプタを入れるか
-	l_desc.NumDescriptors = m_descriptorCapacity;
+	l_desc.NumDescriptors = m_descriptorStorageIDCapacity;
 
 	// ヒープをシェーダーから見えるようにするかどうか
 	l_desc.Flags = a_descriptorHeapFlag;
@@ -250,7 +250,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUHandle
 		return {};
 	}
 
-	if (a_storageID >= m_descriptorCapacity)
+	if (a_storageID >= m_descriptorStorageIDCapacity)
 	{
 		assert(false && "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのCPUハンドル取得に失敗しました。");
 		return {};
@@ -259,7 +259,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUHandle
 	// 先頭CPUハンドルを基準にする
 	auto l_handle = a_descriptorHeapRecord.m_cpuStart;
 
-	// a_index個分先に進めて、目的のディスクリプタ位置を計算する
+	// a_storageID個分先に進めて、目的のディスクリプタ位置を計算する
 	l_handle.ptr += static_cast<UINT64>(a_storageID) * static_cast<UINT64>(m_descriptorSize);
 
 	return l_handle;
@@ -272,16 +272,16 @@ D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALGPUHandle
 		return {};
 	}
 
-	if (a_storageID >= m_descriptorCapacity)
+	if (a_storageID >= m_descriptorStorageIDCapacity)
 	{
 		assert(false && "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのGPUハンドル取得に失敗しました。");
 		return {};
 	}
 
-	// 先頭CPUハンドルを基準にする
+	// 先頭GPUハンドルを基準にする
 	auto l_handle = a_descriptorHeapRecord.m_gpuStart;
 
-	// a_index個分先に進めて、目的のディスクリプタ位置を計算する
+	// a_storageID個分先に進めて、目的のディスクリプタ位置を計算する
 	l_handle.ptr += static_cast<UINT64>(a_storageID) * static_cast<UINT64>(m_descriptorSize);
 
 	return l_handle;

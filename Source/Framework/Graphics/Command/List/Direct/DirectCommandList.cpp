@@ -108,8 +108,8 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 
 	// OMステージにレンダーターゲットを設定する関数
 	// OMSetRenderTargets(設定するレンダーターゲット数、
-	//					  レンダーターディスクリプタ配列の先頭アドレス、
-	//					  ディスクリプタが連続は位置かどうか、
+	//					  レンダーターゲットディスクリプタ配列の先頭アドレス、
+	//					  ディスクリプタが連続配置かどうか、
 	//					　深度ステンシルビューのアドレス);
 
 	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,

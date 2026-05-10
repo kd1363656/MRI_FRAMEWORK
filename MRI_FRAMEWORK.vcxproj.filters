@@ -64,12 +64,6 @@
     <Filter Include="Source\Framework\Definition\Macros\TypeINFO\Tag">
       <UniqueIdentifier>{45a5484a-b971-4ac1-9698-7974d3ec5fb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Tag">
-      <UniqueIdentifier>{9aee4cc8-c441-446b-ac12-ca7bc419fed0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Tag\WindowStyle">
-      <UniqueIdentifier>{3797548e-35af-49b2-a286-1f8ec0af90c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Concept">
       <UniqueIdentifier>{176973eb-b51e-4782-8b25-2871d1914a0a}</UniqueIdentifier>
     </Filter>
@@ -193,18 +187,6 @@
     <Filter Include="Source\Framework\Graphics\Render\Pipeline">
       <UniqueIdentifier>{e0a0886d-177f-432c-9403-ff62ec98afb5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Tag\Graphics">
-      <UniqueIdentifier>{ca2ec248-9d06-43fc-994a-a3e11cdbc485}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Tag\Graphics\Render">
-      <UniqueIdentifier>{6469d63a-9c8b-44ab-b091-d1a897f9750e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Tag\Graphics\Render\Pipeline">
-      <UniqueIdentifier>{3106d411-aa5b-4fcd-a650-21dd00095fad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Tag\Graphics\Render\RootSignature">
-      <UniqueIdentifier>{64a8cd29-dd3c-4039-b004-7f9bb1b57aa4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Asset">
       <UniqueIdentifier>{e08abcb7-e72b-4188-9139-dbc91832c777}</UniqueIdentifier>
     </Filter>
@@ -315,9 +297,6 @@
     </Filter>
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature">
       <UniqueIdentifier>{72663f8a-7071-4d84-b81a-d6608af5b071}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter">
-      <UniqueIdentifier>{d43936af-e673-4d73-80ed-24689f42c289}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter">
       <UniqueIdentifier>{5a4497b5-cdb7-445f-9bb9-7c583350a980}</UniqueIdentifier>
@@ -496,6 +475,27 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator">
       <UniqueIdentifier>{802c59e0-1bce-43ae-95ea-300180901f1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Tag">
+      <UniqueIdentifier>{9aee4cc8-c441-446b-ac12-ca7bc419fed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tag\WindowStyle">
+      <UniqueIdentifier>{3797548e-35af-49b2-a286-1f8ec0af90c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tag\Graphics">
+      <UniqueIdentifier>{ca2ec248-9d06-43fc-994a-a3e11cdbc485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tag\Graphics\Render">
+      <UniqueIdentifier>{6469d63a-9c8b-44ab-b091-d1a897f9750e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tag\Graphics\Render\Pipeline">
+      <UniqueIdentifier>{3106d411-aa5b-4fcd-a650-21dd00095fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tag\Graphics\Render\RootSignature">
+      <UniqueIdentifier>{64a8cd29-dd3c-4039-b004-7f9bb1b57aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tag\Graphics\Render\RootSignature\Parameter">
+      <UniqueIdentifier>{d43936af-e673-4d73-80ed-24689f42c289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -543,10 +543,10 @@
       <Filter>Source\Framework\Definition\Macros\TypeINFO\Tag</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\TagBase.h">
-      <Filter>Source\Framework\Tag</Filter>
+      <Filter>Source\Tag</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Window\WindowStyleTag.h">
-      <Filter>Source\Framework\Tag\WindowStyle</Filter>
+      <Filter>Source\Tag\WindowStyle</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase</Filter>
@@ -663,10 +663,10 @@
       <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\RootSignatureTag.h">
-      <Filter>Source\Framework\Tag\Graphics\Render\RootSignature</Filter>
+      <Filter>Source\Tag\Graphics\Render\RootSignature</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h">
-      <Filter>Source\Framework\Tag\Graphics\Render\Pipeline</Filter>
+      <Filter>Source\Tag\Graphics\Render\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h">
       <Filter>Source\Framework\Graphics\Resource\Texture</Filter>
@@ -750,7 +750,7 @@
       <Filter>Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter\RootParameterTag.h">
-      <Filter>Source\Framework\Tag\Graphics\Render\RootSignature\Parameter</Filter>
+      <Filter>Source\Tag\Graphics\Render\RootSignature\Parameter</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter\IsDerivedRootParameterTagBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter</Filter>
