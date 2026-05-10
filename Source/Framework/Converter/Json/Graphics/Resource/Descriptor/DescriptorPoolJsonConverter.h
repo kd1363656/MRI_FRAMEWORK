@@ -20,22 +20,22 @@ namespace FWK::Converter
 		{
 			if (a_rootJson.is_null()) { return; }
 
-			const auto l_descriptorCapacityNum = a_rootJson.value(k_descriptorCapacityJsonKey, Constant::k_defaultDescriptorCapacity);
+			const auto l_storageCapacity = a_rootJson.value(k_storageCapacityJsonKey, Constant::k_defaultCreateStorageIDCapacity);
 
-			a_descriptorPool.SetDescriptorCapacity(l_descriptorCapacityNum);
+			a_descriptorPool.SetDescriptorCapacity(l_storageCapacity);
 		}
 
 		nlohmann::json Serialize(const FWK::Graphics::DescriptorPool<Type>& a_descriptorPool) const
 		{
 			nlohmann::json l_rootJson = {};
 
-			l_rootJson[k_descriptorCapacityJsonKey] = a_descriptorPool.GetVALDescriptorCapacity();
+			l_rootJson[k_storageCapacityJsonKey] = a_descriptorPool.GetVALStorageIDCapacity();
 
 			return l_rootJson;
 		}
 
 	private:
 
-		static constexpr std::string_view k_descriptorCapacityJsonKey = "DescriptorCapacity";
+		static constexpr std::string_view k_storageCapacityJsonKey = "StorageCapacity";
 	};
 }

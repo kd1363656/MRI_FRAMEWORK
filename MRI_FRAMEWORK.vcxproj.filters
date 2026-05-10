@@ -139,9 +139,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV">
       <UniqueIdentifier>{65608037-0005-4c36-9bd8-8ca381c43fac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Allocator">
-      <UniqueIdentifier>{4a929dd8-e337-4dcb-8a33-77c653cb6d6b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Command\Allocator\Direct">
       <UniqueIdentifier>{2fd5b8da-d639-4caa-b23b-9044f2b532c5}</UniqueIdentifier>
     </Filter>
@@ -608,9 +605,6 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.h">
-      <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor</Filter>
     </ClInclude>
@@ -927,9 +921,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\RTV</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Allocator\DescriptorHeapIndexAllocator.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Descriptor\Allocator</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp">
       <Filter>Source\Framework\Graphics\Resource</Filter>

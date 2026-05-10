@@ -1,4 +1,4 @@
-{
+﻿{
     "Renderer": {
         "DrawCommand": [
             {
@@ -291,10 +291,10 @@
     },
     "ResourceContext": {
         "RTVDescriptorPool": {
-            "DescriptorCapacity": 1024
+            "StorageCapacity": 1024
         },
         "SRVDescriptorPool": {
-            "DescriptorCapacity": 1024
+            "StorageCapacity": 1024
         },
         "TextureSystem": {
             "StorageIDAllocatorCapacity": 3000

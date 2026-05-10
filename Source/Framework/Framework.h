@@ -193,9 +193,6 @@
 // Storage
 #include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
 
-// ディスクリプタヒープスロットアロケータ
-#include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapIndexAllocator.h"
-
 // ディスクリプタベースを継承しているかどうかを確認するコンセプト
 #include "Definition/Concept/IsDerivedBase/Graphics/Resource/Descriptor/IsDerivedDescriptorBaseConcept.h"
 

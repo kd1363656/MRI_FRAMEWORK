@@ -18,13 +18,13 @@ namespace FWK::Graphics
 		}
 		bool Create(const Device& a_device)
 		{
-			if (!m_descriptorHeap.Create(a_device, m_descriptorCapacity))
+			if (!m_descriptorHeap.Create(a_device, m_storageIDCapacity))
 			{
 				assert(false && "ディスクリプタヒープの作成処理に失敗しました。");
 				return false;
 			}
 
-			if (!m_descriptorHeapIndexAllocator.Create(m_descriptorCapacity))
+			if (!m_storageIDAllocator.Create(m_descriptorCapacity))
 			{
 				assert(false && "ディスクリプタヒープインデックスアロケータの作成処理に失敗しました。");
 				return false;
@@ -40,51 +40,51 @@ namespace FWK::Graphics
 
 		auto Allocate()
 		{
-			return m_descriptorHeapIndexAllocator.Allocate();
+			return m_storageIDAllocator.Allocate();
 		}
 
-		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const UINT a_index, const Device& a_device) const
+		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const TypeAlias::StorageID a_storageID, const Device& a_device) const
 		{
-			return m_descriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_index, a_device);
+			return m_descriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(a_storageID, a_device);
 		}
 
-		void Release(const UINT a_index)
+		void Release(const TypeAlias::StorageID a_storageID)
 		{
-			m_descriptorHeapIndexAllocator.Release(a_index);
+			m_storageIDAllocator.Release(a_storageID);
 		}
 
-		void SetDescriptorCapacity(const UINT a_set) { m_descriptorCapacity = a_set; }
+		void SetDescriptorCapacity(const TypeAlias::StorageID a_set) { m_storageIDCapacity = a_set; }
 
 		auto FetchShaderVisibleDescriptorHeap() const 
 		{
 			return m_descriptorHeap.FetchPTRShaderVisibleDescriptorHeap();
 		}
 
-		auto FetchVALCPUOnlyCPUHandle(const UINT a_index) const
+		auto FetchVALCPUOnlyCPUHandle(const TypeAlias::StorageID a_storageID) const
 		{
-			return m_descriptorHeap.FetchVALCPUOnlyCPUHandle(a_index);
+			return m_descriptorHeap.FetchVALCPUOnlyCPUHandle(a_storageID);
 		}
-		auto FetchVALShaderVisibleCPUHandle(const UINT a_index) const
+		auto FetchVALShaderVisibleCPUHandle(const TypeAlias::StorageID a_storageID) const
 		{
-			return m_descriptorHeap.FetchVALShaderVisibleCPUHandle(a_index);
+			return m_descriptorHeap.FetchVALShaderVisibleCPUHandle(a_storageID);
 		}
 
-		auto FetchVALShaderVisibleGPUHandle(const UINT a_index) const
+		auto FetchVALShaderVisibleGPUHandle(const TypeAlias::StorageID a_storageID) const
 		{
-			return m_descriptorHeap.FetchVALShaderVisibleGPUHandle(a_index);
+			return m_descriptorHeap.FetchVALShaderVisibleGPUHandle(a_storageID);
 		}
 
 		const auto& GetREFDescriptorHeap() const { return m_descriptorHeap; }
 
-		auto GetVALDescriptorCapacity() const { return m_descriptorCapacity; }
+		auto GetVALStorageIDCapacity() const { return m_storageIDCapacity; }
 
 	private:
 
-		Type						 m_descriptorHeap			    = {};
-		DescriptorHeapIndexAllocator m_descriptorHeapIndexAllocator = {};
+		Type			   m_descriptorHeap		= {};
+		StorageIDAllocator m_storageIDAllocator = {};
 
 		Converter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
 
-		UINT m_descriptorCapacity = Constant::k_defaultDescriptorCapacity;
+		TypeAlias::StorageID m_storageIDCapacity = Constant::k_defaultCreateStorageIDCapacity;
 	};
 }

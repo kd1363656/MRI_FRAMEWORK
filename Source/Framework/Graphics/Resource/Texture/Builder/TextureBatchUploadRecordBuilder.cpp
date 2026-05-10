@@ -37,7 +37,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	auto& l_textureRecord = a_textureBatchUploadRecord.m_textureRecord;
 
 	// CPUOnlyに作成したSRVをShaderVisible側へコピーする
-	if (!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_textureRecord.m_srvIndex, a_device))
+	if (!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_textureRecord.m_srvStorageID, a_device))
 	{
 		assert(false && "CPUOnlyからshaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
@@ -291,18 +291,18 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const Dire
 		l_srvDesc.Texture2D.ResourceMinLODClamp = k_resourceMINLODClamp;
 	}
 
-	// SRVインデックスを格納
-	const auto l_srvIndex = a_srvDescriptorPool.Allocate();
+	// SRVストレージIDを格納
+	const auto l_srvStorageID = a_srvDescriptorPool.Allocate();
 
-	if (l_srvIndex == Constant::k_invalidDescriptorHeapIndex)
+	if (l_srvStorageID == Constant::k_invalidStorageID)
 	{
-		assert(false && "SRV用ディスクリプタインデックスの確保に失敗したため、TextureSRV作成処理に失敗しました。");
+		assert(false && "SRV用ストレージIDの確保に失敗したため、TextureSRV作成処理に失敗しました。");
 		return false;
 	}
 
-	a_textureRecord.m_srvIndex = l_srvIndex;
+	a_textureRecord.m_srvStorageID = l_srvStorageID;
 
-	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(a_textureRecord.m_srvIndex);
+	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(a_textureRecord.m_srvStorageID);
 
 	// 作成したビューを用いてTextureResourceとSRVを結び付ける
 	l_device->CreateShaderResourceView(l_textureResource.Get(), &l_srvDesc, l_cpuOnlyCPUHandle);

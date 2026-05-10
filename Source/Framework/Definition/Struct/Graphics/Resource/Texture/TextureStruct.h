@@ -13,10 +13,10 @@ namespace FWK::Struct
 
 		UINT64 m_retiredFenceValue = Constant::k_unusedFenceValue;
 
-		UINT m_srvIndex       = Constant::k_invalidDescriptorHeapIndex;
 		UINT m_referenceCount = Constant::k_emptyTextureReferenceCount;
 
-		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_srvStorageID = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_storageID    = Constant::k_invalidStorageID;
 	};
 
 	struct SpriteRECT final
