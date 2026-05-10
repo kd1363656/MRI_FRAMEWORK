@@ -190,6 +190,9 @@
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Command/List/Copy/CopyCommandList.h"
 
+// Storage
+#include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
+
 // ディスクリプタヒープスロットアロケータ
 #include "Graphics/Resource/Descriptor/Allocator/DescriptorHeapIndexAllocator.h"
 
@@ -215,9 +218,6 @@
 // アップロードシステム
 #include "Converter/Json/Graphics/Resource/Upload/UploadSystemJsonConverter.h"
 #include "Graphics/Resource/Upload/UploadSystem.h"
-
-// Storage
-#include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
 
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
