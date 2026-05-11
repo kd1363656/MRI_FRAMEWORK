@@ -111,6 +111,9 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 
 	if (!l_textureRecord) 
 	{
+		// Allocate済みのStorageIDなので、失敗時は返却しておく
+		m_textureStorage.Release(l_allocateStorageID);
+
 		assert(false && "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。");
 		return l_textureLoadResult; 
 	}

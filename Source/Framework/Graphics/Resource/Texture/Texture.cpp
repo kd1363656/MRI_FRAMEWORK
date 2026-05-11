@@ -12,7 +12,7 @@ FWK::Graphics::Texture::Texture(const Texture & a_other) :
 }
 FWK::Graphics::Texture::Texture(Texture&& a_other) noexcept : 
 	m_storageID    (a_other.m_storageID),
-	m_textureRecord(a_other.m_textureRecord)
+	m_textureRecord(std::move(a_other.m_textureRecord))
 {
 	a_other.m_storageID = Constant::k_invalidStorageID;
 	a_other.m_textureRecord.reset();
@@ -45,7 +45,7 @@ FWK::Graphics::Texture& FWK::Graphics::Texture::operator=(Texture&& a_other) noe
 	// 所持しているテクスチャを破棄
 	ReleaseTextureReference();
 
-	// ムーブ出は参照数を増やさず、参照先だけ移す
+	// ムーブでは参照数を増やさず、参照先だけ移す
 	m_storageID     = a_other.m_storageID;
 	m_textureRecord = std::move(a_other.m_textureRecord);
 
