@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		bool Create();
 
-		bool LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::StaticModelData& a_staticModelData) const;
+		bool LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData) const;
 
 	private:
 

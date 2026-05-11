@@ -46,7 +46,7 @@ bool FWK::Graphics::FBXLoaderContext::Create()
 	return true;
 }
 
-bool FWK::Graphics::FBXLoaderContext::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::StaticModelData& a_staticModelData) const
+bool FWK::Graphics::FBXLoaderContext::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData) const
 {
 	if (!m_fbxManager)
 	{
@@ -54,7 +54,7 @@ bool FWK::Graphics::FBXLoaderContext::LoadStaticModelFile(const std::filesystem:
 		return false;
 	}
 
-	return m_staticModelFBXLoader.LoadStaticModelFile(a_filePath, a_staticModelData, m_fbxManager);
+	return m_staticModelFBXLoader.LoadStaticModelFile(a_filePath, a_modelData, m_fbxManager);
 }
 
 void FWK::Graphics::FBXLoaderContext::Destroy()

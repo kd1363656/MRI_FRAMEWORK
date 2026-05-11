@@ -80,7 +80,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -157,7 +157,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -232,7 +232,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -309,7 +309,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>

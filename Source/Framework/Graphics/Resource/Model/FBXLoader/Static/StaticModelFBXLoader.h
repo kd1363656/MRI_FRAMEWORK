@@ -9,11 +9,11 @@ namespace FWK::Graphics
 		 StaticModelFBXLoader()			 = default;
 		~StaticModelFBXLoader() override = default;
 
-		bool LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::StaticModelData& a_staticModelData, FbxManager* a_fbxManager) const;
+		bool LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData, FbxManager* a_fbxManager) const;
 
 	private:
 
-		bool RecursiveExtractModelMesh(Struct::StaticModelData& a_staticModelData, FbxNode* a_fbxNode) const;
+		bool RecursiveExtractModelMesh(Struct::ModelData& a_modelData, FbxNode* a_fbxNode) const;
 
 		bool ExtractModelMesh(Struct::ModelMesh& a_modelMesh, const FbxMesh* a_fbxMesh) const;
 

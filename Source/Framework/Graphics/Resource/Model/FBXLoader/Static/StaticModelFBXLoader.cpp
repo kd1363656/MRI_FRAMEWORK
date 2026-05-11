@@ -1,6 +1,6 @@
 ﻿#include "StaticModelFBXLoader.h"
 
-bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::StaticModelData& a_staticModelData, FbxManager* a_fbxManager) const
+bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData, FbxManager* a_fbxManager) const
 {
 	// FBXファイルを読み込み、FbxSceneとして取得する
 	// FbxSceneはFBXファイル全体のデータを持つ入れ物
@@ -37,7 +37,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 	if (!l_rootNode)
 	{
 		assert(false && "RootNodeが存在しないため、StaticModelの読み込みに失敗しました。");
-		
+
 		l_fbxScene->Destroy();
 		l_fbxScene = nullptr;
 
@@ -46,13 +46,13 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 
 	// 出力先のStaticModelDataを初期化する
 	// 同じ変数を使いまわした場合に、前回のMeshが残らないようにする
-	a_staticModelData.m_modelMeshList.clear();
+	a_modelData.m_modelMeshList.clear();
 
 	// RootNodeから再帰的に子Nodeを辿り、Meshを持っているNodeを探す
-	if (!RecursiveExtractModelMesh(a_staticModelData, l_rootNode))
+	if (!RecursiveExtractModelMesh(a_modelData, l_rootNode))
 	{
 		assert(false && "StaticModelとして使用できるMeshNodeが存在しないため、StaticModelの読み込みに失敗しました。");
-		
+
 		l_fbxScene->Destroy();
 		l_fbxScene = nullptr;
 
@@ -60,7 +60,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 	}
 
 	// Meshが一つも取れなかった場合、このFBXはStaticModelとして扱えない
-	if (a_staticModelData.m_modelMeshList.size() <= k_emptyMeshCount)
+	if (a_modelData.m_modelMeshList.size() <= k_emptyMeshCount)
 	{
 		assert(false && "StaticModelとして使用できるModelMeshが存在しないため、StaticModelの読み込みに失敗しました。");
 
@@ -77,8 +77,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 
 	return true;
 }
-
-bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::StaticModelData& a_staticModelData, FbxNode* a_fbxNode) const
+bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::ModelData& a_modelData, FbxNode* a_fbxNode) const
 {
 	if (!a_fbxNode)
 	{
@@ -116,7 +115,7 @@ bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::Stat
 			return false;
 		}
 
-		a_staticModelData.m_modelMeshList.emplace_back(l_modelMesh);
+		a_modelData.m_modelMeshList.emplace_back(l_modelMesh);
 	}
 
 	// 現在のNodeの子Node数を取得する
@@ -132,7 +131,7 @@ bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::Stat
 		auto* l_childNode = a_fbxNode->GetChild(l_childNodeIndex);
 
 		// 子Nodeも同じようにMeshを持っているか調べる
-		if (!RecursiveExtractModelMesh(a_staticModelData, l_childNode))
+		if (!RecursiveExtractModelMesh(a_modelData, l_childNode))
 		{
 			assert(false && "子FbxNodeからModelMeshの抽出に失敗しました。");
 			return false;
