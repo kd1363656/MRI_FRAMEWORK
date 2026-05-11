@@ -451,12 +451,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model">
       <UniqueIdentifier>{a0b404b4-fe39-49b0-9692-c038bf8ffd5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader">
-      <UniqueIdentifier>{42512832-d678-4157-bb81-c08888acc75d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static">
-      <UniqueIdentifier>{33373e06-4491-44f6-a709-c3e4d0d5fd22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Model">
       <UniqueIdentifier>{6fb960fc-f2da-4515-8b02-a34f1f3848b7}</UniqueIdentifier>
     </Filter>
@@ -514,17 +508,17 @@
     <Filter Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter">
       <UniqueIdentifier>{d43936af-e673-4d73-80ed-24689f42c289}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\AssetPipeline">
-      <UniqueIdentifier>{0312d87c-7e2c-4df7-9b93-dbdb25c033ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static">
-      <UniqueIdentifier>{7b08ed4a-a893-4b72-8c4e-7980f2a1ae4a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library">
       <UniqueIdentifier>{65e08c51-5571-4551-bc50-839e123d343a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\UFBX">
       <UniqueIdentifier>{5d1b3e6e-ca5b-4b85-9b3d-e62f9d446811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader">
+      <UniqueIdentifier>{47726090-9114-44a2-afa5-89bf65103eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static">
+      <UniqueIdentifier>{4524294e-ce13-4ff3-a5a9-aa158b7808fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -887,15 +881,6 @@
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderContext.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderBase.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Model</Filter>
     </ClInclude>
@@ -926,11 +911,14 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static\StaticModelAssetPipeline.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\AssetPipeline\Static</Filter>
-    </ClInclude>
     <ClInclude Include="..\Library\UFBX\ufbx.h">
       <Filter>Library\UFBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticFBXModelLoader.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1102,26 +1090,20 @@
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderContext.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXLoaderBase.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Storage\Allocator</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static\StaticModelAssetPipeline.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\AssetPipeline\Static</Filter>
-    </ClCompile>
     <ClCompile Include="..\Library\UFBX\ufbx.cpp">
       <Filter>Library\UFBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticFBXModelLoader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

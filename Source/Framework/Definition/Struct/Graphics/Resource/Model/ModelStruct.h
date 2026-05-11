@@ -9,12 +9,6 @@ namespace FWK::Struct
 		TypeAlias::Math::Vector2 m_uv		= {};
 	};
 
-	struct ModelMesh final
-	{
-		std::vector<ModelVertex>   m_modelVertexList = {};
-		std::vector<std::uint32_t> m_indexList	     = {};
-	};
-
 	struct ModelMaterial final
 	{
 		std::wstring m_baseColorTextureFilePath = {};
@@ -22,6 +16,14 @@ namespace FWK::Struct
 
 		TypeAlias::StorageID m_baseColorTextureStorageID = Constant::k_invalidStorageID;
 		TypeAlias::StorageID m_normalTextureStorageID    = Constant::k_invalidStorageID;
+	};
+
+	struct ModelMesh final
+	{
+		std::vector<ModelVertex>   m_modelVertexList = {};
+		std::vector<std::uint32_t> m_indexList	     = {};
+
+		ModelMaterial m_modelMaterial = {};
 	};
 
 	struct ModelData final

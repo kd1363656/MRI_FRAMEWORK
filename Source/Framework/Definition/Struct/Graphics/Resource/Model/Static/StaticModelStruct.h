@@ -2,7 +2,7 @@
 
 namespace FWK::Struct
 {
-	struct StaticModelRecord final : AssetRecordBase
+	struct StaticModelRecord final : public AssetRecordBase
 	{
 		ModelData m_modelData = {};
 	};
