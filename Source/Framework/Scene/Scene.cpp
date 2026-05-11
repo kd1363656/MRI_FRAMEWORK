@@ -4,8 +4,9 @@ void FWK::Scene::PostLoadSetup()
 {
 	m_texture.Load("Asset/Texture/Test.dds");
 
-	Graphics::StaticModelFBXLoader l_staticModelFBXLoader = {};
-	Struct::ModelData			   l_modelData			  = {};
+	Graphics::StaticModelFBXLoader	   l_staticModelFBXLoader     = {};
+	Graphics::StaticModelMeshOptimizer l_staticModelMeshOptimizer = {};
+	Struct::ModelData				   l_modelData			      = {};
 
 	// テスト
 	// FBXファイルを読み込んで、ModelDataに変換できるか確認する
@@ -16,22 +17,40 @@ void FWK::Scene::PostLoadSetup()
 		return;
 	}
 
-	std::size_t l_totalVertexCount = 0ULL;
-	std::size_t l_totalIndexCount  = 0ULL;
-
+	std::size_t l_beforeOptimizeVertexCount = 0ULL;
+	std::size_t l_beforeOptimizeIndexCount  = 0ULL;
+	
 	// ModelDataには複数Meshが入る可能性があるため、全Meshの頂点数とIndex数を合計する
 	for (const auto& l_modelMesh : l_modelData.m_modelMeshList)
 	{
-		l_totalVertexCount += l_modelMesh.m_modelVertexList.size();
-		l_totalIndexCount += l_modelMesh.m_indexList.size();
+		l_beforeOptimizeVertexCount += l_modelMesh.m_modelVertexList.size();
+		l_beforeOptimizeIndexCount  += l_modelMesh.m_indexList.size();
 	}
-
+	
+	if (!l_staticModelMeshOptimizer.OptimizeModelData(l_modelData))
+	{
+		assert(false && "StaticModelMeshOptimizerによるModelDataの最適化に失敗しました。");
+		return;
+	}
+	
+	std::size_t l_afterOptimizeVertexCount = 0ULL;
+	std::size_t l_afterOptimizeIndexCount  = 0ULL;
+	
+	// 最適化後の頂点数とIndex数を確認する
+	for (const auto& l_modelMesh : l_modelData.m_modelMeshList)
+	{
+		l_afterOptimizeVertexCount += l_modelMesh.m_modelVertexList.size();
+		l_afterOptimizeIndexCount  += l_modelMesh.m_indexList.size();
+	}
+	
 	std::string l_debugLog = {};
-	l_debugLog += "StaticModel FBX Load Test\n";
-	l_debugLog += "MeshCount   : " + std::to_string(l_modelData.m_modelMeshList.size()) + "\n";
-	l_debugLog += "VertexCount : " + std::to_string(l_totalVertexCount) + "\n";
-	l_debugLog += "IndexCount  : " + std::to_string(l_totalIndexCount) + "\n";
-
+	l_debugLog += "StaticModel Mesh Optimize Test\n";
+	l_debugLog += "MeshCount         : " + std::to_string(l_modelData.m_modelMeshList.size()) + "\n";
+	l_debugLog += "Before VertexCount: " + std::to_string(l_beforeOptimizeVertexCount) + "\n";
+	l_debugLog += "Before IndexCount : " + std::to_string(l_beforeOptimizeIndexCount) + "\n";
+	l_debugLog += "After VertexCount : " + std::to_string(l_afterOptimizeVertexCount) + "\n";
+	l_debugLog += "After IndexCount  : " + std::to_string(l_afterOptimizeIndexCount) + "\n";
+	
 	OutputDebugStringA(l_debugLog.c_str());
 }
 

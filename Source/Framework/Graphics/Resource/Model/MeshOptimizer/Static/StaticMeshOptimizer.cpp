@@ -1,0 +1,125 @@
+﻿#include "StaticMeshOptimizer.h"
+
+bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelData(Struct::ModelData& a_modelData) const
+{
+	if (a_modelData.m_modelMeshList.empty())
+	{
+		assert(false && "ModelDataのMeshリストが空のため、StaticModelMeshの最適化に失敗しました。");
+		return false;
+	}
+
+	for (auto& l_modelMesh : a_modelData.m_modelMeshList)
+	{
+		// ModelDataは複数Meshを持つ可能性があるため、Mesh単位で最適化する
+		if (!OptimizeModelMesh(l_modelMesh))
+		{
+			assert(false && "ModelMeshの最適化の失敗しました。");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMesh& a_modelMesh) const
+{
+	if (a_modelMesh.m_modelVertexList.empty())
+	{
+		assert(false && "ModelMeshの頂点リストが空のため、StaticModelMeshの最適化に失敗しました。");
+		return false;
+	}
+
+	if (a_modelMesh.m_indexList.empty())
+	{
+		assert(false && "ModelMeshのインデックスリストが空のため、StaticModelMeshの最適化に失敗しました。");
+		return false;
+	}
+
+	std::vector<std::uint32_t> l_vertexRemapList = {};
+
+	l_vertexRemapList.resize(a_modelMesh.m_indexList.size());
+
+	// 同じposition / normal / uvを持つ頂点をまとめるための対応表を作成する
+	// meshopt_generateVertexRemap(古い頂点番号から新しいい頂点番号への対応表を書き込む配列、
+	//						       現在のインデックス配列、	
+	//							   現在のインデックス数、
+	//							   現在の頂点配列、	
+	//							   現在の頂点数、
+	//						       頂点一つ分のバイトサイズ);
+
+	const auto& l_optimizedVertexCount = meshopt_generateVertexRemap(l_vertexRemapList.data(),
+																	 a_modelMesh.m_indexList.data(),
+																	 a_modelMesh.m_indexList.size(),
+																	 a_modelMesh.m_modelVertexList.data(),
+																	 a_modelMesh.m_modelVertexList.size(),
+																	 sizeof(Struct::ModelVertex));
+
+	if (l_optimizedVertexCount == k_invalidOptimizedVertexCount)
+	{
+		assert(false && "meshopt_generateVertexRemapによる頂点リマップ作成に失敗しました。");
+		return false;
+	}
+
+	std::vector<std::uint32_t> l_optimizedIndexList = {};
+
+	// 古い頂点番号を、重複削除後の新しい頂点番号へ変換する
+	// meshopt_remapIndexBuffer(最適化後のインデックス配列の書き込み先、
+	//							現在のインデックス配列、
+	//							現在のインデックス数、
+	//							meshopt_generateVertexRemapで作成した対応表);
+
+	l_optimizedIndexList.resize(a_modelMesh.m_indexList.size());
+
+	meshopt_remapIndexBuffer(l_optimizedIndexList.data(),
+							 a_modelMesh.m_indexList.data(),
+							 a_modelMesh.m_indexList.size(),
+							 l_vertexRemapList.data());
+
+	std::vector<Struct::ModelVertex> l_optimizedModelVertexList = {};
+
+	l_optimizedModelVertexList.resize(l_optimizedVertexCount);
+
+	// 重複している頂点を削除し、必要な頂点だけを新しい頂点配列へ詰めなおす
+	// meshopt_remapVertexBuffer(最適化後の頂点配列の書き込み先、
+	//							 現在の頂点配列、
+	//							 現在の頂点する、
+	//							 頂点一つ分のバイトサイズ、
+	//							 meshopt_generateVertexRemapで作成した対応表);
+
+	meshopt_remapVertexBuffer(l_optimizedModelVertexList.data(),
+							  a_modelMesh.m_modelVertexList.data(),
+							  a_modelMesh.m_modelVertexList.size(),
+							  sizeof(Struct::ModelVertex),
+							  l_vertexRemapList.data());
+
+
+	// GPUの頂点キャッシュに乗りやすい順番へインデックスを並べ替える
+	// meshopt_optimizeVertexCache(最適化後のインデックス配列の書き込み先、
+	//							   現在のインデックス配列、
+	//							   現在のインデックス、
+	//							   現在の頂点数);
+
+	meshopt_optimizeVertexCache(l_optimizedIndexList.data(),
+								l_optimizedIndexList.data(),
+								l_optimizedIndexList.size(),
+								l_optimizedModelVertexList.size());
+
+	// インデックスから参照される順番に頂点を並び替え、GPUが頂点を読みやすい配置にする
+	// meshopt_optimizeVertexFetch(最適化後の頂点配列の書き込み先、
+	//							   最適化後のインデックス配列、
+	//							   インデックス数、
+	//							   現在の頂点配列、
+	//							   頂点一つ分のバイトサイズ);
+
+	meshopt_optimizeVertexFetch(l_optimizedModelVertexList.data(),
+								l_optimizedIndexList.data(),
+								l_optimizedIndexList.size(),
+								l_optimizedModelVertexList.data(),
+								l_optimizedModelVertexList.size(),
+								sizeof(Struct::ModelVertex));
+
+	a_modelMesh.m_modelVertexList = std::move(l_optimizedModelVertexList);
+	a_modelMesh.m_indexList       = std::move(l_optimizedIndexList);
+
+	return true;
+}

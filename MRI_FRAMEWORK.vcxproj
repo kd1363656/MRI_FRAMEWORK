@@ -449,6 +449,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Storage\AssetStorage.h" />
@@ -529,6 +530,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Memory\GPUMemoryAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilder.cpp" />

@@ -523,6 +523,12 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Model">
       <UniqueIdentifier>{d84bfbd9-9079-4e31-ab28-328dd7430a51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Meshoptimizer">
+      <UniqueIdentifier>{6f9700d8-e5af-48c5-b959-4de981a1ccea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static">
+      <UniqueIdentifier>{4b81f68a-1a1e-47f2-809e-34de5b5ae776}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -926,6 +932,9 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\ModelConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1110,6 +1119,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
