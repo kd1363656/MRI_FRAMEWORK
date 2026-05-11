@@ -14,4 +14,18 @@ namespace FWK::Struct
 		std::vector<ModelVertex>   m_modelVertexList = {};
 		std::vector<std::uint32_t> m_indexList	     = {};
 	};
+
+	struct ModelMaterial final
+	{
+		std::wstring m_baseColorTextureFilePath = {};
+		std::wstring m_normalTextureFilePath	= {};
+
+		TypeAlias::StorageID m_baseColorTextureStorageID = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_normalTextureStorageID    = Constant::k_invalidStorageID;
+	};
+
+	struct ModelData final
+	{
+		std::vector<ModelMesh> m_modelMeshList = {};
+	};
 }

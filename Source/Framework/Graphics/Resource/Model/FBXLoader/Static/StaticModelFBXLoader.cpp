@@ -13,7 +13,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 	}
 
 	// FBX内のMeshは四角形Polygonなどで構成されている場合がある
-	// DirectX12で扱うINdexBufferは基本的に三角形単位で描画するため、ここで三角形化しておく
+	// DirectX12で扱うIndexBufferは基本的に三角形単位で描画するため、ここで三角形化しておく
 	// FbxGeometryConverter::Triangulate(三角形化するFbxScene、
 	//									 元のMeshを三角形化後のMeshに置き換えるかどうか);
 
@@ -29,8 +29,8 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 	}
 
 
-	// FBXはNOdeの階層構造でデータを持っている
-	// RootNodeはその改造構造の一番上のNode
+	// FBXはNodeの階層構造でデータを持っている
+	// RootNodeはその階層構造の一番上のNode
 	// FbxScene::GetRootNode();
 	auto* l_rootNode = l_fbxScene->GetRootNode();
 
@@ -95,7 +95,7 @@ bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::Stat
 		l_fbxNodeAttribute                     &&
 		l_fbxNodeAttribute->GetAttributeType() == FbxNodeAttribute::eMesh)
 	{
-		// このNodeがMesh属性を持っている場合、FvxNeshを取得する
+		// このNodeがMesh属性を持っている場合、FbxMeshを取得する
 		// FbxNodeが持っているFbxMeshを取得する
 		// FbxNode::GetMesh();
 
@@ -119,15 +119,16 @@ bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::Stat
 		a_staticModelData.m_modelMeshList.emplace_back(l_modelMesh);
 	}
 
-	// 現在のNodeの子Nodes数を取得する
+	// 現在のNodeの子Node数を取得する
 	// FbxNode::GetChildCount();
 
 	const int l_childNodeCount = a_fbxNode->GetChildCount();
 
 	for (int l_childNodeIndex = 0; l_childNodeIndex < l_childNodeCount; ++l_childNodeIndex)
 	{
-		// FbxNode::GetChild(取得したい子ノードのIndex);
 		// 指定Indexの子Nodeを取得する
+		// FbxNode::GetChild(取得したい子ノードのIndex);
+
 		auto* l_childNode = a_fbxNode->GetChild(l_childNodeIndex);
 
 		// 子Nodeも同じようにMeshを持っているか調べる
@@ -181,7 +182,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_
 
 		const int l_polygonVertexCount = a_fbxMesh->GetPolygonSize(l_polygonIndex);
 
-		// LoadStaticModelFile()がわでTriangulate済みなので、
+		// LoadStaticModelFile()側でTriangulate済みなので、
 		// ここでは必ず三角形のはず
 		if (l_polygonVertexCount != k_triangleVertexCount)
 		{
@@ -292,7 +293,13 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::StaticModelFBXLoader::FetchVertexUV
 	// UVSetは存在するが、このPolygon頂点にUVが割り当てられていない場合はreturn
 	if (l_isUnmapped) { return {}; }
 
-	return ConvertFbxVector2ToVector2(l_fbxUV);
+	auto l_uv = ConvertFbxVector2ToVector2(l_fbxUV);
+
+	// Blenderから読み込んだ時UV座標が反転しているので
+	// 最大値から現在のUV値を引く
+	l_uv.y = k_uvCoordinateMax - l_uv.y;
+	
+	return l_uv;
 }
 
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::StaticModelFBXLoader::ConvertFbxVector4ToVector3(const FbxVector4& a_fbxVector) const

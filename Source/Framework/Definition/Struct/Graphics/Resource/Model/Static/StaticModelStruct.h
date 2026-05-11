@@ -2,8 +2,8 @@
 
 namespace FWK::Struct
 {
-	struct StaticModelData final
+	struct StaticModelRecord final : AssetRecordBase
 	{
-		std::vector<ModelMesh> m_modelMeshList = {};
+		ModelData m_modelData = {};
 	};
 }

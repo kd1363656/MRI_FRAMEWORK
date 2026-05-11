@@ -26,6 +26,8 @@ namespace FWK::Graphics
 
 		static constexpr std::size_t k_emptyMeshCount = 0ULL;
 
+		static constexpr float k_uvCoordinateMax = 1.0F;
+
 		static constexpr int k_emptyUVSetNameCount = 0;
 		static constexpr int k_firstUVSetNameIndex = 0;
 		static constexpr int k_triangleVertexCount = 3;
