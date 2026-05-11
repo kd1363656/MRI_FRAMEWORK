@@ -44,7 +44,7 @@ namespace FWK::Graphics
 		std::weak_ptr<PipelineState> FindVALPipelineState(const TypeAlias::TypeTag a_tag) const;
 
 		template <Concept::IsDerivedIDrawCommandConcept Type>
-		std::shared_ptr<Type> FetchVALDrawCommand() const 
+		std::shared_ptr<Type> FindVALDrawCommand() const 
 		{
 			if (const auto& l_itr = m_drawCommandMap.find(Type::GetTypeINFO().k_staticTypeID);
 				l_itr != m_drawCommandMap.end())

@@ -10,7 +10,8 @@ namespace FWK::Graphics
 				 IDrawCommand() = default;
 		virtual ~IDrawCommand() = default;
 
-		virtual void BeginFrame() = 0;
+		virtual void BeginFrame		()					   = 0;
+		virtual void PostCreateSetup(Renderer& a_renderer) = 0;
 
 		virtual void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer, TextureSystem& a_textureSystem) = 0;
 

@@ -81,7 +81,7 @@ void FWK::Scene::RequestDrawTexture(const Graphics::Texture& a_texture) const
 	const auto&	l_graphicsManager = Graphics::GraphicsManager::GetInstance();
 	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer();
 
-	const auto& l_drawCommand = l_renderer.FetchVALDrawCommand<Graphics::DrawSpriteStandardCommand>();
+	const auto& l_drawCommand = l_renderer.FindVALDrawCommand<Graphics::DrawSpriteStandardCommand>();
 
 	if (!l_drawCommand) { return; }
 

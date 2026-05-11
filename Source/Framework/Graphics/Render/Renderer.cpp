@@ -66,6 +66,14 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompile
 void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
 	m_renderArea.SetupRenderArea(a_swapChain);
+
+	for (const auto& l_drawCommand : m_drawCommandList)
+	{
+		if (!l_drawCommand) { continue; }
+
+		// 描画コマンドで使用するルートシグネチャやパイプラインステート設定する
+		l_drawCommand->PostCreateSetup(*this);
+	}
 }
 
 void FWK::Graphics::Renderer::BeginFrame() const

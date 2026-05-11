@@ -5,14 +5,6 @@ namespace FWK::Graphics
 	template <typename Type>
 	class DrawCommandBase : public IDrawCommand
 	{
-	private:
-
-		struct GraphicsPipelineSetupResult final
-		{
-			std::weak_ptr<RootSignature> m_rootSignature = {};
-			std::weak_ptr<PipelineState> m_pipelineState = {};
-		};
-
 	public:
 
 		 DrawCommandBase()		    = default;
@@ -33,37 +25,51 @@ namespace FWK::Graphics
 	protected:
 
 		template <Concept::IsDerivedPipelineStateTagBaseConcept PipelineStateType>
-		GraphicsPipelineSetupResult SetupGraphicsPipelineStateByTag(Renderer& a_renderer) const
+		void SetupPipelineStateAndRootSignature(Renderer& a_renderer)
 		{
-				  auto  l_pipelineStateWeak = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<PipelineStateType>());
-			const auto& l_pipelineState    = l_pipelineStateWeak.lock		 ();
+			const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<PipelineStateType>());
+			const auto& l_pipelineState     = l_pipelineStateWeak.lock();
 
 			if (!l_pipelineState) 
 			{
-				assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
-				return {};
+				assert(false && "指定したTagに対応するパイプラインステートが無効です。");
+				return; 
 			}
 
 			// パイプラインステートが使用するルートシグネチャを取得
-				  auto  l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
-			const auto& l_rootSignature     = l_rootSignatureWeak.lock		 ();
+			const auto& l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
 
-			if (!l_rootSignature)
+			if (l_rootSignatureWeak.expired())
+			{
+				assert(false && "指定したルートシグネチャが無効です。");
+				return;
+			}
+
+			m_pipelineState = l_pipelineStateWeak;
+			m_rootSignature = l_rootSignatureWeak;
+		}
+
+		void SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const
+		{
+			if (m_pipelineState.expired()) 
+			{
+				assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
+				return;
+			}
+
+			if (m_rootSignature.expired())
 			{
 				assert(false && "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。");
-				return {};
+				return;
 			}
 
 			auto& l_directCommandList = a_renderer.GetMutableREFDirectCommandList();
 
 			// ルートシグネチャをセット
-			l_directCommandList.SetupRootSignature(l_rootSignatureWeak);
+			l_directCommandList.SetupRootSignature(m_rootSignature);
 
 			// パイプラインステートをセット
-			l_directCommandList.SetupPipelineState(l_pipelineStateWeak);
-			
-			// 使用したルートシグネチャ、パイプラインステートを外部に渡す
-			return { l_rootSignatureWeak, l_pipelineStateWeak };
+			l_directCommandList.SetupPipelineState(m_pipelineState);
 		}
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord)
@@ -117,8 +123,14 @@ namespace FWK::Graphics
 			return true;
 		}
 
+		const auto& GetVALRootSignature() const { return m_rootSignature; }
+		const auto& GetVALPipelineState() const { return m_pipelineState; }
+
 	private:
 
 		std::vector<Type> m_drawCommandList = {};
+
+		std::weak_ptr<RootSignature> m_rootSignature = {};
+		std::weak_ptr<PipelineState> m_pipelineState = {};
 	};
 }

@@ -9,6 +9,8 @@ namespace FWK::Graphics
 		 DrawSpriteStandardCommand()          = default;
 		~DrawSpriteStandardCommand() override = default;
 
+		void PostCreateSetup(Renderer& a_renderer) override;
+
 		void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer, TextureSystem& a_textureSystem) override;
 
 	private:

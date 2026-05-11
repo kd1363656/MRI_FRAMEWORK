@@ -1,13 +1,20 @@
 ﻿#include "DrawSpriteStandardCommand.h"
 
+void FWK::Graphics::DrawSpriteStandardCommand::PostCreateSetup(Renderer& a_renderer)
+{
+	SetupPipelineStateAndRootSignature<Tag::SpriteStandardPipelineStateTag>(a_renderer);
+}
+
 void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer, TextureSystem& a_textureSystem)
 {
 
 	// スプライト用ルートシグネチャとパイプラインステートをセット
 	// その際にセットしたルートシグネチャとパイプラインステートのポインタを取得
-	const auto& l_graphicsPipelineStateSetupResult = SetupGraphicsPipelineStateByTag<Tag::SpriteStandardPipelineStateTag>(a_renderer);
+	SetupGraphicsPipelineStateToCommandList(a_renderer);
 
-	if (l_graphicsPipelineStateSetupResult.m_rootSignature.expired())
+	const auto& l_rootSignature = GetVALRootSignature();
+
+	if (l_rootSignature.expired())
 	{
 		assert(false && "使用しようとしたルートシグネチャが無効なため、描画処理に失敗しました。");
 		return;
@@ -61,7 +68,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	}
 
 	// もし共通定数バッファの設定に失敗したらマップを解除
-	if (!SetupCBSpritePass(l_graphicsPipelineStateSetupResult.m_rootSignature,
+	if (!SetupCBSpritePass(l_rootSignature,
 						   a_renderer,
 						   l_directCommandList,
 						   l_spritePassUploadBuffer,
@@ -89,9 +96,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 
 		// ディスクリプタテーブルにテクスチャをセット
-		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_graphicsPipelineStateSetupResult.m_rootSignature, l_textureRecord->m_srvStorageID);
+		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_rootSignature, l_textureRecord->m_srvStorageID);
 
-		if (!SetupCBSpriteDraw(l_graphicsPipelineStateSetupResult.m_rootSignature, 
+		if (!SetupCBSpriteDraw(l_rootSignature, 
 							   l_spriteDrawCommand,
 							   l_directCommandList,
 							   l_spriteDrawUploadBuffer,
