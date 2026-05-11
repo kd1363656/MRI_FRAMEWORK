@@ -28,11 +28,11 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		return Constant::k_invalidStorageID;
 	}
 
-	const auto& l_filePath       = a_filePath.wstring						    ();
-	const auto  l_foundStorageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
-
+	const auto& l_filePath = a_filePath.wstring();
+	
 	// 既に登録済みのテクスチャなら再度ロード申請する必要がないのでreturn
-	if (l_foundStorageID != Constant::k_invalidStorageID)
+	if (const auto  l_foundStorageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
+		l_foundStorageID != Constant::k_invalidStorageID)
 	{
 		if (!AddTextureReference(l_foundStorageID))
 		{
@@ -47,10 +47,18 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	if (const auto& l_itr = m_pendingTextureBatchUploadRecordMap.find(l_filePath);
 		l_itr != m_pendingTextureBatchUploadRecordMap.end())
 	{
-		// すでに登録予約済みのテクスチャが再度登録されたら参照カウントを増やす
-		++l_itr->second.m_textureRecord.m_referenceCount;
+		const auto& l_textureRecord = l_itr->second.m_textureRecord;
 
-		return l_itr->second.m_textureRecord.m_storageID;
+		if (!l_textureRecord)
+		{
+			assert(false && "該当するStorageIDのテクスチャーレコードが無効のため、StorageIDを返せませんでした。");
+			return false;
+		}
+
+		// すでに登録予約済みのテクスチャが再度登録されたら参照カウントを増やす
+		++l_textureRecord->m_referenceCount;
+
+		return l_textureRecord->m_storageID;
 	}	
 	
 	DirectX::ScratchImage l_scratchImage = {};
@@ -91,7 +99,15 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		return Constant::k_invalidStorageID;
 	}
 
-	const auto l_storageID = l_textureBatchUploadRecord.m_textureRecord.m_storageID;
+	const auto& l_textureRecord = l_textureBatchUploadRecord.m_textureRecord;
+
+	if (!l_textureRecord) 
+	{
+		assert(false && "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。");
+		return false; 
+	}
+
+	const auto l_storageID = l_textureRecord->m_storageID;
 
 	// 作成し終えたTextureBatchUploadRecordをリストに格納する
 	m_pendingTextureBatchUploadRecordMap.try_emplace(l_filePath, std::move(l_textureBatchUploadRecord));
@@ -149,14 +165,9 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 	return true;
 }
 
-const FWK::Struct::TextureRecord* FWK::Graphics::TextureSystem::FindPTRTextureRecord(const TypeAlias::StorageID a_storageID) const
+std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const
 {
-	return m_textureStorage.FindPTRRecord(a_storageID);
-}
-
-FWK::Struct::TextureRecord* FWK::Graphics::TextureSystem::FindMutablePTRTextureRecord(const TypeAlias::StorageID a_storageID)
-{
-	return m_textureStorage.FindMutablePTRRecord(a_storageID);
+	return m_textureStorage.FindVALRecord(a_storageID);
 }
 
 bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem)
@@ -169,7 +180,15 @@ bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem
 
 	for (const auto& [l_filePath, l_pendingTextureBatchUploadRecord] : m_pendingTextureBatchUploadRecordMap)
 	{
-		if (!m_textureStorage.RegisterRecord(l_filePath, l_pendingTextureBatchUploadRecord.m_textureRecord))
+		auto& l_textureRecord = l_pendingTextureBatchUploadRecord.m_textureRecord;
+
+		if (!l_textureRecord)
+		{	
+			assert(false && "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。");
+			return false;
+		}
+
+		if (!m_textureStorage.RegisterRecord(l_filePath, l_textureRecord))
 		{
 			assert(false && "TextureRecordの登録に失敗したため、バッチテクスチャ登録に失敗しました。");
 			return false;

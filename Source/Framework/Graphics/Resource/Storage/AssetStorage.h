@@ -8,7 +8,7 @@ namespace FWK::Graphics
 	private:
 
 		using FilePathStorageIDMap = std::unordered_map<std::wstring,		  TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
-		using RecordMap            = std::unordered_map<TypeAlias::StorageID, RecordType>;
+		using RecordMap            = std::unordered_map<TypeAlias::StorageID, std::shared_ptr<RecordType>>;
 
 	public:
 
@@ -36,15 +36,21 @@ namespace FWK::Graphics
 			m_storageIDAllocator.Release(a_storageID);
 		}
 
-		bool RegisterRecord(const std::wstring& a_filePath, const RecordType& a_record)
+		bool RegisterRecord(const std::wstring& a_filePath, const std::shared_ptr<RecordType>& a_record)
 		{
+			if (!a_record)
+			{
+				assert(false && "レコードのインスタン化がされていません。");
+				return false;
+			}
+
 			if (a_filePath.empty())
 			{
 				assert(false && "ファイルパスが空のため、Recordの登録に失敗しました。");
 				return false;
 			}
 
-			if (a_record.m_storageID == Constant::k_invalidStorageID)
+			if (a_record->m_storageID == Constant::k_invalidStorageID)
 			{
 				assert(false && "StorageIDが無効のため、Recordの登録に失敗しました。");
 				return false;
@@ -56,21 +62,21 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			if (m_recordMap.contains(a_record.m_storageID))
+			if (m_recordMap.contains(a_record->m_storageID))
 			{
 				assert(false && "同じStorageIDのRecordが既に登録されているため、Recordの登録に失敗しました。");
 				return false;
 			}
 
-			m_filePathStorageIDMap.try_emplace(a_filePath,			 a_record.m_storageID);
-			m_recordMap.try_emplace			  (a_record.m_storageID, a_record);
+			m_filePathStorageIDMap.try_emplace(a_filePath,			  a_record->m_storageID);
+			m_recordMap.try_emplace			  (a_record->m_storageID, a_record);
 
 			return true;
 		}
 
 		bool UnregisterRecord(const TypeAlias::StorageID a_storageID)
 		{
-			auto* l_record = FindMutablePTRRecord(a_storageID);
+			const auto& l_record = FindVALRecord(a_storageID).lock();
 
 			if (!l_record)
 			{
@@ -90,7 +96,7 @@ namespace FWK::Graphics
 
 		bool AddReference(const TypeAlias::StorageID a_storageID)
 		{
-			auto* l_record = FindMutablePTRRecord(a_storageID);
+			const auto& l_record = FindVALRecord(a_storageID).lock();
 
 			if (!l_record)
 			{
@@ -106,7 +112,7 @@ namespace FWK::Graphics
 
 		bool ReleaseReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
 		{
-			auto* l_record = FindMutablePTRRecord(a_storageID);
+			const auto& l_record = FindVALRecord(a_storageID).lock();
 
 			if (!l_record)
 			{
@@ -145,27 +151,35 @@ namespace FWK::Graphics
 			{
 				auto& l_record = l_itr->second;
 
+				if (!l_record)
+				{
+					l_itr = m_recordMap.erase(l_itr);
+					continue;
+				}
+
 				// まだ参照されているRecordは解放しない
-				if (l_record.m_referenceCount > Constant::k_emptyAssetReferenceCount)
+				if (l_record->m_referenceCount > Constant::k_emptyAssetReferenceCount)
 				{
 					++l_itr;
 					continue;
 				}
 
 				// 解放予約用のFence値が初期値なら解放しない
-				if (l_record.m_retiredFenceValue == Constant::k_unusedFenceValue)
+				if (l_record->m_retiredFenceValue == Constant::k_unusedFenceValue)
 				{
 					++l_itr;
 					continue;
 				}
 
 				// GPUがまだこのRecordを利用している可能性があるため解放しない
-				if (l_completedFenceValue < l_record.m_retiredFenceValue)
+				if (l_record->m_retiredFenceValue > l_completedFenceValue)
 				{
 					++l_itr;
 					continue;
 				}
 
+				// Record固有のリソースを開放する
+				// TextureRecordならTextureResourceやSRVのStorageID返却などを行う
 				if (!a_recordReleaser.ReleaseRecord(l_record))
 				{
 					assert(false && "Record固有リソースの解放に失敗しました。");
@@ -174,10 +188,10 @@ namespace FWK::Graphics
 				}
 
 				// ファイルパスから対応するStorageIDを見つけるMapの要素を削除
-				m_filePathStorageIDMap.erase(l_record.m_filePath);
+				m_filePathStorageIDMap.erase(l_record->m_filePath);
 
 				// StorageIDを返却する
-				m_storageIDAllocator.Release(l_record.m_storageID);
+				m_storageIDAllocator.Release(l_record->m_storageID);
 
 				// RecordMapから削除する
 				// erase()は削除した次のイテレーターを返す
@@ -194,12 +208,12 @@ namespace FWK::Graphics
 			return l_itr->second;
 		}
 
-		const RecordType* FindPTRRecord(const TypeAlias::StorageID a_storageID) const
+		std::weak_ptr<RecordType> FindVALRecord(const TypeAlias::StorageID a_storageID) const
 		{
 			if (a_storageID == Constant::k_invalidStorageID)
 			{
 				assert(false && "StorageIDが無効のため、Recordの取得に失敗しました。");
-				return nullptr;
+				return {};
 			}
 
 			const auto& l_itr = m_recordMap.find(a_storageID);
@@ -207,29 +221,10 @@ namespace FWK::Graphics
 			if (l_itr == m_recordMap.end())
 			{
 				assert(false && "指定されたStorageIDに対応するRecordが見つかりませんでした。");
-				return nullptr;
+				return {};
 			}
 
-			return &l_itr->second;
-		}
-
-		RecordType* FindMutablePTRRecord(const TypeAlias::StorageID a_storageID)
-		{
-			if (a_storageID == Constant::k_invalidStorageID)
-			{
-				assert(false && "StorageIDが無効のため、Recordの取得に失敗しました。");
-				return nullptr;
-			}
-
-			const auto& l_itr = m_recordMap.find(a_storageID);
-
-			if (l_itr == m_recordMap.end())
-			{
-				assert(false && "指定されたStorageIDに対応するRecordが見つかりませんでした。");
-				return nullptr;
-			}
-
-			return &l_itr->second;
+			return l_itr->second;
 		}
 
 	private:

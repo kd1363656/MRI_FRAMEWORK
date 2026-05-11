@@ -14,7 +14,7 @@ namespace FWK::Graphics
 		{}
 		~TextureRecordReleaser() = default;
 
-		bool ReleaseRecord(Struct::TextureRecord& a_textureRecord) const;
+		bool ReleaseRecord(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord) const;
 
 	private:
 

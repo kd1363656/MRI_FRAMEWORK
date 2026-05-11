@@ -57,10 +57,17 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 	// D3D12_PLACED_SUBRESOURCE_FOOTPRINTの配置情報に従って、DEFAULTヒープ上のテクスチャリソースへコピーする
 	for (const auto& [l_filePath, l_pendingTextureBatchUploadRecord] : a_pendingTextureBatchUploadRecordMap)
 	{
-		const auto& l_textureRecord		  = l_pendingTextureBatchUploadRecord.m_textureRecord;
+		const auto& l_textureRecord = l_pendingTextureBatchUploadRecord.m_textureRecord;
+
+		if (!l_textureRecord)
+		{
+			assert(false && "TextureRecordが無効になっており、テクスチャコピー処理ができませんでした。");
+			return false;
+		}
+
 		const auto& l_textureUploadRecord = l_pendingTextureBatchUploadRecord.m_textureUploadRecord;
 
-		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord.m_textureResource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
+		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->m_textureResource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
 	}
 
 	m_copyCommandList.Close				  ();

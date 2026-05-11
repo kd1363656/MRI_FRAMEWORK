@@ -28,9 +28,7 @@ namespace FWK::Graphics
 
 		void SetStorageIDAllocatorCapacity(const TypeAlias::StorageID a_set) { m_storageIDAllocatorCapacity = a_set; }
 
-		const Struct::TextureRecord* FindPTRTextureRecord(const TypeAlias::StorageID a_storageID) const;
-
-		Struct::TextureRecord* FindMutablePTRTextureRecord(const TypeAlias::StorageID a_storageID);
+		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const;
 
 		auto GetVALStorageIDAllocatorCapacity() const { return m_storageIDAllocatorCapacity; }
 

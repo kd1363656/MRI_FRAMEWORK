@@ -9,8 +9,17 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 																						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 																						  Struct::TextureBatchUploadRecord&  a_textureBatchUploadRecord) const
 {
+	auto& l_textureRecord = a_textureBatchUploadRecord.m_textureRecord;
+
+	// もしTextureRecordがインスタンス化されていなければ
+	// インスタンス化する
+	if (!l_textureRecord)
+	{
+		l_textureRecord = std::make_shared<Struct::TextureRecord>();
+	}
+
 	// まずはGPU側用のテクスチャリソースのヒープ領域を確保
-	if (!CreateTextureResource(a_texMetadata, a_gpuMemoryAllocator, a_textureBatchUploadRecord.m_textureRecord))
+	if (!CreateTextureResource(l_textureRecord, a_texMetadata, a_gpuMemoryAllocator))
 	{
 		assert(false && "TextureResource作成処理に失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
@@ -25,19 +34,17 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	}
 
 	// 作成したTextureResourceをシェーダーから参照できるように、CPUOnly側のDescriptorHeapへSRVを作成する
-	if (!CreateTextureSRV(a_texMetadata,
+	if (!CreateTextureSRV(a_textureBatchUploadRecord.m_textureRecord,
+						  a_texMetadata,
 						  a_device,
-						  a_srvDescriptorPool,
-						  a_textureBatchUploadRecord.m_textureRecord))
+						  a_srvDescriptorPool))
 	{
 		assert(false && "TextureSRV作成に失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
 	}
 
-	auto& l_textureRecord = a_textureBatchUploadRecord.m_textureRecord;
-
 	// CPUOnlyに作成したSRVをShaderVisible側へコピーする
-	if (!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_textureRecord.m_srvStorageID, a_device))
+	if (!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_textureRecord->m_srvStorageID, a_device))
 	{
 		assert(false && "CPUOnlyからshaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
@@ -50,17 +57,25 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	}
 
 	// 最後にD3D12_RESOURCE_STATESと参照カウント、ファイルパスを格納する
-	l_textureRecord.m_currentState      = D3D12_RESOURCE_STATE_COMMON;
-	l_textureRecord.m_retiredFenceValue = Constant::k_unusedFenceValue;
-	l_textureRecord.m_referenceCount    = k_initialTextureReferenceCount;
-	l_textureRecord.m_storageID         = a_storageID;
-	l_textureRecord.m_filePath          = a_filePath;
+	l_textureRecord->m_currentState      = D3D12_RESOURCE_STATE_COMMON;
+	l_textureRecord->m_retiredFenceValue = Constant::k_unusedFenceValue;
+	l_textureRecord->m_referenceCount    = k_initialTextureReferenceCount;
+	l_textureRecord->m_storageID         = a_storageID;
+	l_textureRecord->m_filePath          = a_filePath;
 
 	return true;
 }
 
-bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const DirectX::TexMetadata& a_texMetadata, const GPUMemoryAllocator& a_gpuMemoryAllocator, Struct::TextureRecord& a_textureRecord) const
+bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord, const DirectX::TexMetadata& a_texMetadata, const GPUMemoryAllocator& a_gpuMemoryAllocator) const
 {
+	const auto& l_textureRecord = a_textureRecord.lock();
+
+	if (!l_textureRecord)
+	{
+		assert(false && "TextureRecordが無効のため、TextureResource作成処理に失敗しました。");
+		return false;
+	}
+
 	if (a_texMetadata.format == DXGI_FORMAT_UNKNOWN)
 	{
 		assert(false && "テクスチャフォーマットが無効のため、TextureResource作成処理に失敗しました。");
@@ -92,8 +107,8 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const
 		!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
 													nullptr,
 													D3D12_RESOURCE_STATE_COMMON,
-													a_textureRecord.m_textureResource,
-													a_textureRecord.m_allocation))
+													l_textureRecord->m_textureResource,
+													l_textureRecord->m_allocation))
 	{
 		assert(false && "D3D12MAによるTextureResource作成処理に失敗しました。");
 		return false;
@@ -112,10 +127,23 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 		return false;
 	}
 
-	const auto& l_textureRecord = a_textureBatchUploadRecord.m_textureRecord.m_textureResource;
+	const auto& l_textureRecord = a_textureBatchUploadRecord.m_textureRecord;
 
-	const auto& l_textureResourceDesc = l_textureRecord->GetDesc();
-	const auto  l_subresourceCount    = static_cast<UINT>       (a_scratchImage.GetImageCount());
+	if (!l_textureRecord)
+	{
+		assert(false && "TextureRecordがインスタンス化されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_textureResource = l_textureRecord->m_textureResource;
+
+	if (!l_textureResource)
+	{
+		assert(false && "TextureResourceが作成されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
+	}
+
+	const auto& l_textureResourceDesc = l_textureResource->GetDesc();
+	const auto  l_subresourceCount    = static_cast<UINT>         (a_scratchImage.GetImageCount());
 
 	auto& l_textureUploadRecord = a_textureBatchUploadRecord.m_textureUploadRecord;
 
@@ -236,12 +264,20 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 	return true;
 }
 
-bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const DirectX::TexMetadata&              a_texMetadata, 
-																	  const Device&				               a_device, 
-																		    DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-																			Struct::TextureRecord&		       a_textureRecord) const
+bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
+																	  const DirectX::TexMetadata&                 a_texMetadata, 
+																	  const Device&				                  a_device, 
+																		    DescriptorPool<SRVDescriptorHeap>&    a_srvDescriptorPool) const
 {
-	const auto& l_textureResource = a_textureRecord.m_textureResource;
+	const auto& l_textureRecord = a_textureRecord.lock();
+
+	if (!l_textureRecord)
+	{
+		assert(false && "TextureRecordが無効のため、TextureSRV作成処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_textureResource = l_textureRecord->m_textureResource;
 
 	if (!l_textureResource)
 	{
@@ -298,9 +334,9 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const Dire
 		return false;
 	}
 
-	a_textureRecord.m_srvStorageID = l_srvStorageID;
+	l_textureRecord->m_srvStorageID = l_srvStorageID;
 
-	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(a_textureRecord.m_srvStorageID);
+	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_textureRecord->m_srvStorageID);
 
 	// 作成したビューを用いてTextureResourceとSRVを結び付ける
 	l_device->CreateShaderResourceView(l_textureResource.Get(), &l_srvDesc, l_cpuOnlyCPUHandle);

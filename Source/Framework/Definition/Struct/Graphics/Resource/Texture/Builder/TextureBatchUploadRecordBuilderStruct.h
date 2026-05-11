@@ -4,7 +4,7 @@ namespace FWK::Struct
 {
 	struct TextureBatchUploadRecord final
 	{
-		Struct::TextureRecord	    m_textureRecord       = {};
-		Struct::TextureUploadRecord m_textureUploadRecord = {};
+		std::shared_ptr<Struct::TextureRecord> m_textureRecord       = nullptr;
+		Struct::TextureUploadRecord			   m_textureUploadRecord = {};
 	};
 }
