@@ -15,7 +15,7 @@ namespace FWK::Graphics
 
 		bool RecursiveExtractModelMesh(Struct::StaticModelData& a_staticModelData, FbxNode* a_fbxNode) const;
 
-		bool ExtractModelMesh(Struct::ModelMesh& a_modelMesh, FbxMesh* a_fbxMesh) const;
+		bool ExtractModelMesh(Struct::ModelMesh& a_modelMesh, const FbxMesh* a_fbxMesh) const;
 
 		TypeAlias::Math::Vector3 FetchVertexPosition(const FbxMesh* a_fbxMesh, const int a_controlPointIndex)													  const;
 		TypeAlias::Math::Vector3 FetchVertexNormal  (const FbxMesh* a_fbxMesh, const int a_polygonIndex, const int a_polygonVertexIndex)						  const;
@@ -24,7 +24,8 @@ namespace FWK::Graphics
 		TypeAlias::Math::Vector3 ConvertFbxVector4ToVector3(const FbxVector4& a_fbxVector) const;
 		TypeAlias::Math::Vector2 ConvertFbxVector2ToVector2(const FbxVector2& a_fbxVector) const;
 
-		static constexpr int k_emptyMeshCount	   = 0;
+		static constexpr std::size_t k_emptyMeshCount = 0ULL;
+
 		static constexpr int k_emptyUVSetNameCount = 0;
 		static constexpr int k_firstUVSetNameIndex = 0;
 		static constexpr int k_triangleVertexCount = 3;

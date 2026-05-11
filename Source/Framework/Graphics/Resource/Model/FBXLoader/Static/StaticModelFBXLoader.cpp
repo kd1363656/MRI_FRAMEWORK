@@ -2,6 +2,8 @@
 
 bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::StaticModelData& a_staticModelData, FbxManager* a_fbxManager) const
 {
+	// FBXファイルを読み込み、FbxSceneとして取得する
+	// FbxSceneはFBXファイル全体のデータを持つ入れ物
 	auto* l_fbxScene = ImportScene(a_filePath, a_fbxManager);
 
 	if (!l_fbxScene)
@@ -10,12 +12,13 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
-	FbxGeometryConverter l_geometryConverter(a_fbxManager);
-
-	// FbxGeometryConverter::Triangulate(三角形化するFbxScene,
+	// FBX内のMeshは四角形Polygonなどで構成されている場合がある
+	// DirectX12で扱うINdexBufferは基本的に三角形単位で描画するため、ここで三角形化しておく
+	// FbxGeometryConverter::Triangulate(三角形化するFbxScene、
 	//									 元のMeshを三角形化後のMeshに置き換えるかどうか);
 
-	if (!l_geometryConverter.Triangulate(l_fbxScene, k_isReplaceOriginalMesh))
+	if (FbxGeometryConverter l_geometryConverter(a_fbxManager);
+		!l_geometryConverter.Triangulate(l_fbxScene, k_isReplaceOriginalMesh))
 	{
 		assert(false && "FBXのMeshを三角形化できなかったため、StaticModelの読み込みに失敗しました。");
 
@@ -25,9 +28,10 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
-	// FBXシーン全体の親になるRootNodeを取得する
-	// FbxScene::GetRootNode();
 
+	// FBXはNOdeの階層構造でデータを持っている
+	// RootNodeはその改造構造の一番上のNode
+	// FbxScene::GetRootNode();
 	auto* l_rootNode = l_fbxScene->GetRootNode();
 
 	if (!l_rootNode)
@@ -40,8 +44,11 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
+	// 出力先のStaticModelDataを初期化する
+	// 同じ変数を使いまわした場合に、前回のMeshが残らないようにする
 	a_staticModelData.m_modelMeshList.clear();
 
+	// RootNodeから再帰的に子Nodeを辿り、Meshを持っているNodeを探す
 	if (!RecursiveExtractModelMesh(a_staticModelData, l_rootNode))
 	{
 		assert(false && "StaticModelとして使用できるMeshNodeが存在しないため、StaticModelの読み込みに失敗しました。");
@@ -52,6 +59,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
+	// Meshが一つも取れなかった場合、このFBXはStaticModelとして扱えない
 	if (a_staticModelData.m_modelMeshList.size() <= k_emptyMeshCount)
 	{
 		assert(false && "StaticModelとして使用できるModelMeshが存在しないため、StaticModelの読み込みに失敗しました。");
@@ -62,6 +70,8 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
+	// ImportSceneで作成したFbxSceneを破棄する
+	// StaticModelDataには必要な頂点/Indexをコピー済みなので、FbxSceneはここで消してよい
 	l_fbxScene->Destroy();
 	l_fbxScene = nullptr;
 
@@ -76,39 +86,40 @@ bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::Stat
 		return false;
 	}
 
-	auto* l_fbxNodeAttribute = a_fbxNode->GetNodeAttribute();
+	// FbxNodeはMesh / Camera / Light / Nullなど、色々な属性を持つ
+	// NodeAttributeが存在する場合だけ、属性の種類を確認する
+	// NodeAttributeがないNodeもあるが、それは失敗ではない
+	// FbxNodeAttribute::GetAttributeType();
 
-	if (l_fbxNodeAttribute)
+	if (const auto* l_fbxNodeAttribute = a_fbxNode->GetNodeAttribute();
+		l_fbxNodeAttribute                     &&
+		l_fbxNodeAttribute->GetAttributeType() == FbxNodeAttribute::eMesh)
 	{
-		// FbxNodeが持っている属性の種類を取得する
-		// FbxNodeAttribute::GetAttributeType();
+		// このNodeがMesh属性を持っている場合、FvxNeshを取得する
+		// FbxNodeが持っているFbxMeshを取得する
+		// FbxNode::GetMesh();
 
-		if (l_fbxNodeAttribute->GetAttributeType() == FbxNodeAttribute::eMesh)
+		const auto* l_fbxMesh = a_fbxNode->GetMesh();
+
+		if (!l_fbxMesh)
 		{
-			// FbxNodeが持っているFbxMeshを取得する
-			// FbxNode::GetMesh();
-
-			auto* l_fbxMesh = a_fbxNode->GetMesh();
-
-			if (!l_fbxMesh)
-			{
-				assert(false && "FbxMeshが存在しないため、ModelMeshの抽出に失敗しました。");
-				return false;
-			}
-
-			Struct::ModelMesh l_modelMesh = {};
-
-			if (!ExtractModelMesh(l_modelMesh, l_fbxMesh))
-			{
-				assert(false && "FbxMeshからModelMeshの作成に失敗しました。");
-				return false;
-			}
-
-			a_staticModelData.m_modelMeshList.emplace_back(l_modelMesh);
+			assert(false && "FbxMeshが存在しないため、ModelMeshの抽出に失敗しました。");
+			return false;
 		}
+
+		Struct::ModelMesh l_modelMesh = {};
+
+		// FbxMeshから、自作エンジン用のModelMeshへ変換する
+		if (!ExtractModelMesh(l_modelMesh, l_fbxMesh))
+		{
+			assert(false && "FbxMeshからModelMeshの作成に失敗しました。");
+			return false;
+		}
+
+		a_staticModelData.m_modelMeshList.emplace_back(l_modelMesh);
 	}
 
-	// FbxNodeが持っている子ノードを取得する
+	// 現在のNodeの子Nodes数を取得する
 	// FbxNode::GetChildCount();
 
 	const int l_childNodeCount = a_fbxNode->GetChildCount();
@@ -116,9 +127,10 @@ bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::Stat
 	for (int l_childNodeIndex = 0; l_childNodeIndex < l_childNodeCount; ++l_childNodeIndex)
 	{
 		// FbxNode::GetChild(取得したい子ノードのIndex);
-
+		// 指定Indexの子Nodeを取得する
 		auto* l_childNode = a_fbxNode->GetChild(l_childNodeIndex);
 
+		// 子Nodeも同じようにMeshを持っているか調べる
 		if (!RecursiveExtractModelMesh(a_staticModelData, l_childNode))
 		{
 			assert(false && "子FbxNodeからModelMeshの抽出に失敗しました。");
@@ -128,7 +140,7 @@ bool FWK::Graphics::StaticModelFBXLoader::RecursiveExtractModelMesh(Struct::Stat
 
 	return true;
 }
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_modelMesh, FbxMesh* a_fbxMesh) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_modelMesh, const FbxMesh* a_fbxMesh) const
 {
 	if (!a_fbxMesh)
 	{
@@ -138,13 +150,16 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_
 
 	FbxStringList l_uvSetNameList = {};
 
-	// Meshが持っているUVSet名一覧を取得する
+	// FBXのMeshは複数のUVSetを持つことができる
+	// 例 : 通常UV、ライトマップUVなど
+	// 今は最初のUVSetだけ使う
 	// FbxMesh::GetUVSetNames(UVSet名の格納先);
 
 	a_fbxMesh->GetUVSetNames(l_uvSetNameList);
 
 	const char* l_uvSetName = nullptr;
 
+	// 現在は一つのUVSetのみ使用
 	if (l_uvSetNameList.GetCount() > k_emptyUVSetNameCount)
 	{
 		l_uvSetName = l_uvSetNameList.GetStringAt(k_firstUVSetNameIndex);
@@ -155,6 +170,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_
 
 	const int l_polygonCount = a_fbxMesh->GetPolygonCount();
 
+	// 出力先のModelMeshを初期化する
 	a_modelMesh.m_modelVertexList.clear();
 	a_modelMesh.m_indexList.clear	   ();
 
@@ -165,6 +181,8 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_
 
 		const int l_polygonVertexCount = a_fbxMesh->GetPolygonSize(l_polygonIndex);
 
+		// LoadStaticModelFile()がわでTriangulate済みなので、
+		// ここでは必ず三角形のはず
 		if (l_polygonVertexCount != k_triangleVertexCount)
 		{
 			assert(false && "三角形後のFBXに三角形ではないPolygonが含まれているため、ModelMeshの作成に失敗しました。");
@@ -174,18 +192,26 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_
 		for (int l_polygonVertexIndex = 0; l_polygonVertexIndex < l_polygonVertexCount; ++l_polygonVertexIndex)
 		{
 			// Polygon頂点が参照しているControlPointIndexを取得する
-			// FbxMesh::GetPolygonVertex(取得したいPolygonのIndex,
+			// FbxMesh::GetPolygonVertex(取得したいPolygonのIndex、
 			//							 Polygon内の頂点Index);
+
 			const int l_controlPointIndex = a_fbxMesh->GetPolygonVertex(l_polygonIndex, l_polygonVertexIndex);
 
 			Struct::ModelVertex l_modelVertex = {};
 
+			// ControlPointIndexからPositionを取得する
 			l_modelVertex.m_position = FetchVertexPosition(a_fbxMesh, l_controlPointIndex);
-			l_modelVertex.m_normal   = FetchVertexNormal  (a_fbxMesh, l_polygonIndex, l_polygonVertexIndex);
-			l_modelVertex.m_uv		 = FetchVertexUV	  (a_fbxMesh, l_polygonIndex, l_polygonVertexIndex, l_uvSetName);
+
+			// Polygon単位の頂点情報からNormalを取得する
+			l_modelVertex.m_normal = FetchVertexNormal(a_fbxMesh, l_polygonIndex, l_polygonVertexIndex);
+
+			// Polygon単位の頂点座標からUVを取得する
+			l_modelVertex.m_uv = FetchVertexUV(a_fbxMesh, l_polygonIndex, l_polygonVertexIndex, l_uvSetName);
 
 			a_modelMesh.m_modelVertexList.emplace_back(l_modelVertex);
 
+			// 今は1頂点追加するたびに、その頂点番号をIndexとして追加する
+			// 重複頂点の整理はこの後のmeshoptimizerライブラリで行う
 			const auto l_index = static_cast<std::uint32_t>(a_modelMesh.m_indexList.size());
 
 			a_modelMesh.m_indexList.emplace_back(l_index);
@@ -203,8 +229,10 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::StaticModelFBXLoader::FetchVertexPo
 		return {};
 	}
 
-	// FbxMesh::GetControlPointAt(取得したいControlPointのIndex);
+	// ControlPointから頂点座標を取得する
 	// FBX内の頂点座標を取得する
+	// FbxMesh::GetControlPointAt(取得したいControlPointのIndex);
+
 	const auto& l_fbxPosition = a_fbxMesh->GetControlPointAt(a_controlPointIndex);
 
 	return ConvertFbxVector4ToVector3(l_fbxPosition);
@@ -219,6 +247,7 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::StaticModelFBXLoader::FetchVertexNo
 
 	FbxVector4 l_fbxNormal = {};
 
+	// Polygon内の頂点に対応する法線を取得する
 	// FbxMesh::GetPolygonVertexNormal(取得したいPolygonのIndex、
 	//								   Polygon内の頂点Index、
 	//								   取得した法線の格納先);
@@ -249,6 +278,7 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::StaticModelFBXLoader::FetchVertexUV
 	//							   使用するUVSet名、
 	//							   取得したいUVの格納先、
 	//							   UVが割り当てられていないかどうかの取得先);
+
 	if (!a_fbxMesh->GetPolygonVertexUV(a_polygonIndex,
 									   a_polygonVertexIndex,
 									   a_uvSetName,
@@ -259,6 +289,7 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::StaticModelFBXLoader::FetchVertexUV
 		return {};
 	}
 
+	// UVSetは存在するが、このPolygon頂点にUVが割り当てられていない場合はreturn
 	if (l_isUnmapped) { return {}; }
 
 	return ConvertFbxVector2ToVector2(l_fbxUV);
@@ -277,7 +308,7 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::StaticModelFBXLoader::ConvertFbxVec
 {
 	return
 	{
-		static_cast<float>(k_fbxVectorXIndex),
-		static_cast<float>(k_fbxVectorYIndex)
+		static_cast<float>(a_fbxVector[k_fbxVectorXIndex]),
+		static_cast<float>(a_fbxVector[k_fbxVectorYIndex])
 	};
 }
