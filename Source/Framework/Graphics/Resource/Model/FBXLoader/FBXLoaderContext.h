@@ -17,9 +17,6 @@ namespace FWK::Graphics
 
 		void Destroy();
 
-		FbxManager*    m_fbxManager    = nullptr;
-		FbxIOSettings* m_fbxIOSettings = nullptr;
-
 		StaticModelFBXLoader m_staticModelFBXLoader = {};
 	};
 }
