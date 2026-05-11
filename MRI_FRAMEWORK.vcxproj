@@ -80,7 +80,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -157,7 +157,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -232,7 +232,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -309,7 +309,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\FBXSDK\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -379,6 +379,7 @@ if "$(Configuration)"=="Debug" (
     <Text Include="Documents\CodingConventions.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Library\UFBX\ufbx.h" />
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.h" />
@@ -513,6 +514,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\PCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Library\UFBX\ufbx.cpp" />
     <ClCompile Include="Source\Application\Application.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.cpp" />

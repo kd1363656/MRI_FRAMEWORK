@@ -520,6 +520,12 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static">
       <UniqueIdentifier>{7b08ed4a-a893-4b72-8c4e-7980f2a1ae4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{65e08c51-5571-4551-bc50-839e123d343a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\UFBX">
+      <UniqueIdentifier>{5d1b3e6e-ca5b-4b85-9b3d-e62f9d446811}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -923,6 +929,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static\StaticModelAssetPipeline.h">
       <Filter>Source\Framework\Graphics\Resource\Model\AssetPipeline\Static</Filter>
     </ClInclude>
+    <ClInclude Include="..\Library\UFBX\ufbx.h">
+      <Filter>Library\UFBX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1110,6 +1119,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\AssetPipeline\Static\StaticModelAssetPipeline.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\AssetPipeline\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\UFBX\ufbx.cpp">
+      <Filter>Library\UFBX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

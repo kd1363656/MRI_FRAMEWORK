@@ -15,6 +15,11 @@ bool FWK::Graphics::FBXLoaderContext::Create()
 		return false;
 	}
 
+	ufbx_load_opts l_loadOptions = {};
+	ufbx_error l_error = {};
+
+	ufbx_scene* l_scene = ufbx_load_file("InvalidPath.fbx", &l_loadOptions, &l_error);
+
 	// FBXSDK全体を管理するFbxManagerを作成する
 	// FbxManager::Create();
 
