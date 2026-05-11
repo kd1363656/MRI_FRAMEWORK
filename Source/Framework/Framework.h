@@ -40,6 +40,7 @@
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/Constant/ConstantBufferConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/UploadBufferConstant.h"
+#include "Definition/Constant/Graphics/Resource/Model/ModelConstant.h"
 
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"

@@ -520,6 +520,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static">
       <UniqueIdentifier>{4524294e-ce13-4ff3-a5a9-aa158b7808fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Model">
+      <UniqueIdentifier>{d84bfbd9-9079-4e31-ab28-328dd7430a51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -914,11 +917,14 @@
     <ClInclude Include="..\Library\UFBX\ufbx.h">
       <Filter>Library\UFBX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticFBXModelLoader.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h">
       <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.h">
       <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\ModelConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1099,7 +1105,7 @@
     <ClCompile Include="..\Library\UFBX\ufbx.cpp">
       <Filter>Library\UFBX</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticFBXModelLoader.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\FBXLoader\Static</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.cpp">
