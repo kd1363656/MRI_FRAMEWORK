@@ -529,6 +529,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static">
       <UniqueIdentifier>{4b81f68a-1a1e-47f2-809e-34de5b5ae776}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Converter\Binary">
+      <UniqueIdentifier>{596adb0f-78e7-4377-ab93-115a4235322c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -935,6 +938,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h">
+      <Filter>Source\Framework\Converter\Binary</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1122,6 +1128,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp">
+      <Filter>Source\Framework\Converter\Binary</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

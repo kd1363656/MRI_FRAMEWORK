@@ -6,4 +6,5 @@ namespace FWK::Constant
 	inline const std::filesystem::path k_lowerCSOExtension   = ".cso";
 	inline const std::filesystem::path k_lowerDDSExtension   = ".dds";
 	inline const std::filesystem::path k_lowerFBXExtension   = ".fbx";
+	inline const std::filesystem::path k_lowerAssetExtension = ".asset";
 }

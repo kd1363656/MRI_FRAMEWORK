@@ -349,6 +349,7 @@ if "$(Configuration)"=="Debug" (
   <ItemGroup>
     <ClInclude Include="..\Library\UFBX\ufbx.h" />
     <ClInclude Include="Source\Application\Application.h" />
+    <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h" />
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.h" />
@@ -487,6 +488,7 @@ if "$(Configuration)"=="Debug" (
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)UFBX\%(Filename).obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="Source\Application\Application.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.cpp" />
