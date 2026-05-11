@@ -12,10 +12,10 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    ();
 
-		TypeAlias::StorageID LoadTextureForBatchUpload(const Device&			                a_device, 
-													   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-													   const std::filesystem::path&				a_filePath,
-															 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
+		Struct::TextureLoadResult LoadTextureForBatchUpload(const Device&			                 a_device, 
+													        const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+													        const std::filesystem::path&			 a_filePath,
+																  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 
 		void LoadPendingTexturesAndWait(UploadSystem& a_uploadSystem);
 

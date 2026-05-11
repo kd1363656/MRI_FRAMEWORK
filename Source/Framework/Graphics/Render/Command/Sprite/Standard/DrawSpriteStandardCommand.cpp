@@ -86,7 +86,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	{
 		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_spriteDrawCommandIndex];
 		
-		const auto& l_textureRecord = a_textureSystem.FindVALTextureRecord(l_spriteDrawCommand.m_storageID).lock();
+		const auto& l_textureRecord = l_spriteDrawCommand.m_textureRecord.lock();
 
 		if (!l_textureRecord)					                          { continue; }
 		if (!l_textureRecord->m_textureResource)                          { continue; }

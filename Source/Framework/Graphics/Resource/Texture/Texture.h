@@ -16,6 +16,8 @@ namespace FWK::Graphics
 
 		void Load(const std::filesystem::path& a_filePath);
 
+		const auto& GetREFTextureRecord() const { return m_textureRecord; }
+
 		auto GetVALStorageID() const { return m_storageID; }
 
 	private:
@@ -25,5 +27,7 @@ namespace FWK::Graphics
 		void ReleaseTextureReference();
 
 		TypeAlias::StorageID m_storageID;
+
+		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
 	};
 }

@@ -87,10 +87,10 @@ void FWK::Scene::RequestDrawTexture(const Graphics::Texture& a_texture) const
 
 	Struct::SpriteDrawCommand l_spriteDrawCommand = {};
 
-	l_spriteDrawCommand.m_storageID  = a_texture.GetVALStorageID();
-	l_spriteDrawCommand.m_color      = { 0.0F, 0.0F, 0.0F, 1.00F };
-	l_spriteDrawCommand.m_position   = { 0.0F, 0.0F };
-	l_spriteDrawCommand.m_sourceRECT = { 0L, 0L, 256L, 256L };
+	l_spriteDrawCommand.m_textureRecord = a_texture.GetREFTextureRecord();
+	l_spriteDrawCommand.m_color         = { 0.0F, 0.0F, 0.0F, 1.00F };
+	l_spriteDrawCommand.m_position      = { 0.0F, 0.0F };
+	l_spriteDrawCommand.m_sourceRECT    = { 0L, 0L, 256L, 256L };
 
 	l_drawCommand->RequestDraw(l_spriteDrawCommand);
 }

@@ -12,6 +12,13 @@ namespace FWK::Struct
 		TypeAlias::StorageID m_srvStorageID = Constant::k_invalidStorageID;
 	};
 
+	struct TextureLoadResult final
+	{
+		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
+
+		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
+	};
+
 	struct SpriteRECT final
 	{
 		std::uint32_t x      = Constant::k_defaultSpriteRECTX;

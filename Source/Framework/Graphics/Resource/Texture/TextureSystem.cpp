@@ -16,16 +16,18 @@ bool FWK::Graphics::TextureSystem::Create()
 	return true;
 }
 
-FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUpload(const Device&			                   a_device,
-																				  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-																				  const std::filesystem::path&			   a_filePath,
-																						DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
+FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatchUpload(const Device&			                a_device,
+																				       const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																				       const std::filesystem::path&			    a_filePath,
+																						     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
+	Struct::TextureLoadResult l_textureLoadResult = {};
+
 	// 読み込めるファイルかどうかを確認
 	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerDDSExtension))
 	{
 		assert(false && "テクスチャファイルパスが読み込めるファイルパスではありません。");
-		return Constant::k_invalidStorageID;
+		return l_textureLoadResult;
 	}
 
 	const auto& l_filePath = a_filePath.wstring();
@@ -37,10 +39,13 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		if (!AddTextureReference(l_foundStorageID))
 		{
 			assert(false && "登録済みテクスチャの参照数加算に失敗したため、テクスチャ読み込み処理に失敗しました。");
-			return Constant::k_invalidStorageID;
+			return l_textureLoadResult;
 		}
+		
+		l_textureLoadResult.m_storageID     = l_foundStorageID;
+		l_textureLoadResult.m_textureRecord = m_textureStorage.FindVALRecord(l_foundStorageID);
 
-		return l_foundStorageID;
+		return l_textureLoadResult;
 	}
 
 	// 現在のフレームで登録しようとしているパスが既に登録されているなら登録する必要がないためreturn
@@ -52,13 +57,16 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		if (!l_textureRecord)
 		{
 			assert(false && "該当するStorageIDのテクスチャーレコードが無効のため、StorageIDを返せませんでした。");
-			return false;
+			return l_textureLoadResult;
 		}
 
 		// すでに登録予約済みのテクスチャが再度登録されたら参照カウントを増やす
 		++l_textureRecord->m_referenceCount;
 
-		return l_textureRecord->m_storageID;
+		l_textureLoadResult.m_storageID     = l_textureRecord->m_storageID;
+		l_textureLoadResult.m_textureRecord = l_textureRecord;
+
+		return l_textureLoadResult;
 	}	
 	
 	DirectX::ScratchImage l_scratchImage = {};
@@ -68,7 +76,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	if (!m_textureLoader.LoadTextureFile(l_scratchImage, l_texMetadata, l_filePath))
 	{
 		assert(false && "DDSテクスチャ読み込みに失敗したため、テクスチャのバッチロード処理に失敗しました。");
-		return Constant::k_invalidStorageID;
+		return l_textureLoadResult;
 	}
 
 	Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
@@ -78,7 +86,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	if (l_allocateStorageID == Constant::k_invalidStorageID)
 	{
 		assert(false && "StorageIDの割り当てに失敗したため、テクスチャ読み込み処理に失敗しました。");
-		return Constant::k_invalidStorageID;
+		return l_textureLoadResult;
 	}
 
 	// テクスチャを作成、管理するのに必要な情報全てを作成
@@ -96,7 +104,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 		m_textureStorage.Release(l_allocateStorageID);
 
 		assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
-		return Constant::k_invalidStorageID;
+		return l_textureLoadResult;
 	}
 
 	const auto& l_textureRecord = l_textureBatchUploadRecord.m_textureRecord;
@@ -104,15 +112,16 @@ FWK::TypeAlias::StorageID FWK::Graphics::TextureSystem::LoadTextureForBatchUploa
 	if (!l_textureRecord) 
 	{
 		assert(false && "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。");
-		return false; 
+		return l_textureLoadResult; 
 	}
 
-	const auto l_storageID = l_textureRecord->m_storageID;
+	l_textureLoadResult.m_storageID     = l_textureRecord->m_storageID;
+	l_textureLoadResult.m_textureRecord = l_textureRecord;
 
 	// 作成し終えたTextureBatchUploadRecordをリストに格納する
 	m_pendingTextureBatchUploadRecordMap.try_emplace(l_filePath, std::move(l_textureBatchUploadRecord));
 
-	return l_storageID;
+	return l_textureLoadResult;
 }
 
 void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_uploadSystem)
