@@ -38,8 +38,7 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 		//					 書き込み先バッファサイズ、
 		//					 ufbx_load_fileで取得したエラー情報);
 
-		ufbx_format_error(l_errorText.data(), l_errorText.size(), &l_error);
-
+		ufbx_format_error (l_errorText.data(), l_errorText.size(), &l_error);
 		OutputDebugStringA(l_errorText.data());
 		
 		assert(false && "ufbx_load_fileによるFBXシーンの読み込みに失敗しました。");

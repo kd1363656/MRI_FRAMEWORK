@@ -13,8 +13,8 @@ namespace FWK::Graphics
 
 	private:
 
-		bool ExtractModelData(Struct::ModelData& a_modelData, const ufbx_scene* a_fbxScene) const;
-		bool ExtractModelMesh(Struct::ModelMesh& a_modelMesh, const ufbx_mesh*  a_fbxMesh)  const;
+		bool ExtractModelData(const ufbx_scene* a_fbxScene, Struct::ModelData& a_modelData) const;
+		bool ExtractModelMesh(const ufbx_mesh*  a_fbxMesh,  Struct::ModelMesh& a_modelMesh) const;
 
 		static constexpr float k_uvCoordinateMax = 1.0F;
 

@@ -15,7 +15,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 		return false;
 	}
 
-	if (!ExtractModelData(a_modelData, l_fbxScene))
+	if (!ExtractModelData(l_fbxScene, a_modelData))
 	{
 		assert(false && "FBXシーンからModelDataの抽出に失敗しました。");
 		
@@ -29,7 +29,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 	return true;
 }
 
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(Struct::ModelData& a_modelData, const ufbx_scene* a_fbxScene) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const ufbx_scene* a_fbxScene, Struct::ModelData& a_modelData) const
 {
 	if (!a_fbxScene) 
 	{
@@ -54,7 +54,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(Struct::ModelData& a_
 		Struct::ModelMesh l_modelMesh = {};
 
 		// ufbx_mesh 1つを、自作フレームワーク側のModelMesh 1つへ変換する
-		if (!ExtractModelMesh(l_modelMesh, l_fbxMesh))
+		if (!ExtractModelMesh(l_fbxMesh, l_modelMesh))
 		{
 			assert(false && "ufbx_meshからModelMeshの抽出に失敗しました。");
 			return false;
@@ -76,7 +76,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(Struct::ModelData& a_
 	return true;
 }
 
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(Struct::ModelMesh& a_modelMesh, const ufbx_mesh* a_fbxMesh) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(const ufbx_mesh* a_fbxMesh, Struct::ModelMesh& a_modelMesh) const
 {
 	if (!a_fbxMesh)
 	{
