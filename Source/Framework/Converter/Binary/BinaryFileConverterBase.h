@@ -30,11 +30,14 @@ namespace FWK::Converter
 		static constexpr SIZE_T k_mapEntireFileSize   = 0ULL;
 		static constexpr SIZE_T k_flushEntireViewSize = 0ULL;
 		
+		static constexpr std::uint32_t k_highDWORDShiftBitCount = 32U;
+
 		static constexpr DWORD k_fileSizeHigh				   = 0UL;
 		static constexpr DWORD k_mappingMaxSizeHighUseFileSize = 0UL;
+		static constexpr DWORD k_mappingMaxSizeLowUseFileSize  = 0UL;
 		static constexpr DWORD k_viewFileOffsetHighFromBegin   = 0UL;
 		static constexpr DWORD k_viewFileOffsetLowFromBegin    = 0UL;
-		static constexpr DWORD k_noFileShaderMode			   = 0UL;
+		static constexpr DWORD k_noFileShareMode			   = 0UL;
 
 		static constexpr bool k_isInitialWritable    = false;
 		static constexpr bool k_isReadOnlyMappedFile = false;
