@@ -51,8 +51,6 @@
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 #include "Definition/Struct/Window/WindowStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/ConstantBufferStruct.h"
-#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
-#include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
 
 // Enum
 #include "Definition/Enum/Enum.h"
@@ -233,6 +231,10 @@
 #include "Graphics/Resource/Texture/Releaser/TextureRecordReleaser.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
+
+// モデル用構造体
+#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
+#include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
 
 // モデル
 #include "Graphics/Resource/Model/FBXLoader/FBXModelLoaderBase.h"

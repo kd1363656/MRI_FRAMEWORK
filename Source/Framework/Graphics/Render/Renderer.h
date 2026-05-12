@@ -28,7 +28,7 @@ namespace FWK::Graphics
 
 		void BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
 		
-		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem);
+		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 		void EndDraw (const SwapChain&						   a_swapChain);
 		void EndFrame();
 

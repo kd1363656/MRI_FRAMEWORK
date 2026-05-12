@@ -13,7 +13,7 @@ namespace FWK::Graphics
 		virtual void BeginFrame		()					   = 0;
 		virtual void PostCreateSetup(Renderer& a_renderer) = 0;
 
-		virtual void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer, TextureSystem& a_textureSystem) = 0;
+		virtual void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) = 0;
 
 		FWK_DEFINE_TYPE_INFO_ROOT(IDrawCommand);
 	};

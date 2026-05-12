@@ -116,13 +116,13 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	m_directCommandList.SetupRenderArea(m_renderArea);
 }
 
-void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, TextureSystem& a_textureSystem)
+void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
 	for (const auto& l_drawCommand : m_drawCommandList)
 	{
 		if (!l_drawCommand) { continue; }
 
-		l_drawCommand->Draw(a_srvDescriptorPool, *this, a_textureSystem);
+		l_drawCommand->Draw(a_srvDescriptorPool, *this);
 	}
 }
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)

@@ -19,7 +19,7 @@ namespace FWK::Converter
 		void WriteBinaryValue(const Type& a_value, std::vector<std::uint8_t>& a_binaryDataList) const;
 
 		template <typename Type>
-		bool ReadBinaryValue(const std::vector<std::uint8_t>& a_bainaryDataList, Type& a_value, std::size_t& a_readOffset) const;
+		bool ReadBinaryValue(const std::vector<std::uint8_t>& a_binaryDataList, Type& a_value, std::size_t& a_readOffset) const;
 
 		template <typename Type>
 		void WriteBinaryArray(const std::vector<Type>& a_valueList, std::vector<std::uint8_t>& a_binaryDataList) const;

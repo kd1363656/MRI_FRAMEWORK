@@ -81,7 +81,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 
 	Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
 
-	const auto l_allocateStorageID = m_textureStorage.Allocate();
+	const auto l_allocateStorageID = m_textureStorage.AllocateStorageID();
 
 	if (l_allocateStorageID == Constant::k_invalidStorageID)
 	{
@@ -101,7 +101,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	{
 		// テクスチャアップロード情報作成に失敗したなら
 		// StorageIDを開放しておく
-		m_textureStorage.Release(l_allocateStorageID);
+		m_textureStorage.ReleaseStorageID(l_allocateStorageID);
 
 		assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
 		return l_textureLoadResult;
@@ -112,7 +112,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	if (!l_textureRecord) 
 	{
 		// Allocate済みのStorageIDなので、失敗時は返却しておく
-		m_textureStorage.Release(l_allocateStorageID);
+		m_textureStorage.ReleaseStorageID(l_allocateStorageID);
 
 		assert(false && "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。");
 		return l_textureLoadResult; 

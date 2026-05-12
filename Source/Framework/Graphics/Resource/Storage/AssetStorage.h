@@ -26,12 +26,12 @@ namespace FWK::Graphics
 			return true;
 		}
 
-		TypeAlias::StorageID Allocate()
+		TypeAlias::StorageID AllocateStorageID()
 		{
 			return m_storageIDAllocator.Allocate();
 		}
 
-		void Release(const TypeAlias::StorageID a_storageID)
+		void ReleaseStorageID(const TypeAlias::StorageID a_storageID)
 		{
 			m_storageIDAllocator.Release(a_storageID);
 		}

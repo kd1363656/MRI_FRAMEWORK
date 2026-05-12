@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		void PostCreateSetup(Renderer& a_renderer) override;
 
-		void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer, TextureSystem& a_textureSystem) override;
+		void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) override;
 
 	private:
 

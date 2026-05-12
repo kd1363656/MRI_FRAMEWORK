@@ -83,10 +83,9 @@ void FWK::Graphics::GraphicsManager::BeginDraw()
 }
 void FWK::Graphics::GraphicsManager::Draw()
 {
-	const auto& l_srvDescriptorPool = m_resourceContext.GetREFSRVDescriptorPool   ();
-		  auto& l_textureSystem     = m_resourceContext.GetMutableREFTextureSystem();
+	const auto& l_srvDescriptorPool = m_resourceContext.GetREFSRVDescriptorPool();
 
-	m_renderer.Draw(l_srvDescriptorPool, l_textureSystem);
+	m_renderer.Draw(l_srvDescriptorPool);
 }
 void FWK::Graphics::GraphicsManager::EndDraw()
 {

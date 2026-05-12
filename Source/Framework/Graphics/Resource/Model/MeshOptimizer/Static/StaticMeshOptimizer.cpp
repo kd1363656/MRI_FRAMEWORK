@@ -1,19 +1,27 @@
 ﻿#include "StaticMeshOptimizer.h"
 
-bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelData(Struct::ModelData& a_modelData) const
+bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelData(const std::weak_ptr<Struct::ModelData>& a_modelData) const
 {
-	if (a_modelData.m_modelMeshList.empty())
+	const auto& l_modelData = a_modelData.lock();
+
+	if (!l_modelData)
 	{
 		assert(false && "ModelDataのMeshリストが空のため、StaticModelMeshの最適化に失敗しました。");
 		return false;
 	}
 
-	for (auto& l_modelMesh : a_modelData.m_modelMeshList)
+	if (l_modelData->m_modelMeshList.empty())
+	{
+		assert(false && "ModelDataのMeshリストが空のため、StaticModelMeshの最適化に失敗しました。");
+		return false;
+	}
+
+	for (auto& l_modelMesh : l_modelData->m_modelMeshList)
 	{
 		// ModelDataは複数Meshを持つ可能性があるため、Mesh単位で最適化する
 		if (!OptimizeModelMesh(l_modelMesh))
 		{
-			assert(false && "ModelMeshの最適化の失敗しました。");
+			assert(false && "ModelMeshの最適化に失敗しました。");
 			return false;
 		}
 	}
@@ -40,7 +48,7 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMes
 	l_vertexRemapList.resize(a_modelMesh.m_indexList.size());
 
 	// 同じposition / normal / uvを持つ頂点をまとめるための対応表を作成する
-	// meshopt_generateVertexRemap(古い頂点番号から新しいい頂点番号への対応表を書き込む配列、
+	// meshopt_generateVertexRemap(古い頂点番号から新しい頂点番号への対応表を書き込む配列、
 	//						       現在のインデックス配列、	
 	//							   現在のインデックス数、
 	//							   現在の頂点配列、	
@@ -82,7 +90,7 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMes
 	// 重複している頂点を削除し、必要な頂点だけを新しい頂点配列へ詰めなおす
 	// meshopt_remapVertexBuffer(最適化後の頂点配列の書き込み先、
 	//							 現在の頂点配列、
-	//							 現在の頂点する、
+	//							 現在の頂点数、
 	//							 頂点一つ分のバイトサイズ、
 	//							 meshopt_generateVertexRemapで作成した対応表);
 

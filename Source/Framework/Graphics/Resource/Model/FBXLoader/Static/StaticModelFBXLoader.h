@@ -9,22 +9,24 @@ namespace FWK::Graphics
 		 StaticModelFBXLoader()			 = default;
 		~StaticModelFBXLoader() override = default;
 
-		bool LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData) const;
+		bool LoadStaticModelFile(const std::weak_ptr<Struct::ModelData>& a_modelData, const std::filesystem::path& a_filePath) const;
 
 	private:
 
-		bool ExtractModelData(const ufbx_scene* a_fbxScene, Struct::ModelData& a_modelData) const;
-		bool ExtractModelMesh(const ufbx_mesh*  a_fbxMesh,  Struct::ModelMesh& a_modelMesh) const;
+		bool ExtractModelData    (const std::weak_ptr<Struct::ModelData>& a_modelData, const ufbx_scene*			  a_fbxScene)	   const;
+		bool ExtractModelMeshList(const ufbx_mesh*						  a_fbxMesh,   std::vector<Struct::ModelMesh>& a_modelMeshList) const;
 
-		void ExtractModelMaterial(const ufbx_mesh* a_fbxMesh, Struct::ModelMaterial& a_modelMaterial) const;
+		bool ExtractModelMeshByMaterial(const ufbx_mesh* a_fbxMesh, const std::size_t& a_materialIndex, Struct::ModelMesh& a_modelMesh) const;
+
+		void ExtractModelMaterial(const ufbx_material* a_fbxMaterial, Struct::ModelMaterialAssetData& a_modelMaterialAssetData) const;
 
 		std::wstring FetchTextureFilePath      (const ufbx_material_map& a_materialMap) const;
-		std::wstring ConvertUFBXStringToWString(const ufbx_string&		 a_fbxString)   const;
+		std::wstring ConvertUFBXStringToWString(const ufbx_string&	     a_fbxString)   const;
 
 		static constexpr float k_uvCoordinateMax = 1.0F;
 
-		static constexpr std::size_t k_firstMaterialIndex = 0ULL;
-		static constexpr std::size_t k_emptyStringLength  = 0ULL;
+		static constexpr std::size_t k_invalidMaterialIndex = std::numeric_limits<std::size_t>::max();
+		static constexpr std::size_t k_emptyStringLength    = 0ULL;
 
 		static constexpr std::uint32_t k_triangleVertexCount = 3U;
 	};

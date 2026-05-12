@@ -5,7 +5,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::PostCreateSetup(Renderer& a_rende
 	SetupPipelineStateAndRootSignature<Tag::SpriteStandardPipelineStateTag>(a_renderer);
 }
 
-void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer, TextureSystem& a_textureSystem)
+void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
 {
 
 	// スプライト用ルートシグネチャとパイプラインステートをセット
