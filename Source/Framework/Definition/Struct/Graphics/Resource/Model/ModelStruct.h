@@ -13,9 +13,13 @@ namespace FWK::Struct
 	{
 		std::wstring m_baseColorTextureFilePath = {};
 		std::wstring m_normalTextureFilePath	= {};
+		std::wstring m_roughnessTextureFilePath = {};
+		std::wstring m_metallicTextureFilePath  = {};
 
-		TypeAlias::StorageID m_baseColorTextureStorageID = Constant::k_invalidStorageID;
-		TypeAlias::StorageID m_normalTextureStorageID    = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_baseColorTextureStorageID       = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_normalTextureStorageID          = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_roughnessTextureStorageID       = Constant::k_invalidStorageID;
+		TypeAlias::StorageID m_metallicTextureTextureStorageID = Constant::k_invalidStorageID;
 	};
 
 	struct ModelMesh final

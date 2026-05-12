@@ -163,5 +163,31 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMesh(const ufbx_mesh* a_fb
 		return false;
 	}
 
+	// ufbx_meshに設定されているMaterial情報を、自作ModelMaterialへコピーする
+	// 現在のModelMeshはMaterialを1つだけ持つ設計のため、まずは先頭Materialを使用する
+	ExtractModelMaterial(a_fbxMesh, a_modelMesh.m_modelMaterial);
+
 	return true;
+}
+
+void FWK::Graphics::StaticModelFBXLoader::ExtractModelMaterial(const ufbx_mesh* a_fbxMesh, Struct::ModelMaterial& a_modelMaterial) const
+{
+	a_modelMaterial = {};
+
+	if (!a_fbxMesh)
+	{
+		assert(false && "ufbx_meshがnullptrのため、ModelMaterialの抽出に失敗しました。");
+		return;
+	}
+
+	// ufbx_mesh::materialsには、Meshに割り当てられているMaterial一覧が入っている
+	// 現在のModelMeshはMaterialを一つだけ持つ設計のため、まずは先頭Materialだけを使用する
+	if (a_fbxMesh->materials.count == Constant::k_emptyModelMeshCount) { return; }
+
+	const auto* l_fbxMaterial = a_fbxMesh->materials.data[k_firstMaterialIndex];
+
+	if (!l_fbxMaterial)
+	{
+		
+	}
 }
