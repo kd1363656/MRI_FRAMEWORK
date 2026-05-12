@@ -12,7 +12,7 @@ void FWK::Converter::UploadSystemJsonConverter::Deserialize(const nlohmann::json
 	auto& l_copyCommandAllocatorList = a_uploadSystem.GetMutableREFCopyCommandAllocatorList();
 
 	// 保存されているリストの数分コピーコマンドアロケータを作成
-	l_copyCommandAllocatorList.resize(l_copyCommandAllocatorListSize);
+	l_copyCommandAllocatorList.resize(l_copyCommandAllocatorListSize, std::make_shared<Graphics::CopyCommandAllocator>());
 }
 
 nlohmann::json FWK::Converter::UploadSystemJsonConverter::Serialize(const Graphics::UploadSystem& a_uploadSystem) const

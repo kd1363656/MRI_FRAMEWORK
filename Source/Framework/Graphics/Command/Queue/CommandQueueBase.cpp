@@ -43,6 +43,20 @@ void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const CommandAllo
 	// 未完了なら安全に再利用できるまで待機する
 	WaitForFenceValueIfNeeded(a_commandAllocator.GetREFSubmittedFenceValue());
 }
+void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator)
+{
+	const auto& l_commandAllocator = a_commandAllocator.lock();
+
+	if (!l_commandAllocator)
+	{
+		assert(false && "コマンドアロケーターが無効のため、GPUとの同期が取れませんでした。");
+		return;
+	}
+
+	// このコマンドアロケータの前回送信分が完了していれば待機不要
+	// 未完了なら安全に再利用できるまで待機する
+	WaitForFenceValueIfNeeded(l_commandAllocator->GetREFSubmittedFenceValue());
+}
 
 void FWK::Graphics::CommandQueueBase::ExecuteCommandLists(const CommandListBase& a_commandList) const
 {

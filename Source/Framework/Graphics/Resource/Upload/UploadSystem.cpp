@@ -15,9 +15,15 @@ bool FWK::Graphics::UploadSystem::Create(const Device& a_device)
 
 	// Deserializeでコピーコマンドアロケータの数を設定している、もしコマンドアロケータ数が0なら
 	// リストが空の場合は、UploadSystemJsonConverterのDeserialize処理を確認すること
-	for (auto& l_copyCommandAllocator : m_copyCommandAllocatorList)
+	for (const auto& l_copyCommandAllocator : m_copyCommandAllocatorList)
 	{
-		if (!l_copyCommandAllocator.Create(a_device))
+		if (!l_copyCommandAllocator) 
+		{
+			assert(false && "コマンドアロケーターが無効のため、作成処理に失敗しました。");
+			return false;
+		}
+
+		if (!l_copyCommandAllocator->Create(a_device))
 		{
 			assert(false && "コピーコマンドアロケータ作成処理に失敗しました。");
 			return false;
@@ -41,7 +47,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 		return false;
 	}
 
-	auto* l_copyCommandAllocator = FetchMutablePTRCopyCommandAllocator();
+	const auto& l_copyCommandAllocator = FetchMutablePTRCopyCommandAllocator().lock();
 
 	if (!l_copyCommandAllocator)
 	{
@@ -130,21 +136,27 @@ void FWK::Graphics::UploadSystem::RecordTextureCopy(const std::vector<D3D12_PLAC
 	}
 }
 
-FWK::Graphics::CopyCommandAllocator* FWK::Graphics::UploadSystem::FetchMutablePTRCopyCommandAllocator()
+std::weak_ptr<FWK::Graphics::CopyCommandAllocator> FWK::Graphics::UploadSystem::FetchMutablePTRCopyCommandAllocator()
 {
 	if (m_copyCommandAllocatorList.empty())
 	{
 		assert(false && "コピーコマンドアロケータリストが空のため、コピーコマンドアロケータ取得処理に失敗しました。");
-		return nullptr;
+		return {};
 	}
 
 	if (m_currentCopyCommandAllocatorIndex >= m_copyCommandAllocatorList.size())
 	{
 		assert(false && "コピーコマンドアロケータリストの容量を超えたインデックスのため、コピーコマンドアロケータ取得処理に失敗しました。");
-		return nullptr;
+		return {};
 	}
 
-	auto& l_copyCommandAllocator = m_copyCommandAllocatorList[m_currentCopyCommandAllocatorIndex];
+	const auto& l_copyCommandAllocator = m_copyCommandAllocatorList[m_currentCopyCommandAllocatorIndex];
+
+	if (!l_copyCommandAllocator)
+	{
+		assert(false && "コピーコマンドアロケータが無効のため、コピーコマンドアロケータ取得処理に失敗しました。");
+		return {};
+	}
 
 	// もしWaitが必要なコマンドアロケータならWaitする
 	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
@@ -152,5 +164,5 @@ FWK::Graphics::CopyCommandAllocator* FWK::Graphics::UploadSystem::FetchMutablePT
 	// 次のコピーコマンドアロケータを使用するようにインデックスを更新
 	m_currentCopyCommandAllocatorIndex = (m_currentCopyCommandAllocatorIndex + k_copyCommandAllocatorIndexIncrement) % m_copyCommandAllocatorList.size();
 
-	return &l_copyCommandAllocator;
+	return l_copyCommandAllocator;
 }
