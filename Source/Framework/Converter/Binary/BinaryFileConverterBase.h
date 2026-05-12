@@ -2,33 +2,40 @@
 
 namespace FWK::Converter
 {
-	class BinaryFileConverterBase final
+	class BinaryFileConverterBase
 	{
 	public:
 
-				 BinaryFileConverterBase() = default;
-		virtual ~BinaryFileConverterBase() = default;
+				 BinaryFileConverterBase();
+		virtual ~BinaryFileConverterBase();
 
 	protected:
 
-		bool LoadBinaryFile(std::vector<std::uint8_t>& a_binaryDataList, const std::filesystem::path& a_filePath) const;
+		bool CreateReadMemoryMappedFile (const std::filesystem::path& a_filePath);
+		bool CreateWriteMemoryMappedFile(const std::filesystem::path& a_filePath, const std::uint64_t& a_fileSize);
 
-		bool SaveBinaryFile(const std::vector<std::uint8_t>& a_binaryDataList, const std::filesystem::path& a_filePath) const;
+		void DestroyMemoryMappedFile();
 
-		/*template <typename Type>
-		void WriteBinaryValue(const Type& a_value, std::vector<std::uint8_t>& a_binaryDataList) const;
+		const auto& GetREFMappedDataSize() const { return m_mappedDataSize; }
 
-		template <typename Type>
-		bool ReadBinaryValue(const std::vector<std::uint8_t>& a_binaryDataList, Type& a_value, std::size_t& a_readOffset) const;
+		const std::uint8_t* GetPTRMappedData() const { return m_mappedData; }
 
-		template <typename Type>
-		void WriteBinaryArray(const std::vector<Type>& a_valueList, std::vector<std::uint8_t>& a_binaryDataList) const;
-
-		template <typename Type>
-		bool ReadBinaryArray(const std::vector<std::uint8_t>& a_binaryDataList, std::vector<Type>& a_valueList, std::size_t& a_readOffset) const;*/
+		std::uint8_t* GetMutablePTRMappedData() { return m_mappedData; }
 
 	private:
 
-		static constexpr std::uint64_t k_emptyBinaryFileSize = 0ULL;
+		static constexpr std::uint64_t k_emptyMappedDataSize = 0ULL;
+		static constexpr std::uint64_t k_emptyWriteFileSize  = 0ULL;
+
+		static constexpr SIZE_T k_mapEntireFileSize = 0ULL;
+		
+		static constexpr DWORD k_fileSizeHigh = 0UL;
+
+		std::uint8_t* m_mappedData;
+
+		HANDLE m_fileHandle;
+		HANDLE m_fileMappingHandle;
+
+		std::uint64_t m_mappedDataSize;
 	};
 }

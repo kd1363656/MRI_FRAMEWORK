@@ -1,11 +1,14 @@
 ﻿#include "BinaryFileConverterBase.h"
 
-bool FWK::Converter::BinaryFileConverterBase::LoadBinaryFile(std::vector<std::uint8_t>& a_binaryDataList, const std::filesystem::path& a_filePath) const
-{
-	return false;
-}
+FWK::Converter::BinaryFileConverterBase::BinaryFileConverterBase() : 
+	m_mappedData(nullptr),
 
-bool FWK::Converter::BinaryFileConverterBase::SaveBinaryFile(const std::vector<std::uint8_t>& a_binaryDataList, const std::filesystem::path& a_filePath) const
+	m_fileHandle       (INVALID_HANDLE_VALUE),
+	m_fileMappingHandle(nullptr),
+
+	m_mappedDataSize(k_emptyMappedDataSize)
+{}
+FWK::Converter::BinaryFileConverterBase::~BinaryFileConverterBase()
 {
-	return false;
+	DestroyMemoryMappedFile();
 }
