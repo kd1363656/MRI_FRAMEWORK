@@ -27,9 +27,18 @@ namespace FWK::Converter
 		static constexpr std::uint64_t k_emptyMappedDataSize = 0ULL;
 		static constexpr std::uint64_t k_emptyWriteFileSize  = 0ULL;
 
-		static constexpr SIZE_T k_mapEntireFileSize = 0ULL;
+		static constexpr SIZE_T k_mapEntireFileSize   = 0ULL;
+		static constexpr SIZE_T k_flushEntireViewSize = 0ULL;
 		
-		static constexpr DWORD k_fileSizeHigh = 0UL;
+		static constexpr DWORD k_fileSizeHigh				   = 0UL;
+		static constexpr DWORD k_mappingMaxSizeHighUseFileSize = 0UL;
+		static constexpr DWORD k_viewFileOffsetHighFromBegin   = 0UL;
+		static constexpr DWORD k_viewFileOffsetLowFromBegin    = 0UL;
+		static constexpr DWORD k_noFileShaderMode			   = 0UL;
+
+		static constexpr bool k_isInitialWritable    = false;
+		static constexpr bool k_isReadOnlyMappedFile = false;
+		static constexpr bool k_isWriteMappedFile    = true;
 
 		std::uint8_t* m_mappedData;
 
@@ -37,5 +46,7 @@ namespace FWK::Converter
 		HANDLE m_fileMappingHandle;
 
 		std::uint64_t m_mappedDataSize;
+
+		bool m_isWritable = k_isInitialWritable;
 	};
 }
