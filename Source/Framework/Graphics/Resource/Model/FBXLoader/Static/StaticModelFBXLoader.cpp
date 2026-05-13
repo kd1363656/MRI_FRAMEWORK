@@ -24,6 +24,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::weak_pt
 		return false;
 	}
 
+	// モデルデータをシーンから抽出
 	if (!ExtractModelData(a_modelData, l_fbxScene))
 	{
 		assert(false && "FBXシーンからModelDataの抽出に失敗しました。");
