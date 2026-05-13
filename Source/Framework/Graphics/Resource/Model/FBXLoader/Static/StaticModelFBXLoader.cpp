@@ -1,9 +1,19 @@
 ﻿#include "StaticModelFBXLoader.h"
 
-bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData) const
+bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath) const
 {
+	const auto& l_staticModelRecord = a_staticModelRecord.lock();
+
+	if (!l_staticModelRecord)
+	{
+		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。");
+		return false;
+	}
+
+	auto& l_modelData = l_staticModelRecord->m_modelData;
+
 	// ModelDataはコピー代入禁止のため、保持しているModelMeshリストだけを空にする
-	a_modelData.m_modelMeshList.clear();
+	l_modelData.m_modelMeshList.clear();
 
 	// FBXファイル全体をufbx_sceneとして読み込む
 	auto* l_fbxScene = LoadFBXScene(a_filePath);
@@ -15,7 +25,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesys
 	}
 
 	// モデルデータをシーンから抽出
-	if (!ExtractModelData(l_fbxScene, a_modelData))
+	if (!ExtractModelData(l_fbxScene, l_modelData))
 	{
 		assert(false && "FBXシーンからModelDataの抽出に失敗しました。");
 		

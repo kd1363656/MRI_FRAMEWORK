@@ -1,14 +1,24 @@
 ﻿#include "StaticMeshOptimizer.h"
 
-bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelData(Struct::ModelData& a_modelData) const
+bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeStaticModelRecord(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord) const
 {
-	if (a_modelData.m_modelMeshList.empty())
+	const auto& l_staticModelRecord = a_staticModelRecord.lock();
+
+	if (!l_staticModelRecord)
+	{
+		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。");
+		return false;
+	}
+
+	auto& l_modelData = l_staticModelRecord->m_modelData;
+
+	if (l_modelData.m_modelMeshList.empty())
 	{
 		assert(false && "ModelDataのMeshリストが空のため、StaticModelMeshの最適化に失敗しました。");
 		return false;
 	}
 
-	for (auto& l_modelMesh : a_modelData.m_modelMeshList)
+	for (auto& l_modelMesh : l_modelData.m_modelMeshList)
 	{
 		// ModelDataは複数Meshを持つ可能性があるため、Mesh単位で最適化する
 		if (!OptimizeModelMesh(l_modelMesh))

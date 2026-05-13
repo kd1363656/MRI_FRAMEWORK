@@ -1,7 +1,17 @@
 ﻿#include "StaticModelBinaryConverter.h"
 
-bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::ModelData& a_modelData, const std::filesystem::path& a_filePath)
+bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath)
 {
+	const auto& l_staticModelRecord = a_staticModelRecord.lock();
+
+	if (!l_staticModelRecord)
+	{
+		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。。");
+		return false;
+	}
+
+	auto& l_modelData = l_staticModelRecord->m_modelData;
+
 	if (!CreateReadMemoryMappedFile(a_filePath))
 	{
 		assert(false && "読み込むためのメモリマップドファイル作成に失敗しました。");
@@ -51,8 +61,8 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::Mo
 		return false;
 	}
 
-	a_modelData.m_modelMeshList.clear  ();
-	a_modelData.m_modelMeshList.reserve(l_staticModelAssetHeader.m_meshCount);
+	l_modelData.m_modelMeshList.clear  ();
+	l_modelData.m_modelMeshList.reserve(l_staticModelAssetHeader.m_meshCount);
 
 	for (std::uint64_t l_meshIndex = 0ULL; l_meshIndex < l_staticModelAssetHeader.m_meshCount; ++l_meshIndex)
 	{
@@ -108,7 +118,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::Mo
 							  l_modelMaterialAssetData.m_metallicTextureFilePath,
 							  l_readOffset);
 
-		a_modelData.m_modelMeshList.emplace_back(std::move(l_modelMesh));
+		l_modelData.m_modelMeshList.emplace_back(std::move(l_modelMesh));
 	}
 
 	if (l_readOffset != GetREFMappedDataSize())
@@ -123,10 +133,19 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::Mo
 
 	return true;
 }
-
-bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Struct::ModelData& a_modelData, const std::filesystem::path& a_filePath)
+bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath)
 {
-	const auto& l_fileSize = CalculateStaticModelAssetFileSize(a_modelData);
+	const auto& l_staticModelRecord = a_staticModelRecord.lock();
+
+	if (!l_staticModelRecord)
+	{
+		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。。");
+		return false;
+	}
+
+	auto& l_modelData = l_staticModelRecord->m_modelData;
+
+	const auto& l_fileSize = CalculateStaticModelAssetFileSize(l_modelData);
 
 	if (l_fileSize == k_emptyStaticModelAssetFileSize)
 	{
@@ -155,14 +174,14 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Stru
 	StaticModelAssetHeader l_staticModelAssetHeader = {};
 
 	l_staticModelAssetHeader.m_fileSize  = l_fileSize;
-	l_staticModelAssetHeader.m_meshCount = a_modelData.m_modelMeshList.size();
+	l_staticModelAssetHeader.m_meshCount = l_modelData.m_modelMeshList.size();
 
 	WriteBinaryData(sizeof(StaticModelAssetHeader),
 					&l_staticModelAssetHeader,
 					l_writeOffset,
 					l_writeData);
 
-	for (const auto& l_modelMesh : a_modelData.m_modelMeshList)
+	for (const auto& l_modelMesh : l_modelData.m_modelMeshList)
 	{
 		const auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
 

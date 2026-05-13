@@ -1,7 +1,15 @@
 ﻿#include "StaticModelSystem.h"
 
-bool FWK::Graphics::StaticModelSystem::LoadStaticModel(Struct::ModelData& a_modelData, const std::filesystem::path& a_fbxFilePath)
+bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath)
 {
+	if (!a_staticModelRecord)
+	{
+		assert(false && "StaticModelRecordが無効です。");
+		return false;
+	}
+
+	auto& l_modelData = a_staticModelRecord->m_modelData;
+
 	if (a_fbxFilePath.empty())
 	{
 		assert(false && "StaticModelのFBXファイルパスが空です。");
@@ -19,13 +27,13 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(Struct::ModelData& a_mode
 	if (CanUseStaticModelAsset(a_fbxFilePath, l_assetFilePath))
 	{
 		// バイナリーファイルを読み込めるなら読み込む
-		if (LoadStaticModelAsset(a_modelData, l_assetFilePath)) { return true; }
+		if (LoadStaticModelAsset(a_staticModelRecord, l_assetFilePath)) { return true; }
 
 		// .assetが存在していても、読み込みに失敗した場合は壊れている可能性があるためFBXから再生成する
-		a_modelData.m_modelMeshList.clear();
+		l_modelData.m_modelMeshList.clear();
 	}
 	
-	return CreateStaticModelAssetFromFBX(a_modelData, a_fbxFilePath, l_assetFilePath);
+	return CreateStaticModelAssetFromFBX(a_staticModelRecord, a_fbxFilePath, l_assetFilePath);
 }
 
 bool FWK::Graphics::StaticModelSystem::CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const
@@ -41,32 +49,48 @@ bool FWK::Graphics::StaticModelSystem::CanUseStaticModelAsset(const std::filesys
 	return true;
 }
 
-bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(Struct::ModelData& a_modelData, const std::filesystem::path& a_assetFilePath)
+bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_assetFilePath)
 {
-	a_modelData.m_modelMeshList.clear();
+	const auto& l_staticModelRecord = a_staticModelRecord.lock();
 
-	if (!m_staticModelBinaryConverter.LoadStaticModelAsset(a_modelData, a_assetFilePath)) { return false; }
+	if (!l_staticModelRecord)
+	{
+		assert(false && "StaticModelRecordが無効です。");
+		return false;
+	}
+
+	auto& l_modelData = l_staticModelRecord->m_modelData;
+
+	l_modelData.m_modelMeshList.clear();
+
+	if (!m_staticModelBinaryConverter.LoadStaticModelAsset(a_staticModelRecord, a_assetFilePath)) { return false; }
 
 	return true;
 }
 
-bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(Struct::ModelData& a_modelData, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath)
+bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath)
 {
-	a_modelData.m_modelMeshList.clear();
+	const auto& l_staticModelRecord = a_staticModelRecord.lock();
 
-	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_fbxFilePath, a_modelData))
+	if (!l_staticModelRecord)
+	{
+		assert(false && "StaticModelRecordが無効です。");
+		return false;
+	}
+
+	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_staticModelRecord, a_fbxFilePath))
 	{
 		assert(false && "StaticModelFBXLoaderによるFBX読み込みに失敗しました。");
 		return false;
 	}
 
-	if (!m_staticModelMeshOptimizer.OptimizeModelData(a_modelData))
+	if (!m_staticModelMeshOptimizer.OptimizeStaticModelRecord(a_staticModelRecord))
 	{
-		assert(false && "StaticModelMeshOptimizerによるModelDataの最適化に失敗しました。");
+		assert(false && "StaticModelMeshOptimizerによるStaticModelRecordの最適化に失敗しました。");
 		return false;
 	}
 
-	if (!m_staticModelBinaryConverter.SaveStaticModelAsset(a_modelData, a_assetFilePath))
+	if (!m_staticModelBinaryConverter.SaveStaticModelAsset(a_staticModelRecord, a_assetFilePath))
 	{
 		assert(false && "StaticModelAssetの保存に失敗しました。");
 		return false;

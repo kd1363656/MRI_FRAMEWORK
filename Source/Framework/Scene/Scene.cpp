@@ -9,12 +9,16 @@ void FWK::Scene::PostLoadSetup()
 	auto& l_graphicsManager   = Graphics::GraphicsManager::GetInstance		  ();
 	auto& l_staticModelSystem = l_graphicsManager.GetMutableREFResourceContext().GetMutableREFStaticModelSystem();
 
+	if (!m_staticModelRecord)
+	{
+		m_staticModelRecord = std::make_shared<Struct::StaticModelRecord>();
+	}
 	
 	const std::filesystem::path l_staticModelFilePath = "Asset/Model/Antike.fbx";
 
 	const auto l_loadStartTime = std::chrono::high_resolution_clock::now();
 
-	if (!l_staticModelSystem.LoadStaticModel(m_modelData, l_staticModelFilePath))
+	if (!l_staticModelSystem.LoadStaticModel(m_staticModelRecord, l_staticModelFilePath))
 	{
 		assert(false && "StaticModelの読み込みに失敗しました。");
 		return;
@@ -25,7 +29,7 @@ void FWK::Scene::PostLoadSetup()
 	std::size_t l_vertexCount = 0ULL;
 	std::size_t l_indexCount  = 0ULL;
 
-	for (const auto& l_modelMesh : m_modelData.m_modelMeshList)
+	for (const auto& l_modelMesh : m_staticModelRecord->m_modelData.m_modelMeshList)
 	{
 		l_vertexCount += l_modelMesh.m_modelVertexList.size();
 		l_indexCount  += l_modelMesh.m_indexList.size();
@@ -37,7 +41,7 @@ void FWK::Scene::PostLoadSetup()
 
 	l_debugLog += std::format("StaticModelSystem Load Test\n");
 	l_debugLog += std::format("ModelPath   : {}\n",    l_staticModelFilePath.string());
-	l_debugLog += std::format("MeshCount   : {}\n",    m_modelData.m_modelMeshList.size());
+	l_debugLog += std::format("MeshCount   : {}\n",    m_staticModelRecord->m_modelData.m_modelMeshList.size());
 	l_debugLog += std::format("VertexCount : {}\n",    l_vertexCount);
 	l_debugLog += std::format("IndexCount  : {}\n",    l_indexCount);
 	l_debugLog += std::format("Load Time   : {} ms\n", l_loadTimeMS);

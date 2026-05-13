@@ -21,6 +21,6 @@ namespace FWK
 
 		Graphics::Texture m_texture = {};
 
-		Struct::ModelData m_modelData = {};
+		std::shared_ptr<Struct::StaticModelRecord> m_staticModelRecord = nullptr;
 	};
 }

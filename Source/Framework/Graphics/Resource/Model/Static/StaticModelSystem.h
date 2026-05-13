@@ -9,15 +9,15 @@ namespace FWK::Graphics
 		 StaticModelSystem() = default;
 		~StaticModelSystem() = default;
 
-		bool LoadStaticModel(Struct::ModelData& a_modelData, const std::filesystem::path& a_fbxFilePath);		
+		bool LoadStaticModel(const std::shared_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath);		
 
 	private:
 
 		bool CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const;
 
-		bool LoadStaticModelAsset(Struct::ModelData& a_modelData, const std::filesystem::path& a_assetFilePath);
+		bool LoadStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_assetFilePath);
 
-		bool CreateStaticModelAssetFromFBX(Struct::ModelData& a_modelData, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath);
+		bool CreateStaticModelAssetFromFBX(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath);
 
 		StaticModelFBXLoader     m_staticModelFBXLoader     = {};
 		StaticModelMeshOptimizer m_staticModelMeshOptimizer = {};
