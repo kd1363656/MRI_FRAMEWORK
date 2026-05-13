@@ -29,8 +29,8 @@ namespace FWK::Converter
 		 StaticModelBinaryConverter()		   = default;
 		~StaticModelBinaryConverter() override = default;
 
-		bool LoadStaticModelAsset(const std::weak_ptr<Struct::ModelData>& a_modelData, const std::filesystem::path& a_filePath);
-		bool SaveStaticModelAsset(const std::weak_ptr<Struct::ModelData>& a_modelData, const std::filesystem::path& a_filePath);
+		bool LoadStaticModelAsset(		Struct::ModelData& a_modelData, const std::filesystem::path& a_filePath);
+		bool SaveStaticModelAsset(const Struct::ModelData& a_modelData, const std::filesystem::path& a_filePath);
 
 	private:
 
@@ -51,8 +51,8 @@ namespace FWK::Converter
 		
 		void WriteWStringBinaryData(const std::wstring&  a_string, std::uint64_t& a_writeOffset, std::uint8_t* a_writeData) const;
 
-		std::uint64_t CalculateStaticModelAssetFileSize(const std::weak_ptr<Struct::ModelData>& a_modelData) const;
-		std::uint64_t CalculateWStringBinaryFileSize   (const std::wstring&					    a_string)    const;
+		std::uint64_t CalculateStaticModelAssetFileSize(const Struct::ModelData& a_modelData) const;
+		std::uint64_t CalculateWStringBinaryFileSize   (const std::wstring&		 a_string)    const;
 
 		static constexpr std::uint64_t k_emptyStaticModelAssetFileSize = 0ULL;
 		static constexpr std::uint64_t k_emptyStaticModelMeshCount     = 0ULL;

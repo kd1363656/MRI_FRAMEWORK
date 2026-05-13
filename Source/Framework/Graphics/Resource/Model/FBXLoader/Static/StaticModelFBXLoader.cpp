@@ -1,19 +1,9 @@
 ﻿#include "StaticModelFBXLoader.h"
 
-bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::weak_ptr<Struct::ModelData>& a_modelData, const std::filesystem::path& a_filePath) const
+bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesystem::path& a_filePath, Struct::ModelData& a_modelData) const
 {
-	// 出力先のModelDataを初期化する
-	// 前回読み込み結果が残っていると、今回のFBX結果と混ざるため最初に空にする
-	const auto& l_modelData = a_modelData.lock();
-	
-	if (!l_modelData)
-	{
-		assert(false && "ModelDataのポインタが無効のため、StaticModelファイルの読み込みに失敗しました。");
-		return false;
-	}
-
 	// ModelDataはコピー代入禁止のため、保持しているModelMeshリストだけを空にする
-	l_modelData->m_modelMeshList.clear();
+	a_modelData.m_modelMeshList.clear();
 
 	// FBXファイル全体をufbx_sceneとして読み込む
 	auto* l_fbxScene = LoadFBXScene(a_filePath);
@@ -25,7 +15,7 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::weak_pt
 	}
 
 	// モデルデータをシーンから抽出
-	if (!ExtractModelData(a_modelData, l_fbxScene))
+	if (!ExtractModelData(l_fbxScene, a_modelData))
 	{
 		assert(false && "FBXシーンからModelDataの抽出に失敗しました。");
 		
@@ -40,16 +30,8 @@ bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::weak_pt
 	return true;
 }
 
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const std::weak_ptr<Struct::ModelData>& a_modelData, const ufbx_scene* a_fbxScene) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const ufbx_scene* a_fbxScene, Struct::ModelData& a_modelData) const
 {
-	const auto& l_modelData = a_modelData.lock();
-
-	if (!l_modelData)
-	{
-		assert(false && "ModelDataが無効のため、ModelDataの抽出に失敗しました。");
-		return false;
-	}
-
 	if (!a_fbxScene) 
 	{
 		assert(false && "ufbx_sceneがnullptrのため、ModelDataの抽出に失敗しました。");
@@ -86,11 +68,11 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const std::weak_ptr<S
 			if (l_modelMesh.m_modelVertexList.empty()) { continue; }
 			if (l_modelMesh.m_indexList.empty())	   { continue; }
 
-			l_modelData->m_modelMeshList.emplace_back(std::move(l_modelMesh));
+			a_modelData.m_modelMeshList.emplace_back(std::move(l_modelMesh));
 		}
 	}
 
-	if (l_modelData->m_modelMeshList.empty())
+	if (a_modelData.m_modelMeshList.empty())
 	{
 		assert(false && "有効なModelMeshが存在しないため、ModelDataの抽出に失敗しました。");
 		return false;

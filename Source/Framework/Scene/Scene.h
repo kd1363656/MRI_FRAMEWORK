@@ -21,6 +21,6 @@ namespace FWK
 
 		Graphics::Texture m_texture = {};
 
-		std::shared_ptr<Struct::ModelData> m_modelData = nullptr;
+		Struct::ModelData m_modelData = {};
 	};
 }
