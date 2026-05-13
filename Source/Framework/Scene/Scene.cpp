@@ -55,7 +55,7 @@ void FWK::Scene::PostLoadSetup()
 
 	const auto l_assetSaveStartTime = std::chrono::high_resolution_clock::now();
 
-	if (!l_staticModelBinaryConverter.SaveStaticModelAsset(l_staticModelAssetFilePath, *l_modelData))
+	if (!l_staticModelBinaryConverter.SaveStaticModelAsset(l_modelData, l_staticModelAssetFilePath))
 	{
 		assert(false && "StaticModelAssetの保存に失敗しました。");
 		return;
@@ -63,11 +63,11 @@ void FWK::Scene::PostLoadSetup()
 
 	const auto l_assetSaveEndTime = std::chrono::high_resolution_clock::now();
 
-	Struct::ModelData l_loadedModelData = {};
+	const auto& l_loadedModelData = std::make_shared<Struct::ModelData>();;
 
 	const auto l_assetLoadStartTime = std::chrono::high_resolution_clock::now();
 
-	if (!l_staticModelBinaryConverter.LoadStaticModelAsset(l_staticModelAssetFilePath, l_loadedModelData))
+	if (!l_staticModelBinaryConverter.LoadStaticModelAsset(l_loadedModelData, l_staticModelAssetFilePath))
 	{
 		assert(false && "StaticModelAssetの読み込みに失敗しました。");
 		return;
@@ -75,7 +75,7 @@ void FWK::Scene::PostLoadSetup()
 
 	const auto l_assetLoadEndTime = std::chrono::high_resolution_clock::now();
 
-	if (l_modelData->m_modelMeshList.size() != l_loadedModelData.m_modelMeshList.size())
+	if (l_modelData->m_modelMeshList.size() != l_loadedModelData->m_modelMeshList.size())
 	{
 		assert(false && "保存前と読み込み後のMesh数が一致しません。");
 		return;
@@ -86,8 +86,8 @@ void FWK::Scene::PostLoadSetup()
 
 	for (std::uint64_t l_meshIndex = 0ULL; l_meshIndex < l_modelData->m_modelMeshList.size(); ++l_meshIndex)
 	{
-		const auto& l_sourceModelMesh = l_modelData->m_modelMeshList     [l_meshIndex];
-		const auto& l_loadedModelMesh = l_loadedModelData.m_modelMeshList[l_meshIndex];
+		const auto& l_sourceModelMesh = l_modelData->m_modelMeshList      [l_meshIndex];
+		const auto& l_loadedModelMesh = l_loadedModelData->m_modelMeshList[l_meshIndex];
 
 		if (l_sourceModelMesh.m_modelVertexList.size() != l_loadedModelMesh.m_modelVertexList.size())
 		{

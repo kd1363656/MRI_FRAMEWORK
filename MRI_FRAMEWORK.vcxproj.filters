@@ -544,6 +544,9 @@
     <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\Static">
       <UniqueIdentifier>{476453eb-b05b-4a08-aa36-37f2bc98a2cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Static">
+      <UniqueIdentifier>{32127546-5964-46d9-ad2e-a1fcc48d9b98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -956,6 +959,9 @@
     <ClInclude Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\Static\StaticModelBinaryConverter.h">
       <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1149,6 +1155,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\Static\StaticModelBinaryConverter.cpp">
       <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
