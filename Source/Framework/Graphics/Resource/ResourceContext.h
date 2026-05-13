@@ -22,13 +22,14 @@ namespace FWK::Graphics
 		const auto& GetREFGPUMemoryAllocator() const { return m_gpuMemoryAllocator; }
 		const auto& GetREFUploadSystem      () const { return m_uploadSystem; }
 		const auto& GetREFTextureSystem     () const { return m_textureSystem; }
-		
+
 		auto& GetMutableREFRTVDescriptorPool() { return m_rtvDescriptorPool; }
 		auto& GetMutableREFSRVDescriptorPool() { return m_srvDescriptorPool; }
 
 		auto& GetMutableREFGPUMemoryAllocator() { return m_gpuMemoryAllocator; }
 		auto& GetMutableREFUploadSystem	     () { return m_uploadSystem; }
 		auto& GetMutableREFTextureSystem     () { return m_textureSystem; }
+		auto& GetMutableREFStaticModelSystem () { return m_staticModelSystem; }
 
 	private:
 
@@ -38,6 +39,7 @@ namespace FWK::Graphics
 		GPUMemoryAllocator m_gpuMemoryAllocator = {};
 		UploadSystem       m_uploadSystem       = {};
 		TextureSystem      m_textureSystem      = {};
+		StaticModelSystem  m_staticModelSystem  = {};
 		
 		Converter::ResourceContextJsonConverter m_resourceContextJsonConverter = {};
 	};
