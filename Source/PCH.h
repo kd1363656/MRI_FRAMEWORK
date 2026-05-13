@@ -26,6 +26,7 @@
 #include <thread>
 #include <queue>
 #include <unordered_set>
+#include <format>
 
 //================================================
 // 外部ライブラリ
