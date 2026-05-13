@@ -4,6 +4,15 @@ namespace FWK::Struct
 {
 	struct StaticModelRecord final : public AssetRecordBase
 	{
-		std::shared_ptr<ModelData> m_modelData = nullptr;
+		 StaticModelRecord() = default;
+		~StaticModelRecord() = default;
+
+		StaticModelRecord(const StaticModelRecord&)           = delete;
+		StaticModelRecord(      StaticModelRecord&&) noexcept = default;
+
+		StaticModelRecord& operator=(const StaticModelRecord&)            = delete;
+		StaticModelRecord& operator=(      StaticModelRecord&&) noexcept = default;
+
+		ModelData m_modelData = {};
 	};
 }
