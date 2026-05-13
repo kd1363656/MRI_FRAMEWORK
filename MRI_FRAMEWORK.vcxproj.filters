@@ -532,6 +532,18 @@
     <Filter Include="Source\Framework\Converter\Binary">
       <UniqueIdentifier>{596adb0f-78e7-4377-ab93-115a4235322c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Converter\Binary\Graphics">
+      <UniqueIdentifier>{d3c08173-21cc-49b0-9adb-dae1712c0734}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource">
+      <UniqueIdentifier>{46eb54e4-0602-491c-8098-68d1ddce2558}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource\Model">
+      <UniqueIdentifier>{5378bf0f-c9e7-43f1-a0e2-3750ebf47c3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\Static">
+      <UniqueIdentifier>{476453eb-b05b-4a08-aa36-37f2bc98a2cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -941,6 +953,9 @@
     <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h">
       <Filter>Source\Framework\Converter\Binary</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\Static\StaticModelBinaryConverter.h">
+      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1131,6 +1146,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.cpp">
       <Filter>Source\Framework\Converter\Binary</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Binary\Graphics\Resource\Model\Static\StaticModelBinaryConverter.cpp">
+      <Filter>Source\Framework\Converter\Binary\Graphics\Resource\Model\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
