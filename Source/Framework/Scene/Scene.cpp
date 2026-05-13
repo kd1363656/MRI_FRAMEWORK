@@ -14,8 +14,7 @@ void FWK::Scene::PostLoadSetup()
 	auto& l_graphicsManager   = Graphics::GraphicsManager::GetInstance		  ();
 	auto& l_staticModelSystem = l_graphicsManager.GetMutableREFResourceContext().GetMutableREFStaticModelSystem();
 
-	const auto&							    l_modelData     = std::make_shared<Struct::ModelData>();
-	const std::weak_ptr<Struct::ModelData>& l_modelDataWeak = l_modelData;
+	const std::weak_ptr<Struct::ModelData>& l_modelDataWeak = m_modelData;
 
 	const std::filesystem::path l_staticModelFilePath = "Asset/Model/Antike.fbx";
 
@@ -32,7 +31,7 @@ void FWK::Scene::PostLoadSetup()
 	std::size_t l_vertexCount = 0ULL;
 	std::size_t l_indexCount  = 0ULL;
 
-	for (const auto& l_modelMesh : l_modelData->m_modelMeshList)
+	for (const auto& l_modelMesh : m_modelData->m_modelMeshList)
 	{
 		l_vertexCount += l_modelMesh.m_modelVertexList.size();
 		l_indexCount  += l_modelMesh.m_indexList.size();
@@ -43,10 +42,10 @@ void FWK::Scene::PostLoadSetup()
 	std::string l_debugLog = {};
 
 	l_debugLog += std::format("StaticModelSystem Load Test\n");
-	l_debugLog += std::format("ModelPath   : {}\n", l_staticModelFilePath.string());
-	l_debugLog += std::format("MeshCount   : {}\n", l_modelData->m_modelMeshList.size());
-	l_debugLog += std::format("VertexCount : {}\n", l_vertexCount);
-	l_debugLog += std::format("IndexCount  : {}\n", l_indexCount);
+	l_debugLog += std::format("ModelPath   : {}\n",    l_staticModelFilePath.string());
+	l_debugLog += std::format("MeshCount   : {}\n",    m_modelData->m_modelMeshList.size());
+	l_debugLog += std::format("VertexCount : {}\n",    l_vertexCount);
+	l_debugLog += std::format("IndexCount  : {}\n",    l_indexCount);
 	l_debugLog += std::format("Load Time   : {} ms\n", l_loadTimeMS);
 
 	OutputDebugStringA(l_debugLog.c_str());

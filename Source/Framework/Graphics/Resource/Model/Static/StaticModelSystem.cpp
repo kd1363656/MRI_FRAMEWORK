@@ -26,12 +26,13 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::weak_ptr<Struc
 
 	if (CanUseStaticModelAsset(a_fbxFilePath, l_assetFilePath))
 	{
+		// バイナリーファイルを読み込めるなら読み込む
 		if (LoadStaticModelAsset(a_modelData, l_assetFilePath)) { return true; }
 
 		// .assetが存在していても、読み込みに失敗した場合は壊れている可能性があるためFBXから再生成する
 		l_modelData->m_modelMeshList.clear();
 	}
-
+	
 	return CreateStaticModelAssetFromFBX(a_modelData, a_fbxFilePath, l_assetFilePath);
 }
 
