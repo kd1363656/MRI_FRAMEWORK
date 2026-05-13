@@ -178,6 +178,7 @@
 
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"
 
+// 描画パス
 #include "Graphics/Resource/Buffer/Constant/Sprite/Draw/SpriteDrawConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Sprite/Pass/SpritePassConstantBuffer.h"
 
@@ -238,6 +239,7 @@
 
 // モデル
 #include "Graphics/Resource/Model/FBXLoader/FBXModelLoaderBase.h"
+#include "Converter/Binary/Graphics/Resource/Model/Static/StaticModelBinaryConverter.h"
 #include "Graphics/Resource/Model/FBXLoader/Static/StaticModelFBXLoader.h"
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticMeshOptimizer.h"
 

@@ -4,9 +4,9 @@ void FWK::Scene::PostLoadSetup()
 {
 	m_texture.Load("Asset/Texture/Test.dds");
 
+	const auto&								 l_modelData			    = std::make_shared<Struct::ModelData>();
 	      Graphics::StaticModelFBXLoader	 l_staticModelFBXLoader     = {};
 	      Graphics::StaticModelMeshOptimizer l_staticModelMeshOptimizer = {};
-	const auto&								 l_modelData			    = std::make_shared<Struct::ModelData>();
 
 	const auto l_loadStartTime = std::chrono::high_resolution_clock::now();
 
@@ -36,6 +36,25 @@ void FWK::Scene::PostLoadSetup()
 		return;
 	}
 	
+	FWK::Converter::StaticModelBinaryConverter l_staticModelBinaryConverter = {};
+
+	const auto& l_staticModelAssetFilePath = FWK::Utility::File::CreateFilePathByReplaceExtension("Asset/Model/Antike.fbx", Constant::k_lowerAssetExtension);
+
+	if (!l_staticModelBinaryConverter.SaveStaticModelAsset(l_staticModelAssetFilePath, *l_modelData))
+	{
+		assert(false && "StaticModelAssetの保存に失敗しました。");
+		return;
+	}
+
+	Struct::ModelData l_loadedModelData = {};
+
+	if (!l_staticModelBinaryConverter.LoadStaticModelAsset(l_staticModelAssetFilePath, l_loadedModelData))
+	{
+		assert(false && "StaticModelAsetの読み込みに失敗しました。");
+		return;
+	}
+
+	// ここに.asset保存・読み込みテストを書く
 	const auto l_optimizeEndTime = std::chrono::high_resolution_clock::now();
 	
 	std::size_t l_afterOptimizeVertexCount = 0ULL;

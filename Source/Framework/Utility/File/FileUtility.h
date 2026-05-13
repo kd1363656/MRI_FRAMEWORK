@@ -56,6 +56,17 @@ namespace FWK::Utility::File
 		return true;
 	}
 
+	inline std::filesystem::path CreateFilePathByReplaceExtension(const std::filesystem::path& a_filePath, const std::filesystem::path& a_extension)
+	{
+		auto l_filePath = a_filePath;
+
+		// 指定された拡張子に置き換える
+		l_filePath.replace_extension(a_extension);
+
+		return l_filePath;
+	}
+
+
 	inline nlohmann::json LoadJsonFile(const std::filesystem::path& a_filePath)
 	{
 		// 読み込めないファイルならreturn
