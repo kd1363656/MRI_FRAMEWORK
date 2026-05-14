@@ -547,6 +547,12 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\Static">
       <UniqueIdentifier>{32127546-5964-46d9-ad2e-a1fcc48d9b98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Storage">
+      <UniqueIdentifier>{027267f2-5204-4e03-89a5-61be73d1b309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator">
+      <UniqueIdentifier>{256696f0-0605-466b-992d-7cbab5163103}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -962,6 +968,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1158,6 +1167,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

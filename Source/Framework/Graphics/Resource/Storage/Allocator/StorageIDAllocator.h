@@ -20,6 +20,10 @@ namespace FWK::Graphics
 
 		TypeAlias::StorageID Allocate();
 
+		void SetStorageIDCapacity(TypeAlias::StorageID a_set) { m_storageIDCapacity = a_set; }
+
+		auto GetVALStorageIDCapacity() const { return m_storageIDCapacity; }
+
 	private:
 
 		bool IsValidStorageID(const TypeAlias::StorageID a_storageID) const;

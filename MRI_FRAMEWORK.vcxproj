@@ -360,6 +360,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h" />
@@ -500,6 +501,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp" />

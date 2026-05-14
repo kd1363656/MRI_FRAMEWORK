@@ -199,6 +199,7 @@
 #include "Graphics/Command/List/Copy/CopyCommandList.h"
 
 // Storage
+#include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
 #include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
 #include "Graphics/Resource/Storage/AssetStorage.h"
 
