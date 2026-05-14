@@ -82,6 +82,5 @@ namespace FWK::Converter
 		static constexpr UINT k_defaultDescriptorRangeNUMDescriptors = 0U;
 		static constexpr UINT k_defaultBaseShaderRegister            = 0U;
 		static constexpr UINT k_invalidNUMDescriptorRange            = 0U;
-
 	};
 }

@@ -194,7 +194,7 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeBlendDesc(const nloh
 	{
 		const auto& l_jsonArray = a_rootJson[k_renderTargetJsonKey];
 
-		for (std::size_t l_renderTargetIndex = 0U; l_renderTargetIndex < l_jsonArray.size(); ++l_renderTargetIndex)
+		for (auto l_renderTargetIndex = 0U; l_renderTargetIndex < l_jsonArray.size(); ++l_renderTargetIndex)
 		{
 			if (l_renderTargetIndex >= D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT)
 			{
@@ -322,8 +322,8 @@ void FWK::Converter::PipelineStateJsonConverter::DeserializeSampleDesc(const nlo
 
 nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeRasterizerDesc(const Graphics::PipelineState& a_pipelineState) const
 {
-	nlohmann::json l_rootJson	    = {};
-	const auto&    l_rasterizerDesc = a_pipelineState.GetREFRasterizerDesc();
+		  nlohmann::json l_rootJson	      = {};
+	const auto&          l_rasterizerDesc = a_pipelineState.GetREFRasterizerDesc();
 
 	// FillMode : ポリゴンを塗りつぶすか、ワイヤーフレームで描くか
 	l_rootJson[k_fillModeJsonKey] = l_rasterizerDesc.FillMode;
@@ -363,8 +363,8 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeRasterizerDe
 }
 nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeBlendDesc(const Graphics::PipelineState& a_pipelineState) const
 {
-	nlohmann::json l_rootJson  = {};
-	const auto&    l_blendDesc = a_pipelineState.GetREFBlendDesc();
+		  nlohmann::json l_rootJson  = {};
+	const auto&			 l_blendDesc = a_pipelineState.GetREFBlendDesc();
 
 	// AlphaToCoverageEnable : MSAA使用時にalpha値からサンプル被覆率を作るか
 	l_rootJson[k_alphaToCoverageEnableJsonKey] = l_blendDesc.AlphaToCoverageEnable;
@@ -417,8 +417,8 @@ nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeBlendDesc(co
 }
 nlohmann::json FWK::Converter::PipelineStateJsonConverter::SerializeDepthStencilDesc(const Graphics::PipelineState& a_pipelineState) const
 {
-	nlohmann::json l_rootJson	      = {};
-	const auto&	   l_depthStencilDesc = a_pipelineState.GetREFDepthStencilDesc();
+		  nlohmann::json l_rootJson	        = {};
+	const auto&			 l_depthStencilDesc = a_pipelineState.GetREFDepthStencilDesc();
 
 	// DepthEnable : 深度テストを有効にするか
 	l_rootJson[k_depthEnableJsonKey] = l_depthStencilDesc.DepthEnable;
