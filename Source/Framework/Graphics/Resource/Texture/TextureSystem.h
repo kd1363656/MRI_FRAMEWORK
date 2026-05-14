@@ -30,6 +30,10 @@ namespace FWK::Graphics
 
 		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const;
 
+		const auto& GetREFTextureStorage() const { return m_textureStorage; }
+
+		auto& GetMutableREFTextureStorage() { return m_textureStorage; }
+
 		auto GetVALStorageIDAllocatorCapacity() const { return m_storageIDAllocatorCapacity; }
 
 	private:

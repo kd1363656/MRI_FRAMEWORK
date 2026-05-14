@@ -22,6 +22,13 @@ namespace FWK::Converter
 
 			const auto l_storageCapacity = a_rootJson.value(k_storageCapacityJsonKey, Constant::k_defaultCreateStorageIDCapacity);
 
+			if (a_rootJson.contains(k_storageIDAllocatorJsonKey))
+			{
+				auto& l_storageIDAllocator = a_descriptorPool.GetMutableREFStorageIDAllocator();
+
+				l_storageIDAllocator.Deserialize(a_rootJson[k_storageIDAllocatorJsonKey]);
+			}
+
 			a_descriptorPool.SetDescriptorCapacity(l_storageCapacity);
 		}
 
@@ -29,13 +36,17 @@ namespace FWK::Converter
 		{
 			nlohmann::json l_rootJson = {};
 
-			l_rootJson[k_storageCapacityJsonKey] = a_descriptorPool.GetVALStorageIDCapacity();
+			const auto& l_storageIDAllocator = a_descriptorPool.GetREFStorageIDAllocator();
+
+			l_rootJson[k_storageIDAllocatorJsonKey] = l_storageIDAllocator.Serialize		  ();
+			l_rootJson[k_storageCapacityJsonKey]    = a_descriptorPool.GetVALStorageIDCapacity();
 
 			return l_rootJson;
 		}
 
 	private:
 
-		static constexpr std::string_view k_storageCapacityJsonKey = "StorageCapacity";
+		static constexpr std::string_view k_storageCapacityJsonKey    = "StorageCapacity";
+		static constexpr std::string_view k_storageIDAllocatorJsonKey = "StorageIDAllocator";
 	};
 }

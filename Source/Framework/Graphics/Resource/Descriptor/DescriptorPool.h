@@ -74,7 +74,10 @@ namespace FWK::Graphics
 			return m_descriptorHeap.FetchVALShaderVisibleGPUHandle(a_storageID);
 		}
 
-		const auto& GetREFDescriptorHeap() const { return m_descriptorHeap; }
+		const auto& GetREFDescriptorHeap    () const { return m_descriptorHeap; }
+		const auto& GetREFStorageIDAllocator() const { return m_storageIDAllocator; }
+
+		auto& GetMutableREFStorageIDAllocator() { return m_storageIDAllocator; }
 
 		auto GetVALStorageIDCapacity() const { return m_storageIDCapacity; }
 

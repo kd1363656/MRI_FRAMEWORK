@@ -297,13 +297,24 @@
     },
     "ResourceContext": {
         "RTVDescriptorPool": {
-            "StorageCapacity": 1024
+            "StorageCapacity": 1024,
+            "StorageIDAllocator": {
+                "StorageIDAllocatorCapacity": 1024
+            }
         },
         "SRVDescriptorPool": {
-            "StorageCapacity": 1024
+            "StorageCapacity": 1024,
+            "StorageIDAllocator": {
+                "StorageIDAllocatorCapacity": 1024
+            }
         },
         "TextureSystem": {
-            "StorageIDAllocatorCapacity": 3000
+            "StorageIDAllocatorCapacity": 3000,
+            "TextureStorage": {
+                "StorageIDAllocator": {
+                    "StorageIDAllocatorCapacity": 3000
+                }
+            }
         },
         "UploadSystem": {
             "CopyCommandAllocatorListSize": 3
