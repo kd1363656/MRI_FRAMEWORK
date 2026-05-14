@@ -20,9 +20,9 @@ namespace FWK::Graphics
 			if (a_rootJson.is_null()) { return; }
 			m_assetStorageJsonConverter.Deserialize(a_rootJson, *this);
 		}
-		bool Create(const TypeAlias::StorageID a_storageIDCapacity)
+		bool Create()
 		{
-			if (!m_storageIDAllocator.Create(a_storageIDCapacity))
+			if (!m_storageIDAllocator.Create())
 			{
 				assert(false && "StorageIDAllocatorの作成に失敗したため、AssetStorageの作成に失敗しました。");
 				return false;

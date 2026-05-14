@@ -6,23 +6,22 @@ void FWK::Graphics::StorageIDAllocator::Deserialize(const nlohmann::json& a_root
 	m_storageAllocatorJsonConverter.Deserialize(a_rootJson, *this);
 }
 
-bool FWK::Graphics::StorageIDAllocator::Create(const TypeAlias::StorageID a_storageIDCapacity)
+bool FWK::Graphics::StorageIDAllocator::Create()
 {
 	// 無効値を容量として指定された場合は作成失敗とする
-	if (a_storageIDCapacity == Constant::k_invalidStorageIDCapacity)
+	if (m_storageIDCapacity == Constant::k_invalidStorageIDCapacity)
 	{
 		assert(false && "ストレージIDの割り当て可能数が0です。");
 		return false;
 	}
 
-	if (a_storageIDCapacity == Constant::k_invalidStorageID)
+	if (m_storageIDCapacity == Constant::k_invalidStorageID)
 	{
 		assert(false && "StorageIDの割り当て可能数が無効値です。");
 		return false;
 	}
 
-	m_storageIDCapacity = a_storageIDCapacity;
-	m_nextStorageID     = k_initialNextStorageID;
+	m_nextStorageID = k_initialNextStorageID;
 
 	// 全スロットを未使用状態で初期化する
 	m_isAllocatedList.assign(m_storageIDCapacity, k_unallocatedStorageIDState);

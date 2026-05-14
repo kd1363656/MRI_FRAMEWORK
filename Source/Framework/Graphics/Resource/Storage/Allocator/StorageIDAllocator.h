@@ -12,7 +12,7 @@ namespace FWK::Graphics
 		~StorageIDAllocator() = default;
 
 		void Deserialize(const nlohmann::json&      a_rootJson);
-		bool Create     (const TypeAlias::StorageID a_storageIDCapacity);
+		bool Create     ();
 
 		nlohmann::json Serialize() const;
 

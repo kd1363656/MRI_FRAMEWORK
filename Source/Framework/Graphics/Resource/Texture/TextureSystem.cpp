@@ -7,7 +7,7 @@ void FWK::Graphics::TextureSystem::Deserialize(const nlohmann::json& a_rootJson)
 }
 bool FWK::Graphics::TextureSystem::Create()
 {
-	if (!m_textureStorage.Create(m_storageIDAllocatorCapacity))
+	if (!m_textureStorage.Create())
 	{
 		assert(false && "AssetStorageの作成に失敗したため、TextureSystemの作成処理に失敗しました。");
 		return false;
