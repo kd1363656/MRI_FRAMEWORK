@@ -20,7 +20,6 @@ namespace FWK::Converter
 
 	private:
 
-		static constexpr std::string_view k_storageIDAllocatorCapacityJsonKey = "StorageIDAllocatorCapacity";
-		static constexpr std::string_view k_textureStorageJsonKey             = "TextureStorage";
+		static constexpr std::string_view k_textureStorageJsonKey = "TextureStorage";
 	};
 }

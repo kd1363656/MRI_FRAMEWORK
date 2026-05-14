@@ -10,10 +10,6 @@ void FWK::Converter::TextureSystemJsonConverter::Deserialize(const nlohmann::jso
 
 		l_textureStorage.Deserialize(a_rootJson[k_textureStorageJsonKey]);
 	}
-	
-	const auto l_storageIDAllocatorCapacity = a_rootJson.value(k_storageIDAllocatorCapacityJsonKey, Constant::k_defaultCreateStorageIDCapacity);
-
-	a_textureSystem.SetStorageIDAllocatorCapacity(l_storageIDAllocatorCapacity);
 }
 
 nlohmann::json FWK::Converter::TextureSystemJsonConverter::Serialize(const Graphics::TextureSystem& a_textureSystem) const
@@ -22,8 +18,7 @@ nlohmann::json FWK::Converter::TextureSystemJsonConverter::Serialize(const Graph
 
 	const auto& l_textureStorage = a_textureSystem.GetREFTextureStorage();
 
-	l_rootJson[k_textureStorageJsonKey]			    = l_textureStorage.Serialize					  ();
-	l_rootJson[k_storageIDAllocatorCapacityJsonKey] = a_textureSystem.GetVALStorageIDAllocatorCapacity();
-
+	l_rootJson[k_textureStorageJsonKey] = l_textureStorage.Serialize();
+	
 	return l_rootJson;
 }

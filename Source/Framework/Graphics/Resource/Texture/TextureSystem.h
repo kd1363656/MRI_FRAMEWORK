@@ -26,15 +26,12 @@ namespace FWK::Graphics
 		bool AddTextureReference    (const TypeAlias::StorageID a_storageID);
 		bool ReleaseTextureReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::StorageID a_storageID);
 
-		void SetStorageIDAllocatorCapacity(const TypeAlias::StorageID a_set) { m_storageIDAllocatorCapacity = a_set; }
-
 		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const;
 
 		const auto& GetREFTextureStorage() const { return m_textureStorage; }
 
 		auto& GetMutableREFTextureStorage() { return m_textureStorage; }
 
-		auto GetVALStorageIDAllocatorCapacity() const { return m_storageIDAllocatorCapacity; }
 
 	private:
 
@@ -48,7 +45,5 @@ namespace FWK::Graphics
 		TextureBatchUploadRecordBuilder m_textureBatchUploadRecordBuilder = {};
 
 		Converter::TextureSystemJsonConverter m_textureSystemJsonConverter = {};
-
-		TypeAlias::StorageID m_storageIDAllocatorCapacity = Constant::k_defaultCreateStorageIDCapacity;
 	};
 }

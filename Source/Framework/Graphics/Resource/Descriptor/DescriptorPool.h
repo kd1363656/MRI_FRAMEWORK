@@ -18,15 +18,15 @@ namespace FWK::Graphics
 		}
 		bool Create(const Device& a_device)
 		{
-			if (!m_descriptorHeap.Create(a_device, m_storageIDCapacity))
-			{
-				assert(false && "ディスクリプタヒープの作成処理に失敗しました。");
-				return false;
-			}
-
 			if (!m_storageIDAllocator.Create())
 			{
 				assert(false && "ディスクリプタヒープインデックスアロケータの作成処理に失敗しました。");
+				return false;
+			}
+
+			if (!m_descriptorHeap.Create(a_device, m_storageIDAllocator.GetVALStorageIDCapacity()))
+			{
+				assert(false && "ディスクリプタヒープの作成処理に失敗しました。");
 				return false;
 			}
 
@@ -53,8 +53,6 @@ namespace FWK::Graphics
 			m_storageIDAllocator.Release(a_storageID);
 		}
 
-		void SetDescriptorCapacity(const TypeAlias::StorageID a_set) { m_storageIDCapacity = a_set; }
-
 		auto FetchShaderVisibleDescriptorHeap() const 
 		{
 			return m_descriptorHeap.FetchPTRShaderVisibleDescriptorHeap();
@@ -74,12 +72,12 @@ namespace FWK::Graphics
 			return m_descriptorHeap.FetchVALShaderVisibleGPUHandle(a_storageID);
 		}
 
+		auto FetchVALStorageIDCapacity() const { return m_storageIDAllocator.GetVALStorageIDCapacity(); }
+
 		const auto& GetREFDescriptorHeap    () const { return m_descriptorHeap; }
 		const auto& GetREFStorageIDAllocator() const { return m_storageIDAllocator; }
 
 		auto& GetMutableREFStorageIDAllocator() { return m_storageIDAllocator; }
-
-		auto GetVALStorageIDCapacity() const { return m_storageIDCapacity; }
 
 	private:
 
@@ -87,7 +85,5 @@ namespace FWK::Graphics
 		StorageIDAllocator m_storageIDAllocator = {};
 
 		Converter::DescriptorPoolJsonConverter<Type> m_descriptorPoolJsonConverter = {};
-
-		TypeAlias::StorageID m_storageIDCapacity = Constant::k_defaultCreateStorageIDCapacity;
 	};
 }

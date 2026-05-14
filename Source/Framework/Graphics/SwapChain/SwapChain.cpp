@@ -237,7 +237,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 	}
 
 	// ディスクリプタヒープの容量を超えてしまっていたらreturn
-	if (static_cast<UINT>(m_backBufferList.size()) > a_rtvDescriptorPool.GetVALStorageIDCapacity())
+	if (static_cast<UINT>(m_backBufferList.size()) > a_rtvDescriptorPool.FetchVALStorageIDCapacity())
 	{
 		assert(false && "バックバッファリストのサイズがディスクリプタヒープの容量を超えています。");
 		return false;
