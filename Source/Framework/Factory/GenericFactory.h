@@ -11,7 +11,7 @@ namespace FWK
 		using FactoryMap = std::unordered_map<std::string, std::function<Type()>, Struct::StringHash, std::equal_to<>>;
 
 		// Typeはスマートポインタを想定している
-		// std::shared_ptr<Base> / std::unique_ptr<Base>が管理している実態型Baseを取り出す
+		// std::shared_ptr<Base> / std::unique_ptr<Base>が管理している実体型Baseを取り出す
 		using BaseType = typename Type::element_type;
 
 	public:

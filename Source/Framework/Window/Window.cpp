@@ -3,6 +3,7 @@
 FWK::Window::Window() = default;
 FWK::Window::~Window()
 {
+	// 必ず開放処理が呼ばれるようにする
 	Release();
 }
 

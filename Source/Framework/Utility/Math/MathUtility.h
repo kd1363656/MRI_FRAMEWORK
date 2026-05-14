@@ -2,9 +2,9 @@
 
 namespace FWK::Utility::Math
 {
-	static constexpr UINT64 k_emptyAlignment      = 0ULL;
-	static constexpr UINT64 k_emptyRemainder      = 0ULL;
-	static constexpr UINT64 k_alignmentMaskOffset = 1ULL;
+	inline constexpr UINT64 k_emptyAlignment      = 0ULL;
+	inline constexpr UINT64 k_emptyRemainder      = 0ULL;
+	inline constexpr UINT64 k_alignmentMaskOffset = 1ULL;
 
 	// a_valueをa_alignment倍数に切り上げる関数
 	inline constexpr UINT64 AlignUp(const UINT64& a_value, const UINT64& a_alignment)
