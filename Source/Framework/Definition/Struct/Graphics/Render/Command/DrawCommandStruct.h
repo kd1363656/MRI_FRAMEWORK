@@ -4,6 +4,8 @@ namespace FWK::Struct
 {
 	struct SpriteDrawCommand final
 	{
+		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
+
 		TypeAlias::Math::Color m_color = {};
 
 		TypeAlias::Math::Vector2 m_position = TypeAlias::Math::Vector2::Zero;
@@ -11,7 +13,5 @@ namespace FWK::Struct
 		TypeAlias::Math::Vector2 m_pivot    = Constant::k_defaultPivot;
 
 		SpriteRECT m_sourceRECT = {};
-
-		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
 	};
 }

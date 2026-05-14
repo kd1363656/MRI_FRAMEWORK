@@ -10,7 +10,7 @@ namespace FWK::Struct
 		StaticModelRecord(const StaticModelRecord&)           = delete;
 		StaticModelRecord(      StaticModelRecord&&) noexcept = default;
 
-		StaticModelRecord& operator=(const StaticModelRecord&)            = delete;
+		StaticModelRecord& operator=(const StaticModelRecord&)           = delete;
 		StaticModelRecord& operator=(      StaticModelRecord&&) noexcept = default;
 
 		ModelData m_modelData = {};
