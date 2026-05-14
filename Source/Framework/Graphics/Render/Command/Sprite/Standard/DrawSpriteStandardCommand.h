@@ -25,16 +25,16 @@ namespace FWK::Graphics
 							   const Struct::SpriteDrawCommand&	   a_spriteDrawCommand,
 							   const DirectCommandList&			   a_directCommandList,
 							   const UploadBuffer&				   a_spriteDrawUploadBuffer,
-							   const std::size_t				   a_spriteDrawCommandIndex,
+							   const std::size_t&				   a_spriteDrawCommandIndex,
 									 std::uint8_t* const		   a_spriteDrawMappedData) const;
+
+		static constexpr float k_defaultNearClip = 0.0F;
+		static constexpr float k_defaultFarClip  = 1.0F;
 
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountX = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
 
-		static constexpr float k_defaultNearClip = 0.0F;
-		static constexpr float k_defaultFarClip  = 1.0F;
-		
 		static constexpr std::size_t k_cbSpritePassIndex = 0ULL;
 
 		// ※注意 テンプレートクラスをDrawCommandBaseは使っているのでそのDrawCommandBaseを継承している

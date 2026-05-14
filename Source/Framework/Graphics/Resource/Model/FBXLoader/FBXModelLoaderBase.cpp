@@ -31,6 +31,7 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 
 	if (!l_fbxScene)
 	{
+#if defined(_DEBUG)
 		std::array<char, k_errorTextBufferSize> l_errorText = {};
 
 		// ufbx_errorはそのままだと読みにくいため、人が読める文字列へ変換する
@@ -40,8 +41,10 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 
 		ufbx_format_error (l_errorText.data(), l_errorText.size(), &l_error);
 		OutputDebugStringA(l_errorText.data());
-		
+
 		assert(false && "ufbx_load_fileによるFBXシーンの読み込みに失敗しました。");
+#endif
+
 		return nullptr;
 	}
 
@@ -82,7 +85,6 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNorm
 
 	// FBXによっては法線が入っていない場合がある
 	// その場合は今は空のVector3を返し、読み込み自体は続行する
-
 	if (!a_fbxMesh->vertex_normal.exists) { return {}; }
 
 	// ufbx_get_vertex_vec3()で、指定した頂点インデックスの法線を取得する
@@ -108,7 +110,13 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::FetchVertexUV(c
 	// ufbx_mesh::vertex_uvには、FBX内のUV座標データが入っている
 	const auto& l_uv = ufbx_get_vertex_vec2(&a_fbxMesh->vertex_uv, a_vertexIndex);
 
-	return ConvertUFBXVector2ToVector2(l_uv);
+	auto l_convertedUV = ConvertUFBXVector2ToVector2(l_uv);
+
+	// DirectXのUV座標に合わせるため、V座標を反転する
+	// BlenderなどのDCCツールとDirectXでは、テクスチャの上下方向の扱いが異なる場合がある
+	l_convertedUV.y = k_uvCoordinateMax - l_convertedUV.y;
+
+	return l_convertedUV;
 }
 
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::ConvertUFBXVector3ToVector3(const ufbx_vec3& a_fbxVector) const

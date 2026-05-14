@@ -1,5 +1,10 @@
 ﻿#include "TextureRecordReleaser.h"
 
+FWK::Graphics::TextureRecordReleaser::TextureRecordReleaser(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool) : 
+	m_srvDescriptorPool(a_srvDescriptorPool)
+{}
+FWK::Graphics::TextureRecordReleaser::~TextureRecordReleaser() = default;
+
 bool FWK::Graphics::TextureRecordReleaser::ReleaseRecord(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord) const
 {
 	const auto& l_textureRecord = a_textureRecord.lock();

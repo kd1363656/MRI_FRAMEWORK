@@ -15,9 +15,9 @@ namespace FWK::Graphics
 
 		void SetSubmittedFenceValue(const auto& a_set) { m_submittedFenceValue = a_set; }
 
-		const auto& GetREFSubmittedFenceValue() const { return m_submittedFenceValue; }
-
 		const auto& GetREFCommandAllocator() const { return m_commandAllocator; }
+
+		const auto& GetREFSubmittedFenceValue() const { return m_submittedFenceValue; }
 
 		auto GetVALCreateCommandListType() const { return k_createCommandListType; }
 

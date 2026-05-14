@@ -24,6 +24,7 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Str
 
 	const auto l_assetFilePath = Utility::File::CreateFilePathByReplaceExtension(a_fbxFilePath, Constant::k_lowerAssetExtension);
 
+	// .assetの更新日時がFBXよりも古ければ使えないバイナリーファイルと判定
 	if (CanUseStaticModelAsset(a_fbxFilePath, l_assetFilePath))
 	{
 		// バイナリーファイルを読み込めるなら読み込む
@@ -33,6 +34,7 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Str
 		l_modelData.m_modelMeshList.clear();
 	}
 	
+	// バイナリーファイルが使用できなければufbxを使用してFBXモデルを読み込む
 	return CreateStaticModelAssetFromFBX(a_staticModelRecord, a_fbxFilePath, l_assetFilePath);
 }
 
@@ -78,18 +80,21 @@ bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::
 		return false;
 	}
 
+	// ufbxを使用してメッシュやマテリアルを読み込む
 	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_staticModelRecord, a_fbxFilePath))
 	{
 		assert(false && "StaticModelFBXLoaderによるFBX読み込みに失敗しました。");
 		return false;
 	}
 
+	// meshoptimizer法を使用してメッシュレットに分割
 	if (!m_staticModelMeshOptimizer.OptimizeStaticModelRecord(a_staticModelRecord))
 	{
 		assert(false && "StaticModelMeshOptimizerによるStaticModelRecordの最適化に失敗しました。");
 		return false;
 	}
 
+	// バイナリーファイルとして保存
 	if (!m_staticModelBinaryConverter.SaveStaticModelAsset(a_staticModelRecord, a_assetFilePath))
 	{
 		assert(false && "StaticModelAssetの保存に失敗しました。");

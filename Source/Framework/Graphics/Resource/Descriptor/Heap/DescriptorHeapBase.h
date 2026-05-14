@@ -53,8 +53,8 @@ namespace FWK::Graphics
 		const bool k_isUseCPUOnly;
 		const bool k_isUseShaderVisible;
 
-		std::shared_ptr<DescriptorHeapRecord> m_cpuOnlyDescriptorHeapRecord       = nullptr;
-		std::shared_ptr<DescriptorHeapRecord> m_shaderVisibleDescriptorHeapRecord = nullptr;
+		std::shared_ptr<DescriptorHeapRecord> m_cpuOnlyDescriptorHeapRecord;
+		std::shared_ptr<DescriptorHeapRecord> m_shaderVisibleDescriptorHeapRecord;
 
 		TypeAlias::StorageID m_descriptorStorageIDCapacity;
 		UINT				 m_descriptorSize;

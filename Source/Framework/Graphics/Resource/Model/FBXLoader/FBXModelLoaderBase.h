@@ -24,6 +24,10 @@ namespace FWK::Graphics
 
 	private:
 
+#if defined(_DEBUG)
 		static constexpr std::size_t k_errorTextBufferSize = 1024ULL;
+#endif
+
+		static constexpr float k_uvCoordinateMax = 1.0F;
 	};
 }

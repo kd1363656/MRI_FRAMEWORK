@@ -23,8 +23,6 @@ namespace FWK::Graphics
 		std::wstring FetchTextureFilePath      (const ufbx_material_map& a_materialMap) const;
 		std::wstring ConvertUFBXStringToWString(const ufbx_string&	     a_fbxString)   const;
 
-		static constexpr float k_uvCoordinateMax = 1.0F;
-
 		static constexpr std::size_t k_invalidMaterialIndex = std::numeric_limits<std::size_t>::max();
 		static constexpr std::size_t k_emptyStringLength    = 0ULL;
 

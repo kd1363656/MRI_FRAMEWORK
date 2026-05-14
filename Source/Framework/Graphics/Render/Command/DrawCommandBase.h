@@ -89,7 +89,7 @@ namespace FWK::Graphics
 								 const DirectCommandList&			 a_directCommandList,
 								 const UploadBuffer&				 a_uploadBuffer,
 								 const ConstantBufferType&			 a_constantBuffer,
-								 const std::size_t					 a_constantBufferIndex,
+								 const std::size_t&					 a_constantBufferIndex,
 									   std::uint8_t* const			 a_mappedData) const
 		{
 			if (a_rootSignature.expired())

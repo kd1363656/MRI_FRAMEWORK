@@ -256,7 +256,7 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 	l_rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
 	// バックバッファーを一枚ずつ取得して、それぞれに対応するRTVを作成する
-	for (UINT l_backBufferIndex = 0U; l_backBufferIndex < static_cast<UINT>(m_backBufferList.size()); ++l_backBufferIndex)
+	for (auto l_backBufferIndex = 0U; l_backBufferIndex < static_cast<UINT>(m_backBufferList.size()); ++l_backBufferIndex)
 	{
 		// スワップチェインが内部に持っているバックバッファリソースを取得する関数
 		// GetBuffer(取得したいバックバッファーのインデックス、

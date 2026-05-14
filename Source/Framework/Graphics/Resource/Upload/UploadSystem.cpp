@@ -113,7 +113,7 @@ void FWK::Graphics::UploadSystem::RecordTextureCopy(const std::vector<D3D12_PLAC
 		return;
 	}
 
-	for (UINT l_subresourceIndex = 0U; l_subresourceIndex < static_cast<UINT>(a_layoutList.size()); ++l_subresourceIndex)
+	for (auto l_subresourceIndex = 0U; l_subresourceIndex < static_cast<UINT>(a_layoutList.size()); ++l_subresourceIndex)
 	{
 		// D3D12_TEXTURE_COPY_LOCATIONについての説明
 		// pResource        : コピー先になるTextureResource

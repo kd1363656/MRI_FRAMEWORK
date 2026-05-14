@@ -56,7 +56,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const ufbx_scene* a_f
 		return false;
 	}
 
-	for (std::size_t l_meshIndex = 0ULL; l_meshIndex < a_fbxScene->meshes.count; ++l_meshIndex)
+	for (auto l_meshIndex = 0ULL; l_meshIndex < a_fbxScene->meshes.count; ++l_meshIndex)
 	{
 		const auto* l_fbxMesh = a_fbxScene->meshes.data[l_meshIndex];
 
@@ -194,7 +194,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_
 
 	l_triangleIndexList.resize(l_triangleIndexListSize);
 
-	for (std::size_t l_faceIndex = 0ULL; l_faceIndex < a_fbxMesh->faces.count; ++l_faceIndex)
+	for (auto l_faceIndex = 0ULL; l_faceIndex < a_fbxMesh->faces.count; ++l_faceIndex)
 	{
 		const auto& l_fbxFace = a_fbxMesh->faces.data[l_faceIndex];
 
@@ -221,9 +221,9 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_
 														   a_fbxMesh,
 														   l_fbxFace);
 
-		for (std::size_t l_triangleIndex = 0ULL; l_triangleIndex < l_triangleCount; ++l_triangleIndex)
+		for (auto l_triangleIndex = 0ULL; l_triangleIndex < l_triangleCount; ++l_triangleIndex)
 		{
-			for (std::uint32_t l_vertexIndex = 0U; l_vertexIndex < k_triangleVertexCount; ++l_vertexIndex)
+			for (auto l_vertexIndex = 0U; l_vertexIndex < k_triangleVertexCount; ++l_vertexIndex)
 			{
 				// l_triangleIndexListには、三角形化後のufbx側頂点インデックスが入っている
 				// 三角形番号 * 3 + 頂点番号で、現在処理している三角形の頂点インデックスを取り出す
@@ -236,10 +236,6 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_
 				l_modelVertex.m_position = FetchVertexPosition(a_fbxMesh, l_fbxVertexIndex);
 				l_modelVertex.m_normal   = FetchVertexNormal  (a_fbxMesh, l_fbxVertexIndex);
 				l_modelVertex.m_uv	     = FetchVertexUV      (a_fbxMesh, l_fbxVertexIndex);
-
-				// DirectXのUV座標に合わせるため、V座標を反転する
-				// BlenderなどのDCCツールとDirectXでは、テクスチャの上下方向の扱いが異なる場合がある
-				l_modelVertex.m_uv.y = k_uvCoordinateMax - l_modelVertex.m_uv.y;
 
 				// 今は重複頂点削除をまだ行わないため、三角形の頂点をそのまま追加する
 				// Indexは追加した頂点の順番をそのまま示す

@@ -82,7 +82,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	// 貯めこんでいたテクスチャ描画命令を回す
 	const auto& l_spriteDrawCommandList = GetREFDrawCommandList();
 
-	for (std::size_t l_spriteDrawCommandIndex = 0ULL; l_spriteDrawCommandIndex < l_spriteDrawCommandList.size(); ++l_spriteDrawCommandIndex)
+	for (auto l_spriteDrawCommandIndex = 0ULL; l_spriteDrawCommandIndex < l_spriteDrawCommandList.size(); ++l_spriteDrawCommandIndex)
 	{
 		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_spriteDrawCommandIndex];
 		
@@ -151,7 +151,7 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak
 																 const Struct::SpriteDrawCommand&    a_spriteDrawCommand, 
 																 const DirectCommandList&            a_directCommandList,
 																 const UploadBuffer&			     a_spriteDrawUploadBuffer,
-																 const std::size_t				     a_spriteDrawCommandIndex, 
+																 const std::size_t&				     a_spriteDrawCommandIndex, 
 																	   std::uint8_t* const		     a_spriteDrawMappedData) const
 {
 	Struct::CBSpriteDraw l_cbSpriteDraw = {};

@@ -11,7 +11,7 @@ namespace FWK::Graphics
 		 StorageIDAllocator() = default;
 		~StorageIDAllocator() = default;
 
-		void Deserialize(const nlohmann::json&      a_rootJson);
+		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create     ();
 
 		nlohmann::json Serialize() const;

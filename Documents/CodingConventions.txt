@@ -123,7 +123,7 @@
 	型別大まかな優先順位は外部定義、自身定義、stdコンテナ定義、型エイリアス
 
 	右に行くにつれて定義優先順位が弱い
-	クラス、構造体、Enum、組み込み型(double、float、unsigned long long、unsigned int、int、bool、void(外部のTypeAlias, 自身のTypeAlias, stdコンテナのTypeAlias))
+	クラス、構造体、Enum、std::型、組み込み型(double、float、unsigned long long、unsigned int、int、bool、void(外部のTypeAlias, 自身のTypeAlias, stdコンテナのTypeAlias))
 }
 5.変数の命名規則について=====================================================================================================================================
 ・定数はk_

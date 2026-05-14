@@ -39,8 +39,6 @@ namespace FWK::Converter
 
 		void EnsureShader(std::shared_ptr<Graphics::Shader>& a_shader) const;
 
-		static constexpr UINT k_noForcedSampleCount  = 0U;
-
 		// PipelineState
 		static constexpr std::string_view k_amplificationShaderJsonKey   = "AmplificationShader";
 		static constexpr std::string_view k_meshShaderJsonKey            = "MeshShader";
@@ -104,5 +102,7 @@ namespace FWK::Converter
 		// SampleDesc
 		static constexpr std::string_view k_countJsonKey   = "Count";
 		static constexpr std::string_view k_qualityJsonKey = "Quality";
+
+		static constexpr UINT k_noForcedSampleCount = 0U;
 	};
 }
