@@ -11,9 +11,12 @@ namespace FWK::Graphics
 		 StorageIDAllocator() = default;
 		~StorageIDAllocator() = default;
 
-		bool Create(const TypeAlias::StorageID a_storageIDCapacity);
+		void Deserialize(const nlohmann::json&      a_rootJson);
+		bool Create     (const TypeAlias::StorageID a_storageIDCapacity);
 
 		void Release(const TypeAlias::StorageID a_storageID);
+
+		nlohmann::json Serialize() const;
 
 		TypeAlias::StorageID Allocate();
 

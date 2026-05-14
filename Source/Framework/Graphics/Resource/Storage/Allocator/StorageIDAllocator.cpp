@@ -1,5 +1,10 @@
 ﻿#include "StorageIDAllocator.h"
 
+void FWK::Graphics::StorageIDAllocator::Deserialize(const nlohmann::json& a_rootJson)
+{
+	if (a_rootJson.is_null()) { return; }
+}
+
 bool FWK::Graphics::StorageIDAllocator::Create(const TypeAlias::StorageID a_storageIDCapacity)
 {
 	// 無効値を容量として指定された場合は作成失敗とする
@@ -45,6 +50,13 @@ void FWK::Graphics::StorageIDAllocator::Release(const TypeAlias::StorageID a_sto
 
 	m_isAllocatedList[a_storageID] = k_unallocatedStorageIDState;
 	m_freeStorageIDQueue.push(a_storageID);
+}
+
+nlohmann::json FWK::Graphics::StorageIDAllocator::Serialize() const
+{
+	nlohmann::json l_rootJson = {};
+
+	return l_rootJson;
 }
 
 FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
