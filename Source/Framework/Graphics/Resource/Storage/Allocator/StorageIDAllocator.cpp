@@ -3,6 +3,7 @@
 void FWK::Graphics::StorageIDAllocator::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+	m_storageAllocatorJsonConverter.Deserialize(a_rootJson, *this);
 }
 
 bool FWK::Graphics::StorageIDAllocator::Create(const TypeAlias::StorageID a_storageIDCapacity)
@@ -32,6 +33,11 @@ bool FWK::Graphics::StorageIDAllocator::Create(const TypeAlias::StorageID a_stor
 	return true;
 }
 
+nlohmann::json FWK::Graphics::StorageIDAllocator::Serialize() const
+{
+	return m_storageAllocatorJsonConverter.Serialize(*this);
+}
+
 void FWK::Graphics::StorageIDAllocator::Release(const TypeAlias::StorageID a_storageID)
 {
 	// 範囲外StorageIDの解放は不正
@@ -50,13 +56,6 @@ void FWK::Graphics::StorageIDAllocator::Release(const TypeAlias::StorageID a_sto
 
 	m_isAllocatedList[a_storageID] = k_unallocatedStorageIDState;
 	m_freeStorageIDQueue.push(a_storageID);
-}
-
-nlohmann::json FWK::Graphics::StorageIDAllocator::Serialize() const
-{
-	nlohmann::json l_rootJson = {};
-
-	return l_rootJson;
 }
 
 FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()

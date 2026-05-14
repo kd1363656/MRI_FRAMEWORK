@@ -14,9 +14,9 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json&      a_rootJson);
 		bool Create     (const TypeAlias::StorageID a_storageIDCapacity);
 
-		void Release(const TypeAlias::StorageID a_storageID);
-
 		nlohmann::json Serialize() const;
+
+		void Release(const TypeAlias::StorageID a_storageID);
 
 		TypeAlias::StorageID Allocate();
 
@@ -36,6 +36,8 @@ namespace FWK::Graphics
 		std::vector<bool> m_isAllocatedList = {};
 
 		std::queue<TypeAlias::StorageID> m_freeStorageIDQueue = {};
+
+		Converter::StorageIDAllocatorJsonConverter m_storageAllocatorJsonConverter = {};
 
 		TypeAlias::StorageID m_storageIDCapacity = Constant::k_invalidStorageID;
 		TypeAlias::StorageID m_nextStorageID     = k_initialNextStorageID;

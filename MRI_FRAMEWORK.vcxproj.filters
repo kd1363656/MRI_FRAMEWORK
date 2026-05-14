@@ -971,6 +971,9 @@
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\AssetStorageJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Storage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

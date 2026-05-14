@@ -361,6 +361,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\AssetStorageJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h" />

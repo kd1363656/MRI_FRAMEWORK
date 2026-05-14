@@ -15,6 +15,11 @@ namespace FWK::Graphics
 		 AssetStorage() = default;
 		~AssetStorage() = default;
 
+		void Deserialize(const nlohmann::json& a_rootJson)
+		{
+			if (a_rootJson.is_null()) { return; }
+			m_assetStorageJsonConverter.Deserialize(a_rootJson, *this);
+		}
 		bool Create(const TypeAlias::StorageID a_storageIDCapacity)
 		{
 			if (!m_storageIDAllocator.Create(a_storageIDCapacity))
@@ -24,6 +29,11 @@ namespace FWK::Graphics
 			}
 
 			return true;
+		}
+
+		nlohmann::json Serialize() const
+		{
+			return m_assetStorageJsonConverter.Serialize(*this);
 		}
 
 		TypeAlias::StorageID AllocateStorageID()
@@ -227,11 +237,17 @@ namespace FWK::Graphics
 			return l_itr->second;
 		}
 
+		const auto& GetREFStorageIDAllocator() const { return m_storageIDAllocator; }
+
+		auto& GetMutableREFStorageIDAllocator() { return m_storageIDAllocator; }
+
 	private:
 
 		FilePathStorageIDMap m_filePathStorageIDMap = {};
 		RecordMap			 m_recordMap			= {};
 
 		StorageIDAllocator m_storageIDAllocator = {};
+
+		Converter::AssetStorageJsonConverter<RecordType> m_assetStorageJsonConverter = {};
 	};
 }

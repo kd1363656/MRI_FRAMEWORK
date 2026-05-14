@@ -201,6 +201,7 @@
 // Storage
 #include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
 #include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
+#include "Converter/Json/Graphics/Resource/Storage/AssetStorageJsonConverter.h"
 #include "Graphics/Resource/Storage/AssetStorage.h"
 
 // ディスクリプタベースを継承しているかどうかを確認するコンセプト
