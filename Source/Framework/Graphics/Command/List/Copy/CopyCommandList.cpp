@@ -58,7 +58,7 @@ void FWK::Graphics::CopyCommandList::CopyBufferRegion(const TypeAlias::ComPtr<ID
 
 	if (!a_destinationBuffer)
 	{
-		assert(false && "コピー先BufferResourceが無効のため、、バッファコピー処理に失敗しました。");
+		assert(false && "コピー先BufferResourceが無効のため、バッファコピー処理に失敗しました。");
 		return;
 	}
 

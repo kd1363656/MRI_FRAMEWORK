@@ -61,10 +61,10 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOUR
     // D3D12MA::Allocator::CreateResource(割り当て設定、
     //                                    作成するリソース設定、
     //                                    作成直後のリソースステート、
-    //                                    ClearValue(nullptrなら未使用),
+    //                                    ClearValue(nullptrなので未使用)、
     //                                    D3D12MA側Allocationの受取先、
     //                                    受け取りたいResourceインターフェース型ID、
-    //                                    作成されたResourceの受け取り先);
+    //                                    作成されたResourceの受取先);
 
     const auto l_hr = m_allocator->CreateResource(&l_allocationDesc,
                                                   &a_resourceDesc,
@@ -93,7 +93,7 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateBufferResource(const UINT64&      
         return false;
     }
 
-    if (a_bufferSize == k_invalidBufferSize)
+    if (a_bufferSize == Constant::k_invalidBufferSize)
     {
         assert(false && "BufferResourceの作成サイズが0のため、BufferResourceの作成に失敗しました。");
         return false;

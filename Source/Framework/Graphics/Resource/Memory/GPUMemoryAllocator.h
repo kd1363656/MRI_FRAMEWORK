@@ -26,8 +26,6 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr UINT64 k_invalidBufferSize = 0ULL;
-
 		TypeAlias::ComPtr<D3D12MA::Allocator> m_allocator = nullptr;
 	};
 }

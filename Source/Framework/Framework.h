@@ -42,6 +42,7 @@
 #include "Definition/Constant/Graphics/Resource/Buffer/UploadBufferConstant.h"
 #include "Definition/Constant/Graphics/Resource/Model/ModelConstant.h"
 #include "Definition/Constant/Graphics/Resource/Model/Meshoptimizer/MeshoptimizerConstant.h"
+#include "Definition/Constant/Graphics/Resource/Upload/UploadSystemConstant.h"
 
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"

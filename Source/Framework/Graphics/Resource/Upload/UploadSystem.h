@@ -24,7 +24,7 @@ namespace FWK::Graphics
 	private:
 
 		void RecordTextureCopy(const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList,			const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer) const;
-		void RecordBufferCopy (const Struct::BufferUploadRecord&					  a_bufferUploadRecord, const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer);
+		void RecordBufferCopy (const Struct::BufferUploadRecord&					  a_bufferUploadRecord, const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer)														   const;
 
 		std::weak_ptr<CopyCommandAllocator> FetchMutablePTRCopyCommandAllocator();
 

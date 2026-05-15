@@ -17,6 +17,6 @@ namespace FWK::Struct
 		Graphics::UploadBuffer m_uploadBuffer = {};
 
 		// コピーするバッファサイズ
-		UINT64 m_bufferSize = 0ULL;
+		UINT64 m_bufferSize = Constant::k_invalidBufferSize;
 	};
 }

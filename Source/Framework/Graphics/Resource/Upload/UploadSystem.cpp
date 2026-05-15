@@ -57,7 +57,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 	// 命令を格納できるようにするためリセット
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset      (l_copyCommandAllocator);
+	m_copyCommandList.Reset      (*l_copyCommandAllocator);
 
 	// UploadBuffer内に配置した各サブリソースの画像データを
 	// D3D12_PLACED_SUBRESOURCE_FOOTPRINTの配置情報に従って、DEFAULTヒープ上のテクスチャリソースへコピーする
@@ -111,9 +111,23 @@ bool FWK::Graphics::UploadSystem::SubmitBufferCopyBatchAndWait(const std::vector
 
 	// 命令を格納できるようにするためリセット
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset      (l_copyCommandAllocator);
+	m_copyCommandList.Reset      (*l_copyCommandAllocator);
 
-	for ()
+	for (auto l_bufferIndex = 0ULL; l_bufferIndex < a_bufferUploadRecordList.size(); ++l_bufferIndex)
+	{
+		RecordBufferCopy(a_bufferUploadRecordList[l_bufferIndex], a_destinationBufferList[l_bufferIndex]);
+	}
+
+	m_copyCommandList.Close				  ();
+	m_copyCommandQueue.ExecuteCommandLists(m_copyCommandList);
+
+	m_copyCommandQueue.SignalAndTrackAllocator(*l_copyCommandAllocator);
+
+	// Batch + Wait方式なので、ここでGPUコピー完了まで待つ
+	// この関数を抜けた後はUploadBufferを保持し続ける必要がない
+	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
+
+	return true;
 }
 
 nlohmann::json FWK::Graphics::UploadSystem::Serialize() const
@@ -163,8 +177,33 @@ void FWK::Graphics::UploadSystem::RecordTextureCopy(const std::vector<D3D12_PLAC
 											k_textureCopyDestinationZ);
 	}
 }
-void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadRecord& a_bufferUploadRecord, const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer)
+void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadRecord& a_bufferUploadRecord, const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer) const
 {
+	if (!a_destinationBuffer)
+	{
+		assert(false && "コピー先BufferResourceが無効のため、バッファコピー記録に失敗しました。");
+		return;
+	}
+
+	const auto& l_uploadBuffer = a_bufferUploadRecord.m_uploadBuffer.GetREFUploadBuffer();
+
+	if (!l_uploadBuffer)
+	{
+		assert(false && "コピー元UploadBufferが無効のため、バッファコピー記録に失敗しました。");
+		return;
+	}
+	
+	if (a_bufferUploadRecord.m_bufferSize == Constant::k_invalidBufferSize)
+	{
+		assert(false && "コピーするBufferサイズが0のため、バッファコピー記録に失敗しました。");
+		return;
+	}
+
+	m_copyCommandList.CopyBufferRegion(a_destinationBuffer,
+									   l_uploadBuffer,
+									   k_bufferCopyDestinationOffset,
+								       k_bufferCopySourceOffset,
+									   a_bufferUploadRecord.m_bufferSize);
 }
 
 std::weak_ptr<FWK::Graphics::CopyCommandAllocator> FWK::Graphics::UploadSystem::FetchMutablePTRCopyCommandAllocator()
