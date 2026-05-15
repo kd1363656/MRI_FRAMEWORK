@@ -87,10 +87,17 @@ bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::
 		return false;
 	}
 
-	// meshoptimizer法を使用してメッシュレットに分割
+	// meshoptimizerを使用して頂点とインデックスをGPUで扱いやすい配置へ最適化
 	if (!m_staticModelMeshOptimizer.OptimizeStaticModelRecord(a_staticModelRecord))
 	{
 		assert(false && "StaticModelMeshOptimizerによるStaticModelRecordの最適化に失敗しました。");
+		return false;
+	}
+
+	// MeshShaderで扱うため、最適化済みの頂点とインデックスｋらMeshletDataを作成
+	if (!m_staticModelMeshletBuilder.BuildStaticModelRecordMeshletData(a_staticModelRecord))
+	{
+		assert(false && "StaticModelのMeshletData作成に失敗しました。");
 		return false;
 	}
 

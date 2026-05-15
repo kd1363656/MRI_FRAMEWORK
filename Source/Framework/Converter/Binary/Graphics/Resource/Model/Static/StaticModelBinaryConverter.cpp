@@ -6,7 +6,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 
 	if (!l_staticModelRecord)
 	{
-		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。。");
+		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。");
 		return false;
 	}
 
@@ -28,6 +28,15 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 		return false;
 	}
 
+	// StaticModelAssetHeaderより小さいファイルは、Headerを安全に読み込めないため壊れたAssetとして扱う
+	// ※注意 : 簡易的なバージョンチェックなのでintがたをstd::uint32_tに変えても変更に気づけない
+	if (GetREFMappedDataSize() < sizeof(StaticModelAssetHeader))
+	{
+		assert(false && "StaticModelAssetのファイルサイズがHeaderサイズより小さいです。");
+		return false;
+	}
+
+	
 	auto l_readOffset = k_initialReadOffset;
 
 	StaticModelAssetHeader l_staticModelAssetHeader = {};
@@ -45,10 +54,20 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 		return false;
 	}
 
+	// Assetの保存形式が現在のバージョンと異なる場合は、
+	// 古いAssetを使用せずFBXから再生成するためfalseを返す
 	if (l_staticModelAssetHeader.m_version != k_staticModelAssetVersion)
 	{
-		assert				   (false && "StaticModelAssetのVersionが一致しません。");
+#if defined(_DEBUG)
+		const auto l_debugLoag = std::format("StaticModelAssetのVersionが一致しないため、FBXから再生成します。 AssetVersion : {}, CurrentVersion : {}\n", 
+											 l_staticModelAssetHeader.m_version,
+											 k_staticModelAssetVersion);
+
+		OutputDebugStringA(l_debugLoag.c_str());
+#endif 
 		DestroyMemoryMappedFile();
+
+		return false;
 
 		return false;
 	}
@@ -143,7 +162,7 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 		return false;
 	}
 
-	auto& l_modelData = l_staticModelRecord->m_modelData;
+	const auto& l_modelData = l_staticModelRecord->m_modelData;
 
 	const auto& l_fileSize = CalculateStaticModelAssetFileSize(l_modelData);
 
@@ -173,8 +192,10 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 
 	StaticModelAssetHeader l_staticModelAssetHeader = {};
 
-	l_staticModelAssetHeader.m_fileSize  = l_fileSize;
-	l_staticModelAssetHeader.m_meshCount = l_modelData.m_modelMeshList.size();
+	l_staticModelAssetHeader.m_fileSize    = l_fileSize;
+	l_staticModelAssetHeader.m_meshCount   = l_modelData.m_modelMeshList.size();
+	l_staticModelAssetHeader.m_assetTypeID = k_staticModelAssetTypeID;
+	l_staticModelAssetHeader.m_version     = k_staticModelAssetVersion;
 
 	WriteBinaryData(sizeof(StaticModelAssetHeader),
 					&l_staticModelAssetHeader,

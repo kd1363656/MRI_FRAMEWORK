@@ -8,16 +8,20 @@ namespace FWK::Converter
 
 		struct StaticModelAssetHeader final
 		{
+			std::uint16_t m_version    = k_staticModelAssetVersion;
 			std::uint64_t m_fileSize    = k_emptyStaticModelAssetFileSize;
 			std::uint64_t m_meshCount   = k_emptyStaticModelMeshCount;
 			std::uint16_t m_assetTypeID = k_staticModelAssetTypeID;
-			std::uint16_t m_version     = k_staticModelAssetVersion;
 		};
 
 		struct StaticModelAssetMeshHeader final
 		{
-			std::uint64_t m_vertexCount              = k_emptyStaticModelVertexCount;
-			std::uint64_t m_indexCount               = k_emptyStaticModelIndexCount;
+			std::uint64_t m_vertexCount = k_emptyStaticModelVertexCount;
+			std::uint64_t m_indexCount  = k_emptyStaticModelIndexCount;
+
+			std::uint64_t m_meshletCount		   = k_emptyStaticModelMeshCount;
+			std::uint64_t m_uniqueVertexIndexCount = k_emptyStaticModelVertexIndexCount;
+
 			std::uint64_t m_baseColorTexturePathSize = k_emptyTextureFilePathSize;
 			std::uint64_t m_normalTexturePathSize    = k_emptyTextureFilePathSize;
 			std::uint64_t m_roughnessTexturePathSize = k_emptyTextureFilePathSize;

@@ -58,6 +58,76 @@ namespace FWK::Struct
 		ModelMaterialRuntimeData m_modelMaterialRuntimeData = {};
 	};
 
+	// Meshlet1個分の参照範囲情報
+	struct ModelMeshlet final
+	{
+		// m_uniqueVertexIndexListの開始位置
+		// MeshShaderでは、このOffsetからm_vertexCount個分の元頂点Indexを読む
+		std::uint32_t m_vertexOffset = 0U;
+
+		// m_primitiveIndexListの開始位置
+		// MeshShader側では、このOffsetからm_vertexCount個分の三角形情報を読む
+		std::uint32_t m_triangleOffset = 0U;
+
+		// このMeshletで使用するユニーク頂点数
+		// MeshShaderのSetMeshOutputCounts()で出力頂点数として使用する
+		std::uint32_t m_vertexCount = 0U;
+
+		// このMeshletに含まれる三角形数
+		std::uint32_t m_triangleCount = 0U;
+	};
+
+	// Meshlet 1個分のカリング用境界情報
+	// Meshlet単位のFrustumCullingやBackface Cone Cullingで使用する
+	struct ModelMeshletBounds final
+	{
+		// Meshletを囲むBounding Sphereの中心座標
+		// Frustum Cullingで視錐台の中にあるか判定するために使用する
+		TypeAlias::Math::Vector3 m_center = {};
+
+		// Meshletを囲むBounding Sphereの半径
+		// m_centerと合わせて、Meshletがカメラに映る可能性があるか判定する
+		float m_radius = 0.0F;
+
+		// Backface Cone Culling用の円錐の頂点座標
+		// Meshlet内の三角形群がカメラから見て裏向きか判定するために使用する
+		TypeAlias::Math::Vector3 m_coneApex = {};
+
+		// Backface Cone Culling用の判定しきい値
+		// m_coneAxisと視線方向の内積判定などで使用する
+		float m_coneCutoff = 0.0F;
+
+		// Backface Cone Culling用の円錐の向き
+		// Meshlet内の三角形群が大体どちらを向いているかを表す
+		TypeAlias::Math::Vector3 m_coneAxis = {};
+
+		// GPU側の構造体サイズを16bytes単位に揃えるためのPadding
+		// Vector3 + float の形にして、HLSL側のStructuredBufferで扱いやすくする
+		float m_padding = 0.0F;
+	};
+
+	// 1つのModelMeshが持つMeshlet関連データ一式
+	// ※ MeshShader描画では、このデータをGPU Buffer化してShader側から参照する
+	struct ModelMeshletData final
+	{
+		// Meshlet一覧
+		// 1要素がMeshlet 1個分の参照範囲情報を表す
+		std::vector<ModelMeshlet> m_meshletList = {};
+
+		// 各Meshletが使用する元頂点Index一覧
+		// Meshlet内のLocalVertexIndexから、ModelVertexList上の頂点Indexへ変換するために使用
+		std::vector<std::uint32_t> m_uniqueVertexIndexList = {};
+
+		// Meshlet内の三角形情報
+		// 1三角形につき3つのLocalVertexIndexを持つ
+		// Meshlet内の頂点数は最大64個などに制限するため、std::uint8_tで足りる
+		std::vector<std::uint8_t> m_primitiveIndexList = {};
+
+		// Meshletごとのカリング用境界情報
+		// m_meshletList[i]に対するBoundsはm_meshletBoundsList[i]に入る
+		std::vector<ModelMeshletBounds> m_meshletBoundsList = {};
+	};
+
 	struct ModelMesh final
 	{
 		 ModelMesh() = default;
@@ -73,6 +143,10 @@ namespace FWK::Struct
 		std::vector<std::uint32_t> m_indexList	     = {};
 
 		ModelMaterial m_modelMaterial = {};
+
+		// MeshShaderで描画するためのMeshletData
+		// FBX読み込み後に、meshoptimizerで作成し、.asset保存 / 読み込み対象にする
+		ModelMeshletData m_modelMeshletData = {};
 	};
 
 	struct ModelData final

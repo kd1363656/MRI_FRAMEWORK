@@ -553,6 +553,9 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator">
       <UniqueIdentifier>{256696f0-0605-466b-992d-7cbab5163103}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\Meshoptimizer">
+      <UniqueIdentifier>{d6ea99f8-9b40-4369-bd61-39c23fedfc2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -974,6 +977,12 @@
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\AssetStorageJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Storage</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticModelMeshletBuilder.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\Meshoptimizer\MeshoptimizerConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Model\Meshoptimizer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1173,6 +1182,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticModelMeshletBuilder.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

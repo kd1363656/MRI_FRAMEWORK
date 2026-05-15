@@ -19,8 +19,9 @@ namespace FWK::Graphics
 
 		bool CreateStaticModelAssetFromFBX(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath);
 
-		StaticModelFBXLoader     m_staticModelFBXLoader     = {};
-		StaticModelMeshOptimizer m_staticModelMeshOptimizer = {};
+		StaticModelFBXLoader      m_staticModelFBXLoader      = {};
+		StaticModelMeshOptimizer  m_staticModelMeshOptimizer  = {};
+		StaticModelMeshletBuilder m_staticModelMeshletBuilder = {};
 
 		Converter::StaticModelBinaryConverter m_staticModelBinaryConverter = {};
 	};

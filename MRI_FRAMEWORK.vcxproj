@@ -386,6 +386,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\UploadBufferConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Descriptor\DescriptorConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\Meshoptimizer\MeshoptimizerConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Model\ModelConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\ResourceConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator\StorageIDAllocatorConstant.h" />
@@ -454,6 +455,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticModelMeshletBuilder.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.h" />
@@ -539,6 +541,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\FBXModelLoaderBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticModelMeshletBuilder.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp" />

@@ -1,0 +1,26 @@
+﻿#pragma once
+
+namespace FWK::Graphics
+{
+	class StaticModelMeshletBuilder final
+	{
+	public:
+
+		StaticModelMeshletBuilder () = default;
+		~StaticModelMeshletBuilder() = default;
+
+		bool BuildStaticModelRecordMeshletData(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord);
+
+	private:
+
+		bool BuildModelMeshletData(Struct::ModelMesh& a_modelMesh);
+
+		static constexpr float k_meshletConeWeight = 0.0F;
+
+		static constexpr std::size_t k_vectorElementIndexX = 0ULL;
+		static constexpr std::size_t k_vectorElementIndexY = 1ULL;
+		static constexpr std::size_t k_vectorElementIndexZ = 2ULL;
+
+		static constexpr std::uint32_t k_emptyRemainder	= 0U;
+	};
+}
