@@ -93,7 +93,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 													  sizeof(Struct::ModelVertex),
 													  Constant::k_maxMeshletVertexCount,
 													  Constant::k_maxMeshletPrimitiveCount,
-													  k_meshletConeWeight);
+													  Constant::k_meshletConeWeight);
 
 	if (l_meshletCount == Constant::k_emptyMeshletCount)
 	{

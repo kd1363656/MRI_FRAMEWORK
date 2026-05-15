@@ -15,8 +15,6 @@ namespace FWK::Graphics
 
 		bool BuildModelMeshletData(Struct::ModelMesh& a_modelMesh);
 
-		static constexpr float k_meshletConeWeight = 0.0F;
-
 		static constexpr std::size_t k_vectorElementIndexX = 0ULL;
 		static constexpr std::size_t k_vectorElementIndexY = 1ULL;
 		static constexpr std::size_t k_vectorElementIndexZ = 2ULL;

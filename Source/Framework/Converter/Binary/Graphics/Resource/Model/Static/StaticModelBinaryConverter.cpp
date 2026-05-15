@@ -29,7 +29,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 	}
 
 	// StaticModelAssetHeaderより小さいファイルは、Headerを安全に読み込めないため壊れたAssetとして扱う
-	// ※注意 : 簡易的なバージョンチェックなのでintがたをstd::uint32_tに変えても変更に気づけない
+	// ※注意 : 簡易的なバージョンチェックなのでint型をstd::uint32_tに変えても変更に気づけない
 	if (GetREFMappedDataSize() < sizeof(StaticModelAssetHeader))
 	{
 		assert(false && "StaticModelAssetのファイルサイズがHeaderサイズより小さいです。");
@@ -59,15 +59,13 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 	if (l_staticModelAssetHeader.m_version != k_staticModelAssetVersion)
 	{
 #if defined(_DEBUG)
-		const auto l_debugLoag = std::format("StaticModelAssetのVersionが一致しないため、FBXから再生成します。 AssetVersion : {}, CurrentVersion : {}\n", 
+		const auto l_debugLog = std::format("StaticModelAssetのVersionが一致しないため、FBXから再生成します。 AssetVersion : {}, CurrentVersion : {}\n", 
 											 l_staticModelAssetHeader.m_version,
 											 k_staticModelAssetVersion);
 
-		OutputDebugStringA(l_debugLoag.c_str());
+		OutputDebugStringA(l_debugLog.c_str());
 #endif 
 		DestroyMemoryMappedFile();
-
-		return false;
 
 		return false;
 	}
@@ -109,6 +107,37 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 					   l_readData,
 					   l_readOffset,
 					   l_modelMesh.m_indexList.data());
+
+		auto& l_modelMeshletData = l_modelMesh.m_modelMeshletData;
+
+		l_modelMeshletData.m_meshletList.resize		     (l_staticModelAssetMeshHeader.m_meshletCount);
+		l_modelMeshletData.m_uniqueVertexIndexList.resize(l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount);
+		l_modelMeshletData.m_primitiveIndexList.resize   (l_staticModelAssetMeshHeader.m_primitiveIndexCount);
+		l_modelMeshletData.m_meshletBoundsList.resize    (l_staticModelAssetMeshHeader.m_meshletBoundsCount);
+
+		// メッシュレット情報読み込み
+		ReadBinaryData(sizeof(Struct::ModelMeshlet) * l_staticModelAssetMeshHeader.m_meshletBoundsCount,
+					   l_readData,	
+					   l_readOffset,
+					   l_modelMeshletData.m_meshletList.data());
+
+		// メッシュレット内ユニーク頂点インデックス情報読み込み
+		ReadBinaryData(sizeof(std::uint32_t) * l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount,
+					   l_readData,
+					   l_readOffset,
+					   l_modelMeshletData.m_uniqueVertexIndexList.data());
+
+		// メッシュレット内プリミティブインデックス情報読み込み
+		ReadBinaryData(sizeof(std::uint8_t) * l_staticModelAssetMeshHeader.m_primitiveIndexCount,
+					   l_readData,
+					   l_readOffset,
+					   l_modelMeshletData.m_primitiveIndexList.data());
+
+		// メッシュレット境界情報読み込み
+		ReadBinaryData(sizeof(Struct::ModelMeshletBounds) * l_staticModelAssetMeshHeader.m_meshletBoundsCount,
+					   l_readData,
+					   l_readOffset,
+					   l_modelMeshletData.m_meshletBoundsList.data());
 
 		auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
 
@@ -158,7 +187,7 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 
 	if (!l_staticModelRecord)
 	{
-		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。。");
+		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。");
 		return false;
 	}
 
@@ -205,16 +234,21 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 	for (const auto& l_modelMesh : l_modelData.m_modelMeshList)
 	{
 		const auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
+		const auto& l_modelMeshletData       = l_modelMesh.m_modelMeshletData;
 
 		StaticModelAssetMeshHeader l_staticModelAssetMeshHeader = {};
 
-		l_staticModelAssetMeshHeader.m_vertexCount              = l_modelMesh.m_modelVertexList.size();
-		l_staticModelAssetMeshHeader.m_indexCount               = l_modelMesh.m_indexList.size       ();
-		l_staticModelAssetMeshHeader.m_baseColorTexturePathSize = CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_baseColorTextureFilePath);
-		l_staticModelAssetMeshHeader.m_normalTexturePathSize    = CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_normalTextureFilePath);
-		l_staticModelAssetMeshHeader.m_roughnessTexturePathSize = CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_roughnessTextureFilePath);
-		l_staticModelAssetMeshHeader.m_metallicTexturePathSize  = CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_metallicTextureFilePath);
-
+		l_staticModelAssetMeshHeader.m_vertexCount              = l_modelMesh.m_modelVertexList.size             ();
+		l_staticModelAssetMeshHeader.m_indexCount               = l_modelMesh.m_indexList.size                   ();
+		l_staticModelAssetMeshHeader.m_meshletCount             = l_modelMeshletData.m_meshletList.size          ();
+		l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount   = l_modelMeshletData.m_uniqueVertexIndexList.size();
+		l_staticModelAssetMeshHeader.m_primitiveIndexCount		= l_modelMeshletData.m_primitiveIndexList.size   ();
+		l_staticModelAssetMeshHeader.m_meshletBoundsCount		= l_modelMeshletData.m_meshletBoundsList.size    ();
+		l_staticModelAssetMeshHeader.m_baseColorTexturePathSize = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_baseColorTextureFilePath);
+		l_staticModelAssetMeshHeader.m_normalTexturePathSize    = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_normalTextureFilePath);
+		l_staticModelAssetMeshHeader.m_roughnessTexturePathSize = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_roughnessTextureFilePath);
+		l_staticModelAssetMeshHeader.m_metallicTexturePathSize  = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_metallicTextureFilePath);
+																								       
 		// ヘッダー情報保存
 		WriteBinaryData(sizeof(StaticModelAssetMeshHeader),
 					    &l_staticModelAssetMeshHeader,
@@ -231,6 +265,30 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 		WriteBinaryData(sizeof(std::uint32_t) * l_modelMesh.m_indexList.size(),
 						l_modelMesh.m_indexList.data(),
 						l_writeOffset,
+						l_writeData);
+
+		// メッシュレット情報保存
+		WriteBinaryData(sizeof(Struct::ModelMeshlet) * l_modelMeshletData.m_meshletList.size(),
+						l_modelMeshletData.m_meshletList.data(), 
+					    l_writeOffset,
+						l_writeData);
+
+		// メッシュレット内ユニーク頂点インデックス情報保存
+		WriteBinaryData(sizeof(std::uint32_t) * l_modelMeshletData.m_uniqueVertexIndexList.size(),
+						l_modelMeshletData.m_uniqueVertexIndexList.data(),
+					    l_writeOffset,
+						l_writeData);
+
+		// メッシュレット内プリミティブインデックス情報保存
+		WriteBinaryData(sizeof(std::uint8_t) * l_modelMeshletData.m_primitiveIndexList.size(),
+						l_modelMeshletData.m_primitiveIndexList.data(),
+					    l_writeOffset,
+						l_writeData);
+
+		// メッシュレット境界情報保存
+		WriteBinaryData(sizeof(Struct::ModelMeshletBounds) * l_modelMeshletData.m_meshletBoundsList.size(),
+						l_modelMeshletData.m_meshletBoundsList.data(),
+					    l_writeOffset,
 						l_writeData);
 
 		// テクスチャファイルパス情報保存
@@ -345,9 +403,15 @@ std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateStaticModelAs
 		const auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
 
 		l_fileSize += sizeof(StaticModelAssetMeshHeader);
-
 		l_fileSize += sizeof(Struct::ModelVertex) * l_modelMesh.m_modelVertexList.size();
 		l_fileSize += sizeof(std::uint32_t)       * l_modelMesh.m_indexList.size      ();
+
+		const auto& l_modelMeshletData = l_modelMesh.m_modelMeshletData;
+
+		l_fileSize += sizeof(Struct::ModelMeshlet)       * l_modelMeshletData.m_meshletList.size          ();
+		l_fileSize += sizeof(std::uint32_t)              * l_modelMeshletData.m_uniqueVertexIndexList.size();
+		l_fileSize += sizeof(std::uint8_t)               * l_modelMeshletData.m_primitiveIndexList.size   ();
+		l_fileSize += sizeof(Struct::ModelMeshletBounds) * l_modelMeshletData.m_meshletBoundsList.size    ();
 
 		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_baseColorTextureFilePath);
 		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_normalTextureFilePath);
