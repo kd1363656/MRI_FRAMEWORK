@@ -72,9 +72,8 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(const std::weak_ptr<
 
 bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath)
 {
-	const auto& l_staticModelRecord = a_staticModelRecord.lock();
-
-	if (!l_staticModelRecord)
+	if (const auto& l_staticModelRecord = a_staticModelRecord.lock();
+		!l_staticModelRecord)
 	{
 		assert(false && "StaticModelRecordが無効です。");
 		return false;
@@ -94,7 +93,7 @@ bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::
 		return false;
 	}
 
-	// MeshShaderで扱うため、最適化済みの頂点とインデックスｋらMeshletDataを作成
+	// MeshShaderで扱うため、最適化済みの頂点とインデックスからMeshletDataを作成
 	if (!m_staticModelMeshletBuilder.BuildStaticModelRecordMeshletData(a_staticModelRecord))
 	{
 		assert(false && "StaticModelのMeshletData作成に失敗しました。");

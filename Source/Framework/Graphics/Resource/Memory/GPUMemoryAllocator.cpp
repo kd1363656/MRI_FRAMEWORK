@@ -81,3 +81,54 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateTextureResource(const D3D12_RESOUR
 
     return true;
 }
+
+bool FWK::Graphics::GPUMemoryAllocator::CreateBufferResource(const UINT64&                                 a_bufferSize, 
+                                                             const D3D12_RESOURCE_STATES                   a_initialResourceState, 
+                                                                   TypeAlias::ComPtr<ID3D12Resource2>&     a_bufferResource, 
+                                                                   TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const
+{
+    if (!m_allocator)
+    {
+        assert(false && "D3D12MAアロケータが作成されておらず、BufferResourceの作成に失敗しました。");
+        return false;
+    }
+
+    if (a_bufferSize == k_invalidBufferSize)
+    {
+        assert(false && "BufferResourceの作成サイズが0のため、BufferResourceの作成に失敗しました。");
+        return false;
+    }
+
+    D3D12MA::ALLOCATION_DESC l_allocationDesc = {};
+
+    // D3D12MA::ALLOCATION_DESCについて
+    // HeapType : リソースをどの種類のGPUメモリに置くか
+    l_allocationDesc.HeapType = D3D12_HEAP_TYPE_DEFAULT;
+
+    // D3D12_RESOURCE_DESCについて
+    // Buffer(作成するバッファサイズ)
+    // VertexBuffer / IndexBuffer / MeshletBufferなどの線形バッファとして扱う
+    const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(a_bufferSize);
+
+    // D3D12MA::Allocator::CreateResource(割り当て設定、
+    //                                    作成するリソース設定、
+    //                                    ClearValue(nullptrなので未使用)、
+    //                                    D3D12MA側Allocationの受取先、
+    //                                    受け取りたいResourceインターフェース型ID、
+    //                                    作成されたResourceの受取先);
+
+    const auto l_hr = m_allocator->CreateResource(&l_allocationDesc,
+                                                  &l_resourceDesc,
+                                                  a_initialResourceState,
+                                                  nullptr,
+                                                  a_allocation.ReleaseAndGetAddressOf(),
+                                                  IID_PPV_ARGS(a_bufferResource.ReleaseAndGetAddressOf()));
+
+    if (FAILED(l_hr))
+    {
+        assert(false && "D3D12MAによるBufferResourceの作成に失敗しました。");
+        return false;
+    }
+
+    return true;
+}

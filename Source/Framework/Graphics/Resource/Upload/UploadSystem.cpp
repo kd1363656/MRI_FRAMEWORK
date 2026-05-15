@@ -57,7 +57,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 	// 命令を格納できるようにするためリセット
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset      (*l_copyCommandAllocator);
+	m_copyCommandList.Reset      (l_copyCommandAllocator);
 
 	// UploadBuffer内に配置した各サブリソースの画像データを
 	// D3D12_PLACED_SUBRESOURCE_FOOTPRINTの配置情報に従って、DEFAULTヒープ上のテクスチャリソースへコピーする
@@ -86,6 +86,34 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
 
 	return true;
+}
+bool FWK::Graphics::UploadSystem::SubmitBufferCopyBatchAndWait(const std::vector<Struct::BufferUploadRecord>& a_bufferUploadRecordList, const std::vector<TypeAlias::ComPtr<ID3D12Resource2>>& a_destinationBufferList)
+{
+	if (a_bufferUploadRecordList.empty())
+	{
+		assert(false && "バッファのバッチアップロード用の情報リストが空のため、バッチバッファコピー送信処理に失敗しました。");
+		return false;
+	}
+
+	if (a_bufferUploadRecordList.size() != a_destinationBufferList.size())
+	{
+		assert(false && "バッファアップロード情報数とコピー先BufferResource数が一致しないため、バッチバッファコピー送信処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_copyCommandAllocator = FetchMutablePTRCopyCommandAllocator().lock();
+
+	if (!l_copyCommandAllocator)
+	{
+		assert(false && "使用可能なコピーコマンドアロケータが取得できず、バッチバッファコピー送信処理に失敗しました。");
+		return false;
+	}
+
+	// 命令を格納できるようにするためリセット
+	l_copyCommandAllocator->Reset();
+	m_copyCommandList.Reset      (l_copyCommandAllocator);
+
+	for ()
 }
 
 nlohmann::json FWK::Graphics::UploadSystem::Serialize() const
@@ -134,6 +162,9 @@ void FWK::Graphics::UploadSystem::RecordTextureCopy(const std::vector<D3D12_PLAC
 											k_textureCopyDestinationY,
 											k_textureCopyDestinationZ);
 	}
+}
+void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadRecord& a_bufferUploadRecord, const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer)
+{
 }
 
 std::weak_ptr<FWK::Graphics::CopyCommandAllocator> FWK::Graphics::UploadSystem::FetchMutablePTRCopyCommandAllocator()

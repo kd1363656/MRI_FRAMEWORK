@@ -62,7 +62,7 @@ namespace FWK::Struct
 	struct ModelMeshlet final
 	{
 		// m_uniqueVertexIndexListの開始位置
-		// MeshShaderでは、このOffsetからm_vertexCount個分の元頂点Indexを読む
+		// MeshShaderでは、このOffsetからm_triangleCount個分の元頂点Indexを読む
 		std::uint32_t m_vertexOffset = 0U;
 
 		// m_primitiveIndexListの開始位置

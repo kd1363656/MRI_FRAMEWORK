@@ -15,5 +15,15 @@ namespace FWK::Graphics
 							   const UINT						  a_destinationX,
 							   const UINT						  a_destinationY,
 							   const UINT						  a_destinationZ) const;
+
+		void CopyBufferRegion(const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer,
+							  const TypeAlias::ComPtr<ID3D12Resource2>& a_sourceBuffer,
+							  const UINT64&								a_destinationOffset,
+							  const UINT64&								a_sourceOffset,
+							  const UINT64&								a_bufferSize) const;
+
+	private:
+
+		static constexpr UINT64 k_invalidBufferCopySize = 0ULL;
 	};
 }

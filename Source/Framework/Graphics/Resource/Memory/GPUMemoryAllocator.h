@@ -17,9 +17,16 @@ namespace FWK::Graphics
 										 TypeAlias::ComPtr<ID3D12Resource2>&     a_textureResource,
 										 TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const;
 
+		bool CreateBufferResource(const UINT64&							        a_bufferSize,
+								  const D3D12_RESOURCE_STATES			        a_initialResourceState,
+										TypeAlias::ComPtr<ID3D12Resource2>&     a_bufferResource,
+										TypeAlias::ComPtr<D3D12MA::Allocation>& a_allocation) const;
+
 		const auto& GetREFAllocator() const { return m_allocator; }
 
 	private:
+
+		static constexpr UINT64 k_invalidBufferSize = 0ULL;
 
 		TypeAlias::ComPtr<D3D12MA::Allocator> m_allocator = nullptr;
 	};

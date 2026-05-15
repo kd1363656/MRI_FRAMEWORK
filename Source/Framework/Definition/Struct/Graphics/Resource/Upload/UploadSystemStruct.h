@@ -10,4 +10,13 @@ namespace FWK::Struct
 		// DEFAULTヒープ上のテクスチャリソースへコピーするための中間バッファ
 		Graphics::UploadBuffer m_uploadBuffer = {};
 	};
+
+	struct BufferUploadRecord final
+	{
+		// DEFAULTヒープ上のBufferResourceへコピーするための中間バッファ
+		Graphics::UploadBuffer m_uploadBuffer = {};
+
+		// コピーするバッファサイズ
+		UINT64 m_bufferSize = 0ULL;
+	};
 }

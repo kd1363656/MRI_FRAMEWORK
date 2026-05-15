@@ -57,7 +57,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 	if (l_staticModelAssetHeader.m_assetTypeID != k_staticModelAssetTypeID)
 	{
 #if defined (_DEBUG)
-		const auto& l_debugLog = std::format("StaticModelのAssetTypeIDが一致しないため、、FBXから再生成します。AssetTypeID : {}, CurrentAssetTypeID : {}\n", l_staticModelAssetHeader.m_assetTypeID, k_staticModelAssetTypeID);
+		const auto& l_debugLog = std::format("StaticModelのAssetTypeIDが一致しないため、FBXから再生成します。AssetTypeID : {}, CurrentAssetTypeID : {}\n", l_staticModelAssetHeader.m_assetTypeID, k_staticModelAssetTypeID);
 
 		OutputDebugStringA(l_debugLog.c_str());
 #endif
@@ -84,7 +84,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 	if (l_staticModelAssetHeader.m_fileSize != GetREFMappedDataSize())
 	{
 #if defined (_DEBUG)
-		const auto& l_debugLog = std::format("StaticModelのファイルサイズが一致しないため、、FBXから再生成します。AssetFileSize : {}, CurrentFileSize : {}\n", l_staticModelAssetHeader.m_fileSize, GetREFMappedDataSize());
+		const auto& l_debugLog = std::format("StaticModelのファイルサイズが一致しないため、FBXから再生成します。AssetFileSize : {}, CurrentFileSize : {}\n", l_staticModelAssetHeader.m_fileSize, GetREFMappedDataSize());
 
 		OutputDebugStringA(l_debugLog.c_str());
 #endif

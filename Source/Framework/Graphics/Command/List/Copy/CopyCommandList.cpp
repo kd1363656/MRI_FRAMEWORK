@@ -41,3 +41,47 @@ void FWK::Graphics::CopyCommandList::CopyTextureRegion(const D3D12_TEXTURE_COPY_
 										 &a_source,
 										 a_sourceBox);
 }
+
+void FWK::Graphics::CopyCommandList::CopyBufferRegion(const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer,
+													  const TypeAlias::ComPtr<ID3D12Resource2>& a_sourceBuffer, 
+													  const UINT64&								a_destinationOffset, 
+												      const UINT64&								a_sourceOffset,
+													  const UINT64&								a_bufferSize) const
+{
+	const auto& l_copyCommandList = GetREFCommandList();
+
+	if (!l_copyCommandList)
+	{
+		assert(false && "コピーコマンドリストが作成されておらず、バッファコピー処理に失敗しました。");
+		return;
+	}
+
+	if (!a_destinationBuffer)
+	{
+		assert(false && "コピー先BufferResourceが無効のため、、バッファコピー処理に失敗しました。");
+		return;
+	}
+
+	if (!a_sourceBuffer)
+	{
+		assert(false && "コピー元UploadBufferが無効のため、バッファコピー処理に失敗しました。");
+		return;
+	}
+
+	if (a_bufferSize == k_invalidBufferCopySize)
+	{
+		assert(false && "コピーするBufferサイズが0のため、バッファコピー処理に失敗しました。");
+		return;
+	}
+
+	// CopyBufferRegion(コピー先BufferResource、
+	//					コピー先BufferResource内の書き込み開始Offset、
+	//					コピー元UploadBuffer、
+	//					コピー元UploadBuffer内の読み取り開始Offset、
+	//					コピーするByteSize);
+	l_copyCommandList->CopyBufferRegion(a_destinationBuffer.Get(),
+										a_destinationOffset,
+										a_sourceBuffer.Get(),
+										a_sourceOffset,
+										a_bufferSize);
+}
