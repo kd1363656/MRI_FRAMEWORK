@@ -32,7 +32,15 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 	// ※注意 : 簡易的なバージョンチェックなのでint型をstd::uint32_tに変えても変更に気づけない
 	if (GetREFMappedDataSize() < sizeof(StaticModelAssetHeader))
 	{
-		assert(false && "StaticModelAssetのファイルサイズがHeaderサイズより小さいです。");
+
+#if defined(_DEBUG)
+		const auto& l_debugLog = std::format("StaticModelAssetのファイルサイズがHeaderサイズよりも小さいため、FBXから再生成します。AssetFileSize : {}, HeaderSize : {}\n", GetREFMappedDataSize(), sizeof(StaticModelAssetHeader));
+
+		OutputDebugStringA(l_debugLog.c_str());
+#endif
+		
+		DestroyMemoryMappedFile();
+
 		return false;
 	}
 
@@ -48,7 +56,12 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 
 	if (l_staticModelAssetHeader.m_assetTypeID != k_staticModelAssetTypeID)
 	{
-		assert				   (false && "StaticModelAssetのAssetTypeIDが一致しません。");
+#if defined (_DEBUG)
+		const auto& l_debugLog = std::format("StaticModelのAssetTypeIDが一致しないため、、FBXから再生成します。AssetTypeID : {}, CurrentAssetTypeID : {}\n", l_staticModelAssetHeader.m_assetTypeID, k_staticModelAssetTypeID);
+
+		OutputDebugStringA(l_debugLog.c_str());
+#endif
+
 		DestroyMemoryMappedFile();
 
 		return false;
@@ -59,9 +72,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 	if (l_staticModelAssetHeader.m_version != k_staticModelAssetVersion)
 	{
 #if defined(_DEBUG)
-		const auto l_debugLog = std::format("StaticModelAssetのVersionが一致しないため、FBXから再生成します。 AssetVersion : {}, CurrentVersion : {}\n", 
-											 l_staticModelAssetHeader.m_version,
-											 k_staticModelAssetVersion);
+		const auto& l_debugLog = std::format("StaticModelAssetのVersionが一致しないため、FBXから再生成します。 AssetVersion : {}, CurrentVersion : {}\n", l_staticModelAssetHeader.m_version, k_staticModelAssetVersion);
 
 		OutputDebugStringA(l_debugLog.c_str());
 #endif 
@@ -72,7 +83,12 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 
 	if (l_staticModelAssetHeader.m_fileSize != GetREFMappedDataSize())
 	{
-		assert				   (false && "StaticModelAssetのファイルサイズが一致しません。");
+#if defined (_DEBUG)
+		const auto& l_debugLog = std::format("StaticModelのファイルサイズが一致しないため、、FBXから再生成します。AssetFileSize : {}, CurrentFileSize : {}\n", l_staticModelAssetHeader.m_fileSize, GetREFMappedDataSize());
+
+		OutputDebugStringA(l_debugLog.c_str());
+#endif
+
 		DestroyMemoryMappedFile();
 
 		return false;
@@ -116,7 +132,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 		l_modelMeshletData.m_meshletBoundsList.resize    (l_staticModelAssetMeshHeader.m_meshletBoundsCount);
 
 		// メッシュレット情報読み込み
-		ReadBinaryData(sizeof(Struct::ModelMeshlet) * l_staticModelAssetMeshHeader.m_meshletBoundsCount,
+		ReadBinaryData(sizeof(Struct::ModelMeshlet) * l_staticModelAssetMeshHeader.m_meshletCount,
 					   l_readData,	
 					   l_readOffset,
 					   l_modelMeshletData.m_meshletList.data());
@@ -171,7 +187,12 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 
 	if (l_readOffset != GetREFMappedDataSize())
 	{
-		assert				   (false && "StaticModelAssetの読み込みサイズがファイルサイズと一致しません。");
+#if defined(_DEBUG)
+		const auto& l_debugLog = std::format("StaticModelAssetの読み込みサイズがファイルサイズと一致しないため、FBXから再生成します。ReadSize : {}, Filesize : {}\n", l_readOffset, GetREFMappedDataSize());
+
+		OutputDebugStringA(l_debugLog.c_str());
+#endif
+
 		DestroyMemoryMappedFile();
 
 		return false;
