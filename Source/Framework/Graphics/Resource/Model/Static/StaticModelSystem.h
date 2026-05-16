@@ -2,6 +2,11 @@
 
 namespace FWK::Graphics
 {
+	class UploadSystem;
+}
+
+namespace FWK::Graphics
+{
 	class StaticModelSystem final
 	{
 	public:

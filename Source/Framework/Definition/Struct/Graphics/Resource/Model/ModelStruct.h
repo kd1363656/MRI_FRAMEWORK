@@ -37,10 +37,10 @@ namespace FWK::Struct
 		ModelMaterialRuntimeData& operator=(const ModelMaterialRuntimeData&)		   = delete;
 		ModelMaterialRuntimeData& operator=(	  ModelMaterialRuntimeData&&) noexcept = default;
 
-		Graphics::Texture m_baseColorTexture = {};
-		Graphics::Texture m_normalTexture    = {};
-		Graphics::Texture m_roughnessTexture = {};
-		Graphics::Texture m_metallicTexture  = {};
+		std::shared_ptr<Graphics::Texture> m_baseColorTexture = nullptr;
+		std::shared_ptr<Graphics::Texture> m_normalTexture    = nullptr;
+		std::shared_ptr<Graphics::Texture> m_roughnessTexture = nullptr;
+		std::shared_ptr<Graphics::Texture> m_metallicTexture  = nullptr;
 	};
 
 	struct ModelMaterial final
