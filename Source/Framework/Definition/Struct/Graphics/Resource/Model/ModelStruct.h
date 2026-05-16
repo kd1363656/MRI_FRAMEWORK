@@ -62,19 +62,19 @@ namespace FWK::Struct
 	struct ModelMeshlet final
 	{
 		// m_uniqueVertexIndexListの開始位置
-		// MeshShaderでは、このOffsetからm_triangleCount個分の元頂点Indexを読む
-		std::uint32_t m_vertexOffset = 0U;
+		// MeshShaderでは、このOffsetからm_vertexCount個分の元頂点Indexを読む
+		std::uint32_t m_vertexOffset = Constant::k_initialMeshletVertexOffset;
 
 		// m_primitiveIndexListの開始位置
-		// MeshShader側では、このOffsetからm_vertexCount個分の三角形情報を読む
-		std::uint32_t m_triangleOffset = 0U;
+		// MeshShader側では、このOffsetからm_triangleCount個分の三角形情報を読む
+		std::uint32_t m_triangleOffset = Constant::k_initialMeshletTriangleOffset;
 
 		// このMeshletで使用するユニーク頂点数
 		// MeshShaderのSetMeshOutputCounts()で出力頂点数として使用する
-		std::uint32_t m_vertexCount = 0U;
+		std::uint32_t m_vertexCount = Constant::k_initialMeshletVertexCount;
 
 		// このMeshletに含まれる三角形数
-		std::uint32_t m_triangleCount = 0U;
+		std::uint32_t m_triangleCount = Constant::k_initialMeshletTriangleCount;
 	};
 
 	// Meshlet 1個分のカリング用境界情報
@@ -87,7 +87,7 @@ namespace FWK::Struct
 
 		// Meshletを囲むBounding Sphereの半径
 		// m_centerと合わせて、Meshletがカメラに映る可能性があるか判定する
-		float m_radius = 0.0F;
+		float m_radius = Constant::k_initialMeshletBoundsRadius;
 
 		// Backface Cone Culling用の円錐の頂点座標
 		// Meshlet内の三角形群がカメラから見て裏向きか判定するために使用する
@@ -95,7 +95,7 @@ namespace FWK::Struct
 
 		// Backface Cone Culling用の判定しきい値
 		// m_coneAxisと視線方向の内積判定などで使用する
-		float m_coneCutoff = 0.0F;
+		float m_coneCutoff = Constant::k_initialMeshletBoundsConeCutoff;
 
 		// Backface Cone Culling用の円錐の向き
 		// Meshlet内の三角形群が大体どちらを向いているかを表す
@@ -103,7 +103,7 @@ namespace FWK::Struct
 
 		// GPU側の構造体サイズを16bytes単位に揃えるためのPadding
 		// Vector3 + float の形にして、HLSL側のStructuredBufferで扱いやすくする
-		float m_padding = 0.0F;
+		float m_padding = Constant::k_initialMeshletBoundsPadding;
 	};
 
 	// 1つのModelMeshが持つMeshlet関連データ一式
@@ -128,6 +128,36 @@ namespace FWK::Struct
 		std::vector<ModelMeshletBounds> m_meshletBoundsList = {};
 	};
 
+	struct ModelMeshRuntimeData final
+	{
+		 ModelMeshRuntimeData() = default;
+		~ModelMeshRuntimeData() = default;
+
+		ModelMeshRuntimeData(const ModelMeshRuntimeData&)			= delete;
+		ModelMeshRuntimeData(	   ModelMeshRuntimeData&&) noexcept = default;
+
+		ModelMeshRuntimeData& operator=(const ModelMeshRuntimeData&)		   = delete;
+		ModelMeshRuntimeData& operator=(      ModelMeshRuntimeData&&) noexcept = default;
+
+		TypeAlias::ComPtr<ID3D12Resource2>     m_vertexBufferResource   = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_vertexBufferAllocation = nullptr;
+
+		TypeAlias::ComPtr<ID3D12Resource2>     m_indexBufferResource   = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_indexBufferAllocation = nullptr;
+
+		TypeAlias::ComPtr<ID3D12Resource2>     m_meshletBufferResource   = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_meshletBufferAllocation = nullptr;
+
+		TypeAlias::ComPtr<ID3D12Resource2>     m_uniqueVertexIndexBufferResource   = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_uniqueVertexIndexBufferAllocation = nullptr;
+
+		TypeAlias::ComPtr<ID3D12Resource2>     m_primitiveIndexBufferResource   = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_primitiveIndexBufferAllocation = nullptr;
+
+		TypeAlias::ComPtr<ID3D12Resource2>     m_meshletBoundsBufferResource   = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_meshletBoundsBufferAllocation = nullptr;
+	};
+
 	struct ModelMesh final
 	{
 		 ModelMesh() = default;
@@ -147,6 +177,10 @@ namespace FWK::Struct
 		// MeshShaderで描画するためのMeshletData
 		// FBX読み込み後に、meshoptimizerで作成し、.asset保存 / 読み込み対象にする
 		ModelMeshletData m_modelMeshletData = {};
+
+		// MeshShader描画時にGPU側で参照するBufferResource群
+		// .asset保存対象ではなく、実行時にModelDataから作成する
+		ModelMeshRuntimeData m_modelMeshRuntimeData = {};
 	};
 
 	struct ModelData final

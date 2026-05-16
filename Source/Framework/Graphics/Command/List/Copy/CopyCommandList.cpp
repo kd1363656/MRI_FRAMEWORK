@@ -68,7 +68,7 @@ void FWK::Graphics::CopyCommandList::CopyBufferRegion(const TypeAlias::ComPtr<ID
 		return;
 	}
 
-	if (a_bufferSize == k_invalidBufferCopySize)
+	if (a_bufferSize == Constant::k_invalidBufferSize)
 	{
 		assert(false && "コピーするBufferサイズが0のため、バッファコピー処理に失敗しました。");
 		return;

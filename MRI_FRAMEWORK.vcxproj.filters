@@ -559,6 +559,12 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\UploadSystem">
       <UniqueIdentifier>{774ee36a-dd0e-4db0-895d-9a011d5531f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Buffer">
+      <UniqueIdentifier>{6df53ead-ac68-4e0c-b92d-d3e9eff8e54f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Buffer\Static">
+      <UniqueIdentifier>{1518b846-60bc-484a-ab23-6bbdf11ea9c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -989,6 +995,9 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Upload\UploadSystemConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\UploadSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Buffer\Static\StaticModelBufferBuilder.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Buffer\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1191,6 +1200,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticModelMeshletBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Meshoptimizer\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Buffer\Static\StaticModelBufferBuilder.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Buffer\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

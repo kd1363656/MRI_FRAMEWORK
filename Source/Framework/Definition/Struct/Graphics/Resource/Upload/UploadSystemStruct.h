@@ -19,4 +19,16 @@ namespace FWK::Struct
 		// コピーするバッファサイズ
 		UINT64 m_bufferSize = Constant::k_invalidBufferSize;
 	};
+
+	struct BufferUploadCommand final
+	{
+		// バッファーへコピーするためのUpload情報
+		BufferUploadRecord m_bufferUploadRecord = {};
+
+		// Upload先のDEFAULTヒープ上BufferResource
+		TypeAlias::ComPtr<ID3D12Resource2> m_destinationBuffer = nullptr;
+
+		// Upload先のDEFAULTヒープ上BufferResource用Allocation
+		TypeAlias::ComPtr<D3D12MA::Allocation> n_destinationBufferAllocation = nullptr;
+	};
 }

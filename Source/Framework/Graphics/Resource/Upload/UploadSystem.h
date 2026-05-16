@@ -32,7 +32,6 @@ namespace FWK::Graphics
 		static constexpr UINT k_textureCopyDestinationY = 0U;
 		static constexpr UINT k_textureCopyDestinationZ = 0U;
 
-
 		static constexpr UINT64 k_bufferCopyDestinationOffset = 0ULL;
 		static constexpr UINT64 k_bufferCopySourceOffset      = 0ULL;
 

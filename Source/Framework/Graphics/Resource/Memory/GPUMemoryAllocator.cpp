@@ -112,6 +112,7 @@ bool FWK::Graphics::GPUMemoryAllocator::CreateBufferResource(const UINT64&      
 
     // D3D12MA::Allocator::CreateResource(割り当て設定、
     //                                    作成するリソース設定、
+    //                                    作成直後のリソースステート、
     //                                    ClearValue(nullptrなので未使用)、
     //                                    D3D12MA側Allocationの受取先、
     //                                    受け取りたいResourceインターフェース型ID、

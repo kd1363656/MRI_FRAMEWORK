@@ -22,8 +22,5 @@ namespace FWK::Graphics
 							  const UINT64&								a_sourceOffset,
 							  const UINT64&								a_bufferSize) const;
 
-	private:
-
-		static constexpr UINT64 k_invalidBufferCopySize = 0ULL;
 	};
 }
