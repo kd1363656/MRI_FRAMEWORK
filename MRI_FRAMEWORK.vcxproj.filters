@@ -571,6 +571,9 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static">
       <UniqueIdentifier>{479e9285-2dc8-4033-86a4-6ec721b3a746}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Model\Static\Releaser">
+      <UniqueIdentifier>{81006a9e-7bc9-46ba-a7b4-f51cef1823f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1010,6 +1013,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\Releaser\StaticModelReleaser.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static\Releaser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1221,6 +1227,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\Releaser\StaticModelReleaser.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static\Releaser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

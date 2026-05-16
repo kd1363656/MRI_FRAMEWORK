@@ -19,8 +19,8 @@ namespace FWK
 
 		void RequestDrawTexture(const Graphics::Texture& a_texture) const;
 
-		std::shared_ptr<Struct::StaticModelRecord> m_staticModelRecord = nullptr;
-
-		Graphics::Texture m_texture = {};
+		
+		Graphics::Texture	  m_texture     = {};
+		Graphics::StaticModel m_staticModel = {};
 	};
 }

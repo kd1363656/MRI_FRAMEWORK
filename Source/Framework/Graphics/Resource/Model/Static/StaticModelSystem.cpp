@@ -135,6 +135,13 @@ void FWK::Graphics::StaticModelSystem::LoadPendingStaticModelAndWait(UploadSyste
 	m_pendingStaticModelBatchUploadRecordMap.clear();
 }
 
+void FWK::Graphics::StaticModelSystem::ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue)
+{
+	StaticModelRecordReleaser l_staticModelRecordReleaser = {};
+
+	m_staticModelStorage.ReleaseCompletedUnusedRecords(a_directCommandQueue, l_staticModelRecordReleaser);
+}
+
 nlohmann::json FWK::Graphics::StaticModelSystem::Serialize() const
 {
 	return  m_staticModelSystemJsonConverter.Serialize(*this);

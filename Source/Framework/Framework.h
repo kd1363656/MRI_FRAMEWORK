@@ -249,6 +249,7 @@
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticModelMeshletBuilder.h"
 #include "Converter/Json/Graphics/Resource/Model/Static/StaticModelSystemJsonConverter.h"
 #include "Graphics/Resource/Model/Buffer/Static/StaticModelBufferBuilder.h"
+#include "Graphics/Resource/Model/Static/Releaser/StaticModelReleaser.h"
 #include "Graphics/Resource/Model/Static/StaticModelSystem.h"
 #include "Graphics/Resource/Model/Static/StaticModel.h"
 

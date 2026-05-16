@@ -181,7 +181,7 @@ bool FWK::Graphics::StaticModelBufferBuilder::CreateBufferUploadCommand(const De
 	// DEFAULTヒープ上に、最終的にMeshShaderから読むBufferResourceを作成する
 	// 初期状態をCOPY_DESTにする理由はUploadBufferからCopyBufferRegionで書き込むコピー先として使用するため
 	if (!a_gpuMemoryAllocator.CreateBufferResource(a_bufferSize,
-												   D3D12_RESOURCE_STATE_COPY_DEST,
+												   D3D12_RESOURCE_STATE_COMMON,
 												   a_destinationBufferResource,
 												   a_destinationBufferAllocation))
 	{

@@ -459,6 +459,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticModelMeshletBuilder.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\Releaser\StaticModelReleaser.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
@@ -548,6 +549,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\FBXLoader\Static\StaticModelFBXLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticMeshOptimizer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\MeshOptimizer\Static\StaticModelMeshletBuilder.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\Releaser\StaticModelReleaser.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />

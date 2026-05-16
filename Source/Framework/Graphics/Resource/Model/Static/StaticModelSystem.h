@@ -21,6 +21,8 @@ namespace FWK::Graphics
 
 		void LoadPendingStaticModelAndWait(UploadSystem& a_uploadSystem);
 		
+		void ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue);
+
 		nlohmann::json Serialize() const;
 
 		bool AddStaticModelReference    (const TypeAlias::StorageID a_storageID);
