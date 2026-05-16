@@ -9,13 +9,13 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 {
 	if (!m_rtvDescriptorPool.Create(a_device))
 	{
-		assert(false && "RTV用ディスクリプタプールの作成処理に失敗しました。");
+		assert(false && "RTVDescriptorPoolの作成処理に失敗しました。");
 		return false;
 	}
 
 	if (!m_srvDescriptorPool.Create(a_device))
 	{
-		assert(false && "SRV用ディスクリプタプールの作成処理に失敗しました。");
+		assert(false && "SRVDescriptorPoolの作成処理に失敗しました。");
 		return false;
 	}
 
@@ -27,13 +27,19 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 
 	if (!m_uploadSystem.Create(a_device))
 	{
-		assert(false && "アップロードシステムの作成処理に失敗しました。");
+		assert(false && "UploadSystemの作成処理に失敗しました。");
 		return false;
 	}
 
 	if (!m_textureSystem.Create())
 	{
-		assert(false && "テクスチャシステムの作成処理に失敗しました。");
+		assert(false && "TextureSystemの作成処理に失敗しました。");
+		return false;
+	}
+
+	if (!m_staticModelSystem.Create())
+	{
+		assert(false && "StaticModelSystemの作成処理に失敗しました。");
 		return false;
 	}
 

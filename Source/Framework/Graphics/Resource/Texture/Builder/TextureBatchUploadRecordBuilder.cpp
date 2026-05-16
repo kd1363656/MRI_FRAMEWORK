@@ -59,7 +59,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	// 最後にD3D12_RESOURCE_STATESと参照カウント、ファイルパスを格納する
 	l_textureRecord->m_currentState      = D3D12_RESOURCE_STATE_COMMON;
 	l_textureRecord->m_retiredFenceValue = Constant::k_unusedFenceValue;
-	l_textureRecord->m_referenceCount    = k_initialTextureReferenceCount;
+	l_textureRecord->m_referenceCount    = Constant::k_defaultAssetReferenceCount;
 	l_textureRecord->m_storageID         = a_storageID;
 	l_textureRecord->m_filePath          = a_filePath;
 

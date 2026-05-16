@@ -15,4 +15,11 @@ namespace FWK::Struct
 
 		ModelData m_modelData = {};
 	};
+
+	struct StaticModelResult final
+	{
+		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
+
+		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
+	};
 }

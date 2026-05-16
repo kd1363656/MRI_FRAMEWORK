@@ -565,6 +565,12 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\Buffer\Static">
       <UniqueIdentifier>{1518b846-60bc-484a-ab23-6bbdf11ea9c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Model">
+      <UniqueIdentifier>{d2aa4ee7-e805-4103-a37b-3e9491ea4517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static">
+      <UniqueIdentifier>{479e9285-2dc8-4033-86a4-6ec721b3a746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -998,6 +1004,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Buffer\Static\StaticModelBufferBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Buffer\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static\StaticModelSystemJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Model\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1203,6 +1212,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Buffer\Static\StaticModelBufferBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Buffer\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static\StaticModelSystemJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Model\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,93 @@
 ﻿#include "StaticModelSystem.h"
 
+void FWK::Graphics::StaticModelSystem::Deserialize(const nlohmann::json& a_rootJson)
+{
+	if (a_rootJson.is_null()) { return; }
+	m_staticModelSystemJsonConverter.Deserialize(a_rootJson, *this);
+}
+
+bool FWK::Graphics::StaticModelSystem::Create()
+{
+	if (!m_staticModelStorage.Create())
+	{
+		assert(false && "AssetStorageIDの作成に失敗したため、StaticModelSystemの作成処理に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
+FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModelForBatchUpload(const std::filesystem::path& a_filePath)
+{
+	Struct::StaticModelResult l_staticModelLoadResult = {};
+
+	if (a_filePath.empty())
+	{
+		assert(false && "StaticModelのFBXファイルパスが空です。");
+		return l_staticModelLoadResult;
+	}
+
+	if (!std::filesystem::exists(a_filePath))
+	{
+		assert(false && "StaticModelのFBXファイルが存在しません。");
+		return l_staticModelLoadResult;
+	}
+
+	const auto& l_filePath = a_filePath.wstring();
+
+	// 既に登録済みのStaticModelなら再度ロード申請する必要がないのでreturn
+	if (const auto l_foutStorageID = m_staticModelStorage.FindVALStorageIDFromFilePath(l_filePath);
+		l_foutStorageID != Constant::k_invalidStorageID)
+	{
+		if (!AddStaticModelReference(l_foutStorageID))
+		{
+			assert(false && "登録済みStaticModelの参照数加算に失敗したため、StaticModel読み込み処理に失敗しました。");
+			return l_staticModelLoadResult;
+		}
+
+		l_staticModelLoadResult.m_storageID			= l_foutStorageID;
+		l_staticModelLoadResult.m_staticModelRecord = m_staticModelStorage.FindVALRecord(l_foutStorageID);
+
+		return l_staticModelLoadResult;
+	}
+
+	const auto l_allocateStorageID = m_staticModelStorage.AllocateStorageID();
+
+	if (l_allocateStorageID == Constant::k_invalidStorageID)
+	{
+		assert(false && "StorageIDの割り当てに失敗したため、StaticModel読み込み処理に失敗しました。");
+		return l_staticModelLoadResult;
+	}
+
+	auto l_staticModelRecord = std::make_shared<Struct::StaticModelRecord>();
+
+	l_staticModelRecord->m_filePath       = l_filePath;
+	l_staticModelRecord->m_storageID      = l_allocateStorageID;
+	l_staticModelRecord->m_referenceCount = Constant::k_defaultAssetReferenceCount;
+
+	if (!LoadStaticModel(l_staticModelRecord, a_filePath))
+	{
+		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
+
+		assert(false && "StaticModelの読み込みに失敗しました。");
+		return l_staticModelLoadResult;
+	}
+
+
+	if (!m_staticModelStorage.RegisterRecord(l_filePath, l_staticModelRecord))
+	{
+		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
+
+		assert(false && "StaticModelRecordの登録に失敗したため、StaticModel読み込み処理に失敗しました。");
+		return l_staticModelLoadResult;
+	}
+
+	l_staticModelLoadResult.m_storageID			= l_staticModelRecord->m_storageID;
+	l_staticModelLoadResult.m_staticModelRecord = l_staticModelRecord;
+
+	return l_staticModelLoadResult;
+}
+
 bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath)
 {
 	if (!a_staticModelRecord)
@@ -36,6 +124,37 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Str
 	
 	// バイナリーファイルが使用できなければufbxを使用してFBXモデルを読み込む
 	return CreateStaticModelAssetFromFBX(a_staticModelRecord, a_fbxFilePath, l_assetFilePath);
+}
+
+nlohmann::json FWK::Graphics::StaticModelSystem::Serialize() const
+{
+	return  m_staticModelSystemJsonConverter.Serialize(*this);
+}
+
+bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const TypeAlias::StorageID a_storageID)
+{
+	if (!m_staticModelStorage.AddReference(a_storageID))
+	{
+		assert(false && "AssetStorageでの参照数加算に失敗したため、StaticModel参照数加算に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
+{
+	if (!m_staticModelStorage.ReleaseReference(a_directCommandQueue, a_storageID))
+	{
+		assert(false && "AssetStorageでの参照数減算に失敗したため、StaticModel解放予約に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
+std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::FindVALStaticModelRecord(const TypeAlias::StorageID a_storageID)
+{
+	return m_staticModelStorage.FindVALRecord(a_storageID);
 }
 
 bool FWK::Graphics::StaticModelSystem::CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const

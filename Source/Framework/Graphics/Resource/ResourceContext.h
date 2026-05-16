@@ -22,6 +22,7 @@ namespace FWK::Graphics
 		const auto& GetREFGPUMemoryAllocator() const { return m_gpuMemoryAllocator; }
 		const auto& GetREFUploadSystem      () const { return m_uploadSystem; }
 		const auto& GetREFTextureSystem     () const { return m_textureSystem; }
+		const auto& GetREFStaticModelSystem () const { return m_staticModelSystem; }
 
 		auto& GetMutableREFRTVDescriptorPool() { return m_rtvDescriptorPool; }
 		auto& GetMutableREFSRVDescriptorPool() { return m_srvDescriptorPool; }

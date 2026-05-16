@@ -306,6 +306,13 @@
                 "StorageIDAllocatorCapacity": 1024
             }
         },
+        "StaticModelSystem": {
+            "StaticModelStorage": {
+                "StorageIDAllocator": {
+                    "StorageIDAllocatorCapacity": 3000
+                }
+            }
+        },
         "TextureSystem": {
             "TextureStorage": {
                 "StorageIDAllocator": {

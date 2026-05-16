@@ -29,6 +29,6 @@ namespace FWK::Struct
 		TypeAlias::ComPtr<ID3D12Resource2> m_destinationBuffer = nullptr;
 
 		// Upload先のDEFAULTヒープ上BufferResource用Allocation
-		TypeAlias::ComPtr<D3D12MA::Allocation> n_destinationBufferAllocation = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_destinationBufferAllocation = nullptr;
 	};
 }

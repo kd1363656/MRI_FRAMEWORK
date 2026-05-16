@@ -28,6 +28,14 @@ void FWK::Converter::ResourceContextJsonConverter::Deserialize(const nlohmann::j
 		l_textureSystem.Deserialize(a_rootJson[k_textureSystemJsonKey]);
 	}
 
+	// スタティックモデルシステムのデシリアライズ
+	if (a_rootJson.contains(k_staticModelSystemJsonKey))
+	{
+		auto& l_staticModelSystem = a_resourceContext.GetMutableREFStaticModelSystem();
+
+		l_staticModelSystem.Deserialize(a_rootJson[k_staticModelSystemJsonKey]);
+	}
+
 	// アップロードシステムのデシリアライズ
 	if (a_rootJson.contains(k_uploadSystemJsonKey))
 	{
@@ -44,8 +52,9 @@ nlohmann::json FWK::Converter::ResourceContextJsonConverter::Serialize(const Gra
 	const auto& l_rtvDescriptorPool = a_resourceContext.GetREFRTVDescriptorPool();
 	const auto& l_srvDescriptorPool = a_resourceContext.GetREFSRVDescriptorPool();
 	
-	const auto& l_textureSystem = a_resourceContext.GetREFTextureSystem();
-	const auto& l_uploadSystem  = a_resourceContext.GetREFUploadSystem ();
+	const auto& l_textureSystem     = a_resourceContext.GetREFTextureSystem    ();
+	const auto& l_staticModelSystem = a_resourceContext.GetREFStaticModelSystem();
+	const auto& l_uploadSystem      = a_resourceContext.GetREFUploadSystem     ();
 
 	// RTVディスクリプタプールのシリアライズ
 	l_rootJson[k_rtvDescriptorPoolJsonKey] = l_rtvDescriptorPool.Serialize();
@@ -55,6 +64,9 @@ nlohmann::json FWK::Converter::ResourceContextJsonConverter::Serialize(const Gra
 
 	// テクスチャシステムのシリアライズ
 	l_rootJson[k_textureSystemJsonKey] = l_textureSystem.Serialize();
+
+	// スタティックモデルシステムのシリアライズ
+	l_rootJson[k_staticModelSystemJsonKey] = l_staticModelSystem.Serialize();
 
 	// アップロードシステムのシリアライズ
 	l_rootJson[k_uploadSystemJsonKey] = l_uploadSystem.Serialize();
