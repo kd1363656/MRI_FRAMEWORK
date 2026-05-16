@@ -1,5 +1,10 @@
 ﻿#pragma once
 
+namespace FWK::Graphics
+{
+	class Texture;
+}
+
 namespace FWK::Struct
 {
 	struct ModelVertex final
