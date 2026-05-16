@@ -1007,6 +1007,9 @@
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static\StaticModelSystemJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Model\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.h">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1215,6 +1218,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static\StaticModelSystemJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Model\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
