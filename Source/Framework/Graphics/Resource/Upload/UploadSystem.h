@@ -12,8 +12,8 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create	    (const Device& a_device);
 
-		bool SubmitTextureCopyBatchAndWait(const TypeAlias::PendingTextureBatchUploadRecordMap& a_pendingTextureBatchUploadRecordMap);
-		bool SubmitBufferCopyBatchAndWait (const std::vector<Struct::BufferUploadRecord>&		a_bufferUploadRecordList, const std::vector<TypeAlias::ComPtr<ID3D12Resource2>>& a_destinationBufferList);
+		bool SubmitTextureCopyBatchAndWait          (const TypeAlias::PendingTextureBatchUploadRecordMap&     a_pendingTextureBatchUploadRecordMap);
+		bool SubmitStaticModelBufferCopyBatchAndWait(const TypeAlias::PendingStaticModelBatchUploadRecordMap& a_pendingStaticModelBatchUploadRecordMap);
 
 		nlohmann::json Serialize() const;
 
@@ -24,7 +24,7 @@ namespace FWK::Graphics
 	private:
 
 		void RecordTextureCopy(const std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT>& a_layoutList,			const TypeAlias::ComPtr<ID3D12Resource2>& a_textureResource, const TypeAlias::ComPtr<ID3D12Resource2>& a_uploadBuffer) const;
-		void RecordBufferCopy (const Struct::BufferUploadRecord&					  a_bufferUploadRecord, const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer)														   const;
+		void RecordBufferCopy (const Struct::BufferUploadCommand&					  a_bufferUploadCommand)																													   const;
 
 		std::weak_ptr<CopyCommandAllocator> FetchMutablePTRCopyCommandAllocator();
 

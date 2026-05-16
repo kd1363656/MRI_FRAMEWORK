@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class StaticModel
+	class StaticModel final
 	{
 	public:
 

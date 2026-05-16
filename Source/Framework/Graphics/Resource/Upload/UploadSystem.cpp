@@ -87,17 +87,11 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 	return true;
 }
-bool FWK::Graphics::UploadSystem::SubmitBufferCopyBatchAndWait(const std::vector<Struct::BufferUploadRecord>& a_bufferUploadRecordList, const std::vector<TypeAlias::ComPtr<ID3D12Resource2>>& a_destinationBufferList)
+bool FWK::Graphics::UploadSystem::SubmitStaticModelBufferCopyBatchAndWait(const TypeAlias::PendingStaticModelBatchUploadRecordMap& a_pendingStaticModelBatchUploadRecordMap)
 {
-	if (a_bufferUploadRecordList.empty())
+	if (a_pendingStaticModelBatchUploadRecordMap.empty())
 	{
-		assert(false && "バッファのバッチアップロード用の情報リストが空のため、バッチバッファコピー送信処理に失敗しました。");
-		return false;
-	}
-
-	if (a_bufferUploadRecordList.size() != a_destinationBufferList.size())
-	{
-		assert(false && "バッファアップロード情報数とコピー先BufferResource数が一致しないため、バッチバッファコピー送信処理に失敗しました。");
+		assert(false && "StaticModel用PendingBatchUploadRecordMapが空のため、StaticModel用BufferResourceのバッチコピーに失敗しました。");
 		return false;
 	}
 
@@ -105,17 +99,26 @@ bool FWK::Graphics::UploadSystem::SubmitBufferCopyBatchAndWait(const std::vector
 
 	if (!l_copyCommandAllocator)
 	{
-		assert(false && "使用可能なコピーコマンドアロケータが取得できず、バッチバッファコピー送信処理に失敗しました。");
+		assert(false && "使用可能なコピーコマンドアロケータが取得できず、StaticModel用BufferResourceのバッチコピーに失敗しました。");
 		return false;
 	}
 
-	// 命令を格納できるようにするためリセット
+	// 命令を格納できるようにするためにリセット
 	l_copyCommandAllocator->Reset();
 	m_copyCommandList.Reset      (*l_copyCommandAllocator);
 
-	for (auto l_bufferIndex = 0ULL; l_bufferIndex < a_bufferUploadRecordList.size(); ++l_bufferIndex)
+	for (const auto& [l_filePath, l_staticModelBatchUploadRecord] : a_pendingStaticModelBatchUploadRecordMap)
 	{
-		RecordBufferCopy(a_bufferUploadRecordList[l_bufferIndex], a_destinationBufferList[l_bufferIndex]);
+		if (l_staticModelBatchUploadRecord.m_bufferUploadCommandList.empty())
+		{
+			assert(false && "StaticModel用BufferUploadCommandListが空のため、StaticModel用BufferResourceのバッチコピーに失敗しました。");
+			return false;
+		}
+
+		for (const auto& l_bufferUploadCommand : l_staticModelBatchUploadRecord.m_bufferUploadCommandList)
+		{
+			RecordBufferCopy(l_bufferUploadCommand);
+		}
 	}
 
 	m_copyCommandList.Close				  ();
@@ -177,33 +180,34 @@ void FWK::Graphics::UploadSystem::RecordTextureCopy(const std::vector<D3D12_PLAC
 											k_textureCopyDestinationZ);
 	}
 }
-void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadRecord& a_bufferUploadRecord, const TypeAlias::ComPtr<ID3D12Resource2>& a_destinationBuffer) const
+void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadCommand& a_bufferUploadCommand) const
 {
-	if (!a_destinationBuffer)
+	if (!a_bufferUploadCommand.m_destinationBuffer)
 	{
 		assert(false && "コピー先BufferResourceが無効のため、バッファコピー記録に失敗しました。");
 		return;
 	}
 
-	const auto& l_uploadBuffer = a_bufferUploadRecord.m_uploadBuffer.GetREFUploadBuffer();
+	const auto& l_uploadBuffer = a_bufferUploadCommand.m_bufferUploadRecord.m_uploadBuffer.GetREFUploadBuffer();
 
 	if (!l_uploadBuffer)
 	{
 		assert(false && "コピー元UploadBufferが無効のため、バッファコピー記録に失敗しました。");
 		return;
 	}
-	
-	if (a_bufferUploadRecord.m_bufferSize == Constant::k_invalidBufferSize)
+
+	if (a_bufferUploadCommand.m_bufferUploadRecord.m_bufferSize == Constant::k_invalidBufferSize)
 	{
 		assert(false && "コピーするBufferサイズが0のため、バッファコピー記録に失敗しました。");
 		return;
 	}
 
-	m_copyCommandList.CopyBufferRegion(a_destinationBuffer,
+	// UPLOADヒープ上にあるバッファをDEFAULTヒープ上にあるバッファにコピー
+	m_copyCommandList.CopyBufferRegion(a_bufferUploadCommand.m_destinationBuffer,
 									   l_uploadBuffer,
 									   k_bufferCopyDestinationOffset,
-								       k_bufferCopySourceOffset,
-									   a_bufferUploadRecord.m_bufferSize);
+									   k_bufferCopySourceOffset,
+									   a_bufferUploadCommand.m_bufferUploadRecord.m_bufferSize);
 }
 
 std::weak_ptr<FWK::Graphics::CopyCommandAllocator> FWK::Graphics::UploadSystem::FetchMutablePTRCopyCommandAllocator()

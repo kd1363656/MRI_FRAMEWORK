@@ -13,7 +13,10 @@ FWK::Graphics::StaticModel::StaticModel(const StaticModel & a_other) :
 FWK::Graphics::StaticModel::StaticModel(StaticModel&& a_other) noexcept :
 	m_storageID		   (a_other.m_storageID),
 	m_staticModelRecord(std::move(a_other.m_staticModelRecord))
-{}
+{
+	a_other.m_storageID = Constant::k_invalidStorageID;
+	a_other.m_staticModelRecord.reset();
+}
 FWK::Graphics::StaticModel::~StaticModel()
 {
 	ReleaseStaticModelReference();
@@ -32,6 +35,8 @@ FWK::Graphics::StaticModel& FWK::Graphics::StaticModel::operator=(const StaticMo
 
 	// 参照数の加算
 	AddStaticModelReference();
+
+	return *this;
 }
 FWK::Graphics::StaticModel& FWK::Graphics::StaticModel::operator=(StaticModel&& a_other) noexcept
 {
@@ -41,9 +46,10 @@ FWK::Graphics::StaticModel& FWK::Graphics::StaticModel::operator=(StaticModel&& 
 	ReleaseStaticModelReference();
 
 	// ムーブでは参照数を増やさず、参照先だけ移す
-	m_storageID = Constant::k_invalidStorageID;
-	m_staticModelRecord.reset();
+	m_storageID			= a_other.m_storageID;
+	m_staticModelRecord = std::move(a_other.m_staticModelRecord);
 
+	// 参照元のStorageIDを無効化
 	a_other.m_storageID = Constant::k_invalidStorageID;
 	a_other.m_staticModelRecord.reset();
 
@@ -52,17 +58,27 @@ FWK::Graphics::StaticModel& FWK::Graphics::StaticModel::operator=(StaticModel&& 
 
 bool FWK::Graphics::StaticModel::Load(const std::filesystem::path& a_filePath)
 {
+	// 既に別のStorageIDを持っている場合は先に参照を外す
 	ReleaseStaticModelReference();
 
 	auto& l_graphicsManager   = GraphicsManager::GetInstance                    ();
 	auto& l_resourceContext   = l_graphicsManager.GetMutableREFResourceContext  ();
 	auto& l_staticModelSystem = l_resourceContext.GetMutableREFStaticModelSystem();
 
-	const auto& l_staticModelLoadResult = l_staticModelSystem.LoadStaticModelForBatchUpload(a_filePath);
+	const auto& l_device		     = l_graphicsManager.GetREFDevice		     ();
+	const auto& l_gpuMemoryAllocator = l_resourceContext.GetREFGPUMemoryAllocator();
+
+	const auto& l_staticModelLoadResult = l_staticModelSystem.LoadStaticModelForBatchUpload(l_device, l_gpuMemoryAllocator, a_filePath);
 
 	if (l_staticModelLoadResult.m_storageID == Constant::k_invalidStorageID)
 	{
 		assert(false && "StaticModelの読み込みに失敗しました。");
+		return false;
+	}
+
+	if (l_staticModelLoadResult.m_staticModelRecord.expired())
+	{
+		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。");
 		return false;
 	}
 
@@ -97,15 +113,24 @@ void FWK::Graphics::StaticModel::AddStaticModelReference() const
 
 void FWK::Graphics::StaticModel::ReleaseStaticModelReference()
 {
-	if (m_storageID == Constant::k_invalidStorageID) { return; }
+	if (m_storageID == Constant::k_invalidStorageID)
+	{
+		m_staticModelRecord.reset();
+		return; 
+	}
 
 	      auto& l_graphicsManager    = GraphicsManager::GetInstance                    ();
 	      auto& l_resourceContext    = l_graphicsManager.GetMutableREFResourceContext  ();
-	      auto& l_staticModelSystem  = l_resourceContext.GetMutableREFStaticModelSystem();
 	const auto& l_renderer		   = l_graphicsManager.GetREFRenderer				   ();
 	const auto& l_directCommandQueue = l_renderer.GetREFDirectCommandQueue             ();
 
-	if (l_staticModelSystem.ReleaseStaticModelReference(l_directCommandQueue, m_storageID)) { return; }
+	if (auto& l_staticModelSystem = l_resourceContext.GetMutableREFStaticModelSystem(); 
+		!l_staticModelSystem.ReleaseStaticModelReference(l_directCommandQueue, m_storageID))
+	{
+		assert(false && "StaticModelの参照数減算に失敗しました。");
+		return; 
+	}
 
-	assert(false && "StaticModelの参照数減算に失敗しました。");
+	m_storageID = Constant::k_invalidStorageID;
+	m_staticModelRecord.reset();
 }

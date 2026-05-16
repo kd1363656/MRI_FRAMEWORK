@@ -222,6 +222,10 @@
 // テクスチャ一括アップロード用構造体
 #include "Definition/Struct/Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilderStruct.h"
 
+// モデル用構造体
+#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
+#include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
+
 // アップロードシステム用TypeAlias
 #include "Definition/Type/Alias/Graphics/Resource/Upload/TypeAliasUploadSystem.h"
 
@@ -237,10 +241,6 @@
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
 
-// モデル用構造体
-#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
-#include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
-
 // モデル
 #include "Graphics/Resource/Model/FBXLoader/FBXModelLoaderBase.h"
 #include "Converter/Binary/Graphics/Resource/Model/Static/StaticModelBinaryConverter.h"
@@ -248,6 +248,7 @@
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticMeshOptimizer.h"
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticModelMeshletBuilder.h"
 #include "Converter/Json/Graphics/Resource/Model/Static/StaticModelSystemJsonConverter.h"
+#include "Graphics/Resource/Model/Buffer/Static/StaticModelBufferBuilder.h"
 #include "Graphics/Resource/Model/Static/StaticModelSystem.h"
 #include "Graphics/Resource/Model/Static/StaticModel.h"
 

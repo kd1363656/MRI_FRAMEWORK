@@ -10,14 +10,14 @@ bool FWK::Graphics::StaticModelSystem::Create()
 {
 	if (!m_staticModelStorage.Create())
 	{
-		assert(false && "AssetStorageIDの作成に失敗したため、StaticModelSystemの作成処理に失敗しました。");
+		assert(false && "AssetStorageの作成に失敗したため、StaticModelSystemの作成処理に失敗しました。");
 		return false;
 	}
 
 	return true;
 }
 
-FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModelForBatchUpload(const std::filesystem::path& a_filePath)
+FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModelForBatchUpload(const Device& a_device, const GPUMemoryAllocator& a_gpuMemoryAllocator, const std::filesystem::path& a_filePath)
 {
 	Struct::StaticModelResult l_staticModelLoadResult = {};
 
@@ -36,17 +36,38 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	const auto& l_filePath = a_filePath.wstring();
 
 	// 既に登録済みのStaticModelなら再度ロード申請する必要がないのでreturn
-	if (const auto l_foutStorageID = m_staticModelStorage.FindVALStorageIDFromFilePath(l_filePath);
-		l_foutStorageID != Constant::k_invalidStorageID)
+	if (const auto l_foundStorageID = m_staticModelStorage.FindVALStorageIDFromFilePath(l_filePath);
+		l_foundStorageID != Constant::k_invalidStorageID)
 	{
-		if (!AddStaticModelReference(l_foutStorageID))
+		// 参照カウントの加算
+		if (!AddStaticModelReference(l_foundStorageID))
 		{
 			assert(false && "登録済みStaticModelの参照数加算に失敗したため、StaticModel読み込み処理に失敗しました。");
 			return l_staticModelLoadResult;
 		}
 
-		l_staticModelLoadResult.m_storageID			= l_foutStorageID;
-		l_staticModelLoadResult.m_staticModelRecord = m_staticModelStorage.FindVALRecord(l_foutStorageID);
+		l_staticModelLoadResult.m_storageID			= l_foundStorageID;
+		l_staticModelLoadResult.m_staticModelRecord = m_staticModelStorage.FindVALRecord(l_foundStorageID);
+
+		return l_staticModelLoadResult;
+	}
+
+	// 既にPending中のStaticModelなら再度ロード申請する必要がないのでreturn
+	if (const auto& l_itr = m_pendingStaticModelBatchUploadRecordMap.find(l_filePath);
+		l_itr != m_pendingStaticModelBatchUploadRecordMap.end())
+	{
+		const auto& l_staticModelRecord = l_itr->second.m_staticModelRecord;
+
+		if (!l_staticModelRecord)
+		{
+			assert(false && "Pending中のStaticModelRecordが無効のため、StaticModel読み込み処理に失敗しました。");
+			return l_staticModelLoadResult;
+		}
+
+		++l_staticModelRecord->m_referenceCount;
+
+		l_staticModelLoadResult.m_storageID			= l_staticModelRecord->m_storageID;
+		l_staticModelLoadResult.m_staticModelRecord = l_staticModelRecord;
 
 		return l_staticModelLoadResult;
 	}
@@ -65,6 +86,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	l_staticModelRecord->m_storageID      = l_allocateStorageID;
 	l_staticModelRecord->m_referenceCount = Constant::k_defaultAssetReferenceCount;
 
+	// まずはバイナリーファイルから読み込み、読み込めなかった場合はFBXから読み込む
 	if (!LoadStaticModel(l_staticModelRecord, a_filePath))
 	{
 		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
@@ -73,19 +95,75 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 		return l_staticModelLoadResult;
 	}
 
+	Struct::StaticModelBatchUploadRecord l_staticModelBatchUploadRecord = {};
 
-	if (!m_staticModelStorage.RegisterRecord(l_filePath, l_staticModelRecord))
+	l_staticModelBatchUploadRecord.m_staticModelRecord = l_staticModelRecord;
+
+	// アップロードバッファーを作成
+	if (!m_staticModelBufferBuilder.CreateStaticModelRecordBufferUpload(l_staticModelRecord,
+																		a_device,
+																        a_gpuMemoryAllocator,
+																        l_staticModelBatchUploadRecord.m_bufferUploadCommandList))
 	{
 		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
 
-		assert(false && "StaticModelRecordの登録に失敗したため、StaticModel読み込み処理に失敗しました。");
+		assert(false && "StaticModel用BufferUploadCommandの作成に失敗しました。");
 		return l_staticModelLoadResult;
 	}
-
+	
 	l_staticModelLoadResult.m_storageID			= l_staticModelRecord->m_storageID;
 	l_staticModelLoadResult.m_staticModelRecord = l_staticModelRecord;
 
+	m_pendingStaticModelBatchUploadRecordMap.try_emplace(l_filePath, std::move(l_staticModelBatchUploadRecord));
+
 	return l_staticModelLoadResult;
+}
+
+void FWK::Graphics::StaticModelSystem::LoadPendingStaticModelAndWait(UploadSystem& a_uploadSystem)
+{
+	// ロード待ちStaticModelが一つもなければreturn
+	if (m_pendingStaticModelBatchUploadRecordMap.empty()) { return; }
+
+	// ロード申請が来ていたStaticModelを一括ロードする
+	if (!StaticModelCopyBatch(a_uploadSystem))
+	{
+		assert(false && "ロード待ちStaticModelのバッチ登録に失敗しました。");
+		return;
+	}
+
+	// そのフレーム内でロードすべきStaticModelをすべてロードし終えた状態なのでクリア
+	m_pendingStaticModelBatchUploadRecordMap.clear();
+}
+
+nlohmann::json FWK::Graphics::StaticModelSystem::Serialize() const
+{
+	return  m_staticModelSystemJsonConverter.Serialize(*this);
+}
+
+bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const TypeAlias::StorageID a_storageID)
+{
+	if (!m_staticModelStorage.AddReference(a_storageID))
+	{
+		assert(false && "AssetStorageでの参照数加算に失敗したため、StaticModel参照数加算に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
+{
+	if (!m_staticModelStorage.ReleaseReference(a_directCommandQueue, a_storageID))
+	{
+		assert(false && "AssetStorageでの参照数減算に失敗したため、StaticModel解放予約に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
+std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::FindVALStaticModelRecord(const TypeAlias::StorageID a_storageID) const
+{
+	return m_staticModelStorage.FindVALRecord(a_storageID);
 }
 
 bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath)
@@ -126,37 +204,6 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Str
 	return CreateStaticModelAssetFromFBX(a_staticModelRecord, a_fbxFilePath, l_assetFilePath);
 }
 
-nlohmann::json FWK::Graphics::StaticModelSystem::Serialize() const
-{
-	return  m_staticModelSystemJsonConverter.Serialize(*this);
-}
-
-bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const TypeAlias::StorageID a_storageID)
-{
-	if (!m_staticModelStorage.AddReference(a_storageID))
-	{
-		assert(false && "AssetStorageでの参照数加算に失敗したため、StaticModel参照数加算に失敗しました。");
-		return false;
-	}
-
-	return true;
-}
-bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
-{
-	if (!m_staticModelStorage.ReleaseReference(a_directCommandQueue, a_storageID))
-	{
-		assert(false && "AssetStorageでの参照数減算に失敗したため、StaticModel解放予約に失敗しました。");
-		return false;
-	}
-
-	return true;
-}
-
-std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::FindVALStaticModelRecord(const TypeAlias::StorageID a_storageID)
-{
-	return m_staticModelStorage.FindVALRecord(a_storageID);
-}
-
 bool FWK::Graphics::StaticModelSystem::CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const
 {
 	if (!std::filesystem::exists(a_assetFilePath)) { return false; }
@@ -185,6 +232,35 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(const std::weak_ptr<
 	l_modelData.m_modelMeshList.clear();
 
 	if (!m_staticModelBinaryConverter.LoadStaticModelAsset(a_staticModelRecord, a_assetFilePath)) { return false; }
+
+	return true;
+}
+
+bool FWK::Graphics::StaticModelSystem::StaticModelCopyBatch(UploadSystem& a_uploadSystem)
+{
+	if (!a_uploadSystem.SubmitStaticModelBufferCopyBatchAndWait(m_pendingStaticModelBatchUploadRecordMap))
+	{
+
+		assert(false && "UploadSystemでのStaticModel用BufferResourceのバッチコピーに失敗したため、StaticModelのバッチ登録に失敗しました。");
+		return false;
+	}
+
+	for (const auto& [l_filePath, l_staticModelBatchUploadRecord] : m_pendingStaticModelBatchUploadRecordMap)
+	{
+		const auto& l_staticModelRecord = l_staticModelBatchUploadRecord.m_staticModelRecord;
+
+		if (!l_staticModelRecord)
+		{
+			assert(false && "StaticModelRecordが無効のため、StaticModelのバッチ登録に失敗しました。");
+			return false;
+		}
+
+		if (!m_staticModelStorage.RegisterRecord(l_filePath, l_staticModelRecord))
+		{
+			assert(false && "StaticModelRecordの登録に失敗したため、StaticModelのバッチ登録に失敗しました。");
+			return false;
+		}
+	}
 
 	return true;
 }

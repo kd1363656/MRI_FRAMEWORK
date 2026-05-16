@@ -51,6 +51,9 @@ void FWK::Graphics::ResourceContext::BeginFrame(const DirectCommandQueue& a_dire
 	// ロード予約のあったテクスチャを一括ロード
 	m_textureSystem.LoadPendingTexturesAndWait(m_uploadSystem);
 
+	// ロード予約のあったStaticModelを一括ロード
+	m_staticModelSystem.LoadPendingStaticModelAndWait(m_uploadSystem);
+
 	// 参照カウントが0で削除すべきテクスチャを削除
 	m_textureSystem.ReleaseCompletedUnusedTexture(a_directCommandQueue, m_srvDescriptorPool);
 }

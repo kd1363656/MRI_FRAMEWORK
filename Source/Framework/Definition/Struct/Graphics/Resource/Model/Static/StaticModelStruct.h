@@ -22,4 +22,13 @@ namespace FWK::Struct
 
 		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
 	};
+
+	struct StaticModelBatchUploadRecord final
+	{
+		// StaticModelStorageへ登録するStaticModelRecord
+		std::shared_ptr<Struct::StaticModelRecord> m_staticModelRecord = nullptr;
+
+		// StaticModelのBufferResourceへコピーするためのUploadCommand一覧
+		std::vector<Struct::BufferUploadCommand> m_bufferUploadCommandList = {};
+	};
 }

@@ -33,7 +33,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	const auto& l_filePath = a_filePath.wstring();
 	
 	// 既に登録済みのテクスチャなら再度ロード申請する必要がないのでreturn
-	if (const auto  l_foundStorageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
+	if (const auto l_foundStorageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
 		l_foundStorageID != Constant::k_invalidStorageID)
 	{
 		if (!AddTextureReference(l_foundStorageID))
