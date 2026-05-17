@@ -73,7 +73,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 		const auto& l_textureUploadRecord = l_pendingTextureBatchUploadRecord.m_textureUploadRecord;
 
-		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->m_textureResource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
+		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->m_gpuResource.m_resource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
 	}
 
 	m_copyCommandList.Close				  ();
@@ -182,7 +182,7 @@ void FWK::Graphics::UploadSystem::RecordTextureCopy(const std::vector<D3D12_PLAC
 }
 void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadCommand& a_bufferUploadCommand) const
 {
-	if (!a_bufferUploadCommand.m_destinationBuffer)
+	if (!a_bufferUploadCommand.m_destinationBufferResource)
 	{
 		assert(false && "コピー先BufferResourceが無効のため、バッファコピー記録に失敗しました。");
 		return;
@@ -203,7 +203,7 @@ void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadCom
 	}
 
 	// UPLOADヒープ上にあるバッファをDEFAULTヒープ上にあるバッファにコピー
-	m_copyCommandList.CopyBufferRegion(a_bufferUploadCommand.m_destinationBuffer,
+	m_copyCommandList.CopyBufferRegion(a_bufferUploadCommand.m_destinationBufferResource,
 									   l_uploadBuffer,
 									   k_bufferCopyDestinationOffset,
 									   k_bufferCopySourceOffset,

@@ -19,97 +19,35 @@ bool FWK::Graphics::StaticModelRecordReleaser::ReleaseRecord(const std::weak_ptr
 	{
 		auto& l_modelMeshRuntimeData = l_modelMesh.m_modelMeshRuntimeData;
 
-		// バッファーの解放
-		if (l_modelMeshRuntimeData.m_vertexBufferResource)
-		{
-			l_modelMeshRuntimeData.m_vertexBufferResource.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_indexBufferResource)
-		{
-			l_modelMeshRuntimeData.m_indexBufferResource.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_meshletBoundsBufferResource)
-		{
-			l_modelMeshRuntimeData.m_meshletBoundsBufferResource.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_uniqueVertexIndexBufferResource)
-		{
-			l_modelMeshRuntimeData.m_uniqueVertexIndexBufferResource.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_primitiveIndexBufferResource)
-		{
-			l_modelMeshRuntimeData.m_primitiveIndexBufferResource.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_meshletBoundsBufferResource)
-		{
-			l_modelMeshRuntimeData.m_meshletBoundsBufferResource.Reset();
-		}
-
-		// アロケーションの解放
-		if (l_modelMeshRuntimeData.m_vertexBufferAllocation)
-		{
-			l_modelMeshRuntimeData.m_vertexBufferAllocation.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_indexBufferAllocation)
-		{
-			l_modelMeshRuntimeData.m_indexBufferAllocation.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_meshletBoundsBufferAllocation)
-		{
-			l_modelMeshRuntimeData.m_meshletBoundsBufferAllocation.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_uniqueVertexIndexBufferAllocation)
-		{
-			l_modelMeshRuntimeData.m_uniqueVertexIndexBufferAllocation.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_primitiveIndexBufferAllocation)
-		{
-			l_modelMeshRuntimeData.m_primitiveIndexBufferAllocation.Reset();
-		}
-
-		if (l_modelMeshRuntimeData.m_meshletBoundsBufferAllocation)
-		{
-			l_modelMeshRuntimeData.m_meshletBoundsBufferAllocation.Reset();
-		}
-
 		// SRVの解放
-		if (l_modelMeshRuntimeData.m_vertexBufferSRVStorageID != Constant::k_invalidStorageID)
+		if (l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID != Constant::k_invalidStorageID)
 		{
-			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_vertexBufferSRVStorageID);
-			l_modelMeshRuntimeData.m_vertexBufferSRVStorageID = Constant::k_invalidStorageID;
+			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID);
+			l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID = Constant::k_invalidStorageID;
 		}
 
-		if (l_modelMeshRuntimeData.m_meshletBufferSRVStorageID != Constant::k_invalidStorageID)
+		if (l_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID != Constant::k_invalidStorageID)
 		{
-			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_meshletBufferSRVStorageID);
-			l_modelMeshRuntimeData.m_meshletBufferSRVStorageID = Constant::k_invalidStorageID;
+			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID);
+			l_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID = Constant::k_invalidStorageID;
 		}
 
-		if (l_modelMeshRuntimeData.m_uniqueVertexIndexBufferSRVStorageID != Constant::k_invalidStorageID)
+		if (l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID != Constant::k_invalidStorageID)
 		{
-			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_uniqueVertexIndexBufferSRVStorageID);
-			l_modelMeshRuntimeData.m_uniqueVertexIndexBufferSRVStorageID = Constant::k_invalidStorageID;
+			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID);
+			l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID = Constant::k_invalidStorageID;
 		}
 
-		if (l_modelMeshRuntimeData.m_primitiveIndexBufferSRVStorageID != Constant::k_invalidStorageID)
+		if (l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID != Constant::k_invalidStorageID)
 		{
-			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_primitiveIndexBufferSRVStorageID);
-			l_modelMeshRuntimeData.m_primitiveIndexBufferSRVStorageID = Constant::k_invalidStorageID;
+			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID);
+			l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID = Constant::k_invalidStorageID;
 		}
 
-		if (l_modelMeshRuntimeData.m_meshletBoundsBufferSRVStorageID != Constant::k_invalidStorageID)
+		if (l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID != Constant::k_invalidStorageID)
 		{
-			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_meshletBoundsBufferSRVStorageID);
-			l_modelMeshRuntimeData.m_meshletBoundsBufferSRVStorageID = Constant::k_invalidStorageID;
+			m_srvDescriptorPool.Release(l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID);
+			l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID = Constant::k_invalidStorageID;
 		}
 	}
 

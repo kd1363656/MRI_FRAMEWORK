@@ -32,8 +32,7 @@ namespace FWK::Graphics
 									   const Device&			                       a_device,
 									   const GPUMemoryAllocator&                       a_gpuMemoryAllocator,
 										     std::vector<Struct::BufferUploadCommand>& a_bufferUploadCommandList,
-											 TypeAlias::ComPtr<ID3D12Resource2>&       a_destinationBufferResource,
-											 TypeAlias::ComPtr<D3D12MA::Allocation>&   a_destinationBufferAllocation) const
+											 Struct::GPUResource&					   a_destinationBufferGPUResource) const
 		{
 			if (a_bufferList.empty()) 
 			{
@@ -45,10 +44,7 @@ namespace FWK::Graphics
 
 			// DEFAULTヒープ上に、MeshShaderから参照する本番用BufferResourceを作成する
 			// 初期状態をCOMMONにしておくことでCopyQueue上のCopyBufferRegion時にCOPY_DESTへ暗黙的に昇格できる
-			if (!a_gpuMemoryAllocator.CreateBufferResource(l_bufferSize,
-														   D3D12_RESOURCE_STATE_COMMON,
-														   a_destinationBufferResource,
-														   a_destinationBufferAllocation))
+			if (!a_gpuMemoryAllocator.CreateBufferResource(l_bufferSize, D3D12_RESOURCE_STATE_COMMON, a_destinationBufferGPUResource))
 			{
 				assert(false && "StaticModel用BufferResourceの作成に失敗したため、BufferUploadCommandの作成に失敗しました。");
 				return false;
@@ -56,9 +52,8 @@ namespace FWK::Graphics
 
 			Struct::BufferUploadCommand l_bufferUploadCommand = {};
 
-			l_bufferUploadCommand.m_destinationBuffer			= a_destinationBufferResource;
-			l_bufferUploadCommand.m_destinationBufferAllocation = a_destinationBufferAllocation;
-
+			l_bufferUploadCommand.m_destinationBufferResource = a_destinationBufferGPUResource.m_resource;
+			
 			auto& l_bufferUploadRecord = l_bufferUploadCommand.m_bufferUploadRecord;
 
 			l_bufferUploadRecord.m_bufferSize = l_bufferSize;
@@ -89,7 +84,7 @@ namespace FWK::Graphics
 
 		template <typename Type>
 		TypeAlias::StorageID CreateStructuredBufferSRV(const std::vector<Type>&					 a_bufferList,
-													   const TypeAlias::ComPtr<ID3D12Resource2>& a_bufferResource,
+													   const Struct::GPUResource&				 a_bufferGPUResource,
 													   const Device&							 a_device,
 															 DescriptorPool<SRVDescriptorHeap>&  a_srvDescriptorHeap) const
 		{	
@@ -101,7 +96,7 @@ namespace FWK::Graphics
 				return Constant::k_invalidStorageID;
 			}
 
-			if (!a_bufferResource)
+			if (!a_bufferGPUResource.m_resource)
 			{
 				assert(false && "BufferResourceが無効のため、StructuredBuffer用SRVの作成に失敗しました。");
 				return Constant::k_invalidStorageID;
@@ -152,10 +147,12 @@ namespace FWK::Graphics
 			// CreateShaderResourceView(BufferResource, 
 			//							SRV設定、
 			//							CPUOnlyDescriptorHeap側のCPUHandle);
-			l_device->CreateShaderResourceView(a_bufferResource.Get(), &l_srvDesc, l_cpuOnlyCPUHandle);
+			l_device->CreateShaderResourceView(a_bufferGPUResource.m_resource.Get(), &l_srvDesc, l_cpuOnlyCPUHandle);
 
 			if (!a_srvDescriptorHeap.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_srvStorageID, a_device))
 			{
+				a_srvDescriptorHeap.Release(l_srvStorageID);
+
 				assert(false && "CPUOnlyからShaderVisibleSRVへのコピーに失敗したため、StructuredBuffer用SRVの作成に失敗しました。");
 				return  Constant::k_invalidStorageID;
 			}

@@ -107,8 +107,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const
 		!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
 													nullptr,
 													D3D12_RESOURCE_STATE_COMMON,
-													l_textureRecord->m_textureResource,
-													l_textureRecord->m_allocation))
+													l_textureRecord->m_gpuResource))
 	{
 		assert(false && "D3D12MAによるTextureResource作成処理に失敗しました。");
 		return false;
@@ -135,7 +134,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 		return false;
 	}
 
-	const auto& l_textureResource = l_textureRecord->m_textureResource;
+	const auto& l_textureResource = l_textureRecord->m_gpuResource.m_resource;
 
 	if (!l_textureResource)
 	{
@@ -277,7 +276,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const std:
 		return false;
 	}
 
-	const auto& l_textureResource = l_textureRecord->m_textureResource;
+	const auto& l_textureResource = l_textureRecord->m_gpuResource.m_resource;
 
 	if (!l_textureResource)
 	{

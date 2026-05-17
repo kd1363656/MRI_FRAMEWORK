@@ -15,17 +15,6 @@ bool FWK::Graphics::TextureRecordReleaser::ReleaseRecord(const std::weak_ptr<Str
 		return false;
 	}
 
-	// TextureResourceを解放
-	if (l_textureRecord->m_textureResource)
-	{
-		l_textureRecord->m_textureResource.Reset();
-	}
-
-	if (l_textureRecord->m_allocation)
-	{
-		l_textureRecord->m_allocation.Reset();
-	}
-
 	// SRV用StorageIDを返却する
 	if (l_textureRecord->m_srvStorageID != Constant::k_invalidStorageID)
 	{

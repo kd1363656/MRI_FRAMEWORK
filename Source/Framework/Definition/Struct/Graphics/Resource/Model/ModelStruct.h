@@ -150,7 +150,7 @@ namespace FWK::Struct
 		// MeshShaderで参照するMeshlet情報用StructuredBuffer
 		Struct::StructuredBufferResource m_meshletBuffer = {};
 
-		// Meshlet内LoacalVertexIndexからModelVertexIndexへ変換するStructuredBuffer
+		// Meshlet内LocalVertexIndexからModelVertexIndexへ変換するStructuredBuffer
 		Struct::StructuredBufferResource m_uniqueVertexIndexBuffer = {};
 
 		// Meshlet内の三角形を組み立てるためのStructuredBuffer

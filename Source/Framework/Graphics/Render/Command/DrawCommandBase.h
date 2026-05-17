@@ -77,7 +77,7 @@ namespace FWK::Graphics
 			if (a_textureRecord.m_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) { return; }
 
 			// PixelShaderからSRVとして読むため、現在の状態からPIXEL_SHADER_RESOURCEへ遷移する
-			a_directCommandList.TransitionResource(a_textureRecord.m_textureResource,
+			a_directCommandList.TransitionResource(a_textureRecord.m_gpuResource.m_resource,
 												   a_textureRecord.m_currentState,
 												   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
