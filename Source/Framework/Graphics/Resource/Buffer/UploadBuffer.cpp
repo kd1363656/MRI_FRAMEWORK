@@ -11,7 +11,7 @@ bool FWK::Graphics::UploadBuffer::Create(const Device& a_device, const UINT64& a
 	}
 
 	// サイズ0のバッファは作成する意味がないため失敗扱いにする
-	if (a_bufferSize == k_invalidBufferSize)
+	if (a_bufferSize == Constant::k_invalidBufferSize)
 	{
 		assert(false && "UploadBufferの作成サイズが0のため、UploadBufferの作成に失敗しました。");
 		return false;

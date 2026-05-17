@@ -52,7 +52,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 								   a_device,
 								   a_gpuMemoryAllocator,
 								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_vertexBuffer.m_bufferResource))
+								   l_modelMeshRuntimeData.m_vertexBuffer.m_bufferGPUResource))
 	{
 		assert(false && "ModelVertexBuffer用BufferUploadCommandの作成に失敗しました。");
 		return false;
@@ -63,7 +63,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 								   a_device,
 								   a_gpuMemoryAllocator,
 								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_meshletBuffer.m_bufferResource))
+								   l_modelMeshRuntimeData.m_meshletBuffer.m_bufferGPUResource))
 	{
 		assert(false && "MeshletBuffer用BufferUploadCommandの作成に失敗しました。");
 		return false;
@@ -74,7 +74,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 								   a_device,
 								   a_gpuMemoryAllocator,
 								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_bufferResource))
+								   l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_bufferGPUResource))
 	{
 		assert(false && "UniqueVertexIndexBuffer用BufferUploadCommandの作成に失敗しました。");
 		return false;
@@ -85,7 +85,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 								   a_device,
 								   a_gpuMemoryAllocator,
 								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_bufferResource))
+								   l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_bufferGPUResource))
 	{
 		assert(false && "PrimitiveIndexBuffer用BufferUploadCommandの作成に失敗しました。");
 		return false;
@@ -96,7 +96,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 								   a_device,
 								   a_gpuMemoryAllocator,
 								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_bufferResource))
+								   l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_bufferGPUResource))
 	{
 		assert(false && "MeshletBoundsBuffer用BufferUploadCommandの作成に失敗しました。");
 		return false;
@@ -104,7 +104,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	// 頂点バッファー用SRVの作成
 	l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID = CreateStructuredBufferSRV(a_modelMesh.m_modelVertexList,
-																					 l_modelMeshRuntimeData.m_vertexBuffer.m_bufferResource,
+																					 l_modelMeshRuntimeData.m_vertexBuffer.m_bufferGPUResource,
 																					 a_device,
 																					 a_srvDescriptorHeap);
 
@@ -116,7 +116,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	// メッシュレットバッファー用SRVの作成
 	l_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID = CreateStructuredBufferSRV(l_modelMeshletData.m_meshletList,
-																				      l_modelMeshRuntimeData.m_meshletBuffer.m_bufferResource,
+																				      l_modelMeshRuntimeData.m_meshletBuffer.m_bufferGPUResource,
 																				      a_device,
 																				      a_srvDescriptorHeap);
 
@@ -128,7 +128,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	// ユニーク頂点インデックスバッファー用SRVの作成
 	l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID = CreateStructuredBufferSRV(l_modelMeshletData.m_uniqueVertexIndexList,
-																							    l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_bufferResource,
+																							    l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_bufferGPUResource,
 																							    a_device,
 																							    a_srvDescriptorHeap);
 
@@ -140,7 +140,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	// プリミティブインデックスバッファー用SRVの作成
 	l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID = CreateStructuredBufferSRV(l_modelMeshletData.m_primitiveIndexList,
-																						     l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_bufferResource,
+																						     l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_bufferGPUResource,
 																						     a_device,
 																						     a_srvDescriptorHeap);
 
@@ -152,7 +152,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	// メッシュレットカリング用SRVの作成
 	l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID = CreateStructuredBufferSRV(l_modelMeshletData.m_meshletBoundsList,
-																						    l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_bufferResource,
+																						    l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_bufferGPUResource,
 																						    a_device,
 																						    a_srvDescriptorHeap);
 
