@@ -2,7 +2,7 @@
 
 namespace FWK::Struct
 {
-	struct SpriteDrawCommand final
+	struct SpriteStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
 
@@ -13,5 +13,12 @@ namespace FWK::Struct
 		TypeAlias::Math::Vector2 m_pivot    = Constant::k_defaultPivot;
 
 		SpriteRECT m_sourceRECT = {};
+	};
+
+	struct StaticModelStandardDrawCommand final
+	{
+		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
+
+		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
 	};
 }

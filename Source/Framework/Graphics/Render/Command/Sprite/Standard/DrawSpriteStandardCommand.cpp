@@ -147,20 +147,20 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const std::weak
 																  a_spritePassMappedData);
 }
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak_ptr<RootSignature>& a_rootSignature,
-																 const Struct::SpriteDrawCommand&    a_spriteDrawCommand, 
-																 const DirectCommandList&            a_directCommandList,
-																 const UploadBuffer&			     a_spriteDrawUploadBuffer,
-																 const std::size_t&				     a_spriteDrawCommandIndex, 
-																	   std::uint8_t* const		     a_spriteDrawMappedData) const
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak_ptr<RootSignature>&      a_rootSignature,
+																 const Struct::SpriteStandardDrawCommand& a_spriteStandardDrawCommand, 
+																 const DirectCommandList&                 a_directCommandList,
+																 const UploadBuffer&			          a_spriteDrawUploadBuffer,
+																 const std::size_t&				          a_spriteDrawCommandIndex, 
+																	   std::uint8_t* const		          a_spriteDrawMappedData) const
 {
 	Struct::CBSpriteDraw l_cbSpriteDraw = {};
 
-	l_cbSpriteDraw.m_color      = a_spriteDrawCommand.m_color;
-	l_cbSpriteDraw.m_position   = a_spriteDrawCommand.m_position;
-	l_cbSpriteDraw.m_scale      = a_spriteDrawCommand.m_scale;
-	l_cbSpriteDraw.m_pivot      = a_spriteDrawCommand.m_pivot;
-	l_cbSpriteDraw.m_sourceRECT = a_spriteDrawCommand.m_sourceRECT;
+	l_cbSpriteDraw.m_color      = a_spriteStandardDrawCommand.m_color;
+	l_cbSpriteDraw.m_position   = a_spriteStandardDrawCommand.m_position;
+	l_cbSpriteDraw.m_scale      = a_spriteStandardDrawCommand.m_scale;
+	l_cbSpriteDraw.m_pivot      = a_spriteStandardDrawCommand.m_pivot;
+	l_cbSpriteDraw.m_sourceRECT = a_spriteStandardDrawCommand.m_sourceRECT;
 
 	return SetupConstantBuffer<Tag::RootParameterCBSpriteDrawTag>(a_rootSignature,
 																  a_directCommandList,

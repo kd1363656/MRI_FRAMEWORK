@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class DrawSpriteStandardCommand final : public DrawCommandBase<Struct::SpriteDrawCommand>
+	class DrawSpriteStandardCommand final : public DrawCommandBase<Struct::SpriteStandardDrawCommand>
 	{
 	public:
 
@@ -21,12 +21,12 @@ namespace FWK::Graphics
 							   const UploadBuffer&				   a_spritePassUploadBuffer,
 								     std::uint8_t* const		   a_spritePassMappedData) const;
 
-		bool SetupCBSpriteDraw(const std::weak_ptr<RootSignature>& a_rootSignature,
-							   const Struct::SpriteDrawCommand&	   a_spriteDrawCommand,
-							   const DirectCommandList&			   a_directCommandList,
-							   const UploadBuffer&				   a_spriteDrawUploadBuffer,
-							   const std::size_t&				   a_spriteDrawCommandIndex,
-									 std::uint8_t* const		   a_spriteDrawMappedData) const;
+		bool SetupCBSpriteDraw(const std::weak_ptr<RootSignature>&      a_rootSignature,
+							   const Struct::SpriteStandardDrawCommand&	a_spriteStandardDrawCommand,
+							   const DirectCommandList&			        a_directCommandList,
+							   const UploadBuffer&				        a_spriteDrawUploadBuffer,
+							   const std::size_t&				        a_spriteDrawCommandIndex,
+									 std::uint8_t* const		        a_spriteDrawMappedData) const;
 
 		static constexpr float k_defaultNearClip = 0.0F;
 		static constexpr float k_defaultFarClip  = 1.0F;

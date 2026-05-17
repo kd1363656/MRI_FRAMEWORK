@@ -574,6 +574,15 @@
     <Filter Include="Source\Framework\Graphics\Resource\Model\Builder\Static">
       <UniqueIdentifier>{35f8d10d-b489-4afe-a707-ae4600501e3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera">
+      <UniqueIdentifier>{2be6debf-234b-46e2-99ae-2bb4ac37cf58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model">
+      <UniqueIdentifier>{86633e22-3941-4a30-be35-8b00b744b61a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object">
+      <UniqueIdentifier>{8f5c98d5-a804-4b3d-951b-c6c571d55fb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1022,6 +1031,12 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\BufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1236,6 +1251,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Static\StaticModelBatchUploadRecordBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

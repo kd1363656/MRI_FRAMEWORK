@@ -22,4 +22,16 @@ namespace FWK::Struct
 	{
 		TypeAlias::Math::Matrix m_projectionMatrix = TypeAlias::Math::Matrix::Identity;
 	};
+
+	struct CBCamera final
+	{
+		TypeAlias::Math::Matrix m_viewMatrix           = TypeAlias::Math::Matrix::Identity;
+		TypeAlias::Math::Matrix m_projectionMatrix     = TypeAlias::Math::Matrix::Identity;
+		TypeAlias::Math::Matrix m_viewProjectionMatrix = TypeAlias::Math::Matrix::Identity;
+	};
+
+	struct CBModelObject final
+	{
+		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
+	};
 }
