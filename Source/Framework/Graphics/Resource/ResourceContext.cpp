@@ -58,7 +58,7 @@ void FWK::Graphics::ResourceContext::BeginFrame(const DirectCommandQueue& a_dire
 	m_textureSystem.ReleaseCompletedUnusedTexture(a_directCommandQueue, m_srvDescriptorPool);
 
 	// 参照カウントが0で削除すべきStaticModelを削除
-	m_staticModelSystem.ReleaseCompletedUnusedStaticModel(a_directCommandQueue);
+	m_staticModelSystem.ReleaseCompletedUnusedStaticModel(a_directCommandQueue, m_srvDescriptorPool);
 }
 
 nlohmann::json FWK::Graphics::ResourceContext::Serialize() const

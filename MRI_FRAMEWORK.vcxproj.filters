@@ -1016,6 +1016,12 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Builder\Static\StaticModelBatchUploadRecordBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\ResourceStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\BufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

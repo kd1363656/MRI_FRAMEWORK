@@ -47,6 +47,8 @@
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
+#include "Definition/Struct/Graphics/Resource/ResourceStruct.h"
+#include "Definition/Struct/Graphics/Resource/Buffer/BufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Storage/StorageStruct.h"
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 #include "Definition/Struct/Graphics/Render/Command/DrawCommandStruct.h"
@@ -248,7 +250,7 @@
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticMeshOptimizer.h"
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticModelMeshletBuilder.h"
 #include "Converter/Json/Graphics/Resource/Model/Static/StaticModelSystemJsonConverter.h"
-#include "Graphics/Resource/Model/Buffer/Static/StaticModelBufferBuilder.h"
+#include "Graphics/Resource/Model/Builder/Static/StaticModelBatchUploadRecordBuilder.h"
 #include "Graphics/Resource/Model/Static/Releaser/StaticModelReleaser.h"
 #include "Graphics/Resource/Model/Static/StaticModelSystem.h"
 #include "Graphics/Resource/Model/Static/StaticModel.h"

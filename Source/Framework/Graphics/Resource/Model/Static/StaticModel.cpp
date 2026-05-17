@@ -61,14 +61,18 @@ bool FWK::Graphics::StaticModel::Load(const std::filesystem::path& a_filePath)
 	// 既に別のStorageIDを持っている場合は先に参照を外す
 	ReleaseStaticModelReference();
 
-	auto& l_graphicsManager   = GraphicsManager::GetInstance                    ();
-	auto& l_resourceContext   = l_graphicsManager.GetMutableREFResourceContext  ();
-	auto& l_staticModelSystem = l_resourceContext.GetMutableREFStaticModelSystem();
+		  auto& l_graphicsManager    = GraphicsManager::GetInstance                    ();
+		  auto& l_resourceContext    = l_graphicsManager.GetMutableREFResourceContext  ();
+		  auto& l_staticModelSystem  = l_resourceContext.GetMutableREFStaticModelSystem();
+	const auto& l_device		     = l_graphicsManager.GetREFDevice		           ();
+	const auto& l_gpuMemoryAllocator = l_resourceContext.GetREFGPUMemoryAllocator      ();
+		  auto& l_srvDescriptorPool  = l_resourceContext.GetMutableREFSRVDescriptorPool();
 
-	const auto& l_device		     = l_graphicsManager.GetREFDevice		     ();
-	const auto& l_gpuMemoryAllocator = l_resourceContext.GetREFGPUMemoryAllocator();
+	const auto& l_staticModelLoadResult = l_staticModelSystem.LoadStaticModelForBatchUpload(l_device, 
+																						    l_gpuMemoryAllocator,
+																							a_filePath,
+																							l_srvDescriptorPool);
 
-	const auto& l_staticModelLoadResult = l_staticModelSystem.LoadStaticModelForBatchUpload(l_device, l_gpuMemoryAllocator, a_filePath);
 
 	if (l_staticModelLoadResult.m_storageID == Constant::k_invalidStorageID)
 	{

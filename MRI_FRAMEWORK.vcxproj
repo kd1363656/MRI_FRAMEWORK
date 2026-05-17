@@ -405,9 +405,11 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\TypeINFOMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Command\DrawCommandStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\BufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\ConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\Static\StaticModelStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\ResourceStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Storage\StorageStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\Builder\TextureBatchUploadRecordBuilderStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Texture\TextureStruct.h" />

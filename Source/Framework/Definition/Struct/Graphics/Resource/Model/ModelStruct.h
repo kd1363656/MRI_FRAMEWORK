@@ -144,25 +144,20 @@ namespace FWK::Struct
 		ModelMeshRuntimeData& operator=(const ModelMeshRuntimeData&)		   = delete;
 		ModelMeshRuntimeData& operator=(      ModelMeshRuntimeData&&) noexcept = default;
 
-		TypeAlias::ComPtr<ID3D12Resource2> m_vertexBufferResource            = nullptr;
-		TypeAlias::ComPtr<ID3D12Resource2> m_indexBufferResource             = nullptr;
-		TypeAlias::ComPtr<ID3D12Resource2> m_meshletBufferResource           = nullptr;
-		TypeAlias::ComPtr<ID3D12Resource2> m_uniqueVertexIndexBufferResource = nullptr;
-		TypeAlias::ComPtr<ID3D12Resource2> m_primitiveIndexBufferResource    = nullptr;
-		TypeAlias::ComPtr<ID3D12Resource2> m_meshletBoundsBufferResource     = nullptr;
+		// MeshShaderで頂点情報を参照するためのStructuredBuffer
+		Struct::StructuredBufferResource m_vertexBuffer = {};
 
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_vertexBufferAllocation            = nullptr;
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_indexBufferAllocation             = nullptr;
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_meshletBufferAllocation           = nullptr;
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_uniqueVertexIndexBufferAllocation = nullptr;
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_primitiveIndexBufferAllocation    = nullptr;
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_meshletBoundsBufferAllocation     = nullptr;
+		// MeshShaderで参照するMeshlet情報用StructuredBuffer
+		Struct::StructuredBufferResource m_meshletBuffer = {};
 
-		TypeAlias::StorageID m_vertexBufferSRVStorageID            = Constant::k_invalidStorageID;
-		TypeAlias::StorageID m_meshletBufferSRVStorageID           = Constant::k_invalidStorageID;
-		TypeAlias::StorageID m_uniqueVertexIndexBufferSRVStorageID = Constant::k_invalidStorageID;
-		TypeAlias::StorageID m_primitiveIndexBufferSRVStorageID    = Constant::k_invalidStorageID;
-		TypeAlias::StorageID m_meshletBoundsBufferSRVStorageID     = Constant::k_invalidStorageID;
+		// Meshlet内LoacalVertexIndexからModelVertexIndexへ変換するStructuredBuffer
+		Struct::StructuredBufferResource m_uniqueVertexIndexBuffer = {};
+
+		// Meshlet内の三角形を組み立てるためのStructuredBuffer
+		Struct::StructuredBufferResource m_primitiveIndexBuffer = {};
+
+		// Meshlet単位のカリング情報を参照するStructuredBuffer
+		Struct::StructuredBufferResource m_meshletBoundsBuffer = {};
 	};
 
 	struct ModelMesh final

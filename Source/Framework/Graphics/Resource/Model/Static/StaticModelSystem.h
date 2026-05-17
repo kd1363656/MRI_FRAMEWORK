@@ -17,11 +17,14 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create     ();
 
-		Struct::StaticModelResult LoadStaticModelForBatchUpload(const Device& a_device, const GPUMemoryAllocator& a_gpuMemoryAllocator, const std::filesystem::path& a_filePath);
+		Struct::StaticModelResult LoadStaticModelForBatchUpload(const Device&			                 a_device, 
+																const GPUMemoryAllocator&                a_gpuMemoryAllocator, 
+																const std::filesystem::path&             a_filePath, 
+																	  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 
 		void LoadPendingStaticModelAndWait(UploadSystem& a_uploadSystem);
 		
-		void ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue);
+		void ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 
 		nlohmann::json Serialize() const;
 
@@ -50,10 +53,10 @@ namespace FWK::Graphics
 
 		AssetStorage<Struct::StaticModelRecord> m_staticModelStorage = {};
 
-		StaticModelFBXLoader      m_staticModelFBXLoader      = {};
-		StaticModelMeshOptimizer  m_staticModelMeshOptimizer  = {};
-		StaticModelMeshletBuilder m_staticModelMeshletBuilder = {};
-		StaticModelBufferBuilder  m_staticModelBufferBuilder  = {};
+		StaticModelFBXLoader                m_staticModelFBXLoader                = {};
+		StaticModelMeshOptimizer            m_staticModelMeshOptimizer            = {};
+		StaticModelMeshletBuilder           m_staticModelMeshletBuilder           = {};
+		StaticModelBatchUploadRecordBuilder m_staticModelBatchUploadRecordBuilder = {};
 
 		Converter::StaticModelSystemJsonConverter m_staticModelSystemJsonConverter = {};
 		Converter::StaticModelBinaryConverter     m_staticModelBinaryConverter     = {};

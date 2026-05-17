@@ -116,7 +116,7 @@ namespace FWK::Graphics
 			if (a_bufferList.size() > k_maxStructuredBufferElementCount)
 			{
 				assert(false && "StructuredBufferの要素数がUINTの最大値を超えたため、StructuredBuffer用SRVの作成に失敗しました。");
-				return  Constant::k_invalidStorageID;
+				return Constant::k_invalidStorageID;
 			}
 			
 			const auto l_srvStorageID = a_srvDescriptorHeap.Allocate();
@@ -140,7 +140,7 @@ namespace FWK::Graphics
 			// D3D12_BUFFER_SRVについて
 			// FirstElement         : 先頭要素番号
 			// NumElements          : StructuredBufferとして参照する要素数
-			// StructuredByteStride : 1要素辺りのバイトサイズ
+			// StructureByteStride  : 1要素あたりのバイトサイズ
 			// Flags				: RawBufferではないためNONEを指定する
 			l_srvDesc.Buffer.FirstElement        = k_firstStructuredBufferElement;
 			l_srvDesc.Buffer.NumElements         = static_cast<UINT>(a_bufferList.size());

@@ -17,7 +17,10 @@ bool FWK::Graphics::StaticModelSystem::Create()
 	return true;
 }
 
-FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModelForBatchUpload(const Device& a_device, const GPUMemoryAllocator& a_gpuMemoryAllocator, const std::filesystem::path& a_filePath)
+FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModelForBatchUpload(const Device&			                a_device, 
+																							   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+																							   const std::filesystem::path&             a_filePath, 
+																									 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
 	Struct::StaticModelResult l_staticModelLoadResult = {};
 
@@ -99,11 +102,12 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 
 	l_staticModelBatchUploadRecord.m_staticModelRecord = l_staticModelRecord;
 
-	// アップロードバッファーを作成
-	if (!m_staticModelBufferBuilder.CreateStaticModelRecordBufferUpload(l_staticModelRecord,
-																		a_device,
-																        a_gpuMemoryAllocator,
-																        l_staticModelBatchUploadRecord.m_bufferUploadCommandList))
+	// StaticModel用BufferResource / UploadBuffer / BUfferUploadCommand / StructuredBuffer用SVRを作成
+	if (!m_staticModelBatchUploadRecordBuilder.CreateStaticModelBatchUploadRecord(l_staticModelRecord,
+																				  a_device,
+																				  a_gpuMemoryAllocator,
+																				  l_staticModelBatchUploadRecord.m_bufferUploadCommandList,
+																				  a_srvDescriptorPool))
 	{
 		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
 
@@ -135,9 +139,9 @@ void FWK::Graphics::StaticModelSystem::LoadPendingStaticModelAndWait(UploadSyste
 	m_pendingStaticModelBatchUploadRecordMap.clear();
 }
 
-void FWK::Graphics::StaticModelSystem::ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue)
+void FWK::Graphics::StaticModelSystem::ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
-	StaticModelRecordReleaser l_staticModelRecordReleaser = {};
+	auto l_staticModelRecordReleaser = StaticModelRecordReleaser(a_srvDescriptorPool);
 
 	m_staticModelStorage.ReleaseCompletedUnusedRecords(a_directCommandQueue, l_staticModelRecordReleaser);
 }

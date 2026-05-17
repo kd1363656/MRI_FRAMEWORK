@@ -4,9 +4,8 @@ namespace FWK::Struct
 {
 	struct TextureRecord final : public AssetRecordBase
 	{
-		TypeAlias::ComPtr<ID3D12Resource2>     m_textureResource = nullptr;
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_allocation      = nullptr;
-
+		Struct::GPUResource m_gpuResource = {};
+		
 		D3D12_RESOURCE_STATES m_currentState = D3D12_RESOURCE_STATE_COMMON;
 
 		TypeAlias::StorageID m_srvStorageID = Constant::k_invalidStorageID;
