@@ -151,8 +151,8 @@ namespace FWK::Struct
 		TypeAlias::ComPtr<ID3D12Resource2> m_primitiveIndexBufferResource    = nullptr;
 		TypeAlias::ComPtr<ID3D12Resource2> m_meshletBoundsBufferResource     = nullptr;
 
-		TypeAlias::ComPtr<D3D12MA::Allocation> m_indexBufferAllocation             = nullptr;
 		TypeAlias::ComPtr<D3D12MA::Allocation> m_vertexBufferAllocation            = nullptr;
+		TypeAlias::ComPtr<D3D12MA::Allocation> m_indexBufferAllocation             = nullptr;
 		TypeAlias::ComPtr<D3D12MA::Allocation> m_meshletBufferAllocation           = nullptr;
 		TypeAlias::ComPtr<D3D12MA::Allocation> m_uniqueVertexIndexBufferAllocation = nullptr;
 		TypeAlias::ComPtr<D3D12MA::Allocation> m_primitiveIndexBufferAllocation    = nullptr;
