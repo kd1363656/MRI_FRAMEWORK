@@ -439,8 +439,10 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Device.h" />
     <ClInclude Include="Source\Framework\Graphics\Hardware\Factory.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Camera\Camera.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\IDrawCommand.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h" />
@@ -534,6 +536,8 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\GraphicsManager.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Device.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.cpp" />

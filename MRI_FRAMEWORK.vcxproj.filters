@@ -583,6 +583,21 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object">
       <UniqueIdentifier>{8f5c98d5-a804-4b3d-951b-c6c571d55fb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Camera">
+      <UniqueIdentifier>{a3c02e64-b5a9-44af-b12f-9d4c36e5ad81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model">
+      <UniqueIdentifier>{6d3b35b1-d1c0-460d-9084-5fd503b49532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static">
+      <UniqueIdentifier>{1c1d9cad-adc8-42c8-8f73-b343783ff470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit">
+      <UniqueIdentifier>{b3a80886-8d04-4805-88a0-e2d22b37ef0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard">
+      <UniqueIdentifier>{85c8246a-7d3a-4754-9e0a-42534c2426cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1037,6 +1052,12 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Camera\Camera.h">
+      <Filter>Source\Framework\Graphics\Render\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.h">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1257,6 +1278,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp">
+      <Filter>Source\Framework\Graphics\Render\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.cpp">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

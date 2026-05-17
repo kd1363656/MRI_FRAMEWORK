@@ -15,7 +15,7 @@ namespace FWK::Struct
 		SpriteRECT m_sourceRECT = {};
 	};
 
-	struct StaticModelStandardDrawCommand final
+	struct StaticModelUnLitStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
 

@@ -30,6 +30,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateStaticModelBatchU
 										  a_srvDescriptorHeap,
 										  l_modelMesh))
 		{
+			ReleaseCreatedStaticModelStructuredBufferSRV(l_modelMeshList, a_srvDescriptorHeap);
+
 			assert(false && "ModelMesh用BatchUploadRecordの作成に失敗したため、StaticModelBatchUploadRecordの作成に失敗しました。");
 			return false;
 		}
@@ -110,6 +112,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
+
 		assert(false && "ModelVertexBuffer用SRVの作成に失敗しました。");
 		return false;
 	}
@@ -122,6 +126,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
+
 		assert(false && "MeshletBuffer用SRVの作成に失敗しました。");
 		return false;
 	}
@@ -134,6 +140,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
+
 		assert(false && "UniqueVertexIndexBuffer用SRVの作成に失敗しました。");
 		return false;
 	}
@@ -146,6 +154,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
+
 		assert(false && "PrimitiveIndexBuffer用SRVの作成に失敗しました。");
 		return false;
 	}
@@ -158,9 +168,35 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
+
 		assert(false && "MeshletBoundsBuffer用SRVの作成に失敗しました。");
 		return false;
 	}
 
 	return true;
+}
+
+void FWK::Graphics::StaticModelBatchUploadRecordBuilder::ReleaseCreatedStructuredBufferSRV(Struct::StructuredBufferResource& a_structuredBufferResource, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool) const
+{
+	if (a_structuredBufferResource.m_srvStorageID == Constant::k_invalidStorageID) { return; }
+
+	a_srvDescriptorPool.Release(a_structuredBufferResource.m_srvStorageID);
+
+	a_structuredBufferResource.m_srvStorageID = Constant::k_invalidStorageID;
+}
+void FWK::Graphics::StaticModelBatchUploadRecordBuilder::ReleaseCreatedModelMeshStructuredBufferSRV(Struct::ModelMeshRuntimeData& a_modelMeshRuntimeData, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool) const
+{
+	ReleaseCreatedStructuredBufferSRV(a_modelMeshRuntimeData.m_vertexBuffer,		    a_srvDescriptorPool);
+	ReleaseCreatedStructuredBufferSRV(a_modelMeshRuntimeData.m_meshletBuffer,           a_srvDescriptorPool);
+	ReleaseCreatedStructuredBufferSRV(a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer, a_srvDescriptorPool);
+	ReleaseCreatedStructuredBufferSRV(a_modelMeshRuntimeData.m_primitiveIndexBuffer,    a_srvDescriptorPool);
+	ReleaseCreatedStructuredBufferSRV(a_modelMeshRuntimeData.m_meshletBoundsBuffer,     a_srvDescriptorPool);
+}
+void FWK::Graphics::StaticModelBatchUploadRecordBuilder::ReleaseCreatedStaticModelStructuredBufferSRV(std::vector<Struct::ModelMesh>& a_modelMeshList, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool) const
+{
+	for (auto& l_modelMesh : a_modelMeshList)
+	{	
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMesh.m_modelMeshRuntimeData, a_srvDescriptorPool);
+	}
 }

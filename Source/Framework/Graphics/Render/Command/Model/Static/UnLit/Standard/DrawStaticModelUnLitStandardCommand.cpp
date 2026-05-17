@@ -1,0 +1,36 @@
+﻿#include "DrawStaticModelUnLitStandardCommand.h"
+
+void FWK::Graphics::DrawStaticModelUnLitStandardCommand::PostCreateSetup(Renderer& a_renderer)
+{
+	SetupPipelineStateAndRootSignature<Tag::ModelUnLitStandardPipelineStateTag>(a_renderer);
+}
+void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+{
+}
+
+bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBCamera(const std::weak_ptr<RootSignature>& a_rootSignature, 
+																	   const Renderer&					   a_renderer,
+																	   const DirectCommandList&			   a_directCommandList,
+																	   const UploadBuffer&				   a_cameraUploadBuffer,
+																			 std::uint8_t* const		   a_cameraMappedData) const
+{
+	return false;
+}
+
+bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
+																			const Struct::StaticModelUnLitStandardDrawCommand& a_statiModelUnLitStandardDrawCommand, 
+																			const DirectCommandList&						   a_directCommandList, 
+																			const UploadBuffer&								   a_cameraUploadBuffer, 
+																			const std::size_t&								   a_modelObjectIndex, 
+																				  std::uint8_t* const						   a_cameraMappedData) const
+{
+	return false;
+}
+
+bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelMeshStructuredBufferSRV(const std::weak_ptr<RootSignature>&	    a_rootSignature, 
+																						   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+																						   const DirectCommandList&					a_directCommandList,
+																						   const Struct::ModelMeshRuntimeData&	    a_modelMeshRuntimeData) const
+{
+	return false;
+}

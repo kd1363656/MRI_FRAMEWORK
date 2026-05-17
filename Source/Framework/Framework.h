@@ -301,7 +301,9 @@
 // 描画コマンドクラス用ファクトリTypeAlias
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"
 
+// 描画コマンドクラス
 #include "Graphics/Render/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
+#include "Graphics/Render/Command/Model/Static/UnLit/Standard/DrawStaticModelUnLitStandardCommand.h"
 
 // グラフィックスマネージャー
 #include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"

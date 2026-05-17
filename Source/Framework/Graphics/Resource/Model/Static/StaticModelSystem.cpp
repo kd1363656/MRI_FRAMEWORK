@@ -102,7 +102,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 
 	l_staticModelBatchUploadRecord.m_staticModelRecord = l_staticModelRecord;
 
-	// StaticModel用BufferResource / UploadBuffer / BUfferUploadCommand / StructuredBuffer用SVRを作成
+	// StaticModel用BufferResource / UploadBuffer / BufferUploadCommand / StructuredBuffer用SRVを作成
 	if (!m_staticModelBatchUploadRecordBuilder.CreateStaticModelBatchUploadRecord(l_staticModelRecord,
 																				  a_device,
 																				  a_gpuMemoryAllocator,

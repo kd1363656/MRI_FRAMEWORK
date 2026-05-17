@@ -20,6 +20,18 @@
                                 "CreateConstantBufferNUM": 1024
                             },
                             "ConstantBufferTypeName": "SpritePassConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferTypeName": "CameraConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
                     ]
                 }
@@ -38,6 +50,18 @@
                                 "CreateConstantBufferNUM": 1024
                             },
                             "ConstantBufferTypeName": "SpritePassConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferTypeName": "CameraConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
                     ]
                 }
@@ -56,6 +80,18 @@
                                 "CreateConstantBufferNUM": 1024
                             },
                             "ConstantBufferTypeName": "SpritePassConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferTypeName": "CameraConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
                     ]
                 }

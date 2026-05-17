@@ -27,6 +27,10 @@ namespace FWK::Graphics
 												DescriptorPool<SRVDescriptorHeap>&		  a_srvDescriptorHeap,
 												Struct::ModelMesh&						  a_modelMesh) const;
 
+		void ReleaseCreatedStructuredBufferSRV           (Struct::StructuredBufferResource& a_structuredBufferResource, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool) const;
+		void ReleaseCreatedModelMeshStructuredBufferSRV  (Struct::ModelMeshRuntimeData&	    a_modelMeshRuntimeData,     DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool) const;
+		void ReleaseCreatedStaticModelStructuredBufferSRV(std::vector<Struct::ModelMesh>&   a_modelMeshList,		    DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool) const;
+
 		template <typename Type>
 		bool CreateBufferUploadCommand(const std::vector<Type>&                        a_bufferList,
 									   const Device&			                       a_device,
@@ -154,7 +158,7 @@ namespace FWK::Graphics
 				a_srvDescriptorHeap.Release(l_srvStorageID);
 
 				assert(false && "CPUOnlyからShaderVisibleSRVへのコピーに失敗したため、StructuredBuffer用SRVの作成に失敗しました。");
-				return  Constant::k_invalidStorageID;
+				return Constant::k_invalidStorageID;
 			}
 
 			return l_srvStorageID;
