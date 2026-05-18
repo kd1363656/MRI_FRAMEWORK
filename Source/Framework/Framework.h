@@ -285,6 +285,9 @@
 #include "Converter/Json/Graphics/Render/Pipeline/PipelineStateJsonConverter.h"
 #include "Graphics/Render/Pipeline/PipelineState.h"
 
+// カメラ
+#include "Graphics/Render/Camera/Camera.h"
+
 // 描画コマンドクラス
 #include "Graphics/Render/Command/DrawCommandBase.h"
 

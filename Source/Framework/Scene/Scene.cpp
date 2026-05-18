@@ -7,6 +7,9 @@ void FWK::Scene::PostLoadSetup()
 
 	// モデル
 	m_staticModel.Load("Asset/Model/Antike.fbx");
+
+	m_camera = std::make_shared<Graphics::Camera>();
+	
 }
 
 void FWK::Scene::RequestDraw() const

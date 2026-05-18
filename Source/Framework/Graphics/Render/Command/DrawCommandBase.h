@@ -20,8 +20,6 @@ namespace FWK::Graphics
 
 	protected:
 
-		void SetupPipelineStateAndRootSignature(Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag);
-
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
 		bool SetupConstantBuffer(const std::weak_ptr<RootSignature>& a_rootSignature,
 								 const DirectCommandList&			 a_directCommandList,
@@ -61,11 +59,15 @@ namespace FWK::Graphics
 			return true;
 		}
 
+		void SetupPipelineStateAndRootSignature(Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag);
+
 		void SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const;
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord);
 
 	private:
+
+		static constexpr std::size_t k_cbCameraIndex = 0ULL;
 
 		std::weak_ptr<RootSignature> m_rootSignature = {};
 		std::weak_ptr<PipelineState> m_pipelineState = {};

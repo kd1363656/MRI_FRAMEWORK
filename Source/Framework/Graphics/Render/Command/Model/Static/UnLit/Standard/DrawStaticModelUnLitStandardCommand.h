@@ -21,12 +21,6 @@ namespace FWK::Graphics
 		// 現フレームで使用するCamera用定数バッファの先頭Index
 		static constexpr std::size_t k_cbCameraIndex = 0ULL;
 
-		bool SetupCBCamera(const std::weak_ptr<RootSignature>& a_rootSignature,
-						   const Renderer&					  a_renderer,
-						   const DirectCommandList&		      a_directCommandList,
-						   const UploadBuffer&				  a_cameraUploadBuffer,
-								 std::uint8_t* const		  a_cameraMappedData) const;
-
 		bool SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
 								const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand,
 								const DirectCommandList&		                   a_directCommandList,

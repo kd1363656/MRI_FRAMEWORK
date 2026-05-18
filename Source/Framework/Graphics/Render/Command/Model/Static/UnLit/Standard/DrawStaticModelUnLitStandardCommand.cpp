@@ -6,15 +6,23 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::PostCreateSetup(Rendere
 }
 void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
 {
-}
+	// StaticModel用ルートシグネチャとパイプラインステートをセット
+	SetupGraphicsPipelineStateToCommandList(a_renderer);
 
-bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBCamera(const std::weak_ptr<RootSignature>& a_rootSignature, 
-																	   const Renderer&					   a_renderer,
-																	   const DirectCommandList&			   a_directCommandList,
-																	   const UploadBuffer&				   a_cameraUploadBuffer,
-																			 std::uint8_t* const		   a_cameraMappedData) const
-{
-	return true;
+	if (const auto& l_rootSignature = GetVALRootSignature();
+		l_rootSignature.expired())
+	{
+		assert(false && "使用仕様としたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。");
+		return;
+	}
+
+	const auto& l_currentFrameResource = a_renderer.FetchVALCurrentFrameResource().lock();
+
+	if (!l_currentFrameResource)
+	{
+		assert(false && "現在のフレームリソースの取得に失敗しました。");
+		return;
+	}
 }
 
 bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
