@@ -6,7 +6,7 @@ float4 main(MeshOutput a_input) : SV_Target0
     
     float4 l_outputColor = l_textureColor;
 
-    // RGBは加算職として扱う
+    // RGBは加算色として扱う
     l_outputColor.rgb += g_color.rgb;
     
     // Alphaは透過率として扱う

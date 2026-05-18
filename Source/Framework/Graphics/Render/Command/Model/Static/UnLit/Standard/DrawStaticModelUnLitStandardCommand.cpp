@@ -18,7 +18,7 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBCamera(const std
 }
 
 bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
-																			const Struct::StaticModelUnLitStandardDrawCommand& a_statiModelUnLitStandardDrawCommand, 
+																			const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand, 
 																			const DirectCommandList&						   a_directCommandList, 
 																			const UploadBuffer&								   a_cameraUploadBuffer, 
 																			const std::size_t&								   a_modelObjectIndex, 

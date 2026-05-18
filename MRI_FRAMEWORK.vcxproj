@@ -589,6 +589,18 @@ if "$(Configuration)"=="Debug" (
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_MS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </DXCTask>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Mesh</ShaderType>
@@ -641,6 +653,7 @@ if "$(Configuration)"=="Debug" (
     </DXCTask>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Asset\Shader\Model\ModelCommon.hlsli" />
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
