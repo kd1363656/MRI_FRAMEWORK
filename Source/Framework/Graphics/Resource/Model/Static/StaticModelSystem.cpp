@@ -24,13 +24,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 {
 	Struct::StaticModelResult l_staticModelLoadResult = {};
 
-	if (a_filePath.empty())
-	{
-		assert(false && "StaticModelのFBXファイルパスが空です。");
-		return l_staticModelLoadResult;
-	}
-
-	if (!std::filesystem::exists(a_filePath))
+	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerFBXExtension))
 	{
 		assert(false && "StaticModelのFBXファイルが存在しません。");
 		return l_staticModelLoadResult;
@@ -177,7 +171,7 @@ std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::
 	return m_staticModelStorage.FindVALRecord(a_storageID);
 }
 
-bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath)
+bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath)
 {
 	if (!a_staticModelRecord)
 	{
@@ -187,22 +181,23 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Str
 
 	auto& l_modelData = a_staticModelRecord->m_modelData;
 
-	if (a_fbxFilePath.empty())
+	if (a_filePath.empty())
 	{
 		assert(false && "StaticModelのFBXファイルパスが空です。");
 		return false;
 	}
 
-	if (!std::filesystem::exists(a_fbxFilePath))
+	if (!std::filesystem::exists(a_filePath))
 	{
 		assert(false && "StaticModelのFBXファイルが存在しません。");
 		return false;
 	}
 
-	const auto l_assetFilePath = Utility::File::CreateFilePathByReplaceExtension(a_fbxFilePath, Constant::k_lowerAssetExtension);
+	// アセットデータの確認
+	const auto& l_assetFilePath = Utility::File::CreateFilePathByReplaceExtension(a_filePath, Constant::k_lowerAssetExtension);
 
 	// .assetの更新日時がFBXよりも古ければ使えないバイナリーファイルと判定
-	if (CanUseStaticModelAsset(a_fbxFilePath, l_assetFilePath))
+	if (CanUseStaticModelAsset(a_filePath, l_assetFilePath))
 	{
 		// バイナリーファイルを読み込めるなら読み込む
 		if (LoadStaticModelAsset(a_staticModelRecord, l_assetFilePath)) { return true; }
@@ -212,7 +207,7 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::shared_ptr<Str
 	}
 	
 	// バイナリーファイルが使用できなければufbxを使用してFBXモデルを読み込む
-	return CreateStaticModelAssetFromFBX(a_staticModelRecord, a_fbxFilePath, l_assetFilePath);
+	return CreateStaticModelAssetFromFBX(a_staticModelRecord, a_filePath, l_assetFilePath);
 }
 
 bool FWK::Graphics::StaticModelSystem::CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const

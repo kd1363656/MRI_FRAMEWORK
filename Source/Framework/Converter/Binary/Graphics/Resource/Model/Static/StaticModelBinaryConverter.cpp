@@ -49,7 +49,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 
 	StaticModelAssetHeader l_staticModelAssetHeader = {};
 
-	ReadBinaryData(sizeof(StaticModelAssetHeader),
+	ReadBinaryData(k_singleBinaryElementCount,
 				   l_readData,
 				   l_readOffset,
 				   &l_staticModelAssetHeader);
@@ -102,7 +102,7 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 		StaticModelAssetMeshHeader l_staticModelAssetMeshHeader = {};
 
 		// ヘッダー情報読み込み
-		ReadBinaryData(sizeof(StaticModelAssetMeshHeader),
+		ReadBinaryData(k_singleBinaryElementCount,
 					   l_readData,
 					   l_readOffset,
 					   &l_staticModelAssetMeshHeader);
@@ -113,13 +113,13 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 		l_modelMesh.m_indexList.resize      (l_staticModelAssetMeshHeader.m_indexCount);
 
 		// 頂点情報読み込み
-		ReadBinaryData(sizeof(Struct::ModelVertex) * l_staticModelAssetMeshHeader.m_vertexCount,
+		ReadBinaryData(l_staticModelAssetMeshHeader.m_vertexCount,
 					   l_readData,
 					   l_readOffset,
 					   l_modelMesh.m_modelVertexList.data());
 
 		// インデックス情報読み込み
-		ReadBinaryData(sizeof(std::uint32_t) * l_staticModelAssetMeshHeader.m_indexCount,
+		ReadBinaryData(l_staticModelAssetMeshHeader.m_indexCount,
 					   l_readData,
 					   l_readOffset,
 					   l_modelMesh.m_indexList.data());
@@ -132,25 +132,25 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 		l_modelMeshletData.m_meshletBoundsList.resize    (l_staticModelAssetMeshHeader.m_meshletBoundsCount);
 
 		// メッシュレット情報読み込み
-		ReadBinaryData(sizeof(Struct::ModelMeshlet) * l_staticModelAssetMeshHeader.m_meshletCount,
+		ReadBinaryData(l_staticModelAssetMeshHeader.m_meshletCount,
 					   l_readData,	
 					   l_readOffset,
 					   l_modelMeshletData.m_meshletList.data());
 
 		// メッシュレット内ユニーク頂点インデックス情報読み込み
-		ReadBinaryData(sizeof(std::uint32_t) * l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount,
+		ReadBinaryData(l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount,
 					   l_readData,
 					   l_readOffset,
 					   l_modelMeshletData.m_uniqueVertexIndexList.data());
 
 		// メッシュレット内プリミティブインデックス情報読み込み
-		ReadBinaryData(sizeof(std::uint8_t) * l_staticModelAssetMeshHeader.m_primitiveIndexCount,
+		ReadBinaryData(l_staticModelAssetMeshHeader.m_primitiveIndexCount,
 					   l_readData,
 					   l_readOffset,
 					   l_modelMeshletData.m_primitiveIndexList.data());
 
 		// メッシュレット境界情報読み込み
-		ReadBinaryData(sizeof(Struct::ModelMeshletBounds) * l_staticModelAssetMeshHeader.m_meshletBoundsCount,
+		ReadBinaryData(l_staticModelAssetMeshHeader.m_meshletBoundsCount,
 					   l_readData,
 					   l_readOffset,
 					   l_modelMeshletData.m_meshletBoundsList.data());
@@ -247,7 +247,7 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 	l_staticModelAssetHeader.m_assetTypeID = k_staticModelAssetTypeID;
 	l_staticModelAssetHeader.m_version     = k_staticModelAssetVersion;
 
-	WriteBinaryData(sizeof(StaticModelAssetHeader),
+	WriteBinaryData(k_singleBinaryElementCount,
 					&l_staticModelAssetHeader,
 					l_writeOffset,
 					l_writeData);
@@ -271,43 +271,43 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 		l_staticModelAssetMeshHeader.m_metallicTexturePathSize  = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_metallicTextureFilePath);
 																								       
 		// ヘッダー情報保存
-		WriteBinaryData(sizeof(StaticModelAssetMeshHeader),
+		WriteBinaryData(k_singleBinaryElementCount,
 					    &l_staticModelAssetMeshHeader,
 					    l_writeOffset,
 						l_writeData);
 
 		// 頂点情報保存
-		WriteBinaryData(sizeof(Struct::ModelVertex) * l_modelMesh.m_modelVertexList.size(),
+		WriteBinaryData(l_modelMesh.m_modelVertexList.size(),
 						l_modelMesh.m_modelVertexList.data(),
 						l_writeOffset,
 						l_writeData);
 
 		// インデックス情報保存
-		WriteBinaryData(sizeof(std::uint32_t) * l_modelMesh.m_indexList.size(),
+		WriteBinaryData(l_modelMesh.m_indexList.size(),
 						l_modelMesh.m_indexList.data(),
 						l_writeOffset,
 						l_writeData);
 
 		// メッシュレット情報保存
-		WriteBinaryData(sizeof(Struct::ModelMeshlet) * l_modelMeshletData.m_meshletList.size(),
+		WriteBinaryData(l_modelMeshletData.m_meshletList.size(),
 						l_modelMeshletData.m_meshletList.data(), 
 					    l_writeOffset,
 						l_writeData);
 
 		// メッシュレット内ユニーク頂点インデックス情報保存
-		WriteBinaryData(sizeof(std::uint32_t) * l_modelMeshletData.m_uniqueVertexIndexList.size(),
+		WriteBinaryData(l_modelMeshletData.m_uniqueVertexIndexList.size(),
 						l_modelMeshletData.m_uniqueVertexIndexList.data(),
 					    l_writeOffset,
 						l_writeData);
 
 		// メッシュレット内プリミティブインデックス情報保存
-		WriteBinaryData(sizeof(std::uint8_t) * l_modelMeshletData.m_primitiveIndexList.size(),
+		WriteBinaryData(l_modelMeshletData.m_primitiveIndexList.size(),
 						l_modelMeshletData.m_primitiveIndexList.data(),
 					    l_writeOffset,
 						l_writeData);
 
 		// メッシュレット境界情報保存
-		WriteBinaryData(sizeof(Struct::ModelMeshletBounds) * l_modelMeshletData.m_meshletBoundsList.size(),
+		WriteBinaryData(l_modelMeshletData.m_meshletBoundsList.size(),
 						l_modelMeshletData.m_meshletBoundsList.data(),
 					    l_writeOffset,
 						l_writeData);
@@ -339,29 +339,6 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 	return true;
 }
 
-void FWK::Converter::StaticModelBinaryConverter::ReadBinaryData(const std::uint64_t& a_readDataSize,
-																const std::uint8_t*  a_readData,
-																	  std::uint64_t& a_readOffset,
-																	  void*			 a_destinationData) const
-{
-	if (a_readDataSize == k_emptyReadDataSize) { return; }
-
-	if (!a_destinationData)
-	{
-		assert(false && "読み込み先データがnullptrです。");
-		return;
-	}
-
-	if (!a_readData)
-	{
-		assert(false && "読み込み元データがnullptrです。");
-		return;
-	}
-
-	std::memcpy(a_destinationData, a_readData + a_readOffset, a_readDataSize);
-
-	a_readOffset += a_readDataSize;
-}
 void FWK::Converter::StaticModelBinaryConverter::ReadWStringBinaryData(const std::uint64_t& a_stringBinaryFileSize, 
 																	   const std::uint8_t*  a_readData,
 																		     std::wstring&  a_string, 
@@ -377,62 +354,37 @@ void FWK::Converter::StaticModelBinaryConverter::ReadWStringBinaryData(const std
 
 	a_string.resize(l_stringLength);
 
-	ReadBinaryData(a_stringBinaryFileSize,
+	ReadBinaryData(l_stringLength,
 				   a_readData, 
 				   a_readOffset,
 				   a_string.data());
 }
 
-void FWK::Converter::StaticModelBinaryConverter::WriteBinaryData(const std::uint64_t& a_writeDataSize, 
-																 const void*		  a_sourceData,
-																	   std::uint64_t& a_writeOffset,
-																	   std::uint8_t*  a_writeData) const
-{
-	if (a_writeDataSize == k_emptyWriteDataSize) { return; }
-
-	if (!a_sourceData)
-	{
-		assert(false && "書き込み元データがnullptrです。");
-		return;
-	}
-
-	if (!a_writeData)
-	{
-		assert(false && "書き込み先データがnullptrです。");
-		return;
-	}
-
-	std::memcpy(a_writeData + a_writeOffset, a_sourceData, a_writeDataSize);
-
-	a_writeOffset += a_writeDataSize;
-}
 void FWK::Converter::StaticModelBinaryConverter::WriteWStringBinaryData(const std::wstring& a_string, std::uint64_t& a_writeOffset, std::uint8_t* a_writeData) const
 {
-	const auto& l_stringBinaryFileSize = CalculateWStringBinaryFileSize(a_string);
+	if (a_string.empty()) { return; }
 
-	if (l_stringBinaryFileSize == k_emptyWriteDataSize) { return; }
-
-	WriteBinaryData(l_stringBinaryFileSize, a_string.data(), a_writeOffset, a_writeData);
+	WriteBinaryData(a_string.size(), a_string.data(), a_writeOffset, a_writeData);
 }
 
 std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateStaticModelAssetFileSize(const Struct::ModelData& a_modelData) const
 {
-	auto l_fileSize = sizeof(StaticModelAssetHeader);
+	auto l_fileSize = CalculateBinaryDataSize<StaticModelAssetHeader>(k_singleBinaryElementCount);
 
 	for (const auto& l_modelMesh : a_modelData.m_modelMeshList)
 	{
 		const auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
 
-		l_fileSize += sizeof(StaticModelAssetMeshHeader);
-		l_fileSize += sizeof(Struct::ModelVertex) * l_modelMesh.m_modelVertexList.size();
-		l_fileSize += sizeof(std::uint32_t)       * l_modelMesh.m_indexList.size      ();
+		l_fileSize += CalculateBinaryDataSize<StaticModelAssetMeshHeader>(k_singleBinaryElementCount);
+		l_fileSize += CalculateBinaryDataSize<Struct::ModelVertex>		 (l_modelMesh.m_modelVertexList.size());
+		l_fileSize += CalculateBinaryDataSize<std::uint32_t>			 (l_modelMesh.m_indexList.size());
 
 		const auto& l_modelMeshletData = l_modelMesh.m_modelMeshletData;
 
-		l_fileSize += sizeof(Struct::ModelMeshlet)       * l_modelMeshletData.m_meshletList.size          ();
-		l_fileSize += sizeof(std::uint32_t)              * l_modelMeshletData.m_uniqueVertexIndexList.size();
-		l_fileSize += sizeof(std::uint8_t)               * l_modelMeshletData.m_primitiveIndexList.size   ();
-		l_fileSize += sizeof(Struct::ModelMeshletBounds) * l_modelMeshletData.m_meshletBoundsList.size    ();
+		l_fileSize += CalculateBinaryDataSize<Struct::ModelMeshlet>      (l_modelMeshletData.m_meshletList.size());
+		l_fileSize += CalculateBinaryDataSize<std::uint32_t>	         (l_modelMeshletData.m_uniqueVertexIndexList.size());
+		l_fileSize += CalculateBinaryDataSize<std::uint32_t>	         (l_modelMeshletData.m_primitiveIndexList.size());
+		l_fileSize += CalculateBinaryDataSize<Struct::ModelMeshletBounds>(l_modelMeshletData.m_meshletBoundsList.size());
 
 		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_baseColorTextureFilePath);
 		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_normalTextureFilePath);

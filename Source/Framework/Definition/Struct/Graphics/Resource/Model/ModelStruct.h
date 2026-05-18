@@ -125,7 +125,7 @@ namespace FWK::Struct
 
 		// Meshlet内の三角形情報
 		// 1三角形につき3つのLocalVertexIndexを持つ
-		// Meshlet内の頂点数は最大64個などに制限するため、std::uint8_tで足りる
+		// HLSL側のStructuredBuffer<uint>と要素サイズを合わせるためstd::uint32_tで保持する
 		std::vector<std::uint32_t> m_primitiveIndexList = {};
 
 		// Meshletごとのカリング用境界情報

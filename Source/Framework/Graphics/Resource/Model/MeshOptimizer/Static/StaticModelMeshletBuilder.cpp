@@ -62,12 +62,13 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 		return false;
 	}
 
-	std::vector<meshopt_Meshlet> l_meshoptMeshletList = {};
+	std::vector<meshopt_Meshlet> l_meshoptMeshletList		 = {};
+	std::vector<uint8_t>		 l_meshoptPrimitiveIndexList = {};
 
 	l_meshoptMeshletList.resize(l_maxMeshletCount);
 
 	l_modelMeshletData.m_uniqueVertexIndexList.resize(l_maxMeshletCount * Constant::k_maxMeshletVertexCount);
-	l_modelMeshletData.m_primitiveIndexList.resize   (l_maxMeshletCount * Constant::k_maxMeshletPrimitiveCount * Constant::k_triangleVertexCount);
+	l_meshoptPrimitiveIndexList.resize               (l_maxMeshletCount * Constant::k_maxMeshletPrimitiveCount * Constant::k_triangleVertexCount);
 
 	// ModelVertexのm_positionは先頭メンバのため、ModelVertex配列の先頭をfloat3配列としてmeshoptimizerに渡す
 	const auto* l_vertexPositionData = reinterpret_cast<const float*>(a_modelMesh.m_modelVertexList.data());
@@ -85,7 +86,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 	//						 Cone Culling用の重み);
 	const auto l_meshletCount = meshopt_buildMeshlets(l_meshoptMeshletList.data(),
 													  l_modelMeshletData.m_uniqueVertexIndexList.data(),
-													  l_modelMeshletData.m_primitiveIndexList.data(),
+													  l_meshoptPrimitiveIndexList.data(),
 													  a_modelMesh.m_indexList.data(),
 													  a_modelMesh.m_indexList.size(),
 													  l_vertexPositionData,
@@ -117,7 +118,14 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 
 	const auto l_usedPrimitiveIndexCount = l_lastMeshlet.triangle_offset + l_alignedLastMeshletPrimitiveIndexCount;
 
+	l_meshoptPrimitiveIndexList.resize(l_usedPrimitiveIndexCount);
+
 	l_modelMeshletData.m_primitiveIndexList.resize(l_usedPrimitiveIndexCount);
+
+	for (size_t l_primitiveIndex = 0ULL; l_primitiveIndex < l_usedPrimitiveIndexCount; ++l_primitiveIndex)
+	{
+		l_modelMeshletData.m_primitiveIndexList[l_primitiveIndex] = l_meshoptPrimitiveIndexList[l_primitiveIndex];
+	}
 
 	l_modelMeshletData.m_meshletList.resize		 (l_meshletCount);
 	l_modelMeshletData.m_meshletBoundsList.resize(l_meshletCount);
@@ -142,7 +150,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 		//								入力頂点1個分のbyteサイズ);
 
 		const auto l_meshoptBounds = meshopt_computeMeshletBounds(l_modelMeshletData.m_uniqueVertexIndexList.data() + l_meshoptMeshlet.vertex_offset,
-																  l_modelMeshletData.m_primitiveIndexList.data()    + l_meshoptMeshlet.triangle_offset,
+																  l_meshoptPrimitiveIndexList.data()				+ l_meshoptMeshlet.triangle_offset,
 																  l_meshoptMeshlet.triangle_count,
 																  l_vertexPositionData,
 																  a_modelMesh.m_modelVertexList.size(),

@@ -6,7 +6,7 @@ void FWK::Scene::PostLoadSetup()
 	m_texture.Load("Asset/Texture/Test.dds");
 
 	// モデル
-	m_staticModel.Load("Asset/Model/Antike.asset");
+	m_staticModel.Load("Asset/Model/Antike.fbx");
 }
 
 void FWK::Scene::RequestDraw() const

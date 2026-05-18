@@ -40,25 +40,75 @@ namespace FWK::Converter
 
 	private:
 
-		void ReadBinaryData(const std::uint64_t& a_readDataSize,
+		template <typename Type>
+		void ReadBinaryData(const std::uint64_t& a_readDataCount,
 							const std::uint8_t*  a_readData,
-								  std::uint64_t& a_readOffset,
-								  void*			 a_destinationData) const;
+							      std::uint64_t& a_readOffset,
+								  Type*          a_destinationData) const
+		{
+			const auto l_readDataSize = sizeof(Type) * a_readDataCount;
+
+			if (l_readDataSize == k_emptyReadDataSize) { return; }
+
+			if (!a_destinationData)
+			{
+				assert(false && "読み込み先データがnullptrです。");
+				return;
+			}
+
+			if (!a_readData)
+			{
+				assert(false && "読み込み元データがnullptrです。");
+				return;
+			}
+
+			std::memcpy(a_destinationData, a_readData + a_readOffset, l_readDataSize);
+
+			a_readOffset += l_readDataSize;
+		}
+
+		template <typename Type>
+		void WriteBinaryData(const std::uint64_t& a_writeDataCount,
+							 const Type*		  a_sourceData,
+								   std::uint64_t& a_writeOffset,
+								   std::uint8_t* a_writeData) const
+		{
+			const auto l_writeDataSize = sizeof(Type) * a_writeDataCount;
+
+			if (l_writeDataSize == k_emptyWriteDataSize) { return; }
+
+			if (!a_sourceData)
+			{
+				assert(false && "書き込み元データがnullptrです。");
+				return;
+			}
+
+			if (!a_writeData)
+			{
+				assert(false && "書き込み先データがnullptrです。");
+				return;
+			}
+
+			std::memcpy(a_writeData + a_writeOffset, a_sourceData, l_writeDataSize);
+
+			a_writeOffset += l_writeDataSize;
+		}
 
 		void ReadWStringBinaryData(const std::uint64_t& a_stringBinaryFileSize,
 								   const std::uint8_t*  a_readData,
 										 std::wstring&  a_string,
 										 std::uint64_t& a_readOffset) const;
 
-		void WriteBinaryData(const std::uint64_t& a_writeDataSize,
-							 const void*          a_sourceData, 
-								   std::uint64_t& a_writeOffset, 
-								   std::uint8_t*  a_writeData) const;
-		
 		void WriteWStringBinaryData(const std::wstring&  a_string, std::uint64_t& a_writeOffset, std::uint8_t* a_writeData) const;
 
 		std::uint64_t CalculateStaticModelAssetFileSize(const Struct::ModelData& a_modelData) const;
 		std::uint64_t CalculateWStringBinaryFileSize   (const std::wstring&		 a_string)    const;
+
+		template <typename Type>
+		std::uint64_t CalculateBinaryDataSize(const std::uint64_t& a_dataCount) const
+		{
+			return sizeof(Type) * a_dataCount;
+		}
 
 		static constexpr std::uint64_t k_emptyStaticModelAssetFileSize = 0ULL;
 		static constexpr std::uint64_t k_emptyStaticModelMeshCount     = 0ULL;
@@ -78,10 +128,12 @@ namespace FWK::Converter
 		static constexpr std::uint64_t k_initialReadOffset  = 0ULL;
 		static constexpr std::uint64_t k_initialWriteOffset = 0ULL;
 
+		static constexpr std::uint64_t k_singleBinaryElementCount = 1ULL;
+
 		// 'S' = 0x53, 'T' = 0x54のため、0x5354で"ST"を表す
 		static constexpr std::uint16_t k_staticModelAssetTypeID = 0x5354U;
 
 		// ※ 注意 : Assetとして保存する構造体が変化したらバージョンを上げる
-		static constexpr std::uint16_t k_staticModelAssetVersion = 2U;
+		static constexpr std::uint16_t k_staticModelAssetVersion = 3U;
 	};
 }
