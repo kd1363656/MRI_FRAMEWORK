@@ -30,9 +30,9 @@ namespace FWK::Graphics
 		bool SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
 								const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand,
 								const DirectCommandList&		                   a_directCommandList,
-								const UploadBuffer&					               a_cameraUploadBuffer,
+								const UploadBuffer&					               a_modelObjectUploadBuffer,
 								const std::size_t&								   a_modelObjectIndex,
-									  std::uint8_t* const			               a_cameraMappedData) const;
+									  std::uint8_t* const			               a_modelObjectMappedData) const;
 
 		bool SetupModelMeshStructuredBufferSRV(const std::weak_ptr<RootSignature>&		a_rootSignature,
 											   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
