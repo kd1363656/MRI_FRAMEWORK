@@ -129,7 +129,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain&			  a_sw
 	//						 クリア範囲);
 	l_directCommandList->ClearDepthStencilView(l_dsvHandle,
 											   D3D12_CLEAR_FLAG_DEPTH,
-										       Constant::k_defaultDepthClearValuie,
+										       Constant::k_defaultDepthClearValue,
 											   Constant::k_defaultStencilClearValue,
 											   k_executeClearRectNUM,
 											   nullptr);

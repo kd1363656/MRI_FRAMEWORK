@@ -92,6 +92,27 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 		return l_staticModelLoadResult;
 	}
 
+	// StaticMOdelのMaterialが参照しているBaseColorTextureをロード予約する
+	for (auto& l_modelMesh : l_staticModelRecord->m_modelData.m_modelMeshList)
+	{
+		const auto& l_baseColorTextureFilePath = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData.m_baseColorTextureFilePath;
+
+		if (l_baseColorTextureFilePath.empty()) { continue; }
+
+		std::filesystem::path l_textureFilePath = l_baseColorTextureFilePath;
+
+		if (l_textureFilePath.is_relative())
+		{
+			l_textureFilePath = a_filePath.parent_path() / l_textureFilePath;
+		}
+
+		auto l_baseColorTexture = std::make_shared<Texture>();
+
+		l_baseColorTexture->Load(l_textureFilePath);
+
+		l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData.m_baseColorTexture = l_baseColorTexture;
+	}
+
 	Struct::StaticModelBatchUploadRecord l_staticModelBatchUploadRecord = {};
 
 	l_staticModelBatchUploadRecord.m_staticModelRecord = l_staticModelRecord;

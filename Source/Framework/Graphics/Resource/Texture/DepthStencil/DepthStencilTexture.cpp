@@ -29,7 +29,7 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&         
 	D3D12_CLEAR_VALUE l_clearValue = {};
 	
 	l_clearValue.Format				  = DXGI_FORMAT_D32_FLOAT;
-	l_clearValue.DepthStencil.Depth   = Constant::k_defaultDepthClearValuie;
+	l_clearValue.DepthStencil.Depth   = Constant::k_defaultDepthClearValue;
 	l_clearValue.DepthStencil.Stencil = Constant::k_defaultStencilClearValue;
 
 	// D3D12_RESOURCE_DESCについて

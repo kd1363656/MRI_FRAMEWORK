@@ -74,6 +74,7 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 
 		if (!l_staticModelRecord) { continue; }
 
+		// カメラ情報をセット
 		if (!SetCBCamera(l_rootSignature,
 						 l_staticModelDrawCommand.m_camera,
 						 l_directCommandList,
@@ -92,6 +93,7 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 
 			if (l_modelMeshletData.m_meshletList.size() == Constant::k_emptyMeshletCount) { continue; }
 
+			// モデル定数のセット
 			if (!SetupCBModelObject(l_rootSignature,
 									l_staticModelDrawCommand,
 								    l_directCommandList,
@@ -102,10 +104,20 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 				continue;
 			}
 
+			// メッシュストラクチャードバッファのセット
 			if (!SetupModelMeshStructuredBufferSRV(l_rootSignature,
 												   a_srvDescriptorPool,
 												   l_directCommandList,
 												   l_modelMeshRuntimeData))
+			{
+				continue;
+			}
+
+			// ベースカラーのセット
+			if (!SetupModelBaseColorTextureSRV(l_rootSignature,
+											   a_srvDescriptorPool,
+											   l_directCommandList,
+											   l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData))
 			{
 				continue;
 			}
@@ -164,5 +176,27 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelBaseColorText
 																				       const DirectCommandList&				    a_directCommandList, 
 																					   const Struct::ModelMaterialRuntimeData&  a_modelMaterialRuntimeData) const
 {
+	if (!a_modelMaterialRuntimeData.m_baseColorTexture)
+	{
+		assert(false && "BaseColorTextureが無効なため、StaticModel描画処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_textureRecord = a_modelMaterialRuntimeData.m_baseColorTexture->GetREFTextureRecord().lock();
+
+	if (!l_textureRecord)
+	{
+		assert(false && "BaseColorTexture用TextureRecordが無効なため、StaticModel描画処理に失敗しました。");
+		return false;
+	}
+
+	if (l_textureRecord->m_srvStorageID == Constant::k_invalidStorageID)
+	{
+		assert(false && "BaseColorTexture用SRVStorageIDが無効なため、StaticModel描画処理に失敗しました。");
+		return false;
+	}
+
+	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, l_textureRecord->m_srvStorageID);
+
 	return true;
 }

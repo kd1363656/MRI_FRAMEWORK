@@ -6,7 +6,7 @@ namespace FWK::Constant
 
 	inline constexpr TypeAlias::Math::Vector2 k_defaultPivot = { 0.5F, 0.5F };
 
-	inline constexpr float k_defaultDepthClearValuie = 1.0F;
+	inline constexpr float k_defaultDepthClearValue = 1.0F;
 
 	inline constexpr UINT k_defaultSpriteRECTX      = 0U;
 	inline constexpr UINT k_defaultSpriteRECTY      = 0U;
