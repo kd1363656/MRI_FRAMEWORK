@@ -2,7 +2,7 @@
 
 void FWK::Graphics::DrawSpriteStandardCommand::PostCreateSetup(Renderer& a_renderer)
 {
-	SetupPipelineStateAndRootSignature<Tag::SpriteStandardPipelineStateTag>(a_renderer);
+	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetTag<Tag::SpriteStandardPipelineStateTag>());
 }
 
 void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)

@@ -1,5 +1,29 @@
 ﻿#include "DrawCommandBase.h"
 
+void FWK::Graphics::DrawCommandBase::SetupPipelineStateAndRootSignature(Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag)
+{
+	const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(a_typeTag);
+	const auto& l_pipelineState     = l_pipelineStateWeak.lock();
+
+	if (!l_pipelineState) 
+	{
+		assert(false && "指定したTagに対応するパイプラインステートが無効です。");
+		return; 
+	}
+
+	// パイプラインステートが使用するルートシグネチャを取得
+	const auto& l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
+
+	if (l_rootSignatureWeak.expired())
+	{
+		assert(false && "指定したルートシグネチャが無効です。");
+		return;
+	}
+
+	m_pipelineState = l_pipelineStateWeak;
+	m_rootSignature = l_rootSignatureWeak;
+}
+
 void FWK::Graphics::DrawCommandBase::SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const
 {
 	if (m_pipelineState.expired()) 

@@ -2,7 +2,7 @@
 
 void FWK::Graphics::DrawStaticModelUnLitStandardCommand::PostCreateSetup(Renderer& a_renderer)
 {
-	SetupPipelineStateAndRootSignature<Tag::ModelUnLitStandardPipelineStateTag>(a_renderer);
+	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetTag<Tag::ModelUnLitStandardPipelineStateTag>());
 }
 void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
 {

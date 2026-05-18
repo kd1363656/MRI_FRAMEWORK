@@ -20,30 +20,7 @@ namespace FWK::Graphics
 
 	protected:
 
-		template <Concept::IsDerivedPipelineStateTagBaseConcept PipelineStateType>
-		void SetupPipelineStateAndRootSignature(Renderer& a_renderer)
-		{
-			const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<PipelineStateType>());
-			const auto& l_pipelineState     = l_pipelineStateWeak.lock();
-
-			if (!l_pipelineState) 
-			{
-				assert(false && "指定したTagに対応するパイプラインステートが無効です。");
-				return; 
-			}
-
-			// パイプラインステートが使用するルートシグネチャを取得
-			const auto& l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
-
-			if (l_rootSignatureWeak.expired())
-			{
-				assert(false && "指定したルートシグネチャが無効です。");
-				return;
-			}
-
-			m_pipelineState = l_pipelineStateWeak;
-			m_rootSignature = l_rootSignatureWeak;
-		}
+		void SetupPipelineStateAndRootSignature(Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag);
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
 		bool SetupConstantBuffer(const std::weak_ptr<RootSignature>& a_rootSignature,
