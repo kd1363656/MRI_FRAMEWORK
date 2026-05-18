@@ -20,6 +20,14 @@ void FWK::Converter::ResourceContextJsonConverter::Deserialize(const nlohmann::j
 		l_srvDescriptorPool.Deserialize(a_rootJson[k_srvDescriptorPoolJsonKey]);
 	}
 
+	// DSVディスクリプタプールのデシリアライズ
+	if (a_rootJson.contains(k_dsvDescriptorPoolJsonKey))
+	{
+		auto& l_dsvDescriptorPool = a_resourceContext.GetMutableREFDSVDescriptorPool();
+
+		l_dsvDescriptorPool.Deserialize(a_rootJson[k_dsvDescriptorPoolJsonKey]);
+	}
+
 	// テクスチャシステムのデシリアライズ
 	if (a_rootJson.contains(k_textureSystemJsonKey))
 	{
@@ -51,6 +59,7 @@ nlohmann::json FWK::Converter::ResourceContextJsonConverter::Serialize(const Gra
 
 	const auto& l_rtvDescriptorPool = a_resourceContext.GetREFRTVDescriptorPool();
 	const auto& l_srvDescriptorPool = a_resourceContext.GetREFSRVDescriptorPool();
+	const auto& l_dsvDescriptorPool = a_resourceContext.GetREFDSVDescriptorPool();
 	
 	const auto& l_textureSystem     = a_resourceContext.GetREFTextureSystem    ();
 	const auto& l_staticModelSystem = a_resourceContext.GetREFStaticModelSystem();
@@ -61,6 +70,9 @@ nlohmann::json FWK::Converter::ResourceContextJsonConverter::Serialize(const Gra
 
 	// SRVディスクリプタプールのシリアライズ
 	l_rootJson[k_srvDescriptorPoolJsonKey] = l_srvDescriptorPool.Serialize();
+
+	// DSVディスクリプタプールのシリアライズ
+	l_rootJson[k_dsvDescriptorPoolJsonKey] = l_dsvDescriptorPool.Serialize();
 
 	// テクスチャシステムのシリアライズ
 	l_rootJson[k_textureSystemJsonKey] = l_textureSystem.Serialize();

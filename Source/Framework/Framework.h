@@ -167,6 +167,7 @@
 #include "Graphics/Resource/Descriptor/Heap/DescriptorHeapBase.h"
 #include "Graphics/Resource/Descriptor/Heap/RTV/RTVDescriptorHeap.h"
 #include "Graphics/Resource/Descriptor/Heap/SRV/SRVDescriptorHeap.h"
+#include "Graphics/Resource/Descriptor/Heap/DSV/DSVDescriptorHeap.h"
 
 // ルートシグネチャ
 #include "Converter/Json/Graphics/Render/RootSignature/RootSignatureJsonConverter.h"
@@ -244,6 +245,7 @@
 #include "Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilder.h"
 #include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/Releaser/TextureRecordReleaser.h"
+#include "Graphics/Resource/Texture/DepthStencil/DepthStencilTexture.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
 

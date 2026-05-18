@@ -19,6 +19,12 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 		return false;
 	}
 
+	if (!m_dsvDescriptorPool.Create(a_device))
+	{
+		assert(false && "DSVDescriptorPoolの作成処理に失敗しました。");
+		return false;
+	}
+
 	if (!m_gpuMemoryAllocator.Create(a_device))
 	{
 		assert(false && "GPUMemoryAllocatorの作成処理に失敗しました。");

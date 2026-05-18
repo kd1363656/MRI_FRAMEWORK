@@ -613,6 +613,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV">
       <UniqueIdentifier>{97406673-4f5d-4832-8959-423c35ffadd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\DepthStencil">
+      <UniqueIdentifier>{98a10a90-482c-464c-9aab-e5e2fecfc835}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1076,6 +1079,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV\DSVDescriptorHeap.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\DSV</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\DepthStencil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1308,6 +1314,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV\DSVDescriptorHeap.cpp">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\DSV</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\DepthStencil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
