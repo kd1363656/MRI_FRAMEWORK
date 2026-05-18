@@ -2,5 +2,5 @@
 
 namespace FWK::TypeAlias
 {
-	using ShaderFactoryDrawCommand = GenericFactory<std::shared_ptr<Graphics::IDrawCommand>>;
+	using ShaderFactoryDrawCommand = GenericFactory<std::shared_ptr<Graphics::DrawCommandBase>>;
 }

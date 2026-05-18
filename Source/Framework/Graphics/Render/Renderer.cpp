@@ -172,7 +172,7 @@ void FWK::Graphics::Renderer::AddFrameResource(const std::shared_ptr<FrameResour
 
 	m_frameResourceList.emplace_back(a_frameResource);
 }
-void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawCommand>& a_drawCommand)
+void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<DrawCommandBase>& a_drawCommand)
 {
 	if (!a_drawCommand) 
 	{
@@ -182,7 +182,7 @@ void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<IDrawComm
 
 	m_drawCommandList.emplace_back(a_drawCommand);
 }
-void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<IDrawCommand>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
+void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<DrawCommandBase>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
 {
 	if (!a_drawCommand)
 	{

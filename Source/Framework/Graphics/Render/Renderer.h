@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class IDrawCommand;
+	class DrawCommandBase;
 }
 
 namespace FWK::Graphics
@@ -11,7 +11,7 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using DrawCommandMap   = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<IDrawCommand>>;
+		using DrawCommandMap   = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<DrawCommandBase>>;
 		using RootSignatureMap = std::unordered_map<TypeAlias::TypeTag, std::shared_ptr<RootSignature>>;
 		using PipelineStateMap = std::unordered_map<TypeAlias::TypeTag, std::shared_ptr<PipelineState>>;
 
@@ -34,16 +34,16 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		void AddFrameResource  (const std::shared_ptr<FrameResource>& a_frameResource);
-		void AddDrawCommandList(const std::shared_ptr<IDrawCommand>&  a_drawCommand);
-		void AddDrawCommandMap (const std::shared_ptr<IDrawCommand>&  a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
-		void AddRootSignature  (const std::shared_ptr<RootSignature>& a_rootSignature, const TypeAlias::TypeTag      a_tag);
-		void AddPipelineState  (const std::shared_ptr<PipelineState>& a_pipelineState, const TypeAlias::TypeTag      a_tag);
+		void AddFrameResource  (const std::shared_ptr<FrameResource>&   a_frameResource);
+		void AddDrawCommandList(const std::shared_ptr<DrawCommandBase>& a_drawCommand);
+		void AddDrawCommandMap (const std::shared_ptr<DrawCommandBase>& a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
+		void AddRootSignature  (const std::shared_ptr<RootSignature>&   a_rootSignature, const TypeAlias::TypeTag      a_tag);
+		void AddPipelineState  (const std::shared_ptr<PipelineState>&   a_pipelineState, const TypeAlias::TypeTag      a_tag);
 
 		std::weak_ptr<RootSignature> FindVALRootSignature(const TypeAlias::TypeTag a_tag) const;
 		std::weak_ptr<PipelineState> FindVALPipelineState(const TypeAlias::TypeTag a_tag) const;
 
-		template <Concept::IsDerivedIDrawCommandConcept Type>
+		template <Concept::IsDerivedDrawCommandBaseConcept Type>
 		std::shared_ptr<Type> FindVALDrawCommand() const 
 		{
 			if (const auto& l_itr = m_drawCommandMap.find(Type::GetTypeINFO().k_staticTypeID);
@@ -79,8 +79,8 @@ namespace FWK::Graphics
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
-		std::vector<std::shared_ptr<FrameResource>>	m_frameResourceList = {};
-		std::vector<std::shared_ptr<IDrawCommand>>  m_drawCommandList   = {};
+		std::vector<std::shared_ptr<FrameResource>>	  m_frameResourceList = {};
+		std::vector<std::shared_ptr<DrawCommandBase>> m_drawCommandList   = {};
 
 		DrawCommandMap   m_drawCommandMap   = {};
 		RootSignatureMap m_rootSignatureMap = {};

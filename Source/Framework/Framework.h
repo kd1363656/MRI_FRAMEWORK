@@ -286,7 +286,7 @@
 #include "Graphics/Render/Pipeline/PipelineState.h"
 
 // 描画コマンドクラス
-#include "Graphics/Render/Command/IDrawCommand.h"
+#include "Graphics/Render/Command/DrawCommandBase.h"
 
 // 描画コマンドの基底クラスを継承しているかどうかを確認するConcept
 #include "Definition/Concept/IsDerivedBase/Graphics/Renderer/Command/IsDerivedIDrawCommandConcept.h"
@@ -296,7 +296,7 @@
 #include "Graphics/Render/Renderer.h"
 
 // 描画コマンドクラス
-#include "Graphics/Render/Command/DrawCommandBase.h"
+#include "Graphics/Render/Command/DrawRequestCommandBase.h"
 
 // 描画コマンドクラス用ファクトリTypeAlias
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"

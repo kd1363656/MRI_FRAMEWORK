@@ -872,7 +872,7 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline\IsDerivedPipelineStateTagBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Command\IDrawCommand.h">
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h">
       <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Command\DrawCommandStruct.h">
@@ -902,7 +902,7 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h">
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawRequestCommandBase.h">
       <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h">
@@ -1296,6 +1296,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.cpp">
       <Filter>Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.cpp">
+      <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class DrawStaticModelUnLitStandardCommand final : public DrawCommandBase<Struct::StaticModelUnLitStandardDrawCommand>
+	class DrawStaticModelUnLitStandardCommand final : public DrawRequestCommandBase<Struct::StaticModelUnLitStandardDrawCommand>
 	{
 	public:
 
@@ -39,7 +39,7 @@ namespace FWK::Graphics
 											   const DirectCommandList&				    a_directCommandList,
 											   const Struct::ModelMeshRuntimeData&	    a_modelMeshRuntimeData) const;
 
-		FWK_DEFINE_TYPE_INFO(DrawStaticModelUnLitStandardCommand, IDrawCommand);
+		FWK_DEFINE_TYPE_INFO(DrawStaticModelUnLitStandardCommand, DrawCommandBase);
 	};
 }
 

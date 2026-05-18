@@ -108,7 +108,7 @@ void FWK::Converter::RendererJsonConverter::DeserializeDrawCommand(const nlohman
 	
 	for (const auto& l_json : a_rootJson)
 	{
-		std::shared_ptr<Graphics::IDrawCommand> l_drawCommand = nullptr;
+		std::shared_ptr<Graphics::DrawCommandBase> l_drawCommand = nullptr;
 		
 		// ファクトリーからDrawCommandを作成
 		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryDrawCommand>(l_json, k_drawCommandTypeNameJsonKey, l_drawCommand);
