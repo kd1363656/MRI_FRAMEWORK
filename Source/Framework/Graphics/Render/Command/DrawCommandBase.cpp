@@ -79,6 +79,6 @@ bool FWK::Graphics::DrawCommandBase::SetCBCamera(const std::weak_ptr<RootSignatu
 															  a_directCommandList,	
 															  a_cameraUploadBuffer,
 															  l_cbCamera,
-															  k_cbCameraIndex,
+															  k_cameraConstantBufferIndex,
 															  a_cameraMappedData);
 }

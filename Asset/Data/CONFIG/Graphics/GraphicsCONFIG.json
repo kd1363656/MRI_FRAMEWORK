@@ -3,6 +3,9 @@
         "DrawCommand": [
             {
                 "DrawCommandTypeName": "DrawSpriteStandardCommand"
+            },
+            {
+                "DrawCommandTypeName": "DrawStaticModelUnLitStandardCommand"
             }
         ],
         "FrameResourceList": [

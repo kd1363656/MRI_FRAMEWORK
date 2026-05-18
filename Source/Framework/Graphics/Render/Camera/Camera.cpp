@@ -47,10 +47,10 @@ void FWK::Graphics::Camera::SetProjectionMatrix(const float a_aspectRatio,
 	//							    近クリップ、
 	//								遠クリップ);
 	// DirectX12で扱いやすい左手系のProjectionMatrixを作成する
-	m_projectionMatrix = TypeAlias::Math::Matrix::CreatePerspectiveFieldOfView(l_fovYRadian,
-																			   a_aspectRatio,
-																			   a_nearClip,
-																			   a_farClip);
+	m_projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(l_fovYRadian,
+														   a_aspectRatio,
+														   a_nearClip,
+														   a_farClip);
 
 	UpdateViewProjectionMatrix();
 }

@@ -73,6 +73,8 @@ namespace FWK::Graphics
 
 	private:
 
+		static constexpr std::size_t k_cameraConstantBufferIndex = 0ULL;
+
 		std::weak_ptr<RootSignature> m_rootSignature = {};
 		std::weak_ptr<PipelineState> m_pipelineState = {};
 
