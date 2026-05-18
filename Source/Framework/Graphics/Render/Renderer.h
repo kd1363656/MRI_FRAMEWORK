@@ -20,13 +20,18 @@ namespace FWK::Graphics
 		 Renderer() = default;
 		~Renderer() = default;
 
-		void Deserialize    (const nlohmann::json& a_rootJson);
-		bool Create         (const Device&		   a_device, const ShaderCompiler& a_shaderCompiler);
-		void PostCreateSetup(const SwapChain&	   a_swapChain);
+		void Deserialize(const nlohmann::json& a_rootJson);
+		bool Create     (const Device&		   a_device,	const ShaderCompiler&		a_shaderCompiler);
+
+		void PostCreateSetup(const Device&			                   a_device,
+							 const GPUMemoryAllocator&                 a_gpuMemoryAllocator,
+							 const SwapChain&		                   a_swapChain, 
+							 const Struct::WindowCONFIG&               a_windowConfig,
+									DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
 		void BeginFrame() const;
 
-		void BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap);
+		void BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap);
 		
 		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 		void EndDraw (const SwapChain&						   a_swapChain);
@@ -76,6 +81,11 @@ namespace FWK::Graphics
 
 	private:
 
+		bool CreateDepthStencilTexture(const Device&			                a_device,
+									   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+									   const Struct::WindowCONFIG&			    a_windowCONFIG,
+											 DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
+
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
@@ -89,6 +99,8 @@ namespace FWK::Graphics
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};
 		
+		DepthStencilTexture m_depthStencilTexture = {};
+
 		RenderArea m_renderArea = {};
 
 		Converter::RendererJsonConverter m_rendererJsonConverter = {};

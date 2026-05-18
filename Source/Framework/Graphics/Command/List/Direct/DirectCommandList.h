@@ -6,6 +6,7 @@ namespace FWK::Graphics
 	class RenderArea;
 	class RootSignature;
 	class PipelineState;
+	class DepthStencilTexture;
 }
 
 namespace FWK::Graphics
@@ -22,7 +23,10 @@ namespace FWK::Graphics
 		void TransitionResource            (const TypeAlias::ComPtr<ID3D12Resource2>& a_resource,  const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 		void TransitionRenderTargetResource(const SwapChain&						  a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 
-		void SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
+		void SetupBackBuffer(const SwapChain&		    a_swapChain, 
+							 const RTVDescriptorHeap&   a_rtvDescriptorHeap,
+							 const DSVDescriptorHeap&   a_dsvDescriptorHeap,
+						     const DepthStencilTexture& a_depthStencilTexture) const;
 
 		void SetupRenderArea    (const RenderArea&					 a_renderArea)     const;
 		void SetupRootSignature (const std::weak_ptr<RootSignature>& a_rootSignature);

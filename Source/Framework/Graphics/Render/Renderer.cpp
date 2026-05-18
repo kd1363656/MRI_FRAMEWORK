@@ -63,9 +63,22 @@ bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompile
 
 	return true;
 }
-void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
+void FWK::Graphics::Renderer::PostCreateSetup(const Device&				               a_device, 
+											  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+											  const SwapChain&			               a_swapChain, 
+											  const Struct::WindowCONFIG&              a_windowConfig, 
+													DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
 	m_renderArea.SetupRenderArea(a_swapChain);
+
+	if (!CreateDepthStencilTexture(a_device,
+								   a_gpuMemoryAllocator,
+								   a_windowConfig,
+								   a_dsvDescriptorPool))
+	{
+		assert(false && "DepthStencilTextureの作成に失敗しました。");
+		return;
+	}
 
 	for (const auto& l_drawCommand : m_drawCommandList)
 	{
@@ -87,7 +100,7 @@ void FWK::Graphics::Renderer::BeginFrame() const
 	}
 }
 
-void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap)
+void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap)
 {
 	const auto& l_currentFrameResource = FetchVALCurrentFrameResource().lock();
 
@@ -110,7 +123,10 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// 今回使用するバックバッファを設定
-	m_directCommandList.SetupBackBuffer(a_swapChain, a_rtvDescriptorHeap);
+	m_directCommandList.SetupBackBuffer(a_swapChain,
+									    a_rtvDescriptorHeap,
+										a_dsvDescriptorHeap,
+										m_depthStencilTexture);
 
 	// ビューポートとシザー矩形を設定
 	m_directCommandList.SetupRenderArea(m_renderArea);
@@ -245,4 +261,16 @@ std::weak_ptr<FWK::Graphics::FrameResource> FWK::Graphics::Renderer::FetchVALCur
 	}
 
 	return m_frameResourceList[m_currentFrameResourceIndex];
+}
+
+bool FWK::Graphics::Renderer::CreateDepthStencilTexture(const Device&                            a_device, 
+													    const GPUMemoryAllocator&                a_gpuMemoryAllocator, 
+														const Struct::WindowCONFIG&              a_windowCONFIG, 
+															  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
+{
+	return m_depthStencilTexture.Create(a_device,
+										a_gpuMemoryAllocator,
+										a_windowCONFIG.m_width,	
+										a_windowCONFIG.m_height,
+										a_dsvDescriptorPool);
 }

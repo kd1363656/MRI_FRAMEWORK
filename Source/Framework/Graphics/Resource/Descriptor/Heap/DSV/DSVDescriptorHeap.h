@@ -11,6 +11,6 @@ namespace FWK::Graphics
 
 	private:
 
-		static const D3D12_DESCRIPTOR_HEAP_TYPE k_createDescriptorHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		static const D3D12_DESCRIPTOR_HEAP_TYPE k_createDescriptorHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	};
 }

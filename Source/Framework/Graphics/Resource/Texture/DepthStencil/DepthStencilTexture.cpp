@@ -29,8 +29,8 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&         
 	D3D12_CLEAR_VALUE l_clearValue = {};
 	
 	l_clearValue.Format				  = DXGI_FORMAT_D32_FLOAT;
-	l_clearValue.DepthStencil.Depth   = k_clearDepth;
-	l_clearValue.DepthStencil.Stencil = k_clearStencil;
+	l_clearValue.DepthStencil.Depth   = Constant::k_defaultDepthClearValuie;
+	l_clearValue.DepthStencil.Stencil = Constant::k_defaultStencilClearValue;
 
 	// D3D12_RESOURCE_DESCについて
 	// Tex2D(フォーマット、
@@ -46,10 +46,10 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&         
 	if (const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_D32_FLOAT,
 															 a_width,
 															 a_height,
-															 k_depthStencilArraySize,
-															 k_depthStencilMIPLevels,
-															 k_depthStencilSampleCount,
-															 k_depthStencilSampleQuality,
+															 Constant::k_renderTextureDefaultArraySize,
+															 Constant::k_renderTextureDefaultMIPLevels,
+															 Constant::k_renderTextureDefaultSampleCount,
+															 Constant::k_renderTextureDefaultSampleQuality,
 															 D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 		!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
 													&l_clearValue,

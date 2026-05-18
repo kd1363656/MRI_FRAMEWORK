@@ -76,7 +76,10 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const Swap
 	TransitionResource(l_backBuffer, a_beforeState, a_afterState);
 }
 
-void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
+void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain&			  a_swapChain, 
+													   const RTVDescriptorHeap&   a_rtvDescriptorHeap, 
+													   const DSVDescriptorHeap&   a_dsvDescriptorHeap, 
+													   const DepthStencilTexture& a_depthStencilTexture) const
 {
 	const auto& l_directCommandList = GetREFCommandList().Get();
 
@@ -105,6 +108,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 
 	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
 	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_backBuffer.m_rtvStorageID);
+	const auto& l_dsvHandle = a_dsvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_depthStencilTexture.GetVALDSVStorageID());
 
 	// OMステージにレンダーターゲットを設定する関数
 	// OMSetRenderTargets(設定するレンダーターゲット数、
@@ -115,7 +119,20 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain& a_swapCh
 	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
 								            &l_rtvHandle,
 								            true,
-								            nullptr);
+								            &l_dsvHandle);
+
+	// ClearDepthStencilView(クリアするDSV,
+	//						 クリア対象フラグ、
+	//						 深度クリア値、
+	//						 ステンシルクリア値、
+	//						 クリア範囲数、
+	//						 クリア範囲);
+	l_directCommandList->ClearDepthStencilView(l_dsvHandle,
+											   D3D12_CLEAR_FLAG_DEPTH,
+										       Constant::k_defaultDepthClearValuie,
+											   Constant::k_defaultStencilClearValue,
+											   k_executeClearRectNUM,
+											   nullptr);
 
 	// 現在のレンダーターゲットを指定色でクリアする関数
 	// ClearRenderTargetView(クリア対象のRTVハンドル、

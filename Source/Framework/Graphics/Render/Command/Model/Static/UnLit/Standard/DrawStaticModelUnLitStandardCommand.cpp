@@ -158,3 +158,11 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelMeshStructure
 
 	return true;
 }
+
+bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelBaseColorTextureSRV(const std::weak_ptr<RootSignature>&		a_rootSignature,
+																					   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+																				       const DirectCommandList&				    a_directCommandList, 
+																					   const Struct::ModelMaterialRuntimeData&  a_modelMaterialRuntimeData) const
+{
+	return true;
+}

@@ -63,10 +63,14 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 
     return true;
 }
-void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd)
+void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG)
 {
 	m_swapChain.PostCreateSetup(a_hwnd, m_factory);
-	m_renderer.PostCreateSetup (m_swapChain);
+	m_renderer.PostCreateSetup (m_device, 
+								m_resourceContext.GetREFGPUMemoryAllocator(),
+								m_swapChain,
+								a_windowCONFIG,
+								m_resourceContext.GetMutableREFDSVDescriptorPool());
 }
 
 void FWK::Graphics::GraphicsManager::BeginFrame()
@@ -78,8 +82,9 @@ void FWK::Graphics::GraphicsManager::BeginFrame()
 void FWK::Graphics::GraphicsManager::BeginDraw()
 {
 	const auto& l_rtvDescriptorHeap = m_resourceContext.GetREFRTVDescriptorPool().GetREFDescriptorHeap();
+	const auto& l_dsvDescriptorHeap = m_resourceContext.GetREFDSVDescriptorPool().GetREFDescriptorHeap();
 
-	m_renderer.BeginDraw(m_swapChain, l_rtvDescriptorHeap);
+	m_renderer.BeginDraw(m_swapChain, l_rtvDescriptorHeap, l_dsvDescriptorHeap);
 }
 void FWK::Graphics::GraphicsManager::Draw()
 {

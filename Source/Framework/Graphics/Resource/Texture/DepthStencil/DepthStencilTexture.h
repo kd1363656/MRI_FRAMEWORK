@@ -21,16 +21,6 @@ namespace FWK::Graphics
 
 	private:
 	
-		static constexpr float k_clearDepth = 1.0F;
-
-		static constexpr UINT k_depthStencilSampleCount   = 1U;
-		static constexpr UINT k_depthStencilSampleQuality = 0U;
-
-		static constexpr UINT16 k_depthStencilArraySize = 1U;
-		static constexpr UINT16 k_depthStencilMIPLevels = 1U;
-
-		static constexpr UINT8 k_clearStencil = 0U;
-
 		Struct::GPUResource m_gpuResource = {};
 
 		TypeAlias::StorageID m_dsvStorageID = Constant::k_invalidStorageID;
