@@ -610,6 +610,9 @@
     <Filter Include="Asset\Shader\Model\Static\UnLit\Standard">
       <UniqueIdentifier>{d73f4d69-7d0d-4e7f-8a54-8fd6996a2a6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV">
+      <UniqueIdentifier>{97406673-4f5d-4832-8959-423c35ffadd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1070,6 +1073,9 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.h">
       <Filter>Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV\DSVDescriptorHeap.h">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\DSV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1299,6 +1305,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.cpp">
       <Filter>Source\Framework\Graphics\Render\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV\DSVDescriptorHeap.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\DSV</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
