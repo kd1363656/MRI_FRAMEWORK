@@ -1,5 +1,10 @@
 ﻿#pragma once
 
+namespace FWK::Graphics
+{
+	class Camera;
+}
+
 namespace FWK::Struct
 {
 	struct SpriteStandardDrawCommand final
@@ -18,6 +23,8 @@ namespace FWK::Struct
 	struct StaticModelUnLitStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
+
+		std::weak_ptr<Graphics::Camera> m_camera = {};
 
 		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
 	};

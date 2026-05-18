@@ -12,7 +12,7 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 	if (const auto& l_rootSignature = GetVALRootSignature();
 		l_rootSignature.expired())
 	{
-		assert(false && "使用仕様としたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。");
+		assert(false && "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。");
 		return;
 	}
 
