@@ -451,6 +451,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Material\ModelMaterialConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h" />
@@ -549,6 +550,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Material\ModelMaterialConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp" />
@@ -671,6 +673,7 @@ if "$(Configuration)"=="Debug" (
   </ItemGroup>
   <ItemGroup>
     <None Include="Asset\Shader\Model\ModelCommon.hlsli" />
+    <None Include="Asset\Shader\Model\ModelMaterialCommon.hlsli" />
     <None Include="Asset\Shader\Model\Static\Lit\ModelStaticLitShaderCommon.hlsli" />
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli" />
   </ItemGroup>

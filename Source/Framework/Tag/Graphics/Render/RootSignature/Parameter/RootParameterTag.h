@@ -13,10 +13,13 @@ namespace FWK::Tag
 	struct RootParameterCBCameraTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBCameraTag, RootParameterTagBase); };
 
 	// Model共通
-	struct RootParameterCBModelObjectTag          final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelObjectTag,          RootParameterTagBase); };
+	struct RootParameterCBModelObjectTag   final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelObjectTag,   RootParameterTagBase); };
+	struct RootParameterCBModelMaterialTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelMaterialTag, RootParameterTagBase); };
+	
 	struct RootParameterModelVertexBufferTag      final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterModelVertexBufferTag,      RootParameterTagBase); };
 	struct RootParameterModelMeshletBufferTag     final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterModelMeshletBufferTag,     RootParameterTagBase); };
 	struct RootParameterModelUniqueVertexIndexTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterModelUniqueVertexIndexTag, RootParameterTagBase); };
 	struct RootParameterModelPrimitiveIndexTag	  final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterModelPrimitiveIndexTag,    RootParameterTagBase); };
-	struct RootParameterModelBaseColorTextureTag  final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterModelBaseColorTextureTag,  RootParameterTagBase); };
+
+	struct RootParameterModelBaseColorTextureTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterModelBaseColorTextureTag, RootParameterTagBase); };
 }

@@ -1,12 +1,4 @@
-﻿cbuffer CBModelMaterial : register(b2)
-{
-    uint   g_useNormalTexture;
-    float3 g_modelMaterialPadding;
-}
-
-static const uint k_disableNormalTexture = 0U;
-
-static const float k_normalTextureScale = 2.0F;
+﻿static const float k_normalTextureScale = 2.0F;
 static const float k_normalTextureBias  = 1.0F;
 static const float k_tbnEpsilon         = 0.00001F;
 

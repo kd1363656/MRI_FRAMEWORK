@@ -29,6 +29,11 @@ namespace FWK::Struct
 		std::wstring m_normalTextureFilePath    = {};
 		std::wstring m_roughnessTextureFilePath = {};
 		std::wstring m_metallicTextureFilePath  = {};
+
+		TypeAlias::Math::Color m_baseColorFactor = Constant::k_defaultModelBaseColorFactor;
+
+		float m_metallicFactor  = Constant::k_defaultModelMetallicFactor;
+		float m_roughnessFactor = Constant::k_defaultModelRoughnessFactor;
 	};
 
 	struct ModelMaterialRuntimeData final
