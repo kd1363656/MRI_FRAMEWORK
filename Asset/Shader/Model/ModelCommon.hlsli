@@ -1,8 +1,9 @@
 ﻿struct MeshOutput
 {
-    float4 position : SV_Position;
-    float3 normal   : NORMAL0;
-    float2 uv       : TEXCOORD0;
+    float4 position      : SV_Position;
+    float3 worldPosition : POSITION0;
+    float3 normal        : NORMAL0;
+    float2 uv            : TEXCOORD0;
 };
 
 struct ModelMeshlet
