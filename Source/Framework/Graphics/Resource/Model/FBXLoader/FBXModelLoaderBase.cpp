@@ -200,13 +200,13 @@ ufbx_load_opts FWK::Graphics::FBXModelLoaderBase::CreateFBXLoadOptions() const
 	);
 
 	// root_transform.scale;
-	// Blnder側で0.01倍したい読み込み補正を、FBX読み込み時の共通スケールとして提供する
-	l_loadOptions.root_transform.scale = ufbx_vec3
-	(
+	// Blender側で0.01倍したい読み込み補正を、FBX読み込み時の共通スケールとして提供する
+	l_loadOptions.root_transform.scale = 
+	{
 		k_modelImportScale,
 		k_modelImportScale,
-		k_modelImportScale
-	);
+		k_modelImportScale 
+	};
 
 	// normalize_normals;
 	// 読み込み後んお法線を正規化する
