@@ -59,6 +59,8 @@ void FWK::Converter::RendererJsonConverter::DeserializeFrameResourceList(const n
 
 		const auto& l_frameResource = std::make_shared<Graphics::FrameResource>();
 
+		// 初期化してからデシリアライズ
+		l_frameResource->Init		();
 		l_frameResource->Deserialize(l_json[k_frameResourceJsonKey]);
 
 		a_renderer.AddFrameResource(l_frameResource);

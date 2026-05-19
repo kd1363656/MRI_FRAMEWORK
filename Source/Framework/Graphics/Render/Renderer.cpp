@@ -112,11 +112,17 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 
 	const auto& l_commandAllocator = l_currentFrameResource->GetREFDirectCommandAllocator();
 
+	if (!l_commandAllocator) 
+	{
+		assert(false && "ダイレクトコマンドアロケータが無効になっています。");
+		return;
+	}
+
 	// コマンドアロケータからGPU処理が終わっているかどうかを確かめGPUの処理が終わっていなければWait
 	m_directCommandQueue.EnsureAllocatorAvailable(l_commandAllocator);
 
 	// GPU同期処理が終わってからコマンドリスト、アロケータをリセット
-	l_commandAllocator.Reset ();
+	l_commandAllocator->Reset();
 	m_directCommandList.Reset(l_commandAllocator);
 
 	// バックバッファの状態遷移(PRESENT -> RESOURCE)
@@ -151,7 +157,13 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 		return;
 	}
 
-	auto& l_commandAllocator = l_currentFrameResource->GetMutableREFDirectCommandAllocator();
+	const auto& l_commandAllocator = l_currentFrameResource->GetMutableREFDirectCommandAllocator();
+
+	if (!l_commandAllocator)
+	{
+		assert(false && "ダイレクトコマンドアロケータが無効になっています。");
+		return;
+	}
 
 	// バックバッファの状態遷移(RESOURCE -> PRESENT)
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);

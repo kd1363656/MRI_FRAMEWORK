@@ -13,6 +13,7 @@ namespace FWK::Graphics
 		 FrameResource() = default;
 		~FrameResource() = default;
 
+		void Init       ();
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create     (const Device&		   a_device);
 
@@ -40,9 +41,9 @@ namespace FWK::Graphics
 
 	private:
 
-		ConstantBufferMap m_constantBufferMap = {};
+		std::shared_ptr<DirectCommandAllocator> m_directCommandAllocator = nullptr;
 
-		DirectCommandAllocator m_directCommandAllocator = {};
+		ConstantBufferMap m_constantBufferMap = {};
 
 		Converter::FrameResourceJsonConverter m_frameResourceJsonConverter = {};
 	};

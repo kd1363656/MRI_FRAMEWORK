@@ -5,7 +5,7 @@ FWK::Graphics::DirectCommandList::DirectCommandList() :
 {}
 FWK::Graphics::DirectCommandList::~DirectCommandList() = default;
 
-void FWK::Graphics::DirectCommandList::Reset(const CommandAllocatorBase& a_commandAllocator)
+void FWK::Graphics::DirectCommandList::Reset(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator)
 {
 	CommandListBase::Reset(a_commandAllocator);
 

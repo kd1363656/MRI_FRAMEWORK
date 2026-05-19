@@ -57,7 +57,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 	// 命令を格納できるようにするためリセット
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset      (*l_copyCommandAllocator);
+	m_copyCommandList.Reset      (l_copyCommandAllocator);
 
 	// UploadBuffer内に配置した各サブリソースの画像データを
 	// D3D12_PLACED_SUBRESOURCE_FOOTPRINTの配置情報に従って、DEFAULTヒープ上のテクスチャリソースへコピーする
@@ -79,11 +79,11 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 	m_copyCommandList.Close				  ();
 	m_copyCommandQueue.ExecuteCommandLists(m_copyCommandList);
 
-	m_copyCommandQueue.SignalAndTrackAllocator(*l_copyCommandAllocator);
+	m_copyCommandQueue.SignalAndTrackAllocator(l_copyCommandAllocator);
 
 	// Batch + Wait方式なので、ここでGPUコピー完了まで待つ
 	// この関数を抜けた後はUploadBufferを保持し続ける必要がない
-	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
+	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
 
 	return true;
 }
@@ -105,7 +105,7 @@ bool FWK::Graphics::UploadSystem::SubmitStaticModelBufferCopyBatchAndWait(const 
 
 	// 命令を格納できるようにするためにリセット
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset      (*l_copyCommandAllocator);
+	m_copyCommandList.Reset      (l_copyCommandAllocator);
 
 	for (const auto& [l_filePath, l_staticModelBatchUploadRecord] : a_pendingStaticModelBatchUploadRecordMap)
 	{
@@ -124,11 +124,11 @@ bool FWK::Graphics::UploadSystem::SubmitStaticModelBufferCopyBatchAndWait(const 
 	m_copyCommandList.Close				  ();
 	m_copyCommandQueue.ExecuteCommandLists(m_copyCommandList);
 
-	m_copyCommandQueue.SignalAndTrackAllocator(*l_copyCommandAllocator);
+	m_copyCommandQueue.SignalAndTrackAllocator(l_copyCommandAllocator);
 
 	// Batch + Wait方式なので、ここでGPUコピー完了まで待つ
 	// この関数を抜けた後はUploadBufferを保持し続ける必要がない
-	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
+	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
 
 	return true;
 }

@@ -1,5 +1,11 @@
 ﻿#include "FrameResource.h"
 
+void FWK::Graphics::FrameResource::Init()
+{
+	if (m_directCommandAllocator) { return; }
+
+	m_directCommandAllocator = std::make_shared<DirectCommandAllocator>();
+}
 void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
@@ -8,7 +14,13 @@ void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 }
 bool FWK::Graphics::FrameResource::Create(const Device& a_device)
 {
-	if (!m_directCommandAllocator.Create(a_device))
+	if (!m_directCommandAllocator)
+	{
+		assert(false && "ダイレクトコマンドアロケータが無効です。");
+		return false; 
+	}
+
+	if (!m_directCommandAllocator->Create(a_device))
 	{
 		assert(false && "ダイレクトコマンドアロケータの作成処理に失敗しました。");
 		return false;
