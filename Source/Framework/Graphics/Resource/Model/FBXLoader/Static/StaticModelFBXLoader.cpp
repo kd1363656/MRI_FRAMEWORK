@@ -90,7 +90,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const ufbx_scene* a_f
 
 	return true;
 }
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* a_fbxMesh, std::vector<Struct::ModelMesh>& a_modelMeshList) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, std::vector<Struct::ModelMesh>& a_modelMeshList) const
 {
 	a_modelMeshList.clear();
 
@@ -150,8 +150,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* 
 
 	return true;
 }
-
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_mesh* a_fbxMesh, const std::size_t& a_materialIndex, Struct::ModelMesh& a_modelMesh) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::size_t& a_materialIndex, Struct::ModelMesh& a_modelMesh) const
 {
 	// モデルメッシュの初期化
 	a_modelMesh.m_modelVertexList.clear();

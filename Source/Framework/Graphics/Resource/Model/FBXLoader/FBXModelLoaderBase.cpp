@@ -13,8 +13,8 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 	// ufbx_load_optsは、ufbxでFBXを読み込むときの設定
 	// 今は特別な読み込み設定を使わないため、空初期化でデフォルト設定で読み込む
 
-	ufbx_load_opts l_loadOptions = {};
-
+	const auto& l_loadOptions = CreateFBXLoadOptions();
+	
 	// ufbx_errorは、読み込み失敗時の詳細情報を受け取るための変数
 	// ufbx_load_file()が失敗した場合、この中にエラー理由が入る
 
@@ -61,9 +61,15 @@ void FWK::Graphics::FBXModelLoaderBase::DestroyFBXScene(ufbx_scene* a_fbxScene) 
 	ufbx_free_scene(a_fbxScene);
 }
 
-FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexPosition(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
+FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexPosition(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::uint32_t a_vertexIndex) const
 {
 	if (!a_fbxMesh)
+	{
+		assert(false && "ufbx_meshがnullptrのため、頂点座標の取得に失敗しました。");
+		return {};
+	}
+
+	if (!a_fbxNode)
 	{
 		assert(false && "ufbx_meshがnullptrのため、頂点座標の取得に失敗しました。");
 		return {};
@@ -73,11 +79,23 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexPosi
 	// ufbx_mesh::vertex_positionには、FBX内の頂点座標データが入っている
 	const auto& l_position = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_position, a_vertexIndex);
 
+	// 指定した頂点インデックスの座標を取得する
+	// ufbx_get_vertex_vec3(attribute spaceからworld spaceへ変換するための行列、
+	//						変換したい頂点座標);
+	// node->geometry_to_worldを使うことで、FBX内のNode Transform / Geometry Transformを頂点へ反映する
+	const auto& l_worldPosition = ufbx_transform_position(&a_fbxNode->geometry_to_world, l_position);
+	
 	return ConvertUFBXVector3ToVector3(l_position);
 }
-FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNormal(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
+FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNormal(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::uint32_t a_vertexIndex) const
 {
 	if (!a_fbxMesh)
+	{
+		assert(false && "ufbx_meshがnullptrのため、法線の取得に失敗しました。");
+		return {};
+	}
+
+	if (!a_fbxNode)
 	{
 		assert(false && "ufbx_meshがnullptrのため、法線の取得に失敗しました。");
 		return {};
@@ -89,11 +107,20 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNorm
 
 	// ufbx_get_vertex_vec3()で、指定した頂点インデックスの法線を取得する
 	// ufbx_mesh::vertex_normalには、FBX内の法線データが入っている
-
 	const auto& l_normal = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_normal, a_vertexIndex);
 
-	return ConvertUFBXVector3ToVector3(l_normal);
+	// ufbx_matrix_for_normals(法線変換用の元になる行列);
+	// スケールが入っている行列で法線をそのまま変換するとき向きが崩れる可能性があるため、法線専用の変換行列を作成する
+	const auto& l_normalMatrix = ufbx_matrix_for_normals(&a_fbxNode->geometry_to_world);
+
+	// ufbx_transform_direction(法線変換用の行列、
+	//						    変換したい法線);
+	// 法線は位置ではなく方向なので、平行移動の影響を受けないDirection変換を使う
+	const auto& l_worldNormal = ufbx_vec3_normalize(ufbx_transform_direction(&l_normalMatrix, l_normal));
+
+	return ConvertUFBXVector3ToVector3(l_worldNormal);
 }
+
 FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::FetchVertexUV(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
 {
 	if (!a_fbxMesh)
@@ -137,4 +164,54 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::ConvertUFBXVect
 		static_cast<float>(a_fbxVector.x),
 		static_cast<float>(a_fbxVector.y)
 	);
+}
+
+ufbx_load_opts FWK::Graphics::FBXModelLoaderBase::CreateFBXLoadOptions() const
+{
+	// ufbx_load_optsは、ufbxでFBXを読み込むときの設定
+	// StaticModelFBXLoader / AnimationModelFBXLoaderの両方で同じ読む込み補正を使うため、
+	// FBXModelLoaderBase側で共通化する
+
+	ufbx_load_opts l_loadOptions = {};
+
+	// use_root_transform;
+	// trueにすると、root_transformで指定した読み込み時のルート変換を使用する
+	l_loadOptions.use_root_transform = true;
+
+	// ues_root_transform.translation;
+	// 今回は読み込み時に位置移動はしないため、UFBX側のゼロベクトルを使う
+	l_loadOptions.root_transform.translation = ufbx_zero_vec3;
+
+	// root_transform.rotation
+	// Blender / FBX側の向きをエンジン側に合わせるため、
+	// X軸 -90度、Y軸 180度、Z軸 0度の回転をQuaternionへ変換して設定する
+	// ufbx_euler_to_quat(回転角度XYZ,
+	//					  Euler回転の適用順);
+
+	l_loadOptions.root_transform.rotation = ufbx_euler_to_quat
+	(
+		ufbx_vec3
+		{
+			k_modelImportRotationXDegrees,
+			k_modelImportRotationYDegrees,
+			k_modelImportRotationZDegrees
+		},
+		UFBX_ROTATION_ORDER_XYZ
+	);
+
+	// root_transform.scale;
+	// Blnder側で0.01倍したい読み込み補正を、FBX読み込み時の共通スケールとして提供する
+	l_loadOptions.root_transform.scale = ufbx_vec3
+	(
+		k_modelImportScale,
+		k_modelImportScale,
+		k_modelImportScale
+	);
+
+	// normalize_normals;
+	// 読み込み後んお法線を正規化する
+	// スケールや回転補正後に法線の長さが崩れる可能性を減らすために有効化する
+	l_loadOptions.normalize_normals = true;
+
+	return l_loadOptions;
 }

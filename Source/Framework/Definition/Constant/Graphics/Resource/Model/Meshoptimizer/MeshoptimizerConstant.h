@@ -20,8 +20,6 @@ namespace FWK::Constant
 
 	inline constexpr std::size_t k_meshletPrimitiveIndexAlignment = 4ULL;
 
-	inline constexpr std::uint32_t k_triangleVertexCount = 3U;
-	
 	inline constexpr std::uint32_t k_maxMeshletVertexCount    = 64U;
 	inline constexpr std::uint32_t k_maxMeshletPrimitiveCount = 126U;
 
