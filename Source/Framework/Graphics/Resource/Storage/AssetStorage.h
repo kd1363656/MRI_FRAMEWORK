@@ -50,7 +50,7 @@ namespace FWK::Graphics
 		{
 			if (!a_record)
 			{
-				assert(false && "レコードのインスタン化がされていません。");
+				assert(false && "レコードのインスタンス化がされていません。");
 				return false;
 			}
 
@@ -188,7 +188,7 @@ namespace FWK::Graphics
 					continue;
 				}
 
-				// Record固有のリソースを開放する
+				// Record固有のリソースを解放する
 				// TextureRecordならTextureResourceやSRVのStorageID返却などを行う
 				if (!a_recordReleaser.ReleaseRecord(l_record))
 				{

@@ -139,6 +139,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 	if (!l_textureResource)
 	{
 		assert(false && "TextureResourceが作成されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
+		return false;
 	}
 
 	const auto& l_textureResourceDesc = l_textureResource->GetDesc();

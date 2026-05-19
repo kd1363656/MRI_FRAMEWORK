@@ -282,7 +282,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALGPUHandle
 	auto l_handle = a_descriptorHeapRecord.m_gpuStart;
 
 	// a_storageID個分先に進めて、目的のディスクリプタ位置を計算する
-	l_handle.ptr += static_cast<UINT64>(a_storageID) * static_cast<UINT64>(m_descriptorSize);
+	l_handle.ptr += static_cast<UINT64>(a_storageID * m_descriptorSize);
 
 	return l_handle;
 }
