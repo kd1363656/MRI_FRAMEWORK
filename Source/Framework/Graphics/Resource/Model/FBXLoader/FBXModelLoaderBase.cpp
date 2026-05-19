@@ -85,7 +85,7 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexPosi
 	// node->geometry_to_worldを使うことで、FBX内のNode Transform / Geometry Transformを頂点へ反映する
 	const auto& l_worldPosition = ufbx_transform_position(&a_fbxNode->geometry_to_world, l_position);
 	
-	return ConvertUFBXVector3ToVector3(l_position);
+	return ConvertUFBXVector3ToVector3(l_worldPosition);
 }
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNormal(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::uint32_t a_vertexIndex) const
 {
@@ -192,9 +192,9 @@ ufbx_load_opts FWK::Graphics::FBXModelLoaderBase::CreateFBXLoadOptions() const
 	(
 		ufbx_vec3
 		{
-			k_modelImportRotationXDegrees,
-			k_modelImportRotationYDegrees,
-			k_modelImportRotationZDegrees
+			k_modelImportRotationXDegree,
+			k_modelImportRotationYDegree,
+			k_modelImportRotationZDegree
 		},
 		UFBX_ROTATION_ORDER_XYZ
 	);

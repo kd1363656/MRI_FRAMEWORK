@@ -30,11 +30,11 @@ namespace FWK::Graphics
 		static constexpr std::size_t k_errorTextBufferSize = 1024ULL;
 #endif
 
-		static constexpr ufbx_real k_modelImportRotationXDegrees = -90.0;
-		static constexpr ufbx_real k_modelImportRotationYDegrees = 180.0;
-		static constexpr ufbx_real k_modelImportRotationZDegrees = 0.0;
+		static constexpr ufbx_real k_modelImportRotationXDegree = 0.0;
+		static constexpr ufbx_real k_modelImportRotationYDegree = 0.0;
+		static constexpr ufbx_real k_modelImportRotationZDegree = 0.0;
 
-		static constexpr ufbx_real k_modelImportScale = 0.01;
+		static constexpr ufbx_real k_modelImportScale = 0.1;
 
 		static constexpr float k_uvCoordinateMax = 1.0F;
 	};

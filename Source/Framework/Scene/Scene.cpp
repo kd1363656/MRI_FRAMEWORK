@@ -16,7 +16,7 @@ void FWK::Scene::PostLoadSetup()
 
 	const auto l_aspectRatio = l_viewport.Width / l_viewport.Height;
 
-	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 0.0F, -20.0F), l_aspectRatio);
+	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 0.10F, -0.10F), l_aspectRatio);
 }
 
 void FWK::Scene::RequestDraw() const
@@ -67,7 +67,7 @@ void FWK::Scene::RequestDrawStaticModelUnLitStandard(const Graphics::StaticModel
 
 	l_staticModelUnLitStandardDrawCommand.m_staticModelRecord = a_staticModel.GetREFStaticModelRecord();
 	l_staticModelUnLitStandardDrawCommand.m_camera			  = a_camera;
-	l_staticModelUnLitStandardDrawCommand.m_worldMatrix		  = TypeAlias::Math::Matrix::Identity;
+	l_staticModelUnLitStandardDrawCommand.m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
 
 	l_drawCommand->RequestDraw(l_staticModelUnLitStandardDrawCommand);
 }
