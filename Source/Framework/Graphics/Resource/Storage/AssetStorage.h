@@ -190,7 +190,7 @@ namespace FWK::Graphics
 
 				// Record固有のリソースを解放する
 				// TextureRecordならTextureResourceやSRVのStorageID返却などを行う
-				if (!a_recordReleaser.ReleaseRecord(l_record))
+				if (!a_recordReleaser.ReleaseRecord(*l_record))
 				{
 					assert(false && "Record固有リソースの解放に失敗しました。");
 					++l_itr;

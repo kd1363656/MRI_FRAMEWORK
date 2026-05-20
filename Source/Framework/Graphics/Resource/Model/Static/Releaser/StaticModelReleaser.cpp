@@ -5,17 +5,9 @@ FWK::Graphics::StaticModelRecordReleaser::StaticModelRecordReleaser(DescriptorPo
 {}
 FWK::Graphics::StaticModelRecordReleaser::~StaticModelRecordReleaser() = default;
 
-bool FWK::Graphics::StaticModelRecordReleaser::ReleaseRecord(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord) const
+bool FWK::Graphics::StaticModelRecordReleaser::ReleaseRecord(Struct::StaticModelRecord& a_staticModelRecord) const
 {
-	const auto& l_staticModelRecord = a_staticModelRecord.lock();
-
-	if (!l_staticModelRecord)
-	{
-		assert(false && "StaticModelRecordが無効のため、StaticModelRecordの解放に失敗しました。");
-		return false;
-	}
-
-	for (auto& l_modelMesh : l_staticModelRecord->m_modelData.m_modelMeshList)
+	for (auto& l_modelMesh : a_staticModelRecord.m_modelData.m_modelMeshList)
 	{
 		auto& l_modelMeshRuntimeData = l_modelMesh.m_modelMeshRuntimeData;
 

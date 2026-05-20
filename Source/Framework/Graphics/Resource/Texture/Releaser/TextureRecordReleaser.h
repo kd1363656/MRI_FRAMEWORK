@@ -12,7 +12,7 @@ namespace FWK::Graphics
 		explicit  TextureRecordReleaser(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 				 ~TextureRecordReleaser();
 
-		bool ReleaseRecord(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord) const;
+		bool ReleaseRecord(Struct::TextureRecord& a_textureRecord) const;
 
 	private:
 

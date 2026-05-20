@@ -12,7 +12,7 @@ namespace FWK::Graphics
 		explicit StaticModelRecordReleaser(DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 				~StaticModelRecordReleaser();
 
-		bool ReleaseRecord(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord) const;
+		bool ReleaseRecord(Struct::StaticModelRecord& a_staticModelRecord) const;
 
 	private:
 

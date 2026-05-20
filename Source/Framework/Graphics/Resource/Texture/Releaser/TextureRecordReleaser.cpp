@@ -5,23 +5,15 @@ FWK::Graphics::TextureRecordReleaser::TextureRecordReleaser(DescriptorPool<SRVDe
 {}
 FWK::Graphics::TextureRecordReleaser::~TextureRecordReleaser() = default;
 
-bool FWK::Graphics::TextureRecordReleaser::ReleaseRecord(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord) const
+bool FWK::Graphics::TextureRecordReleaser::ReleaseRecord(Struct::TextureRecord& a_textureRecord) const
 {
-	const auto& l_textureRecord = a_textureRecord.lock();
-
-	if (!l_textureRecord)
-	{
-		assert(false && "テクスチャレコードの解放処理に失敗しました。");
-		return false;
-	}
-
 	// SRV用StorageIDを返却する
-	if (l_textureRecord->m_srvStorageID != Constant::k_invalidStorageID)
+	if (a_textureRecord.m_srvStorageID != Constant::k_invalidStorageID)
 	{
-		m_srvDescriptorPool.Release(l_textureRecord->m_srvStorageID);
+		m_srvDescriptorPool.Release(a_textureRecord.m_srvStorageID);
 
 		// 二重開放を防ぐため、返却後は無効値に戻す
-		l_textureRecord->m_srvStorageID = Constant::k_invalidStorageID;
+		a_textureRecord.m_srvStorageID = Constant::k_invalidStorageID;
 	}
 
 	return true;

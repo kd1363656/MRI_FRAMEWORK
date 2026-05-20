@@ -19,7 +19,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	}
 
 	// まずはGPU側用のテクスチャリソースのヒープ領域を確保
-	if (!CreateTextureResource(l_textureRecord, a_texMetadata, a_gpuMemoryAllocator))
+	if (!CreateTextureResource(a_texMetadata, a_gpuMemoryAllocator, *l_textureRecord))
 	{
 		assert(false && "TextureResource作成処理に失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
@@ -34,10 +34,10 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	}
 
 	// 作成したTextureResourceをシェーダーから参照できるように、CPUOnly側のDescriptorHeapへSRVを作成する
-	if (!CreateTextureSRV(a_textureBatchUploadRecord.m_textureRecord,
-						  a_texMetadata,
+	if (!CreateTextureSRV(a_texMetadata,
 						  a_device,
-						  a_srvDescriptorPool))
+						  a_srvDescriptorPool,
+						  *a_textureBatchUploadRecord.m_textureRecord))
 	{
 		assert(false && "TextureSRV作成に失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
 		return false;
@@ -60,16 +60,8 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	return true;
 }
 
-bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord, const DirectX::TexMetadata& a_texMetadata, const GPUMemoryAllocator& a_gpuMemoryAllocator) const
+bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const DirectX::TexMetadata& a_texMetadata, const GPUMemoryAllocator& a_gpuMemoryAllocator, Struct::TextureRecord& a_textureRecord) const
 {
-	const auto& l_textureRecord = a_textureRecord.lock();
-
-	if (!l_textureRecord)
-	{
-		assert(false && "TextureRecordが無効のため、TextureResource作成処理に失敗しました。");
-		return false;
-	}
-
 	if (a_texMetadata.format == DXGI_FORMAT_UNKNOWN)
 	{
 		assert(false && "テクスチャフォーマットが無効のため、TextureResource作成処理に失敗しました。");
@@ -101,7 +93,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const
 		!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
 													nullptr,
 													D3D12_RESOURCE_STATE_COMMON,
-													l_textureRecord->m_gpuResource))
+													a_textureRecord.m_gpuResource))
 	{
 		assert(false && "D3D12MAによるTextureResource作成処理に失敗しました。");
 		return false;
@@ -258,20 +250,12 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 	return true;
 }
 
-bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
-																	  const DirectX::TexMetadata&                 a_texMetadata, 
-																	  const Device&				                  a_device, 
-																		    DescriptorPool<SRVDescriptorHeap>&    a_srvDescriptorPool) const
+bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const DirectX::TexMetadata&              a_texMetadata, 
+																	  const Device&				               a_device, 
+																		    DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+																			Struct::TextureRecord&			   a_textureRecord) const
 {
-	const auto& l_textureRecord = a_textureRecord.lock();
-
-	if (!l_textureRecord)
-	{
-		assert(false && "TextureRecordが無効のため、TextureSRV作成処理に失敗しました。");
-		return false;
-	}
-
-	const auto& l_textureResource = l_textureRecord->m_gpuResource.m_resource;
+	const auto& l_textureResource = a_textureRecord.m_gpuResource.m_resource;
 
 	if (!l_textureResource)
 	{
@@ -328,9 +312,9 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const std:
 		return false;
 	}
 
-	l_textureRecord->m_srvStorageID = l_srvStorageID;
+	a_textureRecord.m_srvStorageID = l_srvStorageID;
 
-	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_textureRecord->m_srvStorageID);
+	const auto& l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(a_textureRecord.m_srvStorageID);
 
 	// 作成したビューを用いてTextureResourceとSRVを結び付ける
 	l_device->CreateShaderResourceView(l_textureResource.Get(), &l_srvDesc, l_cpuOnlyCPUHandle);
