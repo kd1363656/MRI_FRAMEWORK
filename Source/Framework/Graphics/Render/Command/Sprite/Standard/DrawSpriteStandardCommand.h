@@ -15,17 +15,17 @@ namespace FWK::Graphics
 
 	private:
 
-		bool SetupCBSpritePass(const std::weak_ptr<RootSignature>& a_rootSignature,
-							   const Renderer&					   a_renderer,
-							   const DirectCommandList&			   a_directCommandList,
-							   const UploadBuffer&				   a_spritePassUploadBuffer,
-								     std::uint8_t* const		   a_spritePassMappedData) const;
+		bool SetupCBSpritePass(const RootSignature&      a_rootSignature,
+							   const Renderer&			 a_renderer,
+							   const DirectCommandList&	 a_directCommandList,
+							   const UploadBuffer&		 a_spritePassUploadBuffer,
+								     std::uint8_t* const a_spritePassMappedData) const;
 
-		bool SetupCBSpriteDraw(const std::weak_ptr<RootSignature>&         a_rootSignature,
-							   const Struct::SpriteStandardDrawCommand&	   a_spriteStandardDrawCommand,
-							   const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
+		bool SetupCBSpriteDraw(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
+							   const RootSignature&						   a_rootSignature,
 							   const DirectCommandList&			           a_directCommandList,
 							   const UploadBuffer&				           a_spriteDrawUploadBuffer,
+							   const Struct::SpriteStandardDrawCommand&	   a_spriteStandardDrawCommand,
 							   const std::size_t&				           a_spriteDrawCommandIndex,
 									 std::uint8_t* const		           a_spriteDrawMappedData) const;
 

@@ -17,9 +17,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	// その際にセットしたルートシグネチャとパイプラインステートのポインタを取得
 	SetupGraphicsPipelineStateToCommandList(a_renderer);
 
-	const auto& l_rootSignature = GetVALRootSignature();
+	const auto& l_rootSignature = GetVALRootSignature().lock();
 
-	if (l_rootSignature.expired())
+	if (!l_rootSignature)
 	{
 		assert(false && "使用しようとしたルートシグネチャが無効なため、描画処理に失敗しました。");
 		return;
@@ -68,7 +68,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	}
 
 	// もし共通定数バッファの設定に失敗したらマップを解除
-	if (!SetupCBSpritePass(l_rootSignature,
+	if (!SetupCBSpritePass(*l_rootSignature,
 						   a_renderer,
 						   l_directCommandList,
 						   l_spritePassUploadBuffer,
@@ -94,11 +94,11 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 
-		if (!SetupCBSpriteDraw(l_rootSignature, 
-							   l_spriteDrawCommand,
-							   l_textureRecord,
+		if (!SetupCBSpriteDraw(l_textureRecord,
+							   *l_rootSignature, 
 							   l_directCommandList,
 							   l_spriteDrawUploadBuffer,
+							   l_spriteDrawCommand,
 							   l_spriteDrawCommandIndex,
 							   l_spriteDrawMappedData))
 		{
@@ -112,11 +112,11 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	l_spritePassUploadBuffer.UnMap();
 }
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const std::weak_ptr<RootSignature>& a_rootSignature,
-																 const Renderer&					 a_renderer,
-															     const DirectCommandList&			 a_directCommandList,
-															     const UploadBuffer&				 a_spritePassUploadBuffer, 
-																	   std::uint8_t* const			 a_spritePassMappedData) const
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const RootSignature&	   a_rootSignature,
+																 const Renderer&		   a_renderer,
+															     const DirectCommandList&  a_directCommandList,
+															     const UploadBuffer&	   a_spritePassUploadBuffer, 
+																	   std::uint8_t* const a_spritePassMappedData) const
 {
 	const auto& l_viewport = a_renderer.GetREFRenderArea().GetREFViewport();
 
@@ -144,11 +144,11 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const std::weak
 																  a_spritePassMappedData);
 }
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak_ptr<RootSignature>&         a_rootSignature,
-																 const Struct::SpriteStandardDrawCommand&    a_spriteStandardDrawCommand, 
-																 const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
+																 const RootSignature&						 a_rootSignature,
 																 const DirectCommandList&                    a_directCommandList,
 																 const UploadBuffer&			             a_spriteDrawUploadBuffer,
+																 const Struct::SpriteStandardDrawCommand&    a_spriteStandardDrawCommand, 
 																 const std::size_t&				             a_spriteDrawCommandIndex, 
 																	   std::uint8_t* const		             a_spriteDrawMappedData) const
 {

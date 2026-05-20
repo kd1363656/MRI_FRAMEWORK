@@ -20,8 +20,8 @@ namespace FWK::Graphics
 
 		void Reset(const CommandAllocatorBase& a_commandAllocator) override;
 
-		void TransitionResource            (      ID3D12Resource2& a_resource,  const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
-		void TransitionRenderTargetResource(const SwapChain&	   a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
+		void TransitionResource            (const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState,		ID3D12Resource2&	  a_resource) const;
+		void TransitionRenderTargetResource(const SwapChain&			a_swapChain,   const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 
 		void SetupBackBuffer(const SwapChain&		    a_swapChain, 
 							 const RTVDescriptorHeap&   a_rtvDescriptorHeap,
@@ -34,7 +34,7 @@ namespace FWK::Graphics
 		void SetupDescriptorHeap(const DescriptorHeapBase&			 a_descriptorHeap) const;
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
-		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const std::weak_ptr<RootSignature>& a_rootSignature) const
+		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const RootSignature& a_rootSignature) const
 		{
 			const auto& l_directCommandList = GetREFCommandList();
 
@@ -44,15 +44,7 @@ namespace FWK::Graphics
 				return;
 			}
 
-			const auto& l_rootSignature = a_rootSignature.lock();
-
-			if (!l_rootSignature)
-			{
-				assert(false && "ルートシグネチャが作成されておらず、定数バッファビューが設定できませんでした。");
-				return;
-			}
-
-			const auto l_rootParameterIndex = l_rootSignature->FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
+			const auto l_rootParameterIndex = a_rootSignature.FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
 
 			if (l_rootParameterIndex == Constant::k_invalidRootParameterIndex)
 			{

@@ -18,12 +18,12 @@ namespace FWK::Graphics
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
 
-		bool SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
+		bool SetupCBModelObject(const RootSignature&							   a_rootSignature,
+								const DirectCommandList&		                   a_directCommandList,
+								const UploadBuffer&					               a_modelObjectUploadBuffer,
 								const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand,
 								const Struct::ModelMaterialRuntimeData&			   a_modelMaterialRuntimeData,
 								const Struct::ModelMeshRuntimeData&			       a_modelMeshRuntimeData,
-								const DirectCommandList&		                   a_directCommandList,
-								const UploadBuffer&					               a_modelObjectUploadBuffer,
 								const std::size_t&								   a_modelObjectIndex,
 									  std::uint8_t* const			               a_modelObjectMappedData) const;
 

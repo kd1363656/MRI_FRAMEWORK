@@ -60,18 +60,18 @@ void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(cons
 	auto& l_textureResource = *a_textureRecord.m_gpuResource.m_resource.Get();
 
 	// PixelShaderからSRVとして読むため、現在の状態からPIXEL_SHADER_RESOURCEへ遷移する
-	a_directCommandList.TransitionResource(l_textureResource,
-										   a_textureRecord.m_currentState,
-										   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	a_directCommandList.TransitionResource(a_textureRecord.m_currentState,
+										   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+										   l_textureResource);
 
 	a_textureRecord.m_currentState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 }
 
-bool FWK::Graphics::DrawCommandBase::SetCBCamera(const std::weak_ptr<RootSignature>& a_rootSignature, 
-												 const std::weak_ptr<Camera>&		 a_camera, 
-												 const DirectCommandList&		     a_directCommandList,
-												 const UploadBuffer&				 a_cameraUploadBuffer, 
-													   std::uint8_t* const			 a_cameraMappedData) const
+bool FWK::Graphics::DrawCommandBase::SetCBCamera(const std::weak_ptr<Camera>& a_camera, 
+												 const RootSignature&		  a_rootSignature, 
+												 const DirectCommandList&	  a_directCommandList,
+												 const UploadBuffer&		  a_cameraUploadBuffer, 
+													   std::uint8_t* const	  a_cameraMappedData) const
 {
 	const auto& l_camera = a_camera.lock();
 

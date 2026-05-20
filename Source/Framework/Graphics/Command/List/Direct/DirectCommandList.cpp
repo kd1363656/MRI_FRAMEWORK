@@ -13,7 +13,7 @@ void FWK::Graphics::DirectCommandList::Reset(const CommandAllocatorBase& a_comma
 	ClearCurrentRootSignatureAndPipelineStateCache();
 }
 
-void FWK::Graphics::DirectCommandList::TransitionResource(ID3D12Resource2& a_resource, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const
+void FWK::Graphics::DirectCommandList::TransitionResource(const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState, ID3D12Resource2& a_resource) const
 {
 	if (a_beforeState == a_afterState)
 	{
@@ -73,7 +73,7 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const Swap
 	auto& l_backBufferResource = *l_backBufferList[l_currentBackBufferIndex].m_backBufferResource.Get();
 
 	// リソースの状態遷移(Present -> RenderTarget)
-	TransitionResource(l_backBufferResource, a_beforeState, a_afterState);
+	TransitionResource(a_beforeState, a_afterState, l_backBufferResource);
 }
 
 void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain&			  a_swapChain, 

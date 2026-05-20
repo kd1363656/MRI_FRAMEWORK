@@ -14,9 +14,9 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 	// StaticModel用ルートシグネチャとパイプラインステートをセット
 	SetupGraphicsPipelineStateToCommandList(a_renderer);
 
-	const auto& l_rootSignature = GetVALRootSignature();
+	const auto& l_rootSignature = GetVALRootSignature().lock();
 
-	if (l_rootSignature.expired())
+	if (!l_rootSignature)
 	{
 		assert(false && "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。");
 		return;
@@ -75,8 +75,8 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 		if (!l_staticModelRecord) { continue; }
 
 		// カメラ情報をセット
-		if (!SetCBCamera(l_rootSignature,
-						 l_staticModelDrawCommand.m_camera,
+		if (!SetCBCamera(l_staticModelDrawCommand.m_camera,
+						 *l_rootSignature,
 						 l_directCommandList,
 						 l_cameraUploadBuffer,
 						 l_cameraMappedData))
@@ -94,12 +94,12 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 			if (l_modelMeshletData.m_meshletList.size() == Constant::k_emptyMeshletCount) { continue; }
 
 			// モデル定数のセット
-			if (!SetupCBModelObject(l_rootSignature,
+			if (!SetupCBModelObject(*l_rootSignature,
+									l_directCommandList,
+								    l_modelObjectUploadBuffer,
 									l_staticModelDrawCommand,
 									l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData,
 									l_modelMeshRuntimeData,
-								    l_directCommandList,
-								    l_modelObjectUploadBuffer,
 									l_modelObjectIndex,
 									l_modelObjectMappedData))
 			{
@@ -116,12 +116,12 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 	l_cameraUploadBuffer.UnMap	   ();
 }
 
-bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
+bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const RootSignature&							   a_rootSignature,
+																			const DirectCommandList&						   a_directCommandList, 
+																			const UploadBuffer&								   a_modelObjectUploadBuffer, 
 																			const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand, 
 																		    const Struct::ModelMaterialRuntimeData&			   a_modelMaterialRuntimeData,
 																		    const Struct::ModelMeshRuntimeData&			       a_modelMeshRuntimeData,
-																			const DirectCommandList&						   a_directCommandList, 
-																			const UploadBuffer&								   a_modelObjectUploadBuffer, 
 																			const std::size_t&								   a_modelObjectIndex, 
 																				  std::uint8_t* const						   a_modelObjectMappedData) const
 {
@@ -154,7 +154,7 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 	l_cbModelObject.m_uniqueVertexIndexBufferIndex = a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
 	l_cbModelObject.m_primitiveIndexBufferIndex    = a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
 
-	return SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature,
+	return SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
 																   a_directCommandList,
 																   a_modelObjectUploadBuffer,
 																   l_cbModelObject,

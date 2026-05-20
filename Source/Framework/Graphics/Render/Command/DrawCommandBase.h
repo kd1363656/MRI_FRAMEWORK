@@ -21,19 +21,13 @@ namespace FWK::Graphics
 	protected:
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupConstantBuffer(const std::weak_ptr<RootSignature>& a_rootSignature,
-								 const DirectCommandList&			 a_directCommandList,
-								 const UploadBuffer&				 a_uploadBuffer,
-								 const ConstantBufferType&			 a_constantBuffer,
-								 const std::size_t&					 a_constantBufferIndex,
-									   std::uint8_t* const			 a_mappedData) const
+		bool SetupConstantBuffer(const RootSignature&	   a_rootSignature,
+								 const DirectCommandList&  a_directCommandList,
+								 const UploadBuffer&	   a_uploadBuffer,
+								 const ConstantBufferType& a_constantBuffer,
+								 const std::size_t&		   a_constantBufferIndex,
+									   std::uint8_t* const a_mappedData) const
 		{
-			if (a_rootSignature.expired())
-			{
-				assert(false && "ルートシグネチャが無効なため、定数バッファの設定に失敗しました。");
-				return false;
-			}
-
 			if (!a_mappedData)
 			{
 				assert(false && "定数バッファのMap済みアドレスが無効なため、定数バッファの設定に失敗しました。");
@@ -65,11 +59,11 @@ namespace FWK::Graphics
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord);
 
-		bool SetCBCamera(const std::weak_ptr<RootSignature>& a_rootSignature,
-						 const std::weak_ptr<Camera>&		 a_camera,
-						 const DirectCommandList&			 a_directCommandList,
-						 const UploadBuffer&				 a_cameraUploadBuffer,
-							   std::uint8_t* const		     a_cameraMappedData) const;
+		bool SetCBCamera(const std::weak_ptr<Camera>& a_camera,
+						 const RootSignature&		  a_rootSignature,
+						 const DirectCommandList&	  a_directCommandList,
+						 const UploadBuffer&		  a_cameraUploadBuffer,
+							   std::uint8_t* const	  a_cameraMappedData) const;
 
 
 
