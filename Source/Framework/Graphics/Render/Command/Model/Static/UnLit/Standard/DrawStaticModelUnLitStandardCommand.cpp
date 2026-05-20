@@ -178,10 +178,10 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelBaseColorText
 																				       const DirectCommandList&				    a_directCommandList, 
 																					   const Struct::ModelMaterialRuntimeData&  a_modelMaterialRuntimeData) const
 {
-	// テクスチャがない場合は定数で処理するためtrueを返す
+	// StaticModelSystem側で必ずDefaultBaseColorTextureへフォールバックしているため、ここでnullptrなら異常扱い
 	if (!a_modelMaterialRuntimeData.m_baseColorTexture) 
 	{ 
-		assert(false && "BaseColorTextureが無効なため、CBModelMaterial削除後のStaticModel描画処理に失敗しました。");
+		assert(false && "BaseColorTextureが無効なため、StaticModel描画処理に失敗しました。");
 		return false;
 	}
 

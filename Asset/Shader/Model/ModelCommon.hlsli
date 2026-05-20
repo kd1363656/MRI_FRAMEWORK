@@ -14,14 +14,14 @@ struct ModelMeshlet
 
 cbuffer CBCamera : register(b0)
 {
-    row_major float4x4 g_viewMatrix;
-    row_major float4x4 g_projectionMatrix;
-    row_major float4x4 g_viewProjectionMatrix;
+    row_major matrix g_viewMatrix;
+    row_major matrix g_projectionMatrix;
+    row_major matrix g_viewProjectionMatrix;
 }
 
 cbuffer CBModelObject : register(b1)
 {
-    row_major float4x4 g_worldMatrix;
+    row_major matrix g_worldMatrix;
 }
 
 static const float4 k_modelUnLitColor = { 1.0F, 1.0F, 1.0F, 1.0F };

@@ -97,7 +97,16 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	{
 		const auto& l_baseColorTextureFilePath = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData.m_baseColorTextureFilePath;
 
-		if (l_baseColorTextureFilePath.empty()) { continue; }
+		auto l_baseColorTexture = std::make_shared<Texture>();
+
+		if (l_baseColorTextureFilePath.empty())
+		{
+			l_baseColorTexture->SetupDefaultTexture(Enum::DefaultTextureType::BaseColor);
+
+			l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData.m_baseColorTexture = l_baseColorTexture;
+
+			continue;
+		}
 
 		std::filesystem::path l_textureFilePath = l_baseColorTextureFilePath;
 
@@ -105,8 +114,6 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 		{
 			l_textureFilePath = a_filePath.parent_path() / l_textureFilePath;
 		}
-
-		auto l_baseColorTexture = std::make_shared<Texture>();
 
 		l_baseColorTexture->Load(l_textureFilePath);
 
