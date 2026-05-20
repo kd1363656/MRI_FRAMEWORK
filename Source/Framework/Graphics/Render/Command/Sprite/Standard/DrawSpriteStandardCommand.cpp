@@ -88,10 +88,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		
 		const auto& l_textureRecord = l_spriteDrawCommand.m_textureRecord.lock();
 
-		if (!l_textureRecord)					                          { continue; }
-		if (!l_textureRecord->m_gpuResource.m_resource)                   { continue; }
-		if (l_textureRecord->m_storageID == Constant::k_invalidStorageID) { continue; }
-
+		if (!l_textureRecord)					        { continue; }
+		if (!l_textureRecord->m_gpuResource.m_resource) { continue; }
+		
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 

@@ -7,23 +7,11 @@ namespace FWK::Utility::File
 	// ファイルが読み込める形式かどうかを確認する。
 	inline bool CanLoadFilePath(const std::filesystem::path& a_filePath)
 	{
-		if (a_filePath.empty()) 
-		{
-			assert(false && "ファイルパスが空です、読み込めるファイルパスではありません。");
-			return false; 
-		}
+		if (a_filePath.empty()) { return false; }
 
-		if (!std::filesystem::exists(a_filePath))
-		{
-			assert(false && "指定されたファイルパスが存在しません、読み込めるファイルパスではありません。");
-			return false;
-		}
+		if (!std::filesystem::exists(a_filePath)) { return false; }
 
-		if (!std::filesystem::is_regular_file(a_filePath))
-		{
-			assert(false && "通常ファイルでないため、読み込めるファイルではありません。");
-			return false;
-		}
+		if (!std::filesystem::is_regular_file(a_filePath)) { return false; }
 
 		return true;
 	}
@@ -31,17 +19,9 @@ namespace FWK::Utility::File
 	// ファイルが読み込める形式かどうか拡張子が一致しているかどうかを確認する
 	inline bool CanLoadFilePath(const std::filesystem::path& a_filePath, const std::filesystem::path& a_extension)
 	{
-		if (!CanLoadFilePath(a_filePath)) 
-		{
-			assert(false && "ファイルパスが読み込めるファイルパスではありません。");
-			return false; 
-		}
+		if (!CanLoadFilePath(a_filePath)) { return false; }
 
-		if (a_filePath.extension() != a_extension)
-		{
-			assert(false && "ファイルパスの拡張子が一致しておりません、読み込めるファイルではありません。");
-			return false;
-		}
+		if (a_filePath.extension() != a_extension) { return false; }
 
 		return true;
 	}

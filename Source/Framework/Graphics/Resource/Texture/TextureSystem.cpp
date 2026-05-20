@@ -61,11 +61,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	Struct::TextureLoadResult l_textureLoadResult = {};
 
 	// 読み込めるファイルかどうかを確認
-	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerDDSExtension))
-	{
-		assert(false && "テクスチャファイルパスが読み込めるファイルパスではありません。");
-		return l_textureLoadResult;
-	}
+	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerDDSExtension)) { return l_textureLoadResult; }
 
 	const auto& l_filePath = a_filePath.wstring();
 	
