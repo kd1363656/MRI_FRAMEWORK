@@ -16,6 +16,8 @@ namespace FWK::Graphics
 
 		void Load(const std::filesystem::path& a_filePath);
 
+		void SetupDefaultTexture(const Enum::DefaultTextureType a_defaultTextureType);
+
 		const auto& GetREFTextureRecord() const { return m_textureRecord; }
 
 		auto GetVALStorageID() const { return m_storageID; }

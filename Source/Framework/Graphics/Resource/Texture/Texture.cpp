@@ -77,18 +77,41 @@ void FWK::Graphics::Texture::Load(const std::filesystem::path& a_filePath)
 
 	if (l_textureLoadResult.m_storageID == Constant::k_invalidStorageID) 
 	{
-		assert(false && "テクスチャ読み込みに失敗しました。");
+		SetupDefaultTexture(Enum::DefaultTextureType::BaseColor);
 		return;
 	}
 
 	if (l_textureLoadResult.m_textureRecord.expired())
 	{
-		assert(false && "TextureRecordが無効のため、テクスチャ読み込みに失敗しました。");
+		SetupDefaultTexture(Enum::DefaultTextureType::BaseColor);
 		return;
 	}
 
 	m_storageID     = l_textureLoadResult.m_storageID;
 	m_textureRecord = l_textureLoadResult.m_textureRecord;
+}
+
+void FWK::Graphics::Texture::SetupDefaultTexture(const Enum::DefaultTextureType a_defaultTextureType)
+{
+	// 通常クス茶を使っている場合は先に参照を外す
+	ReleaseTextureReference();
+
+	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
+
+	auto& l_resourceContext = l_graphicsManager.GetMutableREFResourceContext();
+	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
+	
+	const auto& l_defaultTextureRecord = l_textureSystem.FindVALDefaultTextureRecord(a_defaultTextureType);
+
+	if (l_defaultTextureRecord.expired())
+	{
+		assert(false && "DefaultTextureRecordが無効のため、デフォルトテクスチャ設定に失敗しました。");
+		return;
+	}
+
+	// デフォルトテクスチャはAssetStorage管理ではないため、StorageIDは無効値のままにする
+	m_storageID     = Constant::k_invalidStorageID;
+	m_textureRecord = l_defaultTextureRecord;
 }
 
 void FWK::Graphics::Texture::AddTextureReference() const
