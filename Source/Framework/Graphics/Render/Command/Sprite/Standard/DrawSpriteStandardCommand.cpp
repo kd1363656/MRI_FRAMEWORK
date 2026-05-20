@@ -7,6 +7,11 @@ void FWK::Graphics::DrawSpriteStandardCommand::PostCreateSetup(Renderer& a_rende
 
 void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
 {
+	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
+	// PixelShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
+	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
+
 
 	// スプライト用ルートシグネチャとパイプラインステートをセット
 	// その際にセットしたルートシグネチャとパイプラインステートのポインタを取得
@@ -42,11 +47,6 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		assert(false && "スプライト描画用定数バッファが取得できないため、描画処理に失敗しました。");
 		return;
 	}
-
-	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
-
-	// PixelShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
-	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
 
 	const auto& l_spritePassUploadBuffer = l_spritePassConstantBuffer->GetREFUploadConstantBuffer();
 	const auto& l_spriteDrawUploadBuffer = l_spriteDrawConstantBuffer->GetREFUploadConstantBuffer();
@@ -94,11 +94,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 
-		// ディスクリプタテーブルにテクスチャをセット
-		l_directCommandList.SetupDescriptorTable<Tag::RootParameterSpriteBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), l_rootSignature, l_textureRecord->m_srvStorageID);
-
 		if (!SetupCBSpriteDraw(l_rootSignature, 
 							   l_spriteDrawCommand,
+							   l_textureRecord,
 							   l_directCommandList,
 							   l_spriteDrawUploadBuffer,
 							   l_spriteDrawCommandIndex,
@@ -146,20 +144,26 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const std::weak
 																  a_spritePassMappedData);
 }
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak_ptr<RootSignature>&      a_rootSignature,
-																 const Struct::SpriteStandardDrawCommand& a_spriteStandardDrawCommand, 
-																 const DirectCommandList&                 a_directCommandList,
-																 const UploadBuffer&			          a_spriteDrawUploadBuffer,
-																 const std::size_t&				          a_spriteDrawCommandIndex, 
-																	   std::uint8_t* const		          a_spriteDrawMappedData) const
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak_ptr<RootSignature>&         a_rootSignature,
+																 const Struct::SpriteStandardDrawCommand&    a_spriteStandardDrawCommand, 
+																 const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
+																 const DirectCommandList&                    a_directCommandList,
+																 const UploadBuffer&			             a_spriteDrawUploadBuffer,
+																 const std::size_t&				             a_spriteDrawCommandIndex, 
+																	   std::uint8_t* const		             a_spriteDrawMappedData) const
 {
+	const auto& l_textureRecord = a_textureRecord.lock();
+
+	if (!l_textureRecord) { return false; }
+
 	Struct::CBSpriteDraw l_cbSpriteDraw = {};
 
-	l_cbSpriteDraw.m_color      = a_spriteStandardDrawCommand.m_color;
-	l_cbSpriteDraw.m_position   = a_spriteStandardDrawCommand.m_position;
-	l_cbSpriteDraw.m_scale      = a_spriteStandardDrawCommand.m_scale;
-	l_cbSpriteDraw.m_pivot      = a_spriteStandardDrawCommand.m_pivot;
-	l_cbSpriteDraw.m_sourceRECT = a_spriteStandardDrawCommand.m_sourceRECT;
+	l_cbSpriteDraw.m_color                 = a_spriteStandardDrawCommand.m_color;
+	l_cbSpriteDraw.m_position              = a_spriteStandardDrawCommand.m_position;
+	l_cbSpriteDraw.m_scale                 = a_spriteStandardDrawCommand.m_scale;
+	l_cbSpriteDraw.m_pivot                 = a_spriteStandardDrawCommand.m_pivot;
+	l_cbSpriteDraw.m_sourceRECT            = a_spriteStandardDrawCommand.m_sourceRECT;
+	l_cbSpriteDraw.m_baseColorTextureIndex = l_textureRecord->m_srvStorageID;
 
 	return SetupConstantBuffer<Tag::RootParameterCBSpriteDrawTag>(a_rootSignature,
 																  a_directCommandList,

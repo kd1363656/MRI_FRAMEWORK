@@ -12,10 +12,13 @@ namespace FWK::Struct
 		TypeAlias::Math::Vector2 m_position = TypeAlias::Math::Vector2::Zero;
 		TypeAlias::Math::Vector2 m_scale    = TypeAlias::Math::Vector2::One;
 
-		TypeAlias::Math::Vector2 m_pivot   = Constant::k_defaultPivot;
-		TypeAlias::Math::Vector2 m_padding = TypeAlias::Math::Vector2::Zero;
+		TypeAlias::Math::Vector2 m_pivot	    = Constant::k_defaultPivot;
+		TypeAlias::Math::Vector2 m_firstPadding = TypeAlias::Math::Vector2::Zero;
 
 		Struct::SpriteRECT m_sourceRECT = {};
+
+		TypeAlias::Math::Vector3 m_secondPadding		 = {};
+		std::uint32_t			 m_baseColorTextureIndex = Constant::k_invalidStorageID;
 	};
 
 	// 2D画像の共通パス

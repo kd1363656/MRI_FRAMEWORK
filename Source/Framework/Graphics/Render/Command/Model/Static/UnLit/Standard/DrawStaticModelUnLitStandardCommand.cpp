@@ -6,6 +6,11 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::PostCreateSetup(Rendere
 }
 void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
 {
+	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
+	// MeshShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
+	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
+
 	// StaticModel用ルートシグネチャとパイプラインステートをセット
 	SetupGraphicsPipelineStateToCommandList(a_renderer);
 
@@ -40,16 +45,11 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 		return;
 	}
 
-	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
-
-	// MeshShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
-	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
-
 	const auto& l_cameraUploadBuffer	  = l_cameraConstantBuffer->GetREFUploadConstantBuffer	   ();
-	const auto& l_modelObjectUploadBuffer = l_modelObjectConstantBuffer->GetREFUploadConstantBuffer  ();
+	const auto& l_modelObjectUploadBuffer = l_modelObjectConstantBuffer->GetREFUploadConstantBuffer();
 	
 	auto* const l_cameraMappedData	    = l_cameraUploadBuffer.Map	   ();
-	auto* const l_modelObjectMappedData = l_modelObjectUploadBuffer.Map  ();
+	auto* const l_modelObjectMappedData = l_modelObjectUploadBuffer.Map();
 	
 	if (!l_cameraMappedData)
 	{

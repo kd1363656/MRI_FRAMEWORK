@@ -71,6 +71,8 @@ namespace FWK::Graphics
 						 const UploadBuffer&				 a_cameraUploadBuffer,
 							   std::uint8_t* const		     a_cameraMappedData) const;
 
+
+
 	private:
 
 		static constexpr std::size_t k_cameraConstantBufferIndex = 0ULL;

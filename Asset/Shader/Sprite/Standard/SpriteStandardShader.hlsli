@@ -6,7 +6,7 @@
 
 cbuffer SpritePassConstant : register(b0)
 {
-    row_major float4x4 g_projectionMatrix;
+    row_major matrix g_projectionMatrix;
 }
 
 cbuffer CBSpriteDraw : register(b1)
@@ -18,9 +18,12 @@ cbuffer CBSpriteDraw : register(b1)
     float2 g_scale;
     
     float2 g_pivot;
-    float2 g_padding;
+    float2 g_firstPadding;
     
     uint4 g_sourceRECT;
+    
+    float3 g_secondPadding;
+    uint   g_baseColorTextureIndex;
 }
 
 static const float k_spriteUVMIN = 0.0F;
@@ -58,5 +61,4 @@ static const uint  k_spritePrimitiveVertexIndexOne   = 1U;
 static const uint  k_spritePrimitiveVertexIndexTwo   = 2U;
 static const uint  k_spritePrimitiveVertexIndexThree = 3U;
 
-Texture2D    g_baseColorTexture : register(t0);
 SamplerState g_baseColorSampler : register(s0);

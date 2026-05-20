@@ -13,10 +13,12 @@ void main(out vertices MeshOutput a_vertexList   [k_spriteVertexCount],
     uint l_textureWidth  = k_spriteTextureDefaultWidth;
     uint l_textureHeight = k_spriteTextureDefaultHeight;
 	
+    Texture2D<float4> l_baseColorTexture = ResourceDescriptorHeap[g_baseColorTextureIndex];
+	
 	// GetDimensions(テクスチャの横幅、
 	//				 テクスチャの縦幅);
 	
-    g_baseColorTexture.GetDimensions(l_textureWidth, l_textureHeight);
+    l_baseColorTexture.GetDimensions(l_textureWidth, l_textureHeight);
 	
     const float2 l_textureSize = float2((float)l_textureWidth, (float)l_textureHeight);
 
