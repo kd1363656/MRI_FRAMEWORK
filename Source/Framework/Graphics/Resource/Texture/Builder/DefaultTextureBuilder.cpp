@@ -85,6 +85,23 @@ FWK::Graphics::DefaultTextureBuilder::DefaultTextureCreateDesc FWK::Graphics::De
 			
 		break;
 
+		case Enum::DefaultTextureType::Normal:
+		{
+			return
+			{
+				.m_pixel =
+				{
+					Constant::k_defaultTextureNormalXChannel,
+					Constant::k_defaultTextureNormalYChannel,
+					Constant::k_defaultTextureNormalZChannel,
+					Constant::k_defaultTextureAlphaChannel,
+				},
+				.m_format = DXGI_FORMAT_R8G8B8A8_UNORM,
+				.m_name   = Constant::k_defaultNormalTextureFilePath,
+			};
+		}
+		break;
+
 		default:
 			assert(false && "未対応のDefaultTextureTypeです。");
 			return {};

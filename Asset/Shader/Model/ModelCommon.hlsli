@@ -1,7 +1,10 @@
 ﻿struct MeshOutput
 {
-    float4 position : SV_Position;
-    float2 uv       : TEXCOORD0;
+    float4 position      : SV_Position;
+    float3 worldPosition : POSITION0;
+    float3 worldNormal   : NORMAL0;
+    float4 worldTangent  : TANGENT0;
+    float2 uv            : TEXCOORD0;
 };
 
 struct ModelMeshlet
@@ -24,12 +27,13 @@ cbuffer CBModelObject : register(b1)
     row_major matrix g_worldMatrix;
     
     uint g_baseColorTextureIndex;
+    uint g_normalTextureIndex;
     uint g_vertexBufferIndex;
     uint g_meshletBufferIndex;
-    uint g_uniqueVertexIndexBufferIndex;
     
+    uint   g_uniqueVertexIndexBufferIndex;
     uint   g_primitiveIndexBufferIndex;
-    float3 g_padding;
+    float2 g_padding;
 }
 
 static const float4 k_modelUnLitColor = { 1.0F, 1.0F, 1.0F, 1.0F };

@@ -7,6 +7,7 @@ namespace FWK::Constant
 	inline constexpr TypeAlias::Math::Vector2 k_defaultPivot = { 0.5F, 0.5F };
 
 	inline constexpr std::wstring_view k_defaultBaseColorTextureFilePath = L"DefaultTextureBaseColor";
+	inline constexpr std::wstring_view k_defaultNormalTextureFilePath	 = L"DefaultNormal";
 
 	inline constexpr float k_defaultDepthClearValue = 1.0F;
 
@@ -26,6 +27,10 @@ namespace FWK::Constant
 
 	inline constexpr std::uint8_t k_defaultTextureWhiteChannel = 255U;
 	inline constexpr std::uint8_t k_defaultTextureAlphaChannel = 255U;
+
+	inline constexpr std::uint8_t k_defaultTextureNormalXChannel = 128U;
+	inline constexpr std::uint8_t k_defaultTextureNormalYChannel = 128U;
+	inline constexpr std::uint8_t k_defaultTextureNormalZChannel = 255U;
 
 	inline constexpr UINT8 k_defaultStencilClearValue = 0U;
 }

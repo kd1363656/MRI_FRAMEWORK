@@ -27,6 +27,7 @@ namespace FWK::Struct
 		 ModelMaterialAssetData& operator=(	     ModelMaterialAssetData&&) noexcept = default;
 		 
 		std::wstring m_baseColorTextureFilePath = {};
+		std::wstring m_normalTextureFilePath    = {};
 	};
 
 	struct ModelMaterialRuntimeData final
@@ -41,6 +42,7 @@ namespace FWK::Struct
 		ModelMaterialRuntimeData& operator=(	  ModelMaterialRuntimeData&&) noexcept = default;
 
 		std::shared_ptr<Graphics::Texture> m_baseColorTexture = nullptr;
+		std::shared_ptr<Graphics::Texture> m_normalTexture	  = nullptr;
 	};
 
 	struct ModelMaterial final
