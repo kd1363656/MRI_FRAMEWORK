@@ -36,5 +36,8 @@ namespace FWK::Struct
 	struct CBModelObject final
 	{
 		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
+
+		TypeAlias::Math::Vector3 m_padding				 = {};
+		std::uint32_t			 m_baseColorTextureIndex = Constant::k_invalidStorageID;
 	};
 }

@@ -519,10 +519,6 @@
                         {
                             "Index": 5,
                             "RootParameterTag": "RootParameterModelPrimitiveIndexTag"
-                        },
-                        {
-                            "Index": 6,
-                            "RootParameterTag": "RootParameterModelBaseColorTextureTag"
                         }
                     ],
                     "RootParameterList": [
@@ -538,7 +534,7 @@
                             "RegisterSpace": 0,
                             "RootParameterTag": "RootParameterCBModelObjectTag",
                             "ShaderRegister": 1,
-                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
+                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         },
                         {
                             "DescriptorRangeList": [
@@ -595,23 +591,9 @@
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
                             "RootParameterTag": "RootParameterModelPrimitiveIndexTag",
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
-                        },
-                        {
-                            "DescriptorRangeList": [
-                                {
-                                    "BaseShaderRegister": 4,
-                                    "NumDescriptors": 1,
-                                    "OffsetInDescriptorsFromTableStart": 0,
-                                    "RangeType": "D3D12_DESCRIPTOR_RANGE_TYPE_SRV",
-                                    "RegisterSpace": 0
-                                }
-                            ],
-                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
-                            "RootParameterTag": "RootParameterModelBaseColorTextureTag",
-                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_PIXEL"
                         }
                     ],
-                    "RootSignatureFlags": "D3D12_ROOT_SIGNATURE_FLAG_NONE",
+                    "RootSignatureFlags": "D3D12_ROOT_SIGNATURE_FLAG_CBV_SRV_UAV_HEAP_DIRECTLY_INDEXED",
                     "RootSignatureVersion": "D3D_ROOT_SIGNATURE_VERSION_1",
                     "StaticSamplerDescList": [
                         {

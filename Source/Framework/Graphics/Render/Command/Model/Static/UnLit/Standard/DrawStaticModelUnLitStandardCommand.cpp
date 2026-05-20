@@ -97,6 +97,7 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 			// モデル定数のセット
 			if (!SetupCBModelObject(l_rootSignature,
 									l_staticModelDrawCommand,
+									l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData,
 								    l_directCommandList,
 								    l_modelObjectUploadBuffer,
 									l_modelObjectIndex,
@@ -110,15 +111,6 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 												   a_srvDescriptorPool,
 												   l_directCommandList,
 												   l_modelMeshRuntimeData))
-			{
-				continue;
-			}
-
-			// ベースカラーのセット
-			if (!SetupModelBaseColorTextureSRV(l_rootSignature,
-											   a_srvDescriptorPool,
-											   l_directCommandList,
-											   l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData))
 			{
 				continue;
 			}
@@ -138,14 +130,30 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 
 bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
 																			const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand, 
+																		    const Struct::ModelMaterialRuntimeData&			   a_modelMaterialRuntimeData,
 																			const DirectCommandList&						   a_directCommandList, 
 																			const UploadBuffer&								   a_modelObjectUploadBuffer, 
 																			const std::size_t&								   a_modelObjectIndex, 
 																				  std::uint8_t* const						   a_modelObjectMappedData) const
 {
+	if (!a_modelMaterialRuntimeData.m_baseColorTexture)
+	{
+		assert(false && "BaseColorTextureが無効なため、StaticModel描画処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_textureRecord = a_modelMaterialRuntimeData.m_baseColorTexture->GetREFTextureRecord().lock();
+
+	if (!l_textureRecord)
+	{
+		assert(false && "BaseColorTexture用TextureRecordが無効なため、StaticModel描画処理に失敗しました。");
+		return false;
+	}
+
 	Struct::CBModelObject l_cbModelObject = {};
 
-	l_cbModelObject.m_worldMatrix = a_staticModelUnLitStandardDrawCommand.m_worldMatrix;
+	l_cbModelObject.m_worldMatrix		    = a_staticModelUnLitStandardDrawCommand.m_worldMatrix;
+	l_cbModelObject.m_baseColorTextureIndex = l_textureRecord->m_srvStorageID;
 
 	return SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature,
 																   a_directCommandList,
@@ -169,37 +177,6 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelMeshStructure
 	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelMeshletBufferTag>    (a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID);
 	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelUniqueVertexIndexTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID);
 	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelPrimitiveIndexTag>   (a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID);
-
-	return true;
-}
-
-bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelBaseColorTextureSRV(const std::weak_ptr<RootSignature>&		a_rootSignature,
-																					   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-																				       const DirectCommandList&				    a_directCommandList, 
-																					   const Struct::ModelMaterialRuntimeData&  a_modelMaterialRuntimeData) const
-{
-	// StaticModelSystem側で必ずDefaultBaseColorTextureへフォールバックしているため、ここでnullptrなら異常扱い
-	if (!a_modelMaterialRuntimeData.m_baseColorTexture) 
-	{ 
-		assert(false && "BaseColorTextureが無効なため、StaticModel描画処理に失敗しました。");
-		return false;
-	}
-
-	const auto& l_textureRecord = a_modelMaterialRuntimeData.m_baseColorTexture->GetREFTextureRecord().lock();
-
-	if (!l_textureRecord)
-	{
-		assert(false && "BaseColorTexture用TextureRecordが無効なため、StaticModel描画処理に失敗しました。");
-		return false;
-	}
-
-	if (l_textureRecord->m_srvStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "BaseColorTexture用SRVStorageIDが無効なため、StaticModel描画処理に失敗しました。");
-		return false;
-	}
-
-	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelBaseColorTextureTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, l_textureRecord->m_srvStorageID);
 
 	return true;
 }

@@ -22,6 +22,9 @@ cbuffer CBCamera : register(b0)
 cbuffer CBModelObject : register(b1)
 {
     row_major matrix g_worldMatrix;
+    
+    float3 g_padding;
+    uint   g_baseColorTextureIndex;
 }
 
 static const float4 k_modelUnLitColor = { 1.0F, 1.0F, 1.0F, 1.0F };
