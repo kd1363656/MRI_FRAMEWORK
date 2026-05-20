@@ -156,19 +156,19 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak
 
 	if (!l_textureRecord) { return false; }
 
-	Struct::CBSpriteDraw l_cbSpriteDraw = {};
+	Struct::CBSpriteObject l_cbSpriteObject = {};
 
-	l_cbSpriteDraw.m_color                 = a_spriteStandardDrawCommand.m_color;
-	l_cbSpriteDraw.m_position              = a_spriteStandardDrawCommand.m_position;
-	l_cbSpriteDraw.m_scale                 = a_spriteStandardDrawCommand.m_scale;
-	l_cbSpriteDraw.m_pivot                 = a_spriteStandardDrawCommand.m_pivot;
-	l_cbSpriteDraw.m_sourceRECT            = a_spriteStandardDrawCommand.m_sourceRECT;
-	l_cbSpriteDraw.m_baseColorTextureIndex = l_textureRecord->m_srvStorageID;
+	l_cbSpriteObject.m_color                 = a_spriteStandardDrawCommand.m_color;
+	l_cbSpriteObject.m_position              = a_spriteStandardDrawCommand.m_position;
+	l_cbSpriteObject.m_scale                 = a_spriteStandardDrawCommand.m_scale;
+	l_cbSpriteObject.m_pivot                 = a_spriteStandardDrawCommand.m_pivot;
+	l_cbSpriteObject.m_sourceRECT            = a_spriteStandardDrawCommand.m_sourceRECT;
+	l_cbSpriteObject.m_baseColorTextureIndex = l_textureRecord->m_srvStorageID;
 
-	return SetupConstantBuffer<Tag::RootParameterCBSpriteDrawTag>(a_rootSignature,
-																  a_directCommandList,
-																  a_spriteDrawUploadBuffer,
-																  l_cbSpriteDraw,
-																  a_spriteDrawCommandIndex,
-																  a_spriteDrawMappedData);
+	return SetupConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(a_rootSignature,
+																    a_directCommandList,
+																    a_spriteDrawUploadBuffer,
+																    l_cbSpriteObject,
+																    a_spriteDrawCommandIndex,
+																    a_spriteDrawMappedData);
 }

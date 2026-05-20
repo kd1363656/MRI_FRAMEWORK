@@ -5,7 +5,7 @@ namespace FWK::Struct
 	// ※ 注意
 	// HLSLのConstantBufferは16バイト単位でパッキングされるため、
 	// C++側の構造体レイアウトも16バイト境界を意識して定義すること
-	struct CBSpriteDraw final
+	struct CBSpriteObject final
 	{
 		TypeAlias::Math::Color m_color = Constant::k_noColor;
 

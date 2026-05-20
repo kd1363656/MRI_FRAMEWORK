@@ -13,7 +13,7 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBSpriteDraw);
+		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBSpriteObject);
 	};
 }
 

@@ -9,7 +9,7 @@ cbuffer SpritePassConstant : register(b0)
     row_major matrix g_projectionMatrix;
 }
 
-cbuffer CBSpriteDraw : register(b1)
+cbuffer CBSpriteObject : register(b1)
 {
     float4 g_color;
     

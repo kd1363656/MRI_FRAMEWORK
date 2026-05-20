@@ -434,7 +434,7 @@
                         },
                         {
                             "Index": 1,
-                            "RootParameterTag": "RootParameterCBSpriteDrawTag"
+                            "RootParameterTag": "RootParameterCBSpriteObjectTag"
                         }
                     ],
                     "RootParameterList": [
@@ -448,7 +448,7 @@
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBSpriteDrawTag",
+                            "RootParameterTag": "RootParameterCBSpriteObjectTag",
                             "ShaderRegister": 1,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         }
