@@ -10,6 +10,8 @@ namespace FWK::Struct
 	struct ModelVertex final
 	{
 		TypeAlias::Math::Vector3 m_position = {};
+		TypeAlias::Math::Vector3 m_normal   = {};
+		TypeAlias::Math::Vector4 m_tangent  = {};
 		TypeAlias::Math::Vector2 m_uv		= {};
 	};
 
