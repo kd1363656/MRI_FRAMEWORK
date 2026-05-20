@@ -9,11 +9,11 @@ namespace FWK::Graphics
 		 StaticModelBatchUploadRecordBuilder() = default;
 		~StaticModelBatchUploadRecordBuilder() = default;
 
-		bool CreateStaticModelBatchUploadRecord(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord,
-												const Device&									a_device,
+		bool CreateStaticModelBatchUploadRecord(const Device&									a_device,
 												const GPUMemoryAllocator&					    a_gpuMemoryAllocator,
 													  std::vector<Struct::BufferUploadCommand>& a_bufferUploadCommandList,
-													  DescriptorPool<SRVDescriptorHeap>&		a_srvDescriptorHeap) const;
+													  DescriptorPool<SRVDescriptorHeap>&		a_srvDescriptorHeap,
+													  Struct::StaticModelRecord&			    a_staticModelRecord) const;
 
 	private:
 

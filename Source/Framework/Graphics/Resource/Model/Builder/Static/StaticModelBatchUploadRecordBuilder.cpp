@@ -1,20 +1,12 @@
 ﻿#include "StaticModelBatchUploadRecordBuilder.h"
 
-bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateStaticModelBatchUploadRecord(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, 
-																							const Device&									a_device, 
-																						    const GPUMemoryAllocator&						a_gpuMemoryAllocator, 
+bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateStaticModelBatchUploadRecord(const Device&									a_device, 
+																						    const GPUMemoryAllocator&						a_gpuMemoryAllocator,
 																								  std::vector<Struct::BufferUploadCommand>& a_bufferUploadCommandList,
-																								  DescriptorPool<SRVDescriptorHeap>&		a_srvDescriptorHeap) const
+																								  DescriptorPool<SRVDescriptorHeap>&		a_srvDescriptorHeap,
+																								  Struct::StaticModelRecord&				a_staticModelRecord) const
 {
-	const auto l_staticModelRecord = a_staticModelRecord.lock();
-
-	if (!l_staticModelRecord)
-	{
-		assert(false && "StaticModelRecordが無効のため、StaticModelBatchUploadRecordの作成に失敗しました。");
-		return false;
-	}
-
-	auto& l_modelMeshList = l_staticModelRecord->m_modelData.m_modelMeshList;
+	auto& l_modelMeshList = a_staticModelRecord.m_modelData.m_modelMeshList;
 
 	if (l_modelMeshList.empty())
 	{

@@ -94,10 +94,10 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 
-		if (!SetupCBSpriteDraw(l_textureRecord,
-							   *l_rootSignature, 
+		if (!SetupCBSpriteDraw(*l_rootSignature, 
 							   l_directCommandList,
 							   l_spriteDrawUploadBuffer,
+							   *l_textureRecord,
 							   l_spriteDrawCommand,
 							   l_spriteDrawCommandIndex,
 							   l_spriteDrawMappedData))
@@ -144,18 +144,14 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const RootSigna
 																  a_spritePassMappedData);
 }
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord,
-																 const RootSignature&						 a_rootSignature,
-																 const DirectCommandList&                    a_directCommandList,
-																 const UploadBuffer&			             a_spriteDrawUploadBuffer,
-																 const Struct::SpriteStandardDrawCommand&    a_spriteStandardDrawCommand, 
-																 const std::size_t&				             a_spriteDrawCommandIndex, 
-																	   std::uint8_t* const		             a_spriteDrawMappedData) const
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const RootSignature&					  a_rootSignature,
+																 const DirectCommandList&                 a_directCommandList,
+																 const UploadBuffer&			          a_spriteDrawUploadBuffer,
+																 const Struct::TextureRecord&			  a_textureRecord,
+																 const Struct::SpriteStandardDrawCommand& a_spriteStandardDrawCommand,
+																 const std::size_t&				          a_spriteDrawCommandIndex, 
+																	   std::uint8_t* const		          a_spriteDrawMappedData) const
 {
-	const auto& l_textureRecord = a_textureRecord.lock();
-
-	if (!l_textureRecord) { return false; }
-
 	Struct::CBSpriteObject l_cbSpriteObject = {};
 
 	l_cbSpriteObject.m_color                 = a_spriteStandardDrawCommand.m_color;
@@ -163,7 +159,7 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const std::weak
 	l_cbSpriteObject.m_scale                 = a_spriteStandardDrawCommand.m_scale;
 	l_cbSpriteObject.m_pivot                 = a_spriteStandardDrawCommand.m_pivot;
 	l_cbSpriteObject.m_sourceRECT            = a_spriteStandardDrawCommand.m_sourceRECT;
-	l_cbSpriteObject.m_baseColorTextureIndex = l_textureRecord->m_srvStorageID;
+	l_cbSpriteObject.m_baseColorTextureIndex = a_textureRecord.m_srvStorageID;
 
 	return SetupConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(a_rootSignature,
 																    a_directCommandList,

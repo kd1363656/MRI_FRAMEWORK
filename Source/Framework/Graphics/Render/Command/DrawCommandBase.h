@@ -59,11 +59,11 @@ namespace FWK::Graphics
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord) const;
 
-		bool SetCBCamera(const std::weak_ptr<Camera>& a_camera,
-						 const RootSignature&		  a_rootSignature,
-						 const DirectCommandList&	  a_directCommandList,
-						 const UploadBuffer&		  a_cameraUploadBuffer,
-							   std::uint8_t* const	  a_cameraMappedData) const;
+		bool SetCBCamera(const Camera&			   a_camera,
+						 const RootSignature&	   a_rootSignature,
+						 const DirectCommandList&  a_directCommandList,
+						 const UploadBuffer&	   a_cameraUploadBuffer,
+							   std::uint8_t* const a_cameraMappedData) const;
 
 	private:
 

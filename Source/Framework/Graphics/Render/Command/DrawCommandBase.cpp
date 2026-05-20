@@ -67,21 +67,13 @@ void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(cons
 	a_textureRecord.m_currentState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 }
 
-bool FWK::Graphics::DrawCommandBase::SetCBCamera(const std::weak_ptr<Camera>& a_camera, 
-												 const RootSignature&		  a_rootSignature, 
-												 const DirectCommandList&	  a_directCommandList,
-												 const UploadBuffer&		  a_cameraUploadBuffer, 
-													   std::uint8_t* const	  a_cameraMappedData) const
+bool FWK::Graphics::DrawCommandBase::SetCBCamera(const Camera&			   a_camera, 
+												 const RootSignature&	   a_rootSignature, 
+												 const DirectCommandList&  a_directCommandList,
+												 const UploadBuffer&	   a_cameraUploadBuffer, 
+													   std::uint8_t* const a_cameraMappedData) const
 {
-	const auto& l_camera = a_camera.lock();
-
-	if (!l_camera)
-	{
-		assert(false && "Cameraが無効なため、Camera用定数バッファの指定に失敗しました。");
-		return false;
-	}
-
-	const auto& l_cbCamera = l_camera->CreateCBCamera();
+	const auto& l_cbCamera = a_camera.CreateCBCamera();
 
 	return SetupConstantBuffer<Tag::RootParameterCBCameraTag>(a_rootSignature,
 															  a_directCommandList,	

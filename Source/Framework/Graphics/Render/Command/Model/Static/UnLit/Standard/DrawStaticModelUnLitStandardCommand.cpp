@@ -65,9 +65,8 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 	}
 
 	// カメラ情報を1回だけセット
-	const auto& l_camera = GetREFPassConstant().m_camera.lock();
-
-	if (!SetCBCamera(l_camera,
+	if (const auto& l_camera = GetREFPassConstant().m_camera.lock();
+		!SetCBCamera(*l_camera,
 					 *l_rootSignature,
 					 l_directCommandList,
 					 l_cameraUploadBuffer,

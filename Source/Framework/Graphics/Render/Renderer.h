@@ -21,7 +21,7 @@ namespace FWK::Graphics
 		~Renderer() = default;
 
 		void Deserialize(const nlohmann::json& a_rootJson);
-		bool Create     (const Device&		   a_device,	const ShaderCompiler&		a_shaderCompiler);
+		bool Create     (const Device&		   a_device, const ShaderCompiler& a_shaderCompiler);
 
 		void PostCreateSetup(const Device&			                   a_device,
 							 const GPUMemoryAllocator&                 a_gpuMemoryAllocator,
@@ -60,7 +60,7 @@ namespace FWK::Graphics
 				}
 			}
 
-			return std::shared_ptr<Type>();
+			return nullptr;
 		}
 
 		std::weak_ptr<FrameResource> FetchVALCurrentFrameResource() const;
