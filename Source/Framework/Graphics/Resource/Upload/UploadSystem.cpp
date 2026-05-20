@@ -87,6 +87,48 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 	return true;
 }
+bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const std::vector<Struct::TextureBatchUploadRecord>& a_textureBatchUploadRecordList)
+{
+	if (a_textureBatchUploadRecordList.empty())
+	{
+		assert(false && "テクスチャのバッチアップロード用の情報リストが空のため、バッチテクスチャコピー送信処理に失敗しました。");
+		return false;
+	}
+
+	const auto& l_copyCommandAllocator = FetchMutablePTRCopyCommandAllocator().lock();
+
+	if (!l_copyCommandAllocator)
+	{
+		assert(false && "使用可能なコピーコマンドアロケータが取得できず、バッチテクスチャコピー送信処理に失敗しました。");
+		return false;
+	}
+
+	l_copyCommandAllocator->Reset();
+	m_copyCommandList.Reset(l_copyCommandAllocator);
+
+	for (const auto& l_textureBatchUploadRecord : a_textureBatchUploadRecordList)
+	{
+		const auto& l_textureRecord = l_textureBatchUploadRecord.m_textureRecord;
+
+		if (!l_textureRecord)
+		{
+			assert(false && "TextureRecordが無効になっており、テクスチャコピー処理ができませんでした。");
+			return false;
+		}
+
+		const auto& l_textureUploadRecord = l_textureBatchUploadRecord.m_textureUploadRecord;
+
+		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->m_gpuResource.m_resource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
+	}
+
+	m_copyCommandList.Close();
+	m_copyCommandQueue.ExecuteCommandLists(m_copyCommandList);
+
+	m_copyCommandQueue.SignalAndTrackAllocator(l_copyCommandAllocator);
+	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
+
+	return true;
+}
 bool FWK::Graphics::UploadSystem::SubmitStaticModelBufferCopyBatchAndWait(const TypeAlias::PendingStaticModelBatchUploadRecordMap& a_pendingStaticModelBatchUploadRecordMap)
 {
 	if (a_pendingStaticModelBatchUploadRecordMap.empty())

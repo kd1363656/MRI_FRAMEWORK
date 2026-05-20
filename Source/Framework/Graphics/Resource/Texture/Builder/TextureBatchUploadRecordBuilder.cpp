@@ -50,12 +50,6 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 		return false;
 	}
 
-	if (a_storageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "StorageIDが無効のため、テクスチャアップロード情報作成処理に失敗しました。");
-		return false;
-	}
-
 	// 最後にD3D12_RESOURCE_STATESと参照カウント、ファイルパスを格納する
 	l_textureRecord->m_currentState      = D3D12_RESOURCE_STATE_COMMON;
 	l_textureRecord->m_retiredFenceValue = Constant::k_unusedFenceValue;

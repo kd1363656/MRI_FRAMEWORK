@@ -16,6 +16,40 @@ bool FWK::Graphics::TextureSystem::Create(const Device&			                   a_d
 		return false;
 	}
 
+	std::vector<Struct::TextureBatchUploadRecord> l_defaultTextureBatchUploadRecordList = {};
+
+	l_defaultTextureBatchUploadRecordList.reserve(Constant::k_defaultTextureCount);
+
+	for (std::uint32_t l_defaultTextureTypeIndex = 0U; l_defaultTextureTypeIndex < static_cast<std::uint32_t>(Enum::DefaultTextureType::Count); ++l_defaultTextureTypeIndex)
+	{
+		const auto l_defaultTextureType = static_cast<Enum::DefaultTextureType>(l_defaultTextureTypeIndex);
+
+		Struct::TextureBatchUploadRecord l_defaultTextureBatchUploadRecord = {};
+
+		if (!m_defaultTextureBuilder.CreateDefaultTextureBatchUploadRecord(a_device,
+																		   a_gpuMemoryAllocator,
+																	       m_textureBatchUploadRecordBuilder,
+																		   l_defaultTextureType,
+																		   a_srvDescriptorPool,
+																		   l_defaultTextureBatchUploadRecord))
+		{
+			assert(false && "デフォルトテクスチャの作成に失敗しました。");
+			return false;
+		}
+
+		const auto l_defaultTextureRecordIndex = static_cast<std::size_t>(l_defaultTextureType);
+
+		m_defaultTextureRecordList[l_defaultTextureRecordIndex] = l_defaultTextureBatchUploadRecord.m_textureRecord;
+
+		l_defaultTextureBatchUploadRecordList.emplace_back(std::move(l_defaultTextureBatchUploadRecord));
+	}
+
+	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_defaultTextureBatchUploadRecordList))
+	{
+		assert(false && "デフォルトテクスチャのGPU転送に失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 
@@ -182,7 +216,15 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 
 std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const
 {
-	return std::weak_ptr<Struct::TextureRecord>();
+	const auto l_defaultTextureRecordIndex = static_cast<std::size_t>(a_defaultTextureType);
+
+	if (l_defaultTextureRecordIndex >= m_defaultTextureRecordList.size())
+	{
+		assert(false && "DefaultTextureTypeが範囲外です。");
+		return {};
+	}
+
+	return m_defaultTextureRecordList[l_defaultTextureRecordIndex];
 }
 std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const
 {

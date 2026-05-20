@@ -13,6 +13,7 @@ namespace FWK::Graphics
 		bool Create	    (const Device& a_device);
 
 		bool SubmitTextureCopyBatchAndWait          (const TypeAlias::PendingTextureBatchUploadRecordMap&     a_pendingTextureBatchUploadRecordMap);
+		bool SubmitTextureCopyBatchAndWait          (const std::vector<Struct::TextureBatchUploadRecord>&	  a_textureBatchUploadRecordList);
 		bool SubmitStaticModelBufferCopyBatchAndWait(const TypeAlias::PendingStaticModelBatchUploadRecordMap& a_pendingStaticModelBatchUploadRecordMap);
 
 		nlohmann::json Serialize() const;

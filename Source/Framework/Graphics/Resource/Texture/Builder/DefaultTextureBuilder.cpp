@@ -48,7 +48,10 @@ bool FWK::Graphics::DefaultTextureBuilder::CreateDefaultTextureScratchImage(cons
 		return false;
 	}
 
-	const auto* l_image = a_scratchImage.GetImage(0U, 0U, 0U);
+	// GetImage(MIPレベル番号、
+	//			Texture配列番号、
+	//			Texture用のスライス番号);
+	const auto* l_image = a_scratchImage.GetImage(k_defaultTextureMIPIndex, k_defaultTextureItemIndex, k_defaultTextureSliceIndex);
 
 	if (!l_image)
 	{
@@ -57,6 +60,8 @@ bool FWK::Graphics::DefaultTextureBuilder::CreateDefaultTextureScratchImage(cons
 	}
 
 	std::memcpy(l_image->pixels, a_defaultTextureCreateDesc.m_pixel.data(), a_defaultTextureCreateDesc.m_pixel.size());
+
+	return true;
 }
 
 FWK::Graphics::DefaultTextureBuilder::DefaultTextureCreateDesc FWK::Graphics::DefaultTextureBuilder::GetVALDefaultTextureCreateDesc(const Enum::DefaultTextureType a_defaultTextureType) const
