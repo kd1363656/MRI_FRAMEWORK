@@ -634,6 +634,12 @@
     <Filter Include="Source\Framework\Definition\Enum\Graphics\Resource\Texture">
       <UniqueIdentifier>{20b6fcaf-34d9-42db-90c2-c6e3200ce542}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset\Shader\Model\Static\Lit">
+      <UniqueIdentifier>{b936a2c5-aa9b-4698-8da9-e05e2f025641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Model\Static\Lit\Standard">
+      <UniqueIdentifier>{07002dda-33dc-4398-b69a-e93827c5e311}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1358,6 +1364,12 @@
     </DXCTask>
     <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_PS.hlsl">
       <Filter>Asset\Shader\Model\Static\UnLit\Standard</Filter>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_MS.hlsl">
+      <Filter>Asset\Shader\Model\Static\Lit\Standard</Filter>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_PS.hlsl">
+      <Filter>Asset\Shader\Model\Static\Lit\Standard</Filter>
     </DXCTask>
   </ItemGroup>
   <ItemGroup>
