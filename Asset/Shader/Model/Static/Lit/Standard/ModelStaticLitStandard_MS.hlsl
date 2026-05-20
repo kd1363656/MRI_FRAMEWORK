@@ -22,7 +22,7 @@ void main(uint3                   a_groupID : SV_GroupID,
     
     const ModelMeshlet l_modelMeshlet = g_modelMeshletBuffer[l_meshletIndex];
     
-    // SetMeshUptputCounts(出力数、
+    // SetMeshOutputCounts(出力数、
     //                     出力三角形数);
     
     SetMeshOutputCounts(l_modelMeshlet.vertexCount, l_modelMeshlet.triangleCount);
