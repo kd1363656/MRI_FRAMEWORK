@@ -32,8 +32,8 @@ namespace FWK::Converter
 		 StaticModelBinaryConverter()		   = default;
 		~StaticModelBinaryConverter() override = default;
 
-		bool LoadStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath);
-		bool SaveStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath);
+		bool LoadStaticModelAsset(const Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath);
+		bool SaveStaticModelAsset(const Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath);
 
 	private:
 
