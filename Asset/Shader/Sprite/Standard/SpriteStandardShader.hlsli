@@ -22,8 +22,8 @@ cbuffer CBSpriteDraw : register(b1)
     
     uint4 g_sourceRECT;
     
-    float3 g_secondPadding;
     uint   g_baseColorTextureIndex;
+    float3 g_secondPadding;
 }
 
 static const float k_spriteUVMIN = 0.0F;
