@@ -1103,6 +1103,9 @@
     <ClInclude Include="Source\Framework\Definition\Enum\Graphics\Resource\Texture\DefaultTextureTypeEnum.h">
       <Filter>Source\Framework\Definition\Enum\Graphics\Resource\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1338,6 +1341,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\DepthStencil</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

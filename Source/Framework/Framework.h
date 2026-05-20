@@ -244,6 +244,7 @@
 // テクスチャ
 #include "Graphics/Resource/Texture/Loader/TextureLoader.h"
 #include "Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilder.h"
+#include "Graphics/Resource/Texture/Builder/DefaultTextureBuilder.h"
 #include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/Releaser/TextureRecordReleaser.h"
 #include "Graphics/Resource/Texture/DepthStencil/DepthStencilTexture.h"

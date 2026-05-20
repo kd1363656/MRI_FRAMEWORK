@@ -37,7 +37,10 @@ bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 		return false;
 	}
 
-	if (!m_textureSystem.Create())
+	if (!m_textureSystem.Create(a_device,
+								m_gpuMemoryAllocator,
+								m_srvDescriptorPool,
+								m_uploadSystem))
 	{
 		assert(false && "TextureSystemの作成処理に失敗しました。");
 		return false;

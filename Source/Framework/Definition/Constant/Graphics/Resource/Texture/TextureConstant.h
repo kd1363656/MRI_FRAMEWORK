@@ -10,7 +10,8 @@ namespace FWK::Constant
 
 	inline constexpr float k_defaultDepthClearValue = 1.0F;
 
-	inline constexpr std::size_t k_defaultTextureCount = static_cast<std::size_t>(Enum::DefaultTextureType::Count);
+	inline constexpr std::size_t k_defaultTextureCount     = static_cast<std::size_t>(Enum::DefaultTextureType::Count);
+	inline constexpr std::size_t k_defaultRGBAElementCount = 4ULL;
 
 	inline constexpr UINT k_defaultSpriteRECTX      = 0U;
 	inline constexpr UINT k_defaultSpriteRECTY      = 0U;

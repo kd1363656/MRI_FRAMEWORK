@@ -55,6 +55,7 @@ namespace FWK::Graphics
 		
 		TextureLoader			        m_textureLoader				      = {};
 		TextureBatchUploadRecordBuilder m_textureBatchUploadRecordBuilder = {};
+		DefaultTextureBuilder			m_defaultTextureBuilder			  = {};
 
 		Converter::TextureSystemJsonConverter m_textureSystemJsonConverter = {};
 	};
