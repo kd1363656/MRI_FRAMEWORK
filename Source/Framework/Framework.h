@@ -56,7 +56,7 @@
 #include "Definition/Struct/Window/WindowStruct.h"
 
 // Enum
-#include "Definition/Enum/Enum.h"
+#include "Definition/Enum/Type/Trait/PTR/TypeTraitPTREnum.h"
 
 // TypeTrait
 #include "Definition/Type/Trait/PTR/TypeTraitPTR.h"

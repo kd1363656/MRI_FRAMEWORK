@@ -616,6 +616,15 @@
     <Filter Include="Source\Framework\Graphics\Resource\Texture\DepthStencil">
       <UniqueIdentifier>{98a10a90-482c-464c-9aab-e5e2fecfc835}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Type">
+      <UniqueIdentifier>{798f5fec-ecc4-431c-93b8-ac907e48d4d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Type\Trait">
+      <UniqueIdentifier>{fdefa860-4022-4786-94bd-6efed05b9c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Type\Trait\PTR">
+      <UniqueIdentifier>{634b912f-ded8-4c50-b84b-ffbaf84296a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -887,9 +896,6 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.h">
       <Filter>Source\Framework\Graphics\Render\Command\Sprite\Standard</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Enum\Enum.h">
-      <Filter>Source\Framework\Definition\Enum</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsSmartPTR\IsSmartPTRConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsSmartPTR</Filter>
     </ClInclude>
@@ -1081,6 +1087,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Enum\Type\Trait\PTR\TypeTraitPTREnum.h">
+      <Filter>Source\Framework\Definition\Enum\Type\Trait\PTR</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

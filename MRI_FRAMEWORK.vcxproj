@@ -398,7 +398,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\TypeTag\TypeTagConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h" />
-    <ClInclude Include="Source\Framework\Definition\Enum\Enum.h" />
+    <ClInclude Include="Source\Framework\Definition\Enum\Type\Trait\PTR\TypeTraitPTREnum.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\Factory\FactoryMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\Json\JsonSerializeEnumMacros.h" />
     <ClInclude Include="Source\Framework\Definition\Macros\TypeINFO\Tag\TagTypeINFOMacros.h" />
