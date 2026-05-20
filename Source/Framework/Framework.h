@@ -25,6 +25,10 @@
 // File関係の定数
 #include "Definition/Constant/FileExtension/FileExtensionConstant.h"
 
+// Enum
+#include "Definition/Enum/Type/Trait/PTR/TypeTraitPTREnum.h"
+#include "Definition/Enum/Graphics/Resource/Texture/DefaultTextureTypeEnum.h"
+
 // Graphics関係の定数
 #include "Definition/Constant/Graphics/GraphicsConstant.h"
 #include "Definition/Constant/Graphics/Command/CommandConstant.h"
@@ -54,9 +58,6 @@
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/ConstantBufferStruct.h"
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 #include "Definition/Struct/Window/WindowStruct.h"
-
-// Enum
-#include "Definition/Enum/Type/Trait/PTR/TypeTraitPTREnum.h"
 
 // TypeTrait
 #include "Definition/Type/Trait/PTR/TypeTraitPTR.h"

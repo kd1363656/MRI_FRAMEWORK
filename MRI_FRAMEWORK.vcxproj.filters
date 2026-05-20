@@ -625,6 +625,15 @@
     <Filter Include="Source\Framework\Definition\Enum\Type\Trait\PTR">
       <UniqueIdentifier>{634b912f-ded8-4c50-b84b-ffbaf84296a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics">
+      <UniqueIdentifier>{c1135042-244f-4366-9e38-fe8c98b41ba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics\Resource">
+      <UniqueIdentifier>{ab62cbd4-dc0f-4645-b3b1-a2e3f7fcbbb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics\Resource\Texture">
+      <UniqueIdentifier>{20b6fcaf-34d9-42db-90c2-c6e3200ce542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1090,6 +1099,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Enum\Type\Trait\PTR\TypeTraitPTREnum.h">
       <Filter>Source\Framework\Definition\Enum\Type\Trait\PTR</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Enum\Graphics\Resource\Texture\DefaultTextureTypeEnum.h">
+      <Filter>Source\Framework\Definition\Enum\Graphics\Resource\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

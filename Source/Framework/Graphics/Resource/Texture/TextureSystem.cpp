@@ -5,7 +5,10 @@ void FWK::Graphics::TextureSystem::Deserialize(const nlohmann::json& a_rootJson)
 	if (a_rootJson.is_null()) { return; }
 	m_textureSystemJsonConverter.Deserialize(a_rootJson, *this);
 }
-bool FWK::Graphics::TextureSystem::Create()
+bool FWK::Graphics::TextureSystem::Create(const Device&			                   a_device, 
+										  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+												DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+												UploadSystem&					   a_uploadSystem)
 {
 	if (!m_textureStorage.Create())
 	{
@@ -177,6 +180,10 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 	return true;
 }
 
+std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const
+{
+	return std::weak_ptr<Struct::TextureRecord>();
+}
 std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const
 {
 	return m_textureStorage.FindVALRecord(a_storageID);

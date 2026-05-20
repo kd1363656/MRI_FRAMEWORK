@@ -15,7 +15,11 @@ namespace FWK::Graphics
 		~TextureSystem() = default;
 		
 		void Deserialize(const nlohmann::json& a_rootJson);
-		bool Create	    ();
+
+		bool Create(const Device&                            a_device,
+					const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+						  UploadSystem&                      a_uploadSystem);
 
 		Struct::TextureLoadResult LoadTextureForBatchUpload(const Device&			                 a_device, 
 													        const GPUMemoryAllocator&                a_gpuMemoryAllocator,
@@ -31,7 +35,8 @@ namespace FWK::Graphics
 		bool AddTextureReference    (const TypeAlias::StorageID a_storageID);
 		bool ReleaseTextureReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::StorageID a_storageID);
 
-		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const;
+		std::weak_ptr<Struct::TextureRecord> FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const;
+		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord       (const TypeAlias::StorageID     a_storageID) const;
 
 		const auto& GetREFTextureStorage() const { return m_textureStorage; }
 
@@ -44,6 +49,8 @@ namespace FWK::Graphics
 
 		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
 
+		std::array<std::shared_ptr<Struct::TextureRecord>, Constant::k_defaultTextureCount> m_defaultTextureRecordList = {};
+		
 		AssetStorage<Struct::TextureRecord> m_textureStorage = {};
 		
 		TextureLoader			        m_textureLoader				      = {};
