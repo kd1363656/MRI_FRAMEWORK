@@ -63,11 +63,14 @@ void FWK::Scene::RequestDrawStaticModelUnLitStandard(const Graphics::StaticModel
 
 	if (!l_drawCommand) { return; }
 
-	Struct::StaticModelUnLitStandardDrawCommand l_staticModelUnLitStandardDrawCommand = {};
+	Struct::StaticModelUnLitStandardPassConstant l_staticModelUnLitStandardPassConstant = {};
+	l_staticModelUnLitStandardPassConstant.m_camera = m_camera;
+
+	Struct::StaticModelUnLitStandardDrawCommand  l_staticModelUnLitStandardDrawCommand  = {};
 
 	l_staticModelUnLitStandardDrawCommand.m_staticModelRecord = a_staticModel.GetREFStaticModelRecord();
-	l_staticModelUnLitStandardDrawCommand.m_camera			  = a_camera;
 	l_staticModelUnLitStandardDrawCommand.m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
 
+	l_drawCommand->SetPassConstant(l_staticModelUnLitStandardPassConstant);
 	l_drawCommand->RequestDraw(l_staticModelUnLitStandardDrawCommand);
 }

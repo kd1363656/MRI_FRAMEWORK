@@ -24,8 +24,11 @@ namespace FWK::Struct
 	{
 		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
 
-		std::weak_ptr<Graphics::Camera> m_camera = {};
-
 		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
+	};
+
+	struct StaticModelUnLitStandardPassConstant final
+	{
+		std::weak_ptr<Graphics::Camera> m_camera = {};
 	};
 }

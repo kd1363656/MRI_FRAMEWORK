@@ -2,8 +2,54 @@
 
 namespace FWK::Graphics
 {
-	template <typename Type>
+	// PassConstantあり版
+	template <typename ObjectType, typename PassConstantType = void>
 	class DrawRequestCommandBase : public DrawCommandBase
+	{
+	public:
+
+		 DrawRequestCommandBase()		    = default;
+		~DrawRequestCommandBase() override = default;
+
+		void BeginFrame() override
+		{
+			m_drawCommandList.clear();
+			m_passConstant.reset   ();
+		}
+
+		void RequestDraw(const ObjectType& a_drawCommand)
+		{
+			m_drawCommandList.emplace_back(a_drawCommand);
+		}
+
+		void SetPassConstant(const PassConstantType& a_passConstant)
+		{
+			m_passConstant = a_passConstant;
+		}
+
+		bool HasPassConstant() const 
+		{
+			return m_passConstant.has_value();
+		}
+
+		const auto& GetREFPassConstant() const
+		{
+			assert(HasPassConstant() && "PassConstantが設定されていません。");
+
+			return *m_passConstant;
+		}
+	
+		const auto& GetREFDrawCommandList() const { return m_drawCommandList; }
+
+	private:
+
+		std::vector<ObjectType>			m_drawCommandList = {};
+		std::optional<PassConstantType> m_passConstant	  = std::nullopt;
+	};
+
+	// PassConstantなし版
+	template <typename ObjectType>
+	class DrawRequestCommandBase<ObjectType, void> : public DrawCommandBase
 	{
 	public:
 
@@ -15,7 +61,7 @@ namespace FWK::Graphics
 			m_drawCommandList.clear();
 		}
 
-		void RequestDraw(const Type& a_drawCommand)
+		void RequestDraw(const ObjectType& a_drawCommand)
 		{
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}
@@ -24,6 +70,6 @@ namespace FWK::Graphics
 
 	private:
 
-		std::vector<Type> m_drawCommandList = {};
+		std::vector<ObjectType> m_drawCommandList = {};
 	};
 }

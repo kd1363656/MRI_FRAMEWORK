@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class DrawStaticModelUnLitStandardCommand final : public DrawRequestCommandBase<Struct::StaticModelUnLitStandardDrawCommand>
+	class DrawStaticModelUnLitStandardCommand final : public DrawRequestCommandBase<Struct::StaticModelUnLitStandardDrawCommand, Struct::StaticModelUnLitStandardPassConstant>
 	{
 	public:
 

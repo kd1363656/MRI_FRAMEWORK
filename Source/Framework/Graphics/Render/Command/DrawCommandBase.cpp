@@ -1,6 +1,6 @@
 ﻿#include "DrawCommandBase.h"
 
-void FWK::Graphics::DrawCommandBase::SetupPipelineStateAndRootSignature(Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag)
+void FWK::Graphics::DrawCommandBase::SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag)
 {
 	const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(a_typeTag);
 	const auto& l_pipelineState     = l_pipelineStateWeak.lock();
@@ -47,7 +47,7 @@ void FWK::Graphics::DrawCommandBase::SetupGraphicsPipelineStateToCommandList(Ren
 	l_directCommandList.SetupPipelineState(m_pipelineState);
 }
 
-void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord)
+void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord) const
 {
 	if (a_textureRecord.m_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) { return; }
 

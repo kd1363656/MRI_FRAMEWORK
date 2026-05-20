@@ -64,6 +64,18 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 		return;
 	}
 
+	// カメラ情報を1回だけセット
+	const auto& l_camera = GetREFPassConstant().m_camera.lock();
+
+	if (!SetCBCamera(l_camera,
+					 *l_rootSignature,
+					 l_directCommandList,
+					 l_cameraUploadBuffer,
+					 l_cameraMappedData))
+	{
+		return;
+	}
+
 	const auto& l_staticModelDrawCommandList = GetREFDrawCommandList();
 
 	std::size_t l_modelObjectIndex = 0ULL;
@@ -73,16 +85,6 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 		const auto& l_staticModelRecord = l_staticModelDrawCommand.m_staticModelRecord.lock();
 
 		if (!l_staticModelRecord) { continue; }
-
-		// カメラ情報をセット
-		if (!SetCBCamera(l_staticModelDrawCommand.m_camera,
-						 *l_rootSignature,
-						 l_directCommandList,
-						 l_cameraUploadBuffer,
-						 l_cameraMappedData))
-		{
-			continue;
-		}
 
 		const auto& l_modelMeshList = l_staticModelRecord->m_modelData.m_modelMeshList;
 
