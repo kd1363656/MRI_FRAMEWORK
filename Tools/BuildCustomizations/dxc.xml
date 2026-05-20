@@ -68,6 +68,9 @@
         <EnumValue Name="_6_3" Switch="6_3" DisplayName="Shader Model 6.3" />
         <EnumValue Name="_6_4" Switch="6_4" DisplayName="Shader Model 6.4" />
         <EnumValue Name="_6_5" Switch="6_5" DisplayName="Shader Model 6.5" />
+        <EnumValue Name="_6_6" Switch="6_6" DisplayName="Shader Model 6.6" />
+        <EnumValue Name="_6_7" Switch="6_7" DisplayName="Shader Model 6.7" />
+        <EnumValue Name="_6_8" Switch="6_8" DisplayName="Shader Model 6.8" />
     </EnumProperty>    
  
     <StringListProperty Name="PreprocessorDefinitions" DisplayName="プリプロセッサの定義" Description="ソース ファイルの前処理シンボルを定義します。" Category="General" Switch="D " />
