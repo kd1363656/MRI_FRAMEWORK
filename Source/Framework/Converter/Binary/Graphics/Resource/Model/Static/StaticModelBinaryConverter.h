@@ -25,9 +25,6 @@ namespace FWK::Converter
 			std::uint64_t m_meshletBoundsCount     = k_emptyStaticModelMeshletBoundsCount;
 
 			std::uint64_t m_baseColorTexturePathSize = k_emptyTextureFilePathSize;
-			std::uint64_t m_normalTexturePathSize    = k_emptyTextureFilePathSize;
-			std::uint64_t m_roughnessTexturePathSize = k_emptyTextureFilePathSize;
-			std::uint64_t m_metallicTexturePathSize  = k_emptyTextureFilePathSize;
 		};
 
 	public:
@@ -134,6 +131,6 @@ namespace FWK::Converter
 		static constexpr std::uint16_t k_staticModelAssetTypeID = 0x5354U;
 
 		// ※ 注意 : Assetとして保存する構造体が変化したらバージョンを上げる
-		static constexpr std::uint16_t k_staticModelAssetVersion = 3U;
+		static constexpr std::uint16_t k_staticModelAssetVersion = 4U;
 	};
 }

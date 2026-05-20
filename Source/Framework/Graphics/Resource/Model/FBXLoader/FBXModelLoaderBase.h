@@ -16,7 +16,6 @@ namespace FWK::Graphics
 		void DestroyFBXScene(ufbx_scene* a_fbxScene) const;
 
 		TypeAlias::Math::Vector3 FetchVertexPosition(const ufbx_mesh* a_fbxMesh, const ufbx_node*    a_fbxNode, const std::uint32_t a_vertexIndex) const;
-		TypeAlias::Math::Vector3 FetchVertexNormal  (const ufbx_mesh* a_fbxMesh, const ufbx_node*    a_fbxNode, const std::uint32_t a_vertexIndex) const;
 		TypeAlias::Math::Vector2 FetchVertexUV      (const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const;
 
 		TypeAlias::Math::Vector3 ConvertUFBXVector3ToVector3(const ufbx_vec3& a_fbxVector) const;

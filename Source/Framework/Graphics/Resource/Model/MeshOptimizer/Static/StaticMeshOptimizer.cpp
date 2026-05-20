@@ -49,7 +49,7 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMes
 
 	l_vertexRemapList.resize(a_modelMesh.m_indexList.size());
 
-	// 同じposition / normal / uvを持つ頂点をまとめるための対応表を作成する
+	// 同じposition / uvを持つ頂点をまとめるための対応表を作成する
 	// meshopt_generateVertexRemap(古い頂点番号から新しい頂点番号への対応表を書き込む配列、
 	//						       現在のインデックス配列、	
 	//							   現在のインデックス数、

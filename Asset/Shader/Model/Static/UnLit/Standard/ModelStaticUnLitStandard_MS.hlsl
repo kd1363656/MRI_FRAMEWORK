@@ -3,7 +3,6 @@
 struct StaticModelVertex
 {
     float3 position;
-    float3 normal;
     float2 uv;
 };
 
@@ -37,7 +36,6 @@ void main(uint3                   a_groupID : SV_GroupID,
         const float4 l_worldPosition = mul(l_localPosition, g_worldMatrix);
 
         a_vertexList[l_vertexIndex].position = mul(l_worldPosition, g_viewProjectionMatrix);
-        a_vertexList[l_vertexIndex].normal   = l_modelVertex.normal;
         a_vertexList[l_vertexIndex].uv       = l_modelVertex.uv;  
     }
     
@@ -45,9 +43,7 @@ void main(uint3                   a_groupID : SV_GroupID,
     {
         const uint l_primitiveIndex = l_modelMeshlet.triangleOffset + (l_triangleIndex * k_triangleVertexCount);
 
-        a_primitiveList[l_triangleIndex] = uint3(g_primitiveIndexBuffer[l_primitiveIndex],
-                                                 g_primitiveIndexBuffer[l_primitiveIndex + k_secondPrimitiveVertexOffset],
-                                                 g_primitiveIndexBuffer[l_primitiveIndex + k_thirdPrimitiveVertexOffset]);
+        a_primitiveList[l_triangleIndex] = uint3(g_primitiveIndexBuffer[l_primitiveIndex], g_primitiveIndexBuffer[l_primitiveIndex + k_secondPrimitiveVertexOffset], g_primitiveIndexBuffer[l_primitiveIndex + k_thirdPrimitiveVertexOffset]);
 
     }
 }

@@ -164,24 +164,6 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 							  l_modelMaterialAssetData.m_baseColorTextureFilePath,
 							  l_readOffset);
 
-		// 法線テクスチャファイルパス読み込み
-		ReadWStringBinaryData(l_staticModelAssetMeshHeader.m_normalTexturePathSize,
-							  l_readData,
-							  l_modelMaterialAssetData.m_normalTextureFilePath,
-							  l_readOffset);
-
-		// ラフネステクスチャファイルパス読み込み
-		ReadWStringBinaryData(l_staticModelAssetMeshHeader.m_roughnessTexturePathSize,
-							  l_readData,
-							  l_modelMaterialAssetData.m_roughnessTextureFilePath,
-							  l_readOffset);
-
-		// メタリックテクスチャファイルパス読み込み
-		ReadWStringBinaryData(l_staticModelAssetMeshHeader.m_metallicTexturePathSize,
-							  l_readData,
-							  l_modelMaterialAssetData.m_metallicTextureFilePath,
-							  l_readOffset);
-
 		l_modelData.m_modelMeshList.emplace_back(std::move(l_modelMesh));
 	}
 
@@ -265,11 +247,7 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 		l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount   = l_modelMeshletData.m_uniqueVertexIndexList.size();
 		l_staticModelAssetMeshHeader.m_primitiveIndexCount		= l_modelMeshletData.m_primitiveIndexList.size   ();
 		l_staticModelAssetMeshHeader.m_meshletBoundsCount		= l_modelMeshletData.m_meshletBoundsList.size    ();
-		l_staticModelAssetMeshHeader.m_baseColorTexturePathSize = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_baseColorTextureFilePath);
-		l_staticModelAssetMeshHeader.m_normalTexturePathSize    = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_normalTextureFilePath);
-		l_staticModelAssetMeshHeader.m_roughnessTexturePathSize = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_roughnessTextureFilePath);
-		l_staticModelAssetMeshHeader.m_metallicTexturePathSize  = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_metallicTextureFilePath);
-																								       
+		l_staticModelAssetMeshHeader.m_baseColorTexturePathSize = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_baseColorTextureFilePath);																						       
 		// ヘッダー情報保存
 		WriteBinaryData(k_singleBinaryElementCount,
 					    &l_staticModelAssetMeshHeader,
@@ -315,15 +293,6 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 		// テクスチャファイルパス情報保存
 		// ベースカラーテクスチャファイルパス保存
 		WriteWStringBinaryData(l_modelMaterialAssetData.m_baseColorTextureFilePath, l_writeOffset, l_writeData);
-
-		// 法線テクスチャファイルパス保存
-		WriteWStringBinaryData(l_modelMaterialAssetData.m_normalTextureFilePath, l_writeOffset, l_writeData);
-
-		// ラフネステクスチャファイルパス保存
-		WriteWStringBinaryData(l_modelMaterialAssetData.m_roughnessTextureFilePath, l_writeOffset, l_writeData);
-
-		// メタリックテクスチャファイルパス保存
-		WriteWStringBinaryData(l_modelMaterialAssetData.m_metallicTextureFilePath, l_writeOffset, l_writeData);
 	}
 
 	if (l_writeOffset != l_fileSize)
@@ -387,9 +356,6 @@ std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateStaticModelAs
 		l_fileSize += CalculateBinaryDataSize<Struct::ModelMeshletBounds>(l_modelMeshletData.m_meshletBoundsList.size());
 
 		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_baseColorTextureFilePath);
-		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_normalTextureFilePath);
-		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_roughnessTextureFilePath);
-		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_metallicTextureFilePath);
 	}
 
 	return l_fileSize;

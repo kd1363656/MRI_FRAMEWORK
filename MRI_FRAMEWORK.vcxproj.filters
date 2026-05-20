@@ -616,12 +616,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Texture\DepthStencil">
       <UniqueIdentifier>{98a10a90-482c-464c-9aab-e5e2fecfc835}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Asset\Shader\Model\Static\Lit">
-      <UniqueIdentifier>{1ca364fd-366f-48cf-a4c1-121b0c1f710b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Asset\Shader\Model\Static\Lit\Standard">
-      <UniqueIdentifier>{ff4f31ba-f82c-4837-a802-d373b84a6647}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1338,12 +1332,6 @@
     <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_PS.hlsl">
       <Filter>Asset\Shader\Model\Static\UnLit\Standard</Filter>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_MS.hlsl">
-      <Filter>Asset\Shader\Model\Static\Lit\Standard</Filter>
-    </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_PS.hlsl">
-      <Filter>Asset\Shader\Model\Static\Lit\Standard</Filter>
-    </DXCTask>
   </ItemGroup>
   <ItemGroup>
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli">
@@ -1351,9 +1339,6 @@
     </None>
     <None Include="Asset\Shader\Model\ModelCommon.hlsli">
       <Filter>Asset\Shader\Model</Filter>
-    </None>
-    <None Include="Asset\Shader\Model\Static\Lit\ModelStaticLitShaderCommon.hlsli">
-      <Filter>Asset\Shader\Model\Static\Lit</Filter>
     </None>
   </ItemGroup>
 </Project>

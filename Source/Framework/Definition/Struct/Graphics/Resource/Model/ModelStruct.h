@@ -10,7 +10,6 @@ namespace FWK::Struct
 	struct ModelVertex final
 	{
 		TypeAlias::Math::Vector3 m_position = {};
-		TypeAlias::Math::Vector3 m_normal   = {};
 		TypeAlias::Math::Vector2 m_uv		= {};
 	};
 
@@ -26,14 +25,6 @@ namespace FWK::Struct
 		 ModelMaterialAssetData& operator=(	     ModelMaterialAssetData&&) noexcept = default;
 		 
 		std::wstring m_baseColorTextureFilePath = {};
-		std::wstring m_normalTextureFilePath    = {};
-		std::wstring m_roughnessTextureFilePath = {};
-		std::wstring m_metallicTextureFilePath  = {};
-
-		TypeAlias::Math::Color m_baseColorFactor = Constant::k_defaultModelBaseColorFactor;
-
-		float m_metallicFactor  = Constant::k_defaultModelMetallicFactor;
-		float m_roughnessFactor = Constant::k_defaultModelRoughnessFactor;
 	};
 
 	struct ModelMaterialRuntimeData final
@@ -48,9 +39,6 @@ namespace FWK::Struct
 		ModelMaterialRuntimeData& operator=(	  ModelMaterialRuntimeData&&) noexcept = default;
 
 		std::shared_ptr<Graphics::Texture> m_baseColorTexture = nullptr;
-		std::shared_ptr<Graphics::Texture> m_normalTexture    = nullptr;
-		std::shared_ptr<Graphics::Texture> m_roughnessTexture = nullptr;
-		std::shared_ptr<Graphics::Texture> m_metallicTexture  = nullptr;
 	};
 
 	struct ModelMaterial final

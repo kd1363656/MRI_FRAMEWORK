@@ -87,39 +87,6 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexPosi
 	
 	return ConvertUFBXVector3ToVector3(l_worldPosition);
 }
-FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNormal(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::uint32_t a_vertexIndex) const
-{
-	if (!a_fbxMesh)
-	{
-		assert(false && "ufbx_meshがnullptrのため、法線の取得に失敗しました。");
-		return {};
-	}
-
-	if (!a_fbxNode)
-	{
-		assert(false && "ufbx_meshがnullptrのため、法線の取得に失敗しました。");
-		return {};
-	}
-
-	// FBXによっては法線が入っていない場合がある
-	// その場合は今は空のVector3を返し、読み込み自体は続行する
-	if (!a_fbxMesh->vertex_normal.exists) { return {}; }
-
-	// ufbx_get_vertex_vec3()で、指定した頂点インデックスの法線を取得する
-	// ufbx_mesh::vertex_normalには、FBX内の法線データが入っている
-	const auto& l_normal = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_normal, a_vertexIndex);
-
-	// ufbx_matrix_for_normals(法線変換用の元になる行列);
-	// スケールが入っている行列で法線をそのまま変換するとき向きが崩れる可能性があるため、法線専用の変換行列を作成する
-	const auto& l_normalMatrix = ufbx_matrix_for_normals(&a_fbxNode->geometry_to_world);
-
-	// ufbx_transform_direction(法線変換用の行列、
-	//						    変換したい法線);
-	// 法線は位置ではなく方向なので、平行移動の影響を受けないDirection変換を使う
-	const auto& l_worldNormal = ufbx_vec3_normalize(ufbx_transform_direction(&l_normalMatrix, l_normal));
-
-	return ConvertUFBXVector3ToVector3(l_worldNormal);
-}
 
 FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::FetchVertexUV(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
 {
@@ -207,11 +174,6 @@ ufbx_load_opts FWK::Graphics::FBXModelLoaderBase::CreateFBXLoadOptions() const
 		k_modelImportScale,
 		k_modelImportScale 
 	};
-
-	// normalize_normals;
-	// 読み込み後んお法線を正規化する
-	// スケールや回転補正後に法線の長さが崩れる可能性を減らすために有効化する
-	l_loadOptions.normalize_normals = true;
 
 	return l_loadOptions;
 }
