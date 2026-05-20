@@ -13,14 +13,8 @@ void FWK::Graphics::DirectCommandList::Reset(const CommandAllocatorBase& a_comma
 	ClearCurrentRootSignatureAndPipelineStateCache();
 }
 
-void FWK::Graphics::DirectCommandList::TransitionResource(const TypeAlias::ComPtr<ID3D12Resource2>& a_resource, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const
+void FWK::Graphics::DirectCommandList::TransitionResource(ID3D12Resource2& a_resource, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const
 {
-	if (!a_resource)
-	{
-		assert(false && "リソースが作成されておらず、リソースの遷移ができませんでした。");
-		return;
-	}
-
 	if (a_beforeState == a_afterState)
 	{
 		assert(false && "リソースの状態遷移前と後の遷移状態が全く一緒です、リソースの遷移ができませんでした。");
@@ -43,7 +37,7 @@ void FWK::Graphics::DirectCommandList::TransitionResource(const TypeAlias::ComPt
 	// Transition.StateAfter  : 切り替えた後のリソース状態
 	// Transition.Subresource : どのサブリソースを遷移対象にするか
 
-	const auto& l_barrier = CD3DX12_RESOURCE_BARRIER::Transition(a_resource.Get(), a_beforeState, a_afterState);
+	const auto& l_barrier = CD3DX12_RESOURCE_BARRIER::Transition(&a_resource, a_beforeState, a_afterState);
 
 	// リソースバリアを転送
 	// ResourceBarrier(送るバリア数、
@@ -70,10 +64,16 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const Swap
 		return;
 	}
 	
-	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex].m_backBufferResource;
+	if (!l_backBufferList[l_currentBackBufferIndex].m_backBufferResource)
+	{
+		assert(false && "バックバッファリソースが無効になっており、BeginFrame処理が行えませんでした。");
+		return;
+	}
+
+	auto& l_backBufferResource = *l_backBufferList[l_currentBackBufferIndex].m_backBufferResource.Get();
 
 	// リソースの状態遷移(Present -> RenderTarget)
-	TransitionResource(l_backBuffer, a_beforeState, a_afterState);
+	TransitionResource(l_backBufferResource, a_beforeState, a_afterState);
 }
 
 void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain&			  a_swapChain, 

@@ -51,8 +51,16 @@ void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(cons
 {
 	if (a_textureRecord.m_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) { return; }
 
+	if (!a_textureRecord.m_gpuResource.m_resource)
+	{
+		assert(false && "テクスチャリソースが無効になっており、状態遷移を行えませんでした。");
+		return;
+	}
+
+	auto& l_textureResource = *a_textureRecord.m_gpuResource.m_resource.Get();
+
 	// PixelShaderからSRVとして読むため、現在の状態からPIXEL_SHADER_RESOURCEへ遷移する
-	a_directCommandList.TransitionResource(a_textureRecord.m_gpuResource.m_resource,
+	a_directCommandList.TransitionResource(l_textureResource,
 										   a_textureRecord.m_currentState,
 										   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 

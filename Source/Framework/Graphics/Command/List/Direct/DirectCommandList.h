@@ -20,8 +20,8 @@ namespace FWK::Graphics
 
 		void Reset(const CommandAllocatorBase& a_commandAllocator) override;
 
-		void TransitionResource            (const TypeAlias::ComPtr<ID3D12Resource2>& a_resource,  const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
-		void TransitionRenderTargetResource(const SwapChain&						  a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
+		void TransitionResource            (      ID3D12Resource2& a_resource,  const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
+		void TransitionRenderTargetResource(const SwapChain&	   a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 
 		void SetupBackBuffer(const SwapChain&		    a_swapChain, 
 							 const RTVDescriptorHeap&   a_rtvDescriptorHeap,
