@@ -187,7 +187,6 @@
 #include "Graphics/Resource/Buffer/Constant/Sprite/Pass/SpritePassConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Camera/CameraConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Model/Object/ModelObjectConstantBuffer.h"
-#include "Graphics/Resource/Buffer/Constant/Model/Material/ModelMaterialConstantBuffer.h"
 
 // コマンドキュー管理クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"

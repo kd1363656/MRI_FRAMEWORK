@@ -37,19 +37,4 @@ namespace FWK::Struct
 	{
 		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
 	};
-
-	// マテリアル
-	struct CBModelMaterial final
-	{
-		TypeAlias::Math::Color m_baseColorFactor = Constant::k_defaultModelBaseColorFactor;
-
-		TypeAlias::Math::Vector2 m_padding		   = {};
-		float                    m_metallicFactor  = Constant::k_defaultModelMetallicFactor;
-		float                    m_roughnessFactor = Constant::k_defaultModelRoughnessFactor;
-
-		std::uint32_t m_useBaseColorTexture = Constant::k_disableModelTexture;
-		std::uint32_t m_useNormalTexture    = Constant::k_disableModelTexture;
-		std::uint32_t m_useRoughnessTexture = Constant::k_disableModelTexture;
-		std::uint32_t m_useMetallicTexture  = Constant::k_disableModelTexture;
-	};
 }

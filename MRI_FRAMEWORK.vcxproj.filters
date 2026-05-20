@@ -622,9 +622,6 @@
     <Filter Include="Asset\Shader\Model\Static\Lit\Standard">
       <UniqueIdentifier>{ff4f31ba-f82c-4837-a802-d373b84a6647}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Material">
-      <UniqueIdentifier>{60465ad9-aedd-4945-bab7-f1e9ae60add9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1091,9 +1088,6 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\DepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Material\ModelMaterialConstantBuffer.h">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Material</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1330,9 +1324,6 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\DepthStencil</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Material\ModelMaterialConstantBuffer.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Material</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
@@ -1363,9 +1354,6 @@
     </None>
     <None Include="Asset\Shader\Model\Static\Lit\ModelStaticLitShaderCommon.hlsli">
       <Filter>Asset\Shader\Model\Static\Lit</Filter>
-    </None>
-    <None Include="Asset\Shader\Model\ModelMaterialCommon.hlsli">
-      <Filter>Asset\Shader\Model</Filter>
     </None>
   </ItemGroup>
 </Project>

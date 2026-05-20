@@ -1,5 +1,4 @@
 ﻿#include "../../../ModelCommon.hlsli"
-#include "../../../ModelMaterialCommon.hlsli"
 #include "../ModelStaticLitShaderCommon.hlsli"
 
 Texture2D<float4> g_baseColorTexture : register(t4);
