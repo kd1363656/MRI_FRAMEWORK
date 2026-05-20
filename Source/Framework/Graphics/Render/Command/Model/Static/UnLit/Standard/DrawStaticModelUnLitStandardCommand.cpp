@@ -66,9 +66,8 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 
 	const auto& l_staticModelDrawCommandList = GetREFDrawCommandList();
 
-	std::size_t l_modelObjectIndex   = 0ULL;
-	std::size_t l_modelMaterialIndex = 0ULL;
-
+	std::size_t l_modelObjectIndex = 0ULL;
+	
 	for (const auto& l_staticModelDrawCommand : l_staticModelDrawCommandList)
 	{
 		const auto& l_staticModelRecord = l_staticModelDrawCommand.m_staticModelRecord.lock();
@@ -98,6 +97,7 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 			if (!SetupCBModelObject(l_rootSignature,
 									l_staticModelDrawCommand,
 									l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData,
+									l_modelMeshRuntimeData,
 								    l_directCommandList,
 								    l_modelObjectUploadBuffer,
 									l_modelObjectIndex,
@@ -106,21 +106,9 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 				continue;
 			}
 
-			// メッシュストラクチャードバッファのセット
-			if (!SetupModelMeshStructuredBufferSRV(l_rootSignature,
-												   a_srvDescriptorPool,
-												   l_directCommandList,
-												   l_modelMeshRuntimeData))
-			{
-				continue;
-			}
-
-			l_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()),
-											 k_defaultDispatchMeshThreadGroupCountY,
-											 k_defaultDispatchMeshThreadGroupCountZ);
+			l_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()), k_defaultDispatchMeshThreadGroupCountY, k_defaultDispatchMeshThreadGroupCountZ);
 
 			++l_modelObjectIndex;
-			++l_modelMaterialIndex;
 		}
 	}
 
@@ -131,6 +119,7 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
 																			const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand, 
 																		    const Struct::ModelMaterialRuntimeData&			   a_modelMaterialRuntimeData,
+																		    const Struct::ModelMeshRuntimeData&			       a_modelMeshRuntimeData,
 																			const DirectCommandList&						   a_directCommandList, 
 																			const UploadBuffer&								   a_modelObjectUploadBuffer, 
 																			const std::size_t&								   a_modelObjectIndex, 
@@ -150,10 +139,20 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 		return false;
 	}
 
+	if (!ValidateModelMeshStructuredBufferSRV(a_modelMeshRuntimeData))
+	{
+		assert(false && "ModelMesh用StructuredBufferのSRVStorageIDが無効なため、StorageModel描画処理に失敗しました。");
+		return false;
+	}
+
 	Struct::CBModelObject l_cbModelObject = {};
 
-	l_cbModelObject.m_worldMatrix		    = a_staticModelUnLitStandardDrawCommand.m_worldMatrix;
-	l_cbModelObject.m_baseColorTextureIndex = l_textureRecord->m_srvStorageID;
+	l_cbModelObject.m_worldMatrix		           = a_staticModelUnLitStandardDrawCommand.m_worldMatrix;
+	l_cbModelObject.m_baseColorTextureIndex        = l_textureRecord->m_srvStorageID;
+	l_cbModelObject.m_vertexBufferIndex            = a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID;
+	l_cbModelObject.m_meshletBufferIndex           = a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID;
+	l_cbModelObject.m_uniqueVertexIndexBufferIndex = a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
+	l_cbModelObject.m_primitiveIndexBufferIndex    = a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
 
 	return SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature,
 																   a_directCommandList,
@@ -163,20 +162,15 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 																   a_modelObjectMappedData);
 }
 
-bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelMeshStructuredBufferSRV(const std::weak_ptr<RootSignature>&	    a_rootSignature, 
-																						   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-																						   const DirectCommandList&					a_directCommandList,
-																						   const Struct::ModelMeshRuntimeData&	    a_modelMeshRuntimeData) const
+bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::ValidateModelMeshStructuredBufferSRV(const Struct::ModelMeshRuntimeData& a_modelMeshRuntimeData) const
 {
-	if (a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID            == Constant::k_invalidStorageID) { return false; }
-	if (a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID           == Constant::k_invalidStorageID) { return false; }
-	if (a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID == Constant::k_invalidStorageID) { return false; }
-	if (a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID    == Constant::k_invalidStorageID) { return false; }
-
-	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelVertexBufferTag>     (a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID);
-	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelMeshletBufferTag>    (a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID);
-	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelUniqueVertexIndexTag>(a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID);
-	a_directCommandList.SetupDescriptorTable<Tag::RootParameterModelPrimitiveIndexTag>   (a_srvDescriptorPool.GetREFDescriptorHeap(), a_rootSignature, a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID);
+	if (a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID		    == Constant::k_invalidStorageID ||
+		a_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID     == Constant::k_invalidStorageID ||
+		a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID == Constant::k_invalidStorageID ||
+		a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID	== Constant::k_invalidStorageID)
+	{
+		return false;
+	}
 
 	return true;
 }

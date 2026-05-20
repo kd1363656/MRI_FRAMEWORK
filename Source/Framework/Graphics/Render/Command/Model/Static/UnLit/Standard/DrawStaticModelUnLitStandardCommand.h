@@ -21,16 +21,14 @@ namespace FWK::Graphics
 		bool SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
 								const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand,
 								const Struct::ModelMaterialRuntimeData&			   a_modelMaterialRuntimeData,
+								const Struct::ModelMeshRuntimeData&			       a_modelMeshRuntimeData,
 								const DirectCommandList&		                   a_directCommandList,
 								const UploadBuffer&					               a_modelObjectUploadBuffer,
 								const std::size_t&								   a_modelObjectIndex,
 									  std::uint8_t* const			               a_modelObjectMappedData) const;
 
-		bool SetupModelMeshStructuredBufferSRV(const std::weak_ptr<RootSignature>&		a_rootSignature,
-											   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-											   const DirectCommandList&				    a_directCommandList,
-											   const Struct::ModelMeshRuntimeData&	    a_modelMeshRuntimeData) const;
-
+		bool ValidateModelMeshStructuredBufferSRV(const Struct::ModelMeshRuntimeData& a_modelMeshRuntimeData) const;
+		
 		FWK_DEFINE_TYPE_INFO(DrawStaticModelUnLitStandardCommand, DrawCommandBase);
 	};
 }

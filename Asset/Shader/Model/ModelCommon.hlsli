@@ -23,7 +23,12 @@ cbuffer CBModelObject : register(b1)
 {
     row_major matrix g_worldMatrix;
     
-    uint   g_baseColorTextureIndex;
+    uint g_baseColorTextureIndex;
+    uint g_vertexBufferIndex;
+    uint g_meshletBufferIndex;
+    uint g_uinqueVertexIndexBufferIndex;
+    
+    uint   g_primitiveIndexBufferIndex;
     float3 g_padding;
 }
 

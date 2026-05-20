@@ -485,22 +485,6 @@
                         {
                             "Index": 1,
                             "RootParameterTag": "RootParameterCBModelObjectTag"
-                        },
-                        {
-                            "Index": 2,
-                            "RootParameterTag": "RootParameterModelVertexBufferTag"
-                        },
-                        {
-                            "Index": 3,
-                            "RootParameterTag": "RootParameterModelMeshletBufferTag"
-                        },
-                        {
-                            "Index": 4,
-                            "RootParameterTag": "RootParameterModelUniqueVertexIndexTag"
-                        },
-                        {
-                            "Index": 5,
-                            "RootParameterTag": "RootParameterModelPrimitiveIndexTag"
                         }
                     ],
                     "RootParameterList": [
@@ -517,62 +501,6 @@
                             "RootParameterTag": "RootParameterCBModelObjectTag",
                             "ShaderRegister": 1,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
-                        },
-                        {
-                            "DescriptorRangeList": [
-                                {
-                                    "BaseShaderRegister": 0,
-                                    "NumDescriptors": 1,
-                                    "OffsetInDescriptorsFromTableStart": 0,
-                                    "RangeType": "D3D12_DESCRIPTOR_RANGE_TYPE_SRV",
-                                    "RegisterSpace": 0
-                                }
-                            ],
-                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
-                            "RootParameterTag": "RootParameterModelVertexBufferTag",
-                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
-                        },
-                        {
-                            "DescriptorRangeList": [
-                                {
-                                    "BaseShaderRegister": 1,
-                                    "NumDescriptors": 1,
-                                    "OffsetInDescriptorsFromTableStart": 0,
-                                    "RangeType": "D3D12_DESCRIPTOR_RANGE_TYPE_SRV",
-                                    "RegisterSpace": 0
-                                }
-                            ],
-                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
-                            "RootParameterTag": "RootParameterModelMeshletBufferTag",
-                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
-                        },
-                        {
-                            "DescriptorRangeList": [
-                                {
-                                    "BaseShaderRegister": 2,
-                                    "NumDescriptors": 1,
-                                    "OffsetInDescriptorsFromTableStart": 0,
-                                    "RangeType": "D3D12_DESCRIPTOR_RANGE_TYPE_SRV",
-                                    "RegisterSpace": 0
-                                }
-                            ],
-                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
-                            "RootParameterTag": "RootParameterModelUniqueVertexIndexTag",
-                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
-                        },
-                        {
-                            "DescriptorRangeList": [
-                                {
-                                    "BaseShaderRegister": 3,
-                                    "NumDescriptors": 1,
-                                    "OffsetInDescriptorsFromTableStart": 0,
-                                    "RangeType": "D3D12_DESCRIPTOR_RANGE_TYPE_SRV",
-                                    "RegisterSpace": 0
-                                }
-                            ],
-                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE",
-                            "RootParameterTag": "RootParameterModelPrimitiveIndexTag",
-                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
                         }
                     ],
                     "RootSignatureFlags": "D3D12_ROOT_SIGNATURE_FLAG_CBV_SRV_UAV_HEAP_DIRECTLY_INDEXED",
