@@ -141,7 +141,7 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 
 	if (!ValidateModelMeshStructuredBufferSRV(a_modelMeshRuntimeData))
 	{
-		assert(false && "ModelMesh用StructuredBufferのSRVStorageIDが無効なため、StorageModel描画処理に失敗しました。");
+		assert(false && "ModelMesh用StructuredBufferのSRVStorageIDが無効なため、StaticModel描画処理に失敗しました。");
 		return false;
 	}
 
@@ -165,7 +165,7 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::ValidateModelMeshStructuredBufferSRV(const Struct::ModelMeshRuntimeData& a_modelMeshRuntimeData) const
 {
 	if (a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID		    == Constant::k_invalidStorageID ||
-		a_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID     == Constant::k_invalidStorageID ||
+		a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID           == Constant::k_invalidStorageID ||
 		a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID == Constant::k_invalidStorageID ||
 		a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID	== Constant::k_invalidStorageID)
 	{

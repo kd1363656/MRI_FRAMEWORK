@@ -26,7 +26,7 @@ cbuffer CBModelObject : register(b1)
     uint g_baseColorTextureIndex;
     uint g_vertexBufferIndex;
     uint g_meshletBufferIndex;
-    uint g_uinqueVertexIndexBufferIndex;
+    uint g_uniqueVertexIndexBufferIndex;
     
     uint   g_primitiveIndexBufferIndex;
     float3 g_padding;

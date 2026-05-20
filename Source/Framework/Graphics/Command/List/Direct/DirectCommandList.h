@@ -34,55 +34,6 @@ namespace FWK::Graphics
 		void SetupDescriptorHeap(const DescriptorHeapBase&			 a_descriptorHeap) const;
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
-		void SetupDescriptorTable(const DescriptorHeapBase& a_descriptorHeap, const std::weak_ptr<RootSignature>& a_rootSignature, const UINT a_srvIndex) const
-		{
-			const auto& l_directCommandList = GetREFCommandList();
-
-			if (!l_directCommandList)
-			{
-				assert(false && "ダイレクトコマンドリストが作成されておらず、ディスクリプタテーブル設定が出来ませんでした。");
-				return;
-			}
-
-			const auto& l_rootSignature = a_rootSignature.lock();
-
-			if (!l_rootSignature)
-			{
-				assert(false && "ルートシグネチャが作成されておらず、ディスクリプタテーブル設定ができませんでした。");
-				return;
-			}
-
-			if (a_srvIndex == Constant::k_invalidStorageID)
-			{
-				assert(false && "SRVストレージIDが無効なため、ディスクリプタテーブル設定ができませんでした。");
-				return;
-			}
-
-			// ルートシグネチャで定義したディスクリプタテーブルへ、
-			// 実際のディスクリプタビューのGPUハンドルを結び付ける
-			// SetGraphicsRootDescriptorTable(ルートパラメータ番号、
-			//								  ディスクリプタテーブル先頭GPUハンドル);
-
-			const auto l_rootParameterIndex = l_rootSignature->FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
-
-			if (l_rootParameterIndex == Constant::k_invalidRootParameterIndex)
-			{
-				assert(false && "パラメータインデックスが無効なため、ディスクリプタテーブル設定ができませんでした。");
-				return;
-			}
-
-			const auto& l_gpuHandle = a_descriptorHeap.FetchVALShaderVisibleGPUHandle(a_srvIndex);
-
-			if (l_gpuHandle.ptr == k_invalidGPUDescriptorHandle)
-			{
-				assert(false && "GPUディスクリプタハンドルが無効なため、ディスクリプタテーブル設定ができませんでした。");
-				return;
-			}
-
-			l_directCommandList->SetGraphicsRootDescriptorTable(l_rootParameterIndex, l_gpuHandle);
-		}
-
-		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
 		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const std::weak_ptr<RootSignature>& a_rootSignature) const
 		{
 			const auto& l_directCommandList = GetREFCommandList();
