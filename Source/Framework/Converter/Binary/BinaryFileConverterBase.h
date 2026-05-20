@@ -22,10 +22,84 @@ namespace FWK::Converter
 
 		std::uint8_t* GetMutablePTRMappedData() { return m_mappedData; }
 
+	protected:
+
+		template <typename Type>
+		void ReadBinaryData(const std::uint64_t& a_readDataCount,
+							const std::uint8_t*  a_readData,
+							      std::uint64_t& a_readOffset,
+								  Type*          a_destinationData) const
+		{
+			const auto l_readDataSize = sizeof(Type) * a_readDataCount;
+
+			if (l_readDataSize == k_emptyReadDataSize) { return; }
+
+			if (!a_destinationData)
+			{
+				assert(false && "読み込み先データがnullptrです。");
+				return;
+			}
+
+			if (!a_readData)
+			{
+				assert(false && "読み込み元データがnullptrです。");
+				return;
+			}
+
+			std::memcpy(a_destinationData, a_readData + a_readOffset, l_readDataSize);
+
+			a_readOffset += l_readDataSize;
+		}
+
+		template <typename Type>
+		void WriteBinaryData(const std::uint64_t& a_writeDataCount,
+							 const Type*		  a_sourceData,
+								   std::uint64_t& a_writeOffset,
+								   std::uint8_t* a_writeData) const
+		{
+			const auto l_writeDataSize = sizeof(Type) * a_writeDataCount;
+
+			if (l_writeDataSize == k_emptyWriteDataSize) { return; }
+
+			if (!a_sourceData)
+			{
+				assert(false && "書き込み元データがnullptrです。");
+				return;
+			}
+
+			if (!a_writeData)
+			{
+				assert(false && "書き込み先データがnullptrです。");
+				return;
+			}
+
+			std::memcpy(a_writeData + a_writeOffset, a_sourceData, l_writeDataSize);
+
+			a_writeOffset += l_writeDataSize;
+		}
+
+		void ReadWStringBinaryData(const std::uint64_t& a_stringBinaryFileSize,
+								   const std::uint8_t*  a_readData,
+										 std::wstring&  a_string,
+										 std::uint64_t& a_readOffset) const;
+
+		void WriteWStringBinaryData(const std::wstring&  a_string, std::uint64_t& a_writeOffset, std::uint8_t* a_writeData) const;
+
+		template <typename Type>
+		std::uint64_t CalculateBinaryDataSize(const std::uint64_t& a_dataCount) const
+		{
+			return sizeof(Type) * a_dataCount;
+		}
+
+		std::uint64_t CalculateWStringBinaryFileSize(const std::wstring& a_string) const;
+
 	private:
 
 		static constexpr std::uint64_t k_emptyMappedDataSize = 0ULL;
 		static constexpr std::uint64_t k_emptyWriteFileSize  = 0ULL;
+
+		static constexpr std::uint64_t k_emptyReadDataSize  = 0ULL;
+		static constexpr std::uint64_t k_emptyWriteDataSize = 0ULL;
 
 		static constexpr SIZE_T k_mapEntireFileSize   = 0ULL;
 		static constexpr SIZE_T k_flushEntireViewSize = 0ULL;

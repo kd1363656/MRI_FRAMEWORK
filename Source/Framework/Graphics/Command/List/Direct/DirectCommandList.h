@@ -18,7 +18,7 @@ namespace FWK::Graphics
 		 DirectCommandList();
 		~DirectCommandList() override;
 
-		void Reset(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator) override;
+		void Reset(const CommandAllocatorBase& a_commandAllocator) override;
 
 		void TransitionResource            (const TypeAlias::ComPtr<ID3D12Resource2>& a_resource,  const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
 		void TransitionRenderTargetResource(const SwapChain&						  a_swapChain, const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;

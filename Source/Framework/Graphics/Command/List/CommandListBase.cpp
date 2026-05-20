@@ -38,16 +38,8 @@ bool FWK::Graphics::CommandListBase::Create(const Device& a_device)
 	return true;
 }
 
-void FWK::Graphics::CommandListBase::Reset(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator)
+void FWK::Graphics::CommandListBase::Reset(const CommandAllocatorBase& a_commandAllocator)
 {
-	const auto& l_commandAllcoator = a_commandAllocator.lock();
-
-	if (!l_commandAllcoator)
-	{
-		assert(false && "コマンドアロケータが無効です");
-		return;
-	}
-
 	if (!m_commandList)
 	{
 		assert(false && "コマンドリストの作成に失敗しており、コマンドリストのリセットが出来ませんでした。");
@@ -55,13 +47,13 @@ void FWK::Graphics::CommandListBase::Reset(const std::weak_ptr<CommandAllocatorB
 	}
 
 	// 自身のコマンドリストタイプと一致しなければreturn
-	if (l_commandAllcoator->GetVALCreateCommandListType() != k_createCommandListType)
+	if (a_commandAllocator.GetVALCreateCommandListType() != k_createCommandListType)
 	{
 		assert(false && "コマンドアロケータのコマンドリストタイプと一致しないため、コマンドリストのリセットが出来ませんでした。");
 		return;
 	}
 
-	const auto& l_d3dCommandAllocator = l_commandAllcoator->GetREFCommandAllocator();
+	const auto& l_d3dCommandAllocator = a_commandAllocator.GetREFCommandAllocator();
 
 	if (!l_d3dCommandAllocator)
 	{

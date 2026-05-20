@@ -1,16 +1,8 @@
 ﻿#include "StaticModelMeshletBuilder.h"
 
-bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord)
+bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData(Struct::StaticModelRecord& a_staticModelRecord)
 {
-	const auto& l_staticModelRecord = a_staticModelRecord.lock();
-
-	if (!l_staticModelRecord)
-	{
-		assert(false && "StaticModelが無効のため、StaticModelのMeshletData作成に失敗しました。");
-		return false;
-	}
-
-	for (auto& l_modelMesh : l_staticModelRecord->m_modelData.m_modelMeshList)
+	for (auto& l_modelMesh : a_staticModelRecord.m_modelData.m_modelMeshList)
 	{
 		if (!BuildModelMeshletData(l_modelMesh))
 		{

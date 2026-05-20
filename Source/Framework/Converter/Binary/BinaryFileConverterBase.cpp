@@ -306,3 +306,35 @@ void FWK::Converter::BinaryFileConverterBase::DestroyMemoryMappedFile()
 	m_mappedDataSize = k_emptyMappedDataSize;
 	m_isWritable     = k_isInitialWritable;
 }
+
+void FWK::Converter::BinaryFileConverterBase::ReadWStringBinaryData(const std::uint64_t& a_stringBinaryFileSize, 
+																	const std::uint8_t*  a_readData,
+																		  std::wstring&  a_string,
+																		  std::uint64_t& a_readOffset) const
+{
+	if (a_stringBinaryFileSize == k_emptyReadDataSize)
+	{
+		a_string.clear();
+		return;
+	}
+
+	const auto& l_stringLength = a_stringBinaryFileSize / sizeof(wchar_t);
+
+	a_string.resize(l_stringLength);
+
+	ReadBinaryData(l_stringLength,
+				   a_readData, 
+				   a_readOffset,
+				   a_string.data());
+}
+void FWK::Converter::BinaryFileConverterBase::WriteWStringBinaryData(const std::wstring& a_string, std::uint64_t& a_writeOffset, std::uint8_t* a_writeData) const
+{
+	if (a_string.empty()) { return; }
+
+	WriteBinaryData(a_string.size(), a_string.data(), a_writeOffset, a_writeData);
+}
+
+std::uint64_t FWK::Converter::BinaryFileConverterBase::CalculateWStringBinaryFileSize(const std::wstring& a_string) const
+{
+	return sizeof(wchar_t) * a_string.size();
+}

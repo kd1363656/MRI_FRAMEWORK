@@ -57,7 +57,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 	// 命令を格納できるようにするためリセット
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset      (l_copyCommandAllocator);
+	m_copyCommandList.Reset      (*l_copyCommandAllocator);
 
 	// UploadBuffer内に配置した各サブリソースの画像データを
 	// D3D12_PLACED_SUBRESOURCE_FOOTPRINTの配置情報に従って、DEFAULTヒープ上のテクスチャリソースへコピーする
@@ -104,7 +104,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const std::vecto
 	}
 
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset(l_copyCommandAllocator);
+	m_copyCommandList.Reset      (*l_copyCommandAllocator);
 
 	for (const auto& l_textureBatchUploadRecord : a_textureBatchUploadRecordList)
 	{
@@ -147,7 +147,7 @@ bool FWK::Graphics::UploadSystem::SubmitStaticModelBufferCopyBatchAndWait(const 
 
 	// 命令を格納できるようにするためにリセット
 	l_copyCommandAllocator->Reset();
-	m_copyCommandList.Reset      (l_copyCommandAllocator);
+	m_copyCommandList.Reset      (*l_copyCommandAllocator);
 
 	for (const auto& [l_filePath, l_staticModelBatchUploadRecord] : a_pendingStaticModelBatchUploadRecordMap)
 	{
@@ -244,12 +244,16 @@ void FWK::Graphics::UploadSystem::RecordBufferCopy(const Struct::BufferUploadCom
 		return;
 	}
 
+	// コピー先とコピー元のリソースを取得
+	auto& l_destinationBufferResource = *a_bufferUploadCommand.m_destinationBufferResource.Get();
+	auto& l_sourceBufferResource      = *l_uploadBuffer.Get									  ();
+
 	// UPLOADヒープ上にあるバッファをDEFAULTヒープ上にあるバッファにコピー
-	m_copyCommandList.CopyBufferRegion(a_bufferUploadCommand.m_destinationBufferResource,
-									   l_uploadBuffer,
-									   k_bufferCopyDestinationOffset,
+	m_copyCommandList.CopyBufferRegion(k_bufferCopyDestinationOffset,
 									   k_bufferCopySourceOffset,
-									   a_bufferUploadCommand.m_bufferUploadRecord.m_bufferSize);
+									   a_bufferUploadCommand.m_bufferUploadRecord.m_bufferSize,
+									   l_destinationBufferResource,
+									   l_sourceBufferResource);
 }
 
 std::weak_ptr<FWK::Graphics::CopyCommandAllocator> FWK::Graphics::UploadSystem::FetchMutablePTRCopyCommandAllocator()

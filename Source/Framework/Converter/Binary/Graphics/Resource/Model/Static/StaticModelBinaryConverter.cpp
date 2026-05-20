@@ -1,16 +1,8 @@
 ﻿#include "StaticModelBinaryConverter.h"
 
-bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath)
+bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath)
 {
-	const auto& l_staticModelRecord = a_staticModelRecord.lock();
-
-	if (!l_staticModelRecord)
-	{
-		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。");
-		return false;
-	}
-
-	auto& l_modelData = l_staticModelRecord->m_modelData;
+	auto& l_modelData = a_staticModelRecord.m_modelData;
 
 	if (!CreateReadMemoryMappedFile(a_filePath))
 	{
@@ -184,17 +176,9 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(const std:
 
 	return true;
 }
-bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath)
+bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath)
 {
-	const auto& l_staticModelRecord = a_staticModelRecord.lock();
-
-	if (!l_staticModelRecord)
-	{
-		assert(false && "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。");
-		return false;
-	}
-
-	const auto& l_modelData = l_staticModelRecord->m_modelData;
+	const auto& l_modelData = a_staticModelRecord.m_modelData;
 
 	const auto& l_fileSize = CalculateStaticModelAssetFileSize(l_modelData);
 
@@ -308,34 +292,6 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const std:
 	return true;
 }
 
-void FWK::Converter::StaticModelBinaryConverter::ReadWStringBinaryData(const std::uint64_t& a_stringBinaryFileSize, 
-																	   const std::uint8_t*  a_readData,
-																		     std::wstring&  a_string, 
-																			 std::uint64_t& a_readOffset) const
-{
-	if (a_stringBinaryFileSize == k_emptyReadDataSize)
-	{
-		a_string.clear();
-		return;
-	}
-
-	const auto& l_stringLength = a_stringBinaryFileSize / sizeof(wchar_t);
-
-	a_string.resize(l_stringLength);
-
-	ReadBinaryData(l_stringLength,
-				   a_readData, 
-				   a_readOffset,
-				   a_string.data());
-}
-
-void FWK::Converter::StaticModelBinaryConverter::WriteWStringBinaryData(const std::wstring& a_string, std::uint64_t& a_writeOffset, std::uint8_t* a_writeData) const
-{
-	if (a_string.empty()) { return; }
-
-	WriteBinaryData(a_string.size(), a_string.data(), a_writeOffset, a_writeData);
-}
-
 std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateStaticModelAssetFileSize(const Struct::ModelData& a_modelData) const
 {
 	auto l_fileSize = CalculateBinaryDataSize<StaticModelAssetHeader>(k_singleBinaryElementCount);
@@ -359,8 +315,4 @@ std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateStaticModelAs
 	}
 
 	return l_fileSize;
-}
-std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateWStringBinaryFileSize(const std::wstring& a_string) const
-{
-	return sizeof(wchar_t) * a_string.size();
 }

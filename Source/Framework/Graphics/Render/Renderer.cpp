@@ -123,7 +123,7 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 
 	// GPU同期処理が終わってからコマンドリスト、アロケータをリセット
 	l_commandAllocator->Reset();
-	m_directCommandList.Reset(l_commandAllocator);
+	m_directCommandList.Reset(*l_commandAllocator);
 
 	// バックバッファの状態遷移(PRESENT -> RESOURCE)
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);

@@ -9,7 +9,7 @@ namespace FWK::Graphics
 		 StaticModelMeshOptimizer() = default;
 		~StaticModelMeshOptimizer() = default;
 
-		bool OptimizeStaticModelRecord(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord) const;
+		bool OptimizeStaticModelRecord(Struct::StaticModelRecord& a_staticModelRecord) const;
 
 	private:
 

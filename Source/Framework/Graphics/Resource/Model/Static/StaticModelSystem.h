@@ -39,15 +39,15 @@ namespace FWK::Graphics
 
 	private:
 
-		bool LoadStaticModel(const std::shared_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_filePath);
+		bool LoadStaticModel(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath);
+
+		bool LoadStaticModelAsset(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_assetFilePath);
 
 		bool CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const;
 
-		bool LoadStaticModelAsset(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_assetFilePath);
-
 		bool StaticModelCopyBatch(UploadSystem& a_uploadSystem);
 
-		bool CreateStaticModelAssetFromFBX(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath);
+		bool CreateStaticModelAssetFromFBX(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath);
 
 		TypeAlias::PendingStaticModelBatchUploadRecordMap m_pendingStaticModelBatchUploadRecordMap = {};
 
