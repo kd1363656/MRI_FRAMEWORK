@@ -19,11 +19,11 @@ namespace FWK::Graphics
 
 		void WaitForFenceValueIfNeeded(const UINT64& a_waitFenceValue);
 
-		void EnsureAllocatorAvailable(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator);
+		void EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator);
 
 		void ExecuteCommandLists(const CommandListBase& a_commandList) const;
 
-		void SignalAndTrackAllocator(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator);
+		void SignalAndTrackAllocator(CommandAllocatorBase& a_commandAllocator);
 
 		bool IsFenceValueCompleted(const UINT64& a_fenceValue) const;
 

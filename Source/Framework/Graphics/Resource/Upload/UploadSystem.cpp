@@ -79,11 +79,11 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 	m_copyCommandList.Close				  ();
 	m_copyCommandQueue.ExecuteCommandLists(m_copyCommandList);
 
-	m_copyCommandQueue.SignalAndTrackAllocator(l_copyCommandAllocator);
+	m_copyCommandQueue.SignalAndTrackAllocator(*l_copyCommandAllocator);
 
 	// Batch + Wait方式なので、ここでGPUコピー完了まで待つ
 	// この関数を抜けた後はUploadBufferを保持し続ける必要がない
-	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
+	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
 
 	return true;
 }
@@ -124,8 +124,8 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const std::vecto
 	m_copyCommandList.Close();
 	m_copyCommandQueue.ExecuteCommandLists(m_copyCommandList);
 
-	m_copyCommandQueue.SignalAndTrackAllocator(l_copyCommandAllocator);
-	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
+	m_copyCommandQueue.SignalAndTrackAllocator (*l_copyCommandAllocator);
+	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
 
 	return true;
 }
@@ -166,11 +166,11 @@ bool FWK::Graphics::UploadSystem::SubmitStaticModelBufferCopyBatchAndWait(const 
 	m_copyCommandList.Close				  ();
 	m_copyCommandQueue.ExecuteCommandLists(m_copyCommandList);
 
-	m_copyCommandQueue.SignalAndTrackAllocator(l_copyCommandAllocator);
+	m_copyCommandQueue.SignalAndTrackAllocator(*l_copyCommandAllocator);
 
 	// Batch + Wait方式なので、ここでGPUコピー完了まで待つ
 	// この関数を抜けた後はUploadBufferを保持し続ける必要がない
-	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
+	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
 
 	return true;
 }
@@ -279,7 +279,7 @@ std::weak_ptr<FWK::Graphics::CopyCommandAllocator> FWK::Graphics::UploadSystem::
 	}
 
 	// もしWaitが必要なコマンドアロケータならWaitする
-	m_copyCommandQueue.EnsureAllocatorAvailable(l_copyCommandAllocator);
+	m_copyCommandQueue.EnsureAllocatorAvailable(*l_copyCommandAllocator);
 
 	// 次のコピーコマンドアロケータを使用するようにインデックスを更新
 	m_currentCopyCommandAllocatorIndex = (m_currentCopyCommandAllocatorIndex + k_copyCommandAllocatorIndexIncrement) % m_copyCommandAllocatorList.size();

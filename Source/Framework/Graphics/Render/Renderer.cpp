@@ -119,7 +119,7 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	}
 
 	// コマンドアロケータからGPU処理が終わっているかどうかを確かめGPUの処理が終わっていなければWait
-	m_directCommandQueue.EnsureAllocatorAvailable(l_commandAllocator);
+	m_directCommandQueue.EnsureAllocatorAvailable(*l_commandAllocator);
 
 	// GPU同期処理が終わってからコマンドリスト、アロケータをリセット
 	l_commandAllocator->Reset();
@@ -175,7 +175,7 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 	m_directCommandQueue.ExecuteCommandLists(m_directCommandList);
 
 	// フェンス値を更新
-	m_directCommandQueue.SignalAndTrackAllocator(l_commandAllocator);
+	m_directCommandQueue.SignalAndTrackAllocator(*l_commandAllocator);
 
 	a_swapChain.Present();
 }

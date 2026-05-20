@@ -37,19 +37,11 @@ void FWK::Graphics::CommandQueueBase::WaitForFenceValueIfNeeded(const UINT64& a_
 	m_fence.WaitForFenceValueIfNeeded(a_waitFenceValue);
 }
 
-void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator)
+void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator)
 {
-	const auto& l_commandAllocator = a_commandAllocator.lock();
-
-	if (!l_commandAllocator)
-	{
-		assert(false && "コマンドアロケーターが無効のため、GPUとの同期が取れませんでした。");
-		return;
-	}
-
 	// このコマンドアロケータの前回送信分が完了していれば待機不要
 	// 未完了なら安全に再利用できるまで待機する
-	WaitForFenceValueIfNeeded(l_commandAllocator->GetREFSubmittedFenceValue());
+	WaitForFenceValueIfNeeded(a_commandAllocator.GetREFSubmittedFenceValue());
 }
 
 void FWK::Graphics::CommandQueueBase::ExecuteCommandLists(const CommandListBase& a_commandList) const
@@ -90,16 +82,8 @@ void FWK::Graphics::CommandQueueBase::ExecuteCommandLists(const CommandListBase&
 	l_commandQueue->ExecuteCommandLists(k_executeListNum, l_list);
 }
 
-void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(const std::weak_ptr<CommandAllocatorBase>& a_commandAllocator)
+void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(CommandAllocatorBase& a_commandAllocator)
 {
-	const auto& l_commandAllocator = a_commandAllocator.lock();
-
-	if (!l_commandAllocator)
-	{
-		assert(false && "コマンドアロケータが無効になっており、GPUとの同期処理が行えませんでした。");
-		return;
-	}
-
 	const auto& l_fence = m_fence.GetREFFence();
 
 	if (!l_fence)
@@ -122,7 +106,7 @@ void FWK::Graphics::CommandQueueBase::SignalAndTrackAllocator(const std::weak_pt
 	// ※重要
 	// 更新したフェンス値を持たせて置く、こうすることで次のフレームでフェンス値を超えていない場合
 	// GPUとの同期をとらなくていいためCPUとGPUの並列処理性を発揮することができる
-	l_commandAllocator->SetSubmittedFenceValue(l_updatedFenceValue);
+	a_commandAllocator.SetSubmittedFenceValue(l_updatedFenceValue);
 
 	// コマンドキュー内でこの位置までの命令が実行完了したら
 	// フェンス値をGetFenceValueに更新する命令をGPUに追加
