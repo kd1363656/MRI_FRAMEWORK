@@ -25,8 +25,9 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 		return;
 	}
 
-	auto l_cameraConstantBuffer		 = l_currentFrameResource->FindPTRConstantBuffer<CameraConstantBuffer>     ().lock();
-	auto l_modelObjectConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<ModelObjectConstantBuffer>().lock();
+	auto l_cameraConstantBuffer		   = l_currentFrameResource->FindPTRConstantBuffer<CameraConstantBuffer>       ().lock();
+	auto l_modelObjectConstantBuffer   = l_currentFrameResource->FindPTRConstantBuffer<ModelObjectConstantBuffer>  ().lock();
+	auto l_modelMaterialConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<ModelMaterialConstantBuffer>().lock();
 
 	if (!l_cameraConstantBuffer)
 	{
@@ -40,16 +41,24 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 		return;
 	}
 
+	if (!l_modelMaterialConstantBuffer)
+	{
+		assert(false && "ModelMaterial用定数バッファが取得できないため、StaticModel描画処理に失敗しました。");
+		return;
+	}
+
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 	// MeshShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
 	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
 
-	const auto& l_cameraUploadBuffer	  = l_cameraConstantBuffer->GetREFUploadConstantBuffer	   ();
-	const auto& l_modelObjectUploadBuffer = l_modelObjectConstantBuffer->GetREFUploadConstantBuffer();
+	const auto& l_cameraUploadBuffer	    = l_cameraConstantBuffer->GetREFUploadConstantBuffer	   ();
+	const auto& l_modelObjectUploadBuffer   = l_modelObjectConstantBuffer->GetREFUploadConstantBuffer  ();
+	const auto& l_modelMaterialUploadBuffer = l_modelMaterialConstantBuffer->GetREFUploadConstantBuffer();
 
-	auto* const l_cameraMappedData	    = l_cameraUploadBuffer.Map	   ();
-	auto* const l_modelObjectMappedData = l_modelObjectUploadBuffer.Map();
+	auto* const l_cameraMappedData	      = l_cameraUploadBuffer.Map	   ();
+	auto* const l_modelObjectMappedData   = l_modelObjectUploadBuffer.Map  ();
+	auto* const l_modelMaterialMappedData = l_modelMaterialUploadBuffer.Map();
 
 	if (!l_cameraMappedData)
 	{
@@ -64,9 +73,18 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 		return;
 	}
 
+	if (!l_modelMaterialMappedData)
+	{
+		assert(false && "ModelMaterial用定数バッファのMapに失敗したため、StaticModel描画処理に失敗しました。");
+		l_cameraUploadBuffer.UnMap     ();
+		l_modelObjectUploadBuffer.UnMap();
+		return;
+	}
+
 	const auto& l_staticModelDrawCommandList = GetREFDrawCommandList();
 
-	std::size_t l_modelObjectIndex = 0ULL;
+	std::size_t l_modelObjectIndex   = 0ULL;
+	std::size_t l_modelMaterialIndex = 0ULL;
 
 	for (const auto& l_staticModelDrawCommand : l_staticModelDrawCommandList)
 	{
@@ -104,6 +122,18 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 				continue;
 			}
 
+			// マテリアル定数のセット
+			if (!SetupCBModelMaterial(l_rootSignature,
+								      l_directCommandList,
+									  l_modelMaterialUploadBuffer,
+								      l_modelMesh.m_modelMaterial,
+									  l_modelMaterialIndex,
+									  l_modelMaterialMappedData))
+			{
+				continue;
+			}
+
+
 			// メッシュストラクチャードバッファのセット
 			if (!SetupModelMeshStructuredBufferSRV(l_rootSignature,
 												   a_srvDescriptorPool,
@@ -127,11 +157,13 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 											 k_defaultDispatchMeshThreadGroupCountZ);
 
 			++l_modelObjectIndex;
+			++l_modelMaterialIndex;
 		}
 	}
 
-	l_modelObjectUploadBuffer.UnMap();
-	l_cameraUploadBuffer.UnMap	   ();
+	l_modelMaterialUploadBuffer.UnMap();
+	l_modelObjectUploadBuffer.UnMap  ();
+	l_cameraUploadBuffer.UnMap	     ();
 }
 
 bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const std::weak_ptr<RootSignature>&				   a_rootSignature,
@@ -151,6 +183,35 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 																   l_cbModelObject,
 																   a_modelObjectIndex,
 																   a_modelObjectMappedData);
+}
+
+bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelMaterial(const std::weak_ptr<RootSignature>& a_rootSignature, 
+																			  const DirectCommandList&		      a_directCommandList, 
+																			  const UploadBuffer&				  a_modelMaterialUploadBuffer, 
+																		      const Struct::ModelMaterial&		  a_modelMaterial,
+																			  const std::size_t&				  a_modelMaterialIndex, 
+																				    std::uint8_t* const		 	  a_modelMaterialMappedData) const
+{
+	Struct::CBModelMaterial l_cbModelMaterial = {};
+
+	const auto& l_modelMaterialAssetData   = a_modelMaterial.m_modelMaterialAssetData;
+	const auto& l_modelMaterialRuntimeData = a_modelMaterial.m_modelMaterialRuntimeData;
+
+	l_cbModelMaterial.m_baseColorFactor = l_modelMaterialAssetData.m_baseColorFactor;
+	l_cbModelMaterial.m_metallicFactor  = l_modelMaterialAssetData.m_metallicFactor;
+	l_cbModelMaterial.m_roughnessFactor = l_modelMaterialAssetData.m_roughnessFactor;
+
+	l_cbModelMaterial.m_useBaseColorTexture = l_modelMaterialRuntimeData.m_baseColorTexture ? Constant::k_enableModelTexture : Constant::k_disableModelTexture;
+	l_cbModelMaterial.m_useNormalTexture    = l_modelMaterialRuntimeData.m_normalTexture    ? Constant::k_enableModelTexture : Constant::k_disableModelTexture;
+	l_cbModelMaterial.m_useRoughnessTexture = l_modelMaterialRuntimeData.m_roughnessTexture ? Constant::k_enableModelTexture : Constant::k_disableModelTexture;
+	l_cbModelMaterial.m_useMetallicTexture  = l_modelMaterialRuntimeData.m_metallicTexture  ? Constant::k_enableModelTexture : Constant::k_disableModelTexture;
+
+	return SetupConstantBuffer<Tag::RootParameterCBModelMaterialTag>(a_rootSignature,
+																	 a_directCommandList,
+																	 a_modelMaterialUploadBuffer,
+																	 l_cbModelMaterial,
+																	 a_modelMaterialIndex,
+																	 a_modelMaterialMappedData);
 }
 
 bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelMeshStructuredBufferSRV(const std::weak_ptr<RootSignature>&	    a_rootSignature, 
@@ -176,11 +237,8 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupModelBaseColorText
 																				       const DirectCommandList&				    a_directCommandList, 
 																					   const Struct::ModelMaterialRuntimeData&  a_modelMaterialRuntimeData) const
 {
-	if (!a_modelMaterialRuntimeData.m_baseColorTexture)
-	{
-		assert(false && "BaseColorTextureが無効なため、StaticModel描画処理に失敗しました。");
-		return false;
-	}
+	// テクスチャがない場合は定数で処理するためtrueを返す
+	if (!a_modelMaterialRuntimeData.m_baseColorTexture) { return true; }
 
 	const auto& l_textureRecord = a_modelMaterialRuntimeData.m_baseColorTexture->GetREFTextureRecord().lock();
 

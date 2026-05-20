@@ -10,16 +10,16 @@ SamplerState g_modelTextureSampler : register(s0);
 float4 main(MeshOutput a_input) : SV_Target0
 {
     // ベースカラーテクスチャをから色を取得
-    const float4 l_baseColor = g_baseColorTexture.Sample(g_modelTextureSampler, a_input.uv);
+    float4 l_baseColor = g_baseColorTexture.Sample(g_modelTextureSampler, a_input.uv);
 
-    if (g_useBaseColorTextre == k_enableModelTexture)
+    if (g_useBaseColorTexture == k_enableModelTexture)
     {
         l_baseColor *= g_baseColorTexture.Sample(g_modelTextureSampler, a_input.uv);
     }
     
     float3 l_worldNormal = normalize(a_input.normal);
     
-    if (g_useNormalTextre == k_enableModelTexture)
+    if (g_useNormalTexture == k_enableModelTexture)
     {
         const float3 l_normalTextureColor = g_normlaTexture.Sample(g_modelTextureSampler, a_input.uv).xyz;
 

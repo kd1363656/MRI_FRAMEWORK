@@ -2,12 +2,12 @@
 {
     float4 g_baseColorFactor; 
     
+    float2 g_modelMaterialPadding;
     float  g_metallicFactor;
     float  g_roughnessFactor;
-    float2 g_modelMaterialPadding;
     
     uint g_useBaseColorTexture;
-    uint g_useNormalTextre;
+    uint g_useNormalTexture;
     uint g_useRoughnessTexture;
     uint g_useMetallicTexture;
 }

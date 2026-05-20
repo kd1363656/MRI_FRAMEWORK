@@ -43,9 +43,9 @@ namespace FWK::Struct
 	{
 		TypeAlias::Math::Color m_baseColorFactor = Constant::k_defaultModelBaseColorFactor;
 
+		TypeAlias::Math::Vector2 m_padding		   = {};
 		float                    m_metallicFactor  = Constant::k_defaultModelMetallicFactor;
 		float                    m_roughnessFactor = Constant::k_defaultModelRoughnessFactor;
-		TypeAlias::Math::Vector2 m_padding		   = {};
 
 		std::uint32_t m_useBaseColorTexture = Constant::k_disableModelTexture;
 		std::uint32_t m_useNormalTexture    = Constant::k_disableModelTexture;

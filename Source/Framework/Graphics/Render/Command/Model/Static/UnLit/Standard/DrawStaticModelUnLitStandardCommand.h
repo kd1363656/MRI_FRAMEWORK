@@ -25,6 +25,13 @@ namespace FWK::Graphics
 								const std::size_t&								   a_modelObjectIndex,
 									  std::uint8_t* const			               a_modelObjectMappedData) const;
 
+		bool SetupCBModelMaterial(const std::weak_ptr<RootSignature>& a_rootSignature,
+								  const DirectCommandList&		      a_directCommandList,
+								  const UploadBuffer&				  a_modelMaterialUploadBuffer,
+								  const Struct::ModelMaterial&		  a_modelMaterial,
+								  const std::size_t&				  a_modelMaterialIndex,
+									    std::uint8_t* const			  a_modelMaterialMappedData) const;
+
 		bool SetupModelMeshStructuredBufferSRV(const std::weak_ptr<RootSignature>&		a_rootSignature,
 											   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 											   const DirectCommandList&				    a_directCommandList,

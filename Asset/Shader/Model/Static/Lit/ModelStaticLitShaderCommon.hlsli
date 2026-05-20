@@ -5,7 +5,7 @@ static const float k_tbnEpsilon         = 0.00001F;
 float3 ConvertNormalTextureToWorldNormal(float3 a_vertexWorldNormal,
                                          float3 a_worldPosition,
                                          float3 a_normalTextureColor,
-                                         float2 a_uv,)
+                                         float2 a_uv)
 {
     const float3 l_vertexWorldNormal = normalize(a_vertexWorldNormal);
     
