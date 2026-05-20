@@ -44,13 +44,13 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&         
 
 	// 書き込み用深度テクスチャの作成
 	if (const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_D32_FLOAT,
-															 a_width,
-															 a_height,
-															 Constant::k_renderTextureDefaultArraySize,
-															 Constant::k_renderTextureDefaultMIPLevels,
-															 Constant::k_renderTextureDefaultSampleCount,
-															 Constant::k_renderTextureDefaultSampleQuality,
-															 D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
+															     a_width,
+															     a_height,
+															     Constant::k_renderTextureDefaultArraySize,
+															     Constant::k_renderTextureDefaultMIPLevels,
+															     Constant::k_renderTextureDefaultSampleCount,
+															     Constant::k_renderTextureDefaultSampleQuality,
+															     D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 		!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
 													&l_clearValue,
 													D3D12_RESOURCE_STATE_DEPTH_WRITE,

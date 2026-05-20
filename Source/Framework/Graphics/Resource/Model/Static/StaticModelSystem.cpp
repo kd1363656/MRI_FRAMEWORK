@@ -99,6 +99,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 
 		auto l_baseColorTexture = std::make_shared<Texture>();
 
+		// ファイルパスが空なら代用テクスチャを貼り付け
 		if (l_baseColorTextureFilePath.empty())
 		{
 			l_baseColorTexture->SetupDefaultTexture(Enum::DefaultTextureType::BaseColor);
