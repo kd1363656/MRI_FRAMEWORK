@@ -24,10 +24,10 @@ void FWK::Scene::RequestDraw() const
 	//RequestDrawTexture(m_texture);
 
 	// UnLitモデルの描画
-	//RequestDrawStaticModelUnLitStandard(m_staticModel, m_camera);
+	RequestDrawStaticModelUnLitStandard(m_staticModel, m_camera);
 	
 	// Litモデルの描画
-	RequestDrawStaticModelLitStandard(m_staticModel, m_camera);
+	//RequestDrawStaticModelLitStandard(m_staticModel, m_camera);
 }
 
 void FWK::Scene::Update()
