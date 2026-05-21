@@ -1,10 +1,11 @@
-﻿#include "DrawStaticModelUnLitStandardCommand.h"
+﻿#include "DrawStaticModelLitStandardCommand.h"
 
-void FWK::Graphics::DrawStaticModelUnLitStandardCommand::PostCreateSetup(Renderer& a_renderer)
+void FWK::Graphics::DrawStaticModelLitStandardCommand::PostCreateSetup(Renderer& a_renderer)
 {
-	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetTag<Tag::ModelUnLitStandardPipelineStateTag>());
+	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetTag<Tag::ModelLitStandardPipelineStateTag>());
 }
-void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+
+void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
 {
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
@@ -70,10 +71,10 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 	// カメラ情報を1回だけセット
 	if (const auto& l_camera = GetPTRPassConstant()->m_camera.lock();
 		!SetCBCamera(*l_camera,
-			*l_rootSignature,
-			l_directCommandList,
-			l_cameraUploadBuffer,
-			l_cameraMappedData))
+					 *l_rootSignature,
+					 l_directCommandList,
+					 l_cameraUploadBuffer,
+					 l_cameraMappedData))
 	{
 		return;
 	}
@@ -120,14 +121,14 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPo
 	l_cameraUploadBuffer.UnMap	   ();
 }
 
-bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(const RootSignature&							   a_rootSignature,
-																			const DirectCommandList&						   a_directCommandList, 
-																			const UploadBuffer&								   a_modelObjectUploadBuffer, 
-																			const Struct::StaticModelUnLitStandardDrawCommand& a_staticModelUnLitStandardDrawCommand, 
-																		    const Struct::ModelMaterialRuntimeData&			   a_modelMaterialRuntimeData,
-																		    const Struct::ModelMeshRuntimeData&			       a_modelMeshRuntimeData,
-																			const std::size_t&								   a_modelObjectIndex, 
-																				  std::uint8_t* const						   a_modelObjectMappedData) const
+bool FWK::Graphics::DrawStaticModelLitStandardCommand::SetupCBModelObject(const RootSignature&	                           a_rootSignature, 
+																		  const DirectCommandList&                         a_directCommandList, 
+																		  const UploadBuffer&	                           a_modelObjectUploadBuffer,
+																		  const Struct::StaticModelLitStandardDrawCommand& a_staticModelLitStandardDrawCommand,
+																		  const Struct::ModelMaterialRuntimeData&		   a_modelMaterialRuntimeData,
+																		  const Struct::ModelMeshRuntimeData&			   a_modelMeshRuntimeData,
+																		  const std::size_t&							   a_modelObjectIndex, 
+																			    std::uint8_t* const						   a_modelObjectMappedData) const
 {
 	if (!a_modelMaterialRuntimeData.m_baseColorTexture)
 	{
@@ -164,7 +165,7 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 
 	Struct::CBModelObject l_cbModelObject = {};
 
-	l_cbModelObject.m_worldMatrix		           = a_staticModelUnLitStandardDrawCommand.m_worldMatrix;
+	l_cbModelObject.m_worldMatrix		           = a_staticModelLitStandardDrawCommand.m_worldMatrix;
 	l_cbModelObject.m_baseColorTextureIndex        = l_baseColorTextureRecord->m_srvStorageID;
 	l_cbModelObject.m_normalTextureIndex           = l_normalTextureRecord->m_srvStorageID;
 	l_cbModelObject.m_vertexBufferIndex            = a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID;
@@ -180,7 +181,7 @@ bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::SetupCBModelObject(cons
 																   a_modelObjectMappedData);
 }
 
-bool FWK::Graphics::DrawStaticModelUnLitStandardCommand::ValidateModelMeshStructuredBufferSRV(const Struct::ModelMeshRuntimeData& a_modelMeshRuntimeData) const
+bool FWK::Graphics::DrawStaticModelLitStandardCommand::ValidateModelMeshStructuredBufferSRV(const Struct::ModelMeshRuntimeData& a_modelMeshRuntimeData) const
 {
 	if (a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID		    == Constant::k_invalidStorageID ||
 		a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID           == Constant::k_invalidStorageID ||

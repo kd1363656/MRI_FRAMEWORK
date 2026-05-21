@@ -84,7 +84,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	l_staticModelRecord->m_referenceCount = Constant::k_defaultAssetReferenceCount;
 
 	// まずはバイナリーファイルから読み込み、読み込めなかった場合はFBXから読み込む
-	if (!LoadStaticModel(*l_staticModelRecord, a_filePath))
+	if (!LoadStaticModel(a_filePath, *l_staticModelRecord))
 	{
 		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
 
@@ -92,33 +92,14 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 		return l_staticModelLoadResult;
 	}
 
-	// StaticMOdelのMaterialが参照しているBaseColorTextureをロード予約する
+	// StaticModelのMaterialが参照しているTextureをロード予約する
 	for (auto& l_modelMesh : l_staticModelRecord->m_modelData.m_modelMeshList)
 	{
-		const auto& l_baseColorTextureFilePath = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData.m_baseColorTextureFilePath;
+		const auto& l_modelMaterialAssetData   = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
+			  auto& l_modelMaterialRuntimeData = l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData;
 
-		auto l_baseColorTexture = std::make_shared<Texture>();
-
-		// ファイルパスが空なら代用テクスチャを貼り付け
-		if (l_baseColorTextureFilePath.empty())
-		{
-			l_baseColorTexture->SetupDefaultTexture(Enum::DefaultTextureType::BaseColor);
-
-			l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData.m_baseColorTexture = l_baseColorTexture;
-
-			continue;
-		}
-
-		std::filesystem::path l_textureFilePath = l_baseColorTextureFilePath;
-
-		if (l_textureFilePath.is_relative())
-		{
-			l_textureFilePath = a_filePath.parent_path() / l_textureFilePath;
-		}
-
-		l_baseColorTexture->Load(l_textureFilePath);
-
-		l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData.m_baseColorTexture = l_baseColorTexture;
+		l_modelMaterialRuntimeData.m_baseColorTexture = CreateMaterialTexture(a_filePath, l_modelMaterialAssetData.m_baseColorTextureFilePath, Enum::DefaultTextureType::BaseColor);
+		l_modelMaterialRuntimeData.m_normalTexture    = CreateMaterialTexture(a_filePath, l_modelMaterialAssetData.m_normalTextureFilePath,	   Enum::DefaultTextureType::Normal);
 	}
 
 	Struct::StaticModelBatchUploadRecord l_staticModelBatchUploadRecord = {};
@@ -200,7 +181,66 @@ std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::
 	return m_staticModelStorage.FindVALRecord(a_storageID);
 }
 
-bool FWK::Graphics::StaticModelSystem::LoadStaticModel(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath)
+bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath, Struct::StaticModelRecord& a_staticModelRecord)
+{
+	// ufbxを使用してメッシュやマテリアルを読み込む
+	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_staticModelRecord, a_fbxFilePath))
+	{
+		assert(false && "StaticModelFBXLoaderによるFBX読み込みに失敗しました。");
+		return false;
+	}
+
+	// meshoptimizerを使用して頂点とインデックスをGPUで扱いやすい配置へ最適化
+	if (!m_staticModelMeshOptimizer.OptimizeStaticModelRecord(a_staticModelRecord))
+	{
+		assert(false && "StaticModelMeshOptimizerによるStaticModelRecordの最適化に失敗しました。");
+		return false;
+	}
+
+	// MeshShaderで扱うため、最適化済みの頂点とインデックスからMeshletDataを作成
+	if (!m_staticModelMeshletBuilder.BuildStaticModelRecordMeshletData(a_staticModelRecord))
+	{
+		assert(false && "StaticModelのMeshletData作成に失敗しました。");
+		return false;
+	}
+
+	// バイナリーファイルとして保存
+	if (!m_staticModelBinaryConverter.SaveStaticModelAsset(a_staticModelRecord, a_assetFilePath))
+	{
+		assert(false && "StaticModelAssetの保存に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
+std::shared_ptr<FWK::Graphics::Texture> FWK::Graphics::StaticModelSystem::CreateMaterialTexture(const std::filesystem::path& a_modelFilePath, const std::wstring& a_textureFilePath, const Enum::DefaultTextureType a_defaultTextureType) const
+{
+	auto l_texture = std::make_shared<Texture>();
+
+	// TextureFilePathが空の場合は、Material種別にあった代用テクスチャを設定する
+	if (a_textureFilePath.empty())
+	{
+		l_texture->SetupDefaultTexture(a_defaultTextureType);
+
+		return l_texture;
+	}
+
+	std::filesystem::path l_textureFilePath = a_textureFilePath;
+
+	// FBXから取得したTextureFilePathが相対パスの場合
+	// ModelFilePathの親フォルダからの相対パスとして解決する
+	if (l_textureFilePath.is_relative())
+	{
+		l_textureFilePath = a_modelFilePath.parent_path() / l_textureFilePath;
+	}
+
+	l_texture->Load(l_textureFilePath);
+
+	return l_texture;
+}
+
+bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::filesystem::path& a_filePath, Struct::StaticModelRecord& a_staticModelRecord)
 {
 	auto& l_modelData = a_staticModelRecord.m_modelData;
 
@@ -223,17 +263,17 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(Struct::StaticModelRecord
 	if (CanUseStaticModelAsset(a_filePath, l_assetFilePath))
 	{
 		// バイナリーファイルを読み込めるなら読み込む
-		if (LoadStaticModelAsset(a_staticModelRecord, l_assetFilePath)) { return true; }
+		if (LoadStaticModelAsset(l_assetFilePath, a_staticModelRecord)) { return true; }
 
 		// .assetが存在していても、読み込みに失敗した場合は壊れている可能性があるためFBXから再生成する
 		l_modelData.m_modelMeshList.clear();
 	}
-	
+
 	// バイナリーファイルが使用できなければufbxを使用してFBXモデルを読み込む
-	return CreateStaticModelAssetFromFBX(a_staticModelRecord, a_filePath, l_assetFilePath);
+	return CreateStaticModelAssetFromFBX(a_filePath, l_assetFilePath, a_staticModelRecord);
 }
 
-bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_assetFilePath)
+bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(const std::filesystem::path& a_assetFilePath, Struct::StaticModelRecord& a_staticModelRecord)
 {
 	auto& l_modelData = a_staticModelRecord.m_modelData;
 
@@ -281,39 +321,6 @@ bool FWK::Graphics::StaticModelSystem::StaticModelCopyBatch(UploadSystem& a_uplo
 			assert(false && "StaticModelRecordの登録に失敗したため、StaticModelのバッチ登録に失敗しました。");
 			return false;
 		}
-	}
-
-	return true;
-}
-
-bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath)
-{
-	// ufbxを使用してメッシュやマテリアルを読み込む
-	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_staticModelRecord, a_fbxFilePath))
-	{
-		assert(false && "StaticModelFBXLoaderによるFBX読み込みに失敗しました。");
-		return false;
-	}
-
-	// meshoptimizerを使用して頂点とインデックスをGPUで扱いやすい配置へ最適化
-	if (!m_staticModelMeshOptimizer.OptimizeStaticModelRecord(a_staticModelRecord))
-	{
-		assert(false && "StaticModelMeshOptimizerによるStaticModelRecordの最適化に失敗しました。");
-		return false;
-	}
-
-	// MeshShaderで扱うため、最適化済みの頂点とインデックスからMeshletDataを作成
-	if (!m_staticModelMeshletBuilder.BuildStaticModelRecordMeshletData(a_staticModelRecord))
-	{
-		assert(false && "StaticModelのMeshletData作成に失敗しました。");
-		return false;
-	}
-
-	// バイナリーファイルとして保存
-	if (!m_staticModelBinaryConverter.SaveStaticModelAsset(a_staticModelRecord, a_assetFilePath))
-	{
-		assert(false && "StaticModelAssetの保存に失敗しました。");
-		return false;
 	}
 
 	return true;

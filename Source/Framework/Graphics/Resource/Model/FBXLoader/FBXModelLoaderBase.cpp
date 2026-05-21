@@ -133,12 +133,22 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNorm
 
 	const auto& l_normal = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_normal, a_vertexIndex);
 
+	// ufbx_matrix_for_normals(法線変換元の行列);
+	// 法線は座標と違い、非均一スケールがある場合に通常方向ベクトル変換では歪むため、
+	// 法線専用の変換行列を使う
+
+	const auto& l_normalMatrix = ufbx_matrix_for_normals(&a_fbxNode->geometry_to_world);
+
 	// ufbx_transform_direction(方向ベクトル変換用行列、
 	//							変換したい方向ベクトル);
 
-	const auto& l_wordlNormal = ufbx_transform_direction(&a_fbxNode->geometry_to_world, l_normal);
+	auto l_worldNormal = ufbx_transform_direction(&l_normalMatrix, l_normal);
 
-	return ConvertUFBXVector3ToVector3(l_wordlNormal);
+	// ufbx_vec3_normalize(正規化したいベクトル);
+	// ライティング計算では長さ1の法線を前提にするため、変換後に正規化する
+	l_worldNormal = ufbx_vec3_normalize(l_worldNormal);
+
+	return ConvertUFBXVector3ToVector3(l_worldNormal);
 }
 FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::FetchVertexTangent(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::uint32_t a_vertexIndex) const
 {
@@ -172,7 +182,9 @@ FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::FetchVertexTang
 
 	// ufbx_transform_direction(方向ベクトル変換用行列、
 	//							変換したい方向ベクトル);
-	const auto& l_worldTangent = ufbx_transform_direction(&a_fbxNode->geometry_to_world, l_tangent);
+	auto l_worldTangent = ufbx_transform_direction(&a_fbxNode->geometry_to_world, l_tangent);
+
+	l_worldTangent = ufbx_vec3_normalize(l_worldTangent);
 
 	return
 	{
@@ -206,16 +218,26 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::ConvertUFBXVect
 ufbx_load_opts FWK::Graphics::FBXModelLoaderBase::CreateFBXLoadOptions() const
 {
 	// ufbx_load_optsは、ufbxでFBXを読み込むときの設定
-	// StaticModelFBXLoader / AnimationModelFBXLoaderの両方で同じ読む込み補正を使うため、
+	// StaticModelFBXLoader / AnimationModelFBXLoaderの両方で同じ読み込み補正を使うため、
 	// FBXModelLoaderBase側で共通化する
 
 	ufbx_load_opts l_loadOptions = {};
+
+	// generate_missing_normals;
+	// trueにすると、FBX内に頂点法線が存在しないMeshに対してufbx側で法線を生成する
+	// Lit / NormalMapのライティングでは法線が必要なので、欠けている場合は読み込み時に補完する
+	l_loadOptions.generate_missing_normals = true;
+
+	// normalize_normals;
+	// trueにすると、読み込んだ頂点法線を正規化する
+	// ライティング計算では長さ1の法線を前提にするため、読み込み時点で正規化しておく
+	l_loadOptions.normalize_normals = true;
 
 	// use_root_transform;
 	// trueにすると、root_transformで指定した読み込み時のルート変換を使用する
 	l_loadOptions.use_root_transform = true;
 
-	// ues_root_transform.translation;
+	// root_transform.translation;
 	// 今回は読み込み時に位置移動はしないため、UFBX側のゼロベクトルを使う
 	l_loadOptions.root_transform.translation = ufbx_zero_vec3;
 

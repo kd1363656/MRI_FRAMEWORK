@@ -7,6 +7,7 @@ namespace FWK::Graphics
 
 namespace FWK::Struct
 {
+	// スプライト用
 	struct SpriteStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
@@ -20,6 +21,7 @@ namespace FWK::Struct
 		SpriteRECT m_sourceRECT = {};
 	};
 
+	// 静的モデル用(陰影の影響を受けない)
 	struct StaticModelUnLitStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
@@ -28,6 +30,19 @@ namespace FWK::Struct
 	};
 
 	struct StaticModelUnLitStandardPassConstant final
+	{
+		std::weak_ptr<Graphics::Camera> m_camera = {};
+	};
+
+	// 静的モデル用(陰影の影響を受ける)
+	struct StaticModelLitStandardDrawCommand final
+	{
+		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
+
+		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
+	};
+
+	struct StaticModelLitStandardPassConstant final
 	{
 		std::weak_ptr<Graphics::Camera> m_camera = {};
 	};

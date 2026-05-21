@@ -10,9 +10,9 @@ void FWK::Scene::PostLoadSetup()
 
 	m_camera = std::make_shared<Graphics::Camera>();
 
-	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance();
-	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer	  ();
-	const auto& l_viewport = l_renderer.GetREFRenderArea().GetREFViewport ();
+	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance       ();
+	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer	         ();
+	const auto& l_viewport        = l_renderer.GetREFRenderArea().GetREFViewport ();
 
 	const auto l_aspectRatio = l_viewport.Width / l_viewport.Height;
 
@@ -24,7 +24,10 @@ void FWK::Scene::RequestDraw() const
 	//RequestDrawTexture(m_texture);
 
 	// UnLitモデルの描画
-	RequestDrawStaticModelUnLitStandard(m_staticModel, m_camera);
+	//RequestDrawStaticModelUnLitStandard(m_staticModel, m_camera);
+	
+	// Litモデルの描画
+	RequestDrawStaticModelLitStandard(m_staticModel, m_camera);
 }
 
 void FWK::Scene::Update()
@@ -73,4 +76,28 @@ void FWK::Scene::RequestDrawStaticModelUnLitStandard(const Graphics::StaticModel
 
 	l_drawCommand->SetPassConstant(l_staticModelUnLitStandardPassConstant);
 	l_drawCommand->RequestDraw(l_staticModelUnLitStandardDrawCommand);
+}
+
+void FWK::Scene::RequestDrawStaticModelLitStandard(const Graphics::StaticModel& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera) const
+{
+	if (!a_staticModel.IsValid()) { return; }
+	if (!a_camera)				  { return; }
+
+	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance();
+	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer	  ();
+
+	const auto& l_drawCommand = l_renderer.FindVALDrawCommand<Graphics::DrawStaticModelLitStandardCommand>();
+
+	if (!l_drawCommand) { return; }
+
+	Struct::StaticModelLitStandardPassConstant l_staticModelLitStandardPassConstant = {};
+	l_staticModelLitStandardPassConstant.m_camera = m_camera;
+
+	Struct::StaticModelLitStandardDrawCommand  l_staticModelLitStandardDrawCommand  = {};
+
+	l_staticModelLitStandardDrawCommand.m_staticModelRecord = a_staticModel.GetREFStaticModelRecord();
+	l_staticModelLitStandardDrawCommand.m_worldMatrix		= TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
+
+	l_drawCommand->SetPassConstant(l_staticModelLitStandardPassConstant);
+	l_drawCommand->RequestDraw    (l_staticModelLitStandardDrawCommand);
 }

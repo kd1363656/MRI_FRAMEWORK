@@ -443,6 +443,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Camera\Camera.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawRequestCommandBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
@@ -542,6 +543,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />

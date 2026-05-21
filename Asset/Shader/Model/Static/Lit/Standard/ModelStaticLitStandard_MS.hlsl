@@ -10,7 +10,7 @@ struct StaticModelVertex
 
 [outputtopology("triangle")]
 [numthreads(k_meshShaderThreadCountX, k_meshShaderThreadCountY, k_meshShaderThreadCountZ)]
-void main(uint3                   a_goupID : SV_GroupID,
+void main(uint3                   a_groupID : SV_GroupID,
           out vertices MeshOutput a_vertexList[k_maxMeshletVertexCount],
           out indices  uint3      a_primitiveList[k_maxMeshletPrimitiveCount])
 {
@@ -20,7 +20,7 @@ void main(uint3                   a_goupID : SV_GroupID,
     StructuredBuffer<uint>              l_uniqueVertexIndexBuffer = ResourceDescriptorHeap[g_uniqueVertexIndexBufferIndex];
     StructuredBuffer<uint>              l_primitiveIndexBuffer    = ResourceDescriptorHeap[g_primitiveIndexBufferIndex];
     
-    const uint l_meshletIndex = a_goupID;
+    const uint l_meshletIndex = a_groupID.x;
     
     const ModelMeshlet l_modelMeshlet = l_modelMeshletBuffer[l_meshletIndex];
     
@@ -37,8 +37,8 @@ void main(uint3                   a_goupID : SV_GroupID,
         const float4 l_localPosition = float4(l_modelVertex.position, k_modelPositionVectorElementW);
         const float4 l_worldPosition = mul   (l_localPosition,        g_worldMatrix);
 
-        const float3 l_worldNormal  = normalize(mul(float4(l_modelVertex.normal, 0.0F), g_worldMatrix).xyz);
-        const float3 l_worldTangent = normalize(mul(float4(l_worldTangent.xyz,   0.0F), g_worldMatrix).xyz);
+        const float3 l_worldNormal  = normalize(mul(float4(l_modelVertex.normal,      k_directionVectorElementW), g_worldMatrix).xyz);
+        const float3 l_worldTangent = normalize(mul(float4(l_modelVertex.tangent.xyz, k_directionVectorElementW), g_worldMatrix).xyz);
 
         a_vertexList[l_vertexIndex].position      = mul(l_worldPosition, g_viewProjectionMatrix);
         a_vertexList[l_vertexIndex].worldPosition = l_worldPosition.xyz;

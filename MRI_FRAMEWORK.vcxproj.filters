@@ -640,6 +640,12 @@
     <Filter Include="Asset\Shader\Model\Static\Lit\Standard">
       <UniqueIdentifier>{07002dda-33dc-4398-b69a-e93827c5e311}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit">
+      <UniqueIdentifier>{1cceb950-bf1e-4ace-a7d0-e3a56f2b77fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard">
+      <UniqueIdentifier>{83868f6a-3c4c-43db-93c3-c1f002518d66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1112,6 +1118,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.h">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1350,6 +1359,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.cpp">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,9 +15,6 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
-		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
-
 		bool SetupCBModelObject(const RootSignature&							   a_rootSignature,
 								const DirectCommandList&		                   a_directCommandList,
 								const UploadBuffer&					               a_modelObjectUploadBuffer,

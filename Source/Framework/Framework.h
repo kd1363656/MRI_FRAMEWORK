@@ -311,6 +311,7 @@
 // 描画コマンドクラス
 #include "Graphics/Render/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
 #include "Graphics/Render/Command/Model/Static/UnLit/Standard/DrawStaticModelUnLitStandardCommand.h"
+#include "Graphics/Render/Command/Model/Static/Lit/Standard/DrawStaticModelLitStandardCommand.h"
 
 // グラフィックスマネージャー
 #include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"

@@ -20,6 +20,7 @@ namespace FWK
 		void RequestDrawTexture(const Graphics::Texture& a_texture) const;
 
 		void RequestDrawStaticModelUnLitStandard(const Graphics::StaticModel& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera) const;
+		void RequestDrawStaticModelLitStandard  (const Graphics::StaticModel& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera) const;
 
 		std::shared_ptr<Graphics::Camera> m_camera = nullptr;
 

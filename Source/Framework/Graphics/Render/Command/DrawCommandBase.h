@@ -65,9 +65,17 @@ namespace FWK::Graphics
 						 const UploadBuffer&	   a_cameraUploadBuffer,
 							   std::uint8_t* const a_cameraMappedData) const;
 
+		static constexpr UINT GetDefaultDispatchMeshThreadGroupCountX() { return k_defaultDispatchMeshThreadGroupCountX; }
+		static constexpr UINT GetDefaultDispatchMeshThreadGroupCountY() { return k_defaultDispatchMeshThreadGroupCountY; }
+		static constexpr UINT GetDefaultDispatchMeshThreadGroupCountZ() { return k_defaultDispatchMeshThreadGroupCountZ; }
+
 	private:
 
 		static constexpr std::size_t k_cameraConstantBufferIndex = 0ULL;
+
+		static constexpr UINT k_defaultDispatchMeshThreadGroupCountX = 1U;
+		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
+		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
 
 		std::weak_ptr<RootSignature> m_rootSignature = {};
 		std::weak_ptr<PipelineState> m_pipelineState = {};

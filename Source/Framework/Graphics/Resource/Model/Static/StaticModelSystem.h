@@ -39,15 +39,16 @@ namespace FWK::Graphics
 
 	private:
 
-		bool LoadStaticModel(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath);
+		bool					 CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath,	 const std::filesystem::path& a_assetFilePath,		   Struct::StaticModelRecord& a_staticModelRecord);
+		std::shared_ptr<Texture> CreateMaterialTexture		  (const std::filesystem::path& a_modelFilePath, const std::wstring&		  a_textureFilePath, const Enum::DefaultTextureType   a_defaultTextureType) const;
 
-		bool LoadStaticModelAsset(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_assetFilePath);
+		bool LoadStaticModel(const std::filesystem::path& a_filePath, Struct::StaticModelRecord& a_staticModelRecord);
+
+		bool LoadStaticModelAsset(const std::filesystem::path& a_assetFilePath, Struct::StaticModelRecord& a_staticModelRecord);
 
 		bool CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const;
 
 		bool StaticModelCopyBatch(UploadSystem& a_uploadSystem);
-
-		bool CreateStaticModelAssetFromFBX(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath);
 
 		TypeAlias::PendingStaticModelBatchUploadRecordMap m_pendingStaticModelBatchUploadRecordMap = {};
 

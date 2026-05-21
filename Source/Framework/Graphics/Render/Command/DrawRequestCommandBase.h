@@ -32,11 +32,11 @@ namespace FWK::Graphics
 			return m_passConstant.has_value();
 		}
 
-		const auto& GetREFPassConstant() const
+		const PassConstantType* GetPTRPassConstant() const
 		{
-			assert(HasPassConstant() && "PassConstantが設定されていません。");
-
-			return *m_passConstant;
+			if (!HasPassConstant()) { return nullptr; }
+			
+			return &m_passConstant.value();
 		}
 	
 		const auto& GetREFDrawCommandList() const { return m_drawCommandList; }

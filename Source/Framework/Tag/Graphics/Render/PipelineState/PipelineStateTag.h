@@ -6,4 +6,5 @@ namespace FWK::Tag
 
 	struct SpriteStandardPipelineStateTag     final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(SpriteStandardPipelineStateTag,     PipelineStateTagBase); };
 	struct ModelUnLitStandardPipelineStateTag final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelUnLitStandardPipelineStateTag, PipelineStateTagBase); };
+	struct ModelLitStandardPipelineStateTag   final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelLitStandardPipelineStateTag,   PipelineStateTagBase); };
 }

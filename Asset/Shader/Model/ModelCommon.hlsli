@@ -47,6 +47,7 @@ static const uint k_meshShaderThreadCountY = 1U;
 static const uint k_meshShaderThreadCountZ = 1U;
 
 static const uint k_modelPositionVectorElementW = 1U;
+static const float k_directionVectorElementW    = 0.0F;
 
 static const uint k_secondPrimitiveVertexOffset = 1U;
 static const uint k_thirdPrimitiveVertexOffset  = 2U;
