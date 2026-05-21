@@ -11,12 +11,15 @@ static const float  k_ambientIntensity          = 0.25F;
 
 float3 ConvertNormalMapToWorldNormal(float3 a_normalMap, float3 a_worldNormal, float4 a_worldTangent)
 {
-    const float3 l_tangentNormal = (a_normalMap * 2.0F) - 1.0F;
-    
+    float3 l_tangentNormal = (a_normalMap * 2.0F) - 1.0F;
+
+    // DirectX系NormalMapかOpenGL系NormalMapかでここは変わるため、まずはON/OFF確認用
+    l_tangentNormal.y = -l_tangentNormal.y;
+
     const float3 l_normal    = normalize(a_worldNormal);
     const float3 l_tangent   = normalize(a_worldTangent.xyz);
     const float3 l_bitangent = normalize(cross(l_normal, l_tangent) * a_worldTangent.w);
-    
+
     const float3x3 l_tangentToWorldMatrix = float3x3(l_tangent, l_bitangent, l_normal);
 
     return normalize(mul(l_tangentNormal, l_tangentToWorldMatrix));
@@ -38,5 +41,6 @@ float4 main(MeshOutput a_input) : SV_Target0
     const float3 l_diffuse = l_baseColor.rgb * k_directionalLightColor * l_nDotL * k_directionalLightIntensity;
     const float3 l_ambient = l_baseColor.rgb * k_ambientColor * k_ambientIntensity;
 
+    
     return float4(l_diffuse + l_ambient, l_baseColor.a);
 }

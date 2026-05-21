@@ -16,7 +16,7 @@ void FWK::Scene::PostLoadSetup()
 
 	const auto l_aspectRatio = l_viewport.Width / l_viewport.Height;
 
-	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 0.10F, -0.10F), l_aspectRatio);
+	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 0.12F, -0.05F), l_aspectRatio);
 }
 
 void FWK::Scene::RequestDraw() const
