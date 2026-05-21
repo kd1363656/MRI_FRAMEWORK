@@ -28,7 +28,7 @@ namespace FWK
 			const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance();
 			const auto& l_renderer		  = l_graphicsManager.GetREFRenderer	  ();
 
-			const auto& l_drawCommand = l_renderer.FindVALDrawCommand<Graphics::DrawStaticModelUnLitStandardCommand>();
+			const auto& l_drawCommand = l_renderer.FindVALDrawCommand<Type>();
 
 			if (!l_drawCommand) { return; }
 

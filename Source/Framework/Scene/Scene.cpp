@@ -32,7 +32,38 @@ void FWK::Scene::RequestDraw() const
 
 void FWK::Scene::Update()
 {
+	static TypeAlias::Math::Vector3 l_cameraPos = { 0.0F, 1.0F, -1.15F };
 
+	if (GetAsyncKeyState(VK_SHIFT))
+	{
+		if (GetAsyncKeyState('W'))
+		{
+			l_cameraPos.y += 0.01F;
+		}
+		else if (GetAsyncKeyState('S'))
+		{
+			l_cameraPos.y -= 0.01F;
+		}
+	}
+	else if (GetAsyncKeyState('W'))
+	{
+		l_cameraPos.z += 0.01F;
+	}
+	else if (GetAsyncKeyState('S'))
+	{
+		l_cameraPos.z -= 0.01F;
+	}
+
+	if (GetAsyncKeyState('A'))
+	{
+		l_cameraPos.x -= 0.01F;
+	}
+	else if (GetAsyncKeyState('D'))
+	{
+		l_cameraPos.x += 0.01F;
+	}
+
+	m_camera->SetCameraMatrix(TypeAlias::Math::Matrix::CreateTranslation(l_cameraPos));
 }
 
 void FWK::Scene::RequestDrawTexture(const Graphics::Texture& a_texture) const

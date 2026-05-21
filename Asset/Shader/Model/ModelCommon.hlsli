@@ -51,3 +51,7 @@ static const float k_directionVectorElementW    = 0.0F;
 
 static const uint k_secondPrimitiveVertexOffset = 1U;
 static const uint k_thirdPrimitiveVertexOffset  = 2U;
+
+static const float k_normalMapScale            = 2.0F;
+static const float k_normalMapBias             = 1.0F;
+static const float k_normalMapGreenChannelFlip = 1.0F;

@@ -30,9 +30,16 @@ void main(uint3                   a_groupID : SV_GroupID,
         const float4 l_localPosition = float4(l_modelVertex.position, k_modelPositionVectorElementW);
         const float4 l_worldPosition = mul   (l_localPosition,        g_worldMatrix);
 
-        const float3 l_worldNormal  = normalize(mul(float4(l_modelVertex.normal,      k_directionVectorElementW), g_worldMatrix).xyz);
-        const float3 l_worldTangent = normalize(mul(float4(l_modelVertex.tangent.xyz, k_directionVectorElementW), g_worldMatrix).xyz);
-
+        // 法線は方向ベクトルなので、w = 0.0FとしてWorld変換する
+        float3 l_worldNormal = normalize(mul(float4(l_modelVertex.normal, k_directionVectorElementW), g_worldMatrix).xyz);
+        
+        // 接線も方向ベクトルなので、w = 0.0FとしてWorld変換する
+        float3 l_worldTangent = normalize(mul(float4(l_modelVertex.tangent.xyz,  k_directionVectorElementW), g_worldMatrix).xyz);
+        
+        // TangentがNormal方向に少し傾いている場合に備えて、Normalに直交するように補正する
+        // NormalMapのTBN行列を安定させるための処理
+        l_worldTangent = normalize(l_worldTangent - (l_worldNormal * dot(l_worldTangent, l_worldNormal)));
+        
         a_vertexList[l_vertexIndex].position      = mul(l_worldPosition, g_viewProjectionMatrix);
         a_vertexList[l_vertexIndex].worldPosition = l_worldPosition.xyz;
         a_vertexList[l_vertexIndex].worldNormal   = l_worldNormal;
