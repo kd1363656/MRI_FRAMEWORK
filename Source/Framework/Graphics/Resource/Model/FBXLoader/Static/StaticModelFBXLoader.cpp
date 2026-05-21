@@ -40,8 +40,8 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const ufbx_scene* a_f
 		return false;
 	}
 
-	// ufbx_scene::nodesには、FBX内のNode階層が入っている
-	// Node経由でMeshを取得すると、Node Transform / Geometry Transformを頂点へ反映しやすい
+	// ufbx_scene::meshesには、FBX内のMeshデータが入っている
+	// StaticModelではNode Transformを使わないため、Node経由ではなくMeshを直接取得する
 	if (a_fbxScene->nodes.count == Constant::k_emptyModelMeshCount)
 	{
 		assert(false && "FBXシーン内にNodeが存在しないため、ModelDataの抽出に失敗しました。");
@@ -65,7 +65,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const ufbx_scene* a_f
 
 		// ufbx_mesh 1つを、自作フレームワーク側のModelMeshへ変換する
 		// 1つのufbx_meshに複数のMaterialがある場合、MaterialごとにModelMeshを分割する
-		if (!ExtractModelMeshList(l_fbxMesh, l_fbxNode, l_modelMeshList))
+		if (!ExtractModelMeshList(l_fbxMesh, l_modelMeshList))
 		{
 			assert(false && "ufbx_meshからModelMeshリストの抽出に失敗しました。");
 			return false;
@@ -88,7 +88,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelData(const ufbx_scene* a_f
 	
 	return true;
 }
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, std::vector<Struct::ModelMesh>& a_modelMeshList) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* a_fbxMesh, std::vector<Struct::ModelMesh>& a_modelMeshList) const
 {
 	a_modelMeshList.clear();
 
@@ -98,21 +98,12 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* 
 		return false;
 	}
 
-	if (!a_fbxNode)
-	{
-		assert(false && "ufbx_nodeがnullptrのため、ModelMeshリストの抽出に失敗しました。");
-		return false;
-	}
-
 	// MaterialがないMeshの場合は、MaterialなしのModelMeshとして1つだけ作成する
 	if (a_fbxMesh->materials.count == Constant::k_emptyModelMeshCount)
 	{
 		Struct::ModelMesh l_modelMesh = {};
 
-		if (!ExtractModelMeshByMaterial(a_fbxMesh, 
-										a_fbxNode,
-									    k_invalidMaterialIndex,
-									    l_modelMesh))
+		if (!ExtractModelMeshByMaterial(a_fbxMesh, k_invalidMaterialIndex, l_modelMesh))
 		{
 			assert(false && "MaterialなしModelMeshの抽出に失敗しました。");
 			return false;
@@ -134,7 +125,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* 
 		Struct::ModelMesh l_modelMesh = {};
 
 		// 現在のMaterialIndexを使用しているFaceだけを集めて、1つのModelMeshにする
-		if (!ExtractModelMeshByMaterial(a_fbxMesh, a_fbxNode,l_materialIndex, l_modelMesh))
+		if (!ExtractModelMeshByMaterial(a_fbxMesh, l_materialIndex, l_modelMesh))
 		{
 			assert(false && "Material別ModelMeshの抽出に失敗しました。");
 			return false;
@@ -157,7 +148,7 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshList(const ufbx_mesh* 
 
 	return true;
 }
-bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::size_t& a_materialIndex, Struct::ModelMesh& a_modelMesh) const
+bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_mesh* a_fbxMesh, const std::size_t& a_materialIndex, Struct::ModelMesh& a_modelMesh) const
 {
 	// モデルメッシュの初期化
 	a_modelMesh.m_modelVertexList.clear();
@@ -233,17 +224,17 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_
 			{
 				// l_triangleIndexListには、三角形化後のufbx側頂点インデックスが入っている
 				// 三角形番号 * 3 + 頂点番号で、現在処理している三角形の頂点インデックスを取り出す
-				const auto l_indexOffset    = (l_triangleIndex * Constant::k_triangleVertexCount) + l_vertexIndex;
-				const auto l_fbxVertexIndex = l_triangleIndexList[l_indexOffset];
+				const auto& l_indexOffset    = (l_triangleIndex * Constant::k_triangleVertexCount) + l_vertexIndex;
+				const auto  l_fbxVertexIndex = l_triangleIndexList[l_indexOffset];
 
 				Struct::ModelVertex l_modelVertex = {};
 
-				// ufbx_meshから頂点座標、法線、UVを取得して、自作ModelVertexへコピーする
-				// 座標と法線は、Node Transform / Geometry Transformを反映するためのufbx_nodeも渡す
-				l_modelVertex.m_position = FetchVertexPosition(a_fbxMesh, a_fbxNode, l_fbxVertexIndex);
-				l_modelVertex.m_normal   = FetchVertexNormal  (a_fbxMesh, a_fbxNode, l_fbxVertexIndex);
-				l_modelVertex.m_tangent  = FetchVertexTangent (a_fbxMesh, a_fbxNode, l_fbxVertexIndex);
-				l_modelVertex.m_uv	     = FetchVertexUV      (a_fbxMesh, l_fbxVertexIndex);
+				// ufbx_meshからローカル空間頂点座標、UV、法線、接線を取得する
+				// 取得後、自作エンジンの+YUP / +ZForward / 0.01Scaleの空間へ変換する
+				l_modelVertex.m_position = TransformImportPosition(FetchLocalVertexPosition(a_fbxMesh, l_fbxVertexIndex));
+				l_modelVertex.m_uv	     = FetchVertexUV           (a_fbxMesh, l_fbxVertexIndex);
+				l_modelVertex.m_normal   = TransformImportNormal   (FetchLocalVertexNormal(a_fbxMesh, l_fbxVertexIndex));
+				l_modelVertex.m_tangent  = TransformImportTangent  (FetchLocalVertexTangent(a_fbxMesh, l_fbxVertexIndex));
 
 				// 今は重複頂点削除をまだ行わないため、三角形の頂点をそのまま追加する
 				// Indexは追加した頂点の順番をそのまま示す

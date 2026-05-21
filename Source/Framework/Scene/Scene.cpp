@@ -16,7 +16,7 @@ void FWK::Scene::PostLoadSetup()
 
 	const auto l_aspectRatio = l_viewport.Width / l_viewport.Height;
 
-	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 0.0F, -0.05F), l_aspectRatio);
+	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 1.0F, -1.15F), l_aspectRatio);
 }
 
 void FWK::Scene::RequestDraw() const
@@ -24,7 +24,7 @@ void FWK::Scene::RequestDraw() const
 	//RequestDrawTexture(m_texture);
 
 	// UnLitモデルの描画
-	RequestDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera);
+	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera);
 	
 	// Litモデルの描画
 	RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);

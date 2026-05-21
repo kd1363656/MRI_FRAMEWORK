@@ -39,6 +39,7 @@ namespace FWK
 
 			l_staticModelUnLitStandardDrawCommand.m_staticModelRecord = a_staticModel.GetREFStaticModelRecord();
 			l_staticModelUnLitStandardDrawCommand.m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
+			//l_staticModelUnLitStandardDrawCommand.m_worldMatrix		  = TypeAlias::Math::Matrix::Identity;
 
 			l_drawCommand->SetPassConstant(l_staticModelUnLitStandardPassConstant);
 			l_drawCommand->RequestDraw    (l_staticModelUnLitStandardDrawCommand);

@@ -13,13 +13,10 @@ namespace FWK::Graphics
 
 	private:
 
-		bool ExtractModelData    (const ufbx_scene* a_fbxScene,		  Struct::ModelData& a_modelData)	 const;
-		bool ExtractModelMeshList(const ufbx_mesh*  a_fbxMesh,  const ufbx_node*		 a_fbxNode, std::vector<Struct::ModelMesh>& a_modelMeshList) const;
+		bool ExtractModelData    (const ufbx_scene* a_fbxScene,	Struct::ModelData&			    a_modelData)	 const;
+		bool ExtractModelMeshList(const ufbx_mesh*  a_fbxMesh,  std::vector<Struct::ModelMesh>& a_modelMeshList) const;
 
-		bool ExtractModelMeshByMaterial(const ufbx_mesh*         a_fbxMesh, 
-										const ufbx_node*         a_fbxNode, 
-										const std::size_t&       a_materialIndex,
-										      Struct::ModelMesh& a_modelMesh) const;
+		bool ExtractModelMeshByMaterial(const ufbx_mesh* a_fbxMesh, const std::size_t& a_materialIndex, Struct::ModelMesh& a_modelMesh) const;
 
 		void ExtractModelMaterial(const ufbx_material* a_fbxMaterial, Struct::ModelMaterialAssetData& a_modelMaterialAssetData) const;
 
