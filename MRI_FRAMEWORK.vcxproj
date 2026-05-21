@@ -443,8 +443,9 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Camera\Camera.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawRequestCommandBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.h" />
-    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.h" />
-    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\DrawStaticModelStandardCommandBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h" />
@@ -543,8 +544,6 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.cpp" />
@@ -599,28 +598,20 @@ if "$(Configuration)"=="Debug" (
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_MS.hlsl">
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\ModelStaticLitStandard_MS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_PS.hlsl">
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\ModelStaticLitStandard_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_MS.hlsl">
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\UnLit\ModelStaticUnLitStandard_MS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_PS.hlsl">
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\UnLit\ModelStaticUnLitStandard_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </DXCTask>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
@@ -675,7 +666,11 @@ if "$(Configuration)"=="Debug" (
     </DXCTask>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Asset\Data\CONFIG\FPS\FPSCONFIG.json" />
+    <None Include="Asset\Data\CONFIG\Graphics\GraphicsCONFIG.json" />
+    <None Include="Asset\Data\CONFIG\Window\WindowCONFIG.json" />
     <None Include="Asset\Shader\Model\ModelCommon.hlsli" />
+    <None Include="Asset\Shader\Model\Static\Standard\StandardModelCommon.hlsli" />
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

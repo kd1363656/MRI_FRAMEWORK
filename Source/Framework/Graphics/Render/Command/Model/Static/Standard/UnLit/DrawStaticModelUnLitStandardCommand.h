@@ -1,0 +1,16 @@
+﻿#pragma once
+
+namespace FWK::Graphics
+{
+	class DrawStaticModelUnLitStandardCommand final : public DrawStaticModelStandardCommandBase<Tag::ModelUnLitStandardPipelineStateTag>
+	{
+	public:
+
+		 DrawStaticModelUnLitStandardCommand()		    = default;
+		~DrawStaticModelUnLitStandardCommand() override = default;
+		
+		FWK_DEFINE_TYPE_INFO(DrawStaticModelUnLitStandardCommand, DrawCommandBase);
+	};
+}
+
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryDrawCommand, FWK::Graphics::DrawStaticModelUnLitStandardCommand);

@@ -22,27 +22,14 @@ namespace FWK::Struct
 	};
 
 	// 静的モデル用(陰影の影響を受けない)
-	struct StaticModelUnLitStandardDrawCommand final
+	struct StaticModelStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
 
 		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
 	};
 
-	struct StaticModelUnLitStandardPassConstant final
-	{
-		std::weak_ptr<Graphics::Camera> m_camera = {};
-	};
-
-	// 静的モデル用(陰影の影響を受ける)
-	struct StaticModelLitStandardDrawCommand final
-	{
-		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
-
-		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
-	};
-
-	struct StaticModelLitStandardPassConstant final
+	struct StaticModelStandardPassConstant final
 	{
 		std::weak_ptr<Graphics::Camera> m_camera = {};
 	};

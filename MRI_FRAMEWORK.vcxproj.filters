@@ -592,23 +592,11 @@
     <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static">
       <UniqueIdentifier>{1c1d9cad-adc8-42c8-8f73-b343783ff470}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit">
-      <UniqueIdentifier>{b3a80886-8d04-4805-88a0-e2d22b37ef0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard">
-      <UniqueIdentifier>{85c8246a-7d3a-4754-9e0a-42534c2426cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Asset\Shader\Model">
       <UniqueIdentifier>{40269715-a194-41e7-a2af-d69765305311}</UniqueIdentifier>
     </Filter>
     <Filter Include="Asset\Shader\Model\Static">
       <UniqueIdentifier>{62af5931-1962-4105-89a2-c4ed9a5104d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Asset\Shader\Model\Static\UnLit">
-      <UniqueIdentifier>{79804cf5-4a44-4ace-9532-03b0727273ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Asset\Shader\Model\Static\UnLit\Standard">
-      <UniqueIdentifier>{d73f4d69-7d0d-4e7f-8a54-8fd6996a2a6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV">
       <UniqueIdentifier>{97406673-4f5d-4832-8959-423c35ffadd0}</UniqueIdentifier>
@@ -634,17 +622,38 @@
     <Filter Include="Source\Framework\Definition\Enum\Graphics\Resource\Texture">
       <UniqueIdentifier>{20b6fcaf-34d9-42db-90c2-c6e3200ce542}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Asset\Shader\Model\Static\Lit">
-      <UniqueIdentifier>{b936a2c5-aa9b-4698-8da9-e05e2f025641}</UniqueIdentifier>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard">
+      <UniqueIdentifier>{405b44b2-bbb4-4d56-99e9-75073668281d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Asset\Shader\Model\Static\Lit\Standard">
-      <UniqueIdentifier>{07002dda-33dc-4398-b69a-e93827c5e311}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit">
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit">
       <UniqueIdentifier>{1cceb950-bf1e-4ace-a7d0-e3a56f2b77fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard">
-      <UniqueIdentifier>{83868f6a-3c4c-43db-93c3-c1f002518d66}</UniqueIdentifier>
+    <Filter Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit">
+      <UniqueIdentifier>{b3a80886-8d04-4805-88a0-e2d22b37ef0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Data">
+      <UniqueIdentifier>{82ebae8f-544e-423c-bcd2-d554d0562125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Data\CONFIG">
+      <UniqueIdentifier>{c2781ae9-10fc-476c-8899-ece9315761a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Data\CONFIG\FPS">
+      <UniqueIdentifier>{f2c2648a-20fd-4760-937e-5f76645104a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Data\CONFIG\Window">
+      <UniqueIdentifier>{5f3e7269-3690-4555-a178-d7c5740e12f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Data\CONFIG\Graphics">
+      <UniqueIdentifier>{118048eb-03cf-4124-b1ab-0b1903551f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Model\Static\Standard">
+      <UniqueIdentifier>{a948eda1-c69b-4556-9d65-c43c89900fc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Model\Static\Standard\Lit">
+      <UniqueIdentifier>{b936a2c5-aa9b-4698-8da9-e05e2f025641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Model\Static\Standard\UnLit">
+      <UniqueIdentifier>{79804cf5-4a44-4ace-9532-03b0727273ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1100,9 +1109,6 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Camera\Camera.h">
       <Filter>Source\Framework\Graphics\Render\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.h">
-      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV\DSVDescriptorHeap.h">
       <Filter>Source\Framework\Graphics\Resource\Descriptor\Heap\DSV</Filter>
     </ClInclude>
@@ -1118,8 +1124,14 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.h">
-      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard</Filter>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.h">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.h">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\DrawStaticModelStandardCommandBase.h">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1345,9 +1357,6 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp">
       <Filter>Source\Framework\Graphics\Render\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard\DrawStaticModelUnLitStandardCommand.cpp">
-      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\UnLit\Standard</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.cpp">
       <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClCompile>
@@ -1360,9 +1369,6 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard\DrawStaticModelLitStandardCommand.cpp">
-      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Lit\Standard</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
@@ -1371,17 +1377,17 @@
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_PS.hlsl">
       <Filter>Asset\Shader\Sprite\Standard</Filter>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_MS.hlsl">
-      <Filter>Asset\Shader\Model\Static\UnLit\Standard</Filter>
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\ModelStaticLitStandard_MS.hlsl">
+      <Filter>Asset\Shader\Model\Static\Standard\Lit</Filter>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\UnLit\Standard\ModelStaticUnLitStandard_PS.hlsl">
-      <Filter>Asset\Shader\Model\Static\UnLit\Standard</Filter>
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\ModelStaticLitStandard_PS.hlsl">
+      <Filter>Asset\Shader\Model\Static\Standard\Lit</Filter>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_MS.hlsl">
-      <Filter>Asset\Shader\Model\Static\Lit\Standard</Filter>
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\UnLit\ModelStaticUnLitStandard_PS.hlsl">
+      <Filter>Asset\Shader\Model\Static\Standard\UnLit</Filter>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\Model\Static\Lit\Standard\ModelStaticLitStandard_PS.hlsl">
-      <Filter>Asset\Shader\Model\Static\Lit\Standard</Filter>
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\UnLit\ModelStaticUnLitStandard_MS.hlsl">
+      <Filter>Asset\Shader\Model\Static\Standard\UnLit</Filter>
     </DXCTask>
   </ItemGroup>
   <ItemGroup>
@@ -1390,6 +1396,18 @@
     </None>
     <None Include="Asset\Shader\Model\ModelCommon.hlsli">
       <Filter>Asset\Shader\Model</Filter>
+    </None>
+    <None Include="Asset\Data\CONFIG\FPS\FPSCONFIG.json">
+      <Filter>Asset\Data\CONFIG\FPS</Filter>
+    </None>
+    <None Include="Asset\Data\CONFIG\Graphics\GraphicsCONFIG.json">
+      <Filter>Asset\Data\CONFIG\Graphics</Filter>
+    </None>
+    <None Include="Asset\Data\CONFIG\Window\WindowCONFIG.json">
+      <Filter>Asset\Data\CONFIG\Window</Filter>
+    </None>
+    <None Include="Asset\Shader\Model\Static\Standard\StandardModelCommon.hlsli">
+      <Filter>Asset\Shader\Model\Static\Standard</Filter>
     </None>
   </ItemGroup>
 </Project>
