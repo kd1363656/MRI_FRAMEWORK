@@ -241,6 +241,8 @@ bool FWK::Graphics::StaticModelFBXLoader::ExtractModelMeshByMaterial(const ufbx_
 				// ufbx_meshから頂点座標、法線、UVを取得して、自作ModelVertexへコピーする
 				// 座標と法線は、Node Transform / Geometry Transformを反映するためのufbx_nodeも渡す
 				l_modelVertex.m_position = FetchVertexPosition(a_fbxMesh, a_fbxNode, l_fbxVertexIndex);
+				l_modelVertex.m_normal   = FetchVertexNormal  (a_fbxMesh, a_fbxNode, l_fbxVertexIndex);
+				l_modelVertex.m_tangent  = FetchVertexTangent (a_fbxMesh, a_fbxNode, l_fbxVertexIndex);
 				l_modelVertex.m_uv	     = FetchVertexUV      (a_fbxMesh, l_fbxVertexIndex);
 
 				// 今は重複頂点削除をまだ行わないため、三角形の頂点をそのまま追加する
@@ -271,6 +273,18 @@ void FWK::Graphics::StaticModelFBXLoader::ExtractModelMaterial(const ufbx_materi
 		if (l_textureFilePath.empty())
 		{
 			l_textureFilePath = FetchTextureFilePath(a_fbxMaterial->fbx.diffuse_color);
+		}
+	}
+
+	// 法線テクスチャ
+	{
+		auto& l_textureFilePath = a_modelMaterialAssetData.m_normalTextureFilePath;
+
+		l_textureFilePath = FetchTextureFilePath(a_fbxMaterial->pbr.normal_map);
+
+		if (l_textureFilePath.empty())
+		{
+			l_textureFilePath = FetchTextureFilePath(a_fbxMaterial->fbx.normal_map);
 		}
 	}
 }

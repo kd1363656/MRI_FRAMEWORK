@@ -112,6 +112,76 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::FetchVertexUV(c
 
 	return l_convertedUV;
 }
+FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchVertexNormal(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::uint32_t a_vertexIndex) const
+{
+	if (!a_fbxMesh)
+	{
+		assert(false && "ufbx_meshがnullptrのため、頂点法線の取得に失敗しました。");
+		return {};
+	}
+
+	if (!a_fbxNode)
+	{
+		assert(false && "ufbx_nodeがnullptrのため、頂点法線の取得に失敗しました。");
+		return {};
+	}
+
+	if (!a_fbxMesh->vertex_normal.exists) { return {}; }
+
+	// ufbx_get_vertex_vec3(取得する頂点属性、
+	//						取得したい頂点Index);
+
+	const auto& l_normal = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_normal, a_vertexIndex);
+
+	// ufbx_transform_direction(方向ベクトル変換用行列、
+	//							変換したい方向ベクトル);
+
+	const auto& l_wordlNormal = ufbx_transform_direction(&a_fbxNode->geometry_to_world, l_normal);
+
+	return ConvertUFBXVector3ToVector3(l_wordlNormal);
+}
+FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::FetchVertexTangent(const ufbx_mesh* a_fbxMesh, const ufbx_node* a_fbxNode, const std::uint32_t a_vertexIndex) const
+{
+	if (!a_fbxMesh)
+	{
+		assert(false && "ufbx_meshがnullptrのため、頂点接線の取得に失敗しました。");
+		return {};
+	}
+
+	if (!a_fbxNode)
+	{
+		assert(false && "ufbx_nodeがnullptrのため、頂点接線の取得に失敗しました。");
+		return {};
+	}
+
+	if (!a_fbxMesh->vertex_tangent.exists)
+	{
+		return 
+		{
+			k_defaultTangentX,
+			k_defaultTangentY,
+			k_defaultTangentZ,
+			k_defaultTangentW
+		};
+	}
+
+	// ufbx_get_vertex_vec3(取得する頂点属性、
+	//						取得したい頂点Index);
+
+	const auto& l_tangent = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_tangent, a_vertexIndex);
+
+	// ufbx_transform_direction(方向ベクトル変換用行列、
+	//							変換したい方向ベクトル);
+	const auto& l_worldTangent = ufbx_transform_direction(&a_fbxNode->geometry_to_world, l_tangent);
+
+	return
+	{
+		static_cast<float>(l_worldTangent.x),
+		static_cast<float>(l_worldTangent.y),
+		static_cast<float>(l_worldTangent.z),
+		k_defaultTangentW
+	};
+}
 
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::ConvertUFBXVector3ToVector3(const ufbx_vec3& a_fbxVector) const
 {

@@ -156,6 +156,12 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::St
 							  l_modelMaterialAssetData.m_baseColorTextureFilePath,
 							  l_readOffset);
 
+		// 法線テクスチャファイルパス読み込み
+		ReadWStringBinaryData(l_staticModelAssetMeshHeader.m_normalTexturePathSize,
+							  l_readData,
+							  l_modelMaterialAssetData.m_normalTextureFilePath,
+						      l_readOffset);
+
 		l_modelData.m_modelMeshList.emplace_back(std::move(l_modelMesh));
 	}
 
@@ -231,7 +237,9 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Stru
 		l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount   = l_modelMeshletData.m_uniqueVertexIndexList.size();
 		l_staticModelAssetMeshHeader.m_primitiveIndexCount		= l_modelMeshletData.m_primitiveIndexList.size   ();
 		l_staticModelAssetMeshHeader.m_meshletBoundsCount		= l_modelMeshletData.m_meshletBoundsList.size    ();
-		l_staticModelAssetMeshHeader.m_baseColorTexturePathSize = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_baseColorTextureFilePath);																						       
+		l_staticModelAssetMeshHeader.m_baseColorTexturePathSize = CalculateWStringBinaryFileSize                 (l_modelMaterialAssetData.m_baseColorTextureFilePath);
+		l_staticModelAssetMeshHeader.m_normalTexturePathSize    = CalculateWStringBinaryFileSize				 (l_modelMaterialAssetData.m_normalTextureFilePath);
+
 		// ヘッダー情報保存
 		WriteBinaryData(k_singleBinaryElementCount,
 					    &l_staticModelAssetMeshHeader,
@@ -277,6 +285,7 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Stru
 		// テクスチャファイルパス情報保存
 		// ベースカラーテクスチャファイルパス保存
 		WriteWStringBinaryData(l_modelMaterialAssetData.m_baseColorTextureFilePath, l_writeOffset, l_writeData);
+		WriteWStringBinaryData(l_modelMaterialAssetData.m_normalTextureFilePath,    l_writeOffset, l_writeData);
 	}
 
 	if (l_writeOffset != l_fileSize)
@@ -312,6 +321,7 @@ std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateStaticModelAs
 		l_fileSize += CalculateBinaryDataSize<Struct::ModelMeshletBounds>(l_modelMeshletData.m_meshletBoundsList.size());
 
 		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_baseColorTextureFilePath);
+		l_fileSize += CalculateWStringBinaryFileSize(l_modelMaterialAssetData.m_normalTextureFilePath);
 	}
 
 	return l_fileSize;
