@@ -4,8 +4,8 @@ SamplerState g_sampler : register(s0);
 
 // 仮ディレクショナルライト
 // k_directionalLightDirectionは「ライトが進む方向」として扱う
-static const float3 k_directionalLightDirection = normalize(float3(0.3F, -1.0F, 0.3F));
-static const float3 k_directionalLightColor     = float3(1.0F, 1.0F, 1.0F);
+static const float3 k_directionalLightDirection = normalize(float3(-0.3F, 0.0F, 0.3F));
+static const float3 k_directionalLightColor     = float3(0.80F, 0.80F, 0.80F);
 static const float  k_directionalLightIntensity = 1.0F;
 static const float3 k_ambientColor              = float3(1.0F, 1.0F, 1.0F);
 static const float  k_ambientIntensity          = 0.25F;
