@@ -27,7 +27,7 @@ void FWK::Scene::RequestDraw() const
 	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera);
 	
 	// Litモデルの描画
-	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
+	RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
 }
 
 void FWK::Scene::Update()

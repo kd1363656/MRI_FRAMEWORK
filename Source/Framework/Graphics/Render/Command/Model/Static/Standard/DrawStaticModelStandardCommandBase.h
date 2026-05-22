@@ -213,13 +213,13 @@ namespace FWK::Graphics
 
 			Struct::CBModelObject l_cbModelObject = {};
 
-			l_cbModelObject.m_worldMatrix		           = a_staticModelStandardDrawCommand.m_worldMatrix;
-			l_cbModelObject.m_baseColorTextureIndex        = l_baseColorTextureRecord->m_srvStorageID;
-			l_cbModelObject.m_normalTextureIndex           = l_normalTextureRecord->m_srvStorageID;
-			l_cbModelObject.m_vertexBufferIndex            = a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID;
-			l_cbModelObject.m_meshletBufferIndex           = a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID;
-			l_cbModelObject.m_uniqueVertexIndexBufferIndex = a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
-			l_cbModelObject.m_primitiveIndexBufferIndex    = a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
+			l_cbModelObject.m_worldMatrix		              = a_staticModelStandardDrawCommand.m_worldMatrix;
+			l_cbModelObject.m_baseColorTextureSRVIndex        = l_baseColorTextureRecord->m_srvStorageID;
+			l_cbModelObject.m_normalTextureSRVIndex           = l_normalTextureRecord->m_srvStorageID;
+			l_cbModelObject.m_vertexBufferSRVIndex            = a_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID;
+			l_cbModelObject.m_meshletBufferSRVIndex           = a_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID;
+			l_cbModelObject.m_uniqueVertexIndexBufferSRVIndex = a_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
+			l_cbModelObject.m_primitiveIndexBufferSRVIndex    = a_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
 
 			return SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
 																		   a_directCommandList,

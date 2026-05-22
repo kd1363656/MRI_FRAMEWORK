@@ -154,12 +154,12 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const RootSigna
 {
 	Struct::CBSpriteObject l_cbSpriteObject = {};
 
-	l_cbSpriteObject.m_color                 = a_spriteStandardDrawCommand.m_color;
-	l_cbSpriteObject.m_position              = a_spriteStandardDrawCommand.m_position;
-	l_cbSpriteObject.m_scale                 = a_spriteStandardDrawCommand.m_scale;
-	l_cbSpriteObject.m_pivot                 = a_spriteStandardDrawCommand.m_pivot;
-	l_cbSpriteObject.m_sourceRECT            = a_spriteStandardDrawCommand.m_sourceRECT;
-	l_cbSpriteObject.m_baseColorTextureIndex = a_textureRecord.m_srvStorageID;
+	l_cbSpriteObject.m_color                    = a_spriteStandardDrawCommand.m_color;
+	l_cbSpriteObject.m_position                 = a_spriteStandardDrawCommand.m_position;
+	l_cbSpriteObject.m_scale                    = a_spriteStandardDrawCommand.m_scale;
+	l_cbSpriteObject.m_pivot                    = a_spriteStandardDrawCommand.m_pivot;
+	l_cbSpriteObject.m_sourceRECT               = a_spriteStandardDrawCommand.m_sourceRECT;
+	l_cbSpriteObject.m_baseColorTextureSRVIndex = a_textureRecord.m_srvStorageID;
 
 	return SetupConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(a_rootSignature,
 																    a_directCommandList,

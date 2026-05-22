@@ -17,8 +17,8 @@ namespace FWK::Struct
 
 		Struct::SpriteRECT m_sourceRECT = {};
 
-		std::uint32_t			 m_baseColorTextureIndex = Constant::k_invalidStorageID;
-		TypeAlias::Math::Vector3 m_secondPadding		 = {};
+		TypeAlias::StorageID	 m_baseColorTextureSRVIndex = Constant::k_invalidStorageID;
+		TypeAlias::Math::Vector3 m_secondPadding		    = {};
 	};
 
 	struct CBSpritePass final
