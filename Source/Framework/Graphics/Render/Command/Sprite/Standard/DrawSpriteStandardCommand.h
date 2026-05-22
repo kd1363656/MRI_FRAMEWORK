@@ -15,12 +15,6 @@ namespace FWK::Graphics
 
 	private:
 
-		bool SetupCBSpritePass(const RootSignature&      a_rootSignature,
-							   const Renderer&			 a_renderer,
-							   const DirectCommandList&	 a_directCommandList,
-							   const UploadBuffer&		 a_spritePassUploadBuffer,
-								     std::uint8_t* const a_spritePassMappedData) const;
-
 		bool SetupCBSpriteObject(const RootSignature&					   a_rootSignature,
 								 const DirectCommandList&			       a_directCommandList,
 								 const UploadBuffer&				       a_spriteDrawUploadBuffer,
@@ -31,8 +25,6 @@ namespace FWK::Graphics
 
 		static constexpr float k_defaultNearClip = 0.0F;
 		static constexpr float k_defaultFarClip  = 1.0F;
-
-		static constexpr std::size_t k_cbSpritePassIndex = 0ULL;
 
 		// ※注意 テンプレートクラスをDrawCommandBaseは使っているのでそのDrawCommandBaseを継承している
 		// 基底クラスとして設定する

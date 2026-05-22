@@ -33,14 +33,36 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		return;
 	}
 
-	auto l_spritePassConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpritePassConstantBuffer>().lock();
-	auto l_spriteDrawConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpriteDrawConstantBuffer>().lock();
 
-	if (!l_spritePassConstantBuffer)
+	const auto& l_viewport = a_renderer.GetREFRenderArea().GetREFViewport();
+
+	// CreateOrthographic(描画空間の横幅、
+	//					  描画空間の縦幅、
+	//					  近クリップ面、
+	//					  遠クリップ面);
+	// Xは -Width  / 2 ~ Width  / 2
+	// Yは -Height / 2 ~ Height / 2の範囲を画面へ投影する
+	const auto l_projectionMatrix = TypeAlias::Math::Matrix::CreateOrthographic(l_viewport.Width,
+																				l_viewport.Height,
+																				k_defaultNearClip,
+																				k_defaultFarClip);
+
+	Struct::CBSpritePass l_cbSpritePass = {};
+
+	// 正射影行列を格納
+	l_cbSpritePass.m_projectionMatrix = l_projectionMatrix;
+
+	// もし共通定数バッファの設定に失敗したらマップを解除
+	if (!SetupCommonPassConstantBuffer<Tag::RootParameterCBSpritePassTag, SpritePassConstantBuffer>(*l_rootSignature,
+																									l_directCommandList,
+																									*l_currentFrameResource,
+																									l_cbSpritePass))
 	{
-		assert(false && "スプライトパス用定数バッファが取得できないため、描画処理に失敗しました。");
+		assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 		return;
 	}
+
+	auto l_spriteDrawConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpriteDrawConstantBuffer>().lock();
 
 	if (!l_spriteDrawConstantBuffer)
 	{
@@ -48,37 +70,16 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		return;
 	}
 
-	const auto& l_spritePassUploadBuffer = l_spritePassConstantBuffer->GetREFUploadConstantBuffer();
 	const auto& l_spriteDrawUploadBuffer = l_spriteDrawConstantBuffer->GetREFUploadConstantBuffer();
 
 	auto* const l_spriteDrawMappedData = l_spriteDrawUploadBuffer.Map();
-	auto* const l_spritePassMappedData = l_spritePassUploadBuffer.Map();
-
-	if (!l_spritePassMappedData)
-	{
-		assert(false && "スプライトパス用定数バッファのMapに失敗したため、描画処理に失敗しました。");
-		return;
-	}
-
+	
 	if (!l_spriteDrawMappedData)
 	{
 		assert(false && "スプライト描画用定数バッファのMapに失敗したため、描画処理に失敗しました。");
-		l_spritePassUploadBuffer.UnMap();
 		return;
 	}
 
-	// もし共通定数バッファの設定に失敗したらマップを解除
-	if (!SetupCBSpritePass(*l_rootSignature,
-						   a_renderer,
-						   l_directCommandList,
-						   l_spritePassUploadBuffer,
-						   l_spritePassMappedData))
-	{
-		l_spriteDrawUploadBuffer.UnMap();
-		l_spritePassUploadBuffer.UnMap();
-		return;
-	}
-	
 	// 貯めこんでいたテクスチャ描画命令を回す
 	const auto& l_spriteDrawCommandList = GetREFDrawCommandList();
 
@@ -109,39 +110,6 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	}
 
 	l_spriteDrawUploadBuffer.UnMap();
-	l_spritePassUploadBuffer.UnMap();
-}
-
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const RootSignature&	   a_rootSignature,
-																 const Renderer&		   a_renderer,
-															     const DirectCommandList&  a_directCommandList,
-															     const UploadBuffer&	   a_spritePassUploadBuffer, 
-																	   std::uint8_t* const a_spritePassMappedData) const
-{
-	const auto& l_viewport = a_renderer.GetREFRenderArea().GetREFViewport();
-
-	// CreateOrthographic(描画空間の横幅、
-	//					  描画空間の縦幅、
-	//					  近クリップ面、
-	//					  遠クリップ面);
-	// Xは -Width  / 2 ~ Width  / 2
-	// Yは -Height / 2 ~ Height / 2の範囲を画面へ投影する
-	const auto l_projectionMatrix = TypeAlias::Math::Matrix::CreateOrthographic(l_viewport.Width,
-																				l_viewport.Height,
-																				k_defaultNearClip,
-																				k_defaultFarClip);
-
-	Struct::CBSpritePass l_cbSpritePass = {};
-
-	// 正射影行列を格納
-	l_cbSpritePass.m_projectionMatrix = l_projectionMatrix;
-
-	return SetupConstantBuffer<Tag::RootParameterCBSpritePassTag>(a_rootSignature,
-																  a_directCommandList,
-																  a_spritePassUploadBuffer,
-																  l_cbSpritePass,
-																  k_cbSpritePassIndex,
-																  a_spritePassMappedData);
 }
 
 bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteObject(const RootSignature&					    a_rootSignature,

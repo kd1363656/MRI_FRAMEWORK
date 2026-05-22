@@ -54,51 +54,45 @@ namespace FWK::Graphics
 		}
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, Concept::IsDerivedConstantBufferBaseConcept ConstantBufferType, typename CBType>
-		void SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
+		bool SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
 										   const DirectCommandList&  a_directCommandList,
 										   const FrameResource&		 a_frameResource,
-										   const CBType&			 a_constantBuffer,
-										   const std::size_t&		 a_constantBufferIndex,
-											     std::uint8_t* const a_mappedData)
+										   const CBType&			 a_constantBuffer)
 		{
-			auto l_constantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpritePassConstantBuffer>().lock();
+			auto l_constantBuffer = a_frameResource.FindPTRConstantBuffer<ConstantBufferType>().lock();
+
+			if (!l_constantBuffer)
+			{
+				assert(false && "共通パス定数バッファが取得できないため、描画処理に失敗しました。");
+				return false;
+			}
+
+			const auto& l_uploadBuffer = l_constantBuffer->GetREFUploadConstantBuffer();
+
+			auto* const l_mappedData = l_uploadBuffer.Map();
+
+			if (!l_mappedData)
+			{
+				assert(false && "共通パス定数バッファのMapに失敗したため、描画処理に失敗しました。");
+				return false;
+			}
+
+			// 共通パスの定数バッファのセットは一回のみでよい
+			if (!SetupConstantBuffer<RootParameterTagType>(a_rootSignature,
+														   a_directCommandList,
+														   l_uploadBuffer,
+														   a_constantBuffer,
+														   k_cbCommonPassIndex,
+														   l_mappedData))
+			{
+				assert(false && "共通パス定数バッファのGPU送信命令に失敗したため、描画処理に失敗しました。");
+				return false;
+			}
+
+			l_uploadBuffer.UnMap();
+
+			return true;
 		}
-
-		//// 注意、この関数を使うときはArgumentsTypesの引数順に気を付けること
-		//template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType, typename... ArgumentTypes>
-		//bool SetupConstantBuffer(const RootSignature&	   a_rootSignature,
-		//						 const DirectCommandList&  a_directCommandList,
-		//						 const UploadBuffer&	   a_uploadBuffer,
-		//						 const std::size_t&		   a_constantBufferIndex,
-		//							   std::uint8_t* const a_mappedData,
-		//							   ArgumentTypes&&...  a_argumentList) const
-		//{
-		//	if (!a_mappedData)
-		//	{
-		//		assert(false && "定数バッファのMap済みアドレスが無効なため、定数バッファの設定に失敗しました。");
-		//		return false;
-		//	}
-
-		//	ConstantBufferType l_constantBuffer = { std::forward<ArgumentTypes>(a_argumentList)... };
-
-		//	// 定数バッファは256バイトアライメントでなければならない
-		//	const auto l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), Constant::k_constantBufferAlignment);
-
-		//	// 定数バッファの位置を現在のインデックス分進める
-		//	const auto l_constantBufferOffset = a_constantBufferIndex * l_constantBufferAlignedSize;
-
-		//	std::memcpy(a_mappedData + l_constantBufferOffset, &l_constantBuffer, sizeof(ConstantBufferType));
-
-		//	const auto l_gpuVirtualAddress = a_uploadBuffer.FetchVALGPUVirtualAddress() + l_constantBufferOffset;
-
-		//	// SetGraphicsRootConstantBufferView(ルートパラメータ番号、
-		//	//									 CBVとして参照させるGPU仮想アドレス);
-		//	// SetupConstantBufferView内でRootParameterTagからルートパラメータ番号を取得し、
-		//	// 指定したRootParameterへUploadBuffer上の定数バッファを結びつける
-		//	a_directCommandList.SetupConstantBufferView<RootParameterTagType>(l_gpuVirtualAddress, a_rootSignature);
-
-		//	return true;
-		//}
 
 		void SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag);
 
@@ -125,7 +119,7 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr std::size_t k_cameraConstantBufferIndex = 0ULL;
+		static constexpr std::size_t k_cbCommonPassIndex = 0ULL;
 
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountX = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;

@@ -79,7 +79,7 @@ bool FWK::Graphics::DrawCommandBase::SetCBCamera(const Camera&			   a_camera,
 															  a_directCommandList,	
 															  a_cameraUploadBuffer,
 															  l_cbCamera,
-															  k_cameraConstantBufferIndex,
+															  k_cbCommonPassIndex,
 															  a_cameraMappedData);
 }
 
@@ -95,6 +95,6 @@ bool FWK::Graphics::DrawCommandBase::SetCBLight(const LightSystem&        a_ligh
 															      a_directCommandList,
 																  a_lightSystemUploadBuffer,
 																  l_cbLight,
-																  k_cameraConstantBufferIndex,
+																  k_cbCommonPassIndex,
 																  a_lightSystemMappedData);
 }
