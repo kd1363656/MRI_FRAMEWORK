@@ -60,6 +60,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 	// GetFileSize(ファイルハンドル、
 	//			   ファイルサイズ上位32bitの受取先);
 
+	// ファイルサイズを上位、下位32bitで取得している
 	const auto l_fileSizeLow = GetFileSize(m_fileHandle, &l_fileSizeHigh);
 
 	if (l_fileSizeLow == INVALID_FILE_SIZE)
@@ -184,7 +185,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	}
 
 	const auto l_fileSizeLow  = static_cast<DWORD>(a_fileSize);
-		  auto l_fileSizeHigh = static_cast<LONG>(a_fileSize >> k_highDWORDShiftBitCount);
+		  auto l_fileSizeHigh = static_cast<LONG> (a_fileSize >> k_highDWORDShiftBitCount);
 
 	SetLastError(NO_ERROR);
 
@@ -194,9 +195,9 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	//				  ファイル先頭から移動する指定);
 
 	if (const auto l_setFilePointerResult = SetFilePointer(m_fileHandle,
-													   l_fileSizeLow,
-													   &l_fileSizeHigh,
-													   FILE_BEGIN);
+													       l_fileSizeLow,
+													       &l_fileSizeHigh,
+													       FILE_BEGIN);
 		l_setFilePointerResult == INVALID_SET_FILE_POINTER)
 	{
 		const auto l_error = GetLastError();
@@ -223,7 +224,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	m_mappedDataSize = a_fileSize;
 	m_isWritable     = k_isWriteMappedFile;
 
-	// マッピングオブジェクト作成
+	// ファイルをメモリ上にマップするためのマッピングオブジェクトを作成する
+	// この時点ではまだファイル内容のポインタは取得していない
 	// CreateFileMappingW(マッピング対象のファイルハンドル、
 	//					  セキュリティ属性、
 	//					  読み書き可能ページとして作成する指定、

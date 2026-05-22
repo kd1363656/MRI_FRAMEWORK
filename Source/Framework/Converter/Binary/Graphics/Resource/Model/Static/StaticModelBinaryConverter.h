@@ -8,7 +8,7 @@ namespace FWK::Converter
 
 		struct StaticModelAssetHeader final
 		{
-			std::uint16_t m_version    = k_staticModelAssetVersion;
+			std::uint16_t m_version     = k_staticModelAssetVersion;
 			std::uint64_t m_fileSize    = k_emptyStaticModelAssetFileSize;
 			std::uint64_t m_meshCount   = k_emptyStaticModelMeshCount;
 			std::uint16_t m_assetTypeID = k_staticModelAssetTypeID;
@@ -33,7 +33,8 @@ namespace FWK::Converter
 		 StaticModelBinaryConverter()		   = default;
 		~StaticModelBinaryConverter() override = default;
 
-		bool LoadStaticModelAsset(	    Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath);
+		bool LoadStaticModelAsset(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath);
+
 		bool SaveStaticModelAsset(const Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath);
 
 	private:

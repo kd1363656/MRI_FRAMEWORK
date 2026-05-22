@@ -256,7 +256,7 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::filesystem::pa
 		return false;
 	}
 
-	// アセットデータの確認
+	// アセットデータファイルの存在確認
 	const auto& l_assetFilePath = Utility::File::CreateFilePathByReplaceExtension(a_filePath, Constant::k_lowerAssetExtension);
 
 	// .assetの更新日時がFBXよりも古ければ使えないバイナリーファイルと判定
