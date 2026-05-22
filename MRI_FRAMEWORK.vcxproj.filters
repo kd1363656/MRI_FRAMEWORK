@@ -655,6 +655,27 @@
     <Filter Include="Asset\Shader\Model\Static\Standard\UnLit">
       <UniqueIdentifier>{79804cf5-4a44-4ace-9532-03b0727273ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Light">
+      <UniqueIdentifier>{8ecd58c3-fba4-420d-822e-055f8616a104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Sprite">
+      <UniqueIdentifier>{4d80dc52-f27a-453f-b4c4-018e32146045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Model">
+      <UniqueIdentifier>{ec98e5e3-125e-41f3-ae10-084534027679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light">
+      <UniqueIdentifier>{dd494024-42f3-4f5a-bb2e-5c729d8e9fe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Camera">
+      <UniqueIdentifier>{c4d88d63-755a-47df-ab7a-5824c3a41578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light">
+      <UniqueIdentifier>{acb7fbb6-7e3d-4a93-aff0-eb8ce4f45b35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\LightSystem">
+      <UniqueIdentifier>{e48d9910-328a-498d-b2e7-452f3081be8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -950,9 +971,6 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\ConstantBufferStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
@@ -1132,6 +1150,27 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\DrawStaticModelStandardCommandBase.h">
       <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Light\LightStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Render\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Sprite\SpriteConstantBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Model\ModelConstantBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h">
+      <Filter>Source\Framework\Graphics\Render\LightSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1368,6 +1407,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp">
+      <Filter>Source\Framework\Graphics\Render\LightSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

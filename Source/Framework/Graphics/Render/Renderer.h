@@ -20,14 +20,15 @@ namespace FWK::Graphics
 		 Renderer() = default;
 		~Renderer() = default;
 
+		void Init		();
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create     (const Device&		   a_device, const ShaderCompiler& a_shaderCompiler);
 
-		void PostCreateSetup(const Device&			                   a_device,
-							 const GPUMemoryAllocator&                 a_gpuMemoryAllocator,
-							 const SwapChain&		                   a_swapChain, 
-							 const Struct::WindowCONFIG&               a_windowConfig,
-									DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
+		void PostCreateSetup(const Device&			                  a_device,
+							 const GPUMemoryAllocator&                a_gpuMemoryAllocator,
+							 const SwapChain&		                  a_swapChain, 
+							 const Struct::WindowCONFIG&              a_windowConfig,
+								   DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
 		void BeginFrame() const;
 
@@ -75,6 +76,8 @@ namespace FWK::Graphics
 		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
 		const auto& GetREFDirectCommandList () const { return m_directCommandList; }
 
+		const auto& GetREFLightSystem() const { return m_lightSystem; }
+
 		const auto& GetREFRenderArea() const { return m_renderArea; }
 
 		auto& GetMutableREFDirectCommandList() { return m_directCommandList; }
@@ -100,6 +103,8 @@ namespace FWK::Graphics
 		DirectCommandList  m_directCommandList  = {};
 		
 		DepthStencilTexture m_depthStencilTexture = {};
+
+		LightSystem m_lightSystem = {};
 
 		RenderArea m_renderArea = {};
 

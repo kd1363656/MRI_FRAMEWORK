@@ -29,9 +29,15 @@
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1
+                                "CreateConstantBufferNUM": 10
                             },
                             "ConstantBufferTypeName": "CameraConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferTypeName": "LightConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
@@ -59,9 +65,15 @@
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1
+                                "CreateConstantBufferNUM": 10
                             },
                             "ConstantBufferTypeName": "CameraConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferTypeName": "LightConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
@@ -89,9 +101,15 @@
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1
+                                "CreateConstantBufferNUM": 10
                             },
                             "ConstantBufferTypeName": "CameraConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferTypeName": "LightConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
@@ -699,6 +717,10 @@
                         {
                             "Index": 1,
                             "RootParameterTag": "RootParameterCBModelObjectTag"
+                        },
+                        {
+                            "Index": 2,
+                            "RootParameterTag": "RootParameterCBLightTag"
                         }
                     ],
                     "RootParameterList": [
@@ -715,6 +737,13 @@
                             "RootParameterTag": "RootParameterCBModelObjectTag",
                             "ShaderRegister": 1,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
+                        },
+                        {
+                            "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
+                            "RegisterSpace": 0,
+                            "RootParameterTag": "RootParameterCBLightTag",
+                            "ShaderRegister": 2,
+                            "ShaderVisibility": "D3D12_SHADER_VISIBILITY_PIXEL"
                         }
                     ],
                     "RootSignatureFlags": "D3D12_ROOT_SIGNATURE_FLAG_CBV_SRV_UAV_HEAP_DIRECTLY_INDEXED",

@@ -65,6 +65,13 @@ namespace FWK::Graphics
 						 const UploadBuffer&	   a_cameraUploadBuffer,
 							   std::uint8_t* const a_cameraMappedData) const;
 
+		bool SetCBLight(const LightSystem&		  a_lightSystem,
+						const RootSignature&	  a_rootSignature,
+						const DirectCommandList&  a_directCommandList,
+						const UploadBuffer&		  a_lightSystemUploadBuffer,
+							  std::uint8_t* const a_lightSystemMappedData) const;
+
+
 		static constexpr UINT GetDefaultDispatchMeshThreadGroupCountX() { return k_defaultDispatchMeshThreadGroupCountX; }
 		static constexpr UINT GetDefaultDispatchMeshThreadGroupCountY() { return k_defaultDispatchMeshThreadGroupCountY; }
 		static constexpr UINT GetDefaultDispatchMeshThreadGroupCountZ() { return k_defaultDispatchMeshThreadGroupCountZ; }

@@ -36,6 +36,18 @@ cbuffer CBModelObject : register(b1)
     float2 g_padding;
 }
 
+cbuffer CBLight : register(b2)
+{
+    float3 g_directionalLightDirection;
+    float  g_directionalLightIntensity;
+    
+    float3 g_directionLightColor;
+    float  g_lightPadding;
+    
+    float3 g_ambientLightColor;
+    float  g_ambientLightIntensity;
+}
+
 static const float4 k_modelUnLitColor = { 1.0F, 1.0F, 1.0F, 1.0F };
 
 static const uint k_triangleVertexCount      = 3U;

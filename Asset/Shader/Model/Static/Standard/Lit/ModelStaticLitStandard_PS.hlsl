@@ -2,14 +2,6 @@
 
 SamplerState g_sampler : register(s0);
 
-// 仮ディレクショナルライト
-// k_directionalLightDirectionは「ライトが進む方向」として扱う
-static const float3 k_directionalLightDirection = normalize(float3(-0.3F, 0.0F, 0.3F));
-static const float3 k_directionalLightColor     = float3(0.80F, 0.80F, 0.80F);
-static const float  k_directionalLightIntensity = 1.0F;
-static const float3 k_ambientColor              = float3(1.0F, 1.0F, 1.0F);
-static const float  k_ambientIntensity          = 0.25F;
-
 float3 DecodeBC5NormalMap(float2 a_normalMapXY)
 {
     // BC5のRGは0.0F~1.0Fで保存されているため、
@@ -54,12 +46,12 @@ float4 main(MeshOutput a_input) : SV_Target0
 
     // dot(N, L)のLは「面からライトへ向かう方向」
     // k_directionalLightDirectionは「ライトが進む方向」なので符号を反転する
-    const float3 l_lightDirection = normalize(-k_directionalLightDirection);
+    const float3 l_lightDirection = normalize(-g_directionalLightDirection);
 
     const float l_nDotL = saturate(dot(l_worldNormal, l_lightDirection));
 
-    const float3 l_diffuse = l_baseColor.rgb * k_directionalLightColor * l_nDotL * k_directionalLightIntensity;
-    const float3 l_ambient = l_baseColor.rgb * k_ambientColor          * k_ambientIntensity;
+    const float3 l_diffuse = l_baseColor.rgb * g_directionLightColor * l_nDotL *g_directionalLightIntensity;
+    const float3 l_ambient = l_baseColor.rgb * g_ambientLightColor   * g_ambientLightIntensity;
 
     return float4(l_diffuse + l_ambient, l_baseColor.a);
 }

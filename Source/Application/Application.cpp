@@ -62,7 +62,7 @@ void Application::Execute()
 	SaveFile(l_graphicsManager);
 }
 
-void Application::Init(const FWK::Graphics::GraphicsManager& a_graphicsManager)
+void Application::Init(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	m_window.Init		  ();
 	a_graphicsManager.Init();

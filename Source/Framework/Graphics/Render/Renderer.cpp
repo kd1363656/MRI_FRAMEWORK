@@ -1,5 +1,10 @@
 ﻿#include "Renderer.h"
 
+void FWK::Graphics::Renderer::Init()
+{
+	m_lightSystem.ApplyDefaultLightDirection();
+	m_lightSystem.ApplyDefaultAmbientLight  ();
+}
 void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }

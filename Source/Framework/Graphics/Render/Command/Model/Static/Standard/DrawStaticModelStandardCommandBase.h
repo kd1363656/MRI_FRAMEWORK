@@ -41,9 +41,12 @@ namespace FWK::Graphics
 				return;
 			}
 
+			const auto& l_lightSystem = a_renderer.GetREFLightSystem();
+
 			auto l_cameraConstantBuffer		 = l_currentFrameResource->FindPTRConstantBuffer<CameraConstantBuffer>      ().lock();
 			auto l_modelObjectConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<ModelObjectConstantBuffer> ().lock();
-			
+			auto l_lightSystemConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<LightConstantBuffer>       ().lock();
+
 			if (!l_cameraConstantBuffer)
 			{
 				assert(false && "Camera用定数バッファが取得できないため、StaticModel描画処理に失敗しました。");
@@ -56,11 +59,19 @@ namespace FWK::Graphics
 				return;
 			}
 
+			if (!l_lightSystemConstantBuffer)
+			{
+				assert(false && "Light用定数バッファが取得できないため、StaticModelLit描画処理に失敗しました。");
+				return;
+			}
+
 			const auto& l_cameraUploadBuffer	  = l_cameraConstantBuffer->GetREFUploadConstantBuffer	   ();
 			const auto& l_modelObjectUploadBuffer = l_modelObjectConstantBuffer->GetREFUploadConstantBuffer();
-			
+			const auto& l_lightSystemUploadBuffer = l_lightSystemConstantBuffer->GetREFUploadConstantBuffer();
+
 			auto* const l_cameraMappedData	    = l_cameraUploadBuffer.Map	   ();
 			auto* const l_modelObjectMappedData = l_modelObjectUploadBuffer.Map();
+			auto* const l_lightSystemMappedData = l_lightSystemUploadBuffer.Map();
 			
 			if (!l_cameraMappedData)
 			{
@@ -75,6 +86,14 @@ namespace FWK::Graphics
 				return;
 			}
 
+			if (!l_lightSystemMappedData)
+			{
+				assert(false && "Light用定数バッファが取得できないため、StaticModelLit描画処理に失敗しました。");
+				l_cameraUploadBuffer.UnMap	   ();
+				l_modelObjectUploadBuffer.UnMap();
+				return;
+			}
+
 			// セットされていなければreturn
 			if (!GetPTRPassConstant()) { return; }
 
@@ -86,6 +105,22 @@ namespace FWK::Graphics
 					         l_cameraUploadBuffer,
 					         l_cameraMappedData))
 			{
+				l_cameraUploadBuffer.UnMap	   ();
+				l_modelObjectUploadBuffer.UnMap();
+				l_lightSystemUploadBuffer.UnMap();
+				return;
+			}
+
+			// ライト情報を一回だけセット
+			if (!SetCBLight(l_lightSystem,
+							*l_rootSignature,
+							l_directCommandList,
+							l_lightSystemUploadBuffer,
+							l_lightSystemMappedData))
+			{
+				l_cameraUploadBuffer.UnMap	   ();
+				l_modelObjectUploadBuffer.UnMap();
+				l_lightSystemUploadBuffer.UnMap();
 				return;
 			}
 
@@ -129,6 +164,7 @@ namespace FWK::Graphics
 
 			l_modelObjectUploadBuffer.UnMap();
 			l_cameraUploadBuffer.UnMap	   ();
+			l_lightSystemUploadBuffer.UnMap();
 		}
 
 	private:

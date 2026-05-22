@@ -11,9 +11,9 @@ public:
 
 private:
 
-	void Init         (const FWK::Graphics::GraphicsManager& a_graphicsManager);
-	void LoadFile     (      FWK::Graphics::GraphicsManager& a_graphicsManager);
-	bool PostLoadSetup(      FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager);
+	void Init         (FWK::Graphics::GraphicsManager& a_graphicsManager);
+	void LoadFile     (FWK::Graphics::GraphicsManager& a_graphicsManager);
+	bool PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager);
 
 	bool BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 	

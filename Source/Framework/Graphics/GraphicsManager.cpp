@@ -1,7 +1,9 @@
 ﻿#include "GraphicsManager.h"
 
-void FWK::Graphics::GraphicsManager::Init() const
+void FWK::Graphics::GraphicsManager::Init()
 {
+	m_renderer.Init();
+
 #if defined(_DEBUG)
 	if (!EnableDebugLayer())
 	{

@@ -51,11 +51,15 @@
 // 構造体
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
+#include "Definition/Struct/Graphics/Render/Light/LightStruct.h"
 #include "Definition/Struct/Graphics/Resource/ResourceStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/BufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Storage/StorageStruct.h"
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
-#include "Definition/Struct/Graphics/Resource/Buffer/Constant/ConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/Buffer/Constant/Sprite/SpriteConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/Buffer/Constant/Camera/CameraConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/Buffer/Constant/Light/LightConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/Buffer/Constant/Model/ModelConstantBufferStruct.h"
 #include "Definition/Struct/StringHash/StringHashStruct.h"
 #include "Definition/Struct/Window/WindowStruct.h"
 
@@ -188,6 +192,7 @@
 #include "Graphics/Resource/Buffer/Constant/Sprite/Pass/SpritePassConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Camera/CameraConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Model/Object/ModelObjectConstantBuffer.h"
+#include "Graphics/Resource/Buffer/Constant/Light/LightConstantBuffer.h"
 
 // コマンドキュー管理クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"
@@ -230,6 +235,9 @@
 // モデル用構造体
 #include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
 #include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
+
+// ライトシステム
+#include "Graphics/Render/Light/LightSystem.h"
 
 // 描画コマンド構造体
 #include "Definition/Struct/Graphics/Render/Command/DrawCommandStruct.h"

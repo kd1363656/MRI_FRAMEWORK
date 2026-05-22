@@ -11,6 +11,9 @@ namespace FWK::Tag
 	// カメラ関係
 	struct RootParameterCBCameraTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBCameraTag, RootParameterTagBase); };
 
+	// ライト関係
+	struct RootParameterCBLightTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBLightTag, RootParameterTagBase); };
+
 	// Model共通
 	struct RootParameterCBModelObjectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelObjectTag, RootParameterTagBase); };
 }
