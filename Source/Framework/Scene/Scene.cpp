@@ -33,6 +33,7 @@ void FWK::Scene::RequestDraw() const
 void FWK::Scene::Update()
 {
 	static TypeAlias::Math::Vector3 l_cameraPos = { 0.0F, 1.0F, -1.15F };
+	static float					l_rot		= 0.0F;
 
 	if (GetAsyncKeyState(VK_SHIFT))
 	{
@@ -63,7 +64,25 @@ void FWK::Scene::Update()
 		l_cameraPos.x += 0.01F;
 	}
 
-	m_camera->SetCameraMatrix(TypeAlias::Math::Matrix::CreateTranslation(l_cameraPos));
+	if (GetAsyncKeyState('A'))
+	{
+		l_cameraPos.x -= 0.01F;
+	}
+	else if (GetAsyncKeyState('D'))
+	{
+		l_cameraPos.x += 0.01F;
+	}
+
+	if (GetAsyncKeyState('Q'))
+	{
+		l_rot -= 1.0F;
+	}
+	else if (GetAsyncKeyState('E'))
+	{
+		l_rot += 1.0F;
+	}
+
+	m_camera->SetCameraMatrix(TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(l_rot)) * TypeAlias::Math::Matrix::CreateTranslation(l_cameraPos));
 }
 
 void FWK::Scene::RequestDrawTexture(const Graphics::Texture& a_texture) const
