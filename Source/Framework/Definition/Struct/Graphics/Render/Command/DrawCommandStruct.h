@@ -11,7 +11,6 @@ namespace FWK::Struct
 	struct SpriteStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
-		TypeAlias::StorageID m_baseColorTextureSRVStorageID = Constant::k_invalidStorageID;
 
 		TypeAlias::Math::Color m_color = {};
 
