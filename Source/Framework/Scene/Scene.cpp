@@ -21,13 +21,13 @@ void FWK::Scene::PostLoadSetup()
 
 void FWK::Scene::RequestDraw() const
 {
-	//RequestDrawTexture(m_texture);
+	RequestDrawTexture(m_texture);
 
 	// UnLitモデルの描画
 	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera);
 	
 	// Litモデルの描画
-	RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
+	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
 }
 
 void FWK::Scene::Update()

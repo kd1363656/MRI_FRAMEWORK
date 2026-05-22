@@ -156,7 +156,7 @@ namespace FWK::Graphics
 						continue;
 					}
 
-					l_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()), GetDefaultDispatchMeshThreadGroupCountY(), GetDefaultDispatchMeshThreadGroupCountZ());
+					l_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
 
 					++l_modelObjectIndex;
 				}

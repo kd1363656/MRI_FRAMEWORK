@@ -105,7 +105,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 			continue;
 		}
 		
-		l_directCommandList.DispatchMesh(GetDefaultDispatchMeshThreadGroupCountX(), GetDefaultDispatchMeshThreadGroupCountY(), GetDefaultDispatchMeshThreadGroupCountZ());
+		l_directCommandList.DispatchMesh(GetVALDefaultDispatchMeshThreadGroupCountX(), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
 	}
 
 	l_spriteDrawUploadBuffer.UnMap();
