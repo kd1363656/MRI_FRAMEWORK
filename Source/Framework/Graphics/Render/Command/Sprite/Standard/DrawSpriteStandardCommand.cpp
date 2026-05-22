@@ -94,13 +94,13 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 
-		if (!SetupCBSpriteDraw(*l_rootSignature, 
-							   l_directCommandList,
-							   l_spriteDrawUploadBuffer,
-							   *l_textureRecord,
-							   l_spriteDrawCommand,
-							   l_spriteDrawCommandIndex,
-							   l_spriteDrawMappedData))
+		if (!SetupCBSpriteObject(*l_rootSignature, 
+							     l_directCommandList,
+							     l_spriteDrawUploadBuffer,
+							     *l_textureRecord,
+							     l_spriteDrawCommand,
+							     l_spriteDrawCommandIndex,
+							     l_spriteDrawMappedData))
 		{
 			continue;
 		}
@@ -144,13 +144,13 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpritePass(const RootSigna
 																  a_spritePassMappedData);
 }
 
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteDraw(const RootSignature&					  a_rootSignature,
-																 const DirectCommandList&                 a_directCommandList,
-																 const UploadBuffer&			          a_spriteDrawUploadBuffer,
-																 const Struct::TextureRecord&			  a_textureRecord,
-																 const Struct::SpriteStandardDrawCommand& a_spriteStandardDrawCommand,
-																 const std::size_t&				          a_spriteDrawCommandIndex, 
-																	   std::uint8_t* const		          a_spriteDrawMappedData) const
+bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteObject(const RootSignature&					    a_rootSignature,
+																   const DirectCommandList&                 a_directCommandList,
+																   const UploadBuffer&			            a_spriteDrawUploadBuffer,
+																   const Struct::TextureRecord&			    a_textureRecord,
+																   const Struct::SpriteStandardDrawCommand& a_spriteStandardDrawCommand,
+																   const std::size_t&				        a_spriteDrawCommandIndex, 
+																	     std::uint8_t* const		        a_spriteDrawMappedData) const
 {
 	Struct::CBSpriteObject l_cbSpriteObject = {};
 

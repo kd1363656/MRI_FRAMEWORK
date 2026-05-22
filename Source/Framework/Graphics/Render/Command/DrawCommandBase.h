@@ -53,6 +53,17 @@ namespace FWK::Graphics
 			return true;
 		}
 
+		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, Concept::IsDerivedConstantBufferBaseConcept ConstantBufferType, typename CBType>
+		void SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
+										   const DirectCommandList&  a_directCommandList,
+										   const FrameResource&		 a_frameResource,
+										   const CBType&			 a_constantBuffer,
+										   const std::size_t&		 a_constantBufferIndex,
+											     std::uint8_t* const a_mappedData)
+		{
+			auto l_constantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpritePassConstantBuffer>().lock();
+		}
+
 		//// 注意、この関数を使うときはArgumentsTypesの引数順に気を付けること
 		//template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType, typename... ArgumentTypes>
 		//bool SetupConstantBuffer(const RootSignature&	   a_rootSignature,

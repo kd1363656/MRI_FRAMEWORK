@@ -184,6 +184,7 @@
 
 // 定数バッファ
 #include "Converter/Json/Graphics/Resource/Buffer/Constant/ConstantBufferJsonConverter.h"
+#include "Definition/Concept/IsDerivedBase/Graphics/Resource/Buffer/Constant/IsDerivedConstantBufferBaseConcept.h"
 #include "Graphics/Resource/Buffer/Constant/ConstantBufferBase.h"
 
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"

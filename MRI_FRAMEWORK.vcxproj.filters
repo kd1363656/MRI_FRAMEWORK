@@ -679,6 +679,12 @@
     <Filter Include="Source\Framework\Graphics\Render\Light">
       <UniqueIdentifier>{e48d9910-328a-498d-b2e7-452f3081be8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer">
+      <UniqueIdentifier>{32387e48-1c34-43df-a497-ef610fe70ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant">
+      <UniqueIdentifier>{98f66841-4de1-497b-a1af-32c4c8501265}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1177,6 +1183,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Light\LightSystemConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Render\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant\IsDerivedConstantBufferBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
