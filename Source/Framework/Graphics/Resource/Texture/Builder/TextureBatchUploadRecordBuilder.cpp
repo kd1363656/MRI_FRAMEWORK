@@ -146,7 +146,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 	// 1行当たりの実データサイズ
 	auto l_rowSizeInBytesList = std::vector<UINT64>(l_subresourceCount);
 
-	UINT64 l_requiredUploadBufferSize = k_initialRequiredUploadBufferSize;
+	auto l_requiredUploadBufferSize = k_initialRequiredUploadBufferSize;
 
 	// TextureResourceへコピーするために必要なUploadBuffer上の配置情報を計算する
 	// GetCopyableFootprints(コピー先TextureResourceの設定、
@@ -196,7 +196,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 	}
 
 	// DirectXTexで読み込んだ画像データをUploadBufferへコピーする
-	// 各サブリソースひとつずつに対して実行
+	// Texture2Dでは各MipMapが一つのサブリソースになる
 	for (UINT l_subresourceIndex = 0U; l_subresourceIndex < l_subresourceCount; ++l_subresourceIndex)
 	{
 		// 現在処理するサブリソースの元画像データと、UploadBuffer上の配置情報を取得する
