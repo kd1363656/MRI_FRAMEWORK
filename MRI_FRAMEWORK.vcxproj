@@ -381,6 +381,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\CommandConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Light\LightSystemConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RootSignature\RootSignatureConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h" />

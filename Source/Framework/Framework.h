@@ -40,6 +40,7 @@
 #include "Definition/Constant/Graphics/SwapChain/SwapChainConstant.h"
 #include "Definition/Constant/Graphics/Render/RootSignature/RootSignatureConstant.h"
 #include "Definition/Constant/Graphics/Render/Pipeline/PipelineStateConstant.h"
+#include "Definition/Constant/Graphics/Render/Light/LightSystemConstant.h"
 #include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/Constant/ConstantBufferConstant.h"
