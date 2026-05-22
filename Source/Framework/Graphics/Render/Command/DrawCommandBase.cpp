@@ -1,5 +1,15 @@
 ﻿#include "DrawCommandBase.h"
 
+void FWK::Graphics::DrawCommandBase::BeginDraw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+{
+	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
+	// MeshShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
+	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
+
+	// StaticModel用ルートシグネチャとパイプラインステートをセット
+	SetupGraphicsPipelineStateToCommandList(a_renderer);
+}
 void FWK::Graphics::DrawCommandBase::SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag)
 {
 	const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(a_typeTag);

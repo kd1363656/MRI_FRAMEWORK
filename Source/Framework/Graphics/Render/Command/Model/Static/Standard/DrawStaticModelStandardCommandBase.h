@@ -19,12 +19,6 @@ namespace FWK::Graphics
 		{
 			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
-			// MeshShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
-			l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
-
-			// StaticModel用ルートシグネチャとパイプラインステートをセット
-			SetupGraphicsPipelineStateToCommandList(a_renderer);
-
 			const auto& l_rootSignature = GetVALRootSignature().lock();
 
 			if (!l_rootSignature)

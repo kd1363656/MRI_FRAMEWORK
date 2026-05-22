@@ -149,7 +149,8 @@ void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_sr
 	{
 		if (!l_drawCommand) { continue; }
 
-		l_drawCommand->Draw(a_srvDescriptorPool, *this);
+		l_drawCommand->BeginDraw(a_srvDescriptorPool, *this);
+		l_drawCommand->Draw	    (a_srvDescriptorPool, *this);
 	}
 }
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)

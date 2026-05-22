@@ -9,14 +9,6 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 {
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
-	// PixelShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
-	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
-
-
-	// スプライト用ルートシグネチャとパイプラインステートをセット
-	// その際にセットしたルートシグネチャとパイプラインステートのポインタを取得
-	SetupGraphicsPipelineStateToCommandList(a_renderer);
-
 	const auto& l_rootSignature = GetVALRootSignature().lock();
 
 	if (!l_rootSignature)
