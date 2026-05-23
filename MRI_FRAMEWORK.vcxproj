@@ -216,7 +216,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\INC;..\Library\Json\INC\nlohmann;..\Library\D3DX12\INC;..\Library\DirectXTEX\INC;..\Library\D3D12MA\INC;..\Library\DirectXTK12\INC;..\Library\MeshOptimizer\INC;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -224,11 +224,11 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\LIB\$(Configuration);..\Library\DirectXTEX\LIB\$(Configuration);..\Library\D3D12MA\LIB\$(Configuration);..\Library\DirectXTK12\LIB\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
+      <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\BIN\$(Configuration)"
 
 if not exist "$(TargetDir)" mkdir "$(TargetDir)"
 if errorlevel 1 exit /b 1
@@ -244,12 +244,12 @@ if not exist "%DXC_BIN_DIR%\dxil.dll" (
 )
 
 if "$(Configuration)"=="Debug" (
-    if not exist "$(ProjectDir)..\Library\D3D12MA\Bin\Debug\D3D12MAd.dll" (
+    if not exist "$(ProjectDir)..\Library\D3D12MA\BIN\Debug\D3D12MAd.dll" (
         echo [ERROR] D3D12MAd.dll が見つかりません: $(ProjectDir)..\Library\D3D12MA\Bin\Debug\D3D12MAd.dll
         exit /b 1
     )
 ) else (
-    if not exist "$(ProjectDir)..\Library\D3D12MA\Bin\Release\D3D12MA.dll" (
+    if not exist "$(ProjectDir)..\Library\D3D12MA\BIN\Release\D3D12MA.dll" (
         echo [ERROR] D3D12MA.dll が見つかりません: $(ProjectDir)..\Library\D3D12MA\Bin\Release\D3D12MA.dll
         exit /b 1
     )
@@ -262,10 +262,10 @@ copy /Y "%DXC_BIN_DIR%\dxil.dll" "$(TargetDir)"
 if errorlevel 1 exit /b 1
 
 if "$(Configuration)"=="Debug" (
-    copy /Y "$(ProjectDir)..\Library\D3D12MA\Bin\Debug\D3D12MAd.dll" "$(TargetDir)"
+    copy /Y "$(ProjectDir)..\Library\D3D12MA\BIN\Debug\D3D12MAd.dll" "$(TargetDir)"
     if errorlevel 1 exit /b 1
 ) else (
-    copy /Y "$(ProjectDir)..\Library\D3D12MA\Bin\Release\D3D12MA.dll" "$(TargetDir)"
+    copy /Y "$(ProjectDir)..\Library\D3D12MA\BIN\Release\D3D12MA.dll" "$(TargetDir)"
     if errorlevel 1 exit /b 1
 )</Command>
     </PostBuildEvent>
@@ -285,7 +285,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\Inc;..\Library\Json\Inc\nlohmann;..\Library\D3DX12\Inc;..\Library\DirectXTex\Inc;..\Library\D3D12MA\Inc;..\Library\DirectXTK12\Inc;..\Library\MeshOptimizer\Inc;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\INC;..\Library\Json\INC\nlohmann;..\Library\D3DX12\INC;..\Library\DirectXTEX\INC;..\Library\D3D12MA\INC;..\Library\DirectXTK12\INC;..\Library\MeshOptimizer\INC;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -293,11 +293,11 @@ if "$(Configuration)"=="Debug" (
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Library\DXCCompiler\Lib\$(Configuration);..\Library\DirectXTex\Lib\$(Configuration);..\Library\D3D12MA\Lib\$(Configuration);..\Library\DirectXTK12\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Library\DXCCompiler\LIB\$(Configuration);..\Library\DirectXTEX\LIB\$(Configuration);..\Library\D3D12MA\LIB\$(Configuration);..\Library\DirectXTK12\LIB\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\Bin\$(Configuration)"
+      <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\BIN\$(Configuration)"
 
 if not exist "$(TargetDir)" mkdir "$(TargetDir)"
 if errorlevel 1 exit /b 1
@@ -313,12 +313,12 @@ if not exist "%DXC_BIN_DIR%\dxil.dll" (
 )
 
 if "$(Configuration)"=="Debug" (
-    if not exist "$(ProjectDir)..\Library\D3D12MA\Bin\Debug\D3D12MAd.dll" (
+    if not exist "$(ProjectDir)..\Library\D3D12MA\BIN\Debug\D3D12MAd.dll" (
         echo [ERROR] D3D12MAd.dll が見つかりません: $(ProjectDir)..\Library\D3D12MA\Bin\Debug\D3D12MAd.dll
         exit /b 1
     )
 ) else (
-    if not exist "$(ProjectDir)..\Library\D3D12MA\Bin\Release\D3D12MA.dll" (
+    if not exist "$(ProjectDir)..\Library\D3D12MA\BIN\Release\D3D12MA.dll" (
         echo [ERROR] D3D12MA.dll が見つかりません: $(ProjectDir)..\Library\D3D12MA\Bin\Release\D3D12MA.dll
         exit /b 1
     )
@@ -331,10 +331,10 @@ copy /Y "%DXC_BIN_DIR%\dxil.dll" "$(TargetDir)"
 if errorlevel 1 exit /b 1
 
 if "$(Configuration)"=="Debug" (
-    copy /Y "$(ProjectDir)..\Library\D3D12MA\Bin\Debug\D3D12MAd.dll" "$(TargetDir)"
+    copy /Y "$(ProjectDir)..\Library\D3D12MA\BIN\Debug\D3D12MAd.dll" "$(TargetDir)"
     if errorlevel 1 exit /b 1
 ) else (
-    copy /Y "$(ProjectDir)..\Library\D3D12MA\Bin\Release\D3D12MA.dll" "$(TargetDir)"
+    copy /Y "$(ProjectDir)..\Library\D3D12MA\BIN\Release\D3D12MA.dll" "$(TargetDir)"
     if errorlevel 1 exit /b 1
 )</Command>
     </PostBuildEvent>
