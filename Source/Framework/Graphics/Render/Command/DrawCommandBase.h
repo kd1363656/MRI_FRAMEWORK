@@ -54,7 +54,7 @@ namespace FWK::Graphics
 			return true;
 		}
 
-		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, Concept::IsDerivedConstantBufferBaseConcept ConstantBufferType, typename CBType>
+		template < Concept::IsDerivedConstantBufferBaseConcept ConstantBufferType, Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename CBType>
 		bool SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
 										   const DirectCommandList&  a_directCommandList,
 										   const FrameResource&		 a_frameResource,

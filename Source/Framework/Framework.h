@@ -190,7 +190,7 @@
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"
 
 // 定数バッファ
-#include "Graphics/Resource/Buffer/Constant/Sprite/Draw/SpriteDrawConstantBuffer.h"
+#include "Graphics/Resource/Buffer/Constant/Sprite/Object/SpriteObjectConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Sprite/Pass/SpritePassConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Camera/CameraConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Model/Object/ModelObjectConstantBuffer.h"

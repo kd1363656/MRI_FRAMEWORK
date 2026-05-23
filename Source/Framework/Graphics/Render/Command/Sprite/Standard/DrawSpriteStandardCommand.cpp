@@ -7,8 +7,6 @@ void FWK::Graphics::DrawSpriteStandardCommand::PostCreateSetup(Renderer& a_rende
 
 void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
 {
-	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
-
 	const auto& l_rootSignature = GetVALRootSignature().lock();
 
 	if (!l_rootSignature)
@@ -44,8 +42,10 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 	// 正射影行列を格納
 	l_cbSpritePass.m_projectionMatrix = l_projectionMatrix;
 
+	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
 	// もし共通定数バッファの設定に失敗したらマップを解除
-	if (!SetupCommonPassConstantBuffer<Tag::RootParameterCBSpritePassTag, SpritePassConstantBuffer>(*l_rootSignature,
+	if (!SetupCommonPassConstantBuffer<SpritePassConstantBuffer, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
 																									l_directCommandList,
 																									*l_currentFrameResource,
 																									l_cbSpritePass))
@@ -54,15 +54,15 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDesc
 		return;
 	}
 
-	auto l_spriteDrawConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpriteDrawConstantBuffer>().lock();
+	auto l_spriteObjectConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpriteObjectConstantBuffer>().lock();
 
-	if (!l_spriteDrawConstantBuffer)
+	if (!l_spriteObjectConstantBuffer)
 	{
 		assert(false && "スプライト描画用定数バッファが取得できないため、描画処理に失敗しました。");
 		return;
 	}
 
-	const auto& l_spriteDrawUploadBuffer = l_spriteDrawConstantBuffer->GetREFUploadConstantBuffer();
+	const auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBuffer->GetREFUploadConstantBuffer();
 
 	auto* const l_spriteDrawMappedData = l_spriteDrawUploadBuffer.Map();
 	

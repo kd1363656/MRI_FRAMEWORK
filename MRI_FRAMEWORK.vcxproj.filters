@@ -391,9 +391,6 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite">
       <UniqueIdentifier>{af0397a2-d042-4e17-9ea7-f42cd8405195}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw">
-      <UniqueIdentifier>{7fd1b47f-3308-4b03-b6b1-641c4ab6f064}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass">
       <UniqueIdentifier>{690a2292-e371-430b-9f19-1054c870cd70}</UniqueIdentifier>
     </Filter>
@@ -684,6 +681,9 @@
     </Filter>
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant">
       <UniqueIdentifier>{98f66841-4de1-497b-a1af-32c4c8501265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object">
+      <UniqueIdentifier>{a2367606-418e-412e-9bd8-b2d511c11e25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -989,9 +989,6 @@
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasShaderFactoryConstantBuffer.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.h">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
     </ClInclude>
@@ -1187,6 +1184,9 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant\IsDerivedConstantBufferBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1312,9 +1312,6 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw\SpriteDrawConstantBuffer.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Draw</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
     </ClCompile>
@@ -1428,6 +1425,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp">
       <Filter>Source\Framework\Graphics\Render\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.cpp">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

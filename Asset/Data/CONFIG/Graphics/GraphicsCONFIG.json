@@ -19,7 +19,7 @@
                             "ConstantBuffer": {
                                 "CreateConstantBufferNUM": 1024
                             },
-                            "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
+                            "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
@@ -55,7 +55,7 @@
                             "ConstantBuffer": {
                                 "CreateConstantBufferNUM": 1024
                             },
-                            "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
+                            "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
@@ -91,7 +91,7 @@
                             "ConstantBuffer": {
                                 "CreateConstantBufferNUM": 1024
                             },
-                            "ConstantBufferTypeName": "SpriteDrawConstantBuffer"
+                            "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
