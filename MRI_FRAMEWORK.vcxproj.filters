@@ -1432,6 +1432,9 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.cpp">
       <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.cpp">
+      <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">

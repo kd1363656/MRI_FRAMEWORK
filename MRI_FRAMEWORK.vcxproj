@@ -552,6 +552,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />

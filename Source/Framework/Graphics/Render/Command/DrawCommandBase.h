@@ -101,18 +101,7 @@ namespace FWK::Graphics
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Struct::TextureRecord& a_textureRecord) const;
 
-		bool SetCBCamera(const Camera&			   a_camera,
-						 const RootSignature&	   a_rootSignature,
-						 const DirectCommandList&  a_directCommandList,
-						 const UploadBuffer&	   a_cameraUploadBuffer,
-							   std::uint8_t* const a_cameraMappedData) const;
-
-		bool SetCBLight(const LightSystem&		  a_lightSystem,
-						const RootSignature&	  a_rootSignature,
-						const DirectCommandList&  a_directCommandList,
-						const UploadBuffer&		  a_lightSystemUploadBuffer,
-							  std::uint8_t* const a_lightSystemMappedData) const;
-
+		static constexpr auto& GetREFCommonPassIndex() { return k_cbCommonPassIndex; }
 
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountX() { return k_defaultDispatchMeshThreadGroupCountX; }
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountY() { return k_defaultDispatchMeshThreadGroupCountY; }

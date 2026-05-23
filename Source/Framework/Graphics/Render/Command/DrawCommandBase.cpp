@@ -76,35 +76,3 @@ void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(cons
 
 	a_textureRecord.m_currentState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 }
-
-bool FWK::Graphics::DrawCommandBase::SetCBCamera(const Camera&			   a_camera, 
-												 const RootSignature&	   a_rootSignature, 
-												 const DirectCommandList&  a_directCommandList,
-												 const UploadBuffer&	   a_cameraUploadBuffer, 
-													   std::uint8_t* const a_cameraMappedData) const
-{
-	const auto& l_cbCamera = a_camera.CreateCBCamera();
-
-	return SetupConstantBuffer<Tag::RootParameterCBCameraTag>(a_rootSignature,
-															  a_directCommandList,	
-															  a_cameraUploadBuffer,
-															  l_cbCamera,
-															  k_cbCommonPassIndex,
-															  a_cameraMappedData);
-}
-
-bool FWK::Graphics::DrawCommandBase::SetCBLight(const LightSystem&        a_lightSystem, 
-											    const RootSignature&      a_rootSignature,
-												const DirectCommandList&  a_directCommandList,
-												const UploadBuffer&		  a_lightSystemUploadBuffer, 
-													  std::uint8_t* const a_lightSystemMappedData) const
-{
-	const auto& l_cbLight = a_lightSystem.CreateCBLight();
-
-	return SetupConstantBuffer<FWK::Tag::RootParameterCBLightTag>(a_rootSignature,
-															      a_directCommandList,
-																  a_lightSystemUploadBuffer,
-																  l_cbLight,
-																  k_cbCommonPassIndex,
-																  a_lightSystemMappedData);
-}
