@@ -72,7 +72,7 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 
     return true;
 }
-void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG)
+void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd)
 {
 	m_swapChain.PostCreateSetup(a_hwnd, m_factory);
 	m_renderer.PostCreateSetup (m_swapChain);

@@ -216,7 +216,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\INC;..\Library\Json\INC\nlohmann;..\Library\D3DX12\INC;..\Library\DirectXTEX\INC;..\Library\D3D12MA\INC;..\Library\DirectXTK12\INC;..\Library\MeshOptimizer\INC;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\INC;..\Library\Json\INC\nlohmann;..\Library\D3DX12\INC;..\Library\DirectXTEX\INC;..\Library\D3D12MA\INC;..\Library\DirectXTK12\INC;..\Library\MeshOptimizer\INC;..\Library\UFBX;..\Library\IMGUI\INC;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -285,7 +285,7 @@ if "$(Configuration)"=="Debug" (
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\INC;..\Library\Json\INC\nlohmann;..\Library\D3DX12\INC;..\Library\DirectXTEX\INC;..\Library\D3D12MA\INC;..\Library\DirectXTK12\INC;..\Library\MeshOptimizer\INC;..\Library\UFBX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;..\Library;..\Library\Json\INC;..\Library\Json\INC\nlohmann;..\Library\D3DX12\INC;..\Library\DirectXTEX\INC;..\Library\D3D12MA\INC;..\Library\DirectXTK12\INC;..\Library\MeshOptimizer\INC;..\Library\UFBX;..\Library\IMGUI\INC;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -347,6 +347,14 @@ if "$(Configuration)"=="Debug" (
     <Text Include="Documents\CodingConventions.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Library\IMGUI\INC\imconfig.h" />
+    <ClInclude Include="..\Library\IMGUI\INC\imgui.h" />
+    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_dx12.h" />
+    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_win32.h" />
+    <ClInclude Include="..\Library\IMGUI\INC\imgui_internal.h" />
+    <ClInclude Include="..\Library\IMGUI\INC\imstb_rectpack.h" />
+    <ClInclude Include="..\Library\IMGUI\INC\imstb_textedit.h" />
+    <ClInclude Include="..\Library\IMGUI\INC\imstb_truetype.h" />
     <ClInclude Include="..\Library\UFBX\ufbx.h" />
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h" />
@@ -517,6 +525,13 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\PCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui.cpp" />
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_demo.cpp" />
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_draw.cpp" />
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_impl_dx12.cpp" />
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_tables.cpp" />
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_widgets.cpp" />
     <ClCompile Include="..\Library\UFBX\ufbx.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)UFBX\%(Filename).obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)UFBX\%(Filename).obj</ObjectFileName>

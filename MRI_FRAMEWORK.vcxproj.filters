@@ -691,6 +691,12 @@
     <Filter Include="Source\Framework\Graphics\Render\Frame\Scene">
       <UniqueIdentifier>{5423f503-1e25-43ce-8dbc-426de3445ded}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\IMGUI">
+      <UniqueIdentifier>{71decd08-1b18-4724-8cab-1e0e5d7126ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\IMGUI\INC">
+      <UniqueIdentifier>{e7a1740d-4550-4f40-873f-0eb7b9d19fdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1202,6 +1208,30 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RendererConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imstb_truetype.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imconfig.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imgui.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_dx12.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_win32.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imgui_internal.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imstb_rectpack.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\IMGUI\INC\imstb_textedit.h">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1455,6 +1485,27 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.cpp">
       <Filter>Source\Framework\Graphics\Render\Frame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui.cpp">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_demo.cpp">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_draw.cpp">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_impl_dx12.cpp">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_impl_win32.cpp">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_tables.cpp">
+      <Filter>Library\IMGUI\INC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\IMGUI\INC\imgui_widgets.cpp">
+      <Filter>Library\IMGUI\INC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

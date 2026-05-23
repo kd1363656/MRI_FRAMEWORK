@@ -88,7 +88,7 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 	}
 
 	// Create処理が終わった後に実行する処理
-	a_graphicsManager.PostCreateSetup(m_window.GetREFHWND(), m_window.GetREFWindowCONFIG());
+	a_graphicsManager.PostCreateSetup(m_window.GetREFHWND());
 	a_sceneManager.PostLoadSetup     ();
 
 	return true;
