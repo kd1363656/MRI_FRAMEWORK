@@ -203,14 +203,20 @@ nlohmann::json FWK::Graphics::Renderer::Serialize() const
 
 void FWK::Graphics::Renderer::SetupCurrentFrameResource(const std::size_t& a_index)
 {
+	if (m_frameResourceList.empty())
+	{
+		assert(false && "フレームリソースリストが空になっており、現在使用するフレームリソースを設定できませんでした。");
+		return;
+	}
+
 	if (m_frameResourceList.size() < a_index)
 	{
-		assert(false && "フレームリソースの要素数を超えたインデックスのフレームリソースを現在使用するフレームリソースにセットしようとしています。");
+		assert(false && "フレームリソースの要素数を超えておりフレームリソースを設定できませんでした。");
 		return;
 	}
 
 	m_currentFrameResourceIndex = a_index;
-	m_currentFrameResource      = m_frameResourceList[a_index];
+	m_currentFrameResource      = m_frameResourceList[m_currentFrameResourceIndex];
 }
 
 void FWK::Graphics::Renderer::AddFrameResource(const std::shared_ptr<FrameResource>& a_frameResource)
