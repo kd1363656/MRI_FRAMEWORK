@@ -141,7 +141,7 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain&			  a_sw
 	//						 矩形配列の先頭アドレス);
 
 	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
-											   k_clearColor, 
+											   &k_clearColor.x, 
 											   k_executeClearRectNUM,
 											   nullptr);
 }

@@ -685,6 +685,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object">
       <UniqueIdentifier>{a2367606-418e-412e-9bd8-b2d511c11e25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Texture\RenderTarget">
+      <UniqueIdentifier>{100d9a43-d82d-4baf-bdc6-57a87dc12d0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1187,6 +1190,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.h">
+      <Filter>Source\Framework\Graphics\Resource\Texture\RenderTarget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1434,6 +1440,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.cpp">
       <Filter>Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Texture\RenderTarget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

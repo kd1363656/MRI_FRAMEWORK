@@ -258,6 +258,7 @@
 #include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/Releaser/TextureRecordReleaser.h"
 #include "Graphics/Resource/Texture/DepthStencil/DepthStencilTexture.h"
+#include "Graphics/Resource/Texture/RenderTarget/RenderTargetTexture.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
 

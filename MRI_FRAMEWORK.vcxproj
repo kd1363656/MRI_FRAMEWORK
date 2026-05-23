@@ -488,6 +488,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Texture.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.h" />
@@ -588,6 +589,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\DepthStencil\DepthStencilTexture.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Loader\TextureLoader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Texture.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\TextureSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Upload\UploadSystem.cpp" />

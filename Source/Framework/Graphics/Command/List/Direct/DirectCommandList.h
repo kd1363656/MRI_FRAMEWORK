@@ -73,7 +73,7 @@ namespace FWK::Graphics
 				   !a_right.owner_before(a_left);
 		}
 
-		static constexpr float k_clearColor[] = 
+		static constexpr TypeAlias::Math::Color k_clearColor = 
 		{
 			1.0F,
 			0.80F,
