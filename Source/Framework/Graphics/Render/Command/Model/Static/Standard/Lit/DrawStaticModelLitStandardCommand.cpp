@@ -58,6 +58,9 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 		return;
 	}
 
+	// GPUに転送し終えたらアンマップ
+	l_lightSystemUploadBuffer.UnMap();
+
 	// モデルを一つ一つ描画していく
 	DrawStaticModelStandardCommandBase::SetupCBModelObject(*l_rootSignature, l_directCommandList, *l_currentFrameResource);
 }

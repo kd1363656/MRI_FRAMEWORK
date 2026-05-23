@@ -21,7 +21,7 @@ namespace FWK::Struct
 		SpriteRECT m_sourceRECT = {};
 	};
 
-	// 静的モデル用(陰影の影響を受けない)
+	// 静的モデル標準描画用
 	struct StaticModelStandardDrawCommand final
 	{
 		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};

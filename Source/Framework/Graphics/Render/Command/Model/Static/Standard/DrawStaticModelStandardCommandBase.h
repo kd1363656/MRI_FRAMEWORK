@@ -35,7 +35,14 @@ namespace FWK::Graphics
 
 			// セットされていなければreturn
 			if (!GetPTRPassConstant()) { return false; }
+
 			const auto& l_cbCamera = GetPTRPassConstant()->m_camera.lock();
+
+			if (!l_cbCamera)
+			{
+				assert(false && "Cameraが無効なため、StaticModel描画処理に失敗しました。");
+				return false;
+			}
 
 			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 

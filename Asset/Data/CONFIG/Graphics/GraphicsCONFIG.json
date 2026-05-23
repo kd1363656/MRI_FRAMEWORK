@@ -2,13 +2,13 @@
     "Renderer": {
         "DrawCommand": [
             {
-                "DrawCommandTypeName": "DrawSpriteStandardCommand"
-            },
-            {
                 "DrawCommandTypeName": "DrawStaticModelUnLitStandardCommand"
             },
             {
                 "DrawCommandTypeName": "DrawStaticModelLitStandardCommand"
+            },
+            {
+                "DrawCommandTypeName": "DrawSpriteStandardCommand"
             }
         ],
         "FrameResourceList": [

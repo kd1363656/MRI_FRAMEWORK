@@ -93,7 +93,7 @@ void FWK::Graphics::Texture::Load(const std::filesystem::path& a_filePath)
 
 void FWK::Graphics::Texture::SetupDefaultTexture(const Enum::DefaultTextureType a_defaultTextureType)
 {
-	// 通常クス茶を使っている場合は先に参照を外す
+	// 通常テクスチャを使っている場合は先に参照を外す
 	ReleaseTextureReference();
 
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
