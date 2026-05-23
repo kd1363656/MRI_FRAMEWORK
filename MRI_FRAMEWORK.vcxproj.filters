@@ -688,6 +688,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Texture\RenderTarget">
       <UniqueIdentifier>{100d9a43-d82d-4baf-bdc6-57a87dc12d0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Frame\Scene">
+      <UniqueIdentifier>{5423f503-1e25-43ce-8dbc-426de3445ded}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1193,6 +1196,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.h">
       <Filter>Source\Framework\Graphics\Resource\Texture\RenderTarget</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.h">
+      <Filter>Source\Framework\Graphics\Render\Frame\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1443,6 +1449,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.cpp">
+      <Filter>Source\Framework\Graphics\Render\Frame\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

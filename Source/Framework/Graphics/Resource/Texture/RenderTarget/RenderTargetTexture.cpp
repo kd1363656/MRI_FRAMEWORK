@@ -44,16 +44,15 @@ bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device,
 	//		 サンプル品質、
 	//		 リソースフラグ);
 
-	const auto& l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(m_format,
-															  m_width,
-															  m_height,
-															  Constant::k_renderTextureDefaultArraySize,
-															  Constant::k_renderTextureDefaultMIPLevels,
-															  Constant::k_renderTextureDefaultSampleCount,
-															  Constant::k_renderTextureDefaultSampleQuality,
-															  D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
-
-	if (!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
+	if (const auto& l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(m_format,
+																  m_width,
+																  m_height,
+																  Constant::k_renderTextureDefaultArraySize,
+																  Constant::k_renderTextureDefaultMIPLevels,
+																  Constant::k_renderTextureDefaultSampleCount,
+																  Constant::k_renderTextureDefaultSampleQuality,
+																  D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+		!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
 													&l_clearValue,
 													D3D12_RESOURCE_STATE_RENDER_TARGET,
 													m_gpuResource))
@@ -102,7 +101,7 @@ bool FWK::Graphics::RenderTargetTexture::CreateRenderTargetView(const Device& a_
 	// ViewDimension : 2DTextureとしてRTVを作成する
 	D3D12_RENDER_TARGET_VIEW_DESC l_rtvDesc = {};
 
-	l_rtvDesc.Format = m_format;
+	l_rtvDesc.Format		= m_format;
 	l_rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
 	const auto l_rtvHandle = a_rtvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_rtvStorageID);
@@ -150,10 +149,10 @@ bool FWK::Graphics::RenderTargetTexture::CreateShaderResourceView(const Device& 
 	// MIPLevels	       : 読めるMIP数
 	// PlaneSlice          : 通常カラーTextureなので0
 	// ResourceMINLODCLAMP : 最小LOD制限
-	l_srvDesc.Texture2D.MostDetailedMip     = 0U;
+	l_srvDesc.Texture2D.MostDetailedMip     = Constant::k_textureSRVMostDetailedMIP;
 	l_srvDesc.Texture2D.MipLevels           = Constant::k_renderTextureDefaultMIPLevels;
-	l_srvDesc.Texture2D.PlaneSlice		    = 0U;
-	l_srvDesc.Texture2D.ResourceMinLODClamp = 0.0F;
+	l_srvDesc.Texture2D.PlaneSlice		    = Constant::k_textureSRVPlaneSlice;
+	l_srvDesc.Texture2D.ResourceMinLODClamp = Constant::k_textureSRVResourceMINLODClamp;
 
 	const auto l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_srvStorageID);
 

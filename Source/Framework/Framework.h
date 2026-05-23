@@ -284,6 +284,7 @@
 
 // フレームリソースクラス
 #include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
+#include "Graphics/Render/Frame/Scene/SceneTexture.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
 // レンダーエリアクラス

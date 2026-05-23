@@ -11,6 +11,8 @@ namespace FWK::Constant
 
 	inline constexpr float k_defaultDepthClearValue = 1.0F;
 
+	inline constexpr FLOAT k_textureSRVResourceMINLODClamp = 0.0F;
+
 	inline constexpr std::size_t k_defaultTextureCount     = static_cast<std::size_t>(Enum::DefaultTextureType::Count);
 	inline constexpr std::size_t k_defaultRGBAElementCount = 4ULL;
 
@@ -21,6 +23,9 @@ namespace FWK::Constant
 
 	inline constexpr UINT k_renderTextureDefaultSampleCount   = 1U;
 	inline constexpr UINT k_renderTextureDefaultSampleQuality = 0U;
+
+	inline constexpr UINT k_textureSRVMostDetailedMIP = 0U;
+	inline constexpr UINT k_textureSRVPlaneSlice	  = 0U;
 
 	inline constexpr UINT16 k_renderTextureDefaultArraySize = 1U;
 	inline constexpr UINT16 k_renderTextureDefaultMIPLevels = 1U;
