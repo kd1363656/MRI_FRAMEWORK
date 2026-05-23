@@ -347,14 +347,6 @@ if "$(Configuration)"=="Debug" (
     <Text Include="Documents\CodingConventions.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Library\IMGUI\INC\imconfig.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_dx12.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_win32.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui_internal.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imstb_rectpack.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imstb_textedit.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imstb_truetype.h" />
     <ClInclude Include="..\Library\UFBX\ufbx.h" />
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h" />
@@ -439,6 +431,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\TypeAliasUploadSystem.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Trait\PTR\TypeTraitPTR.h" />
+    <ClInclude Include="Source\Framework\Editor\EditorManager.h" />
     <ClInclude Include="Source\Framework\Factory\GenericFactory.h" />
     <ClInclude Include="Source\Framework\FPS\FPSController.h" />
     <ClInclude Include="Source\Framework\Framework.h" />
@@ -525,13 +518,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\PCH.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Library\IMGUI\INC\imgui.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_demo.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_draw.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_impl_dx12.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_tables.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_widgets.cpp" />
     <ClCompile Include="..\Library\UFBX\ufbx.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)UFBX\%(Filename).obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)UFBX\%(Filename).obj</ObjectFileName>
@@ -554,6 +540,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Editor\EditorManager.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\CommandAllocatorBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Command\Allocator\Copy\CopyCommandAllocator.cpp" />

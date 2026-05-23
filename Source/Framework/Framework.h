@@ -331,6 +331,8 @@
 #include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"
 #include "Graphics/GraphicsManager.h"
 
+#include "Editor/EditorManager.h"
+
 // シーン
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"

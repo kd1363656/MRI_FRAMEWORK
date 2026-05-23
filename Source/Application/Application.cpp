@@ -29,12 +29,13 @@ void Application::Execute()
 {
 	auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 	auto& l_sceneManager    = FWK::SceneManager::GetInstance		     ();
+	auto& l_editorManager   = FWK::Editor::EditorManager::GetInstance	 ();
 
 	// 初期化関係処理
 	Init    (l_graphicsManager);
 	LoadFile(l_graphicsManager);
 
-	if (!PostLoadSetup(l_graphicsManager, l_sceneManager))
+	if (!PostLoadSetup(l_graphicsManager, l_sceneManager, l_editorManager))
 	{
 		assert(false && "アプリケーションのPostLoadSetup関数処理が失敗しました。");
 		return;
@@ -45,14 +46,14 @@ void Application::Execute()
 		// 更新
 		if (!BeginFrame(l_graphicsManager)) { break; }
 
+		// 更新
+		Update(l_sceneManager);
+
 		// 描画
 		RequestDraw(l_sceneManager);
 		BeginDraw  (l_graphicsManager);
 		Draw	   (l_graphicsManager);
 		EndDraw    (l_graphicsManager);
-
-		// 更新
-		Update(l_sceneManager);
 
 		// FPSの更新
 		EndFrame(l_graphicsManager);
@@ -73,7 +74,7 @@ void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	m_fpsController.LoadCONFIG  ();
 	a_graphicsManager.LoadCONFIG();
 }
-bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager)
+bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager)
 {
 	if (!m_window.Create(k_windowClassName, k_titleName))
 	{
@@ -90,6 +91,9 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 	// Create処理が終わった後に実行する処理
 	a_graphicsManager.PostCreateSetup(m_window.GetREFHWND());
 	a_sceneManager.PostLoadSetup     ();
+
+	// GraphicsManagerでSRVを作り終わった後にIMGUIを初期化
+	a_editorManager.Init(m_window.GetREFHWND());
 
 	return true;
 }
@@ -129,6 +133,8 @@ void Application::Draw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 }
 void Application::EndDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
+	FWK::Editor::EditorManager::GetInstance().DrawEditor();
+
 	a_graphicsManager.EndDraw();
 }
 
