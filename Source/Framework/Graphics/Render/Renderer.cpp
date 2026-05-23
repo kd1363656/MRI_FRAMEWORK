@@ -107,7 +107,7 @@ void FWK::Graphics::Renderer::BeginFrame() const
 
 void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap)
 {
-	const auto& l_currentFrameResource = FetchVALCurrentFrameResource().lock();
+	const auto& l_currentFrameResource = m_currentFrameResource.lock();
 
 	if (!l_currentFrameResource)
 	{
@@ -155,7 +155,7 @@ void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_sr
 }
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 {
-	const auto& l_currentFrameResource = FetchVALCurrentFrameResource().lock();
+	const auto& l_currentFrameResource = m_currentFrameResource.lock();
 
 	if (!l_currentFrameResource)
 	{
@@ -188,12 +188,29 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 void FWK::Graphics::Renderer::EndFrame()
 {
 	// 容量を超えないように次のフレームで使用するインデックスを計算
+	// 現在のインデックス / フレームリソースの総数の余りを算出しているので
+	// 絶対にインデックスのオーバーフローが起きないことは保証されている
 	m_currentFrameResourceIndex = (m_currentFrameResourceIndex + k_frameResourceIndexIncrement) % m_frameResourceList.size();
+
+	// 次に使用するフレームリソースをキャッシュしておく
+	m_currentFrameResource = m_frameResourceList[m_currentFrameResourceIndex];
 }
 
 nlohmann::json FWK::Graphics::Renderer::Serialize() const
 {
 	return m_rendererJsonConverter.Serialize(*this);
+}
+
+void FWK::Graphics::Renderer::SetupCurrentFrameResource(const std::size_t& a_index)
+{
+	if (m_frameResourceList.size() < a_index)
+	{
+		assert(false && "フレームリソースの要素数を超えたインデックスのフレームリソースを現在使用するフレームリソースにセットしようとしています。");
+		return;
+	}
+
+	m_currentFrameResourceIndex = a_index;
+	m_currentFrameResource      = m_frameResourceList[a_index];
 }
 
 void FWK::Graphics::Renderer::AddFrameResource(const std::shared_ptr<FrameResource>& a_frameResource)
@@ -262,23 +279,6 @@ std::weak_ptr<FWK::Graphics::PipelineState> FWK::Graphics::Renderer::FindVALPipe
 	if (l_itr == m_pipelineStateMap.end()) { return {}; }
 
 	return l_itr->second;
-}
-
-std::weak_ptr<FWK::Graphics::FrameResource> FWK::Graphics::Renderer::FetchVALCurrentFrameResource() const
-{
-	if (m_frameResourceList.empty())
-	{
-		assert(false && "フレームリソースが空のため、フレームリソース取得が行えませんでした。");
-		return {};
-	}
-
-	if (m_currentFrameResourceIndex >= m_frameResourceList.size())
-	{
-		assert(false && "フレームリソースの容量を超えたインデックスのため、フレームリソース取得が行えませんでした。");
-		return {};
-	}
-
-	return m_frameResourceList[m_currentFrameResourceIndex];
 }
 
 bool FWK::Graphics::Renderer::CreateDepthStencilTexture(const Device&                            a_device, 

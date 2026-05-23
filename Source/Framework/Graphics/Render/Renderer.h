@@ -40,6 +40,8 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
+		void SetupCurrentFrameResource(const std::size_t& a_index);
+
 		void AddFrameResource  (const std::shared_ptr<FrameResource>&   a_frameResource);
 		void AddDrawCommandList(const std::shared_ptr<DrawCommandBase>& a_drawCommand);
 		void AddDrawCommandMap (const std::shared_ptr<DrawCommandBase>& a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
@@ -64,14 +66,14 @@ namespace FWK::Graphics
 			return nullptr;
 		}
 
-		std::weak_ptr<FrameResource> FetchVALCurrentFrameResource() const;
-
 		const auto& GetREFFrameResourceList() const { return m_frameResourceList; }
 		const auto& GetREFDrawCommandList  () const { return m_drawCommandList; }
 
 		const auto& GetREFDrawCommandMap  () const { return m_drawCommandMap; }
 		const auto& GetREFRootSignatureMap() const { return m_rootSignatureMap; }
 		const auto& GetREFPipelineStateMap() const { return m_pipelineStateMap; }
+
+		const auto& GetREFCurrentFrameResource() const { return m_currentFrameResource; }
 
 		const auto& GetREFDirectCommandQueue() const { return m_directCommandQueue; }
 		const auto& GetREFDirectCommandList () const { return m_directCommandList; }
@@ -98,6 +100,8 @@ namespace FWK::Graphics
 		DrawCommandMap   m_drawCommandMap   = {};
 		RootSignatureMap m_rootSignatureMap = {};
 		PipelineStateMap m_pipelineStateMap = {};
+
+		std::weak_ptr<FrameResource> m_currentFrameResource = {};
 
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};

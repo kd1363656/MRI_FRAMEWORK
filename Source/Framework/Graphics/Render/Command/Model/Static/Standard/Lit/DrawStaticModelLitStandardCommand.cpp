@@ -17,7 +17,7 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 		return;
 	}
 
-	const auto& l_currentFrameResource = a_renderer.FetchVALCurrentFrameResource().lock();
+	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
 	if (!l_currentFrameResource)
 	{

@@ -53,8 +53,12 @@ void FWK::Converter::RendererJsonConverter::DeserializeFrameResourceList(const n
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
-	for (const auto& l_json : a_rootJson)
+	bool l_isThrough = false;
+
+	for (std::size_t l_i = 0ULL; l_i < a_rootJson.size(); ++l_i)
 	{
+		const auto& l_json = a_rootJson[l_i];
+
 		if (!l_json.contains(k_frameResourceJsonKey)) { continue; }
 
 		const auto& l_frameResource = std::make_shared<Graphics::FrameResource>();
@@ -64,6 +68,13 @@ void FWK::Converter::RendererJsonConverter::DeserializeFrameResourceList(const n
 		l_frameResource->Deserialize(l_json[k_frameResourceJsonKey]);
 
 		a_renderer.AddFrameResource(l_frameResource);
+
+		// 初めに生成したフレームリソースを現在のフレームリソースとして設定する
+		if (!l_isThrough)
+		{
+			a_renderer.SetupCurrentFrameResource(l_i);
+			l_isThrough = true;
+		}
 	}
 }
 void FWK::Converter::RendererJsonConverter::DeserializeRootSignatureMap(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const

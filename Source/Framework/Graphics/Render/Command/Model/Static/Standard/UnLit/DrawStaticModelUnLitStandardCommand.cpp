@@ -13,7 +13,7 @@ void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(Renderer& a_render
 		return;
 	}
 
-	const auto& l_currentFrameResource = a_renderer.FetchVALCurrentFrameResource().lock();
+	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
 	if (!l_currentFrameResource)
 	{

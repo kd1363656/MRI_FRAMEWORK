@@ -25,7 +25,7 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			const auto& l_currentFrameResource = a_renderer.FetchVALCurrentFrameResource().lock();
+			const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
 			if (!l_currentFrameResource)
 			{
