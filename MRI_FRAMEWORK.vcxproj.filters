@@ -1199,6 +1199,9 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.h">
       <Filter>Source\Framework\Graphics\Render\Frame\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\RendererConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

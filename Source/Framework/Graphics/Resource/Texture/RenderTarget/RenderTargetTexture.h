@@ -34,20 +34,12 @@ namespace FWK::Graphics
 
 		bool CreateShaderResourceView(const Device& a_device, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 
-		static constexpr TypeAlias::Math::Color k_defaultClearColor =
-		{
-			1.0F,
-			0.80F,
-			1.0F,
-			1.0F
-		};
-
 		static constexpr UINT k_clearValueIndexR = 0U;
 		static constexpr UINT k_clearValueIndexG = 1U;
 		static constexpr UINT k_clearValueIndexB = 2U;
 		static constexpr UINT k_clearValueIndexA = 3U;
 
-		TypeAlias::Math::Color m_clearColor = k_defaultClearColor;
+		TypeAlias::Math::Color m_clearColor = Constant::k_renderTargetDefaultClearColor;
 
 		Struct::GPUResource m_gpuResource = {};
 
