@@ -85,12 +85,12 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetTexture(RenderTarge
 		return;
 	}
 
-	const auto l_beforState = a_renderTargetTexture.GetVALCurrentResourceState();
+	const auto l_beforeState = a_renderTargetTexture.GetVALCurrentResourceState();
 
 	// 同じリソース状態なら遷移しない
-	if (l_beforState == a_afterState) { return; }
+	if (l_beforeState == a_afterState) { return; }
 
-	TransitionResource(l_beforState, a_afterState,*l_gpuResource.m_resource.Get());
+	TransitionResource(l_beforeState, a_afterState,*l_gpuResource.m_resource.Get());
 
 	a_renderTargetTexture.SetCurrentResourceState(a_afterState);
 }

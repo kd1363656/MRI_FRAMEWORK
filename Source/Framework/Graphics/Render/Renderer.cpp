@@ -119,7 +119,7 @@ void FWK::Graphics::Renderer::BeginDraw(const RTVDescriptorHeap& a_rtvDescriptor
 
 	if (!l_commandAllocator) 
 	{
-		assert(false && "ダイレクトコマンドアロケータが無効になっており、画開始処理を行うことができませんでした。");
+		assert(false && "ダイレクトコマンドアロケータが無効になっており、描画開始処理を行うことができませんでした。");
 		return;
 	}
 
