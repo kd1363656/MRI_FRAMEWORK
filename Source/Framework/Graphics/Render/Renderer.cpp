@@ -105,7 +105,7 @@ void FWK::Graphics::Renderer::BeginFrame() const
 	}
 }
 
-void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap)
+void FWK::Graphics::Renderer::BeginDraw(const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap)
 {
 	const auto& l_currentFrameResource = m_currentFrameResource.lock();
 
@@ -147,8 +147,8 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	l_commandAllocator->Reset();
 	m_directCommandList.Reset(*l_commandAllocator);
 
-	// バックバッファの状態遷移(PRESENT -> RESOURCE)
-	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	// SceneColorTextureを描画先として使える状態にする
+	m_directCommandList.TransitionRenderTargetTexture(*l_sceneColorTexture, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// SceneColorTextureとSceneDepthStencilTextureを描画先として設定する
 	m_directCommandList.SetupRenderTargetTexture(*l_sceneColorTexture,

@@ -89,7 +89,7 @@ void FWK::Graphics::GraphicsManager::BeginDraw()
 	const auto& l_rtvDescriptorHeap = m_resourceContext.GetREFRTVDescriptorPool().GetREFDescriptorHeap();
 	const auto& l_dsvDescriptorHeap = m_resourceContext.GetREFDSVDescriptorPool().GetREFDescriptorHeap();
 
-	m_renderer.BeginDraw(m_swapChain, l_rtvDescriptorHeap, l_dsvDescriptorHeap);
+	m_renderer.BeginDraw(l_rtvDescriptorHeap, l_dsvDescriptorHeap);
 }
 void FWK::Graphics::GraphicsManager::Draw()
 {

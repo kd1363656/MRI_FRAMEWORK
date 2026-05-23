@@ -36,9 +36,9 @@ namespace FWK::Graphics
 
 		static constexpr TypeAlias::Math::Color k_defaultClearColor =
 		{
-			0.0F,
-			0.0F,
-			0.0F,
+			1.0F,
+			0.80F,
+			1.0F,
 			1.0F
 		};
 

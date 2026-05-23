@@ -36,7 +36,7 @@ namespace FWK::Graphics
 
 		void BeginFrame() const;
 
-		void BeginDraw(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap);
+		void BeginDraw(const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap);
 		
 		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 		void EndDraw (const SwapChain&						   a_swapChain);

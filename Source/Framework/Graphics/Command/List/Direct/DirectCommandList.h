@@ -30,11 +30,6 @@ namespace FWK::Graphics
 									  const DSVDescriptorHeap&	 a_dsvDescriptorHeap,
 									  const DepthStencilTexture& a_depthStencilTexture) const;
 
-		void SetupBackBuffer(const SwapChain&		    a_swapChain, 
-							 const RTVDescriptorHeap&   a_rtvDescriptorHeap,
-							 const DSVDescriptorHeap&   a_dsvDescriptorHeap,
-						     const DepthStencilTexture& a_depthStencilTexture) const;
-
 		void CopyRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture, const SwapChain& a_swapChain) const;
 
 		void SetupRenderArea    (const RenderArea&					 a_renderArea)     const;
@@ -81,14 +76,6 @@ namespace FWK::Graphics
 			return !a_left.owner_before (a_right) &&
 				   !a_right.owner_before(a_left);
 		}
-
-		static constexpr TypeAlias::Math::Color k_clearColor = 
-		{
-			1.0F,
-			0.80F,
-			1.0F,
-			1.0F
-		};
 
 		static constexpr UINT64 k_invalidGPUDescriptorHandle = 0ULL;
 
