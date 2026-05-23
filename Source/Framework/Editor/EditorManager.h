@@ -6,9 +6,13 @@ namespace FWK::Editor
 	{
 	public:
 
-		void Init(const HWND& a_hwnd);
+		void Init(const Graphics::Device&									   a_device,
+				  const Graphics::DirectCommandQueue&						   a_directCommandQueue,
+				  const HWND&												   a_hwnd,
+				  const std::size_t											   a_numFramesInFlight,
+						Graphics::DescriptorPool<Graphics::SRVDescriptorHeap>& a_srvDescriptorHeap);
 
-		void DrawEditor();
+		void DrawEditor(Graphics::Renderer& a_renderer, const Graphics::DescriptorPool<Graphics::SRVDescriptorHeap>& a_srvDescriptorHeap);
 
 	private:
 

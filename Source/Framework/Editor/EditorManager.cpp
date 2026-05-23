@@ -26,7 +26,7 @@ void FWK::Editor::EditorManager::Init(const HWND& a_hwnd)
 
 void FWK::Editor::EditorManager::DrawEditor()
 {
-	ImGui::ShowDemoWindow();
+
 }
 
 void FWK::Editor::EditorManager::Release() const
