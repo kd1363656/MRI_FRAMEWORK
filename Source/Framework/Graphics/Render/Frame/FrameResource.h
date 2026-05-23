@@ -15,7 +15,14 @@ namespace FWK::Graphics
 
 		void Init       ();
 		void Deserialize(const nlohmann::json& a_rootJson);
-		bool Create     (const Device&		   a_device);
+
+		bool Create(const Device&							 a_device,
+					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
+					const UINT								 a_width,
+					const UINT								 a_height,
+						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
 		nlohmann::json Serialize() const;
 
@@ -36,6 +43,7 @@ namespace FWK::Graphics
 		const auto& GetREFConstantBufferMap() const { return m_constantBufferMap; }
 
 		const auto& GetREFDirectCommandAllocator() const { return m_directCommandAllocator; }
+		const auto& GetREFSceneTexture		    () const { return m_sceneTexture; }
 
 		auto& GetMutableREFDirectCommandAllocator() { return m_directCommandAllocator; }
 
@@ -44,6 +52,8 @@ namespace FWK::Graphics
 		std::shared_ptr<DirectCommandAllocator> m_directCommandAllocator = nullptr;
 
 		ConstantBufferMap m_constantBufferMap = {};
+
+		SceneTexture m_sceneTexture = {};
 
 		Converter::FrameResourceJsonConverter m_frameResourceJsonConverter = {};
 	};

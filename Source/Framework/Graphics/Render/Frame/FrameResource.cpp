@@ -12,8 +12,21 @@ void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 
 	m_frameResourceJsonConverter.Deserialize(a_rootJson, *this);
 }
-bool FWK::Graphics::FrameResource::Create(const Device& a_device)
+bool FWK::Graphics::FrameResource::Create(const Device&			                   a_device, 
+										  const GPUMemoryAllocator&                a_gpuMemoryAllocator, 
+										  const UINT				               a_width, 
+										  const UINT				               a_height, 
+												DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+												DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+												DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
+	for (const auto& [l_staticTypeID, l_constantBuffer] : m_constantBufferMap)
+	{
+		if (!l_constantBuffer) { continue; }
+
+		l_constantBuffer->Create(a_device);
+	}
+
 	if (!m_directCommandAllocator)
 	{
 		assert(false && "ダイレクトコマンドアロケータが無効です。");
@@ -26,11 +39,16 @@ bool FWK::Graphics::FrameResource::Create(const Device& a_device)
 		return false;
 	}
 
-	for (const auto& [l_staticTypeID, l_constantBuffer] : m_constantBufferMap)
+	if (!m_sceneTexture.Create(a_device,
+							   a_gpuMemoryAllocator,
+							   a_width,
+							   a_height,
+							   a_rtvDescriptorPool,
+							   a_srvDescriptorPool,
+							   a_dsvDescriptorPool))
 	{
-		if (!l_constantBuffer) { continue; }
-
-		l_constantBuffer->Create(a_device);
+		assert(false && "FrameResource用SceneTextureの作成に失敗しました。");
+		return false;
 	}
 
 	return true;

@@ -22,7 +22,15 @@ namespace FWK::Graphics
 
 		void Init		();
 		void Deserialize(const nlohmann::json& a_rootJson);
-		bool Create     (const Device&		   a_device, const ShaderCompiler& a_shaderCompiler);
+
+		bool Create(const Device&							 a_device, 
+					const ShaderCompiler&					 a_shaderCompiler,
+					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
+					const UINT								 a_width,
+					const UINT								 a_height,
+						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
 		void PostCreateSetup(const Device&			                  a_device,
 							 const GPUMemoryAllocator&                a_gpuMemoryAllocator,

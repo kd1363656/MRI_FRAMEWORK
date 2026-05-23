@@ -3,7 +3,7 @@
 void FWK::Scene::PostLoadSetup()
 {
 	// テクスチャ
-	m_texture.Load("Asset/Texture/Test.dds");
+	//m_texture.Load("Asset/Texture/Test.dds");
 
 	// モデル
 	m_staticModel.Load("Asset/Model/Antike.fbx");
@@ -21,7 +21,7 @@ void FWK::Scene::PostLoadSetup()
 
 void FWK::Scene::RequestDraw() const
 {
-	RequestDrawTexture(m_texture);
+	//RequestDrawTexture(m_texture);
 
 	// UnLitモデルの描画
 	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera);

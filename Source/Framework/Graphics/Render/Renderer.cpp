@@ -11,13 +11,26 @@ void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 
 	m_rendererJsonConverter.Deserialize(a_rootJson, *this);
 }
-bool FWK::Graphics::Renderer::Create(const Device& a_device, const ShaderCompiler& a_shaderCompiler)
+bool FWK::Graphics::Renderer::Create(const Device&							  a_device, 
+									 const ShaderCompiler&					  a_shaderCompiler, 
+									 const GPUMemoryAllocator&				  a_gpuMemoryAllocator,
+									 const UINT								  a_width,
+									 const UINT								  a_height, 
+										   DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool, 
+										   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+										   DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
 	for (const auto& l_frameResource : m_frameResourceList)
 	{
 		if (!l_frameResource) { continue; }
 
-		if (!l_frameResource->Create(a_device))
+		if (!l_frameResource->Create(a_device, 
+									 a_gpuMemoryAllocator,
+									 a_width,
+									 a_height,
+									 a_rtvDescriptorPool,
+									 a_srvDescriptorPool,
+									 a_dsvDescriptorPool))
 		{
 			assert(false && "フレームリソースの作成処理に失敗しました。");
 			return false;

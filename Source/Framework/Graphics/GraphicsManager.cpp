@@ -46,7 +46,14 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 		return false;
 	}
 
-	if (!m_renderer.Create(m_device, m_shaderCompiler))
+	if (!m_renderer.Create(m_device, 
+						   m_shaderCompiler,
+						   m_resourceContext.GetREFGPUMemoryAllocator(),
+						   a_windowCONFIG.m_width,
+						   a_windowCONFIG.m_height,
+						   m_resourceContext.GetMutableREFRTVDescriptorPool(),
+						   m_resourceContext.GetMutableREFSRVDescriptorPool(),
+					       m_resourceContext.GetMutableREFDSVDescriptorPool()))
 	{
 		assert(false && "レンダラーの作成処理に失敗しました。");
 		return false;
