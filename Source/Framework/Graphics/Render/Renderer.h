@@ -32,11 +32,7 @@ namespace FWK::Graphics
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
-		void PostCreateSetup(const Device&			                  a_device,
-							 const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-							 const SwapChain&		                  a_swapChain, 
-							 const Struct::WindowCONFIG&              a_windowConfig,
-								   DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
+		void PostCreateSetup(const SwapChain& a_swapChain);
 
 		void BeginFrame() const;
 
@@ -94,11 +90,6 @@ namespace FWK::Graphics
 
 	private:
 
-		bool CreateDepthStencilTexture(const Device&			                a_device,
-									   const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-									   const Struct::WindowCONFIG&			    a_windowCONFIG,
-											 DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
-
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
@@ -114,8 +105,6 @@ namespace FWK::Graphics
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};
 		
-		DepthStencilTexture m_depthStencilTexture = {};
-
 		LightSystem m_lightSystem = {};
 
 		RenderArea m_renderArea = {};

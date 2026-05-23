@@ -17,10 +17,8 @@ namespace FWK::Graphics
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
-		bool IsValid() const;
-
-		std::weak_ptr<RenderTargetTexture> GetVAKSceneColorTexture		 () const { return m_sceneColorTexture; }
-		std::weak_ptr<DepthStencilTexture> GetVAKSceneDepthStencilTexture() const { return m_sceneDepthStencilTexture; }
+		std::weak_ptr<RenderTargetTexture> GetVALSceneColorTexture		 () const { return m_sceneColorTexture; }
+		std::weak_ptr<DepthStencilTexture> GetVALSceneDepthStencilTexture() const { return m_sceneDepthStencilTexture; }
 		
 	private:
 

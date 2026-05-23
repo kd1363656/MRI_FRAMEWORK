@@ -43,7 +43,7 @@ namespace FWK::Graphics
 		const auto& GetREFConstantBufferMap() const { return m_constantBufferMap; }
 
 		const auto& GetREFDirectCommandAllocator() const { return m_directCommandAllocator; }
-		const auto& GetREFSceneTexture		    () const { return m_sceneTexture; }
+		const auto& GetREFSceneTexture			() const { return m_sceneTexture; }
 
 		auto& GetMutableREFDirectCommandAllocator() { return m_directCommandAllocator; }
 

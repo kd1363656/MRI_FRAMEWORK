@@ -75,11 +75,7 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 void FWK::Graphics::GraphicsManager::PostCreateSetup(const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG)
 {
 	m_swapChain.PostCreateSetup(a_hwnd, m_factory);
-	m_renderer.PostCreateSetup (m_device, 
-								m_resourceContext.GetREFGPUMemoryAllocator(),
-								m_swapChain,
-								a_windowCONFIG,
-								m_resourceContext.GetMutableREFDSVDescriptorPool());
+	m_renderer.PostCreateSetup (m_swapChain);
 }
 
 void FWK::Graphics::GraphicsManager::BeginFrame()

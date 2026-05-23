@@ -31,14 +31,3 @@ bool FWK::Graphics::SceneTexture::Create(const Device& a_device, const GPUMemory
 
 	return true;
 }
-
-bool FWK::Graphics::SceneTexture::IsValid() const
-{
-	if (!m_sceneColorTexture)		 { return false; }
-	if (!m_sceneDepthStencilTexture) { return false; }
-
-	if (!m_sceneColorTexture->GetREFGPUResource().m_resource)		 { return false; }
-	if (!m_sceneDepthStencilTexture->GetREFGPUResource().m_resource) { return false; }
-
-	return true;
-}

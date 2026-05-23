@@ -81,22 +81,9 @@ bool FWK::Graphics::Renderer::Create(const Device&							  a_device,
 
 	return true;
 }
-void FWK::Graphics::Renderer::PostCreateSetup(const Device&				               a_device, 
-											  const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-											  const SwapChain&			               a_swapChain, 
-											  const Struct::WindowCONFIG&              a_windowConfig, 
-													DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
+void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
 	m_renderArea.SetupRenderArea(a_swapChain);
-
-	if (!CreateDepthStencilTexture(a_device,
-								   a_gpuMemoryAllocator,
-								   a_windowConfig,
-								   a_dsvDescriptorPool))
-	{
-		assert(false && "DepthStencilTextureの作成に失敗しました。");
-		return;
-	}
 
 	for (const auto& l_drawCommand : m_drawCommandList)
 	{
@@ -132,7 +119,24 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 
 	if (!l_commandAllocator) 
 	{
-		assert(false && "ダイレクトコマンドアロケータが無効になっています。");
+		assert(false && "ダイレクトコマンドアロケータが無効になっており、画開始処理を行うことができませんでした。");
+		return;
+	}
+
+	const auto& l_sceneTexture	    = l_currentFrameResource->GetREFSceneTexture();
+	const auto& l_sceneColorTexture = l_sceneTexture.GetVALSceneColorTexture    ().lock();
+
+	if (!l_sceneColorTexture)
+	{
+		assert(false && "SceneColorTextureが無効のため、描画開始処理を行うことができませんでした。");
+		return;
+	}
+
+	const auto& l_sceneDepthStencilTexture = l_sceneTexture.GetVALSceneDepthStencilTexture().lock();
+
+	if (!l_sceneDepthStencilTexture)
+	{
+		assert(false && "SceneDepthStencilTextureが無効のため、描画開始処理を行うことができませんでした。");
 		return;
 	}
 
@@ -146,11 +150,11 @@ void FWK::Graphics::Renderer::BeginDraw(const SwapChain& a_swapChain, const RTVD
 	// バックバッファの状態遷移(PRESENT -> RESOURCE)
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	// 今回使用するバックバッファを設定
-	m_directCommandList.SetupBackBuffer(a_swapChain,
-									    a_rtvDescriptorHeap,
-										a_dsvDescriptorHeap,
-										m_depthStencilTexture);
+	// SceneColorTextureとSceneDepthStencilTextureを描画先として設定する
+	m_directCommandList.SetupRenderTargetTexture(*l_sceneColorTexture,
+												 a_rtvDescriptorHeap,
+												 a_dsvDescriptorHeap,
+												 *l_sceneDepthStencilTexture);
 
 	// ビューポートとシザー矩形を設定
 	m_directCommandList.SetupRenderArea(m_renderArea);
@@ -184,8 +188,26 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 		return;
 	}
 
-	// バックバッファの状態遷移(RESOURCE -> PRESENT)
-	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+	const auto& l_sceneTexture		= l_currentFrameResource->GetREFSceneTexture();
+	const auto& l_sceneColorTexture = l_sceneTexture.GetVALSceneColorTexture    ().lock();
+
+	if (!l_sceneColorTexture)
+	{
+		assert(false && "SceneColorTextureが無効のため、描画終了処理を行うことができませんでした。");
+		return;
+	}
+
+	// SceneColorTextureをコピー元として使える状態にする
+	m_directCommandList.TransitionRenderTargetTexture(*l_sceneColorTexture, D3D12_RESOURCE_STATE_COPY_SOURCE);
+
+	// BackBufferをコピー先として使える状態にする
+	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_COPY_DEST);
+	
+	// SceneColorTextureの内容をBackBufferへコピーする
+	m_directCommandList.CopyRenderTargetTexture(*l_sceneColorTexture, a_swapChain);
+
+	// backBufferを画面表示できる状態に戻す
+	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PRESENT);
 
 	// コマンドリストへの命令記録を終了
 	m_directCommandList.Close();
@@ -222,7 +244,7 @@ void FWK::Graphics::Renderer::SetupCurrentFrameResource(const std::size_t& a_ind
 		return;
 	}
 
-	if (m_frameResourceList.size() < a_index)
+	if (m_frameResourceList.size() <= a_index)
 	{
 		assert(false && "フレームリソースの要素数を超えておりフレームリソースを設定できませんでした。");
 		return;
@@ -298,16 +320,4 @@ std::weak_ptr<FWK::Graphics::PipelineState> FWK::Graphics::Renderer::FindVALPipe
 	if (l_itr == m_pipelineStateMap.end()) { return {}; }
 
 	return l_itr->second;
-}
-
-bool FWK::Graphics::Renderer::CreateDepthStencilTexture(const Device&                            a_device, 
-													    const GPUMemoryAllocator&                a_gpuMemoryAllocator, 
-														const Struct::WindowCONFIG&              a_windowCONFIG, 
-															  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
-{
-	return m_depthStencilTexture.Create(a_device,
-										a_gpuMemoryAllocator,
-										a_windowCONFIG.m_width,	
-										a_windowCONFIG.m_height,
-										a_dsvDescriptorPool);
 }

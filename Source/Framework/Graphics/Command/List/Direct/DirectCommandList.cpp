@@ -75,6 +75,91 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const Swap
 	// リソースの状態遷移(Present -> RenderTarget)
 	TransitionResource(a_beforeState, a_afterState, l_backBufferResource);
 }
+void FWK::Graphics::DirectCommandList::TransitionRenderTargetTexture(RenderTargetTexture& a_renderTargetTexture, const D3D12_RESOURCE_STATES a_afterState) const
+{
+	const auto& l_gpuResource = a_renderTargetTexture.GetREFGPUResource();
+
+	if (!l_gpuResource.m_resource)
+	{
+		assert(false && "RenderTargetのリソースが無効のため、状態遷移が出来ませんでした。");
+		return;
+	}
+
+	const auto l_beforState = a_renderTargetTexture.GetVALCurrentResourceState();
+
+	// 同じリソース状態なら遷移しない
+	if (l_beforState == a_afterState) { return; }
+
+	TransitionResource(l_beforState, a_afterState,*l_gpuResource.m_resource.Get());
+
+	a_renderTargetTexture.SetCurrentResourceState(a_afterState);
+}
+
+void FWK::Graphics::DirectCommandList::SetupRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture,
+																const RTVDescriptorHeap&   a_rtvDescriptorHeap,
+																const DSVDescriptorHeap&   a_dsvDescriptorHeap, 
+															    const DepthStencilTexture& a_depthStencilTexture) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、RenderTargetTextureの設定が行えませんでした。");
+		return;
+	}
+
+	if (a_renderTargetTexture.GetVALRTVStorageID() == Constant::k_invalidStorageID)
+	{
+		assert(false && "RTVStorageIDが無効のため、RenderTargetTextureの設定が行えませんでした。");
+		return;
+	}
+
+	if (a_depthStencilTexture.GetVALDSVStorageID() == Constant::k_invalidStorageID)
+	{
+		assert(false && "DSVStorageIDが無効のため、RenderTargetTextureの設定が行えませんでした。");
+		return;
+	}
+
+	// RenderTargetTexture用RTVハンドルとDepthStencilTexture用DSVハンドルを取得
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_renderTargetTexture.GetVALRTVStorageID());
+	const auto& l_dsvHandle = a_dsvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_depthStencilTexture.GetVALDSVStorageID());
+
+	// OMステージにレンダーターゲットを設定する関数
+	// OMSetRenderTargets(設定するレンダーターゲット数、
+	//					  レンダーターゲットディスクリプタ配列の先頭アドレス、
+	//					  ディスクリプタ連続配置かどうか、
+	//					  深度ステンシルビューのアドレス);
+
+	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
+											&l_rtvHandle,
+											true,
+											&l_dsvHandle);
+
+	// ClearDepthStencilView(クリアするDSV、
+	//						 クリア対象フラグ、
+	//						 深度クリア値、
+	//						 ステンシルクリア値、
+	//						 クリア範囲数、
+	//						 クリア範囲);
+
+	l_directCommandList->ClearDepthStencilView(l_dsvHandle,
+											   D3D12_CLEAR_FLAG_DEPTH,
+											   Constant::k_defaultDepthClearValue,
+											   Constant::k_defaultStencilClearValue,
+											   k_executeClearRectNUM,
+											   nullptr);
+
+	// 現在のレンダーターゲットを指定色でクリアする関数
+	// ClearRenderTargetView(クリア対象のRTVハンドル、
+	//						 クリア色RGBA配列、
+	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし全面クリアとなる),
+	//						 矩形配列の先頭アドレス);
+
+	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
+											   &a_renderTargetTexture.GetClearColor().x,
+											   k_executeClearRectNUM,
+											   nullptr);
+}
 
 void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain&			  a_swapChain, 
 													   const RTVDescriptorHeap&   a_rtvDescriptorHeap, 
@@ -144,6 +229,52 @@ void FWK::Graphics::DirectCommandList::SetupBackBuffer(const SwapChain&			  a_sw
 											   &k_clearColor.x, 
 											   k_executeClearRectNUM,
 											   nullptr);
+}
+
+void FWK::Graphics::DirectCommandList::CopyRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture, const SwapChain& a_swapChain) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、RenderTargetTextureをBackBufferへコピーできませんでした。");
+		return;
+	}
+
+	const auto& l_backBufferList = a_swapChain.GetREFBackBufferList();
+
+	if (l_backBufferList.empty())
+	{
+		assert(false && "BackBufferListが空のため、RenderTargetTextureをBackBufferへコピーできませんでした。");
+		return;
+	}
+
+	const auto l_currentBakcBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
+
+	if (l_backBufferList.size() <= l_currentBakcBufferIndex)
+	{
+		assert(false && "現在のBackBufferIndexが範囲外のため、RenderTargetTextureをBackBufferへコピーできませんでした。");
+		return;
+	}
+
+	const auto& l_backBufferResource = l_backBufferList[l_currentBakcBufferIndex].m_backBufferResource;
+	const auto& l_sourceResource	 = a_renderTargetTexture.GetREFGPUResource().m_resource;
+
+	if (!l_backBufferResource)
+	{
+		assert(false && "BackBufferResourceが無効のため、RenderTargetTextureをBackBufferへコピーできませんでした。");
+		return;
+	}
+
+	if (!l_sourceResource)
+	{
+		assert(false && "RenderTargetTextureのResourceが無効のため、BackBufferへコピーできませんでした。");
+		return;
+	}
+
+	// CopyResource(コピー先リソース、
+	//				コピー元リソース);
+	l_directCommandList->CopyResource(l_backBufferResource.Get(),  l_sourceResource.Get());
 }
 
 void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_renderArea) const
