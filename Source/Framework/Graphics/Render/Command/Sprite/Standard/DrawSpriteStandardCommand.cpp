@@ -5,7 +5,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::PostCreateSetup(Renderer& a_rende
 	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetTag<Tag::SpriteStandardPipelineStateTag>());
 }
 
-void FWK::Graphics::DrawSpriteStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 {
 	const auto& l_rootSignature = GetVALRootSignature().lock();
 

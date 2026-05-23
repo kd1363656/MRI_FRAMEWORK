@@ -9,7 +9,7 @@ namespace FWK::Graphics
 		 DrawStaticModelLitStandardCommand()		  = default;
 		~DrawStaticModelLitStandardCommand() override = default;
 
-		void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) override;
+		void Draw(Renderer& a_renderer) override;
 
 		FWK_DEFINE_TYPE_INFO(DrawStaticModelLitStandardCommand, DrawCommandBase);
 	};

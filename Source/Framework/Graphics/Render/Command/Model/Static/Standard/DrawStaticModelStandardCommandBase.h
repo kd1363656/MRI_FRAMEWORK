@@ -15,7 +15,7 @@ namespace FWK::Graphics
 			SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetTag<Type>());
 		}
 
-		bool SetupCommonPassConstantBuffer(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) override
+		bool SetupCommonPassConstantBuffer(Renderer& a_renderer)
 		{
 			const auto& l_rootSignature = GetVALRootSignature().lock();
 
@@ -40,10 +40,10 @@ namespace FWK::Graphics
 			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 			// もし共通定数バッファの設定に失敗したらマップを解除
-			if (!SetupCommonPassConstantBuffer<CameraConstantBuffer, Tag::RootParameterCBCameraTag>(*l_rootSignature,
-																								    l_directCommandList,
-																								    *l_currentFrameResource,
-																								    l_cbCamera->CreateCBCamera()))
+			if (!DrawCommandBase::SetupCommonPassConstantBuffer<CameraConstantBuffer, Tag::RootParameterCBCameraTag>(*l_rootSignature,
+																													 l_directCommandList,
+																													 *l_currentFrameResource,
+																													 l_cbCamera->CreateCBCamera()))
 			{
 				assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 				return false;
@@ -83,7 +83,7 @@ namespace FWK::Graphics
 				{
 					const auto& l_modelMeshletData         = l_modelMesh.m_modelMeshletData;
 					const auto& l_modelMeshRuntimeData     = l_modelMesh.m_modelMeshRuntimeData;
-					const auto& l_modelMaterialRuntimeData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
+					const auto& l_modelMaterialRuntimeData = l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData;
 
 					if (l_modelMeshletData.m_meshletList.size() == Constant::k_emptyMeshletCount) { continue; }
 
@@ -131,18 +131,23 @@ namespace FWK::Graphics
 					l_cbModelObject.m_uniqueVertexIndexBufferSRVIndex = l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
 					l_cbModelObject.m_primitiveIndexBufferSRVIndex    = l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
 
-					return SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
-																				   a_directCommandList,
-																				   l_uploadBuffer,
-																				   l_cbModelObject,
-																				   l_modelObjectIndex,
-																				   l_mappedData);
+					if(!SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
+																				a_directCommandList,
+																				l_uploadBuffer,
+																				l_cbModelObject,
+																				l_modelObjectIndex,
+																				l_mappedData))
+					{
+						continue;
+					}
 
 					a_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
 
 					++l_modelObjectIndex;
 				}
 			}
+
+			return true;
 		}
 
 	private:

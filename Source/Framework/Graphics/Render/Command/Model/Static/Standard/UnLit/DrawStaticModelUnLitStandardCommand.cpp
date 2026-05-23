@@ -1,13 +1,9 @@
 ﻿#include "DrawStaticModelUnLitStandardCommand.h"
 
-void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+void FWK::Graphics::DrawStaticModelUnLitStandardCommand::Draw(Renderer& a_renderer)
 {
 	// 描画用定数バッファのセットを行う
-	if (!DrawStaticModelStandardCommandBase::SetupCommonPassConstantBuffer(a_srvDescriptorPool, a_renderer))
-	{
-		assert(false && "共通定数であるカメラバッファがセットできておらず、StaticModel描画処理に失敗しました。");
-		return;
-	}
+	if (!DrawStaticModelStandardCommandBase::SetupCommonPassConstantBuffer(a_renderer)) { return; }
 
 	const auto& l_rootSignature = GetVALRootSignature().lock();
 

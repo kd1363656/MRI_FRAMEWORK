@@ -1,9 +1,9 @@
 ﻿#include "DrawStaticModelLitStandardCommand.h"
 
-void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer)
 {
 	// 描画用定数バッファのセットを行う
-	if (!DrawStaticModelStandardCommandBase::SetupCommonPassConstantBuffer(a_srvDescriptorPool, a_renderer))
+	if (!DrawStaticModelStandardCommandBase::SetupCommonPassConstantBuffer(a_renderer))
 	{
 		assert(false && "共通定数であるカメラバッファがセットできておらず、StaticModel描画処理に失敗しました。");
 		return;
