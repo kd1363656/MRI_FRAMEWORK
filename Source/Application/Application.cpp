@@ -32,7 +32,7 @@ void Application::Execute()
 	auto& l_editorManager   = FWK::Editor::EditorManager::GetInstance	 ();
 
 	// 初期化関係処理
-	Init    (l_graphicsManager);
+	INIT    (l_graphicsManager);
 	LoadFile(l_graphicsManager);
 
 	if (!PostLoadSetup(l_graphicsManager, l_sceneManager, l_editorManager))
@@ -63,10 +63,10 @@ void Application::Execute()
 	SaveFile(l_graphicsManager);
 }
 
-void Application::Init(FWK::Graphics::GraphicsManager& a_graphicsManager)
+void Application::INIT(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
-	m_window.Init		  ();
-	a_graphicsManager.Init();
+	m_window.INIT		  ();
+	a_graphicsManager.INIT();
 }
 void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {

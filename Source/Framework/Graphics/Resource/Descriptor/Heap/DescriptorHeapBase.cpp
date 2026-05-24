@@ -116,7 +116,7 @@ bool FWK::Graphics::DescriptorHeapBase::CopyCPUOnlyDescriptorToShaderVisibleDesc
 	return true;
 }
 
-FWK::TypeAlias::ComPtr<ID3D12DescriptorHeap> FWK::Graphics::DescriptorHeapBase::FetchPTRShaderVisibleDescriptorHeap() const
+FWK::TypeAlias::ComPtr<ID3D12DescriptorHeap> FWK::Graphics::DescriptorHeapBase::FetchVALShaderVisibleDescriptorHeap() const
 {
 	if (!m_shaderVisibleDescriptorHeapRecord)
 	{

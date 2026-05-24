@@ -6,17 +6,21 @@ namespace FWK::Editor
 	{
 	public:
 
-		void Init(const Graphics::Device&									   a_device,
-				  const Graphics::DirectCommandQueue&						   a_directCommandQueue,
-				  const HWND&												   a_hwnd,
-				  const std::size_t											   a_numFramesInFlight,
-						Graphics::DescriptorPool<Graphics::SRVDescriptorHeap>& a_srvDescriptorHeap);
+		void Init(const HWND& a_hwnd);
 
-		void DrawEditor(Graphics::Renderer& a_renderer, const Graphics::DescriptorPool<Graphics::SRVDescriptorHeap>& a_srvDescriptorHeap);
+		void DrawEditor();
 
 	private:
 
-		void Release() const;
+		static void AllocateSRVDescriptor(ImGui_ImplDX12_InitInfo* a_info, D3D12_CPU_DESCRIPTOR_HANDLE* a_outCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE* a_outGPUHandle);
+
+		static void ReleaseSRVDescriptor(ImGui_ImplDX12_InitInfo* a_info, D3D12_CPU_DESCRIPTOR_HANDLE a_cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE a_gpuHandle);
+
+		void Release();
+
+		std::unordered_map<UINT64, TypeAlias::StorageID> m_srvStorageIDMap = {};
+
+		bool m_isInitialized = false;
 
 		//=========================
 		// シングルトン

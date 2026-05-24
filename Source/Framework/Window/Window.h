@@ -9,7 +9,7 @@ namespace FWK
 		 Window();
 		~Window();
 
-		void Init      ();
+		void INIT      ();
 		void LoadCONFIG();
 		bool Create    (const std::wstring& a_windowClassName, const std::string& a_titleName);
 

@@ -1,6 +1,6 @@
 ﻿#include "Renderer.h"
 
-void FWK::Graphics::Renderer::Init()
+void FWK::Graphics::Renderer::INIT()
 {
 	m_lightSystem.ApplyDefaultLightDirection();
 	m_lightSystem.ApplyDefaultAmbientLight  ();

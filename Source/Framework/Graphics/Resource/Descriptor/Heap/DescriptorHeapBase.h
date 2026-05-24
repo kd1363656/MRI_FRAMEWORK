@@ -24,7 +24,7 @@ namespace FWK::Graphics
 
 		bool CopyCPUOnlyDescriptorToShaderVisibleDescriptor(const TypeAlias::StorageID a_storageID, const Device& a_device) const;
 
-		TypeAlias::ComPtr<ID3D12DescriptorHeap> FetchPTRShaderVisibleDescriptorHeap() const;
+		TypeAlias::ComPtr<ID3D12DescriptorHeap> FetchVALShaderVisibleDescriptorHeap() const;
 
 		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALCPUOnlyCPUHandle      (const TypeAlias::StorageID a_storageID) const;
 		D3D12_CPU_DESCRIPTOR_HANDLE FetchVALShaderVisibleCPUHandle(const TypeAlias::StorageID a_storageID) const;

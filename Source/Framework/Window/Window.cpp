@@ -1,5 +1,15 @@
 ﻿#include "Window.h"
 
+// IMGUIのWind32用メッセージ処理関数
+// ImGui_ImplWin32_WndProcHandler(ウィンドウハンドル、
+//								  Windowsメッセージ、
+//								  WPARAM,
+//								  LPARAM);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND   a_hwnd,
+													  UINT   a_message,
+													  WPARAM a_wParam,
+													  LPARAM a_lParam);
+
 FWK::Window::Window() = default;
 FWK::Window::~Window()
 {
@@ -7,7 +17,7 @@ FWK::Window::~Window()
 	Release();
 }
 
-void FWK::Window::Init()
+void FWK::Window::INIT()
 {
 	m_hwnd = nullptr;
 
@@ -139,6 +149,14 @@ LRESULT FWK::Window::WindowProcedure(const HWND   a_hwnd,
 									 const WPARAM a_wParam,
 									 const LPARAM a_lParam)
 {
+	if (ImGui::GetCurrentContext() && ImGui_ImplWin32_WndProcHandler(a_hwnd, 
+																	 a_message,
+																	 a_wParam,
+																	 a_lParam))
+	{
+		return k_windowProcedureHandledResult;
+	}
+
 	// Windowsから送られてきたメッセージの種類ごとに処理を分ける
 	switch(a_message)
 	{

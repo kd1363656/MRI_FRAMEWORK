@@ -395,7 +395,7 @@ void FWK::Graphics::DirectCommandList::SetupDescriptorHeap(const DescriptorHeapB
 		return;
 	}
 
-	const auto& l_descriptorHeap = a_descriptorHeap.FetchPTRShaderVisibleDescriptorHeap();
+	const auto& l_descriptorHeap = a_descriptorHeap.FetchVALShaderVisibleDescriptorHeap();
 
 	if (!l_descriptorHeap)
 	{

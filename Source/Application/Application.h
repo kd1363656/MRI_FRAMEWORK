@@ -11,7 +11,7 @@ public:
 
 private:
 
-	void Init         (FWK::Graphics::GraphicsManager& a_graphicsManager);
+	void INIT         (FWK::Graphics::GraphicsManager& a_graphicsManager);
 	void LoadFile     (FWK::Graphics::GraphicsManager& a_graphicsManager);
 	bool PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager);
 

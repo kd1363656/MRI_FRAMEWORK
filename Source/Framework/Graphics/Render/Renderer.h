@@ -20,7 +20,7 @@ namespace FWK::Graphics
 		 Renderer() = default;
 		~Renderer() = default;
 
-		void Init		();
+		void INIT		();
 		void Deserialize(const nlohmann::json& a_rootJson);
 
 		bool Create(const Device&							 a_device, 
