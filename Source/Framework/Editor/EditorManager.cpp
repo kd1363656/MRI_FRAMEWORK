@@ -53,7 +53,7 @@ void FWK::Editor::EditorManager::Init(const HWND& a_hwnd)
 
 	// IMGUIをウィンドウの外側に配置しても独立したOSウィンドウとして
 	// 表示を可能に、ウィンドウを結合、分割を可能にするフラグを合成する
-	l_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	//l_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	l_io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	ImGui::StyleColorsDark();
@@ -153,7 +153,7 @@ void FWK::Editor::EditorManager::DrawEditor()
 	// IMGUIのフォントテクスチャなどはSRVDescriptorHeapを使うため、描画前に設定する
 	// SetDescriptorHeaps(設定するディスクリプタヒープ数、ディスクリプタヒープ配列);
 
-	l_directCommandList->SetDescriptorHeaps(std::size_t(l_descriptorHeapList), l_descriptorHeapList);
+	l_directCommandList->SetDescriptorHeaps(1, l_descriptorHeapList);
 
 	// IMGUIの描画コマンドを現在記録中のDirectCommandListへ積む
 	// ImGui_ImplDX12_RenderDrawData(IMGUIが作成した描画データ、
