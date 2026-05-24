@@ -50,7 +50,7 @@ float4 main(MeshOutput a_input) : SV_Target0
 
     const float l_nDotL = saturate(dot(l_worldNormal, l_lightDirection));
 
-    const float3 l_diffuse = l_baseColor.rgb * g_directionLightColor * l_nDotL *g_directionalLightIntensity;
+    const float3 l_diffuse = l_baseColor.rgb * g_directionLightColor * l_nDotL * g_directionalLightIntensity;
     const float3 l_ambient = l_baseColor.rgb * g_ambientLightColor   * g_ambientLightIntensity;
 
     return float4(l_diffuse + l_ambient, l_baseColor.a);

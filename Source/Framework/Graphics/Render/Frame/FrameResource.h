@@ -35,7 +35,7 @@ namespace FWK::Graphics
 
 			if (l_itr == m_constantBufferMap.end()) { return std::weak_ptr<ConstantBufferBase>(); }
 
-			if (!l_itr->second) { return std::weak_ptr<ConstantBufferBase>();; }
+			if (!l_itr->second) { return std::weak_ptr<ConstantBufferBase>(); }
 
 			return l_itr->second;
 		}

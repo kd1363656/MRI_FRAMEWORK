@@ -53,5 +53,4 @@ void main(uint3                   a_groupID : SV_GroupID,
         
         a_primitiveList[l_triangleIndex] = uint3(l_primitiveIndexBuffer[l_primitiveIndex], l_primitiveIndexBuffer[l_primitiveIndex + k_secondPrimitiveVertexOffset], l_primitiveIndexBuffer[l_primitiveIndex + k_thirdPrimitiveVertexOffset]);
     }
-
 }

@@ -249,15 +249,15 @@ void FWK::Graphics::DirectCommandList::CopyRenderTargetTexture(const RenderTarge
 		return;
 	}
 
-	const auto l_currentBakcBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
+	const auto l_currentBackBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
 
-	if (l_backBufferList.size() <= l_currentBakcBufferIndex)
+	if (l_backBufferList.size() <= l_currentBackBufferIndex)
 	{
 		assert(false && "現在のBackBufferIndexが範囲外のため、RenderTargetTextureをBackBufferへコピーできませんでした。");
 		return;
 	}
 
-	const auto& l_backBufferResource = l_backBufferList[l_currentBakcBufferIndex].m_backBufferResource;
+	const auto& l_backBufferResource = l_backBufferList[l_currentBackBufferIndex].m_backBufferResource;
 	const auto& l_sourceResource	 = a_renderTargetTexture.GetREFGPUResource().m_resource;
 
 	if (!l_backBufferResource)
