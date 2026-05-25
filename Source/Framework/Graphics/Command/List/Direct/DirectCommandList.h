@@ -21,9 +21,10 @@ namespace FWK::Graphics
 
 		void Reset(const CommandAllocatorBase& a_commandAllocator) override;
 
-		void TransitionResource            (const D3D12_RESOURCE_STATES a_beforeState,		   const D3D12_RESOURCE_STATES a_afterState,		ID3D12Resource2&	  a_resource)   const;
-		void TransitionRenderTargetResource(const SwapChain&			a_swapChain,		   const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
-		void TransitionRenderTargetTexture(		  RenderTargetTexture&  a_renderTargetTexture, const D3D12_RESOURCE_STATES a_afterState)											const;
+		void TransitionResource            (const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState,		ID3D12Resource2&	  a_resource)   const;
+		void TransitionRenderTargetResource(const SwapChain&			a_swapChain,   const D3D12_RESOURCE_STATES a_beforeState, const D3D12_RESOURCE_STATES a_afterState) const;
+		void TransitionRenderTargetTexture (const D3D12_RESOURCE_STATES a_afterState,		 RenderTargetTexture&  a_renderTargetTexture)									const;
+		void TransitionDepthStencilTexture (const D3D12_RESOURCE_STATES a_afterState,		 DepthStencilTexture&  a_depthStencilTexture)									const;
 
 		void SetupRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture,
 									  const RTVDescriptorHeap&	 a_rtvDescriptorHeap,

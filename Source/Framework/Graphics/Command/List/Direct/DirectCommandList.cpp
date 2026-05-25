@@ -75,7 +75,7 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetResource(const Swap
 	// リソースの状態遷移(Present -> RenderTarget)
 	TransitionResource(a_beforeState, a_afterState, l_backBufferResource);
 }
-void FWK::Graphics::DirectCommandList::TransitionRenderTargetTexture(RenderTargetTexture& a_renderTargetTexture, const D3D12_RESOURCE_STATES a_afterState) const
+void FWK::Graphics::DirectCommandList::TransitionRenderTargetTexture(const D3D12_RESOURCE_STATES a_afterState, RenderTargetTexture& a_renderTargetTexture) const
 {
 	const auto& l_gpuResource = a_renderTargetTexture.GetREFGPUResource();
 
@@ -93,6 +93,25 @@ void FWK::Graphics::DirectCommandList::TransitionRenderTargetTexture(RenderTarge
 	TransitionResource(l_beforeState, a_afterState,*l_gpuResource.m_resource.Get());
 
 	a_renderTargetTexture.SetCurrentResourceState(a_afterState);
+}
+void FWK::Graphics::DirectCommandList::TransitionDepthStencilTexture(const D3D12_RESOURCE_STATES a_afterState, DepthStencilTexture& a_depthStencilTexture) const
+{
+	const auto& l_gpuResource = a_depthStencilTexture.GetREFGPUResource();
+
+	if (!l_gpuResource.m_resource)
+	{
+		assert(false && "DepthStencilTextureのリソースが無効のため、状態遷移が出来ませんでした。");
+		return;
+	}
+
+	const auto l_beforeState = a_depthStencilTexture.GetVALCurrentResourceState();
+
+	// 同じリソース状態なら遷移しない
+	if (l_beforeState == a_afterState) { return; }
+
+	TransitionResource(l_beforeState, a_afterState, *l_gpuResource.m_resource.Get());
+
+	a_depthStencilTexture.SetCurrentResourceState(a_afterState);
 }
 
 void FWK::Graphics::DirectCommandList::SetupRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture,

@@ -56,7 +56,7 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 															     D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 		!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
 													&l_clearValue,
-													D3D12_RESOURCE_STATE_DEPTH_WRITE,
+													Constant::k_defaultDepthStencilTextureResourceState,
 												    m_gpuResource))
 	{
 		a_dsvDescriptorPool.Release(l_dsvStorageID);
@@ -81,6 +81,8 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 	//						  DSV設定、
 	//						  DSVを書き込むCPUディスクリプタハンドル);
 	l_device->CreateDepthStencilView(m_gpuResource.m_resource.Get(), &l_dsvDesc, l_dsvHandle);
+
+	m_currentResourceState = Constant::k_defaultDepthStencilTextureResourceState;
 
 	m_dsvStorageID = l_dsvStorageID;
 

@@ -104,7 +104,7 @@
 #include "Tag/Graphics/Render/RootSignature/Parameter/RootParameterTag.h"
 #include "Tag/Graphics/Render/PipelineState/PipelineStateTag.h"
 #include "Tag/Graphics/Render/Frame/Scene/SceneTextureTag.h"
-#include "Tag/Graphics/Render/Pass/RenderGraphAccessTag.h"
+#include "Tag/Graphics/Render/Graph/Pass/RenderGraphPassTag.h"
 
 //===============================================================================
 // コンセプト
@@ -323,10 +323,12 @@
 
 // レンダーグラフ構造体
 #include "Definition/Struct/Graphics/Render/Graph/RenderGraphStruct.h"
+#include "Definition/Struct/Graphics/Render/Graph/Resource/RenderGraphResourceStruct.h"
 
 // レンダーパス
 #include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
 #include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
+#include "Graphics/Render/Graph/Resource/RenderGraphResourceRegistry.h"
 
 // レンダラー
 #include "Converter/Json/Graphics/Render/RendererJsonConverter.h"

@@ -24,7 +24,7 @@ bool FWK::Graphics::RenderGraph::Compile()
 	l_edgeList.resize	 (l_passCount);
 	l_inDegreeList.resize(l_passCount);
 
-	// 各PassのRead/Write情報を見て、Pass同氏の依存関係を作成する
+	// 各PassのRead/Write情報を見て、Pass同士の依存関係を作成する
 	// 例 : 
 	// GBufferPass  : GBufferNormalへWrite
 	// LightingPass : GBufferNormalをRead
@@ -46,7 +46,7 @@ bool FWK::Graphics::RenderGraph::Compile()
 
 	while (!l_passQueue.empty())
 	{
-		// 現時点で十呼応可能なPassを一つ取り出す
+		// 現時点で実行可能なPassを一つ取り出す
 		const auto l_passIndex = l_passQueue.front();
 
 		l_passQueue.pop();
@@ -116,7 +116,7 @@ void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDesc
 		// SceneDrawPass   : SceneColorをRENDER_TARGETとしてWrite
 		// PresentCopyPass : SceneColorをCOPY_SOURCEとしてRead
 		// この場合、PresentCopyPass実行前に
-		// RENDER_TARGET -> COPY_SOURCEのResorurceBarrierを張る
+		// RENDER_TARGET -> COPY_SOURCEのResourceBarrierを張る
 		TransitionPassTexture(*l_pass, a_directCommandList, a_renderer);
 
 		l_pass->Execute(a_rtvDescriptorHeap,
@@ -208,7 +208,7 @@ void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::ui
 					// GBufferPass  : NormalTextureへWrite
 					// LightingPass : NormalTextureをRead
 					// この場合、GBufferPass -> LightingPassの順番が必要
-					if (l_isPrevRead && l_isNextRead)
+					if (l_isPrevWrite && l_isNextRead)
 					{
 						AddDependencyEdge(l_prevPassIndex,
 										  l_nextPassIndex,

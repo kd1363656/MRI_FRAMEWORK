@@ -733,8 +733,17 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass">
       <UniqueIdentifier>{5a8a0a1f-d138-438b-bad0-7133b1e5bdd6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Tag\Graphics\Render\Pass">
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Graph">
+      <UniqueIdentifier>{c7c684e1-094e-4c68-afc6-662fe4ccf233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Graph\Pass">
       <UniqueIdentifier>{8f823e4c-06d5-4f31-9b5d-d30b3f981aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Resource">
+      <UniqueIdentifier>{c46dfad1-2361-45de-836e-98ad1dcad2fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Resource">
+      <UniqueIdentifier>{70c88011-4133-48dd-bf58-8723a70b3100}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1277,9 +1286,6 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\RenderGraphStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Render\Graph</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Pass\RenderGraphAccessTag.h">
-      <Filter>Source\Framework\Tag\Graphics\Render\Pass</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h">
       <Filter>Source\Framework\Graphics\Render\Graph</Filter>
     </ClInclude>
@@ -1288,6 +1294,15 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Pass\RenderGraphPassTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\Graph\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Resource\RenderGraphResourceStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Render\Graph\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1562,7 +1577,10 @@
       <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
+      <Filter>Source\Framework\Graphics\Render\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
