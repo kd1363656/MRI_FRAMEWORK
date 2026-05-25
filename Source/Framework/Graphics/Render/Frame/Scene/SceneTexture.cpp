@@ -4,7 +4,7 @@ bool FWK::Graphics::SceneTexture::Create(const Device& a_device, const GPUMemory
 {
 	m_sceneColorTexture		   = std::make_shared<RenderTargetTexture>();
 	m_sceneDepthStencilTexture = std::make_shared<DepthStencilTexture>();
-
+	
 	// シーンのカラー用テクスチャの作成
 	if (!m_sceneColorTexture->Create(a_device,
 									 a_gpuMemoryAllocator,

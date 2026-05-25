@@ -101,6 +101,7 @@
 #include "Tag/Graphics/Render/RootSignature/RootSignatureTag.h"
 #include "Tag/Graphics/Render/RootSignature/Parameter/RootParameterTag.h"
 #include "Tag/Graphics/Render/PipelineState/PipelineStateTag.h"
+#include "Tag/Graphics/Render/Frame/Scene/SceneTextureTag.h"
 
 //===============================================================================
 // コンセプト

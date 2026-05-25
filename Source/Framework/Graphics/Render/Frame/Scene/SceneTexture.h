@@ -9,10 +9,10 @@ namespace FWK::Graphics
 		 SceneTexture() = default;
 		~SceneTexture() = default;
 
-		bool Create(const Device&			  a_device, 
-					const GPUMemoryAllocator& a_gpuMemoryAllocator,
-					const UINT a_width,
-					const UINT a_height,
+		bool Create(const Device&							 a_device, 
+					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
+					const UINT								 a_width,
+					const UINT								 a_height,
 						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);

@@ -372,6 +372,8 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\AssetStorageJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\DepthStencil\DepthStencilTextureJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\RenderTarget\RenderTargetTextureJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h" />
@@ -510,6 +512,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Scene\Scene.h" />
     <ClInclude Include="Source\Framework\Scene\SceneManager.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Frame\Scene\SceneTextureTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter\RootParameterTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\RootSignatureTag.h" />
@@ -549,6 +552,8 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static\StaticModelSystemJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\ResourceContextJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Storage\Allocator\StorageIDAllocatorJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\DepthStencil\DepthStencilTextureJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\RenderTarget\RenderTargetTextureJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Upload\UploadSystemJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp" />

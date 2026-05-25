@@ -700,6 +700,18 @@
     <Filter Include="Source\Framework\Editor">
       <UniqueIdentifier>{6e1690d9-8ff1-4de1-9b0c-310a28d09c3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Frame">
+      <UniqueIdentifier>{fccae5ef-7edc-4200-9583-a0774c89e5d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Frame\Scene">
+      <UniqueIdentifier>{bad32a03-cc87-4aff-a7c5-b5c1c8043675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\RenderTarget">
+      <UniqueIdentifier>{33e8247a-5b78-42e5-be85-b0f01d23b199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\DepthStencil">
+      <UniqueIdentifier>{0fc43588-259f-44de-9d1b-f85393c69d33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1241,6 +1253,15 @@
     <ClInclude Include="..\Library\IMGUI\INC\imstb_rectpack.h">
       <Filter>Library\IMGUI\INC</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Frame\Scene\SceneTextureTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\Frame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\RenderTarget\RenderTargetTextureJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Texture\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\DepthStencil\DepthStencilTextureJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Texture\DepthStencil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1512,6 +1533,12 @@
     </ClCompile>
     <ClCompile Include="..\Library\IMGUI\INC\imgui_widgets.cpp">
       <Filter>Library\IMGUI\INC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\RenderTarget\RenderTargetTextureJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Texture\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\DepthStencil\DepthStencilTextureJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Resource\Texture\DepthStencil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
