@@ -24,9 +24,10 @@ namespace FWK::Converter
 
 		nlohmann::json SerializeConstantBuffer(const Graphics::FrameResource& a_frameResource) const;
 
-		static constexpr std::string_view k_sceneTextureJsonKey			  = "SceneTexture";
-		static constexpr std::string_view k_constantBufferMapJsonKey      = "ConstantBufferMap";
-		static constexpr std::string_view k_constantBufferTypeNameJsonKey = "ConstantBufferTypeName";
-		static constexpr std::string_view k_constantBufferJsonKey         = "ConstantBuffer";
+		static constexpr std::string_view k_renderGraphResourceRegistryJsonKey = "RenderGraphResourceRegistry";
+		static constexpr std::string_view k_sceneTextureJsonKey				   = "SceneTexture";
+		static constexpr std::string_view k_constantBufferMapJsonKey		   = "ConstantBufferMap";
+		static constexpr std::string_view k_constantBufferTypeNameJsonKey	   = "ConstantBufferTypeName";
+		static constexpr std::string_view k_constantBufferJsonKey			   = "ConstantBuffer";
 	};
 }

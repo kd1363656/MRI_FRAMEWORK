@@ -745,6 +745,12 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Resource">
       <UniqueIdentifier>{70c88011-4133-48dd-bf58-8723a70b3100}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Graph">
+      <UniqueIdentifier>{33a73f68-1a61-43ff-9514-2397b66af339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource">
+      <UniqueIdentifier>{ed725d92-efac-4b83-b846-52f90d3d8a3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1304,6 +1310,9 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1581,6 +1590,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

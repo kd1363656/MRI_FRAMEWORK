@@ -2,6 +2,11 @@
 
 namespace FWK::Graphics
 {
+	class Renderer;
+}
+
+namespace FWK::Graphics
+{
 	class IRenderGraphPass
 	{
 	public:

@@ -17,7 +17,8 @@ namespace FWK::Graphics
 		 RenderGraphResourceRegistry() = default;
 		~RenderGraphResourceRegistry() = default;
 
-		void INIT();
+		void INIT		();
+		void Deserialize(const nlohmann::json& a_rootJson);
 
 		bool Create(const Device&			  a_device,
 					const GPUMemoryAllocator& a_gpuMemoryAllocator,
@@ -28,6 +29,8 @@ namespace FWK::Graphics
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
 		void RegisterDefaultSceneTexture();
+
+		nlohmann::json Serialize() const;
 
 		void AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord);
 		void AddDepthStencilTexture(const std::shared_ptr<Struct::RenderGraphDepthStencilTextureResourceRecord>& a_depthStencilTextureResourceRecord);
@@ -60,5 +63,7 @@ namespace FWK::Graphics
 
 		DepthStencilTextureResourceRecordList m_depthStencilTextureResourceRecordList = {};
 		DepthStencilTextureResourceRecordMap  m_depthStencilTextureResourceRecordMap  = {};
+
+		Converter::RenderGraphResourceRegistryConverter m_renderGraphResourceRegistryConverter = {};
 	};
 }

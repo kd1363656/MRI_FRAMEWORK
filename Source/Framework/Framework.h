@@ -292,6 +292,16 @@
 // シーンテクスチャ用構造体
 #include "Definition/Struct/Graphics/Render/Frame/Scene/SceneTextureStruct.h"
 
+// レンダーグラフ構造体
+#include "Definition/Struct/Graphics/Render/Graph/RenderGraphStruct.h"
+#include "Definition/Struct/Graphics/Render/Graph/Resource/RenderGraphResourceStruct.h"
+
+// レンダーパス
+#include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
+#include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
+#include "Converter/Json/Graphics/Render/Graph/Resource/RenderGraphResourceRegistryJsonConverter.h"
+#include "Graphics/Render/Graph/Resource/RenderGraphResourceRegistry.h"
+
 // フレームリソースクラス
 #include "Converter/Json/Graphics/Render/Frame/Scene/SceneTextureJsonConverter.h"
 #include "Graphics/Render/Frame/Scene/SceneTexture.h"
@@ -320,15 +330,6 @@
 
 // 描画コマンドの基底クラスを継承しているかどうかを確認するConcept
 #include "Definition/Concept/IsDerivedBase/Graphics/Renderer/Command/IsDerivedIDrawCommandConcept.h"
-
-// レンダーグラフ構造体
-#include "Definition/Struct/Graphics/Render/Graph/RenderGraphStruct.h"
-#include "Definition/Struct/Graphics/Render/Graph/Resource/RenderGraphResourceStruct.h"
-
-// レンダーパス
-#include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
-#include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
-#include "Graphics/Render/Graph/Resource/RenderGraphResourceRegistry.h"
 
 // レンダラー
 #include "Converter/Json/Graphics/Render/RendererJsonConverter.h"

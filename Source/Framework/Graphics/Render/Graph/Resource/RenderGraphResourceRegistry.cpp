@@ -8,6 +8,12 @@ void FWK::Graphics::RenderGraphResourceRegistry::INIT()
 	m_depthStencilTextureResourceRecordList.clear();
 	m_depthStencilTextureResourceRecordMap.clear ();
 }
+void FWK::Graphics::RenderGraphResourceRegistry::Deserialize(const nlohmann::json& a_rootJson)
+{
+	if (a_rootJson.is_null()) { return; }
+
+	m_renderGraphResourceRegistryConverter.Deserialize(a_rootJson, *this);
+}
 
 bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_device, 
 													    const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
@@ -87,6 +93,11 @@ void FWK::Graphics::RenderGraphResourceRegistry::RegisterDefaultSceneTexture()
 	}
 }
 
+nlohmann::json FWK::Graphics::RenderGraphResourceRegistry::Serialize() const
+{
+	return m_renderGraphResourceRegistryConverter.Serialize(*this);
+}
+
 void FWK::Graphics::RenderGraphResourceRegistry::AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord)
 {
 	if (!a_renderTargetTextureResourceRecord)
@@ -107,11 +118,7 @@ void FWK::Graphics::RenderGraphResourceRegistry::AddRenderTargetTexture(const st
 		return;
 	}
 
-	if (m_renderTargetTextureResourceRecordMap.contains(a_renderTargetTextureResourceRecord->m_textureTag))
-	{
-		assert(false && "同じTextureTagのRenderGraph管理RenderTargetTextureResourceRecordが既に登録されています。");
-		return;
-	}
+	if (m_renderTargetTextureResourceRecordMap.contains(a_renderTargetTextureResourceRecord->m_textureTag)) { return; }
 
 	m_renderTargetTextureResourceRecordList.emplace_back(a_renderTargetTextureResourceRecord);
 	m_renderTargetTextureResourceRecordMap.try_emplace  (a_renderTargetTextureResourceRecord->m_textureTag, a_renderTargetTextureResourceRecord);
@@ -137,11 +144,7 @@ void FWK::Graphics::RenderGraphResourceRegistry::AddDepthStencilTexture(const st
 		return;
 	}
 
-	if (m_depthStencilTextureResourceRecordMap.contains(a_depthStencilTextureResourceRecord->m_textureTag))
-	{
-		assert(false && "同じTextureTagのRenderGraph管理DepthStencilTextureResourceRecordが既に登録されています。");
-		return;
-	}
+	if (m_depthStencilTextureResourceRecordMap.contains(a_depthStencilTextureResourceRecord->m_textureTag)) { return; }
 
 	m_depthStencilTextureResourceRecordList.emplace_back(a_depthStencilTextureResourceRecord);
 	m_depthStencilTextureResourceRecordMap.try_emplace  (a_depthStencilTextureResourceRecord->m_textureTag, a_depthStencilTextureResourceRecord);

@@ -46,7 +46,7 @@
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
                     ],
-                    "SceneTexture": {
+                    "RenderGraphResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {
@@ -61,10 +61,10 @@
                             {
                                 "RenderTarget": {
                                     "ClearColor": {
-                                        "W": 0.0,
-                                        "X": 0.0,
-                                        "Y": 0.0,
-                                        "Z": 0.0
+                                        "W": 1.0,
+                                        "X": 1.0,
+                                        "Y": 0.800000011920929,
+                                        "Z": 1.0
                                     },
                                     "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
                                     "Height": 720,
@@ -110,7 +110,7 @@
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
                     ],
-                    "SceneTexture": {
+                    "RenderGraphResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {
@@ -125,10 +125,10 @@
                             {
                                 "RenderTarget": {
                                     "ClearColor": {
-                                        "W": 0.0,
-                                        "X": 0.0,
-                                        "Y": 0.0,
-                                        "Z": 0.0
+                                        "W": 1.0,
+                                        "X": 1.0,
+                                        "Y": 0.800000011920929,
+                                        "Z": 1.0
                                     },
                                     "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
                                     "Height": 720,
@@ -174,7 +174,7 @@
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
                     ],
-                    "SceneTexture": {
+                    "RenderGraphResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {
@@ -189,10 +189,10 @@
                             {
                                 "RenderTarget": {
                                     "ClearColor": {
-                                        "W": 0.0,
-                                        "X": 0.0,
-                                        "Y": 0.0,
-                                        "Z": 0.0
+                                        "W": 1.0,
+                                        "X": 1.0,
+                                        "Y": 0.800000011920929,
+                                        "Z": 1.0
                                     },
                                     "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
                                     "Height": 720,
@@ -238,7 +238,7 @@
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
                     ],
-                    "SceneTexture": {
+                    "RenderGraphResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {
@@ -253,10 +253,10 @@
                             {
                                 "RenderTarget": {
                                     "ClearColor": {
-                                        "W": 0.0,
-                                        "X": 0.0,
-                                        "Y": 0.0,
-                                        "Z": 0.0
+                                        "W": 1.0,
+                                        "X": 1.0,
+                                        "Y": 0.800000011920929,
+                                        "Z": 1.0
                                     },
                                     "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
                                     "Height": 720,

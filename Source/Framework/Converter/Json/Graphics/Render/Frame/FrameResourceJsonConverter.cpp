@@ -11,6 +11,13 @@ void FWK::Converter::FrameResourceJsonConverter::Deserialize(const nlohmann::jso
 		l_sceneTexture.Deserialize(a_rootJson[k_sceneTextureJsonKey]);
 	}
 
+	if (a_rootJson.contains(k_renderGraphResourceRegistryJsonKey))
+	{
+		auto& l_renderGraphResourceRegistry = a_frameResource.GetMutableREFRenderGraphResourceRegistry();
+
+		l_renderGraphResourceRegistry.Deserialize(a_rootJson[k_renderGraphResourceRegistryJsonKey]);
+	}
+
 	// 定数バッファのデシリアライズ
 	if (a_rootJson.contains(k_constantBufferMapJsonKey))
 	{
@@ -22,10 +29,10 @@ nlohmann::json FWK::Converter::FrameResourceJsonConverter::Serialize(const Graph
 {
 	nlohmann::json l_rootJson  = {};
 
-	const auto& l_sceneTexture = a_frameResource.GetREFSceneTexture();
-
-	l_rootJson[k_sceneTextureJsonKey]	   = l_sceneTexture.Serialize();
-	l_rootJson[k_constantBufferMapJsonKey] = SerializeConstantBuffer (a_frameResource);
+	const auto& l_renderGraphResourceRegistry = a_frameResource.GetREFRenderGraphResourceRegistry();
+	
+	l_rootJson[k_renderGraphResourceRegistryJsonKey] = l_renderGraphResourceRegistry.Serialize();
+	l_rootJson[k_constantBufferMapJsonKey]		     = SerializeConstantBuffer (a_frameResource);
 
 	return l_rootJson;
 }

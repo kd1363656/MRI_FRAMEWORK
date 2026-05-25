@@ -46,8 +46,9 @@ namespace FWK::Graphics
 
 		void TransitionPassTexture(const IRenderGraphPass& a_pass, DirectCommandList& a_directCommandList, Renderer& a_renderer);
 
-		void TransitionSceneColorTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, DirectCommandList& a_directCommandList, Renderer& a_renderer);
-
+		bool TransitionRenderTargetTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList);
+		bool TransitionDepthStencilTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList);
+		
 		static constexpr std::uint32_t k_nextRenderGraphPassIndexOffset = 1U;
 		static constexpr std::uint32_t k_emptyRenderGraphPassCount      = 0U;
 		static constexpr std::uint32_t k_noRenderGraphIncomingEdgeCount = 0U;

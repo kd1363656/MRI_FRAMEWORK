@@ -55,7 +55,7 @@ bool FWK::Graphics::RenderGraph::Compile()
 		// このm_sortedPassIndexListが、最終的なRenderGraphの実行順になる
 		m_sortedPassIndexList.emplace_back(l_passIndex);
 
-		// 子のパスが終わることで、次のPassが待っている依存数を一つ減らせる
+		// このPassが終わることで、次のPassが待っている依存数を一つ減らせる
 		for (const auto l_nextPassIndex : l_edgeList[l_passIndex])
 		{
 			--l_inDegreeList[l_nextPassIndex];
@@ -193,7 +193,7 @@ void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::ui
 					
 					if ((!l_isPrevRead && !l_isPrevWrite) || (!l_isNextRead && !l_isNextWrite))
 					{
-						assert(false && "RenderTargetTextureAccessのAccessTagが不正です。");
+						assert(false && "RenderGraphTextureAccessのAccessTagが不正です。");
 						return;
 					}
 
@@ -256,38 +256,60 @@ void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::ui
 
 void FWK::Graphics::RenderGraph::TransitionPassTexture(const IRenderGraphPass& a_pass, DirectCommandList& a_directCommandList, Renderer& a_renderer)
 {
-	for (const auto& l_textureAccess : a_pass.GetREFTextureAccessList())
-	{
-		if (l_textureAccess.m_textureTag == Utility::Tag::GetTag<Tag::SceneColorTextureTag>())
-		{
-			TransitionSceneColorTexture(l_textureAccess, a_directCommandList, a_renderer);
-			continue;
-		}
-
-		assert(false && "未対応のRenderGraphTextureTagが指定されています。");
-		return;
-	}
-}
-
-void FWK::Graphics::RenderGraph::TransitionSceneColorTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, DirectCommandList& a_directCommandList, Renderer& a_renderer)
-{
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
 	if (!l_currentFrameResource)
 	{
-		assert(false && "FrameResourceが無効のため、SceneColorTextureの状態遷移が出来ませんでした。");
+		assert(false && "FrameResourceが無効のため、RenderGraphPass用Textureの状態遷移ができませんでした。");
 		return;
 	}
 
-	const auto& l_sceneTexture = l_currentFrameResource->GetMutableREFSceneTexture();
+	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
 
-	auto l_sceneColorTexture = l_sceneTexture.GetVALFinalSceneTexture().lock();
-
-	if (!l_sceneColorTexture)
+	for (const auto& l_textureAccess : a_pass.GetREFTextureAccessList())
 	{
-		assert(false && "SceneColorTextureが無効のため、状態遷移ができませんでした。");
+		if (TransitionRenderTargetTexture(l_textureAccess, l_renderGraphResourceRegistry, a_directCommandList)) { continue; }
+		if (TransitionDepthStencilTexture(l_textureAccess, l_renderGraphResourceRegistry, a_directCommandList)) { continue; }
+
+		assert(false && "RenderGraphTextureAccessに対応するTextureがRenderGraphResourceRegistryに登録されていません。");
 		return;
 	}
 
-	a_directCommandList.TransitionRenderTargetTexture(*l_sceneColorTexture, a_textureAccess.m_requiredState);
+}
+
+bool FWK::Graphics::RenderGraph::TransitionRenderTargetTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList)
+{
+	const auto& l_renderTargetTextureResourceRecord = a_renderGraphResourceRegistry.FindVALRenderTargetTexture(a_textureAccess.m_textureTag).lock();
+
+	if (!l_renderTargetTextureResourceRecord) { return false; }
+
+	const auto& l_renderTargetTexture = l_renderTargetTextureResourceRecord->m_renderTargetTexture;
+
+	if (!l_renderTargetTexture)
+	{
+		assert(false && "RenderGraph管理RenderTargetTextureが無効のため、状態遷移が出来ませんでした。");
+		return true;
+	}
+
+	a_directCommandList.TransitionRenderTargetTexture(a_textureAccess.m_requiredState, *l_renderTargetTexture);
+
+	return true;
+}
+bool FWK::Graphics::RenderGraph::TransitionDepthStencilTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList)
+{
+	const auto& l_depthStencilTextureResourceRecord = a_renderGraphResourceRegistry.FindVALDepthStencilTexture(a_textureAccess.m_textureTag).lock();
+
+	if (!l_depthStencilTextureResourceRecord) { return false; }
+
+	const auto& l_depthStencilTexture = l_depthStencilTextureResourceRecord->m_depthStencilTexture;
+
+	if (!l_depthStencilTexture)
+	{
+		assert(false && "RenderGraph管理DepthStencilTextureが無効のため、状態遷移が出来ませんでした。");
+		return true;
+	}
+
+	a_directCommandList.TransitionDepthStencilTexture(a_textureAccess.m_requiredState, *l_depthStencilTexture);
+
+	return true;
 }
