@@ -320,6 +320,13 @@
 // 描画コマンドの基底クラスを継承しているかどうかを確認するConcept
 #include "Definition/Concept/IsDerivedBase/Graphics/Renderer/Command/IsDerivedIDrawCommandConcept.h"
 
+// レンダーグラフ構造体
+#include "Definition/Struct/Graphics/Render/Graph/RenderGraphStruct.h"
+
+// レンダーパス
+#include "Graphics/Render/Pass/IRenderGraphPass.h"
+#include "Graphics/Render/Pass/RenderGraphPassBase.h"
+
 // レンダラー
 #include "Converter/Json/Graphics/Render/RendererJsonConverter.h"
 #include "Graphics/Render/Renderer.h"
