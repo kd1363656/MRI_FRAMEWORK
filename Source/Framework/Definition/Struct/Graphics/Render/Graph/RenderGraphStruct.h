@@ -6,6 +6,8 @@ namespace FWK::Struct
 	{
 		TypeAlias::TypeTag m_textureTag = Constant::k_invalidTypeTag;
 
+		TypeAlias::TypeTag m_accessTag = Constant::k_invalidTypeTag;
+
 		D3D12_RESOURCE_STATES m_requiredState = D3D12_RESOURCE_STATE_COMMON;
 	};
 }

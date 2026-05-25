@@ -1,0 +1,59 @@
+﻿#pragma once
+
+namespace FWK::Graphics
+{
+	class RenderGraph final
+	{
+	public:
+
+		 RenderGraph() = default;
+		~RenderGraph() = default;
+
+		void INIT();
+
+		template <typename Type, typename... Args>
+		Type& AddPass(Args&&... a_args)
+		{
+			auto l_pass = std::make_unique<Type>(std::forward<Args>(a_args)...);
+
+			Type& l_passREF = *l_pass;
+
+			m_passList.emplace_back(std::move(l_pass));
+
+			return l_passREF;
+		}
+
+		bool Compile();
+
+		void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
+					 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
+					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+					 const SwapChain&						  a_swapChain,
+					 	   DirectCommandList&				  a_directCommandList,
+					 	   Renderer&						  a_renderer);
+
+	private:
+
+		bool IsReadAccess (const Struct::RenderGraphTextureAccess& a_textureAccess) const;
+		bool IsWriteAccess(const Struct::RenderGraphTextureAccess& a_textureAccess) const;
+
+		void AddDependencyEdge(const std::uint32_t						      a_fromPassIndex, 
+							   const std::uint32_t						      a_toPassIndex,
+									 std::vector<std::vector<std::uint32_t>>& a_edgeList,
+									 std::vector<std::uint32_t>&			  a_inDegreeList) const;
+
+		void BuildDependency(std::vector<std::vector<std::uint32_t>>& a_edgeList, std::vector<std::uint32_t>& a_inDegreeList) const;
+
+		void TransitionPassTexture(const IRenderGraphPass& a_pass, DirectCommandList& a_directCommandList, Renderer& a_renderer);
+
+		void TransitionSceneColorTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, DirectCommandList& a_directCommandList, Renderer& a_renderer);
+
+		static constexpr std::uint32_t k_nextRenderGraphPassIndexOffset = 1U;
+		static constexpr std::uint32_t k_emptyRenderGraphPassCount      = 0U;
+		static constexpr std::uint32_t k_noRenderGraphIncomingEdgeCount = 0U;
+
+		std::vector<std::unique_ptr<IRenderGraphPass>> m_passList = {};
+
+		std::vector<std::uint32_t> m_sortedPassIndexList = {};
+	};
+}

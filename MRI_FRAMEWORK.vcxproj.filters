@@ -733,6 +733,9 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass">
       <UniqueIdentifier>{5a8a0a1f-d138-438b-bad0-7133b1e5bdd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Pass">
+      <UniqueIdentifier>{8f823e4c-06d5-4f31-9b5d-d30b3f981aaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1274,10 +1277,16 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\RenderGraphStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Render\Graph</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Pass\IRenderGraphPass.h">
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Pass\RenderGraphAccessTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h">
+      <Filter>Source\Framework\Graphics\Render\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\IRenderGraphPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Pass\RenderGraphPassBase.h">
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1549,7 +1558,10 @@
     <ClCompile Include="Source\Framework\GameObject\GameObject.cpp">
       <Filter>Source\Framework\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Pass\RenderGraphPassBase.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
     </ClCompile>
   </ItemGroup>
