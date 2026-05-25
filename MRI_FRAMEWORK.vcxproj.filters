@@ -712,6 +712,15 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\RenderTarget">
       <UniqueIdentifier>{c4c71d27-abdb-467f-a6f5-f471d5bb3144}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\DepthStencil">
+      <UniqueIdentifier>{5ef73ba0-7af9-4465-b9b9-4e1d519d973b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Frame">
+      <UniqueIdentifier>{d84c666b-2c00-40e1-992f-e474acc74676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Frame\Scene">
+      <UniqueIdentifier>{23d222e1-1f47-4433-b0f3-9ad513a50219}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1240,6 +1249,12 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\RenderTarget\RenderTargetTextureConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Texture\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\DepthStencil\DepthStencilTextureConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Texture\DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Frame\Scene\SceneTextureStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Render\Frame\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -20,9 +20,9 @@ namespace FWK::Converter
 
 	private:
 
-		const std::string_view k_clearColorJsonKey   = "ClearColor";
-		const std::string_view k_formatJsonKey	     = "Format";
-		const std::string_view k_widthJsonKey	     = "Width";
-		const std::string_view k_heightJsonKey	     = "Height";
+		static constexpr std::string_view k_clearColorJsonKey = "ClearColor";
+		static constexpr std::string_view k_formatJsonKey	  = "Format";
+		static constexpr std::string_view k_widthJsonKey	  = "Width";
+		static constexpr std::string_view k_heightJsonKey	  = "Height";
 	};
 }

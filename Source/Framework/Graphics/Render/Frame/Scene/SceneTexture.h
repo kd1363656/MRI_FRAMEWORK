@@ -28,8 +28,8 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		void AddRenderTargetTexture(const TypeAlias::TypeTag a_typeTag, const std::shared_ptr<RenderTargetTexture>& a_renderTargetTexture);
-		void AddDepthStencilTexture(const TypeAlias::TypeTag a_typeTag, const std::shared_ptr<DepthStencilTexture>& a_depthStencilTexture);
+		void AddRenderTargetTexture(const Struct::SceneRenderTargetTextureRecord& a_renderTargetTextureRecord);
+		void AddDepthStencilTexture(const Struct::SceneDepthStencilTextureRecord& a_depthStencilTextureRecord);
 
 		std::weak_ptr<RenderTargetTexture> FindVALRenderTargetTexture(const TypeAlias::TypeTag a_typeTag) const;
 		std::weak_ptr<DepthStencilTexture> FindVALDepthStencilTexture(const TypeAlias::TypeTag a_typeTag) const;
@@ -37,18 +37,18 @@ namespace FWK::Graphics
 		std::weak_ptr<RenderTargetTexture> GetVALFinalSceneTexture			  () const { return m_finalSceneTexture; }
 		std::weak_ptr<DepthStencilTexture> GetVALFinalSceneDepthStencilTexture() const { return m_finalSceneDepthStencilTexture; }
 		
-		const auto& GetRenderTargetTextureList() const { return m_renderTargetTextureList; }
-		const auto& GetDepthStencilTextureList() const { return m_depthStencilTextureList; }
+		const auto& GetRenderTargetTextureRecordList() const { return m_renderTargetTextureRecordList; }
+		const auto& GetDepthStencilTextureRecordList() const { return m_depthStencilTextureRecordList; }
 
 	private:
 
 		static constexpr DXGI_FORMAT k_defaultSceneColorFormat = Constant::k_defaultSwapChainBackBufferFormat;
 
-		RenderTargetTextureMap m_renderTargetTextureMap = {};
-		DepthStencilTextureMap m_depthStencilTextureMap = {};
+		RenderTargetTextureMap m_renderTargetTextureRecordMap = {};
+		DepthStencilTextureMap m_depthStencilTextureRecordMap = {};
 
-		std::vector<std::shared_ptr<RenderTargetTexture>> m_renderTargetTextureList = {};
-		std::vector<std::shared_ptr<DepthStencilTexture>> m_depthStencilTextureList = {};
+		std::vector<Struct::SceneRenderTargetTextureRecord> m_renderTargetTextureRecordList = {};
+		std::vector<Struct::SceneDepthStencilTextureRecord> m_depthStencilTextureRecordList = {};
 
 		std::shared_ptr<RenderTargetTexture> m_finalSceneTexture		     = nullptr;
 		std::shared_ptr<DepthStencilTexture> m_finalSceneDepthStencilTexture = nullptr;

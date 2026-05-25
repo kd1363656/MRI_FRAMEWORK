@@ -7,11 +7,7 @@ void FWK::Graphics::DepthStencilTexture::Deserialize(const nlohmann::json& a_roo
 	m_depthStencilTextureJsonConverter.Deserialize(a_rootJson, *this);
 }
 
-bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&                  a_device,
-												const GPUMemoryAllocator&                a_gpuMemoryAllocator,
-												const UINT				                 a_width,
-												const UINT				                 a_height, 
-												      DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
+bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device, const GPUMemoryAllocator& a_gpuMemoryAllocator, DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
 	const auto& l_device = a_device.GetREFDevice();
 
@@ -51,8 +47,8 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&         
 
 	// 書き込み用深度テクスチャの作成
 	if (const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_D32_FLOAT,
-															     a_width,
-															     a_height,
+															     m_width,
+															     m_height,
 															     Constant::k_renderTextureDefaultArraySize,
 															     Constant::k_renderTextureDefaultMIPLevels,
 															     Constant::k_renderTextureDefaultSampleCount,
@@ -93,5 +89,5 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&         
 
 nlohmann::json FWK::Graphics::DepthStencilTexture::Serialize() const
 {
-	return 	m_depthStencilTextureJsonConverter.Serialize(*this);;
+	return 	m_depthStencilTextureJsonConverter.Serialize(*this);
 }

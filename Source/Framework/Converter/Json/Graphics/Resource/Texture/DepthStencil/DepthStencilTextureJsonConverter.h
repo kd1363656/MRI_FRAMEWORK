@@ -17,5 +17,10 @@ namespace FWK::Converter
 		void Deserialize(const nlohmann::json& a_rootJson, Graphics::DepthStencilTexture& a_depthStencilTexture) const;
 
 		nlohmann::json Serialize(const Graphics::DepthStencilTexture& a_depthStencilTexture) const;
+
+	private:
+
+		static constexpr std::string_view k_widthJsonKey  = "Width";
+		static constexpr std::string_view k_heightJsonKey = "Height";
 	};
 }

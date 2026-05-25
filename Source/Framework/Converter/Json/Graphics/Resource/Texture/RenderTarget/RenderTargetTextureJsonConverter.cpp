@@ -11,7 +11,7 @@ void FWK::Converter::RenderTargetTextureJsonConverter::Deserialize(const nlohman
 
 	a_renderTargetTexture.SetFormat(a_rootJson.value(k_formatJsonKey, Constant::k_defaultSwapChainBackBufferFormat));
 
-	a_renderTargetTexture.SetWidth (a_rootJson.value(k_heightJsonKey, Constant::k_defaultRenderTextureWidth));
+	a_renderTargetTexture.SetWidth (a_rootJson.value(k_widthJsonKey,  Constant::k_defaultRenderTextureWidth));
 	a_renderTargetTexture.SetHeight(a_rootJson.value(k_heightJsonKey, Constant::k_defaultRenderTextureHeight));
 }
 

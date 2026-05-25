@@ -43,6 +43,7 @@
 #include "Definition/Constant/Graphics/Render/Light/LightSystemConstant.h"
 #include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Texture/RenderTarget/RenderTargetTextureConstant.h"
+#include "Definition/Constant/Graphics/Resource/Texture/DepthStencil/DepthStencilTextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/Constant/ConstantBufferConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/UploadBufferConstant.h"
@@ -286,6 +287,9 @@
 // スワップチェイン
 #include "Converter/Json/Graphics/SwapChain/SwapChainJsonConverter.h"
 #include "Graphics/SwapChain/SwapChain.h"
+
+// シーンテクスチャ用構造体
+#include "Definition/Struct/Graphics/Render/Frame/Scene/SceneTextureStruct.h"
 
 // フレームリソースクラス
 #include "Converter/Json/Graphics/Render/Frame/Scene/SceneTextureJsonConverter.h"
