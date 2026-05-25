@@ -47,8 +47,32 @@
                         }
                     ],
                     "SceneTexture": {
-                        "DepthStencilTextureListRecord": [],
-                        "RenderTargetListRecord": []
+                        "DepthStencilTextureListRecord": [
+                            {
+                                "DepthStencilTexture": {
+                                    "Format": "DXGI_FORMAT_D32_FLOAT",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "DepthStencilTextureTag": "SceneDepthStencilTextureTag"
+                            }
+                        ],
+                        "RenderTargetListRecord": [
+                            {
+                                "RenderTarget": {
+                                    "ClearColor": {
+                                        "W": 0.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTag": "SceneColorTextureTag"
+                            }
+                        ]
                     }
                 }
             },
@@ -87,8 +111,32 @@
                         }
                     ],
                     "SceneTexture": {
-                        "DepthStencilTextureListRecord": [],
-                        "RenderTargetListRecord": []
+                        "DepthStencilTextureListRecord": [
+                            {
+                                "DepthStencilTexture": {
+                                    "Format": "DXGI_FORMAT_D32_FLOAT",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "DepthStencilTextureTag": "SceneDepthStencilTextureTag"
+                            }
+                        ],
+                        "RenderTargetListRecord": [
+                            {
+                                "RenderTarget": {
+                                    "ClearColor": {
+                                        "W": 0.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTag": "SceneColorTextureTag"
+                            }
+                        ]
                     }
                 }
             },
@@ -127,8 +175,32 @@
                         }
                     ],
                     "SceneTexture": {
-                        "DepthStencilTextureListRecord": [],
-                        "RenderTargetListRecord": []
+                        "DepthStencilTextureListRecord": [
+                            {
+                                "DepthStencilTexture": {
+                                    "Format": "DXGI_FORMAT_D32_FLOAT",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "DepthStencilTextureTag": "SceneDepthStencilTextureTag"
+                            }
+                        ],
+                        "RenderTargetListRecord": [
+                            {
+                                "RenderTarget": {
+                                    "ClearColor": {
+                                        "W": 0.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTag": "SceneColorTextureTag"
+                            }
+                        ]
                     }
                 }
             },
@@ -167,8 +239,32 @@
                         }
                     ],
                     "SceneTexture": {
-                        "DepthStencilTextureListRecord": [],
-                        "RenderTargetListRecord": []
+                        "DepthStencilTextureListRecord": [
+                            {
+                                "DepthStencilTexture": {
+                                    "Format": "DXGI_FORMAT_D32_FLOAT",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "DepthStencilTextureTag": "SceneDepthStencilTextureTag"
+                            }
+                        ],
+                        "RenderTargetListRecord": [
+                            {
+                                "RenderTarget": {
+                                    "ClearColor": {
+                                        "W": 0.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTag": "SceneColorTextureTag"
+                            }
+                        ]
                     }
                 }
             }

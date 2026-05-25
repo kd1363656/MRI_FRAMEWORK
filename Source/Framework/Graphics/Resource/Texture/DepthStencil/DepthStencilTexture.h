@@ -26,8 +26,8 @@ namespace FWK::Graphics
 
 		auto GetVALDSVStorageID() const { return m_dsvStorageID; }
 
-		UINT GetWidth () const { return m_width; };
-		UINT GetHeight() const { return m_height; };
+		UINT GetWidth () const { return m_width; }
+		UINT GetHeight() const { return m_height; }
 
 	private:
 	

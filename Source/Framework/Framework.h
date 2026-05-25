@@ -342,6 +342,9 @@
 
 #include "Editor/EditorManager.h"
 
+// ゲームオブジェクト
+#include "GameObject/GameObject.h"
+
 // シーン
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"

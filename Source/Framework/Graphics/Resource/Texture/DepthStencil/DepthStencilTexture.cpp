@@ -46,7 +46,7 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 	//		 リソースフラグ);
 
 	// 書き込み用深度テクスチャの作成
-	if (const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_D32_FLOAT,
+	if (const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(m_format,
 															     m_width,
 															     m_height,
 															     Constant::k_renderTextureDefaultArraySize,

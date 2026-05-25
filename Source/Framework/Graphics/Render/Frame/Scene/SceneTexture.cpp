@@ -84,7 +84,7 @@ bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device,
 		// 高さが0ならウィンドウサイズ安全のためにセットする
 		if (l_renderTargetTexture->GetHeight() == Constant::k_defaultRenderTextureHeight)
 		{
-			l_renderTargetTexture->SetHeight(a_width);
+			l_renderTargetTexture->SetHeight(a_height);
 		}
 
 		if (!l_renderTargetTexture->Create(a_device,
@@ -117,9 +117,8 @@ bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device,
 		// 高さが0ならウィンドウサイズ安全のためにセットする
 		if (l_depthStencilTexture->GetHeight() == Constant::k_defaultDepthStencilTextureHeight)
 		{
-			l_depthStencilTexture->SetHeight(a_width);
+			l_depthStencilTexture->SetHeight(a_height);
 		}
-
 
 		if (!l_depthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool))
 		{

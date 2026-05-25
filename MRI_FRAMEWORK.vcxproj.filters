@@ -721,6 +721,9 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Frame\Scene">
       <UniqueIdentifier>{23d222e1-1f47-4433-b0f3-9ad513a50219}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\GameObject">
+      <UniqueIdentifier>{3421146c-b76a-4dfc-b51e-e6fd55100c0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1256,6 +1259,9 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Frame\Scene\SceneTextureStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Render\Frame\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\GameObject\GameObject.h">
+      <Filter>Source\Framework\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1521,6 +1527,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\Scene\SceneTextureJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Frame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\GameObject\GameObject.cpp">
+      <Filter>Source\Framework\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
