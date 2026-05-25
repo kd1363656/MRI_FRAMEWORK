@@ -31,7 +31,7 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 	// DepthStencil.Stencil : ステンシルバッファをクリアする値
 	D3D12_CLEAR_VALUE l_clearValue = {};
 	
-	l_clearValue.Format				  = DXGI_FORMAT_D32_FLOAT;
+	l_clearValue.Format				  = m_format;
 	l_clearValue.DepthStencil.Depth   = Constant::k_defaultDepthClearValue;
 	l_clearValue.DepthStencil.Stencil = Constant::k_defaultStencilClearValue;
 
@@ -71,7 +71,7 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 	// Flags		 : 通常のDepthStencilViewとして使用する
 	D3D12_DEPTH_STENCIL_VIEW_DESC l_dsvDesc = {};
 
-	l_dsvDesc.Format		= DXGI_FORMAT_D32_FLOAT;
+	l_dsvDesc.Format		= m_format;
 	l_dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	l_dsvDesc.Flags			= D3D12_DSV_FLAG_NONE;
 
@@ -89,5 +89,5 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 
 nlohmann::json FWK::Graphics::DepthStencilTexture::Serialize() const
 {
-	return 	m_depthStencilTextureJsonConverter.Serialize(*this);
+	return m_depthStencilTextureJsonConverter.Serialize(*this);
 }

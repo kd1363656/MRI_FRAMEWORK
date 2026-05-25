@@ -46,6 +46,7 @@ namespace FWK::Graphics
 		const auto& GetREFSceneTexture			() const { return m_sceneTexture; }
 
 		auto& GetMutableREFDirectCommandAllocator() { return m_directCommandAllocator; }
+		auto& GetMutableREFSceneTexture		     () { return m_sceneTexture; }
 
 	private:
 

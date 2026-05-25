@@ -15,10 +15,14 @@ namespace FWK::Graphics
 	
 		nlohmann::json Serialize() const;
 
+		void SetFormat(const DXGI_FORMAT a_set) { m_format = a_set; }
+
 		void SetWidth (const UINT a_set) { m_width  = a_set; }
 		void SetHeight(const UINT a_set) { m_height = a_set; }
 
 		const auto& GetREFGPUResource() const { return m_gpuResource; }
+
+		auto GetFormat() const { return m_format; }
 
 		auto GetVALDSVStorageID() const { return m_dsvStorageID; }
 
@@ -30,6 +34,8 @@ namespace FWK::Graphics
 		Converter::DepthStencilTextureJsonConverter m_depthStencilTextureJsonConverter = {};
 
 		Struct::GPUResource m_gpuResource = {};
+
+		DXGI_FORMAT m_format = Constant::k_defaultDepthStencilTextureFormat;
 
 		TypeAlias::StorageID m_dsvStorageID = Constant::k_invalidStorageID;
 

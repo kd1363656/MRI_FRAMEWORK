@@ -6,8 +6,8 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using RenderTargetTextureMap = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<RenderTargetTexture>>;
-		using DepthStencilTextureMap = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<DepthStencilTexture>>;
+		using RenderTargetTextureRecordMap = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<RenderTargetTexture>>;
+		using DepthStencilTextureRecordMap = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<DepthStencilTexture>>;
 
 	public:
 
@@ -42,10 +42,8 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr DXGI_FORMAT k_defaultSceneColorFormat = Constant::k_defaultSwapChainBackBufferFormat;
-
-		RenderTargetTextureMap m_renderTargetTextureRecordMap = {};
-		DepthStencilTextureMap m_depthStencilTextureRecordMap = {};
+		RenderTargetTextureRecordMap m_renderTargetTextureRecordMap = {};
+		DepthStencilTextureRecordMap m_depthStencilTextureRecordMap = {};
 
 		std::vector<Struct::SceneRenderTargetTextureRecord> m_renderTargetTextureRecordList = {};
 		std::vector<Struct::SceneDepthStencilTextureRecord> m_depthStencilTextureRecordList = {};

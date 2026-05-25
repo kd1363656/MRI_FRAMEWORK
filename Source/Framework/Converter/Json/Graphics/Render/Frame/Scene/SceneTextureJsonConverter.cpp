@@ -8,6 +8,11 @@ void FWK::Converter::SceneTextureJsonConverter::Deserialize(const nlohmann::json
 	{
 		DeserializeRenderTargetTextureRecord(a_rootJson[k_renderTargetTextureRecordListJsonKey], a_sceneTexture);
 	}
+
+	if (a_rootJson.contains(k_depthStencilTextureRecordListJsonKey))
+	{
+		DeserializeDepthStencilTextureRecord(a_rootJson[k_depthStencilTextureRecordListJsonKey], a_sceneTexture);
+	}
 }
 
 nlohmann::json FWK::Converter::SceneTextureJsonConverter::Serialize(const Graphics::SceneTexture& a_sceneTexture) const
@@ -25,7 +30,7 @@ void FWK::Converter::SceneTextureJsonConverter::DeserializeRenderTargetTextureRe
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
-	for(const auto& l_json : a_rootJson)
+	for (const auto& l_json : a_rootJson)
 	{
 		const auto l_tag = Utility::Json::DeserializeTag(l_json, k_renderTargetTextureTagJsonKey);
 
@@ -43,8 +48,12 @@ void FWK::Converter::SceneTextureJsonConverter::DeserializeRenderTargetTextureRe
 
 		Struct::SceneRenderTargetTextureRecord l_sceneRenderTargetTextureRecord = {};
 		
-		l_sceneRenderTargetTextureRecord.m_renderTargetTexture = std::make_shared<Graphics::RenderTargetTexture>();
-		l_sceneRenderTargetTextureRecord.m_typeTag			   = l_tag;
+		auto& l_renderTargetTexture = l_sceneRenderTargetTextureRecord.m_renderTargetTexture;
+
+		l_renderTargetTexture				       = std::make_shared<Graphics::RenderTargetTexture>();
+		l_sceneRenderTargetTextureRecord.m_typeTag = l_tag;
+
+		l_sceneRenderTargetTextureRecord.m_renderTargetTexture->Deserialize(l_json[k_renderTargetTextureJsonKey]);
 
 		a_sceneTexture.AddRenderTargetTexture(l_sceneRenderTargetTextureRecord);
 	}
@@ -54,26 +63,30 @@ void FWK::Converter::SceneTextureJsonConverter::DeserializeDepthStencilTextureRe
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
-	for(const auto& l_json : a_rootJson)
+	for (const auto& l_json : a_rootJson)
 	{
-		const auto l_tag = Utility::Json::DeserializeTag(l_json, k_renderTargetTextureTagJsonKey);
+		const auto l_tag = Utility::Json::DeserializeTag(l_json, k_depthStencilTextureTagJsonKey);
 
 		if (l_tag == Constant::k_invalidTypeTag)
 		{
-			assert(false && "RenderTargetTexture用TypeTagの取得に失敗しました。");
+			assert(false && "DepthStencilTexture用TypeTagの取得に失敗しました。");
 			continue;
 		}
-
-		if (!l_json.contains(k_depthStencilTextureTagJsonKey))
+		
+		if (!l_json.contains(k_depthStencilTextureJsonKey))
 		{
-			assert(false && "RenderTargetTextureのJsonが存在しません。");
+			assert(false && "DepthStencilTextureのJsonが存在しません。");
 			continue;
 		}
 
 		Struct::SceneDepthStencilTextureRecord l_sceneDepthStencilTextureRecord = {};
 		
-		l_sceneDepthStencilTextureRecord.m_depthStencilTexture = std::make_shared<Graphics::DepthStencilTexture>();
-		l_sceneDepthStencilTextureRecord.m_typeTag			   = l_tag;
+		auto& l_depthStencilTexture = l_sceneDepthStencilTextureRecord.m_depthStencilTexture;
+
+		l_depthStencilTexture					   = std::make_shared<Graphics::DepthStencilTexture>();
+		l_sceneDepthStencilTextureRecord.m_typeTag = l_tag;
+
+		l_sceneDepthStencilTextureRecord.m_depthStencilTexture->Deserialize(l_json[k_depthStencilTextureJsonKey]);
 
 		a_sceneTexture.AddDepthStencilTexture(l_sceneDepthStencilTextureRecord);
 	}
@@ -103,16 +116,16 @@ nlohmann::json FWK::Converter::SceneTextureJsonConverter::SerializeDepthStencilT
 {
 	auto l_rootJsonArray = nlohmann::json::array();
 
-	for (const auto& l_sceneDepthStencilTextureRecord : a_sceneTexture.GetRenderTargetTextureRecordList())
+	for (const auto& l_sceneDepthStencilTextureRecord : a_sceneTexture.GetDepthStencilTextureRecordList())
 	{
-		auto& l_depthStencilTexture = l_sceneDepthStencilTextureRecord.m_renderTargetTexture;
+		auto& l_depthStencilTexture = l_sceneDepthStencilTextureRecord.m_depthStencilTexture;
 
 		if (!l_depthStencilTexture) { continue; }
 
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_sceneDepthStencilTextureRecord.m_typeTag, k_renderTargetTextureTagJsonKey));
-		l_json[k_renderTargetTextureJsonKey] = l_depthStencilTexture->Serialize();
+		Utility::Json::UpdateJson(l_json, Utility::Json::SerializeTag(l_sceneDepthStencilTextureRecord.m_typeTag, k_depthStencilTextureTagJsonKey));
+		l_json[k_depthStencilTextureJsonKey] = l_depthStencilTexture->Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);
 	}

@@ -64,6 +64,70 @@ bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device,
 		return false;
 	}
 
+	// マルチパスレンダリング用レンダーターゲットテクスチャの作成
+	for (const auto& l_renderTargetTextureRecord : m_renderTargetTextureRecordList)
+	{
+		auto& l_renderTargetTexture = l_renderTargetTextureRecord.m_renderTargetTexture;
+
+		if (!l_renderTargetTexture)
+		{
+			assert(false && "SceneTexture管理RenderTargetTextureがnullptrです。");
+			return false;
+		}
+
+		// 幅が0ならウィンドウサイズを安全のためにセットする
+		if (l_renderTargetTexture->GetWidth() == Constant::k_defaultRenderTextureWidth)
+		{
+			l_renderTargetTexture->SetWidth(a_width);
+		}
+
+		// 高さが0ならウィンドウサイズ安全のためにセットする
+		if (l_renderTargetTexture->GetHeight() == Constant::k_defaultRenderTextureHeight)
+		{
+			l_renderTargetTexture->SetHeight(a_width);
+		}
+
+		if (!l_renderTargetTexture->Create(a_device,
+										   a_gpuMemoryAllocator,
+										   a_rtvDescriptorPool,
+										   a_srvDescriptorPool))
+		{
+			assert(false && "SceneTexture管理RenderTargetTextureの作成に失敗しました。");
+			return false;
+		}
+	}
+
+	// マルチパスレンダリング用デプスステンシルテクスチャの作成
+	for (const auto& l_depthStencilTextureRecord : m_depthStencilTextureRecordList)
+	{
+		auto& l_depthStencilTexture = l_depthStencilTextureRecord.m_depthStencilTexture;
+
+		if (!l_depthStencilTexture)
+		{
+			assert(false && "SceneTexture管理DepthStencilTextureがnullptrです。");
+			return false;
+		}
+
+		// 幅が0ならウィンドウサイズを安全のためにセットする
+		if (l_depthStencilTexture->GetWidth() == Constant::k_defaultDepthStencilTextureWidth)
+		{
+			l_depthStencilTexture->SetWidth(a_width);
+		}
+
+		// 高さが0ならウィンドウサイズ安全のためにセットする
+		if (l_depthStencilTexture->GetHeight() == Constant::k_defaultDepthStencilTextureHeight)
+		{
+			l_depthStencilTexture->SetHeight(a_width);
+		}
+
+
+		if (!l_depthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool))
+		{
+			assert(false && "SceneTexture管理DepthStencilTextureの作成に失敗しました。");
+			return false;
+		}
+	}
+
 	return true;
 }
 

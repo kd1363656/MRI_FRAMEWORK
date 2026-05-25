@@ -45,7 +45,11 @@
                             },
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
-                    ]
+                    ],
+                    "SceneTexture": {
+                        "DepthStencilTextureListRecord": [],
+                        "RenderTargetListRecord": []
+                    }
                 }
             },
             {
@@ -81,7 +85,11 @@
                             },
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
-                    ]
+                    ],
+                    "SceneTexture": {
+                        "DepthStencilTextureListRecord": [],
+                        "RenderTargetListRecord": []
+                    }
                 }
             },
             {
@@ -117,7 +125,51 @@
                             },
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         }
-                    ]
+                    ],
+                    "SceneTexture": {
+                        "DepthStencilTextureListRecord": [],
+                        "RenderTargetListRecord": []
+                    }
+                }
+            },
+            {
+                "FrameResource": {
+                    "ConstantBufferMap": [
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "SpritePassConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 10
+                            },
+                            "ConstantBufferTypeName": "CameraConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferTypeName": "LightConstantBuffer"
+                        },
+                        {
+                            "ConstantBuffer": {
+                                "CreateConstantBufferNUM": 1024
+                            },
+                            "ConstantBufferTypeName": "ModelObjectConstantBuffer"
+                        }
+                    ],
+                    "SceneTexture": {
+                        "DepthStencilTextureListRecord": [],
+                        "RenderTargetListRecord": []
+                    }
                 }
             }
         ],
@@ -801,7 +853,7 @@
             }
         },
         "UploadSystem": {
-            "CopyCommandAllocatorListSize": 3
+            "CopyCommandAllocatorListSize": 4
         }
     },
     "SwapChain": {

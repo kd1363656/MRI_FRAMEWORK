@@ -20,6 +20,7 @@ namespace FWK::Converter
 
 	private:
 
+		static constexpr std::string_view k_formatJsonKey = "Format";
 		static constexpr std::string_view k_widthJsonKey  = "Width";
 		static constexpr std::string_view k_heightJsonKey = "Height";
 	};
