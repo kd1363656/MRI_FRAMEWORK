@@ -709,6 +709,9 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Frame\Scene">
       <UniqueIdentifier>{a9ed6f61-8121-4792-9952-c0da4e178c67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\RenderTarget">
+      <UniqueIdentifier>{c4c71d27-abdb-467f-a6f5-f471d5bb3144}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1234,6 +1237,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\Scene\SceneTextureJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Frame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\RenderTarget\RenderTargetTextureConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Texture\RenderTarget</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

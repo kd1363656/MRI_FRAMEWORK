@@ -8,17 +8,10 @@ void FWK::Graphics::RenderTargetTexture::Deserialize(const nlohmann::json& a_roo
 }
 
 bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device,
-												const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
-												const DXGI_FORMAT						 a_format, 
-												const UINT								 a_width, 
-												const UINT								 a_height,		
+												const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 		
 													  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool, 
 													  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
-	m_width  = a_width;
-	m_height = a_height;
-	m_format = a_format;
-
 	// D3D12_CLEAR_VALUEについて
 	// Format   : クリア対象リソースのフォーマット
 	// Color[0] : Rのクリア値

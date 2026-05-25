@@ -26,6 +26,27 @@ namespace FWK::Utility::Json
 		return a_json[a_key].is_array();
 	}
 
+	inline TypeAlias::Math::Color DeserializeColor(const nlohmann::json& a_json) 
+	{
+		return TypeAlias::Math::Color    
+		{ 
+			a_json.value("X", 0.0f), 
+			a_json.value("Y", 0.0f), 
+			a_json.value("Z", 0.0f),
+			a_json.value("W", 0.0F)
+		}; 
+	}
+	inline nlohmann::json SerializeColor(const TypeAlias::Math::Color& a_color) 
+	{ 
+		return nlohmann::json
+		{ 
+			{"X" , a_color.x }, 
+			{"Y" , a_color.y }, 
+			{"Z" , a_color.z },
+			{"W" , a_color.w }
+		}; 
+	}
+
 	inline TypeAlias::TypeTag DeserializeTag(const nlohmann::json& a_json, const std::string_view& a_key)
 	{
 		if (a_json.is_null()) { return Constant::k_invalidStaticTypeID; }

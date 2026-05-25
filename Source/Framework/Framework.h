@@ -29,7 +29,7 @@
 #include "Definition/Enum/Type/Trait/PTR/TypeTraitPTREnum.h"
 #include "Definition/Enum/Graphics/Resource/Texture/DefaultTextureTypeEnum.h"
 
-// Graphics関係の定数
+// 定数
 #include "Definition/Constant/Graphics/GraphicsConstant.h"
 #include "Definition/Constant/Graphics/Command/CommandConstant.h"
 #include "Definition/Constant/Graphics/Command/Queue/Fence/FenceConstant.h"
@@ -42,6 +42,7 @@
 #include "Definition/Constant/Graphics/Render/Pipeline/PipelineStateConstant.h"
 #include "Definition/Constant/Graphics/Render/Light/LightSystemConstant.h"
 #include "Definition/Constant/Graphics/Resource/Texture/TextureConstant.h"
+#include "Definition/Constant/Graphics/Resource/Texture/RenderTarget/RenderTargetTextureConstant.h"
 #include "Definition/Constant/Graphics/Resource/Heap/HeapConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/Constant/ConstantBufferConstant.h"
 #include "Definition/Constant/Graphics/Resource/Buffer/UploadBufferConstant.h"
