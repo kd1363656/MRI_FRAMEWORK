@@ -59,7 +59,7 @@
                         ],
                         "RenderTargetListRecord": [
                             {
-                                "RenderTarget": {
+                                "RenderTargetTexture": {
                                     "ClearColor": {
                                         "W": 1.0,
                                         "X": 1.0,
@@ -70,7 +70,7 @@
                                     "Height": 720,
                                     "Width": 1280
                                 },
-                                "RenderTargetTag": "SceneColorTextureTag"
+                                "RenderTargetTextureTag": "SceneColorTextureTag"
                             }
                         ]
                     }
@@ -123,7 +123,7 @@
                         ],
                         "RenderTargetListRecord": [
                             {
-                                "RenderTarget": {
+                                "RenderTargetTexture": {
                                     "ClearColor": {
                                         "W": 1.0,
                                         "X": 1.0,
@@ -134,7 +134,7 @@
                                     "Height": 720,
                                     "Width": 1280
                                 },
-                                "RenderTargetTag": "SceneColorTextureTag"
+                                "RenderTargetTextureTag": "SceneColorTextureTag"
                             }
                         ]
                     }
@@ -187,7 +187,7 @@
                         ],
                         "RenderTargetListRecord": [
                             {
-                                "RenderTarget": {
+                                "RenderTargetTexture": {
                                     "ClearColor": {
                                         "W": 1.0,
                                         "X": 1.0,
@@ -198,7 +198,7 @@
                                     "Height": 720,
                                     "Width": 1280
                                 },
-                                "RenderTargetTag": "SceneColorTextureTag"
+                                "RenderTargetTextureTag": "SceneColorTextureTag"
                             }
                         ]
                     }
@@ -251,7 +251,7 @@
                         ],
                         "RenderTargetListRecord": [
                             {
-                                "RenderTarget": {
+                                "RenderTargetTexture": {
                                     "ClearColor": {
                                         "W": 1.0,
                                         "X": 1.0,
@@ -262,7 +262,7 @@
                                     "Height": 720,
                                     "Width": 1280
                                 },
-                                "RenderTargetTag": "SceneColorTextureTag"
+                                "RenderTargetTextureTag": "SceneColorTextureTag"
                             }
                         ]
                     }

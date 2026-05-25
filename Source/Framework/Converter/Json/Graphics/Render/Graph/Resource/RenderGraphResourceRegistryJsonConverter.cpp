@@ -1,6 +1,6 @@
 ﻿#include "RenderGraphResourceRegistryJsonConverter.h"
 
-void FWK::Converter::RenderGraphResourceRegistryConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+void FWK::Converter::RenderGraphResourceRegistryJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
 {
 	if (a_rootJson.is_null()) { return; }
 
@@ -15,7 +15,7 @@ void FWK::Converter::RenderGraphResourceRegistryConverter::Deserialize(const nlo
 	}
 }
 
-nlohmann::json FWK::Converter::RenderGraphResourceRegistryConverter::Serialize(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+nlohmann::json FWK::Converter::RenderGraphResourceRegistryJsonConverter::Serialize(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
 {
 	nlohmann::json l_rootJson = {};
 
@@ -25,7 +25,7 @@ nlohmann::json FWK::Converter::RenderGraphResourceRegistryConverter::Serialize(c
 	return l_rootJson;
 }
 
-void FWK::Converter::RenderGraphResourceRegistryConverter::DeserializeRenderTargetTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+void FWK::Converter::RenderGraphResourceRegistryJsonConverter::DeserializeRenderTargetTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
 {
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
@@ -56,14 +56,14 @@ void FWK::Converter::RenderGraphResourceRegistryConverter::DeserializeRenderTarg
 		a_renderGraphResourceRegistry.AddRenderTargetTexture(l_renderTargetTextureResourceRecord);
 	}
 }
-void FWK::Converter::RenderGraphResourceRegistryConverter::DeserializeDepthStencilTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+void FWK::Converter::RenderGraphResourceRegistryJsonConverter::DeserializeDepthStencilTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
 {
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
 	for (const auto& l_json : a_rootJson)
 	{
-		const auto l_textureTag = Utility::Json::DeserializeTag(l_json, k_depthStencilTextureJsonKey);
+		const auto l_textureTag = Utility::Json::DeserializeTag(l_json, k_depthStencilTextureTagJsonKey);
 
 		if (l_textureTag == Constant::k_invalidTypeTag)
 		{
@@ -88,7 +88,7 @@ void FWK::Converter::RenderGraphResourceRegistryConverter::DeserializeDepthStenc
 	}
 }
 
-nlohmann::json FWK::Converter::RenderGraphResourceRegistryConverter::SerializeRenderTargetTextureRecord(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+nlohmann::json FWK::Converter::RenderGraphResourceRegistryJsonConverter::SerializeRenderTargetTextureRecord(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
 {
 	auto l_rootJsonArray = nlohmann::json::array();
 
@@ -111,7 +111,7 @@ nlohmann::json FWK::Converter::RenderGraphResourceRegistryConverter::SerializeRe
 
 	return l_rootJsonArray;
 }
-nlohmann::json FWK::Converter::RenderGraphResourceRegistryConverter::SerializeDepthStencilTextureRecord(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+nlohmann::json FWK::Converter::RenderGraphResourceRegistryJsonConverter::SerializeDepthStencilTextureRecord(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
 {
 	auto l_rootJsonArray = nlohmann::json::array();
 

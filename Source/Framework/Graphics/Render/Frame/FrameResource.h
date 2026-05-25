@@ -43,11 +43,9 @@ namespace FWK::Graphics
 		const auto& GetREFConstantBufferMap() const { return m_constantBufferMap; }
 
 		const auto& GetREFDirectCommandAllocator     () const { return m_directCommandAllocator; }
-		const auto& GetREFSceneTexture			     () const { return m_sceneTexture; }
 		const auto& GetREFRenderGraphResourceRegistry() const { return m_renderGraphResourceRegistry; }
 
 		auto& GetMutableREFDirectCommandAllocator     () { return m_directCommandAllocator; }
-		auto& GetMutableREFSceneTexture		          () { return m_sceneTexture; }
 		auto& GetMutableREFRenderGraphResourceRegistry() { return m_renderGraphResourceRegistry; }
 
 	private:
@@ -55,8 +53,6 @@ namespace FWK::Graphics
 		std::shared_ptr<DirectCommandAllocator> m_directCommandAllocator = nullptr;
 
 		ConstantBufferMap m_constantBufferMap = {};
-
-		SceneTexture m_sceneTexture = {};
 
 		RenderGraphResourceRegistry m_renderGraphResourceRegistry = {};
 

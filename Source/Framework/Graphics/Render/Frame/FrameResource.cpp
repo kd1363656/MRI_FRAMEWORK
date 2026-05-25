@@ -6,8 +6,6 @@ void FWK::Graphics::FrameResource::INIT()
 
 	m_directCommandAllocator = std::make_shared<DirectCommandAllocator>();
 
-	m_sceneTexture.INIT();
-
 	m_renderGraphResourceRegistry.INIT();
 }
 void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
@@ -52,18 +50,6 @@ bool FWK::Graphics::FrameResource::Create(const Device&			                   a_d
 											  a_dsvDescriptorPool))
 	{
 		assert(false && "FrameResource用RenderGraphResourceRegistryの作成に失敗しました。");
-		return false;
-	}
-
-	if (!m_sceneTexture.Create(a_device,
-							   a_gpuMemoryAllocator,
-							   a_width,
-							   a_height,
-							   a_rtvDescriptorPool,
-							   a_srvDescriptorPool,
-							   a_dsvDescriptorPool))
-	{
-		assert(false && "FrameResource用SceneTextureの作成に失敗しました。");
 		return false;
 	}
 

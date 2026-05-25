@@ -4,13 +4,6 @@ void FWK::Converter::FrameResourceJsonConverter::Deserialize(const nlohmann::jso
 {
 	if (a_rootJson.is_null()) { return; }
 
-	if (a_rootJson.contains(k_sceneTextureJsonKey))
-	{
-		auto& l_sceneTexture = a_frameResource.GetMutableREFSceneTexture();
-
-		l_sceneTexture.Deserialize(a_rootJson[k_sceneTextureJsonKey]);
-	}
-
 	if (a_rootJson.contains(k_renderGraphResourceRegistryJsonKey))
 	{
 		auto& l_renderGraphResourceRegistry = a_frameResource.GetMutableREFRenderGraphResourceRegistry();

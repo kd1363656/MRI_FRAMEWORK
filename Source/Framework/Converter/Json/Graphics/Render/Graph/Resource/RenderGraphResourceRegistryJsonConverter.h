@@ -7,12 +7,12 @@ namespace FWK::Graphics
 
 namespace FWK::Converter
 {
-	class RenderGraphResourceRegistryConverter
+	class RenderGraphResourceRegistryJsonConverter
 	{
 	public:
 		
-		 RenderGraphResourceRegistryConverter() = default;
-		~RenderGraphResourceRegistryConverter() = default;
+		 RenderGraphResourceRegistryJsonConverter() = default;
+		~RenderGraphResourceRegistryJsonConverter() = default;
 
 		void Deserialize(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const;
 
@@ -29,10 +29,10 @@ namespace FWK::Converter
 		static constexpr std::string_view k_renderTargetTextureRecordListJsonKey = "RenderTargetListRecord";
 		static constexpr std::string_view k_depthStencilTextureRecordListJsonKey = "DepthStencilTextureListRecord";
 
-		static constexpr std::string_view k_renderTargetTextureTagJsonKey = "RenderTargetTag";
+		static constexpr std::string_view k_renderTargetTextureTagJsonKey = "RenderTargetTextureTag";
 		static constexpr std::string_view k_depthStencilTextureTagJsonKey = "DepthStencilTextureTag";
 
-		static constexpr std::string_view k_renderTargetTextureJsonKey = "RenderTarget";
+		static constexpr std::string_view k_renderTargetTextureJsonKey = "RenderTargetTexture";
 		static constexpr std::string_view k_depthStencilTextureJsonKey = "DepthStencilTexture";
 	};
 }
