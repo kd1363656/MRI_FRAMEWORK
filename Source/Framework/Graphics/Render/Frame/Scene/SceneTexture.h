@@ -9,6 +9,10 @@ namespace FWK::Graphics
 		 SceneTexture() = default;
 		~SceneTexture() = default;
 
+		void INIT();
+
+		void Deserialize(const nlohmann::json& a_rootJson);
+
 		bool Create(const Device&							 a_device, 
 					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
 					const UINT								 a_width,
@@ -17,14 +21,18 @@ namespace FWK::Graphics
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
-		std::weak_ptr<RenderTargetTexture> GetVALSceneColorTexture		 () const { return m_sceneColorTexture; }
-		std::weak_ptr<DepthStencilTexture> GetVALSceneDepthStencilTexture() const { return m_sceneDepthStencilTexture; }
+		nlohmann::json Serialize() const;
+
+		std::weak_ptr<RenderTargetTexture> GetVALFinalSceneTexture			  () const { return m_finalSceneTexture; }
+		std::weak_ptr<DepthStencilTexture> GetVALFinalSceneDepthStencilTexture() const { return m_finalSceneDepthStencilTexture; }
 		
 	private:
 
-		static constexpr DXGI_FORMAT k_defaultSceneColorFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+		static constexpr DXGI_FORMAT k_defaultSceneColorFormat = Constant::k_defaultSwapChainBackBufferFormat;
 
-		std::shared_ptr<RenderTargetTexture> m_sceneColorTexture		= nullptr;
-		std::shared_ptr<DepthStencilTexture> m_sceneDepthStencilTexture = nullptr;
+		std::shared_ptr<RenderTargetTexture> m_finalSceneTexture		     = nullptr;
+		std::shared_ptr<DepthStencilTexture> m_finalSceneDepthStencilTexture = nullptr;
+
+		Converter::SceneTextureJsonConverter m_sceneTextureJsonConverter = {};
 	};
 }

@@ -9,13 +9,17 @@ namespace FWK::Graphics
 		 RenderTargetTexture() = default;
 		~RenderTargetTexture() = default;
 
-		bool Create(const Device&			  a_device,
-				    const GPUMemoryAllocator& a_gpuMemoryAllocator,	
+		void Deserialize(const nlohmann::json& a_rootJson);
+
+		bool Create(const Device&			  a_device, 
+					const GPUMemoryAllocator& a_gpuMemoryAllocator,
 					const DXGI_FORMAT		  a_format,
 					const UINT				  a_width,
 					const UINT				  a_height,
 						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
+
+		nlohmann::json Serialize() const;
 
 		void SetCurrentResourceState(const D3D12_RESOURCE_STATES a_set) { m_currentResourceState = a_set; }
 
@@ -38,6 +42,8 @@ namespace FWK::Graphics
 		static constexpr UINT k_clearValueIndexG = 1U;
 		static constexpr UINT k_clearValueIndexB = 2U;
 		static constexpr UINT k_clearValueIndexA = 3U;
+
+		Converter::RenderTargetTextureJsonConverter m_renderTargetTextureJsonConverter = {};
 
 		TypeAlias::Math::Color m_clearColor = Constant::k_renderTargetDefaultClearColor;
 

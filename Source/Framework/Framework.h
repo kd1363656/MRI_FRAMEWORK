@@ -259,7 +259,9 @@
 #include "Graphics/Resource/Texture/Builder/DefaultTextureBuilder.h"
 #include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
 #include "Graphics/Resource/Texture/Releaser/TextureRecordReleaser.h"
+#include "Converter/Json/Graphics/Resource/Texture/DepthStencil/DepthStencilTextureJsonConverter.h"
 #include "Graphics/Resource/Texture/DepthStencil/DepthStencilTexture.h"
+#include "Converter/Json/Graphics/Resource/Texture/RenderTarget/RenderTargetTextureJsonConverter.h"
 #include "Graphics/Resource/Texture/RenderTarget/RenderTargetTexture.h"
 #include "Graphics/Resource/Texture/TextureSystem.h"
 #include "Graphics/Resource/Texture/Texture.h"
@@ -285,8 +287,9 @@
 #include "Graphics/SwapChain/SwapChain.h"
 
 // フレームリソースクラス
-#include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
+#include "Converter/Json/Graphics/Render/Frame/Scene/SceneTextureJsonConverter.h"
 #include "Graphics/Render/Frame/Scene/SceneTexture.h"
+#include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
 // レンダーエリアクラス

@@ -1,6 +1,13 @@
 ﻿#include "RenderTargetTexture.h"
 
-bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device, 
+void FWK::Graphics::RenderTargetTexture::Deserialize(const nlohmann::json& a_rootJson)
+{
+	if (a_rootJson.is_null()) { return; }
+
+	m_renderTargetTextureJsonConverter.Deserialize(a_rootJson, *this);
+}
+
+bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device,
 												const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
 												const DXGI_FORMAT						 a_format, 
 												const UINT								 a_width, 
@@ -8,14 +15,6 @@ bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device,
 													  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool, 
 													  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
 {
-	const auto& l_device = a_device.GetREFDevice();
-
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、RenderTargetTextureの作成に失敗しました。");
-		return false;
-	}
-
 	m_width  = a_width;
 	m_height = a_height;
 	m_format = a_format;
@@ -76,6 +75,11 @@ bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device,
 	}
 
 	return true;
+}
+
+nlohmann::json FWK::Graphics::RenderTargetTexture::Serialize() const
+{
+	return m_renderTargetTextureJsonConverter.Serialize(*this);
 }
 
 bool FWK::Graphics::RenderTargetTexture::CreateRenderTargetView(const Device& a_device, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)

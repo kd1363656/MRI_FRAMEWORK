@@ -6,7 +6,7 @@ namespace FWK::Editor
 	{
 	public:
 
-		void Init(const HWND& a_hwnd);
+		void INIT(const HWND& a_hwnd);
 
 		void DrawEditor();
 

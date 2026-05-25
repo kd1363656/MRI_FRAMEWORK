@@ -225,7 +225,7 @@ if "$(Configuration)"=="Debug" (
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\Library\DXCCompiler\LIB\$(Configuration);..\Library\DirectXTEX\LIB\$(Configuration);..\Library\D3D12MA\LIB\$(Configuration);..\Library\DirectXTK12\LIB\$(Configuration);..\Library\IMGUI\LIB\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;imguid.lib;D3D12MAd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;D3D12MAd.lib;imguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\BIN\$(Configuration)"
@@ -294,7 +294,7 @@ if "$(Configuration)"=="Debug" (
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\Library\DXCCompiler\LIB\$(Configuration);..\Library\DirectXTEX\LIB\$(Configuration);..\Library\D3D12MA\LIB\$(Configuration);..\Library\DirectXTK12\LIB\$(Configuration);..\Library\IMGUI\LIB\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;imguid.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxcompiler.lib;DirectXTex.lib;DirectXTK12.lib;imgui.lib;D3D12MA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>set "DXC_BIN_DIR=$(ProjectDir)..\Library\DXCCompiler\BIN\$(Configuration)"
@@ -347,15 +347,6 @@ if "$(Configuration)"=="Debug" (
     <Text Include="Documents\CodingConventions.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Library\IMGUI\INC\imconfig.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_dx12.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui_impl_win32.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui_internal.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imgui_stdlib.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imstb_rectpack.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imstb_textedit.h" />
-    <ClInclude Include="..\Library\IMGUI\INC\imstb_truetype.h" />
     <ClInclude Include="..\Library\UFBX\ufbx.h" />
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Framework\Converter\Binary\BinaryFileConverterBase.h" />
@@ -363,6 +354,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\Scene\SceneTextureJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature\RootSignatureJsonConverter.h" />
@@ -530,11 +522,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\PCH.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Library\IMGUI\INC\imgui.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_demo.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_draw.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_tables.cpp" />
-    <ClCompile Include="..\Library\IMGUI\INC\imgui_widgets.cpp" />
     <ClCompile Include="..\Library\UFBX\ufbx.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)UFBX\%(Filename).obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)UFBX\%(Filename).obj</ObjectFileName>
@@ -545,6 +532,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\Scene\SceneTextureJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RootSignature\RootSignatureJsonConverter.cpp" />

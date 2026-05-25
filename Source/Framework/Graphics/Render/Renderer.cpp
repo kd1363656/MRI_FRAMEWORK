@@ -123,18 +123,18 @@ void FWK::Graphics::Renderer::BeginDraw(const RTVDescriptorHeap& a_rtvDescriptor
 		return;
 	}
 
-	const auto& l_sceneTexture	    = l_currentFrameResource->GetREFSceneTexture();
-	const auto& l_sceneColorTexture = l_sceneTexture.GetVALSceneColorTexture    ().lock();
+	const auto& l_sceneTexture		= l_currentFrameResource->GetREFSceneTexture();
+	const auto& l_finalSceneTexture = l_sceneTexture.GetVALFinalSceneTexture	().lock();
 
-	if (!l_sceneColorTexture)
+	if (!l_finalSceneTexture)
 	{
-		assert(false && "SceneColorTextureが無効のため、描画開始処理を行うことができませんでした。");
+		assert(false && "SceneTextureが無効のため、描画開始処理を行うことができませんでした。");
 		return;
 	}
 
-	const auto& l_sceneDepthStencilTexture = l_sceneTexture.GetVALSceneDepthStencilTexture().lock();
+	const auto& l_finalSceneDepthStencilTexture = l_sceneTexture.GetVALFinalSceneDepthStencilTexture().lock();
 
-	if (!l_sceneDepthStencilTexture)
+	if (!l_finalSceneDepthStencilTexture)
 	{
 		assert(false && "SceneDepthStencilTextureが無効のため、描画開始処理を行うことができませんでした。");
 		return;
@@ -148,13 +148,13 @@ void FWK::Graphics::Renderer::BeginDraw(const RTVDescriptorHeap& a_rtvDescriptor
 	m_directCommandList.Reset(*l_commandAllocator);
 
 	// SceneColorTextureを描画先として使える状態にする
-	m_directCommandList.TransitionRenderTargetTexture(*l_sceneColorTexture, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	m_directCommandList.TransitionRenderTargetTexture(*l_finalSceneTexture, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// SceneColorTextureとSceneDepthStencilTextureを描画先として設定する
-	m_directCommandList.SetupRenderTargetTexture(*l_sceneColorTexture,
+	m_directCommandList.SetupRenderTargetTexture(*l_finalSceneTexture,
 												 a_rtvDescriptorHeap,
 												 a_dsvDescriptorHeap,
-												 *l_sceneDepthStencilTexture);
+												 *l_finalSceneDepthStencilTexture);
 
 	// ビューポートとシザー矩形を設定
 	m_directCommandList.SetupRenderArea(m_renderArea);
@@ -189,22 +189,22 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 	}
 
 	const auto& l_sceneTexture		= l_currentFrameResource->GetREFSceneTexture();
-	const auto& l_sceneColorTexture = l_sceneTexture.GetVALSceneColorTexture    ().lock();
+	const auto& l_finalSceneTexture = l_sceneTexture.GetVALFinalSceneTexture	().lock();
 
-	if (!l_sceneColorTexture)
+	if (!l_finalSceneTexture)
 	{
 		assert(false && "SceneColorTextureが無効のため、描画終了処理を行うことができませんでした。");
 		return;
 	}
 
 	// SceneColorTextureをコピー元として使える状態にする
-	m_directCommandList.TransitionRenderTargetTexture(*l_sceneColorTexture, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	m_directCommandList.TransitionRenderTargetTexture(*l_finalSceneTexture, D3D12_RESOURCE_STATE_COPY_SOURCE);
 
 	// BackBufferをコピー先として使える状態にする
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_COPY_DEST);
 	
 	// SceneColorTextureの内容をBackBufferへコピーする
-	m_directCommandList.CopyRenderTargetTexture(*l_sceneColorTexture, a_swapChain);
+	m_directCommandList.CopyRenderTargetTexture(*l_finalSceneTexture, a_swapChain);
 
 	// backBufferを画面表示できる状態に戻す
 	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PRESENT);

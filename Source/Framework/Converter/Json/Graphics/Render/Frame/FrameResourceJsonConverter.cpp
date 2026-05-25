@@ -2,9 +2,27 @@
 
 void FWK::Converter::FrameResourceJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::FrameResource& a_frameResource) const
 {
-	if (!Utility::Json::IsArray(a_rootJson, k_constantBufferMapJsonKey)) { return; }
+	// 定数バッファのデシリアライズ
+	if (a_rootJson.contains(k_constantBufferMapJsonKey))
+	{
+		DeserializeConstantBuffer(a_rootJson[k_constantBufferMapJsonKey], a_frameResource);
+	}
+}
+
+nlohmann::json FWK::Converter::FrameResourceJsonConverter::Serialize(const Graphics::FrameResource& a_frameResource) const
+{
+	nlohmann::json l_rootJson  = {};
 	
-	for (const auto& l_json : a_rootJson[k_constantBufferMapJsonKey])
+	l_rootJson[k_constantBufferMapJsonKey] = SerializeConstantBuffer(a_frameResource);
+
+	return l_rootJson;
+}
+
+void FWK::Converter::FrameResourceJsonConverter::DeserializeConstantBuffer(const nlohmann::json& a_rootJson, Graphics::FrameResource& a_frameResource) const
+{
+	if (!Utility::Json::IsArray(a_rootJson)) { return; }
+	
+	for (const auto& l_json : a_rootJson)
 	{
 		std::shared_ptr<Graphics::ConstantBufferBase> l_constantBuffer = nullptr;
 
@@ -23,11 +41,10 @@ void FWK::Converter::FrameResourceJsonConverter::Deserialize(const nlohmann::jso
 	}
 }
 
-nlohmann::json FWK::Converter::FrameResourceJsonConverter::Serialize(const Graphics::FrameResource& a_frameResource) const
+nlohmann::json FWK::Converter::FrameResourceJsonConverter::SerializeConstantBuffer(const Graphics::FrameResource& a_frameResource) const
 {
-	nlohmann::json l_rootJson  = {};
-	auto		   l_jsonArray = nlohmann::json::array();
-
+	nlohmann::json l_rootJsonArray = {};
+	
 	const auto& l_constantBufferMap = a_frameResource.GetREFConstantBufferMap();
 
 	// 生成する定数バッファの名前とその定数バッファに必要な情報をSerialize
@@ -40,10 +57,8 @@ nlohmann::json FWK::Converter::FrameResourceJsonConverter::Serialize(const Graph
 		Utility::Json::UpdateJson								     (l_json, Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferTypeNameJsonKey));
 		l_json[k_constantBufferJsonKey] = l_constantBuffer->Serialize();
 
-		l_jsonArray.emplace_back(l_json);
+		l_rootJsonArray.emplace_back(l_json);
 	}
 
-	l_rootJson[k_constantBufferMapJsonKey] = l_jsonArray;
-
-	return l_rootJson;
+	return l_rootJsonArray;
 }

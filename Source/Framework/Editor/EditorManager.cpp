@@ -6,7 +6,7 @@ FWK::Editor::EditorManager::~EditorManager()
 	Release();
 }
 
-void FWK::Editor::EditorManager::Init(const HWND& a_hwnd)
+void FWK::Editor::EditorManager::INIT(const HWND& a_hwnd)
 {
 	if (m_isInitialized) { return; }
 

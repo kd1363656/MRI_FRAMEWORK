@@ -1,10 +1,12 @@
 ﻿#include "FrameResource.h"
 
-void FWK::Graphics::FrameResource::Init()
+void FWK::Graphics::FrameResource::INIT()
 {
 	if (m_directCommandAllocator) { return; }
 
 	m_directCommandAllocator = std::make_shared<DirectCommandAllocator>();
+
+	m_sceneTexture.INIT();
 }
 void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 {

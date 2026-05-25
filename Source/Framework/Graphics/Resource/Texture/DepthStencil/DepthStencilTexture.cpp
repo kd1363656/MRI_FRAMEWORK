@@ -1,6 +1,13 @@
 ﻿#include "DepthStencilTexture.h"
 
-bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&                  a_device, 
+void FWK::Graphics::DepthStencilTexture::Deserialize(const nlohmann::json& a_rootJson)
+{
+	if (a_rootJson.is_null()) { return; }
+
+	m_depthStencilTextureJsonConverter.Deserialize(a_rootJson, *this);
+}
+
+bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&                  a_device,
 												const GPUMemoryAllocator&                a_gpuMemoryAllocator,
 												const UINT				                 a_width,
 												const UINT				                 a_height, 
@@ -82,4 +89,9 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device&         
 	m_dsvStorageID = l_dsvStorageID;
 
 	return true;
+}
+
+nlohmann::json FWK::Graphics::DepthStencilTexture::Serialize() const
+{
+	return 	m_depthStencilTextureJsonConverter.Serialize(*this);;
 }

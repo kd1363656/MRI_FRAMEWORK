@@ -93,7 +93,7 @@ bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManage
 	a_sceneManager.PostLoadSetup     ();
 
 	// GraphicsManagerでSRVを作り終わった後にIMGUIを初期化
-	a_editorManager.Init(m_window.GetREFHWND());
+	a_editorManager.INIT(m_window.GetREFHWND());
 
 	return true;
 }
