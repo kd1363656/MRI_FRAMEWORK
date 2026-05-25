@@ -340,6 +340,7 @@
 #include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"
 #include "Graphics/GraphicsManager.h"
 
+// エディターマネージャー
 #include "Editor/EditorManager.h"
 
 // ゲームオブジェクト
