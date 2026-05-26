@@ -760,6 +760,18 @@
     <Filter Include="Source\Framework\Tag\Graphics\Render\Graph\Texture">
       <UniqueIdentifier>{c9d845f2-9abe-48d5-9147-018bbef8d780}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset\Shader\RenderGraph">
+      <UniqueIdentifier>{a52a6382-6ded-4332-a2ee-9030fa52ecef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\RenderGraph\FinalePresent">
+      <UniqueIdentifier>{e43985b4-be50-45cd-9bff-0473e8981495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FainalPresent">
+      <UniqueIdentifier>{18452576-a750-4231-83df-62cc36d85c1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent">
+      <UniqueIdentifier>{d4d33768-964f-43e8-9079-5590a7daed41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1334,6 +1346,12 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FainalPresent</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1621,6 +1639,9 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
@@ -1641,6 +1662,12 @@
     <DXCTask Include="Asset\Shader\Model\Static\Standard\UnLit\ModelStaticUnLitStandard_MS.hlsl">
       <Filter>Asset\Shader\Model\Static\Standard\UnLit</Filter>
     </DXCTask>
+    <DXCTask Include="Asset\Shader\FinalPresent\FinalPresent_MS.hlsl">
+      <Filter>Asset\Shader\RenderGraph\FinalePresent</Filter>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\FinalPresent\FinlaPresent_PS.hlsl">
+      <Filter>Asset\Shader\RenderGraph\FinalePresent</Filter>
+    </DXCTask>
   </ItemGroup>
   <ItemGroup>
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli">
@@ -1660,6 +1687,9 @@
     </None>
     <None Include="Asset\Shader\Model\Static\Standard\StandardModelCommon.hlsli">
       <Filter>Asset\Shader\Model\Static\Standard</Filter>
+    </None>
+    <None Include="Asset\Shader\FinalPresent\FinalPresent.hlsli">
+      <Filter>Asset\Shader\RenderGraph\FinalePresent</Filter>
     </None>
   </ItemGroup>
 </Project>

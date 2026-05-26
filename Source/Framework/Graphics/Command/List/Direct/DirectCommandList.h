@@ -43,6 +43,8 @@ namespace FWK::Graphics
 		void SetupPipelineState (const std::weak_ptr<PipelineState>& a_pipelineState);
 		void SetupDescriptorHeap(const DescriptorHeapBase&			 a_descriptorHeap) const;
 
+		void SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
+
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
 		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const RootSignature& a_rootSignature) const
 		{
@@ -70,7 +72,8 @@ namespace FWK::Graphics
 			l_directCommandList->SetGraphicsRootConstantBufferView(l_rootParameterIndex, a_gpuVirtualAddress);
 		}
 
-		void DispatchMesh(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const;
+		void DispatchMesh			   (const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const;
+		void DispatchFullScreenTriangle() const;
 
 	private:
 
@@ -93,6 +96,10 @@ namespace FWK::Graphics
 		static constexpr UINT k_setViewportNUM       = 1U;
 		static constexpr UINT k_setScissorRectNUM    = 1U;
 		static constexpr UINT k_setDescriptorHeapNUM = 1U;
+
+		static constexpr UINT k_fullScreenTriangleThreadGroupCountX = 1U;
+		static constexpr UINT k_fullScreenTriangleThreadGroupCountY = 1U;
+		static constexpr UINT k_fullScreenTriangleThreadGroupCountZ = 1U;
 
 		std::weak_ptr<RootSignature> m_currentRootSignature = {};
 		std::weak_ptr<PipelineState> m_currentPipelineState = {};

@@ -434,6 +434,61 @@ void FWK::Graphics::DirectCommandList::SetupDescriptorHeap(const DescriptorHeapB
 	l_directCommandList->SetDescriptorHeaps(k_setDescriptorHeapNUM, l_descriptorHeapList);
 }
 
+void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、バックバッファの設定が行えませんでした。");
+		return;
+	}
+
+	const auto& l_backBufferList		 = a_swapChain.GetREFBackBufferList			 ();
+	const auto  l_currentBackBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
+
+	if (l_currentBackBufferIndex >= static_cast<UINT>(l_backBufferList.size()))
+	{
+		assert(false && "現在のインデックスがバックバッファリストの範囲外を指し示しており、バックバッファの設定が行えませんでした。");
+		return;
+	}
+
+	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex];
+
+	if (l_backBuffer.m_rtvStorageID == Constant::k_invalidStorageID)
+	{
+		assert(false && "RTVStorageIDが無効のため、バックバッファの設定が行えませんでした。");
+		return;
+	}
+
+	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_backBuffer.m_rtvStorageID);
+
+	// OMステージにレンダーターゲットを設定する関数
+	// OMSetRenderTargets(設定するレンダーターゲット数、
+	//					  レンダーターゲットディスクリプタ配列の先頭アドレス、
+	//					  ディスクリプタが連続配置かどうか、
+	//					　深度ステンシルビューのアドレス);
+
+	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
+								            &l_rtvHandle,
+								            true,
+								            nullptr);
+
+	// ClearDepthStencilView(クリアするDSV,
+	//						 クリア対象フラグ、
+	//						 深度クリア値、
+	//						 ステンシルクリア値、
+	//						 クリア範囲数、
+	//						 クリア範囲);
+	l_directCommandList->ClearDepthStencilView(l_rtvHandle,
+											   D3D12_CLEAR_FLAG_DEPTH,
+										       Constant::k_defaultDepthClearValue,
+											   Constant::k_defaultStencilClearValue,
+											   k_executeClearRectNUM,
+											   nullptr);
+}
+
 void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const
 {
 	const auto& l_directCommandList = GetREFCommandList().Get();
@@ -450,6 +505,22 @@ void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGrou
 	//				Z方向のグループ数);
 
 	l_directCommandList->DispatchMesh(a_threadCountGroupX, a_threadCountGroupY, a_threadCountGroupZ);
+}
+void FWK::Graphics::DirectCommandList::DispatchFullScreenTriangle() const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、フルスクリーン三角形の描画が出来ませんでした。");
+		return;
+	}
+
+	// FinalPresent用MeshShaderは1グループで画面全体の三角形を1毎出力する
+	// DispatchMesh(X方向のグループ数、
+	//				Y方向のグループ数、
+	//				Z方向のグループ数);
+	l_directCommandList->DispatchMesh(k_fullScreenTriangleThreadGroupCountX, k_fullScreenTriangleThreadGroupCountY, k_fullScreenTriangleThreadGroupCountZ);
 }
 
 void FWK::Graphics::DirectCommandList::ClearCurrentRootSignatureAndPipelineStateCache()

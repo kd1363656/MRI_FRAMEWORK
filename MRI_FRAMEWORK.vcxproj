@@ -421,6 +421,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\BufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Model\ModelConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Sprite\SpriteConstantBufferStruct.h" />
@@ -480,6 +481,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.h" />
@@ -599,6 +601,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.cpp" />
@@ -647,6 +650,18 @@ if "$(Configuration)"=="Debug" (
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <DXCTask Include="Asset\Shader\FinalPresent\FinalPresent_MS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\FinalPresent\FinlaPresent_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </DXCTask>
     <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\ModelStaticLitStandard_MS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
@@ -718,6 +733,7 @@ if "$(Configuration)"=="Debug" (
     <None Include="Asset\Data\CONFIG\FPS\FPSCONFIG.json" />
     <None Include="Asset\Data\CONFIG\Graphics\GraphicsCONFIG.json" />
     <None Include="Asset\Data\CONFIG\Window\WindowCONFIG.json" />
+    <None Include="Asset\Shader\FinalPresent\FinalPresent.hlsli" />
     <None Include="Asset\Shader\Model\ModelCommon.hlsli" />
     <None Include="Asset\Shader\Model\Static\Standard\StandardModelCommon.hlsli" />
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli" />
