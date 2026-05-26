@@ -19,3 +19,5 @@ namespace FWK::Graphics
 		FWK_DEFINE_TYPE_INFO(RenderGraphSceneDrawPass, RenderGraphPassBase);
 	};
 }
+
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryRenderGraphPass, FWK::Graphics::RenderGraphSceneDrawPass);

@@ -6,6 +6,20 @@ void FWK::Graphics::RenderGraph::INIT()
 	m_sortedPassIndexList.clear();
 }
 
+void FWK::Graphics::RenderGraph::PostCreateSetup(Renderer& a_renderer)
+{
+	for (const auto& l_pass : m_passList)
+	{
+		if (!l_pass)
+		{
+			assert(false && "RenderGraphPassが無効のため、PostCreateSetupを実行できませんでした。");
+			return;
+		}
+
+		l_pass->PostCreateSetup(a_renderer);
+	}
+}
+
 bool FWK::Graphics::RenderGraph::Compile()
 {
 	m_sortedPassIndexList.clear();
@@ -126,6 +140,17 @@ void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDesc
 						a_directCommandList,
 						a_renderer);
 	}
+}
+
+void FWK::Graphics::RenderGraph::AddPass(std::unique_ptr<IRenderGraphPass>&& a_pass)
+{
+	if (!a_pass)
+	{
+		assert(false && "RenderGraphPassが無効のため、追加できませんでした。");
+		return;
+	}
+
+	m_passList.emplace_back(std::move(a_pass));
 }
 
 bool FWK::Graphics::RenderGraph::IsReadAccess(const Struct::RenderGraphTextureAccess& a_textureAccess) const

@@ -302,7 +302,10 @@
 
 // レンダーパス
 #include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Pass/TypeAliasShaderFactoryRenderGraphPass.h"
 #include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
+#include "Graphics/Render/Graph/Pass/Scene/RenderGraphSceneDrawPass.h"
+#include "Graphics/Render/Graph/Pass/Present/RenderGraphFinalPresentPass.h"
 #include "Graphics/Render/Graph/Pass/Test/RenderGraphTestSceneColorReadPass.h"
 #include "Graphics/Render/Graph/Pass/Test/RenderGraphTestSceneColorWritePass.h"
 #include "Converter/Json/Graphics/Render/Graph/Resource/RenderGraphResourceRegistryJsonConverter.h"

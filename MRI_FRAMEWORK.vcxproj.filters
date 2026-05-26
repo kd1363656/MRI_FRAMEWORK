@@ -775,6 +775,15 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Scene">
       <UniqueIdentifier>{7e355673-0097-4ae4-802e-fb7257e08bdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Present">
+      <UniqueIdentifier>{b115db44-34dc-4827-978f-4ae26b86c2be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph">
+      <UniqueIdentifier>{80adebba-cd3d-4407-90dd-116bf6c0b5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass">
+      <UniqueIdentifier>{23f01da3-e444-4a78-b029-06bed18b4886}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1358,6 +1367,12 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Present</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Pass\TypeAliasShaderFactoryRenderGraphPass.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1651,6 +1666,9 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Present</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
@@ -1674,7 +1692,7 @@
     <DXCTask Include="Asset\Shader\FinalPresent\FinalPresent_MS.hlsl">
       <Filter>Asset\Shader\RenderGraph\FinalePresent</Filter>
     </DXCTask>
-    <DXCTask Include="Asset\Shader\FinalPresent\FinlaPresent_PS.hlsl">
+    <DXCTask Include="Asset\Shader\FinalPresent\FinalPresent_PS.hlsl">
       <Filter>Asset\Shader\RenderGraph\FinalePresent</Filter>
     </DXCTask>
   </ItemGroup>

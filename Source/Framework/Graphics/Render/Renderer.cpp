@@ -93,10 +93,7 @@ void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 		l_drawCommand->PostCreateSetup(*this);
 	}
 
-	m_renderGraph.INIT();
-
-	m_renderGraph.AddPass<RenderGraphTestSceneColorWritePass>();
-	m_renderGraph.AddPass<RenderGraphTestSceneColorReadPass> ();
+	m_renderGraph.PostCreateSetup(*this);
 
 	if (!m_renderGraph.Compile())
 	{
@@ -116,7 +113,7 @@ void FWK::Graphics::Renderer::BeginFrame() const
 	}
 }
 
-void FWK::Graphics::Renderer::BeginDraw(const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap)
+void FWK::Graphics::Renderer::BeginDraw()
 {
 	const auto& l_currentFrameResource = m_currentFrameResource.lock();
 
@@ -134,60 +131,12 @@ void FWK::Graphics::Renderer::BeginDraw(const RTVDescriptorHeap& a_rtvDescriptor
 		return;
 	}
 
-	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
-	const auto& l_sceneColorTextureRecord     = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetTag<Tag::SceneColorTextureTag>()).lock();
-
-	if (!l_sceneColorTextureRecord)
-	{
-		assert(false && "SceneColorTextureが無効のため、描画終了処理を行うことができませんでした。");
-		return;
-	}
-
-	const auto& l_sceneColorTexture = l_sceneColorTextureRecord->m_renderTargetTexture;
-
-	if (!l_sceneColorTexture)
-	{
-		assert(false && "SceneColorTextureが無効のため、描画終了処理を行うことができませんでした。");
-		return;
-	}
-
-	const auto& l_sceneDepthStencilTextureRecord = l_renderGraphResourceRegistry.FindVALDepthStencilTexture(Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>()).lock();
-	
-	if (!l_sceneDepthStencilTextureRecord)
-	{
-		assert(false && "SceneDepthStencilTextureが無効のため、描画開始処理を行うことができませんでした。");
-		return;
-	}
-
-	const auto& l_sceneDepthStencilTexture = l_sceneDepthStencilTextureRecord->m_depthStencilTexture;
-
-	if (!l_sceneDepthStencilTexture)
-	{
-		assert(false && "SceneDepthStencilTextureが無効のため、描画処理を行うことができませんでした。");
-		return;
-	}
-
-	// コマンドアロケータからGPU処理が終わっているかどうかを確かめGPUの処理が終わっていなければWait
+	// コマンドアロケータからGPU処理が終わっているかどうかを確かめGPUの処理が終わっていればWait
 	m_directCommandQueue.EnsureAllocatorAvailable(*l_commandAllocator);
 
 	// GPU同期処理が終わってからコマンドリスト、アロケータをリセット
 	l_commandAllocator->Reset();
 	m_directCommandList.Reset(*l_commandAllocator);
-
-	// SceneColorTextureを描画先として使える状態にする
-	m_directCommandList.TransitionRenderTargetTexture(D3D12_RESOURCE_STATE_RENDER_TARGET, *l_sceneColorTexture);
-
-	// SceneDepthStencilTextureを深度書き込みとして使える状態にする
-	m_directCommandList.TransitionDepthStencilTexture(D3D12_RESOURCE_STATE_DEPTH_WRITE, *l_sceneDepthStencilTexture);
-
-	// SceneColorTextureとSceneDepthStencilTextureを描画先として設定する
-	m_directCommandList.SetupRenderTargetTexture(*l_sceneColorTexture,
-												 a_rtvDescriptorHeap,
-												 a_dsvDescriptorHeap,
-												 *l_sceneDepthStencilTexture);
-
-	// ビューポートとシザー矩形を設定
-	m_directCommandList.SetupRenderArea(m_renderArea);
 }
 
 void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
@@ -217,35 +166,6 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 		assert(false && "ダイレクトコマンドアロケータが無効になっています。");
 		return;
 	}
-
-	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
-	const auto& l_sceneColorTextureRecord	  = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetTag<Tag::SceneColorTextureTag>()).lock();
-
-	if (!l_sceneColorTextureRecord)
-	{
-		assert(false && "SceneColorTextureが無効のため、描画開始処理を行うことができませんでした。");
-		return;
-	}
-
-	const auto& l_sceneColorTexture = l_sceneColorTextureRecord->m_renderTargetTexture;
-
-	if (!l_sceneColorTexture)
-	{
-		assert(false && "SceneColorTextureが無効のため、描画開始処理を行うことができませんでした。");
-		return;
-	}
-
-	// SceneColorTextureをコピー元として使える状態にする
-	m_directCommandList.TransitionRenderTargetTexture(D3D12_RESOURCE_STATE_COPY_SOURCE, *l_sceneColorTexture);
-
-	// BackBufferをコピー先として使える状態にする
-	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_COPY_DEST);
-	
-	// SceneColorTextureの内容をBackBufferへコピーする
-	m_directCommandList.CopyRenderTargetTexture(*l_sceneColorTexture, a_swapChain);
-
-	// backBufferを画面表示できる状態に戻す
-	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PRESENT);
 
 	// コマンドリストへの命令記録を終了
 	m_directCommandList.Close();

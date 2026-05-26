@@ -8,5 +8,5 @@ namespace FWK::Tag
 	struct ModelUnLitStandardRootSignatureTag final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelUnLitStandardRootSignatureTag, RootSignatureTagBase); };
 	struct ModelLitStandardRootSignatureTag   final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelLitStandardRootSignatureTag,   RootSignatureTagBase); };
 
-	struct FinalPresentRootSignatureTag final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(FinalPresentRootSignatureTag, RootSignatureTagBase) };
+	struct FinalPresentRootSignatureTag final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(FinalPresentRootSignatureTag, RootSignatureTagBase); };
 }

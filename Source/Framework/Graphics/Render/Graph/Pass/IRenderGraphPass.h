@@ -16,6 +16,8 @@ namespace FWK::Graphics
 
 		virtual const std::vector<Struct::RenderGraphTextureAccess>& GetREFTextureAccessList () const = 0;
 		
+		virtual void PostCreateSetup(Renderer&) {};
+
 		virtual void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
 							 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
 							 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,

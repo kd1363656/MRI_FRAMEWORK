@@ -475,16 +475,14 @@ void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapCha
 								            true,
 								            nullptr);
 
-	// ClearDepthStencilView(クリアするDSV,
-	//						 クリア対象フラグ、
-	//						 深度クリア値、
-	//						 ステンシルクリア値、
-	//						 クリア範囲数、
-	//						 クリア範囲);
-	l_directCommandList->ClearDepthStencilView(l_rtvHandle,
-											   D3D12_CLEAR_FLAG_DEPTH,
-										       Constant::k_defaultDepthClearValue,
-											   Constant::k_defaultStencilClearValue,
+	// 現在のレンダーターゲットを指定色でクリアする関数
+	// ClearRenderTargetView(クリア対象のRTVハンドル、
+	//						 クリア色RGBA配列、
+	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし前面クリアとなる)、
+	//						 矩形配列の先頭アドレス);
+
+	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
+											   &Constant::k_renderTargetDefaultClearColor.x, 
 											   k_executeClearRectNUM,
 											   nullptr);
 }
@@ -516,7 +514,7 @@ void FWK::Graphics::DirectCommandList::DispatchFullScreenTriangle() const
 		return;
 	}
 
-	// FinalPresent用MeshShaderは1グループで画面全体の三角形を1毎出力する
+	// FinalPresent用MeshShaderは1グループで画面全体の三角形を1枚出力する
 	// DispatchMesh(X方向のグループ数、
 	//				Y方向のグループ数、
 	//				Z方向のグループ数);

@@ -36,7 +36,7 @@ namespace FWK::Graphics
 
 		void BeginFrame() const;
 
-		void BeginDraw(const RTVDescriptorHeap& a_rtvDescriptorHeap, const DSVDescriptorHeap& a_dsvDescriptorHeap);
+		void BeginDraw();
 		
 		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 		void EndDraw (const SwapChain&						   a_swapChain);
@@ -88,10 +88,12 @@ namespace FWK::Graphics
 		const auto& GetREFDirectCommandList () const { return m_directCommandList; }
 
 		const auto& GetREFLightSystem() const { return m_lightSystem; }
+		const auto& GetREFRenderGraph() const { return m_renderGraph; }
 
 		const auto& GetREFRenderArea() const { return m_renderArea; }
 
 		auto& GetMutableREFDirectCommandList() { return m_directCommandList; }
+		auto& GetMutableREFRenderGraph		() { return m_renderGraph; }
 
 	private:
 

@@ -11,16 +11,16 @@ void main(out vertices MeshOutput a_vertexList [k_finalPresentVertexCount],
 
     const float2 l_positionList[k_finalPresentVertexCount] = 
     {
-        float2(-1.0F, -1.0F),
-        float2(-1.0F,  3.0F),
-        float2( 3.0F, -1.0F)
+	    float2(k_finalPresentNDCLeft,  k_finalPresentNDCBottom),
+		float2(k_finalPresentNDCLeft,  k_finalPresentNDCTop),
+		float2(k_finalPresentNDCRight, k_finalPresentNDCBottom)
     };
     
     const float2 l_uvList[k_finalPresentVertexCount] = 
     {
-        float2(0.0F,  1.0F),
-        float2(0.0F, -1.0F),
-        float2(2.0F,  1.0F)
+  		float2(k_finalPresentUVLeft,  k_finalPresentUVBottom),
+		float2(k_finalPresentUVLeft,  k_finalPresentUVTop),
+		float2(k_finalPresentUVRight, k_finalPresentUVBottom)
     };
 
     [unroll]
@@ -30,5 +30,5 @@ void main(out vertices MeshOutput a_vertexList [k_finalPresentVertexCount],
         a_vertexList[l_vertexIndex].uv       = l_uvList[l_vertexIndex];
     }
 
-    a_primitiveLisst[0U] = uint3(k_finalPresentVertexIndexZero, k_finalPresentVertexIndexOne, k_finalPresentVertexIndexTwo);
+    a_primitiveLisst[k_finalPresentPrimitiveIndex] = uint3(k_finalPresentVertexIndexZero, k_finalPresentVertexIndexOne, k_finalPresentVertexIndexTwo);
 }

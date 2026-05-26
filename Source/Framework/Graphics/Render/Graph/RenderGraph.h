@@ -24,6 +24,17 @@ namespace FWK::Graphics
 
 		void INIT();
 
+		void PostCreateSetup(Renderer& a_renderer);
+
+		bool Compile();
+
+		void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
+					 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
+					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+					 const SwapChain&						  a_swapChain,
+					 	   DirectCommandList&				  a_directCommandList,
+					 	   Renderer&						  a_renderer);
+
 		template <typename Type, typename... Args>
 		Type& AddPass(Args&&... a_args)
 		{
@@ -36,14 +47,9 @@ namespace FWK::Graphics
 			return l_passREF;
 		}
 
-		bool Compile();
+		void AddPass(std::unique_ptr<IRenderGraphPass>&& a_pass);
 
-		void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
-					 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
-					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-					 const SwapChain&						  a_swapChain,
-					 	   DirectCommandList&				  a_directCommandList,
-					 	   Renderer&						  a_renderer);
+		const auto& GetREFPassList() const { return m_passList; }
 
 	private:
 
