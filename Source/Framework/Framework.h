@@ -104,6 +104,8 @@
 #include "Tag/Graphics/Render/RootSignature/Parameter/RootParameterTag.h"
 #include "Tag/Graphics/Render/PipelineState/PipelineStateTag.h"
 #include "Tag/Graphics/Render/Frame/Scene/SceneTextureTag.h"
+#include "Tag/Graphics/Render/Graph/Access/RenderGraphAccessTag.h"
+#include "Tag/Graphics/Render/Graph/Texture/RenderGraphTextureUsageTag.h"
 #include "Tag/Graphics/Render/Graph/Pass/RenderGraphPassTag.h"
 
 //===============================================================================
@@ -299,6 +301,8 @@
 // レンダーパス
 #include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
 #include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
+#include "Graphics/Render/Graph/Pass/Test/RenderGraphTestSceneColorReadPass.h"
+#include "Graphics/Render/Graph/Pass/Test/RenderGraphTestSceneColorWritePass.h"
 #include "Converter/Json/Graphics/Render/Graph/Resource/RenderGraphResourceRegistryJsonConverter.h"
 #include "Graphics/Render/Graph/Resource/RenderGraphResourceRegistry.h"
 

@@ -48,7 +48,9 @@ namespace FWK::Graphics
 
 		bool TransitionRenderTargetTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList);
 		bool TransitionDepthStencilTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList);
-		
+		 
+		D3D12_RESOURCE_STATES ConvertTextureUsageToResourceState(const TypeAlias::TypeTag a_usageTag) const;
+
 		static constexpr std::uint32_t k_nextRenderGraphPassIndexOffset = 1U;
 		static constexpr std::uint32_t k_emptyRenderGraphPassCount      = 0U;
 		static constexpr std::uint32_t k_noRenderGraphIncomingEdgeCount = 0U;

@@ -469,6 +469,8 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\IRenderGraphPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h" />
@@ -516,7 +518,9 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Scene\SceneManager.h" />
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\Frame\Scene\SceneTextureTag.h" />
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Access\RenderGraphAccessTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Pass\RenderGraphPassTag.h" />
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Texture\RenderGraphTextureUsageTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter\RootParameterTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\RootSignatureTag.h" />
@@ -584,6 +588,8 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp" />

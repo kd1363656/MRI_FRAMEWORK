@@ -64,6 +64,6 @@ namespace FWK::Graphics
 		DepthStencilTextureResourceRecordList m_depthStencilTextureResourceRecordList = {};
 		DepthStencilTextureResourceRecordMap  m_depthStencilTextureResourceRecordMap  = {};
 
-		Converter::RenderGraphResourceRegistryConverter m_renderGraphResourceRegistryConverter = {};
+		Converter::RenderGraphResourceRegistryJsonConverter m_renderGraphResourceRegistryJsonConverter = {};
 	};
 }

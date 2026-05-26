@@ -14,8 +14,6 @@ namespace FWK::Graphics
 				 IRenderGraphPass() = default;
 		virtual ~IRenderGraphPass() = default;
 
-		virtual TypeAlias::TypeTag GetVALPassTag() const = 0;
-
 		virtual const std::vector<Struct::RenderGraphTextureAccess>& GetREFTextureAccessList () const = 0;
 		
 		virtual void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
@@ -24,5 +22,7 @@ namespace FWK::Graphics
 							 const SwapChain&						  a_swapChain,
 								   DirectCommandList&				  a_directCommandList,
 								   Renderer&						  a_renderer) = 0;
+
+		FWK_DEFINE_TYPE_INFO_ROOT(IRenderGraphPass);
 	};
 }

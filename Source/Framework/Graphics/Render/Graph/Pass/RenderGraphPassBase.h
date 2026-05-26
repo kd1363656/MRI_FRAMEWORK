@@ -13,14 +13,16 @@ namespace FWK::Graphics
 		
 	protected:
 
-		void ReadTexture(const D3D12_RESOURCE_STATES a_requiredState, const TypeAlias::TypeTag a_textureTag);
+		void ReadTexture(const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_usageTag);
 		
-		void WriteTexture(const D3D12_RESOURCE_STATES a_requiredState, const TypeAlias::TypeTag a_textureTag);
+		void WriteTexture(const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_usageTag);
 
 	private:
 
-		void AddTextureAccess(const D3D12_RESOURCE_STATES a_requiredState, const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_accessTag);
+		void AddTextureAccess(const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_accessTag, const TypeAlias::TypeTag a_usageTag);
 
 		std::vector<Struct::RenderGraphTextureAccess> m_textureAccessList  = {};
+
+		FWK_DEFINE_TYPE_INFO(RenderGraphPassBase, IRenderGraphPass);
 	};
 }

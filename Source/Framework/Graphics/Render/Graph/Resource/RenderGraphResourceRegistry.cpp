@@ -12,7 +12,7 @@ void FWK::Graphics::RenderGraphResourceRegistry::Deserialize(const nlohmann::jso
 {
 	if (a_rootJson.is_null()) { return; }
 
-	m_renderGraphResourceRegistryConverter.Deserialize(a_rootJson, *this);
+	m_renderGraphResourceRegistryJsonConverter.Deserialize(a_rootJson, *this);
 }
 
 bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_device, 
@@ -95,7 +95,7 @@ void FWK::Graphics::RenderGraphResourceRegistry::RegisterDefaultSceneTexture()
 
 nlohmann::json FWK::Graphics::RenderGraphResourceRegistry::Serialize() const
 {
-	return m_renderGraphResourceRegistryConverter.Serialize(*this);
+	return m_renderGraphResourceRegistryJsonConverter.Serialize(*this);
 }
 
 void FWK::Graphics::RenderGraphResourceRegistry::AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord)

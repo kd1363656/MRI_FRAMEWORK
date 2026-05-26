@@ -751,6 +751,15 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource">
       <UniqueIdentifier>{ed725d92-efac-4b83-b846-52f90d3d8a3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Test">
+      <UniqueIdentifier>{49885c64-8983-4fd5-aede-44a07cb62316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Graph\Access">
+      <UniqueIdentifier>{10ae924f-fc33-44a4-ae65-21046e3c312b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Tag\Graphics\Render\Graph\Texture">
+      <UniqueIdentifier>{c9d845f2-9abe-48d5-9147-018bbef8d780}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1313,6 +1322,18 @@
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Access\RenderGraphAccessTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\Graph\Access</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Texture\RenderGraphTextureUsageTag.h">
+      <Filter>Source\Framework\Tag\Graphics\Render\Graph\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1593,6 +1614,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -291,7 +291,9 @@ bool FWK::Graphics::RenderGraph::TransitionRenderTargetTexture(const Struct::Ren
 		return true;
 	}
 
-	a_directCommandList.TransitionRenderTargetTexture(a_textureAccess.m_requiredState, *l_renderTargetTexture);
+	const auto l_requiredState = ConvertTextureUsageToResourceState(a_textureAccess.m_usageTag);
+
+	a_directCommandList.TransitionRenderTargetTexture(l_requiredState, *l_renderTargetTexture);
 
 	return true;
 }
@@ -309,7 +311,45 @@ bool FWK::Graphics::RenderGraph::TransitionDepthStencilTexture(const Struct::Ren
 		return true;
 	}
 
-	a_directCommandList.TransitionDepthStencilTexture(a_textureAccess.m_requiredState, *l_depthStencilTexture);
+	const auto l_requiredState = ConvertTextureUsageToResourceState(a_textureAccess.m_usageTag);
+
+	a_directCommandList.TransitionDepthStencilTexture(l_requiredState, *l_depthStencilTexture);
 
 	return true;
+}
+
+D3D12_RESOURCE_STATES FWK::Graphics::RenderGraph::ConvertTextureUsageToResourceState(const TypeAlias::TypeTag a_usageTag) const
+{
+	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphRenderTargetUsageTag>())
+	{
+		// RenderTargetとして書き込むためのResourceState
+		return D3D12_RESOURCE_STATE_RENDER_TARGET;
+	}
+
+	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphCopySourceUsageTag>())
+	{
+		// CopyTextureRegionなどでコピー元として読むためのResourceState
+		return D3D12_RESOURCE_STATE_COPY_SOURCE;
+	}
+
+	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphShaderReadUsageTag>())
+	{
+		// PixelShader / MeshShader / ComputeShaderなど、シェーダーから読むためのResourceState
+		return D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE | D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	}
+
+	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphDepthWriteUsageTag>())
+	{
+		// DepthStencilとして深度を書き込むためのResourceState
+		return D3D12_RESOURCE_STATE_DEPTH_WRITE;
+	}
+
+	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphDepthReadUsageTag>())
+	{
+		// DepthStencilとして深度を読むためのResourceState
+		return D3D12_RESOURCE_STATE_DEPTH_READ;
+	}
+
+	assert(false && "RenderGraphTextureAccessのUsageTagが不正です。");
+	return D3D12_RESOURCE_STATE_COMMON;
 }
