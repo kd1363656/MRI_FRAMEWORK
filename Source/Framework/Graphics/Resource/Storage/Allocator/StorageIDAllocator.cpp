@@ -24,7 +24,7 @@ bool FWK::Graphics::StorageIDAllocator::Create()
 	m_nextStorageID = k_initialNextStorageID;
 
 	// 全スロットを未使用状態で初期化する
-	m_isAllocatedList.assign(m_storageIDCapacity, k_unallocatedStorageIDState);
+	m_isAllocatedList.assign(m_storageIDCapacity, false);
 
 	// キューも何も保持していない状態にする
 	m_freeStorageIDQueue = {};
@@ -53,7 +53,7 @@ void FWK::Graphics::StorageIDAllocator::Release(const TypeAlias::StorageID a_sto
 		return;
 	}
 
-	m_isAllocatedList[a_storageID] = k_unallocatedStorageIDState;
+	m_isAllocatedList[a_storageID] = false;
 	m_freeStorageIDQueue.push(a_storageID);
 }
 
@@ -73,7 +73,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
 			return Constant::k_invalidStorageID;
 		}
 
-		m_isAllocatedList[l_reuseStorageID] = k_allocatedStorageIDState;
+		m_isAllocatedList[l_reuseStorageID] = true;
 
 		return l_reuseStorageID;
 	}
@@ -86,7 +86,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
 		++m_nextStorageID;
 
 		// 新規払い出しするインデックス番号は割り当て済みにする
-		m_isAllocatedList[l_allocateStorageID] = k_allocatedStorageIDState;
+		m_isAllocatedList[l_allocateStorageID] = true;
 
 		return l_allocateStorageID;
 	}

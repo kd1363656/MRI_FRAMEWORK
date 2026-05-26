@@ -250,52 +250,6 @@ void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapCha
 											   nullptr);
 }
 
-void FWK::Graphics::DirectCommandList::CopyRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture, const SwapChain& a_swapChain) const
-{
-	const auto& l_directCommandList = GetREFCommandList();
-
-	if (!l_directCommandList)
-	{
-		assert(false && "ダイレクトコマンドリストが作成されておらず、RenderTargetTextureをBackBufferへコピーできませんでした。");
-		return;
-	}
-
-	const auto& l_backBufferList = a_swapChain.GetREFBackBufferList();
-
-	if (l_backBufferList.empty())
-	{
-		assert(false && "BackBufferListが空のため、RenderTargetTextureをBackBufferへコピーできませんでした。");
-		return;
-	}
-
-	const auto l_currentBackBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
-
-	if (l_backBufferList.size() <= l_currentBackBufferIndex)
-	{
-		assert(false && "現在のBackBufferIndexが範囲外のため、RenderTargetTextureをBackBufferへコピーできませんでした。");
-		return;
-	}
-
-	const auto& l_backBufferResource = l_backBufferList[l_currentBackBufferIndex].m_backBufferResource;
-	const auto& l_sourceResource	 = a_renderTargetTexture.GetREFGPUResource().m_resource;
-
-	if (!l_backBufferResource)
-	{
-		assert(false && "BackBufferResourceが無効のため、RenderTargetTextureをBackBufferへコピーできませんでした。");
-		return;
-	}
-
-	if (!l_sourceResource)
-	{
-		assert(false && "RenderTargetTextureのResourceが無効のため、BackBufferへコピーできませんでした。");
-		return;
-	}
-
-	// CopyResource(コピー先リソース、
-	//				コピー元リソース);
-	l_directCommandList->CopyResource(l_backBufferResource.Get(),  l_sourceResource.Get());
-}
-
 void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_renderArea) const
 {
 	const auto& l_directCommandList = GetREFCommandList().Get();

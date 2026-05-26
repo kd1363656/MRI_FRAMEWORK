@@ -83,7 +83,6 @@ void FWK::Graphics::Fence::WaitForFenceValueIfNeeded(const UINT64& a_fenceValue)
 	// GPUがa_fenceValueに到達したらm_fenceEventを通知状態にする関数
 	// SetEventOnCompletion(CPUが待ちたい目標のフェンス値、
 	//						GPUが完了通知を受け取るイベント);
-
 	const auto l_hr = m_fence->SetEventOnCompletion(a_fenceValue, m_event);
 
 	if (FAILED(l_hr))

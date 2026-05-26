@@ -33,7 +33,6 @@ void FWK::Graphics::CopyCommandList::CopyTextureRegion(const D3D12_TEXTURE_COPY_
 	//					 コピー先Z座標,
 	//					 コピー元の情報、
 	//					 コピー元範囲(nullptrなら全体));
-
 	l_copyCommandList->CopyTextureRegion(&a_destination,
 										 a_destinationX,
 										 a_destinationY,

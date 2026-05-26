@@ -185,6 +185,7 @@
 #include "Definition/Concept/IsDerivedBase/Graphics/Resource/Buffer/Constant/IsDerivedConstantBufferBaseConcept.h"
 #include "Graphics/Resource/Buffer/Constant/ConstantBufferBase.h"
 
+// 定数バッファファクトリーの型エイリアス
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"
 
 // 定数バッファ

@@ -7,6 +7,7 @@ namespace FWK::Graphics
 	{
 	private:
 
+		// ファイルパスからストレージID、ストレージIDからレコードを取得するような仕組みになっているのは
 		using FilePathStorageIDMap = std::unordered_map<std::wstring,		  TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
 		using RecordMap            = std::unordered_map<TypeAlias::StorageID, std::shared_ptr<RecordType>>;
 
@@ -78,6 +79,7 @@ namespace FWK::Graphics
 				return false;
 			}
 
+			// ファイルパスとそれに対応するストレージID及びストレージIDに対応するレコードを保存
 			m_filePathStorageIDMap.try_emplace(a_filePath,			  a_record->m_storageID);
 			m_recordMap.try_emplace			  (a_record->m_storageID, a_record);
 
@@ -136,6 +138,7 @@ namespace FWK::Graphics
 				return false;
 			}
 
+			// 参照カウントを減算
 			--l_record->m_referenceCount;
 
 			// まだ利用者が残っているなら何もしない

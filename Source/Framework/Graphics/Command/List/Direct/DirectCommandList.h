@@ -36,8 +36,6 @@ namespace FWK::Graphics
 										 const DSVDescriptorHeap&   a_dsvDescriptorHeap,
 										 const DepthStencilTexture& a_depthStencilTexture) const;
 
-		void CopyRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture, const SwapChain& a_swapChain) const;
-
 		void SetupRenderArea    (const RenderArea&					 a_renderArea)     const;
 		void SetupRootSignature (const std::weak_ptr<RootSignature>& a_rootSignature);
 		void SetupPipelineState (const std::weak_ptr<PipelineState>& a_pipelineState);
@@ -64,11 +62,10 @@ namespace FWK::Graphics
 				return;
 			}
 
-			// SetGraphicsRootConstantBufferView(ルートパラメータ番号、
-			//									 CBVとして参照させるGPU仮想アドレス);
-
 			// RootSignature側でD3D12_ROOT_PARAMETER_TYPE_CBVにした場所へ、
 			// UploadBuffer上の定数バッファ位置を直接結びつける
+			// SetGraphicsRootConstantBufferView(ルートパラメータ番号、
+			//									 CBVとして参照させるGPU仮想アドレス);
 			l_directCommandList->SetGraphicsRootConstantBufferView(l_rootParameterIndex, a_gpuVirtualAddress);
 		}
 
