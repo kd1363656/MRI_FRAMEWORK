@@ -55,8 +55,8 @@ void FWK::FPSController::LimitFramerate() const
 	// 現在の時間を過去の時間と引いてやることで経過時間を算出
 	const auto& l_elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(l_currentTime - m_frameBeginTime);
 
-	// 使用しきれていない、今回の処理が速く想定のFPSを超えてしまわないようにSleep
 	if (l_elapsedTime >= l_frameTime) { return; }
 
+	// 使用しきれていない、今回の処理が速く想定のFPSを超えてしまわないようにSleep
 	std::this_thread::sleep_for(l_frameTime - l_elapsedTime);
 }

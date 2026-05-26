@@ -51,10 +51,7 @@ namespace FWK
 			// マップから登録されているファクトリーメソッドを取得
 			auto l_itr = m_factoryMap.find(a_className);
 
-			if (l_itr == m_factoryMap.end())
-			{
-				return nullptr;
-			}
+			if (l_itr == m_factoryMap.end()) { return nullptr; }
 	
 			return l_itr->second();
 		}

@@ -2,7 +2,7 @@
 
 namespace FWK::Utility::String
 {
-	inline constexpr wchar_t k_wideNullCaracter = L'\0';
+	inline constexpr wchar_t k_wideNullCharacter = L'\0';
 
 	inline constexpr DWORD k_multiByteToWideCharFlags = 0UL;
 
@@ -39,7 +39,7 @@ namespace FWK::Utility::String
 		}
 
 		// 出力バッファを確保しヌル文字で初期化
-		std::wstring l_result(l_size, L'\0');
+		std::wstring l_result(l_size, k_wideNullCharacter);
 
 		// UTF-8 -> UTF-16へ実データ変換
 		MultiByteToWideChar(CP_UTF8,

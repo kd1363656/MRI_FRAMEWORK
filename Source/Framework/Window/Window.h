@@ -19,7 +19,7 @@ namespace FWK
 
 		bool HasHWND() const;
 
-		void SetWindowConfig(const auto& a_set) { m_windowCONFIG = a_set; }
+		void SetWindowCONFIG(const auto& a_set) { m_windowCONFIG = a_set; }
 
 		const auto& GetREFHWND() const { return m_hwnd; }
 

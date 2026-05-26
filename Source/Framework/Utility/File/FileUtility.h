@@ -2,7 +2,7 @@
 
 namespace FWK::Utility::File
 {
-	inline constexpr int k_jsonIndentNum = 4;
+	inline constexpr int k_jsonIndentCount = 4;
 
 	// ファイルが読み込める形式かどうかを確認する。
 	inline bool CanLoadFilePath(const std::filesystem::path& a_filePath)
@@ -65,7 +65,7 @@ namespace FWK::Utility::File
 		std::ofstream l_ofs(a_filePath, std::ios::out);
 
 		// ファイルパスにあるjsonにjsonデータを保存
-		l_ofs << a_json.dump(k_jsonIndentNum);
+		l_ofs << a_json.dump(k_jsonIndentCount);
 		l_ofs.close         ();
 	}
 }

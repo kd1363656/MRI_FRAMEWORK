@@ -306,6 +306,7 @@ void FWK::Window::SetupClientSize()
 
 	if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>())
 	{
+		// メイン画面の横幅、高さをピクセル単位で取得
 		const int l_screenWidth  = GetSystemMetrics(SM_CXSCREEN);
 		const int l_screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
@@ -327,19 +328,9 @@ void FWK::Window::SetupClientSize()
 				   l_screenHeight,
 				   TRUE);
 
-		RECT l_clientRect = {};
-
-		// MoveWindow後の地齋井のクライアント領域を取得する
-		// GetClientRect(対象ウィンドウハンドル、
-		//				 クライアント領域を書き込むRECT);
-		if (!GetClientRect(m_hwnd, &l_clientRect))
-		{
-			assert(false && "ボーダーレスフルウィンドウ時のクライアント領域の取得に失敗しました。");
-			return;
-		}
-
-		m_windowCONFIG.m_width  = static_cast<std::uint32_t>(l_clientRect.right  - l_clientRect.left);
-		m_windowCONFIG.m_height = static_cast<std::uint32_t>(l_clientRect.bottom - l_clientRect.top);
+		// ボーダーレスフルウィンドウのためクライアント領域かどうかを計算する必要がない
+		m_windowCONFIG.m_width  = static_cast<std::uint32_t>(l_screenWidth);
+		m_windowCONFIG.m_height = static_cast<std::uint32_t>(l_screenHeight);
 
 		return;
 	}
@@ -348,8 +339,8 @@ void FWK::Window::SetupClientSize()
 		// 通常のウィンドウには枠やタイトルバーがあるため、
 		//「描画中に使う中身の領域(クライアント領域)」と
 		// 「ウィンドウ全体の大きさ」は一致しない
-		auto l_rcWND    = RECT();
-		auto l_rcClient = RECT();
+		RECT l_rcWND    = {};
+		RECT l_rcClient = {};
 
 		// ウィンドウ全体の大きさと、クライアント領域の大きさを取得する
 		GetWindowRect(m_hwnd, &l_rcWND);

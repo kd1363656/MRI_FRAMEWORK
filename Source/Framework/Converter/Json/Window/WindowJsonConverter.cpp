@@ -4,13 +4,14 @@ void FWK::Converter::WindowJsonConverter::Deserialize(const nlohmann::json& a_ro
 {
 	if (a_rootJson.is_null()) { return; }
 
-	Struct::WindowCONFIG l_windowConfig = {};
+	Struct::WindowCONFIG l_windowCONFIG = {};
 
-	l_windowConfig.m_styleTag = Utility::Json::DeserializeTag(a_rootJson,      k_windowStyleTagJsonKey);
-	l_windowConfig.m_width    = a_rootJson.value             (k_widthJsonKey,  Constant::k_defaultWindowWidth);
-	l_windowConfig.m_height   =	a_rootJson.value             (k_heightJsonKey, Constant::k_defaultWindowHeight);
+	// タグとウィンドウの幅、高さをデシリアライズ
+	l_windowCONFIG.m_styleTag = Utility::Json::DeserializeTag(a_rootJson,      k_windowStyleTagJsonKey);
+	l_windowCONFIG.m_width    = a_rootJson.value             (k_widthJsonKey,  Constant::k_defaultWindowWidth);
+	l_windowCONFIG.m_height   =	a_rootJson.value             (k_heightJsonKey, Constant::k_defaultWindowHeight);
 
-	a_window.SetWindowConfig(l_windowConfig);
+	a_window.SetWindowCONFIG(l_windowCONFIG);
 }
 
 nlohmann::json FWK::Converter::WindowJsonConverter::Serialize(const Window& a_window) const
@@ -19,6 +20,7 @@ nlohmann::json FWK::Converter::WindowJsonConverter::Serialize(const Window& a_wi
 
 	const auto& l_windowConfig = a_window.GetREFWindowCONFIG();
 
+	// タグとウィンドウの幅、高さをシリアライズ
 	Utility::Json::UpdateJson(l_rootJson, Utility::Json::SerializeTag(l_windowConfig.m_styleTag, k_windowStyleTagJsonKey));
 	l_rootJson[k_widthJsonKey]  = l_windowConfig.m_width;
 	l_rootJson[k_heightJsonKey] = l_windowConfig.m_height;
