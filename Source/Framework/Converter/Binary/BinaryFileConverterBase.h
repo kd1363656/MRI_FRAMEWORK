@@ -30,8 +30,10 @@ namespace FWK::Converter
 							      std::uint64_t& a_readOffset,
 								  Type*          a_destinationData) const
 		{
+			// 読み込むデータの型サイズと個数から、実際にコピーするバイト数を計算する
 			const auto l_readDataSize = sizeof(Type) * a_readDataCount;
 
+			// 読み込むバイト数が0の場合は、何もせずに終了する
 			if (l_readDataSize == k_emptyReadDataSize) { return; }
 
 			if (!a_destinationData)
@@ -46,8 +48,11 @@ namespace FWK::Converter
 				return;
 			}
 
+			// メモリマップされたバイナリデータの現在位置から、
+			// 指定された型と個数分のデータを読み込み先へコピーする
 			std::memcpy(a_destinationData, a_readData + a_readOffset, l_readDataSize);
 
+			// 次のデータを続けて読めるように、読み込んだバイト数分だけオフセットをス進める
 			a_readOffset += l_readDataSize;
 		}
 
@@ -57,8 +62,10 @@ namespace FWK::Converter
 								   std::uint64_t& a_writeOffset,
 								   std::uint8_t*  a_writeData) const
 		{
+			// 書き込みデータの型サイズと個数から、実際にコピーするバイト数を計算する
 			const auto l_writeDataSize = sizeof(Type) * a_writeDataCount;
 
+			// 書き込みむバイト数が0の場合は、何もせずに終了する
 			if (l_writeDataSize == k_emptyWriteDataSize) { return; }
 
 			if (!a_sourceData)
@@ -73,8 +80,11 @@ namespace FWK::Converter
 				return;
 			}
 
+			// 書き込み先のメモリマップ領域の現在医師へ、
+			// 指定された方と個数分のデータを書き込む
 			std::memcpy(a_writeData + a_writeOffset, a_sourceData, l_writeDataSize);
 
+			// 次のデータを続けて書けるように、書き込んだバイト数分だけオフセットを進める
 			a_writeOffset += l_writeDataSize;
 		}
 
