@@ -43,6 +43,8 @@
 #include "Definition/Constant/Graphics/Resource/Upload/UploadSystemConstant.h"
 
 // 構造体
+#include "Definition/Struct/StringHash/StringHashStruct.h"
+#include "Definition/Struct/Window/WindowStruct.h"
 #include "Definition/Struct/Graphics/SwapChain/SwapChainStruct.h"
 #include "Definition/Struct/Graphics/Render/RootSignature/RootSignatureStruct.h"
 #include "Definition/Struct/Graphics/Render/Light/LightStruct.h"
@@ -55,8 +57,6 @@
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Light/LightConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Model/ModelConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/FinalPresent/FinalPresentConstantBufferStruct.h"
-#include "Definition/Struct/StringHash/StringHashStruct.h"
-#include "Definition/Struct/Window/WindowStruct.h"
 
 // TypeTrait
 #include "Definition/Type/Trait/PTR/TypeTraitPTR.h"

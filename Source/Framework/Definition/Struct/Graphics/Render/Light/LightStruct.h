@@ -8,8 +8,7 @@ namespace FWK::Struct
 		TypeAlias::Math::Vector3 m_direction = Constant::k_defaultDirectionalLightDirection;
 		float					 m_intensity = Constant::k_defaultDirectionalLightIntensity;
 
-		TypeAlias::Math::Vector3 m_color   = Constant::k_defaultDirectionalLightColor;
-		float					 m_padding = 0.0F;
+		TypeAlias::Math::Vector3 m_color = Constant::k_defaultDirectionalLightColor;
 	};
 
 	// 環境光

@@ -19,5 +19,4 @@ namespace FWK::Tag
 
 	// FinalPresent関係
 	struct RootParameterCBFinalPresentTag : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBFinalPresentTag, RootParameterTagBase); };
-
 }
