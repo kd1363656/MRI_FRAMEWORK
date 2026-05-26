@@ -8,43 +8,48 @@ namespace FWK::Graphics
 	{
 	public:
 
-		 DrawRequestCommandBase()		    = default;
+		 DrawRequestCommandBase()		   = default;
 		~DrawRequestCommandBase() override = default;
 
 		void BeginFrame() override
 		{
-			m_drawCommandList.clear();
-			m_passConstant.reset   ();
+			// 所有者がもういない参照を保持する必要がない
+			std::erase_if(m_drawCommandList, [](const auto& a_drawCommand)
+			{
+				return a_drawCommand.expired();
+			});
 		}
 
-		void RequestDraw(const std::shared_ptr<ObjectType>& a_drawCommand)
+		void RegisterDrawCommand(const std::shared_ptr<ObjectType>& a_drawCommand)
 		{
+			if (!a_drawCommand)
+			{
+				assert(false && "DrawCommandが無効のため、DrawCommandの登録に失敗しました。");
+				return;
+			}
+
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}
-
-		void SetPassConstant(const PassConstantType& a_passConstant)
+	
+		void RegisterPassConstant(const std::shared_ptr<PassConstantType>& a_passConstant)
 		{
+			if (!a_passConstant) 
+			{
+				assert(false && "PassConstantが無効のため、PassConstantの登録に失敗しました。");
+				return;
+			}
+
 			m_passConstant = a_passConstant;
 		}
 
-		bool HasPassConstant() const 
-		{
-			return m_passConstant.has_value();
-		}
-
-		const PassConstantType* GetPTRPassConstant() const
-		{
-			if (!HasPassConstant()) { return nullptr; }
-			
-			return &m_passConstant.value();
-		}
-	
 		const auto& GetREFDrawCommandList() const { return m_drawCommandList; }
+
+		const auto& GetPassConstant() const { return m_passConstant; }
 
 	private:
 
 		std::vector<std::weak_ptr<ObjectType>> m_drawCommandList = {};
-		std::optional<PassConstantType>		   m_passConstant	 = std::nullopt;
+		std::weak_ptr<PassConstantType>		   m_passConstant	 = {};
 	};
 
 	// PassConstantなし版
@@ -53,19 +58,29 @@ namespace FWK::Graphics
 	{
 	public:
 
-		 DrawRequestCommandBase()		    = default;
+		 DrawRequestCommandBase()		   = default;
 		~DrawRequestCommandBase() override = default;
 
 		void BeginFrame() override
 		{
-			m_drawCommandList.clear();
+			// 所有者がもういない参照を保持する必要がない
+			std::erase_if(m_drawCommandList, [](const auto& a_drawCommand)
+			{
+				return a_drawCommand.expired();
+			});
 		}
 
-		void RequestDraw(const std::weak_ptr<ObjectType>& a_drawCommand)
+		void RegisterDrawCommand(const std::shared_ptr<ObjectType>& a_drawCommand)
 		{
+			if (!a_drawCommand)
+			{
+				assert(false && "DrawCommandが無効のため、DrawCommandの登録に失敗しました。");
+				return;
+			}
+
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}
-
+	
 		const auto& GetREFDrawCommandList() const { return m_drawCommandList; }
 
 	private:

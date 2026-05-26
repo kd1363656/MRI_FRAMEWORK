@@ -17,10 +17,10 @@ namespace FWK
 
 	private:
 
-		void RequestDrawTexture(const std::shared_ptr<Graphics::Texture>& a_texture) const;
+		void RegisterDrawCommandTexture(const std::shared_ptr<Graphics::Texture>& a_texture) const;
 
 		template <Concept::IsDerivedDrawCommandBaseConcept Type>
-		void RequestDrawStaticModelStandard(const std::shared_ptr<Graphics::StaticModel>& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera) const
+		void RegisterDrawStaticModelStandard(const std::shared_ptr<Graphics::StaticModel>& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera) const
 		{
 			if (!a_staticModel)			   { return; }
 			if (!a_staticModel->IsValid()) { return; }
@@ -29,15 +29,20 @@ namespace FWK
 			const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance();
 			const auto& l_renderer		  = l_graphicsManager.GetREFRenderer	  ();
 
-			const auto& l_drawCommand = l_renderer.FindVALDrawCommand<Type>();
+			const auto l_drawCommand = l_renderer.FindVALDrawCommand<Type>();
 
 			if (!l_drawCommand) { return; }
 
-			l_drawCommand->SetPassConstant(m_staticModelStandardPassConstant);
-			l_drawCommand->RequestDraw    (m_staticModelStandardDrawCommand);
+			m_staticModelStandardPassConstant->m_camera = a_camera;
+
+			m_staticModelStandardDrawCommand->m_staticModelRecord = a_staticModel->GetREFStaticModelRecord	();
+			m_staticModelStandardDrawCommand->m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
+
+			l_drawCommand->RegisterPassConstant(m_staticModelStandardPassConstant);
+			l_drawCommand->RegisterDrawCommand (m_staticModelStandardDrawCommand);
 		}
 		
-		std::shared_ptr<Graphics::Camera> m_camera = nullptr;
+		std::shared_ptr<Graphics::Camera> m_camera = std::make_shared<Graphics::Camera>();
 
 		std::shared_ptr<Graphics::Texture>	   m_texture     = std::make_shared<Graphics::Texture>	  ();
 		std::shared_ptr<Graphics::StaticModel> m_staticModel = std::make_shared<Graphics::StaticModel>();

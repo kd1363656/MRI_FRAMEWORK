@@ -33,10 +33,11 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			// セットされていなければreturn
-			if (!GetPTRPassConstant()) { return false; }
+			const auto& l_staticModelStandardPassConstant = GetPassConstant().lock();
+			
+			if (!l_staticModelStandardPassConstant) { return false; }
 
-			const auto& l_cbCamera = GetPTRPassConstant()->m_camera.lock();
+			const auto& l_cbCamera = l_staticModelStandardPassConstant->m_camera.lock();
 
 			if (!l_cbCamera) { return false; }
 

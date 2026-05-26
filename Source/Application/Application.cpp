@@ -126,10 +126,6 @@ bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	return true;
 }
 
-void Application::RequestDraw(const FWK::SceneManager& a_sceneManager) const
-{
-	a_sceneManager.RequestDraw();
-}
 void Application::BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	a_graphicsManager.BeginDraw();

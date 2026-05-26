@@ -14,8 +14,6 @@ void FWK::Scene::PostLoadSetup()
 		m_staticModel->Load("Asset/Model/Antike.fbx");
 	}
 
-	m_camera = std::make_shared<Graphics::Camera>();
-
 	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance       ();
 	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer	         ();
 	const auto& l_viewport        = l_renderer.GetREFRenderArea().GetREFViewport ();
@@ -27,7 +25,15 @@ void FWK::Scene::PostLoadSetup()
 
 void FWK::Scene::RegisterDrawCommand() const
 {
+	if (m_staticModel)
+	{
+		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
+	}
 
+	if (m_texture)
+	{
+		RegisterDrawCommandTexture(m_texture);
+	}
 }
 
 void FWK::Scene::Update()
@@ -84,7 +90,8 @@ void FWK::Scene::Update()
 
 	if (GetAsyncKeyState('1'))
 	{
-		m_staticModel = nullptr;
+		m_staticModel					 = nullptr;
+		m_staticModelStandardDrawCommand = nullptr;
 	}
 
 	if (GetAsyncKeyState('2'))
@@ -95,12 +102,12 @@ void FWK::Scene::Update()
 	m_camera->SetCameraMatrix(TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(l_rot)) * TypeAlias::Math::Matrix::CreateTranslation(l_cameraPos));
 }
 
-void FWK::Scene::RequestDrawTexture(const std::shared_ptr<Graphics::Texture>& a_texture) const
+void FWK::Scene::RegisterDrawCommandTexture(const std::shared_ptr<Graphics::Texture>& a_texture) const
 {
 	if (!a_texture) { return; }
 
-	const auto&	l_graphicsManager = Graphics::GraphicsManager::GetInstance();
-	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer      ();
+	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance();
+	const auto& l_renderer = l_graphicsManager.GetREFRenderer();
 
 	const auto& l_drawCommand = l_renderer.FindVALDrawCommand<Graphics::DrawSpriteStandardCommand>();
 
@@ -111,5 +118,5 @@ void FWK::Scene::RequestDrawTexture(const std::shared_ptr<Graphics::Texture>& a_
 	m_spriteStandardDrawCommand->m_position      = { 0.0F, 0.0F };
 	m_spriteStandardDrawCommand->m_sourceRECT    = { 0L, 0L, 256L, 256L };
 
-	l_drawCommand->RequestDraw(m_spriteStandardDrawCommand);
+	l_drawCommand->RegisterDrawCommand(m_spriteStandardDrawCommand);
 }
