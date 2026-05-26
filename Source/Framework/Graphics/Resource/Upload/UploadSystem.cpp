@@ -3,6 +3,7 @@
 void FWK::Graphics::UploadSystem::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
+
 	m_uploadSystemJsonConverter.Deserialize(a_rootJson, *this);
 }
 bool FWK::Graphics::UploadSystem::Create(const Device& a_device)
@@ -73,6 +74,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 
 		const auto& l_textureUploadRecord = l_pendingTextureBatchUploadRecord.m_textureUploadRecord;
 
+		// 
 		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->m_gpuResource.m_resource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
 	}
 

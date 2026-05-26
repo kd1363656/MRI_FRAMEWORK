@@ -170,9 +170,6 @@ void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_up
 		assert(false && "ロード待ちテクスチャのバッチ登録に失敗しました。");
 		return;
 	}
-
-	// そのフレーム内でロードすべきテクスチャをすべてロードし終えた状態なのでクリア
-	m_pendingTextureBatchUploadRecordMap.clear();
 }
 
 void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
@@ -249,6 +246,9 @@ bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem
 			return false;
 		}
 	}
+
+	// そのフレーム内でロードすべきテクスチャをすべてロードし終えた状態なのでクリア
+	m_pendingTextureBatchUploadRecordMap.clear();
 
 	return true;
 }

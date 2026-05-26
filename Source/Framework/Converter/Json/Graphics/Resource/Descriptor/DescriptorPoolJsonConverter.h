@@ -18,7 +18,7 @@ namespace FWK::Converter
 
 		void Deserialize(const nlohmann::json& a_rootJson, FWK::Graphics::DescriptorPool<Type>& a_descriptorPool) const
 		{
-			if (a_rootJson.is_null()) { return; }
+			if (a_rootJson.is_null())							   { return; }
 			if (!a_rootJson.contains(k_storageIDAllocatorJsonKey)) { return; }
 			
 			auto& l_storageIDAllocator = a_descriptorPool.GetMutableREFStorageIDAllocator();
