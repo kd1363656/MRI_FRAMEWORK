@@ -41,6 +41,9 @@ void Application::Execute()
 		return;
 	}
 
+	// 描画コマンドポインタの登録
+	RegisterDrawCommand(l_sceneManager);
+
 	while (true)
 	{
 		// 更新
@@ -50,10 +53,9 @@ void Application::Execute()
 		Update(l_sceneManager);
 
 		// 描画
-		RequestDraw(l_sceneManager);
-		BeginDraw  (l_graphicsManager);
-		Draw	   (l_graphicsManager);
-		EndDraw    (l_graphicsManager);
+		BeginDraw(l_graphicsManager);
+		Draw	 (l_graphicsManager);
+		EndDraw  (l_graphicsManager);
 
 		// FPSの更新
 		EndFrame(l_graphicsManager);
@@ -96,6 +98,11 @@ bool Application::PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManag
 	a_editorManager.INIT(m_window.GetREFHWND());
 
 	return true;
+}
+
+void Application::RegisterDrawCommand(const FWK::SceneManager& a_sceneManager)
+{
+	a_sceneManager.RegisterDrawCommand();
 }
 
 bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)

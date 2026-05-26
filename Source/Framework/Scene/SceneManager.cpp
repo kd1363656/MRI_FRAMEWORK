@@ -5,9 +5,9 @@ void FWK::SceneManager::PostLoadSetup()
 	m_scene.PostLoadSetup();
 }
 
-void FWK::SceneManager::RequestDraw() const
+void FWK::SceneManager::RegisterDrawCommand() const
 {
-	m_scene.RequestDraw();
+	m_scene.RegisterDrawCommand();
 }
 
 void FWK::SceneManager::Update()

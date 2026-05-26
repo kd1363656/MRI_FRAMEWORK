@@ -8,8 +8,8 @@ namespace FWK
 
 		void PostLoadSetup();
 
-		void RequestDraw() const;
-
+		void RegisterDrawCommand() const;
+		
 		void Update();
 
 	private:

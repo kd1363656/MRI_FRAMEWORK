@@ -15,12 +15,13 @@ private:
 	void LoadCONFIG    (FWK::Graphics::GraphicsManager& a_graphicsManager);
 	bool PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager);
 
+	void RegisterDrawCommand(const FWK::SceneManager& a_sceneManager);
+
 	bool BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 	
-	void RequestDraw(const FWK::SceneManager&			   a_sceneManager)    const;
-	void BeginDraw  (      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
-	void Draw       (	   FWK::Graphics::GraphicsManager& a_graphicsManager) const;
-	void EndDraw    (      FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void Draw     (FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void EndDraw  (FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
 	void Update(FWK::SceneManager& a_sceneManager) const;
 

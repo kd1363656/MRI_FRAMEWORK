@@ -11,7 +11,7 @@ namespace FWK
 
 		void PostLoadSetup();
 
-		void RequestDraw() const;
+		void RegisterDrawCommand() const;
 
 		void Update();
 
@@ -33,13 +33,7 @@ namespace FWK
 
 			if (!l_drawCommand) { return; }
 
-			Struct::StaticModelStandardPassConstant l_staticModelUnLitStandardPassConstant = {};
-			l_staticModelUnLitStandardPassConstant.m_camera = m_camera;
-
-			m_staticModelStandardDrawCommand->m_staticModelRecord = a_staticModel->GetREFStaticModelRecord();
-			m_staticModelStandardDrawCommand->m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
-			
-			l_drawCommand->SetPassConstant(l_staticModelUnLitStandardPassConstant);
+			l_drawCommand->SetPassConstant(m_staticModelStandardPassConstant);
 			l_drawCommand->RequestDraw    (m_staticModelStandardDrawCommand);
 		}
 		

@@ -25,21 +25,9 @@ void FWK::Scene::PostLoadSetup()
 	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 1.0F, -1.15F), l_aspectRatio);
 }
 
-void FWK::Scene::RequestDraw() const
+void FWK::Scene::RegisterDrawCommand() const
 {
-	if (m_texture)
-	{
-		RequestDrawTexture(m_texture);
-	}
 
-	// UnLitモデルの描画
-	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera);
-	
-	// Litモデルの描画
-	if (m_staticModel)
-	{
-		RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
-	}
 }
 
 void FWK::Scene::Update()
