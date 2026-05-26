@@ -470,6 +470,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\IRenderGraphPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
@@ -590,6 +591,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp" />

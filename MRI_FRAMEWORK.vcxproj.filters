@@ -772,6 +772,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent">
       <UniqueIdentifier>{d4d33768-964f-43e8-9079-5590a7daed41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Scene">
+      <UniqueIdentifier>{7e355673-0097-4ae4-802e-fb7257e08bdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1352,6 +1355,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1641,6 +1647,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
