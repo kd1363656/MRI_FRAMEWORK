@@ -59,9 +59,7 @@ namespace FWK::Graphics
 			return true;
 		}
 
-		bool SetupCBModelObject(const RootSignature&	 a_rootSignature,
-								const DirectCommandList& a_directCommandList,
-								const FrameResource&	 a_frameResource) const
+		bool SetupCBModelObject(const RootSignature& a_rootSignature, const DirectCommandList& a_directCommandList, const FrameResource& a_frameResource) const
 		{
 			// モデルオブジェクトマップ用定数バッファの取得
 			auto l_modelObjectConstantBuffer = a_frameResource.FindPTRConstantBuffer<ModelObjectConstantBuffer>().lock();

@@ -123,7 +123,7 @@ void FWK::Graphics::Texture::AddTextureReference() const
 	auto& l_resourceContext = l_graphicsManager.GetMutableREFResourceContext();
 	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
 
-	if (!l_textureSystem.AddTextureReference(m_storageID))
+	if (!l_textureSystem.AddTextureReference(m_textureRecord))
 	{
 		assert(false && "テクスチャ参照数加算に失敗しました。");
 		return;
@@ -146,7 +146,7 @@ void FWK::Graphics::Texture::ReleaseTextureReference()
 	
 	// 参照カウントを減らす
 	if (auto& l_textureSystem = l_resourceContext.GetMutableREFTextureSystem();
-		!l_textureSystem.ReleaseTextureReference(l_directCommandQueue, m_storageID))
+		!l_textureSystem.ReleaseTextureReference(l_directCommandQueue, m_textureRecord))
 	{
 		assert(false && "テクスチャ参照数解放に失敗しました。");
 		return;

@@ -32,11 +32,11 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		bool AddTextureReference    (const TypeAlias::StorageID a_storageID);
-		bool ReleaseTextureReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::StorageID a_storageID);
+		bool AddTextureReference    (const std::weak_ptr<Struct::TextureRecord>& a_textureRecord);
+		bool ReleaseTextureReference(const DirectCommandQueue&				     a_directCommandQueue, const std::weak_ptr<Struct::TextureRecord>& a_textureRecord);
 
 		std::weak_ptr<Struct::TextureRecord> FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const;
-		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord       (const TypeAlias::StorageID     a_storageID) const;
+		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord       (const std::wstring&		    a_filePath) const;
 
 		const auto& GetREFTextureStorage() const { return m_textureStorage; }
 

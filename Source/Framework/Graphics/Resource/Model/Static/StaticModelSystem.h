@@ -28,10 +28,10 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		bool AddStaticModelReference    (const TypeAlias::StorageID a_storageID);
-		bool ReleaseStaticModelReference(const DirectCommandQueue&  a_directCommandQueue, const TypeAlias::StorageID a_storageID);
+		bool AddStaticModelReference    (const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord);
+		bool ReleaseStaticModelReference(const DirectCommandQueue&						 a_directCommandQueue, const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord);
 
-		std::weak_ptr<Struct::StaticModelRecord> FindVALStaticModelRecord(const TypeAlias::StorageID a_storageID) const;
+		std::weak_ptr<Struct::StaticModelRecord> FindVALStaticModelRecord(const std::wstring& a_filePath) const;
 
 		const auto& GetREFStaticModelStorage() const { return m_staticModelStorage; }
 

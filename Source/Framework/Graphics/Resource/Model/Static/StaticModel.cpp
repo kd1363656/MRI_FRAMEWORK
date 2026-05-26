@@ -108,7 +108,7 @@ void FWK::Graphics::StaticModel::AddStaticModelReference() const
 	auto& l_resourceContext   = l_graphicsManager.GetMutableREFResourceContext  ();
 	auto& l_staticModelSystem = l_resourceContext.GetMutableREFStaticModelSystem();
 
-	if (!l_staticModelSystem.AddStaticModelReference(m_storageID)) 
+	if (!l_staticModelSystem.AddStaticModelReference(m_staticModelRecord)) 
 	{
 		assert(false && "StaticModelの参照数加算に失敗しました。");
 		return;
@@ -129,7 +129,7 @@ void FWK::Graphics::StaticModel::ReleaseStaticModelReference()
 	const auto& l_directCommandQueue = l_renderer.GetREFDirectCommandQueue             ();
 
 	if (auto& l_staticModelSystem = l_resourceContext.GetMutableREFStaticModelSystem(); 
-		!l_staticModelSystem.ReleaseStaticModelReference(l_directCommandQueue, m_storageID))
+		!l_staticModelSystem.ReleaseStaticModelReference(l_directCommandQueue, m_staticModelRecord))
 	{
 		assert(false && "StaticModelの参照数減算に失敗しました。");
 		return; 

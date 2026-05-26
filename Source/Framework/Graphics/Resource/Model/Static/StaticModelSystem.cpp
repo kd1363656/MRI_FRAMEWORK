@@ -33,18 +33,19 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	const auto& l_filePath = a_filePath.wstring();
 
 	// 既に登録済みのStaticModelなら再度ロード申請する必要がないのでreturn
-	if (const auto l_foundStorageID = m_staticModelStorage.FindVALStorageIDFromFilePath(l_filePath);
-		l_foundStorageID != Constant::k_invalidStorageID)
+	if (const auto& l_record = m_staticModelStorage.FindVALRecord(l_filePath).lock())
 	{
+		const auto l_foundStorageID = l_record->m_storageID;
+
 		// 参照カウントの加算
-		if (!AddStaticModelReference(l_foundStorageID))
+		if (!AddStaticModelReference(l_record))
 		{
 			assert(false && "登録済みStaticModelの参照数加算に失敗したため、StaticModel読み込み処理に失敗しました。");
 			return l_staticModelLoadResult;
 		}
 
 		l_staticModelLoadResult.m_storageID			= l_foundStorageID;
-		l_staticModelLoadResult.m_staticModelRecord = m_staticModelStorage.FindVALRecord(l_foundStorageID);
+		l_staticModelLoadResult.m_staticModelRecord = l_record;
 
 		return l_staticModelLoadResult;
 	}
@@ -155,9 +156,9 @@ nlohmann::json FWK::Graphics::StaticModelSystem::Serialize() const
 	return  m_staticModelSystemJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const TypeAlias::StorageID a_storageID)
+bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord)
 {
-	if (!m_staticModelStorage.AddReference(a_storageID))
+	if (!m_staticModelStorage.AddReference(a_staticModelRecord))
 	{
 		assert(false && "AssetStorageでの参照数加算に失敗したため、StaticModel参照数加算に失敗しました。");
 		return false;
@@ -165,9 +166,10 @@ bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const TypeAlias::
 
 	return true;
 }
-bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
+
+bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectCommandQueue& a_directCommandQueue, const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord)
 {
-	if (!m_staticModelStorage.ReleaseReference(a_directCommandQueue, a_storageID))
+	if (!m_staticModelStorage.ReleaseReference(a_directCommandQueue, a_staticModelRecord))
 	{
 		assert(false && "AssetStorageでの参照数減算に失敗したため、StaticModel解放予約に失敗しました。");
 		return false;
@@ -176,9 +178,9 @@ bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectC
 	return true;
 }
 
-std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::FindVALStaticModelRecord(const TypeAlias::StorageID a_storageID) const
+std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::FindVALStaticModelRecord(const std::wstring& a_filePath) const
 {
-	return m_staticModelStorage.FindVALRecord(a_storageID);
+	return m_staticModelStorage.FindVALRecord(a_filePath);
 }
 
 bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath, Struct::StaticModelRecord& a_staticModelRecord)

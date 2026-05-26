@@ -66,17 +66,16 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	const auto& l_filePath = a_filePath.wstring();
 	
 	// 既に登録済みのテクスチャなら再度ロード申請する必要がないのでreturn
-	if (const auto l_foundStorageID = m_textureStorage.FindVALStorageIDFromFilePath(l_filePath);
-		l_foundStorageID != Constant::k_invalidStorageID)
+	if (const auto& l_record = m_textureStorage.FindVALRecord(l_filePath).lock())
 	{
-		if (!AddTextureReference(l_foundStorageID))
+		if (!AddTextureReference(l_record))
 		{
 			assert(false && "登録済みテクスチャの参照数加算に失敗したため、テクスチャ読み込み処理に失敗しました。");
 			return l_textureLoadResult;
 		}
 		
-		l_textureLoadResult.m_storageID     = l_foundStorageID;
-		l_textureLoadResult.m_textureRecord = m_textureStorage.FindVALRecord(l_foundStorageID);
+		l_textureLoadResult.m_storageID     = l_record->m_storageID;
+		l_textureLoadResult.m_textureRecord = l_record;
 
 		return l_textureLoadResult;
 	}
@@ -188,9 +187,9 @@ nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 	return m_textureSystemJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::TextureSystem::AddTextureReference(const TypeAlias::StorageID a_storageID)
+bool FWK::Graphics::TextureSystem::AddTextureReference(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord)
 {
-	if (!m_textureStorage.AddReference(a_storageID))
+	if (!m_textureStorage.AddReference(a_textureRecord))
 	{
 		assert(false && "AssetStorageでの参照数加算に失敗したため、テクスチャ参照数加算に失敗しました。");
 		return false;
@@ -198,10 +197,9 @@ bool FWK::Graphics::TextureSystem::AddTextureReference(const TypeAlias::StorageI
 
 	return true;
 }
-
-bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
+bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQueue& a_directCommandQueue, const std::weak_ptr<Struct::TextureRecord>& a_textureRecord)
 {
-	if (!m_textureStorage.ReleaseReference(a_directCommandQueue, a_storageID))
+	if (!m_textureStorage.ReleaseReference(a_directCommandQueue, a_textureRecord))
 	{
 		assert(false && "AssetStorageでの参照数減算に失敗したため、テクスチャ解放予約に失敗しました。");
 		return false;
@@ -222,9 +220,9 @@ std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALD
 
 	return m_defaultTextureRecordList[l_defaultTextureRecordIndex];
 }
-std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALTextureRecord(const TypeAlias::StorageID a_storageID) const
+std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALTextureRecord(const std::wstring& a_filePath) const
 {
-	return m_textureStorage.FindVALRecord(a_storageID);
+	return m_textureStorage.FindVALRecord(a_filePath);
 }
 
 bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem)

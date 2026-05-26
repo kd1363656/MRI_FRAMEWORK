@@ -7,9 +7,7 @@ namespace FWK::Graphics
 	{
 	private:
 
-		// ファイルパスからストレージID、ストレージIDからレコードを取得するような仕組みになっているのは
-		using FilePathStorageIDMap = std::unordered_map<std::wstring,		  TypeAlias::StorageID, Struct::WStringHash, std::equal_to<>>;
-		using RecordMap            = std::unordered_map<TypeAlias::StorageID, std::shared_ptr<RecordType>>;
+		using RecordMap = std::unordered_map<std::wstring, std::shared_ptr<RecordType>>;
 
 	public:
 
@@ -67,28 +65,20 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			if (m_filePathStorageIDMap.contains(a_filePath))
+			if (m_recordMap.contains(a_filePath))
 			{
 				assert(false && "同じファイルパスのRecordが既に登録されているため、Recordの登録に失敗しました。");
 				return false;
 			}
 
-			if (m_recordMap.contains(a_record->m_storageID))
-			{
-				assert(false && "同じStorageIDのRecordが既に登録されているため、Recordの登録に失敗しました。");
-				return false;
-			}
-
-			// ファイルパスとそれに対応するストレージID及びストレージIDに対応するレコードを保存
-			m_filePathStorageIDMap.try_emplace(a_filePath,			  a_record->m_storageID);
-			m_recordMap.try_emplace			  (a_record->m_storageID, a_record);
+			m_recordMap.try_emplace(a_filePath, a_record);
 
 			return true;
 		}
 
-		bool UnregisterRecord(const TypeAlias::StorageID a_storageID)
+		bool UnregisterRecord(const std::weak_ptr<RecordType>& a_record)
 		{
-			const auto& l_record = FindVALRecord(a_storageID).lock();
+			const auto& l_record = a_record.lock();
 
 			if (!l_record)
 			{
@@ -96,19 +86,16 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			const auto l_filePath = l_record->m_filePath;
-
-			m_filePathStorageIDMap.erase(l_filePath);
-			m_recordMap.erase			(a_storageID);
-
-			m_storageIDAllocator.Release(a_storageID);
+			// ストレージIDを解放し、レコード情報を削除
+			m_storageIDAllocator.Release(l_record->m_storageID);
+			m_recordMap.erase			(l_record->m_filePath);
 
 			return true;
 		}
 
-		bool AddReference(const TypeAlias::StorageID a_storageID)
+		bool AddReference(const std::weak_ptr<RecordType>& a_record)
 		{
-			const auto& l_record = FindVALRecord(a_storageID).lock();
+			const auto& l_record = a_record.lock();
 
 			if (!l_record)
 			{
@@ -122,9 +109,9 @@ namespace FWK::Graphics
 			return true;
 		}
 
-		bool ReleaseReference(const DirectCommandQueue& a_directCommandQueue, const TypeAlias::StorageID a_storageID)
+		bool ReleaseReference(const DirectCommandQueue& a_directCommandQueue, const std::weak_ptr<RecordType>& a_record)
 		{
-			const auto& l_record = FindVALRecord(a_storageID).lock();
+			const auto& l_record = a_record.lock();
 
 			if (!l_record)
 			{
@@ -138,7 +125,6 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			// 参照カウントを減算
 			--l_record->m_referenceCount;
 
 			// まだ利用者が残っているなら何もしない
@@ -200,42 +186,37 @@ namespace FWK::Graphics
 					continue;
 				}
 
-				// ファイルパスから対応するStorageIDを見つけるMapの要素を削除
-				m_filePathStorageIDMap.erase(l_record->m_filePath);
-
 				// StorageIDを返却する
 				m_storageIDAllocator.Release(l_record->m_storageID);
-
-				// RecordMapから削除する
-				// erase()は削除した次のイテレーターを返す
+				// ファイルパスから対応するStorageIDを見つけるMapの要素を削除
 				l_itr = m_recordMap.erase(l_itr);
 			}
 		}
 
 		TypeAlias::StorageID FindVALStorageIDFromFilePath(const std::wstring& a_filePath) const
 		{
-			const auto& l_itr = m_filePathStorageIDMap.find(a_filePath);
+			const auto& l_itr = m_recordMap.find(a_filePath);
 
-			if (l_itr == m_filePathStorageIDMap.end()) { return Constant::k_invalidStorageID; }
+			if (l_itr == m_recordMap.end()) { return Constant::k_invalidStorageID; }
 
-			return l_itr->second;
+			const auto& l_record = l_itr->second;
+
+			if (!l_record) { return Constant::k_invalidStorageID; }
+
+			return l_record->m_storageID;
 		}
 
-		std::weak_ptr<RecordType> FindVALRecord(const TypeAlias::StorageID a_storageID) const
+		std::weak_ptr<RecordType> FindVALRecord(const std::wstring& a_filePath) const
 		{
-			if (a_storageID == Constant::k_invalidStorageID)
+			if (a_filePath.empty())
 			{
-				assert(false && "StorageIDが無効のため、Recordの取得に失敗しました。");
+				assert(false && "ファイルパスが空のため、Recordの取得に失敗しました。");
 				return {};
 			}
 
-			const auto& l_itr = m_recordMap.find(a_storageID);
+			const auto& l_itr = m_recordMap.find(a_filePath);
 
-			if (l_itr == m_recordMap.end())
-			{
-				assert(false && "指定されたStorageIDに対応するRecordが見つかりませんでした。");
-				return {};
-			}
+			if (l_itr == m_recordMap.end()) { return {}; }
 
 			return l_itr->second;
 		}
@@ -246,8 +227,7 @@ namespace FWK::Graphics
 
 	private:
 
-		FilePathStorageIDMap m_filePathStorageIDMap = {};
-		RecordMap			 m_recordMap			= {};
+		RecordMap m_recordMap = {};
 
 		StorageIDAllocator m_storageIDAllocator = {};
 
