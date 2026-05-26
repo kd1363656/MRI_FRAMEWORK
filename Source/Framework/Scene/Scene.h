@@ -37,17 +37,8 @@ namespace FWK
 
 			Struct::StaticModelStandardDrawCommand  l_staticModelUnLitStandardDrawCommand  = {};
 
-			static float l_rot = 0.0F;
-
-			l_rot += 1.0F;
-
-			if (l_rot >= 360.0F)
-			{
-				l_rot = l_rot - 360.0F;
-			}
-
 			l_staticModelUnLitStandardDrawCommand.m_staticModelRecord = a_staticModel.GetREFStaticModelRecord();
-			l_staticModelUnLitStandardDrawCommand.m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(l_rot));
+			l_staticModelUnLitStandardDrawCommand.m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
 			
 			l_drawCommand->SetPassConstant(l_staticModelUnLitStandardPassConstant);
 			l_drawCommand->RequestDraw    (l_staticModelUnLitStandardDrawCommand);
