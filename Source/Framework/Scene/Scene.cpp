@@ -3,10 +3,16 @@
 void FWK::Scene::PostLoadSetup()
 {
 	// テクスチャ
-	//m_texture.Load("Asset/Texture/Test.dds");
+	if (m_texture)
+	{
+		m_texture->Load("Asset/Texture/Test.dds");
+	}
 
 	// モデル
-	m_staticModel.Load("Asset/Model/Antike.fbx");
+	if (m_staticModel)
+	{
+		m_staticModel->Load("Asset/Model/Antike.fbx");
+	}
 
 	m_camera = std::make_shared<Graphics::Camera>();
 
@@ -21,13 +27,19 @@ void FWK::Scene::PostLoadSetup()
 
 void FWK::Scene::RequestDraw() const
 {
-	//RequestDrawTexture(m_texture);
+	if (m_texture)
+	{
+		RequestDrawTexture(*m_texture);
+	}
 
 	// UnLitモデルの描画
 	//RequestDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera);
 	
 	// Litモデルの描画
-	RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
+	if (m_staticModel)
+	{
+		RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(*m_staticModel, m_camera);
+	}
 }
 
 void FWK::Scene::Update()
@@ -80,6 +92,16 @@ void FWK::Scene::Update()
 	else if (GetAsyncKeyState('E'))
 	{
 		l_rot += 1.0F;
+	}
+
+	if (GetAsyncKeyState('1'))
+	{
+		m_staticModel = nullptr;
+	}
+
+	if (GetAsyncKeyState('2'))
+	{
+		m_texture = nullptr;
 	}
 
 	m_camera->SetCameraMatrix(TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(l_rot)) * TypeAlias::Math::Matrix::CreateTranslation(l_cameraPos));

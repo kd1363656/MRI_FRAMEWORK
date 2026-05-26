@@ -3,11 +3,7 @@
 void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer)
 {
 	// 描画用定数バッファのセットを行う
-	if (!DrawStaticModelStandardCommandBase::SetupCommonPassConstantBuffer(a_renderer))
-	{
-		assert(false && "共通定数であるカメラバッファがセットできておらず、StaticModel描画処理に失敗しました。");
-		return;
-	}
+	if (!DrawStaticModelStandardCommandBase::SetupCommonPassConstantBuffer(a_renderer)) { return; }
 
 	const auto& l_rootSignature = GetVALRootSignature().lock();
 
