@@ -5,10 +5,10 @@
 //								  Windowsメッセージ、
 //								  WPARAM,
 //								  LPARAM);
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND   a_hwnd,
-													  UINT   a_message,
-													  WPARAM a_wParam,
-													  LPARAM a_lParam);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND,
+															 UINT,
+															 WPARAM,
+															 LPARAM);
 
 FWK::Window::Window() = default;
 FWK::Window::~Window()

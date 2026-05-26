@@ -32,10 +32,10 @@ void Application::Execute()
 	auto& l_editorManager   = FWK::Editor::EditorManager::GetInstance	 ();
 
 	// 初期化関係処理
-	INIT    (l_graphicsManager);
-	LoadFile(l_graphicsManager);
+	INIT      (l_graphicsManager);
+	LoadCONFIG(l_graphicsManager);
 
-	if (!PostLoadSetup(l_graphicsManager, l_sceneManager, l_editorManager))
+	if (!PostLoadCONFIG(l_graphicsManager, l_sceneManager, l_editorManager))
 	{
 		assert(false && "アプリケーションのPostLoadSetup関数処理が失敗しました。");
 		return;
@@ -60,7 +60,7 @@ void Application::Execute()
 	}
 
 	// もしゲームデータがセーブされていなくても変更が適用されるべき項目を自動セーブする
-	SaveFile(l_graphicsManager);
+	SaveCONFIG(l_graphicsManager);
 }
 
 void Application::INIT(FWK::Graphics::GraphicsManager& a_graphicsManager)
@@ -68,13 +68,13 @@ void Application::INIT(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	m_window.INIT		  ();
 	a_graphicsManager.INIT();
 }
-void Application::LoadFile(FWK::Graphics::GraphicsManager& a_graphicsManager)
+void Application::LoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
 	m_window.LoadCONFIG			();
 	m_fpsController.LoadCONFIG  ();
 	a_graphicsManager.LoadCONFIG();
 }
-bool Application::PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager)
+bool Application::PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager)
 {
 	if (!m_window.Create(k_windowClassName, k_titleName))
 	{
@@ -153,7 +153,7 @@ void Application::EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	UpdateWindowTitleBar();
 }
 
-void Application::SaveFile(const FWK::Graphics::GraphicsManager& a_graphicsManager) const
+void Application::SaveCONFIG(const FWK::Graphics::GraphicsManager& a_graphicsManager) const
 {
 	m_window.SaveCONFIG         ();
 	m_fpsController.SaveCONFIG  ();

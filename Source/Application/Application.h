@@ -11,9 +11,9 @@ public:
 
 private:
 
-	void INIT         (FWK::Graphics::GraphicsManager& a_graphicsManager);
-	void LoadFile     (FWK::Graphics::GraphicsManager& a_graphicsManager);
-	bool PostLoadSetup(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager);
+	void INIT          (FWK::Graphics::GraphicsManager& a_graphicsManager);
+	void LoadCONFIG    (FWK::Graphics::GraphicsManager& a_graphicsManager);
+	bool PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager);
 
 	bool BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 	
@@ -26,7 +26,7 @@ private:
 
 	void EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 
-	void SaveFile(const FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void SaveCONFIG(const FWK::Graphics::GraphicsManager& a_graphicsManager) const;
 
 	void UpdateWindowTitleBar() const;
 
