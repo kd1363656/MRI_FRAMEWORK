@@ -13,7 +13,7 @@ FWK::Graphics::RenderGraphSceneDrawPass::~RenderGraphSceneDrawPass()
 void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&				   a_rtvDescriptorHeap, 
 													  const DSVDescriptorHeap&				   a_dsvDescriptorHeap, 
 													  const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
-													  const SwapChain&						   a_swapChain, 
+													  const SwapChain&, 
 															DirectCommandList&				   a_directCommandList, 
 															Renderer&						   a_renderer)
 {

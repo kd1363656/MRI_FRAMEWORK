@@ -9,7 +9,8 @@ namespace FWK::Graphics
 		 RenderTargetTexture() = default;
 		~RenderTargetTexture() = default;
 
-		void Deserialize(const nlohmann::json& a_rootJson);
+		void Deserialize		  (const nlohmann::json&	   a_rootJson);
+		void ApplyWindowSizeIfNeed(const Struct::WindowCONFIG& a_windowConfig);
 
 		bool Create(const Device&							 a_device, 
 					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
@@ -27,6 +28,8 @@ namespace FWK::Graphics
 		void SetWidth (const UINT a_set) { m_width  = a_set; }
 		void SetHeight(const UINT a_set) { m_height = a_set; }
 
+		void SetIsUseWindowSize(const bool a_set) { m_isUseWindowSize = a_set; }
+
 		const auto& GetClearColor() const { return m_clearColor; }
 
 		const auto& GetREFGPUResource() const { return m_gpuResource; }
@@ -40,6 +43,8 @@ namespace FWK::Graphics
 
 		auto GetVALRTVStorageID() const { return m_rtvStorageID; }
 		auto GetVALSRVStorageID() const { return m_srvStorageID; }
+
+		bool GetIsUseWindowSize() const { return m_isUseWindowSize; }
 
 	private:
 
@@ -67,5 +72,7 @@ namespace FWK::Graphics
 
 		TypeAlias::StorageID m_rtvStorageID = Constant::k_invalidStorageID;
 		TypeAlias::StorageID m_srvStorageID = Constant::k_invalidStorageID;
+
+		bool m_isUseWindowSize = false;
 	};
 }

@@ -3,7 +3,7 @@
 [outputtopology("triangle")]
 [numthreads(k_finalPresentMeshShaderThreadCountX, k_finalPresentMeshShaderThreadCountY, k_finalPresentMeshShaderThreadCountZ)]
 void main(out vertices MeshOutput a_vertexList [k_finalPresentVertexCount],
-          out indices  uint3      a_primitiveLisst[k_finalPresentPrimitiveCount])
+          out indices  uint3      a_primitiveList[k_finalPresentPrimitiveCount])
 {
     // SetMeshOutputCounts(出力頂点数、
     //                     出力プリミティブ);
@@ -30,5 +30,5 @@ void main(out vertices MeshOutput a_vertexList [k_finalPresentVertexCount],
         a_vertexList[l_vertexIndex].uv       = l_uvList[l_vertexIndex];
     }
 
-    a_primitiveLisst[k_finalPresentPrimitiveIndex] = uint3(k_finalPresentVertexIndexZero, k_finalPresentVertexIndexOne, k_finalPresentVertexIndexTwo);
+    a_primitiveList[k_finalPresentPrimitiveIndex] = uint3(k_finalPresentVertexIndexZero, k_finalPresentVertexIndexOne, k_finalPresentVertexIndexTwo);
 }

@@ -22,9 +22,10 @@ namespace FWK::Graphics
 		 RenderGraph() = default;
 		~RenderGraph() = default;
 
-		void INIT();
+		void INIT		();
+		void Deserialize(const nlohmann::json& a_rootJson);
 
-		void PostCreateSetup(Renderer& a_renderer);
+		void PostCreateSetup(Renderer& a_renderer) const;
 
 		bool Compile();
 
@@ -34,6 +35,8 @@ namespace FWK::Graphics
 					 const SwapChain&						  a_swapChain,
 					 	   DirectCommandList&				  a_directCommandList,
 					 	   Renderer&						  a_renderer);
+
+		nlohmann::json Serialize() const;
 
 		template <typename Type, typename... Args>
 		Type& AddPass(Args&&... a_args)
@@ -76,5 +79,7 @@ namespace FWK::Graphics
 		std::vector<std::unique_ptr<IRenderGraphPass>> m_passList = {};
 
 		std::vector<std::uint32_t> m_sortedPassIndexList = {};
+
+		Converter::RenderGraphJsonConverter m_renderGraphJsonConverter = {};
 	};
 }

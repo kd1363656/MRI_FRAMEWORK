@@ -97,7 +97,7 @@ void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 
 	if (!m_renderGraph.Compile())
 	{
-		assert(false && "Test用RenderGraphのCompileに失敗しました。");
+		assert(false && "RenderGraphのCompileに失敗しました。");
 		return;
 	}
 }
@@ -167,6 +167,10 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 		return;
 	}
 
+	// IMGUIの描画処理の関係上ここでRENDER_TARGET -> PRESENTにここで遷移する
+	// BackBufferを画面表示できる状態に戻す
+	m_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+
 	// コマンドリストへの命令記録を終了
 	m_directCommandList.Close();
 
@@ -177,6 +181,7 @@ void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 	m_directCommandQueue.SignalAndTrackAllocator(*l_commandAllocator);
 
 	a_swapChain.Present();
+
 }
 void FWK::Graphics::Renderer::EndFrame()
 {

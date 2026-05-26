@@ -6,7 +6,14 @@ void FWK::Graphics::RenderGraph::INIT()
 	m_sortedPassIndexList.clear();
 }
 
-void FWK::Graphics::RenderGraph::PostCreateSetup(Renderer& a_renderer)
+void FWK::Graphics::RenderGraph::Deserialize(const nlohmann::json& a_rootJson)
+{
+	if (a_rootJson.is_null()) { return; }
+
+	m_renderGraphJsonConverter.Deserialize(a_rootJson, *this);
+}
+
+void FWK::Graphics::RenderGraph::PostCreateSetup(Renderer& a_renderer) const
 {
 	for (const auto& l_pass : m_passList)
 	{
@@ -140,6 +147,11 @@ void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDesc
 						a_directCommandList,
 						a_renderer);
 	}
+}
+
+nlohmann::json FWK::Graphics::RenderGraph::Serialize() const
+{
+	return m_renderGraphJsonConverter.Serialize(*this);
 }
 
 void FWK::Graphics::RenderGraph::AddPass(std::unique_ptr<IRenderGraphPass>&& a_pass)

@@ -9,7 +9,7 @@ FWK::Graphics::RenderGraphFinalPresentPass::~RenderGraphFinalPresentPass() = def
 
 void FWK::Graphics::RenderGraphFinalPresentPass::PostCreateSetup(Renderer& a_renderer)
 {
-	m_pipelineState = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<Tag::PipelineStateTagBase>());
+	m_pipelineState = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<Tag::FinalPresentPipelineStateTag>());
 
 	const auto& l_pipelineState = m_pipelineState.lock();
 
@@ -29,7 +29,7 @@ void FWK::Graphics::RenderGraphFinalPresentPass::PostCreateSetup(Renderer& a_ren
 }
 
 void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 
-														 const DSVDescriptorHeap&				  a_dsvDescriptorHeap, 
+														 const DSVDescriptorHeap&, 
 														 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 													     const SwapChain&						  a_swapChain,
 															   DirectCommandList&				  a_directCommandList,
@@ -74,14 +74,6 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 		return;
 	}
 
-	const auto& l_pipelineState = m_pipelineState.lock();
-
-	if (!l_pipelineState)
-	{
-		assert(false && "FinalPresent用PipelineStateが無効のため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
-
 	const auto& l_finalPresentConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<FinalPresentConstantBuffer>().lock();
 
 	if (!l_finalPresentConstantBuffer)
@@ -108,7 +100,7 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 
 	std::memcpy(l_finalPresentMappedData + l_constantBufferOffset, &l_cbFinalPresent, sizeof(Struct::CBFinalPresent));
 
-	const auto& l_gpuVirtualAddress = l_finalPresentUploadBuffer.FetchVALGPUVirtualAddress();
+	const auto& l_gpuVirtualAddress = l_finalPresentUploadBuffer.FetchVALGPUVirtualAddress() + l_constantBufferOffset;
 
 	// BackBufferはRenderGraphResourceRegistry管理外のSwapChainリソースなので、
 	// FinalPresentPass内でPresent -> RenderTargetへ遷移する
@@ -134,7 +126,4 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 
 	// SceneColorTextureを貼ったフルスクリーン三角形を描画する
 	a_directCommandList.DispatchFullScreenTriangle();
-
-	// BackBufferを画面表示できる状態に戻す
-	a_directCommandList.TransitionRenderTargetResource(a_swapChain, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
 }

@@ -306,10 +306,9 @@
 #include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
 #include "Graphics/Render/Graph/Pass/Scene/RenderGraphSceneDrawPass.h"
 #include "Graphics/Render/Graph/Pass/Present/RenderGraphFinalPresentPass.h"
-#include "Graphics/Render/Graph/Pass/Test/RenderGraphTestSceneColorReadPass.h"
-#include "Graphics/Render/Graph/Pass/Test/RenderGraphTestSceneColorWritePass.h"
 #include "Converter/Json/Graphics/Render/Graph/Resource/RenderGraphResourceRegistryJsonConverter.h"
 #include "Graphics/Render/Graph/Resource/RenderGraphResourceRegistry.h"
+#include "Converter/Json/Graphics/Render/Graph/RenderGraphJsonConverter.h"
 #include "Graphics/Render/Graph/RenderGraph.h"
 
 // フレームリソースクラス

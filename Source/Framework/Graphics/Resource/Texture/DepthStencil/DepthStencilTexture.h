@@ -9,7 +9,8 @@ namespace FWK::Graphics
 		 DepthStencilTexture() = default;
 		~DepthStencilTexture() = default;
 	
-		void Deserialize(const nlohmann::json& a_rootJson);
+		void Deserialize		  (const nlohmann::json& a_rootJson);
+		void ApplyWindowSizeIfNeed(const Struct::WindowCONFIG& a_windowConfig);
 
 		bool Create(const Graphics::Device& a_device, const GPUMemoryAllocator& a_gpuMemoryAllocator, DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 	
@@ -22,6 +23,8 @@ namespace FWK::Graphics
 		void SetWidth (const UINT a_set) { m_width  = a_set; }
 		void SetHeight(const UINT a_set) { m_height = a_set; }
 
+		void SetIsUseWindowSize(const bool a_set) { m_isUseWindowSize = a_set; }
+
 		const auto& GetREFGPUResource() const { return m_gpuResource; }
 
 		auto GetVALCurrentResourceState() const { return m_currentResourceState; }
@@ -32,6 +35,8 @@ namespace FWK::Graphics
 
 		UINT GetWidth () const { return m_width; }
 		UINT GetHeight() const { return m_height; }
+
+		bool GetIsUseWindowSize() const { return m_isUseWindowSize; }
 
 	private:
 	
@@ -47,5 +52,7 @@ namespace FWK::Graphics
 
 		UINT m_width  = Constant::k_defaultDepthStencilTextureWidth;
 		UINT m_height = Constant::k_defaultDepthStencilTextureHeight;
+
+		bool m_isUseWindowSize = false;
 	};
 }

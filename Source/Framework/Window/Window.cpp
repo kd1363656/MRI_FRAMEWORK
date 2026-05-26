@@ -309,14 +309,37 @@ void FWK::Window::SetupClientSize()
 		const int l_screenWidth  = GetSystemMetrics(SM_CXSCREEN);
 		const int l_screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
+		m_windowCONFIG.m_height = l_screenHeight;
+		m_windowCONFIG.m_width  = l_screenWidth;
+
 		// ボーダーレスウィンドウ(WS_POPUP)はフレームがないため、
 		// 画面サイズをそのまま指定すればクライアント領域も画面全体と同じ大きさになる
+		// MoveWindow(対象ウィンドウハンドル、
+		//			  ウィンドウ左上X座標、
+		//			  ウィンドウ左上Y座標、
+		//			  ウィンドウ全体の幅、
+		//			  ウィンドウ全体の高さ、
+		//			  再描画するかどうか);
 		MoveWindow(m_hwnd,
 				   k_defaultWindowPositionX,
 				   k_defaultWindowPositionY,
 				   l_screenWidth,
 				   l_screenHeight,
 				   TRUE);
+
+		RECT l_clientRect = {};
+
+		// MoveWindow後の地齋井のクライアント領域を取得する
+		// GetClientRect(対象ウィンドウハンドル、
+		//				 クライアント領域を書き込むRECT);
+		if (!GetClientRect(m_hwnd, &l_clientRect))
+		{
+			assert(false && "ボーダーレスフルウィンドウ時のクライアント領域の取得に失敗しました。");
+			return;
+		}
+
+		m_windowCONFIG.m_width  = static_cast<std::uint32_t>(l_clientRect.right  - l_clientRect.left);
+		m_windowCONFIG.m_height = static_cast<std::uint32_t>(l_clientRect.bottom - l_clientRect.top);
 
 		return;
 	}

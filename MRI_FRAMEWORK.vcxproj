@@ -355,6 +355,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\Scene\SceneTextureJsonConverter.h" />
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.h" />
@@ -473,8 +474,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h" />
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.h" />
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h" />
@@ -554,6 +553,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\GraphicsManagerJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\FrameResourceJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\Scene\SceneTextureJsonConverter.cpp" />
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Pipeline\PipelineStateJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\RendererJsonConverter.cpp" />
@@ -595,8 +595,6 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp" />

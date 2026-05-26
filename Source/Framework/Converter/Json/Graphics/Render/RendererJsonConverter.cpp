@@ -27,6 +27,12 @@ void FWK::Converter::RendererJsonConverter::Deserialize(const nlohmann::json& a_
 	{
 		DeserializeDrawCommand(a_rootJson[k_drawCommandJsonKey], a_renderer);
 	}
+
+	// RenderGraphのデシリアライズ
+	if (a_rootJson.contains(k_renderGraphJsonKey))
+	{
+		DeserializeRenderGraph(a_rootJson[k_renderGraphJsonKey], a_renderer);
+	}
 }
 
 nlohmann::json FWK::Converter::RendererJsonConverter::Serialize(const Graphics::Renderer& a_renderer) const
@@ -44,6 +50,9 @@ nlohmann::json FWK::Converter::RendererJsonConverter::Serialize(const Graphics::
 
 	// 描画コマンドリストのシリアライズ
 	l_rootJson[k_drawCommandJsonKey] = SerializeDrawCommand(a_renderer);
+
+	// RenderGraphのシリアライズ
+	l_rootJson[k_renderGraphJsonKey] = SerializeRenderGraph(a_renderer);
 
 	return l_rootJson;
 }
@@ -134,6 +143,14 @@ void FWK::Converter::RendererJsonConverter::DeserializeDrawCommand(const nlohman
 		}
 	}
 }
+void FWK::Converter::RendererJsonConverter::DeserializeRenderGraph(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
+{
+	if (a_rootJson.is_null()) { return; }
+
+	auto& l_renderGraph = a_renderer.GetMutableREFRenderGraph();
+
+	l_renderGraph.Deserialize(a_rootJson);
+}
 
 nlohmann::json FWK::Converter::RendererJsonConverter::SerializeFrameResourceList(const Graphics::Renderer& a_renderer) const
 {
@@ -210,4 +227,11 @@ nlohmann::json FWK::Converter::RendererJsonConverter::SerializeDrawCommand(const
 	}
 
 	return l_rootJsonArray;
+}
+
+nlohmann::json FWK::Converter::RendererJsonConverter::SerializeRenderGraph(const Graphics::Renderer& a_renderer) const
+{
+	const auto& l_renderGraph = a_renderer.GetREFRenderGraph();
+
+	return l_renderGraph.Serialize();
 }

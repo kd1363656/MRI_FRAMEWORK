@@ -751,9 +751,6 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource">
       <UniqueIdentifier>{ed725d92-efac-4b83-b846-52f90d3d8a3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Test">
-      <UniqueIdentifier>{49885c64-8983-4fd5-aede-44a07cb62316}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Tag\Graphics\Render\Graph\Access">
       <UniqueIdentifier>{10ae924f-fc33-44a4-ae65-21046e3c312b}</UniqueIdentifier>
     </Filter>
@@ -1346,17 +1343,11 @@
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Access\RenderGraphAccessTag.h">
       <Filter>Source\Framework\Tag\Graphics\Render\Graph\Access</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Texture\RenderGraphTextureUsageTag.h">
       <Filter>Source\Framework\Tag\Graphics\Render\Graph\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FainalPresent</Filter>
@@ -1372,6 +1363,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Pass\TypeAliasShaderFactoryRenderGraphPass.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1654,12 +1648,6 @@
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorWritePass.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Test\RenderGraphTestSceneColorReadPass.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Test</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
     </ClCompile>
@@ -1668,6 +1656,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Present</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
