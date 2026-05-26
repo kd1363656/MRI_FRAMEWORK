@@ -6,10 +6,14 @@ FWK::Converter::BinaryFileConverterBase::BinaryFileConverterBase() :
 	m_fileHandle       (INVALID_HANDLE_VALUE),
 	m_fileMappingHandle(nullptr),
 
-	m_mappedDataSize(k_emptyMappedDataSize)
+	m_mappedDataSize(k_emptyMappedDataSize),
+
+	m_isWritable(k_isInitialWritable)
 {}
 FWK::Converter::BinaryFileConverterBase::~BinaryFileConverterBase()
 {
+	// 最後にクラス自体が破棄されるときにも、
+	// 開いたままのメモリマップ・ハンドル、ファイルハンドルを必ず解放するため
 	DestroyMemoryMappedFile();
 }
 

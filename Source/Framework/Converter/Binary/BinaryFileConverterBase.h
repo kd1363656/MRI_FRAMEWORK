@@ -55,7 +55,7 @@ namespace FWK::Converter
 		void WriteBinaryData(const std::uint64_t& a_writeDataCount,
 							 const Type*		  a_sourceData,
 								   std::uint64_t& a_writeOffset,
-								   std::uint8_t* a_writeData) const
+								   std::uint8_t*  a_writeData) const
 		{
 			const auto l_writeDataSize = sizeof(Type) * a_writeDataCount;
 

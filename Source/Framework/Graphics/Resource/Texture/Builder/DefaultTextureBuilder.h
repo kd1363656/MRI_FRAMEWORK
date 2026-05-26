@@ -39,5 +39,12 @@ namespace FWK::Graphics
 		static constexpr std::size_t k_defaultTextureMIPIndex   = 0ULL;
 		static constexpr std::size_t k_defaultTextureItemIndex  = 0ULL;
 		static constexpr std::size_t k_defaultTextureSliceIndex = 0ULL;
+
+		static constexpr std::uint8_t k_defaultTextureWhiteChannel = 255U;
+		static constexpr std::uint8_t k_defaultTextureAlphaChannel = 255U;
+		
+		static constexpr std::uint8_t k_defaultTextureNormalXChannel = 128U;
+		static constexpr std::uint8_t k_defaultTextureNormalYChannel = 128U;
+		static constexpr std::uint8_t k_defaultTextureNormalZChannel = 255U;
 	};
 }

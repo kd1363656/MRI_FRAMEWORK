@@ -2,9 +2,9 @@
 
 namespace FWK::Constant
 {
-	inline constexpr float k_meshletConeWeight = 0.0F;
+	inline constexpr float k_defaultMeshletConeWeight = 0.0F;
 
-	inline constexpr float k_meshletBoundsPadding = 0.0F;
+	inline constexpr float k_defaultMeshletBoundsPadding = 0.0F;
 
 	inline constexpr float k_initialMeshletBoundsRadius     = 0.0F;
 	inline constexpr float k_initialMeshletBoundsConeCutoff = 0.0F;

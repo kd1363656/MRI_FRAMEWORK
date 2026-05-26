@@ -86,7 +86,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 													  sizeof(Struct::ModelVertex),
 													  Constant::k_maxMeshletVertexCount,
 													  Constant::k_maxMeshletPrimitiveCount,
-													  Constant::k_meshletConeWeight);
+													  Constant::k_defaultMeshletConeWeight);
 
 	if (l_meshletCount == Constant::k_emptyMeshletCount)
 	{
@@ -165,7 +165,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 		l_modelMeshletBounds.m_coneAxis.y = l_meshoptBounds.cone_axis[k_vectorElementIndexY];
 		l_modelMeshletBounds.m_coneAxis.z = l_meshoptBounds.cone_axis[k_vectorElementIndexZ];
 
-		l_modelMeshletBounds.m_padding = Constant::k_meshletBoundsPadding;
+		l_modelMeshletBounds.m_padding = Constant::k_defaultMeshletBoundsPadding;
 	}
 
 	return true;

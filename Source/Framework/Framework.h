@@ -10,26 +10,16 @@
 // 型エイリアス
 #include "Definition/Type/Alias/TypeAlias.h"
 
-// StaticTypeIDを使う際に他の場所でも使う定数をまとめたもの
-#include "Definition/Constant/StaticTypeID/StaticTypeIDConstant.h"
-
-// TypeTag用定数
-#include "Definition/Constant/TypeTag/TypeTagConstant.h"
-
-// Windowの縦幅横幅に関する定数をまとめたもの
-#include "Definition/Constant/WindowSize/WindowSizeConstant.h"
-
-// FPS関係の定数
-#include "Definition/Constant/FPS/FPSConstant.h"
-
-// File関係の定数
-#include "Definition/Constant/FileExtension/FileExtensionConstant.h"
-
 // Enum
 #include "Definition/Enum/Type/Trait/PTR/TypeTraitPTREnum.h"
 #include "Definition/Enum/Graphics/Resource/Texture/DefaultTextureTypeEnum.h"
 
 // 定数
+#include "Definition/Constant/StaticTypeID/StaticTypeIDConstant.h"
+#include "Definition/Constant/TypeTag/TypeTagConstant.h"
+#include "Definition/Constant/WindowSize/WindowSizeConstant.h"
+#include "Definition/Constant/FPS/FPSConstant.h"
+#include "Definition/Constant/FileExtension/FileExtensionConstant.h"
 #include "Definition/Constant/Graphics/GraphicsConstant.h"
 #include "Definition/Constant/Graphics/Command/CommandConstant.h"
 #include "Definition/Constant/Graphics/Command/Queue/Fence/FenceConstant.h"

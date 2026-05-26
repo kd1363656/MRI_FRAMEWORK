@@ -74,10 +74,10 @@ FWK::Graphics::DefaultTextureBuilder::DefaultTextureCreateDesc FWK::Graphics::De
 			{
 				.m_pixel =
 				{
-					Constant::k_defaultTextureWhiteChannel,
-					Constant::k_defaultTextureWhiteChannel,
-					Constant::k_defaultTextureWhiteChannel,
-					Constant::k_defaultTextureAlphaChannel,
+					k_defaultTextureWhiteChannel,
+					k_defaultTextureWhiteChannel,
+					k_defaultTextureWhiteChannel,
+					k_defaultTextureAlphaChannel,
 				},
 				.m_format = DXGI_FORMAT_R8G8B8A8_UNORM,
 				.m_name   = Constant::k_defaultBaseColorTextureFilePath,
@@ -91,10 +91,10 @@ FWK::Graphics::DefaultTextureBuilder::DefaultTextureCreateDesc FWK::Graphics::De
 			{
 				.m_pixel =
 				{
-					Constant::k_defaultTextureNormalXChannel,
-					Constant::k_defaultTextureNormalYChannel,
-					Constant::k_defaultTextureNormalZChannel,
-					Constant::k_defaultTextureAlphaChannel,
+					k_defaultTextureNormalXChannel,
+					k_defaultTextureNormalYChannel,
+					k_defaultTextureNormalZChannel,
+					k_defaultTextureAlphaChannel,
 				},
 				.m_format = DXGI_FORMAT_R8G8B8A8_UNORM,
 				.m_name   = Constant::k_defaultNormalTextureFilePath,
