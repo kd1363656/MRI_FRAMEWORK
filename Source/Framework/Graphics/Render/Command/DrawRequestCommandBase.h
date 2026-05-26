@@ -17,7 +17,7 @@ namespace FWK::Graphics
 			m_passConstant.reset   ();
 		}
 
-		void RequestDraw(const ObjectType& a_drawCommand)
+		void RequestDraw(const std::shared_ptr<ObjectType>& a_drawCommand)
 		{
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}
@@ -43,8 +43,8 @@ namespace FWK::Graphics
 
 	private:
 
-		std::vector<ObjectType>			m_drawCommandList = {};
-		std::optional<PassConstantType> m_passConstant	  = std::nullopt;
+		std::vector<std::weak_ptr<ObjectType>> m_drawCommandList = {};
+		std::optional<PassConstantType>		   m_passConstant	 = std::nullopt;
 	};
 
 	// PassConstantなし版
@@ -61,7 +61,7 @@ namespace FWK::Graphics
 			m_drawCommandList.clear();
 		}
 
-		void RequestDraw(const ObjectType& a_drawCommand)
+		void RequestDraw(const std::weak_ptr<ObjectType>& a_drawCommand)
 		{
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}
@@ -70,6 +70,6 @@ namespace FWK::Graphics
 
 	private:
 
-		std::vector<ObjectType> m_drawCommandList = {};
+		std::vector<std::weak_ptr<ObjectType>> m_drawCommandList = {};
 	};
 }

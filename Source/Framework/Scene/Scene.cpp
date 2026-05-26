@@ -29,7 +29,7 @@ void FWK::Scene::RequestDraw() const
 {
 	if (m_texture)
 	{
-		RequestDrawTexture(*m_texture);
+		RequestDrawTexture(m_texture);
 	}
 
 	// UnLitモデルの描画
@@ -38,7 +38,7 @@ void FWK::Scene::RequestDraw() const
 	// Litモデルの描画
 	if (m_staticModel)
 	{
-		RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(*m_staticModel, m_camera);
+		RequestDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
 	}
 }
 
@@ -107,8 +107,10 @@ void FWK::Scene::Update()
 	m_camera->SetCameraMatrix(TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(l_rot)) * TypeAlias::Math::Matrix::CreateTranslation(l_cameraPos));
 }
 
-void FWK::Scene::RequestDrawTexture(const Graphics::Texture& a_texture) const
+void FWK::Scene::RequestDrawTexture(const std::shared_ptr<Graphics::Texture>& a_texture) const
 {
+	if (!a_texture) { return; }
+
 	const auto&	l_graphicsManager = Graphics::GraphicsManager::GetInstance();
 	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer      ();
 
@@ -116,12 +118,10 @@ void FWK::Scene::RequestDrawTexture(const Graphics::Texture& a_texture) const
 
 	if (!l_drawCommand) { return; }
 
-	Struct::SpriteStandardDrawCommand l_spriteStandardDrawCommand = {};
+	m_spriteStandardDrawCommand->m_textureRecord = a_texture->GetREFTextureRecord();
+	m_spriteStandardDrawCommand->m_color         = { 0.0F, 0.0F, 0.0F, 1.00F };
+	m_spriteStandardDrawCommand->m_position      = { 0.0F, 0.0F };
+	m_spriteStandardDrawCommand->m_sourceRECT    = { 0L, 0L, 256L, 256L };
 
-	l_spriteStandardDrawCommand.m_textureRecord = a_texture.GetREFTextureRecord();
-	l_spriteStandardDrawCommand.m_color         = { 0.0F, 0.0F, 0.0F, 1.00F };
-	l_spriteStandardDrawCommand.m_position      = { 0.0F, 0.0F };
-	l_spriteStandardDrawCommand.m_sourceRECT    = { 0L, 0L, 256L, 256L };
-
-	l_drawCommand->RequestDraw(l_spriteStandardDrawCommand);
+	l_drawCommand->RequestDraw(m_spriteStandardDrawCommand);
 }

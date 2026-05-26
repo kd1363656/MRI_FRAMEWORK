@@ -77,9 +77,12 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 
 	for (auto l_spriteDrawCommandIndex = 0ULL; l_spriteDrawCommandIndex < l_spriteDrawCommandList.size(); ++l_spriteDrawCommandIndex)
 	{
-		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_spriteDrawCommandIndex];
+		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_spriteDrawCommandIndex].lock();
 		
-		const auto& l_textureRecord = l_spriteDrawCommand.m_textureRecord.lock();
+		// テクスチャ描画コマンドが作成されていなければreturn
+		if (!l_spriteDrawCommand) { continue; }
+
+		const auto& l_textureRecord = l_spriteDrawCommand->m_textureRecord.lock();
 
 		if (!l_textureRecord)					        { continue; }
 		if (!l_textureRecord->m_gpuResource.m_resource) { continue; }
@@ -91,7 +94,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 							     l_directCommandList,
 							     l_spriteDrawUploadBuffer,
 							     *l_textureRecord,
-							     l_spriteDrawCommand,
+							     *l_spriteDrawCommand,
 							     l_spriteDrawCommandIndex,
 							     l_spriteDrawMappedData))
 		{

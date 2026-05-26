@@ -74,7 +74,11 @@ namespace FWK::Graphics
 			
 			for (const auto& l_staticModelStandardDrawCommand : l_staticModelStandardDrawCommandList)
 			{
-				const auto& l_staticModelRecord = l_staticModelStandardDrawCommand.m_staticModelRecord.lock();
+				const auto& l_drawCommand = l_staticModelStandardDrawCommand.lock();
+
+				if (!l_drawCommand) { continue; }
+
+				const auto& l_staticModelRecord = l_drawCommand->m_staticModelRecord.lock();
 
 				if (!l_staticModelRecord) { continue; }
 
@@ -124,7 +128,7 @@ namespace FWK::Graphics
 
 					Struct::CBModelObject l_cbModelObject = {};
 
-					l_cbModelObject.m_worldMatrix		              = l_staticModelStandardDrawCommand.m_worldMatrix;
+					l_cbModelObject.m_worldMatrix		              = l_drawCommand->m_worldMatrix;
 					l_cbModelObject.m_baseColorTextureSRVIndex        = l_baseColorTextureRecord->m_srvStorageID;
 					l_cbModelObject.m_normalTextureSRVIndex           = l_normalTextureRecord->m_srvStorageID;
 					l_cbModelObject.m_vertexBufferSRVIndex            = l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID;
