@@ -305,6 +305,7 @@
 #include "Graphics/Render/Graph/Pass/Test/RenderGraphTestSceneColorWritePass.h"
 #include "Converter/Json/Graphics/Render/Graph/Resource/RenderGraphResourceRegistryJsonConverter.h"
 #include "Graphics/Render/Graph/Resource/RenderGraphResourceRegistry.h"
+#include "Graphics/Render/Graph/RenderGraph.h"
 
 // フレームリソースクラス
 #include "Converter/Json/Graphics/Render/Frame/Scene/SceneTextureJsonConverter.h"

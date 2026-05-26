@@ -92,6 +92,17 @@ void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 		// 描画コマンドで使用するルートシグネチャやパイプラインステート設定する
 		l_drawCommand->PostCreateSetup(*this);
 	}
+
+	m_renderGraph.INIT();
+
+	m_renderGraph.AddPass<RenderGraphTestSceneColorWritePass>();
+	m_renderGraph.AddPass<RenderGraphTestSceneColorReadPass> ();
+
+	if (!m_renderGraph.Compile())
+	{
+		assert(false && "Test用RenderGraphのCompileに失敗しました。");
+		return;
+	}
 }
 
 void FWK::Graphics::Renderer::BeginFrame() const
@@ -256,6 +267,19 @@ void FWK::Graphics::Renderer::EndFrame()
 
 	// 次に使用するフレームリソースをキャッシュしておく
 	m_currentFrameResource = m_frameResourceList[m_currentFrameResourceIndex];
+}
+
+void FWK::Graphics::Renderer::ExecuteRenderGraph(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+												 const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 
+												 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
+												 const SwapChain&						  a_swapChain)
+{
+	m_renderGraph.Execute(a_rtvDescriptorHeap,
+						  a_dsvDescriptorHeap,
+						  a_srvDescriptorPool,
+						  a_swapChain,
+						  m_directCommandList,
+						  *this);
 }
 
 nlohmann::json FWK::Graphics::Renderer::Serialize() const

@@ -99,6 +99,15 @@ void FWK::Graphics::GraphicsManager::Draw()
 }
 void FWK::Graphics::GraphicsManager::EndDraw()
 {
+	const auto& l_srvDescriptorPool = m_resourceContext.GetREFSRVDescriptorPool();
+	const auto& l_rtvDescriptorHeap = m_resourceContext.GetREFRTVDescriptorPool().GetREFDescriptorHeap();
+	const auto& l_dsvDescriptorHeap = m_resourceContext.GetREFDSVDescriptorPool().GetREFDescriptorHeap();
+
+	m_renderer.ExecuteRenderGraph(l_srvDescriptorPool,
+								  l_rtvDescriptorHeap,
+								  l_dsvDescriptorHeap,
+								  m_swapChain);;
+
 	m_renderer.EndDraw(m_swapChain);
 }
 void FWK::Graphics::GraphicsManager::EndFrame()

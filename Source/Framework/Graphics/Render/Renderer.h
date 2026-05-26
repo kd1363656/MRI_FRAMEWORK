@@ -42,6 +42,11 @@ namespace FWK::Graphics
 		void EndDraw (const SwapChain&						   a_swapChain);
 		void EndFrame();
 
+		void ExecuteRenderGraph(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+								const RTVDescriptorHeap&			     a_rtvDescriptorHeap,
+								const DSVDescriptorHeap&				 a_dsvDescriptorHeap,
+								const SwapChain&						 a_swapChain);
+
 		nlohmann::json Serialize() const;
 
 		void SetupCurrentFrameResource(const std::size_t& a_index);
@@ -105,6 +110,8 @@ namespace FWK::Graphics
 		DirectCommandQueue m_directCommandQueue = {};
 		DirectCommandList  m_directCommandList  = {};
 		
+		RenderGraph m_renderGraph = {};
+
 		LightSystem m_lightSystem = {};
 
 		RenderArea m_renderArea = {};

@@ -4,6 +4,19 @@ namespace FWK::Graphics
 {
 	class RenderGraph final
 	{
+	private:
+
+		struct TextureAccessPassRecord final
+		{
+			TypeAlias::TypeTag m_textureTag = Constant::k_invalidTypeTag;
+
+			std::uint32_t m_passIndex	= 0U;
+			std::uint32_t m_accessOrder = 0U;
+
+			bool m_isRead  = false;
+			bool m_isWrite = false;
+		};
+
 	public:
 
 		 RenderGraph() = default;
@@ -51,9 +64,8 @@ namespace FWK::Graphics
 		 
 		D3D12_RESOURCE_STATES ConvertTextureUsageToResourceState(const TypeAlias::TypeTag a_usageTag) const;
 
-		static constexpr std::uint32_t k_nextRenderGraphPassIndexOffset = 1U;
-		static constexpr std::uint32_t k_emptyRenderGraphPassCount      = 0U;
 		static constexpr std::uint32_t k_noRenderGraphIncomingEdgeCount = 0U;
+		static constexpr std::uint32_t k_invalidRenderGraphPassIndex	= UINT32_MAX; 
 
 		std::vector<std::unique_ptr<IRenderGraphPass>> m_passList = {};
 

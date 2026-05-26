@@ -158,99 +158,210 @@ void FWK::Graphics::RenderGraph::AddDependencyEdge(const std::uint32_t							  a
 
 void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::uint32_t>>& a_edgeList, std::vector<std::uint32_t>& a_inDegreeList) const
 {
+	if (m_passList.empty())
+	{
+		assert(false && "PassListが空です。");
+		return;
+	}
+
+	// Passが持っているTextureAccessを、依存関係を作りやすい形に変換して一つの配列へ集める
+	// TextureAccessは「どのTextureTagを、Read/Writeのどちらで、どのUsageで使うか」を表す
+	// 例 : 
+	// LightingPass    : SceneColortextureTagをRenderTargetとしてWrite
+	// PresentCopyPass : SceneColorTextureTagをCopySourceとしてRead
+	std::vector<TextureAccessPassRecord> l_textureAccessPassRecordList = {};
+
 	const auto l_passCount = m_passList.size();
 
-	for (std::uint32_t l_prevPassIndex = 0U; l_prevPassIndex < l_passCount; ++l_prevPassIndex)
+	for (std::uint32_t l_passIndex = 0U; l_passIndex < l_passCount; ++l_passIndex)
 	{
-		for (std::uint32_t l_nextPassIndex = l_prevPassIndex + k_nextRenderGraphPassIndexOffset; l_nextPassIndex < l_passCount; ++l_nextPassIndex)
+		const auto& l_pass = m_passList[l_passIndex];
+
+		if (!l_pass)
 		{
-			const auto& l_prevPass = m_passList[l_prevPassIndex];
-			const auto& l_nextPass = m_passList[l_nextPassIndex];
+			assert(false && "RenderGraphPassが無効です。");
+			return;
+		}
 
-			if (!l_prevPass) 
+		for (const auto& l_textureAccess : l_pass->GetREFTextureAccessList())
+		{
+			// TextureTagは「どのTextureを使うか」を表す
+			// これが無効だと、どのTexture動詞で依存関係を作ればいいか判断できない
+			if (l_textureAccess.m_textureTag == Constant::k_invalidTypeTag)
 			{
-				assert(false && "前回のRenderGraphPassが無効です。");
+				assert(false && "RenderGraphTextureAccessのTextureTagが無効です。");
 				return;
 			}
 
-			if (!l_nextPass)
+			// AccessTagは「ReadなのかWriteなのか」を表す
+			// BuildDependencyでは、この情報を使ってPass同地の実行順を決める
+			if (l_textureAccess.m_accessTag == Constant::k_invalidTypeTag)
 			{
-				assert(false && "次回のRenderGraphPassが無効です。");
+				assert(false && "RenderGraphTextureAccessのAccessTagが無効です。");
 				return;
 			}
 
-			for (const auto& l_prevTextureAccess : l_prevPass->GetREFTextureAccessList())
+			// UsageTagは「RenderTargetとして使うのか、CopySourceとして使うのか」などの用途を表す
+			// ResourceStateの自動遷移で使うため、、ここで無効値を弾いておく
+			if (l_textureAccess.m_usageTag == Constant::k_invalidTypeTag)
 			{
-				for (const auto& l_nextTextureAccess : l_nextPass->GetREFTextureAccessList())
+				assert(false && "RenderGraphTextureAccessのUsageTagが無効です。");
+				return;
+			}
+
+			TextureAccessPassRecord l_textureAccessPassRecord = {};
+
+			l_textureAccessPassRecord.m_textureTag = l_textureAccess.m_textureTag;
+			l_textureAccessPassRecord.m_passIndex  = l_passIndex;
+
+			// TextureTagで並べ替えた後も、元のPass登録順を維持するための番号
+			// 同じTextureTagへ複数Writeする場合、この順番をWriteChainの順番として扱う
+			l_textureAccessPassRecord.m_accessOrder = static_cast<std::uint32_t>(l_textureAccessPassRecordList.size());
+
+			l_textureAccessPassRecord.m_isRead	= IsReadAccess (l_textureAccess);
+			l_textureAccessPassRecord.m_isWrite = IsWriteAccess(l_textureAccess);
+
+			// 書き込み、読み込み、どちらでもない場合return;
+			if (!l_textureAccessPassRecord.m_isRead && !l_textureAccessPassRecord.m_isWrite)
+			{
+				assert(false && "RenderGraphTextureAccessのAccessTagが不正です。");
+				return;
+			}
+
+			l_textureAccessPassRecordList.emplace_back(l_textureAccessPassRecord);
+		}
+	}
+
+
+	// TextureTagごとにAccessをまとめる
+	// 例:
+	// 並び替え前:
+	//   SceneColor    / LightingPass / Write
+	//   GBufferNormal / GBufferPass  / Write
+	//   SceneColor    / UIPass       / Write
+	//   GBufferNormal / LightingPass / Read
+	//
+	// 並び替え後:
+	//   GBufferNormal / GBufferPass  / Write
+	//   GBufferNormal / LightingPass / Read
+	//   SceneColor    / LightingPass / Write
+	//   SceneColor    / UIPass       / Write
+	//
+	// 同じTextureTagだけを連続して処理できるようになる
+	std::stable_sort(l_textureAccessPassRecordList.begin(),
+					 l_textureAccessPassRecordList.end(),
+					 [](const auto& a_left, const auto& a_right){
+
+						if (a_left.m_textureTag != a_right.m_textureTag)
+						{
+							return a_left.m_textureTag < a_right.m_textureTag;
+						}
+
+						return a_left.m_accessOrder < a_right.m_accessOrder;
+					 });
+
+	std::uint32_t l_groupBeginIndex = 0U;
+
+	while (l_groupBeginIndex < static_cast<std::uint32_t>(l_textureAccessPassRecordList.size()))
+	{
+		std::uint32_t l_groupEndIndex = l_groupBeginIndex;
+
+		// 同じTextureTagの範囲を探す
+		// 範囲は[l_groupBeginINdex, l_groupEndIndex)
+		// 例 : 
+		// SceneColorのAccessが3個続いているなら、その3子だけを一つのグループとして処理する
+		while (l_groupEndIndex < static_cast<std::uint32_t>(l_textureAccessPassRecordList.size()) &&
+			   l_textureAccessPassRecordList[l_groupBeginIndex].m_textureTag == l_textureAccessPassRecordList[l_groupEndIndex].m_textureTag)
+		{
+			++l_groupEndIndex;
+		}
+
+		// このTextureTagに最後にWriteしたPassIndex
+		// 無効値の場合は、まだこのTextureTagへWriteしたPassが存在しない
+		std::uint32_t l_lastWritePassIndex = k_invalidRenderGraphPassIndex;
+
+		// 次のWritePassより前に終わっている必要があるReadPass一覧
+		// Read -> Writeの依存関係を作るために使う
+		std::vector<std::uint32_t> l_pendingReadPassIndexList = {};
+
+		for (std::uint32_t l_recordIndex = l_groupBeginIndex; l_recordIndex < l_groupEndIndex; ++l_recordIndex)
+		{
+			const auto& l_textureAccessPassRecord = l_textureAccessPassRecordList[l_recordIndex];
+
+			if (l_textureAccessPassRecord.m_isRead)
+			{
+				if (l_lastWritePassIndex != k_invalidRenderGraphPassIndex)
 				{
-					// 違うTextureTagなら、同じリソースを使っていないので循環関係は作らない
-					if (l_prevTextureAccess.m_textureTag != l_nextTextureAccess.m_textureTag) { continue; }
-
-					const auto l_isPrevRead  = IsReadAccess (l_prevTextureAccess);
-					const auto l_isPrevWrite = IsWriteAccess(l_prevTextureAccess);
-					const auto l_isNextRead  = IsReadAccess (l_nextTextureAccess);
-					const auto l_isNextWrite = IsWriteAccess(l_nextTextureAccess);
-					
-					if ((!l_isPrevRead && !l_isPrevWrite) || (!l_isNextRead && !l_isNextWrite))
-					{
-						assert(false && "RenderGraphTextureAccessのAccessTagが不正です。");
-						return;
-					}
-
-					// Read -> Read
-					// 両方とも読むだけなので、どちらが先でもリソース内容は変わらない
-					// そのため依存関係は作らない
-					if (l_isPrevRead && l_isNextRead) { continue; }
-
-					// Write -> Read
-					// 前のPassが書き込んだ結果を、次のPassが読む
-					// 例 : 
-					// GBufferPass  : NormalTextureへWrite
-					// LightingPass : NormalTextureをRead
-					// この場合、GBufferPass -> LightingPassの順番が必要
-					if (l_isPrevWrite && l_isNextRead)
-					{
-						AddDependencyEdge(l_prevPassIndex,
-										  l_nextPassIndex,
-										  a_edgeList,
-										  a_inDegreeList);
-
-						continue;
-					}
-
-					// Read -> Write
-					// 前のPassが読んでいる間に、次のPassが同じリソースを置き換えると危険
-					// そのため登録順序を守り、前のPass -> 次のPassの順番にする
-					// 注意 : 
-					// ここで勝手にWriteを前へ移動すると、前フレーム履歴テクスチャなどで意図しない順番になる可能性がある
-					if (l_isPrevRead && l_isNextWrite)
-					{
-						AddDependencyEdge(l_prevPassIndex,
-										  l_nextPassIndex,
-										  a_edgeList,
-										  a_inDegreeList);
-
-						continue;
-					}
-					
-					// Write -> Write
-					// 同じリソースへ複数Passが書き込む場合、登録順を守る
-					// 例 : 
-					// PassA : SceneColorへWrite
-					// PassB : SceneColorへWrite
-					// この場合、どちらの結果を最終結果にするかが順番で決まる
-					if (l_isPrevWrite && l_isNextWrite)
-					{
-						AddDependencyEdge(l_prevPassIndex,
-										  l_nextPassIndex,
-										  a_edgeList,
-										  a_inDegreeList);
-
-						continue;
-					}
+					// 最後にWriteしたPassの結果を、このReadPassが読む
+					// 例:
+					// UIPass      : SceneColorへWrite
+					// PresentPass : SceneColorをRead
+					// この場合、UIPass -> PresentPassの依存関係を作る
+					AddDependencyEdge(l_lastWritePassIndex,
+									  l_textureAccessPassRecord.m_passIndex,
+									  a_edgeList,
+									  a_inDegreeList);
 				}
+
+				bool l_hasSameReadPassIndex = false;
+
+				for (const auto l_pendingReadPassIndex : l_pendingReadPassIndexList)
+				{
+					if (l_pendingReadPassIndex != l_textureAccessPassRecord.m_passIndex) { continue; }
+
+					l_hasSameReadPassIndex = true;
+					break;
+				}
+
+				if (!l_hasSameReadPassIndex)
+				{
+					// このReadPassの後に同じTextureTagへWriteするPassが来た場合、
+					// Read中にTextureを書き換えないように ReadPass -> WritePass の依存関係を作る
+					// ここではまだ次のWritePassが分からないため、一旦pendingとして保存する
+					l_pendingReadPassIndexList.emplace_back(l_textureAccessPassRecord.m_passIndex);
+				}
+
+				continue;
+			}
+
+			if (l_textureAccessPassRecord.m_isWrite)
+			{
+				if (l_lastWritePassIndex != k_invalidRenderGraphPassIndex)
+				{
+					// 同じTextureTagへ連携してWriteする場合、
+					// 登録順をWriteChainとして扱う
+					// 例 : 
+					// LightingPass -> TransparentPass -> UIPass
+					AddDependencyEdge(l_lastWritePassIndex,
+									  l_textureAccessPassRecord.m_passIndex,
+									  a_edgeList,
+									  a_inDegreeList);
+				}
+
+				for (const auto l_pendingReadPassIndex : l_pendingReadPassIndexList)
+				{
+					// 前に同じTextureTagをReadしていたPassがある場合、
+					// そのReadPassが終わってからWriteする
+					// 例:
+					// HistoryReadPass   : HistoryTextureをRead
+					// HistoryUpdatePass : HistoryTextureへWrite
+					// この場合、HistoryReadPass -> HistoryUpdatePassの依存関係を作る
+					AddDependencyEdge(l_pendingReadPassIndex,
+									  l_textureAccessPassRecord.m_passIndex,
+									  a_edgeList,
+									  a_inDegreeList);
+				}
+
+				l_pendingReadPassIndexList.clear();
+
+				// 今回のWritePassIndexを、このTextureTagの最後のWritePassとして記録する
+				l_lastWritePassIndex = l_textureAccessPassRecord.m_passIndex;
+
+				continue;
 			}
 		}
+
+		l_groupBeginIndex = l_groupEndIndex;
 	}
 }
 
