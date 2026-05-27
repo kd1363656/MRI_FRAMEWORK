@@ -20,7 +20,7 @@ namespace FWK
 		void RegisterDrawCommandTexture(const std::shared_ptr<Graphics::Texture>& a_texture) const;
 
 		template <Concept::IsDerivedDrawCommandBaseConcept Type>
-		void RegisterDrawStaticModelStandard(const std::shared_ptr<Graphics::StaticModel>& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera) const
+		void RegisterDrawStaticModelStandard(const std::shared_ptr<Graphics::StaticModel>& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera, const TypeAlias::Math::Matrix& a_matrix) const
 		{
 			if (!a_staticModel)			   { return; }
 			if (!a_staticModel->IsValid()) { return; }
@@ -35,8 +35,8 @@ namespace FWK
 
 			m_staticModelStandardPassConstant->m_camera = a_camera;
 
-			m_staticModelStandardDrawCommand->m_staticModelRecord = a_staticModel->GetREFStaticModelRecord	();
-			m_staticModelStandardDrawCommand->m_worldMatrix		  = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
+			m_staticModelStandardDrawCommand->m_staticModelRecord = a_staticModel->GetREFStaticModelRecord();
+			m_staticModelStandardDrawCommand->m_worldMatrix		  = a_matrix;
 
 			l_drawCommand->RegisterPassConstant(m_staticModelStandardPassConstant);
 			l_drawCommand->RegisterDrawCommand (m_staticModelStandardDrawCommand);

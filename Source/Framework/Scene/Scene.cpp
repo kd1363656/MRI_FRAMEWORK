@@ -27,7 +27,11 @@ void FWK::Scene::RegisterDrawCommand() const
 {
 	if (m_staticModel)
 	{
-		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>(m_staticModel, m_camera);
+		const auto& l_matrixA = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F)) * TypeAlias::Math::Matrix::CreateTranslation(TypeAlias::Math::Vector3( 1.0F, 0.0F, 0.0F));
+		const auto& l_matrixB = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F)) * TypeAlias::Math::Matrix::CreateTranslation(TypeAlias::Math::Vector3(-1.0F, 0.0,  0.0F));
+
+		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>  (m_staticModel, m_camera, l_matrixA);
+		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera, l_matrixB);
 	}
 
 	if (m_texture)
