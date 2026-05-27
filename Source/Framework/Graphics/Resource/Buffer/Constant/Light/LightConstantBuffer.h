@@ -9,11 +9,11 @@ namespace FWK::Graphics
 		 LightConstantBuffer();
 		~LightConstantBuffer() override;
 
-		FWK_DEFINE_TYPE_INFO(LightConstantBuffer, ConstantBufferBase);
-
 	private:
 
 		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBLight);
+
+		FWK_DEFINE_TYPE_INFO(LightConstantBuffer, ConstantBufferBase);
 	};
 }
 

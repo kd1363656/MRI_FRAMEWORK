@@ -91,6 +91,16 @@ void FWK::Graphics::RenderGraphResourceRegistry::RegisterDefaultSceneTexture()
 
 		AddDepthStencilTexture(l_sceneDepthStencilTextureResourceRecord);
 	}
+
+	if (!FindVALRenderTargetTexture(Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>()).lock())
+	{
+		auto l_postEffectColorTextureResourceRecord = std::make_shared<Struct::RenderGraphRenderTargetTextureResourceRecord>();
+
+		l_postEffectColorTextureResourceRecord->m_textureTag		  = Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>();
+		l_postEffectColorTextureResourceRecord->m_renderTargetTexture = std::make_shared<RenderTargetTexture>			    ();
+
+		AddRenderTargetTexture(l_postEffectColorTextureResourceRecord);
+	}
 }
 
 nlohmann::json FWK::Graphics::RenderGraphResourceRegistry::Serialize() const

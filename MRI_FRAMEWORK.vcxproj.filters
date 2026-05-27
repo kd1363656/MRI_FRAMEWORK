@@ -781,6 +781,15 @@
     <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass">
       <UniqueIdentifier>{23f01da3-e444-4a78-b029-06bed18b4886}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect">
+      <UniqueIdentifier>{4f8445fe-7803-48b1-92fb-ee4a99a2dad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect">
+      <UniqueIdentifier>{9d546b1d-8fe2-4696-a077-115863bd7beb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect">
+      <UniqueIdentifier>{0f9b03f5-d451-477a-928d-0a3419c65170}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1370,6 +1379,15 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawRequestList.h">
       <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBuffer.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1663,8 +1681,11 @@
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawRequestList.cpp">
-      <Filter>Source\Framework\Graphics\Render\Command</Filter>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBuffer.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

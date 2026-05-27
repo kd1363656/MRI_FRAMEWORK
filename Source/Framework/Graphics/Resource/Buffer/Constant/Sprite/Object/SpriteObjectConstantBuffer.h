@@ -9,11 +9,11 @@ namespace FWK::Graphics
 		 SpriteObjectConstantBuffer();
 		~SpriteObjectConstantBuffer() override ;
 
-		FWK_DEFINE_TYPE_INFO(SpriteObjectConstantBuffer, ConstantBufferBase);
-
 	private:
 
 		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBSpriteObject);
+
+		FWK_DEFINE_TYPE_INFO(SpriteObjectConstantBuffer, ConstantBufferBase);
 	};
 }
 

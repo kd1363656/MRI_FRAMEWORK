@@ -56,6 +56,7 @@
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Camera/CameraConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Light/LightConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Model/ModelConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/Buffer/Constant/PostEffect/PostEffectConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/FinalPresent/FinalPresentConstantBufferStruct.h"
 
 // TypeTrait
@@ -194,6 +195,7 @@
 #include "Graphics/Resource/Buffer/Constant/Camera/CameraConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Model/Object/ModelObjectConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/Light/LightConstantBuffer.h"
+#include "Graphics/Resource/Buffer/Constant/PostEffect/PostEffectConstantBuffer.h"
 #include "Graphics/Resource/Buffer/Constant/FinalPresent/FinalPresentConstantBuffer.h"
 
 // コマンドキュー管理クラス

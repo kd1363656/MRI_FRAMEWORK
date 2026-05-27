@@ -17,6 +17,9 @@ namespace FWK::Tag
 	// Model共通
 	struct RootParameterCBModelObjectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelObjectTag, RootParameterTagBase); };
 
+	// PostEffect関係
+	struct RootParameterCBPostEffectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBPostEffectTag, RootParameterTagBase); };
+
 	// FinalPresent関係
 	struct RootParameterCBFinalPresentTag : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBFinalPresentTag, RootParameterTagBase); };
 }

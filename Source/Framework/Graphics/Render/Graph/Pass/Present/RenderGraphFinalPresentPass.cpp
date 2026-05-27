@@ -2,7 +2,7 @@
 
 FWK::Graphics::RenderGraphFinalPresentPass::RenderGraphFinalPresentPass()
 {
-	ReadTexture(Utility::Tag::GetTag<Tag::SceneColorTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphShaderReadUsageTag>());
+	ReadTexture(Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphShaderReadUsageTag>());
 }
 
 FWK::Graphics::RenderGraphFinalPresentPass::~RenderGraphFinalPresentPass() = default;
@@ -45,26 +45,26 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 		return;
 	}
 
-	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
-	const auto& l_sceneColorTextureRecord     = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetTag<Tag::SceneColorTextureTag>()).lock();
+	const auto& l_renderGraphResourceRegistry  = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
+	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>()).lock();
 
-	if (!l_sceneColorTextureRecord)
+	if (!l_postEffectColorTextureRecord)
 	{
-		assert(false && "SceneColorTextureが無効のため、SceneDrawPassを実行できませんでした。");
+		assert(false && "PostEffectColorTextureが無効のため、FinalPresentPassを実行できませんでした。");
 		return;
 	}
 
-	const auto& l_sceneColorTexture = l_sceneColorTextureRecord->m_renderTargetTexture;
+	const auto& l_postEffectColorTexture = l_postEffectColorTextureRecord->m_renderTargetTexture;
 
-	if (!l_sceneColorTexture)
+	if (!l_postEffectColorTexture)
 	{
-		assert(false && "SceneColorTextureが無効のため、SceneDrawPassを実行できませんでした。");
+		assert(false && "PostEffectColorTextureが無効のため、FinalPresentPassを実行できませんでした。");
 		return;
 	}
 
-	if (l_sceneColorTexture->GetVALSRVStorageID() == Constant::k_invalidStorageID)
+	if (l_postEffectColorTexture->GetVALSRVStorageID() == Constant::k_invalidStorageID)
 	{
-		assert(false && "SceneColorTextureのSRVStorageIDが無効のため、FinalPresentPassを実行できませんでした。");
+		assert(false && "PostEffectColorTextureのSRVStorageIDが無効のため、FinalPresentPassを実行できませんでした。");
 		return;
 	}
 
@@ -95,7 +95,7 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 
 	Struct::CBFinalPresent l_cbFinalPresent = {};
 
-	l_cbFinalPresent.m_sceneColorTextureSRVIndex = l_sceneColorTexture->GetVALSRVStorageID();
+	l_cbFinalPresent.m_sceneColorTextureSRVIndex = l_postEffectColorTexture->GetVALSRVStorageID();
 
 	const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(Struct::CBFinalPresent), Constant::k_constantBufferAlignment);
 	const auto  l_constantBufferOffset	    = k_cbFinalPresentIndex * l_constantBufferAlignedSize;

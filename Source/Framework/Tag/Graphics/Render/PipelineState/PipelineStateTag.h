@@ -11,6 +11,9 @@ namespace FWK::Tag
 	struct ModelUnLitStandardPipelineStateTag final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelUnLitStandardPipelineStateTag, PipelineStateTagBase); };
 	struct ModelLitStandardPipelineStateTag   final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelLitStandardPipelineStateTag,   PipelineStateTagBase); };
 
+	// ポストエフェクト用パイプライン
+	struct PostEffectPipelineStateTag final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(PostEffectPipelineStateTag, PipelineStateTagBase); };
+
 	// 最終出力テクスチャ用パイプライン
 	struct FinalPresentPipelineStateTag	final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(FinalPresentPipelineStateTag, PipelineStateTagBase); };
 }

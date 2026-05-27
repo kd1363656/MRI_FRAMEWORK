@@ -425,6 +425,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Model\ModelConstantBufferStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Sprite\SpriteConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\ModelStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Model\Static\StaticModelStruct.h" />
@@ -475,6 +476,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h" />
@@ -487,6 +489,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h" />
@@ -588,7 +591,6 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Hardware\Factory.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawCommandBase.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawRequestList.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp" />
@@ -597,6 +599,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Resource\RenderGraphResourceRegistry.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp" />
@@ -609,6 +612,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp" />
