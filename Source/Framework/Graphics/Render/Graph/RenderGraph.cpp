@@ -239,7 +239,7 @@ void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::ui
 			}
 
 			// UsageTagは「RenderTargetとして使うのか、CopySourceとして使うのか」などの用途を表す
-			// ResourceStateの自動遷移で使うため、、ここで無効値を弾いておく
+			// ResourceStateの自動遷移で使うため、ここで無効値を弾いておく
 			if (l_textureAccess.m_usageTag == Constant::k_invalidTypeTag)
 			{
 				assert(false && "RenderGraphTextureAccessのUsageTagが無効です。");

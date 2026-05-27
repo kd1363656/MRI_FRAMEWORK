@@ -5,10 +5,7 @@ FWK::Graphics::RenderGraphSceneDrawPass::RenderGraphSceneDrawPass()
 	WriteTexture(Utility::Tag::GetTag<Tag::SceneColorTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphRenderTargetUsageTag>());
 	WriteTexture(Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphDepthWriteUsageTag>());
 }
-
-FWK::Graphics::RenderGraphSceneDrawPass::~RenderGraphSceneDrawPass()
-{
-}
+FWK::Graphics::RenderGraphSceneDrawPass::~RenderGraphSceneDrawPass() = default;
 
 void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&				   a_rtvDescriptorHeap, 
 													  const DSVDescriptorHeap&				   a_dsvDescriptorHeap, 
@@ -58,7 +55,7 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 		return;
 	}
 
-	// RenderGraphがわでSceneColorTextureはD3D12_RESOURCE_STATE_TARGETへ、
+	// RenderGraph側でSceneColorTextureはD3D12_RESOURCE_STATE_RENDER_TARGETへ、
 	// SceneDepthStencilTextureはD3D12_RESOURCE_STATE_DEPTH_WRITEへ遷移済み
 	// ここでは描画先としてRTV / DSVを設定する
 	a_directCommandList.SetupRenderTargetTexture(*l_sceneColorTexture,
