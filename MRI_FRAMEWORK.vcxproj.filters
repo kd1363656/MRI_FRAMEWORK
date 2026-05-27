@@ -790,6 +790,9 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect">
       <UniqueIdentifier>{0f9b03f5-d451-477a-928d-0a3419c65170}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset\Shader\PostEffect">
+      <UniqueIdentifier>{99e432dc-9c7e-4d9e-a996-efd748b4e958}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1713,6 +1716,12 @@
     <DXCTask Include="Asset\Shader\FinalPresent\FinalPresent_PS.hlsl">
       <Filter>Asset\Shader\RenderGraph\FinalePresent</Filter>
     </DXCTask>
+    <DXCTask Include="Asset\Shader\PostEffect\PostEffect_MS.hlsl">
+      <Filter>Asset\Shader\PostEffect</Filter>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\PostEffect\PostEffect_PS.hlsl">
+      <Filter>Asset\Shader\PostEffect</Filter>
+    </DXCTask>
   </ItemGroup>
   <ItemGroup>
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli">
@@ -1735,6 +1744,9 @@
     </None>
     <None Include="Asset\Shader\FinalPresent\FinalPresent.hlsli">
       <Filter>Asset\Shader\RenderGraph\FinalePresent</Filter>
+    </None>
+    <None Include="Asset\Shader\PostEffect\PostEffect.hlsli">
+      <Filter>Asset\Shader\PostEffect</Filter>
     </None>
   </ItemGroup>
 </Project>
