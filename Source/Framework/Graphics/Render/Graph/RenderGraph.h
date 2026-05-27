@@ -2,9 +2,16 @@
 
 namespace FWK::Graphics
 {
+	class DrawCommandBase;
+}
+
+namespace FWK::Graphics
+{
 	class RenderGraph final
 	{
 	private:
+
+		using DrawCommandMap = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<DrawCommandBase>>;
 
 		struct TextureAccessPassRecord final
 		{
@@ -38,18 +45,7 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		template <typename Type, typename... Args>
-		Type& AddPass(Args&&... a_args)
-		{
-			auto l_pass = std::make_unique<Type>(std::forward<Args>(a_args)...);
-
-			Type& l_passREF = *l_pass;
-
-			m_passList.emplace_back(std::move(l_pass));
-
-			return l_passREF;
-		}
-
+		
 		void AddPass(std::unique_ptr<IRenderGraphPass>&& a_pass);
 
 		const auto& GetREFPassList() const { return m_passList; }
@@ -76,9 +72,12 @@ namespace FWK::Graphics
 		static constexpr std::uint32_t k_noRenderGraphIncomingEdgeCount = 0U;
 		static constexpr std::uint32_t k_invalidRenderGraphPassIndex	= UINT32_MAX; 
 
-		std::vector<std::unique_ptr<IRenderGraphPass>> m_passList = {};
+		std::vector<std::unique_ptr<IRenderGraphPass>> m_passList		 = {};
+		std::vector<std::shared_ptr<DrawCommandBase>>  m_drawCommandList = {};
 
 		std::vector<std::uint32_t> m_sortedPassIndexList = {};
+
+		DrawCommandMap   m_drawCommandMap = {};
 
 		Converter::RenderGraphJsonConverter m_renderGraphJsonConverter = {};
 	};

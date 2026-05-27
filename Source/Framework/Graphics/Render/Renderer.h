@@ -2,16 +2,10 @@
 
 namespace FWK::Graphics
 {
-	class DrawCommandBase;
-}
-
-namespace FWK::Graphics
-{
 	class Renderer final
 	{
 	private:
 
-		using DrawCommandMap   = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<DrawCommandBase>>;
 		using RootSignatureMap = std::unordered_map<TypeAlias::TypeTag, std::shared_ptr<RootSignature>>;
 		using PipelineStateMap = std::unordered_map<TypeAlias::TypeTag, std::shared_ptr<PipelineState>>;
 
@@ -100,10 +94,8 @@ namespace FWK::Graphics
 		static constexpr std::size_t k_initialFrameResourceIndex   = 0ULL;
 		static constexpr std::size_t k_frameResourceIndexIncrement = 1ULL;
 
-		std::vector<std::shared_ptr<FrameResource>>	  m_frameResourceList = {};
-		std::vector<std::shared_ptr<DrawCommandBase>> m_drawCommandList   = {};
+		std::vector<std::shared_ptr<FrameResource>>	m_frameResourceList = {};
 
-		DrawCommandMap   m_drawCommandMap   = {};
 		RootSignatureMap m_rootSignatureMap = {};
 		PipelineStateMap m_pipelineStateMap = {};
 
