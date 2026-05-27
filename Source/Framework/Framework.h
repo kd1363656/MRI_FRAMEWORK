@@ -337,6 +337,7 @@
 
 // 描画コマンドクラス
 #include "Graphics/Render/Command/DrawRequestCommandBase.h"
+#include "Graphics/Render/Command/DrawRequestList.h"
 
 // 描画コマンドクラス用ファクトリTypeAlias
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"

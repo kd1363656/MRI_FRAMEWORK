@@ -1367,6 +1367,9 @@
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawRequestList.h">
+      <Filter>Source\Framework\Graphics\Render\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1659,6 +1662,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Command\DrawRequestList.cpp">
+      <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
