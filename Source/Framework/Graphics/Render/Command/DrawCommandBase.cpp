@@ -1,6 +1,6 @@
 ﻿#include "DrawCommandBase.h"
 
-void FWK::Graphics::DrawCommandBase::BeginDraw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+void FWK::Graphics::DrawCommandBase::SetupDraw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) const
 {
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 

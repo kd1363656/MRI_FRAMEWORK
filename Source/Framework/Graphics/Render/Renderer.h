@@ -28,7 +28,7 @@ namespace FWK::Graphics
 
 		void PostCreateSetup(const SwapChain& a_swapChain);
 
-		void BeginFrame() const;
+		void BeginFrame();
 
 		void BeginDraw();
 		
@@ -46,33 +46,14 @@ namespace FWK::Graphics
 		void SetupCurrentFrameResource(const std::size_t& a_index);
 
 		void AddFrameResource  (const std::shared_ptr<FrameResource>&   a_frameResource);
-		void AddDrawCommandList(const std::shared_ptr<DrawCommandBase>& a_drawCommand);
-		void AddDrawCommandMap (const std::shared_ptr<DrawCommandBase>& a_drawCommand,   const TypeAlias::StaticTypeID a_staticTypeID);
 		void AddRootSignature  (const std::shared_ptr<RootSignature>&   a_rootSignature, const TypeAlias::TypeTag      a_tag);
 		void AddPipelineState  (const std::shared_ptr<PipelineState>&   a_pipelineState, const TypeAlias::TypeTag      a_tag);
 
 		std::weak_ptr<RootSignature> FindVALRootSignature(const TypeAlias::TypeTag a_tag) const;
 		std::weak_ptr<PipelineState> FindVALPipelineState(const TypeAlias::TypeTag a_tag) const;
 
-		template <Concept::IsDerivedDrawCommandBaseConcept Type>
-		std::shared_ptr<Type> FindVALDrawCommand() const 
-		{
-			if (const auto& l_itr = m_drawCommandMap.find(Type::GetTypeINFO().k_staticTypeID);
-				l_itr != m_drawCommandMap.end())
-			{
-				if (auto l_drawCommand = l_itr->second.lock())
-				{
-					return std::static_pointer_cast<Type>(l_drawCommand);
-				}
-			}
-
-			return nullptr;
-		}
-
 		const auto& GetREFFrameResourceList() const { return m_frameResourceList; }
-		const auto& GetREFDrawCommandList  () const { return m_drawCommandList; }
 
-		const auto& GetREFDrawCommandMap  () const { return m_drawCommandMap; }
 		const auto& GetREFRootSignatureMap() const { return m_rootSignatureMap; }
 		const auto& GetREFPipelineStateMap() const { return m_pipelineStateMap; }
 

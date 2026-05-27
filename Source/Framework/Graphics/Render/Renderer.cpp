@@ -83,15 +83,7 @@ bool FWK::Graphics::Renderer::Create(const Device&							  a_device,
 }
 void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
-	m_renderArea.SetupRenderArea(a_swapChain);
-
-	for (const auto& l_drawCommand : m_drawCommandList)
-	{
-		if (!l_drawCommand) { continue; }
-
-		// 描画コマンドで使用するルートシグネチャやパイプラインステート設定する
-		l_drawCommand->PostCreateSetup(*this);
-	}
+	m_renderArea.SetupRenderArea (a_swapChain);
 
 	m_renderGraph.PostCreateSetup(*this);
 
@@ -102,7 +94,7 @@ void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 	}
 }
 
-void FWK::Graphics::Renderer::BeginFrame() const
+void FWK::Graphics::Renderer::BeginFrame()
 {
 	// 現在のフレームリソースの定数バッファのインデックスの初期化
 	const auto& l_currentFrameResource = m_currentFrameResource.lock();
@@ -115,13 +107,7 @@ void FWK::Graphics::Renderer::BeginFrame() const
 
 	l_currentFrameResource->BeginFrame();
 
-	// 前フレームの描画申請を削除、現フレームで描画する必要のあるものだけ取り入れるようにする
-	for (const auto& l_drawCommand : m_drawCommandList)
-	{
-		if (!l_drawCommand) { continue; }
-
-		l_drawCommand->BeginFrame();
-	}
+	m_renderGraph.BeginFrame();
 }
 
 void FWK::Graphics::Renderer::BeginDraw()
@@ -150,16 +136,6 @@ void FWK::Graphics::Renderer::BeginDraw()
 	m_directCommandList.Reset(*l_commandAllocator);
 }
 
-void FWK::Graphics::Renderer::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
-{
-	for (const auto& l_drawCommand : m_drawCommandList)
-	{
-		if (!l_drawCommand) { continue; }
-
-		l_drawCommand->BeginDraw(a_srvDescriptorPool, *this);
-		l_drawCommand->Draw	    (*this);
-	}
-}
 void FWK::Graphics::Renderer::EndDraw(const SwapChain& a_swapChain)
 {
 	const auto& l_currentFrameResource = m_currentFrameResource.lock();
@@ -250,26 +226,6 @@ void FWK::Graphics::Renderer::AddFrameResource(const std::shared_ptr<FrameResour
 	}
 
 	m_frameResourceList.emplace_back(a_frameResource);
-}
-void FWK::Graphics::Renderer::AddDrawCommandList(const std::shared_ptr<DrawCommandBase>& a_drawCommand)
-{
-	if (!a_drawCommand) 
-	{
-		assert(false && "DrawCommandが無効のため、DrawCommandListへの登録に失敗しました。");
-		return;
-	}
-
-	m_drawCommandList.emplace_back(a_drawCommand);
-}
-void FWK::Graphics::Renderer::AddDrawCommandMap(const std::shared_ptr<DrawCommandBase>& a_drawCommand, const TypeAlias::StaticTypeID a_staticTypeID)
-{
-	if (!a_drawCommand)
-	{
-		assert(false && "DrawCommandが無効のため、DrawCommandMapへの登録に失敗しました。");
-		return;
-	}
-
-	m_drawCommandMap.try_emplace(a_staticTypeID, a_drawCommand);
 }
 void FWK::Graphics::Renderer::AddRootSignature(const std::shared_ptr<RootSignature>& a_rootSignature, const TypeAlias::TypeTag a_tag)
 {

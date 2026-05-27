@@ -15,6 +15,14 @@ void FWK::Graphics::RenderGraph::Deserialize(const nlohmann::json& a_rootJson)
 
 void FWK::Graphics::RenderGraph::PostCreateSetup(Renderer& a_renderer) const
 {
+	for (const auto& l_drawCommand : m_drawCommandList)
+	{
+		if (!l_drawCommand) { continue; }
+
+		// 描画コマンドで使用するルートシグネチャやパイプラインステート設定する
+		l_drawCommand->PostCreateSetup(a_renderer);
+	}
+
 	for (const auto& l_pass : m_passList)
 	{
 		if (!l_pass)
@@ -103,6 +111,29 @@ bool FWK::Graphics::RenderGraph::Compile()
 	return true;
 }
 
+
+void FWK::Graphics::RenderGraph::BeginFrame()
+{
+	// 前フレームの描画申請を削除、現フレームで描画する必要のあるものだけ取り入れるようにする
+	for (const auto& l_drawCommand : m_drawCommandList)
+	{
+		if (!l_drawCommand) { continue; }
+
+		l_drawCommand->BeginFrame();
+	}
+}
+
+void FWK::Graphics::RenderGraph::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
+{
+	for (const auto& l_drawCommand : m_drawCommandList)
+	{
+		if (!l_drawCommand) { continue; }
+
+		l_drawCommand->SetupDraw(a_srvDescriptorPool, a_renderer);
+		l_drawCommand->Draw	    (a_renderer);
+	}
+}
+
 void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 
 										 const DSVDescriptorHeap&				  a_dsvDescriptorHeap, 
 										 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
@@ -163,6 +194,26 @@ void FWK::Graphics::RenderGraph::AddPass(std::unique_ptr<IRenderGraphPass>&& a_p
 	}
 
 	m_passList.emplace_back(std::move(a_pass));
+}
+
+void FWK::Graphics::RenderGraph::AddDrawCommand(const std::shared_ptr<DrawCommandBase>& a_drawCommand)
+{
+	if (!a_drawCommand) 
+	{
+		assert(false && "DrawCommandが無効のため、DrawCommandの登録に失敗しました。");
+		return;
+	}
+
+	const auto l_staticTypeID = a_drawCommand->GetRuntimeTypeINFO().k_staticTypeID;
+
+	if (m_drawCommandMap.contains(l_staticTypeID))
+	{
+		assert(false && "同じStaticTypeIDのDrawCommandを追加しようとしたため、DrawCommandの登録に失敗しました。");
+		return; 
+	}
+
+	m_drawCommandList.emplace_back(a_drawCommand);
+	m_drawCommandMap.try_emplace  (l_staticTypeID, a_drawCommand);
 }
 
 bool FWK::Graphics::RenderGraph::IsReadAccess(const Struct::RenderGraphTextureAccess& a_textureAccess) const

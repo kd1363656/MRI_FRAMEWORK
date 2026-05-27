@@ -36,6 +36,10 @@ namespace FWK::Graphics
 
 		bool Compile();
 
+		void BeginFrame();
+
+		void Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer);
+
 		void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
 					 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
 					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
@@ -45,10 +49,28 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		
 		void AddPass(std::unique_ptr<IRenderGraphPass>&& a_pass);
 
+		void AddDrawCommand(const std::shared_ptr<DrawCommandBase>& a_drawCommand);
+		
+		template <Concept::IsDerivedDrawCommandBaseConcept Type>
+		std::shared_ptr<Type> FindVALDrawCommand() const
+		{
+			if (const auto& l_itr = m_drawCommandMap.find(Type::GetTypeINFO().k_staticTypeID);
+				l_itr != m_drawCommandMap.end())
+			{
+				if (auto l_drawCommand = l_itr->second.lock())
+				{
+					return std::static_pointer_cast<Type>(l_drawCommand);
+				}
+			}
+
+			return nullptr;
+		}
+
 		const auto& GetREFPassList() const { return m_passList; }
+
+		const auto& GetREFDrawCommandList() const { return m_drawCommandList; }
 
 	private:
 
@@ -77,7 +99,7 @@ namespace FWK::Graphics
 
 		std::vector<std::uint32_t> m_sortedPassIndexList = {};
 
-		DrawCommandMap   m_drawCommandMap = {};
+		DrawCommandMap m_drawCommandMap = {};
 
 		Converter::RenderGraphJsonConverter m_renderGraphJsonConverter = {};
 	};

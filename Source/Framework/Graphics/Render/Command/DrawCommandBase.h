@@ -13,7 +13,7 @@ namespace FWK::Graphics
 		virtual void BeginFrame		()					   = 0;
 		virtual void PostCreateSetup(Renderer& a_renderer) = 0;
 
-				void BeginDraw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer);
+				void SetupDraw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) const;
 		virtual void Draw     (		 Renderer&							a_renderer) = 0;
 
 		const auto& GetVALRootSignature() const { return m_rootSignature; }
