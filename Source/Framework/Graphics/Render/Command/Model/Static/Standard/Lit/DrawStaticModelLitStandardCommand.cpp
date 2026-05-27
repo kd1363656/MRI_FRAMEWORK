@@ -32,8 +32,8 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 		return;
 	}
 
-	const auto&		  l_lightSystemUploadBuffer = l_lightSystemConstantBuffer->GetREFUploadConstantBuffer();
-		  auto* const l_lightSystemMappedData   = l_lightSystemUploadBuffer.Map							 ();
+	auto&		l_lightSystemUploadBuffer = l_lightSystemConstantBuffer->GetMutableREFUploadConstantBuffer();
+	auto* const l_lightSystemMappedData   = l_lightSystemUploadBuffer.Map								  ();
 
 	if (!l_lightSystemMappedData)
 	{
@@ -41,13 +41,11 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 		return;
 	}
 
-	const auto& l_cbLight = l_lightSystem.CreateCBLight();
-
-	if (!SetupConstantBuffer<FWK::Tag::RootParameterCBLightTag>(*l_rootSignature,
+	if (const auto& l_cbLight = l_lightSystem.CreateCBLight();
+		!SetupConstantBuffer<FWK::Tag::RootParameterCBLightTag>(*l_rootSignature,
 																l_directCommandList,
-																l_lightSystemUploadBuffer,
 																l_cbLight,
-																GetREFCommonPassIndex(),
+																l_lightSystemUploadBuffer,
 																l_lightSystemMappedData))
 	{
 		assert(false && "Light用定数バッファが設定できておらず、StaticModelLit描画処理に失敗しました。");

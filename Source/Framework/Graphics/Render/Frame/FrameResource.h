@@ -24,6 +24,8 @@ namespace FWK::Graphics
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
+		void BeginFrame();
+
 		nlohmann::json Serialize() const;
 
 		void AddConstantBuffer(const std::shared_ptr<ConstantBufferBase>& a_constantBuffer);

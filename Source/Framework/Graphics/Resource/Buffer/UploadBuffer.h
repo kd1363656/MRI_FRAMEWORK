@@ -11,6 +11,10 @@ namespace FWK::Graphics
 
 		bool Create(const Device& a_device, const UINT64& a_bufferSize);
 
+		void BeginFrame();
+
+		std::size_t AllocateCurrentBufferIndex();
+
 		std::uint8_t* Map  () const;
 		void		  UnMap() const;
 
@@ -20,6 +24,10 @@ namespace FWK::Graphics
 
 	private:
 
+		static constexpr size_t k_initialBufferIndex = 0ULL;
+
 		TypeAlias::ComPtr<ID3D12Resource2> m_uploadBuffer = nullptr;
+
+		std::size_t m_currentBufferIndex = k_initialBufferIndex;
 	};
 }

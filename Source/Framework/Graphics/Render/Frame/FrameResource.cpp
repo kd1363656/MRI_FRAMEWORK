@@ -56,6 +56,16 @@ bool FWK::Graphics::FrameResource::Create(const Device&			                   a_d
 	return true;
 }
 
+void FWK::Graphics::FrameResource::BeginFrame()
+{
+	for (const auto& [l_tag, l_constantBuffer] : m_constantBufferMap)
+	{
+		if (!l_constantBuffer) { continue; }
+
+		l_constantBuffer->BeginFrame();
+	}
+}
+
 nlohmann::json FWK::Graphics::FrameResource::Serialize() const
 {
 	return m_frameResourceJsonConverter.Serialize(*this);

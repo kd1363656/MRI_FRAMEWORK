@@ -21,12 +21,12 @@ namespace FWK::Graphics
 
 	protected:
 
+		// 定数バッファの上書き禁止
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
 		bool SetupConstantBuffer(const RootSignature&	   a_rootSignature,
 								 const DirectCommandList&  a_directCommandList,
-								 const UploadBuffer&	   a_uploadBuffer,
 								 const ConstantBufferType& a_constantBuffer,
-								 const std::size_t&		   a_constantBufferIndex,
+									   UploadBuffer&	   a_uploadBuffer,
 									   std::uint8_t* const a_mappedData) const
 		{
 			if (!a_mappedData)
@@ -36,7 +36,43 @@ namespace FWK::Graphics
 			}
 
 			// 定数バッファは256バイトアライメントでなければならない
-			const auto l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), Constant::k_constantBufferAlignment);
+			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), Constant::k_constantBufferAlignment);
+
+			const auto& l_currentBufferIndex = a_uploadBuffer.AllocateCurrentBufferIndex();
+
+			// 定数バッファの位置を現在のインデックス分進める
+			const auto l_constantBufferOffset = l_currentBufferIndex * l_constantBufferAlignedSize;
+
+			std::memcpy(a_mappedData + l_constantBufferOffset, &a_constantBuffer, sizeof(ConstantBufferType));
+
+			const auto l_gpuVirtualAddress = a_uploadBuffer.FetchVALGPUVirtualAddress() + l_constantBufferOffset;
+
+			// SetGraphicsRootConstantBufferView(ルートパラメータ番号、
+			//									 CBVとして参照させるGPU仮想アドレス);
+			// SetupConstantBufferView内でRootParameterTagからルートパラメータ番号を取得し、
+			// 指定したRootParameterへUploadBuffer上の定数バッファを結びつける
+			a_directCommandList.SetupConstantBufferView<RootParameterTagType>(l_gpuVirtualAddress, a_rootSignature);
+
+			return true;
+		}
+
+		// 定数バッファの上書きを許可
+		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
+		bool SetupConstantBuffer(const RootSignature&	   a_rootSignature,
+								 const DirectCommandList&  a_directCommandList,
+								 const ConstantBufferType& a_constantBuffer,
+								 const std::size_t&		   a_constantBufferIndex,
+									   UploadBuffer&	   a_uploadBuffer,
+									   std::uint8_t* const a_mappedData) const
+		{
+			if (!a_mappedData)
+			{
+				assert(false && "定数バッファのMap済みアドレスが無効なため、定数バッファの設定に失敗しました。");
+				return false;
+			}
+
+			// 定数バッファは256バイトアライメントでなければならない
+			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), Constant::k_constantBufferAlignment);
 
 			// 定数バッファの位置を現在のインデックス分進める
 			const auto l_constantBufferOffset = a_constantBufferIndex * l_constantBufferAlignedSize;
@@ -58,7 +94,8 @@ namespace FWK::Graphics
 		bool SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
 										   const DirectCommandList&  a_directCommandList,
 										   const FrameResource&		 a_frameResource,
-										   const CBType&			 a_constantBuffer)
+										   const CBType&			 a_constantBuffer,
+										   const std::size_t&		 a_constantBufferIndex)
 		{
 			auto l_constantBuffer = a_frameResource.FindPTRConstantBuffer<ConstantBufferType>().lock();
 
@@ -68,9 +105,8 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			const auto& l_uploadBuffer = l_constantBuffer->GetREFUploadConstantBuffer();
-
-			auto* const l_mappedData = l_uploadBuffer.Map();
+			auto&		l_constantUploadBuffer = l_constantBuffer->GetMutableREFUploadConstantBuffer();
+			auto* const l_mappedData		   = l_constantUploadBuffer.Map						    ();
 
 			if (!l_mappedData)
 			{
@@ -81,16 +117,16 @@ namespace FWK::Graphics
 			// 共通パスの定数バッファのセットは一回のみでよい
 			if (!SetupConstantBuffer<RootParameterTagType>(a_rootSignature,
 														   a_directCommandList,
-														   l_uploadBuffer,
 														   a_constantBuffer,
-														   k_cbCommonPassIndex,
+														   a_constantBufferIndex,
+														   l_constantUploadBuffer,
 														   l_mappedData))
 			{
 				assert(false && "共通パス定数バッファのGPU送信命令に失敗したため、描画処理に失敗しました。");
 				return false;
 			}
 
-			l_uploadBuffer.UnMap();
+			l_constantUploadBuffer.UnMap();
 
 			return true;
 		}

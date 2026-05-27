@@ -63,6 +63,20 @@ bool FWK::Graphics::UploadBuffer::Create(const Device& a_device, const UINT64& a
 	return true;
 }
 
+void FWK::Graphics::UploadBuffer::BeginFrame()
+{
+	m_currentBufferIndex = k_initialBufferIndex;
+}
+
+std::size_t FWK::Graphics::UploadBuffer::AllocateCurrentBufferIndex()
+{
+	const auto l_currentBufferIndex = m_currentBufferIndex;
+
+	++m_currentBufferIndex;
+
+	return l_currentBufferIndex;
+}
+
 std::uint8_t* FWK::Graphics::UploadBuffer::Map() const
 {
 	if (!m_uploadBuffer)

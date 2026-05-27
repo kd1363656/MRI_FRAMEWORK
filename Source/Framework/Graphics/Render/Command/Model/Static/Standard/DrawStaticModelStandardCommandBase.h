@@ -47,7 +47,8 @@ namespace FWK::Graphics
 			if (!DrawCommandBase::SetupCommonPassConstantBuffer<CameraConstantBuffer, Tag::RootParameterCBCameraTag>(*l_rootSignature,
 																													 l_directCommandList,
 																													 *l_currentFrameResource,
-																													 l_cbCamera->CreateCBCamera()))
+																													 l_cbCamera->CreateCBCamera(),
+																												     GetREFCommonPassIndex()))
 			{
 				assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 				return false;
@@ -67,12 +68,10 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			const auto&		  l_uploadBuffer					   = l_modelObjectConstantBuffer->GetREFUploadConstantBuffer();
-				  auto* const l_mappedData						   = l_uploadBuffer.Map									    ();
-			const auto&		  l_staticModelStandardDrawCommandList = GetREFDrawCommandList								    ();
+				  auto&		  l_uploadConstantBuffer			   = l_modelObjectConstantBuffer->GetMutableREFUploadConstantBuffer();
+				  auto* const l_mappedData						   = l_uploadConstantBuffer.Map									   ();
+			const auto&		  l_staticModelStandardDrawCommandList = GetREFDrawCommandList										   ();
 
-			std::size_t l_modelObjectIndex = 0ULL;
-			
 			for (const auto& l_staticModelStandardDrawCommand : l_staticModelStandardDrawCommandList)
 			{
 				const auto& l_drawCommand = l_staticModelStandardDrawCommand.lock();
@@ -139,17 +138,14 @@ namespace FWK::Graphics
 
 					if(!SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
 																				a_directCommandList,
-																				l_uploadBuffer,
 																				l_cbModelObject,
-																				l_modelObjectIndex,
+																				l_uploadConstantBuffer,
 																				l_mappedData))
 					{
 						continue;
 					}
 
 					a_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
-
-					++l_modelObjectIndex;
 				}
 			}
 

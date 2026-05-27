@@ -13,13 +13,19 @@ namespace FWK::Graphics
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create     (const Device&         a_device);
 
+		void BeginFrame();
+
 		nlohmann::json Serialize() const;
+
+		std::size_t AllocateCurrentBufferIndex();
 
 		void SetCreateConstantBufferNUM(const UINT64& a_set) { m_createConstantBufferNUM = a_set; }
 
 		const auto& GetREFCreateConstantBufferNUM() const { return m_createConstantBufferNUM; }
 
 		const auto& GetREFUploadConstantBuffer() const { return m_uploadConstantBuffer; }
+
+		auto& GetMutableREFUploadConstantBuffer() { return m_uploadConstantBuffer; }
 
 	private:
 		

@@ -43,7 +43,17 @@ bool FWK::Graphics::ConstantBufferBase::Create(const Device& a_device)
 	return true;
 }
 
+void FWK::Graphics::ConstantBufferBase::BeginFrame()
+{
+	m_uploadConstantBuffer.BeginFrame();
+}
+
 nlohmann::json FWK::Graphics::ConstantBufferBase::Serialize() const
 {
 	return m_constantBufferJsonConverter.Serialize(*this);
+}
+
+std::size_t FWK::Graphics::ConstantBufferBase::AllocateCurrentBufferIndex()
+{
+	return m_uploadConstantBuffer.AllocateCurrentBufferIndex();
 }

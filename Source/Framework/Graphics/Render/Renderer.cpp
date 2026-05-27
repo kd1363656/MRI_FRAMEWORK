@@ -104,6 +104,17 @@ void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 
 void FWK::Graphics::Renderer::BeginFrame() const
 {
+	// 現在のフレームリソースの定数バッファのインデックスの初期化
+	const auto& l_currentFrameResource = m_currentFrameResource.lock();
+
+	if (!l_currentFrameResource)
+	{
+		assert(false && "フレームリソースの取得に失敗しており、描画終了処理を行うことができませんでした。");
+		return;
+	}
+
+	l_currentFrameResource->BeginFrame();
+
 	// 前フレームの描画申請を削除、現フレームで描画する必要のあるものだけ取り入れるようにする
 	for (const auto& l_drawCommand : m_drawCommandList)
 	{

@@ -23,7 +23,6 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 		return;
 	}
 
-
 	const auto& l_viewport = a_renderer.GetREFRenderArea().GetREFViewport();
 
 	// CreateOrthographic(描画空間の横幅、
@@ -48,7 +47,8 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 	if (!SetupCommonPassConstantBuffer<SpritePassConstantBuffer, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
 																									l_directCommandList,
 																									*l_currentFrameResource,
-																									l_cbSpritePass))
+																									l_cbSpritePass,
+																									GetREFCommonPassIndex()))
 	{
 		assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 		return;
@@ -62,7 +62,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 		return;
 	}
 
-	const auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBuffer->GetREFUploadConstantBuffer();
+	auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBuffer->GetMutableREFUploadConstantBuffer();
 
 	auto* const l_spriteDrawMappedData = l_spriteDrawUploadBuffer.Map();
 	
@@ -92,10 +92,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 
 		if (!SetupCBSpriteObject(*l_rootSignature, 
 							     l_directCommandList,
-							     l_spriteDrawUploadBuffer,
 							     *l_textureRecord,
 							     *l_spriteDrawCommand,
-							     l_spriteDrawCommandIndex,
+							     l_spriteDrawUploadBuffer,
 							     l_spriteDrawMappedData))
 		{
 			continue;
@@ -109,10 +108,9 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 
 bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteObject(const RootSignature&					    a_rootSignature,
 																   const DirectCommandList&                 a_directCommandList,
-																   const UploadBuffer&			            a_spriteDrawUploadBuffer,
 																   const Struct::TextureRecord&			    a_textureRecord,
 																   const Struct::SpriteStandardDrawCommand& a_spriteStandardDrawCommand,
-																   const std::size_t&				        a_spriteDrawCommandIndex, 
+																		 UploadBuffer&			            a_spriteDrawUploadBuffer,
 																	     std::uint8_t* const		        a_spriteDrawMappedData) const
 {
 	Struct::CBSpriteObject l_cbSpriteObject = {};
@@ -126,8 +124,7 @@ bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteObject(const RootSig
 
 	return SetupConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(a_rootSignature,
 																    a_directCommandList,
-																    a_spriteDrawUploadBuffer,
 																    l_cbSpriteObject,
-																    a_spriteDrawCommandIndex,
+																	a_spriteDrawUploadBuffer,
 																    a_spriteDrawMappedData);
 }

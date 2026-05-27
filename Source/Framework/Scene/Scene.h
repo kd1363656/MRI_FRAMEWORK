@@ -20,7 +20,7 @@ namespace FWK
 		void RegisterDrawCommandTexture(const std::shared_ptr<Graphics::Texture>& a_texture) const;
 
 		template <Concept::IsDerivedDrawCommandBaseConcept Type>
-		void RegisterDrawStaticModelStandard(const std::shared_ptr<Graphics::StaticModel>& a_staticModel, const std::shared_ptr<Graphics::Camera>& a_camera, const TypeAlias::Math::Matrix& a_matrix) const
+		void RegisterDrawStaticModelStandard(const std::shared_ptr<Graphics::StaticModel>& a_staticModel,  const std::shared_ptr<Graphics::Camera>& a_camera, const std::shared_ptr<Struct::StaticModelStandardDrawCommand>& a_staticModelStandardDrawCommand) const
 		{
 			if (!a_staticModel)			   { return; }
 			if (!a_staticModel->IsValid()) { return; }
@@ -33,13 +33,8 @@ namespace FWK
 
 			if (!l_drawCommand) { return; }
 
-			m_staticModelStandardPassConstant->m_camera = a_camera;
-
-			m_staticModelStandardDrawCommand->m_staticModelRecord = a_staticModel->GetREFStaticModelRecord();
-			m_staticModelStandardDrawCommand->m_worldMatrix		  = a_matrix;
-
 			l_drawCommand->RegisterPassConstant(m_staticModelStandardPassConstant);
-			l_drawCommand->RegisterDrawCommand (m_staticModelStandardDrawCommand);
+			l_drawCommand->RegisterDrawCommand (a_staticModelStandardDrawCommand);
 		}
 		
 		std::shared_ptr<Graphics::Camera> m_camera = std::make_shared<Graphics::Camera>();
@@ -47,9 +42,10 @@ namespace FWK
 		std::shared_ptr<Graphics::Texture>	   m_texture     = std::make_shared<Graphics::Texture>	  ();
 		std::shared_ptr<Graphics::StaticModel> m_staticModel = std::make_shared<Graphics::StaticModel>();
 
-		std::shared_ptr<Struct::StaticModelStandardDrawCommand>  m_staticModelStandardDrawCommand  = std::make_shared<Struct::StaticModelStandardDrawCommand> ();
-		std::shared_ptr<Struct::StaticModelStandardPassConstant> m_staticModelStandardPassConstant = std::make_shared<Struct::StaticModelStandardPassConstant>();
-		std::shared_ptr<Struct::SpriteStandardDrawCommand>		 m_spriteStandardDrawCommand	   = std::make_shared<Struct::SpriteStandardDrawCommand>	  ();
+		std::shared_ptr<Struct::StaticModelStandardDrawCommand>  m_staticModelStandardLitDrawCommand   = std::make_shared<Struct::StaticModelStandardDrawCommand> ();
+		std::shared_ptr<Struct::StaticModelStandardDrawCommand>  m_staticModelStandardUnLitDrawCommand = std::make_shared<Struct::StaticModelStandardDrawCommand> ();
+		std::shared_ptr<Struct::StaticModelStandardPassConstant> m_staticModelStandardPassConstant     = std::make_shared<Struct::StaticModelStandardPassConstant>();
+		std::shared_ptr<Struct::SpriteStandardDrawCommand>		 m_spriteStandardDrawCommand	       = std::make_shared<Struct::SpriteStandardDrawCommand>	  ();
 
 	};
 }

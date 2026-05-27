@@ -30,8 +30,16 @@ void FWK::Scene::RegisterDrawCommand() const
 		const auto& l_matrixA = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F)) * TypeAlias::Math::Matrix::CreateTranslation(TypeAlias::Math::Vector3( 1.0F, 0.0F, 0.0F));
 		const auto& l_matrixB = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F)) * TypeAlias::Math::Matrix::CreateTranslation(TypeAlias::Math::Vector3(-1.0F, 0.0,  0.0F));
 
-		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>  (m_staticModel, m_camera, l_matrixA);
-		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera, l_matrixB);
+		m_staticModelStandardLitDrawCommand->m_staticModelRecord   = m_staticModel->GetREFStaticModelRecord();
+		m_staticModelStandardUnLitDrawCommand->m_staticModelRecord = m_staticModel->GetREFStaticModelRecord();
+
+		m_staticModelStandardLitDrawCommand->m_worldMatrix   = l_matrixA;
+		m_staticModelStandardUnLitDrawCommand->m_worldMatrix = l_matrixB;
+
+		m_staticModelStandardPassConstant->m_camera = m_camera;
+
+		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelLitStandardCommand>  (m_staticModel, m_camera, m_staticModelStandardLitDrawCommand);
+		RegisterDrawStaticModelStandard<Graphics::DrawStaticModelUnLitStandardCommand>(m_staticModel, m_camera, m_staticModelStandardUnLitDrawCommand);
 	}
 
 	if (m_texture)
@@ -94,11 +102,16 @@ void FWK::Scene::Update()
 
 	if (GetAsyncKeyState('1'))
 	{
-		m_staticModel					 = nullptr;
-		m_staticModelStandardDrawCommand = nullptr;
+		m_staticModel					      = nullptr;
+		m_staticModelStandardUnLitDrawCommand = nullptr;
 	}
 
 	if (GetAsyncKeyState('2'))
+	{
+		m_staticModelStandardLitDrawCommand = nullptr;
+	}
+
+	if (GetAsyncKeyState('3'))
 	{
 		m_texture = nullptr;
 	}

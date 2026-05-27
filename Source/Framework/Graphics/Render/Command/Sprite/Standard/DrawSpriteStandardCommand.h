@@ -17,10 +17,9 @@ namespace FWK::Graphics
 
 		bool SetupCBSpriteObject(const RootSignature&					   a_rootSignature,
 								 const DirectCommandList&			       a_directCommandList,
-								 const UploadBuffer&				       a_spriteDrawUploadBuffer,
 								 const Struct::TextureRecord&			   a_textureRecord,
 								 const Struct::SpriteStandardDrawCommand&  a_spriteStandardDrawCommand,
-								 const std::size_t&				           a_spriteDrawCommandIndex,
+									   UploadBuffer&				       a_spriteDrawUploadBuffer,
 									   std::uint8_t* const		           a_spriteDrawMappedData) const;
 
 		static constexpr float k_defaultNearClip = 0.0F;

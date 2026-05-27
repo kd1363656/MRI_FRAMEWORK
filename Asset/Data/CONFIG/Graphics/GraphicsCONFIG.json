@@ -17,13 +17,13 @@
                     "ConstantBufferMap": [
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpritePassConstantBuffer"
                         },
@@ -41,7 +41,7 @@
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         },
@@ -89,13 +89,13 @@
                     "ConstantBufferMap": [
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpritePassConstantBuffer"
                         },
@@ -113,7 +113,7 @@
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         },
@@ -161,13 +161,13 @@
                     "ConstantBufferMap": [
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpritePassConstantBuffer"
                         },
@@ -185,7 +185,7 @@
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         },
@@ -233,13 +233,13 @@
                     "ConstantBufferMap": [
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpriteObjectConstantBuffer"
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "SpritePassConstantBuffer"
                         },
@@ -257,7 +257,7 @@
                         },
                         {
                             "ConstantBuffer": {
-                                "CreateConstantBufferNUM": 1024
+                                "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferTypeName": "ModelObjectConstantBuffer"
                         },
@@ -1163,17 +1163,17 @@
     "ResourceContext": {
         "DSVDescriptorPool": {
             "StorageIDAllocator": {
-                "StorageIDAllocatorCapacity": 1024
+                "StorageIDAllocatorCapacity": 10000
             }
         },
         "RTVDescriptorPool": {
             "StorageIDAllocator": {
-                "StorageIDAllocatorCapacity": 1024
+                "StorageIDAllocatorCapacity": 10000
             }
         },
         "SRVDescriptorPool": {
             "StorageIDAllocator": {
-                "StorageIDAllocatorCapacity": 1024
+                "StorageIDAllocatorCapacity": 10000
             }
         },
         "StaticModelSystem": {
