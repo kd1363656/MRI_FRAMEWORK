@@ -3,6 +3,7 @@
 namespace FWK::Graphics
 {
 	class Renderer;
+	class RenderGraph;
 }
 
 namespace FWK::Graphics
@@ -23,7 +24,8 @@ namespace FWK::Graphics
 							 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 							 const SwapChain&						  a_swapChain,
 								   DirectCommandList&				  a_directCommandList,
-								   Renderer&						  a_renderer) = 0;
+								   Renderer&						  a_renderer,
+								   RenderGraph&						  a_renderGraph) = 0;
 
 		FWK_DEFINE_TYPE_INFO_ROOT(IRenderGraphPass);
 	};

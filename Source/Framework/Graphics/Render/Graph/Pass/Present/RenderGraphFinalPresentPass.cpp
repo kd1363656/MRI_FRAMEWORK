@@ -33,7 +33,9 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 														 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 													     const SwapChain&						  a_swapChain,
 															   DirectCommandList&				  a_directCommandList,
-															   Renderer&						  a_renderer)
+															   Renderer&						  a_renderer,
+															   RenderGraph&)
+															   
 {
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 

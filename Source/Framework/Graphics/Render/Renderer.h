@@ -32,8 +32,7 @@ namespace FWK::Graphics
 
 		void BeginDraw();
 		
-		void Draw    (const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
-		void EndDraw (const SwapChain&						   a_swapChain);
+		void EndDraw (const SwapChain& a_swapChain);
 		void EndFrame();
 
 		void ExecuteRenderGraph(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 

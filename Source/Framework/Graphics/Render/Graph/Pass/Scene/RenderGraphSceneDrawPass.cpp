@@ -2,7 +2,7 @@
 
 FWK::Graphics::RenderGraphSceneDrawPass::RenderGraphSceneDrawPass()
 {
-	WriteTexture(Utility::Tag::GetTag<Tag::SceneColorTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphRenderTargetUsageTag>());
+	WriteTexture(Utility::Tag::GetTag<Tag::SceneColorTextureTag>(),		   Utility::Tag::GetTag<Tag::RenderGraphRenderTargetUsageTag>());
 	WriteTexture(Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphDepthWriteUsageTag>());
 }
 FWK::Graphics::RenderGraphSceneDrawPass::~RenderGraphSceneDrawPass() = default;
@@ -12,7 +12,8 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 													  const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 													  const SwapChain&, 
 															DirectCommandList&				   a_directCommandList, 
-															Renderer&						   a_renderer)
+															Renderer&						   a_renderer,
+															RenderGraph&					   a_renderGraph)
 {
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
@@ -67,5 +68,5 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 	a_directCommandList.SetupRenderArea(a_renderer.GetREFRenderArea());
 
 	// 通常の描画コマンドを実行する
-	a_renderer.Draw(a_srvDescriptorPool);
+	a_renderGraph.Draw(a_srvDescriptorPool, a_renderer);
 }

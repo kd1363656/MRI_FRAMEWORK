@@ -176,7 +176,8 @@ void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDesc
 						a_srvDescriptorPool,
 						a_swapChain,	
 						a_directCommandList,
-						a_renderer);
+						a_renderer,
+						*this);
 	}
 }
 

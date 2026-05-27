@@ -124,9 +124,10 @@ void FWK::Scene::RegisterDrawCommandTexture(const std::shared_ptr<Graphics::Text
 	if (!a_texture) { return; }
 
 	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance();
-	const auto& l_renderer = l_graphicsManager.GetREFRenderer();
+	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer      ();
+	const auto& l_renderGraph	  = l_renderer.GetREFRenderGraph          ();
 
-	const auto& l_drawCommand = l_renderer.FindVALDrawCommand<Graphics::DrawSpriteStandardCommand>();
+	const auto& l_drawCommand = l_renderGraph.FindVALDrawCommand<Graphics::DrawSpriteStandardCommand>();
 
 	if (!l_drawCommand) { return; }
 

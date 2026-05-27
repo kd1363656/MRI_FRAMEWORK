@@ -16,7 +16,8 @@ namespace FWK::Graphics
 					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 				     const SwapChain&						  a_swapChain,
 						   DirectCommandList&				  a_directCommandList,
-						   Renderer&						  a_renderer) override;
+						   Renderer&						  a_renderer,
+						   RenderGraph&) override;
 
 	private:
 

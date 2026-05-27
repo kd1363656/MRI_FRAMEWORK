@@ -2,6 +2,11 @@
 
 namespace FWK::Graphics
 {
+	class Renderer;
+}
+
+namespace FWK::Graphics
+{
 	// Rendererクラスでそのフレームで必要な座標だったりサイズだったりを持つためのクラス
 	class DrawCommandBase
 	{

@@ -27,7 +27,7 @@ namespace FWK::Graphics
 				return;
 			}
 
-			m_directRequestList.emplace_back(a_drawRequest);
+			m_drawRequestList.emplace_back(a_drawRequest);
 		}
 
 		const auto& GetREFDrawRequestList() const { return m_drawRequestList; }

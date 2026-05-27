@@ -14,7 +14,8 @@ namespace FWK::Graphics
 					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 					 const SwapChain&,
 						   DirectCommandList&				  a_directCommandList,
-						   Renderer&						  a_renderer) override;
+						   Renderer&						  a_renderer,
+						   RenderGraph&						  a_renderGraph) override;
 
 		FWK_DEFINE_TYPE_INFO(RenderGraphSceneDrawPass, RenderGraphPassBase);
 	};

@@ -1,16 +1,5 @@
 {
     "Renderer": {
-        "DrawCommand": [
-            {
-                "DrawCommandTypeName": "DrawStaticModelUnLitStandardCommand"
-            },
-            {
-                "DrawCommandTypeName": "DrawStaticModelLitStandardCommand"
-            },
-            {
-                "DrawCommandTypeName": "DrawSpriteStandardCommand"
-            }
-        ],
         "FrameResourceList": [
             {
                 "FrameResource": {
@@ -948,6 +937,17 @@
             }
         ],
         "RenderGraph": {
+            "DrawCommand": [
+                {
+                    "DrawCommandTypeName": "DrawStaticModelUnLitStandardCommand"
+                },
+                {
+                    "DrawCommandTypeName": "DrawStaticModelLitStandardCommand"
+                },
+                {
+                    "DrawCommandTypeName": "DrawSpriteStandardCommand"
+                }
+            ],
             "PassList": [
                 {
                     "RenderGraphPassTypeName": "RenderGraphSceneDrawPass"

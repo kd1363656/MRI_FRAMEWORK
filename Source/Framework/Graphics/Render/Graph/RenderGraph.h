@@ -2,11 +2,6 @@
 
 namespace FWK::Graphics
 {
-	class DrawCommandBase;
-}
-
-namespace FWK::Graphics
-{
 	class RenderGraph final
 	{
 	private:

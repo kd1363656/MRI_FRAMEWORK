@@ -22,12 +22,6 @@ void FWK::Converter::RendererJsonConverter::Deserialize(const nlohmann::json& a_
 		DeserializePipelineStateMap(a_rootJson[k_pipelineStateMapJsonKey], a_renderer);
 	}
 
-	// 描画コマンドのデシリアライズ
-	if (a_rootJson.contains(k_drawCommandJsonKey))
-	{
-		DeserializeDrawCommand(a_rootJson[k_drawCommandJsonKey], a_renderer);
-	}
-
 	// RenderGraphのデシリアライズ
 	if (a_rootJson.contains(k_renderGraphJsonKey))
 	{
@@ -47,9 +41,6 @@ nlohmann::json FWK::Converter::RendererJsonConverter::Serialize(const Graphics::
 
 	// パイプラインステートのシリアライズ
 	l_rootJson[k_pipelineStateMapJsonKey] = SerializePipelineStateMap(a_renderer);
-
-	// 描画コマンドリストのシリアライズ
-	l_rootJson[k_drawCommandJsonKey] = SerializeDrawCommand(a_renderer);
 
 	// RenderGraphのシリアライズ
 	l_rootJson[k_renderGraphJsonKey] = SerializeRenderGraph(a_renderer);
@@ -123,26 +114,6 @@ void FWK::Converter::RendererJsonConverter::DeserializePipelineStateMap(const nl
 		a_renderer.AddPipelineState(l_pipelineState, l_tag);
 	}	
 }
-void FWK::Converter::RendererJsonConverter::DeserializeDrawCommand(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
-{
-	if (a_rootJson.is_null())				 { return; }
-	if (!Utility::Json::IsArray(a_rootJson)) { return; }
-	
-	for (const auto& l_json : a_rootJson)
-	{
-		std::shared_ptr<Graphics::DrawCommandBase> l_drawCommand = nullptr;
-		
-		// ファクトリーからDrawCommandを作成
-		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryDrawCommand>(l_json, k_drawCommandTypeNameJsonKey, l_drawCommand);
-		
-		// 作成に成功していれば中身にポインタがしっかり入っているのでデシリアライズを行う
-		if (l_drawCommand)
-		{
-			a_renderer.AddDrawCommandList(l_drawCommand);
-			a_renderer.AddDrawCommandMap (l_drawCommand, l_drawCommand->GetRuntimeTypeINFO().k_staticTypeID);
-		}
-	}
-}
 void FWK::Converter::RendererJsonConverter::DeserializeRenderGraph(const nlohmann::json& a_rootJson, Graphics::Renderer& a_renderer) const
 {
 	if (a_rootJson.is_null()) { return; }
@@ -213,22 +184,6 @@ nlohmann::json FWK::Converter::RendererJsonConverter::SerializePipelineStateMap(
 
 	return l_rootJsonArray;
 }
-nlohmann::json FWK::Converter::RendererJsonConverter::SerializeDrawCommand(const Graphics::Renderer& a_renderer) const
-{
-	auto l_rootJsonArray = nlohmann::json::array();
-
-	const auto& l_drawCommandList = a_renderer.GetREFDrawCommandList();
-
-	// 実行順序をそのまま格納するためにstd::unordered_mapではなくstd::vectorを
-	// 使ってSerializeを行う
-	for (const auto& l_drawCommand : l_drawCommandList)
-	{
-		l_rootJsonArray.emplace_back(Utility::Json::SerializeInstanceType(l_drawCommand, k_drawCommandTypeNameJsonKey));
-	}
-
-	return l_rootJsonArray;
-}
-
 nlohmann::json FWK::Converter::RendererJsonConverter::SerializeRenderGraph(const Graphics::Renderer& a_renderer) const
 {
 	const auto& l_renderGraph = a_renderer.GetREFRenderGraph();
