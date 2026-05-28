@@ -484,7 +484,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Renderer.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h" />
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferUploader.h" />
@@ -607,7 +607,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Renderer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferUploader.cpp" />

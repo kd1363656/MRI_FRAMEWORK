@@ -1,14 +1,14 @@
 ﻿#include "ConstantBufferUploaderBase.h"
 
 FWK::Graphics::ConstantBufferUploaderBase::ConstantBufferUploaderBase() : 
-	m_uploadConstantBuffer				 ({}),
+	m_uploadBuffer						 ({}),
 	m_constantBufferUploaderJsonConverter({}),
 
 	m_constantBufferTypeSize (k_invalidBufferTypeSize),
 	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
 {}
 FWK::Graphics::ConstantBufferUploaderBase::ConstantBufferUploaderBase(const UINT64& a_constantBufferTypeSize) : 
-	m_uploadConstantBuffer				 ({}),
+	m_uploadBuffer						 ({}),
 	m_constantBufferUploaderJsonConverter({}),
 
 	m_constantBufferTypeSize (a_constantBufferTypeSize),
@@ -34,7 +34,7 @@ bool FWK::Graphics::ConstantBufferUploaderBase::Create(const Device& a_device)
 	const auto& l_alignedTypeSize = Utility::Math::AlignUp(m_constantBufferTypeSize, Constant::k_constantBufferAlignment);
 	
 	if (const auto& l_constantBufferSize = m_createConstantBufferNUM * l_alignedTypeSize;
-		!m_uploadConstantBuffer.Create(a_device, l_constantBufferSize))
+		!m_uploadBuffer.Create(a_device, l_constantBufferSize))
 	{
 		assert(false && "スプライト描画用定数バッファの生成処理に失敗しました。");
 		return false;
@@ -45,7 +45,7 @@ bool FWK::Graphics::ConstantBufferUploaderBase::Create(const Device& a_device)
 
 void FWK::Graphics::ConstantBufferUploaderBase::BeginFrame()
 {
-	m_uploadConstantBuffer.BeginFrame();
+	m_uploadBuffer.BeginFrame();
 }
 
 nlohmann::json FWK::Graphics::ConstantBufferUploaderBase::Serialize() const
@@ -55,7 +55,7 @@ nlohmann::json FWK::Graphics::ConstantBufferUploaderBase::Serialize() const
 
 std::size_t FWK::Graphics::ConstantBufferUploaderBase::AllocateCurrentBufferIndex()
 {
-	const auto l_allocatedBufferIndex = m_uploadConstantBuffer.AllocateCurrentBufferIndex();
+	const auto l_allocatedBufferIndex = m_uploadBuffer.AllocateCurrentBufferIndex();
 
 	if (l_allocatedBufferIndex >= m_createConstantBufferNUM)
 	{

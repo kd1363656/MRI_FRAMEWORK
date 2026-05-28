@@ -95,14 +95,14 @@ namespace FWK::Graphics
 			return true;
 		}
 
-		template < Concept::IsDerivedConstantBufferBaseConcept ConstantBufferType, Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename CBType>
+		template < Concept::IsDerivedConstantBufferUploaderBaseConcept ConstantBufferUploaderType, Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename CBType>
 		bool SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
 										   const DirectCommandList&  a_directCommandList,
 										   const FrameResource&		 a_frameResource,
 										   const CBType&			 a_constantBuffer,
 										   const std::size_t&		 a_constantBufferIndex)
 		{
-			auto l_constantBuffer = a_frameResource.FindPTRConstantBuffer<ConstantBufferType>().lock();
+			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBuffer<ConstantBufferUploaderType>().lock();
 
 			if (!l_constantBuffer)
 			{

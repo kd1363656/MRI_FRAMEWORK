@@ -1,4 +1,4 @@
-﻿#include "CameraConstantBuffer.h"
+﻿#include "CameraConstantBufferUploader.h"
 
 FWK::Graphics::CameraConstantBufferUploader::CameraConstantBufferUploader() : 
 	ConstantBufferUploaderBase(k_bufferTypeSize)

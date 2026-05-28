@@ -1232,7 +1232,7 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\BufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBufferUploader.h">
@@ -1603,7 +1603,7 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Static\StaticModelBatchUploadRecordBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBufferUploder.cpp">

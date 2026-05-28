@@ -23,15 +23,15 @@ namespace FWK::Graphics
 
 		const auto& GetREFCreateConstantBufferNUM() const { return m_createConstantBufferNUM; }
 
-		const auto& GetREFUploadConstantBuffer() const { return m_uploadConstantBuffer; }
+		const auto& GetREFUploadConstantBuffer() const { return m_uploadBuffer; }
 
-		auto& GetMutableREFUploadConstantBuffer() { return m_uploadConstantBuffer; }
+		auto& GetMutableREFUploadBuffer() { return m_uploadBuffer; }
 
 	private:
 		
 		static constexpr UINT k_invalidBufferTypeSize = 0U;
 
-		UploadBuffer m_uploadConstantBuffer = UploadBuffer();
+		UploadBuffer m_uploadBuffer = UploadBuffer();
 
 		Converter::ConstantBufferUploaderBaseJsonConverter m_constantBufferUploaderJsonConverter = {};
 
