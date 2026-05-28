@@ -1,19 +1,15 @@
 ﻿#pragma once
 
+namespace FWK::Graphics
+{
+	class TextureRecord;
+}
+
 namespace FWK::Struct
 {
-	struct TextureRecord final : public AssetRecordBase
-	{
-		Struct::GPUResource m_gpuResource = {};
-		
-		D3D12_RESOURCE_STATES m_currentState = D3D12_RESOURCE_STATE_COMMON;
-
-		TypeAlias::StorageID m_srvStorageID = Constant::k_invalidStorageID;
-	};
-
 	struct TextureLoadResult final
 	{
-		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
+		std::weak_ptr<Graphics::TextureRecord> m_textureRecord = {};
 
 		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
 	};
