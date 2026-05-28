@@ -493,6 +493,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\DescriptorPool.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV\DSVDescriptorHeap.h" />
@@ -616,6 +617,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DescriptorHeapBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\DSV\DSVDescriptorHeap.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Descriptor\Heap\RTV\RTVDescriptorHeap.cpp" />

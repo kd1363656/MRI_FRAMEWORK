@@ -793,6 +793,9 @@
     <Filter Include="Asset\Shader\PostEffect">
       <UniqueIdentifier>{99e432dc-9c7e-4d9e-a996-efd748b4e958}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\DeferredRelease">
+      <UniqueIdentifier>{ecd5b665-d7b6-4999-8e4d-0df1550c546d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1391,6 +1394,9 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.h">
+      <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1689,6 +1695,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.cpp">
+      <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
