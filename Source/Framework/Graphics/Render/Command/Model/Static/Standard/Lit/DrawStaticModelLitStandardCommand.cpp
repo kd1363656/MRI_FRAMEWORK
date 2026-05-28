@@ -34,10 +34,10 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 
 	const auto& l_cbLight = l_lightSystem.CreateCBLight();
 
-	SetupConstantBuffer<FWK::Tag::RootParameterCBLightTag>(*l_rootSignature,
-														    l_directCommandList,
-														    l_cbLight,
-														    *l_lightSystemConstantBuffer);
+	DrawStaticModelStandardCommandBase::SetupCommonConstantBuffer<FWK::Tag::RootParameterCBLightTag>(*l_rootSignature,
+																								     l_directCommandList,
+																								     l_cbLight,
+																								     *l_lightSystemConstantBuffer);
 	// モデルを一つ一つ描画していく
 	DrawStaticModelStandardCommandBase::SetupCBModelObject(*l_rootSignature, l_directCommandList, *l_currentFrameResource);
 }

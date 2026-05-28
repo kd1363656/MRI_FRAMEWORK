@@ -47,8 +47,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 	if (!SetupCommonPassConstantBuffer<SpritePassConstantBufferUploader, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
 																											l_directCommandList,
 																											*l_currentFrameResource,
-																											l_cbSpritePass,
-																											GetREFCommonPassIndex()))
+																											l_cbSpritePass))
 	{
 		assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 		return;
@@ -61,8 +60,6 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 		assert(false && "スプライト描画用定数バッファが取得できないため、描画処理に失敗しました。");
 		return;
 	}
-
-	const auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBufferUploader->GetMutableREFUploadBuffer();
 
 	// 貯めこんでいたテクスチャ描画命令を回す
 	const auto& l_spriteStandardDrawCommandList = GetREFDrawCommandList();
@@ -91,10 +88,10 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 		l_cbSpriteObject.m_sourceRECT               = l_spriteStandardDrawCommand->m_sourceRECT;
 		l_cbSpriteObject.m_baseColorTextureSRVIndex = l_textureRecord->m_srvStorageID;
 
-		SetupConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(*l_rootSignature,
-															     l_directCommandList,
-															     l_cbSpriteObject,
-															     *l_spriteObjectConstantBufferUploader);
+		SetupPerDrawConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(*l_rootSignature,
+																		l_directCommandList,
+																		l_cbSpriteObject,
+																		*l_spriteObjectConstantBufferUploader);
 
 		l_directCommandList.DispatchMesh(GetVALDefaultDispatchMeshThreadGroupCountX(), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
 	}

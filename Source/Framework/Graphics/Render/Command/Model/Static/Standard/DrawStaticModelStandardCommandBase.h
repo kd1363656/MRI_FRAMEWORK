@@ -47,8 +47,7 @@ namespace FWK::Graphics
 			if (!DrawCommandBase::SetupCommonPassConstantBuffer<CameraConstantBufferUploader, Tag::RootParameterCBCameraTag>(*l_rootSignature,
 																															 l_directCommandList,
 																															 *l_currentFrameResource,
-																															 l_cbCamera->CreateCBCamera(),
-																															 GetREFCommonPassIndex()))
+																															 l_cbCamera->CreateCBCamera()))
 			{
 				assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 				return false;
@@ -134,11 +133,11 @@ namespace FWK::Graphics
 					l_cbModelObject.m_uniqueVertexIndexBufferSRVIndex = l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
 					l_cbModelObject.m_primitiveIndexBufferSRVIndex    = l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
 
-					SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
-																			a_directCommandList,
-																			l_cbModelObject,
-																			*l_modelObjectConstantBufferUploader);
-
+					SetupPerDrawConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
+																				   a_directCommandList,
+																				   l_cbModelObject,
+																				   *l_modelObjectConstantBufferUploader);
+					
 					a_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
 				}
 			}

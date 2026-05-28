@@ -28,8 +28,7 @@ namespace FWK::Graphics
 
 			if (!l_mappedData)
 			{
-				assert				(false && "定数バッファのMapに失敗しました。");
-				m_uploadBuffer.UnMap();
+				assert(false && "定数バッファのMapに失敗しました。");
 				return {};
 			}
 
@@ -75,7 +74,8 @@ namespace FWK::Graphics
 			// 定数バッファのサイズがこの定数バッファアップローダーと一致しなければreturn
 			if (Utility::Math::AlignUp(m_constantBufferTypeSize, Constant::k_constantBufferAlignment) != l_constantBufferAlignedSize)
 			{
-				assert(false && "定数バッファのアライメントサイズが一致しません。");
+				assert				(false && "定数バッファのアライメントサイズが一致しません。");
+				m_uploadBuffer.UnMap();
 				return {};
 			}
 
