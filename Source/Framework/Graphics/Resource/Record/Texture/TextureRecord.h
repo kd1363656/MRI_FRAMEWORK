@@ -9,7 +9,6 @@ namespace FWK::Graphics
 		 TextureRecord() = default;
 		~TextureRecord() = default;
 
-		
 		TextureRecord(const TextureRecord&)			  = delete;
 		TextureRecord(	    TextureRecord&&) noexcept = default;
 

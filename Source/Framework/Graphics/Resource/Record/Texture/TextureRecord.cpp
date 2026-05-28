@@ -22,8 +22,9 @@ bool FWK::Graphics::TextureRecord::PushDeferredRelease(DeferredResourceReleaseQu
 
 	// ※ 注意 std::moveをしよスしているのでm_gpuResourceにアクセスしたらUB(UndefinedBehavior)
 	Struct::GPUResourceReleaseRecord l_gpuResourceReleaseRecord = {};
-	l_gpuResourceReleaseRecord.m_gpuResource					= std::move(m_gpuResource);
-	l_gpuResourceReleaseRecord.m_retiredFenceValue				= a_retiredFenceValue;
+
+	l_gpuResourceReleaseRecord.m_gpuResource	   = std::move(m_gpuResource);
+	l_gpuResourceReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
 
 	Struct::DescriptorIndexReleaseRecord l_srvDescriptorIndexReleaseRecord = {};
 

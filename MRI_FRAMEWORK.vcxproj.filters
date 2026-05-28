@@ -805,6 +805,12 @@
     <Filter Include="Source\Framework\Graphics\Resource\Record\Texture">
       <UniqueIdentifier>{dfe850bb-15af-471f-8b70-c5de19d11f6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Record\Model">
+      <UniqueIdentifier>{914773ee-940b-4b6b-8625-3d6e06c15e77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Record\Model\Static">
+      <UniqueIdentifier>{055e1792-fb31-4f46-a6a4-5c606e8fd9d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1415,6 +1421,9 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Record\Texture\TextureRecord.h">
       <Filter>Source\Framework\Graphics\Resource\Record\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Record\Model\Static\StaticModelRecord.h">
+      <Filter>Source\Framework\Graphics\Resource\Record\Model\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1722,6 +1731,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Record\Texture\TextureRecord.cpp">
       <Filter>Source\Framework\Graphics\Resource\Record\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Record\Model\Static\StaticModelRecord.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Record\Model\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

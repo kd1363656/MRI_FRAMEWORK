@@ -510,6 +510,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Record\AssetRecordBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Record\Model\Static\StaticModelRecord.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Record\Texture\TextureRecord.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\ResourceContext.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.h" />
@@ -635,6 +636,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModelSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Record\AssetRecordBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Record\Model\Static\StaticModelRecord.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Record\Texture\TextureRecord.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\ResourceContext.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp" />
