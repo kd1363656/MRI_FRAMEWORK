@@ -799,6 +799,12 @@
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\DeferredRelease">
       <UniqueIdentifier>{edad2b87-def3-4b38-85fb-ee471a4e22f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Record">
+      <UniqueIdentifier>{e2235ba0-d48b-445e-9bfc-0a8bd269f34a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Record\Texture">
+      <UniqueIdentifier>{dfe850bb-15af-471f-8b70-c5de19d11f6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1403,6 +1409,12 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\DeferredRelease\DeferredResourceReleaseStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\DeferredRelease</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Record\AssetRecordBase.h">
+      <Filter>Source\Framework\Graphics\Resource\Record</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Record\Texture\TextureRecord.h">
+      <Filter>Source\Framework\Graphics\Resource\Record\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1704,6 +1716,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.cpp">
       <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Record\AssetRecordBase.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Record</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Record\Texture\TextureRecord.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Record\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

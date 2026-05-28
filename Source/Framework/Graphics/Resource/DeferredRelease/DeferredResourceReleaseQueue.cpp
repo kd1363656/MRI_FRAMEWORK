@@ -51,13 +51,13 @@ bool FWK::Graphics::DeferredResourceReleaseQueue::IsValidDescriptorIndexReleaseR
 	return true;
 }
 
-void FWK::Graphics::DeferredResourceReleaseQueue::ReleaseCompletedGPUResource(const UINT64& a_completedFenceValue)
+void FWK::Graphics::DeferredResourceReleaseQueue::ReleaseCompletedGPUResources(const UINT64& a_completedFenceValue)
 {
 	std::size_t l_index = 0ULL;
 
 	while (l_index < m_gpuResourceReleaseRecordList.size())
 	{
-		// GPUのフェンス値より大木フェンス値ならまだ解放しない
+		// GPUのフェンス値より大きいフェンス値ならまだ解放しない
 		if (m_gpuResourceReleaseRecordList[l_index].m_retiredFenceValue > a_completedFenceValue)
 		{
 			++l_index;

@@ -19,7 +19,7 @@ namespace FWK::Graphics
 		bool IsValidGPUResourceReleaseRecord    (const Struct::GPUResourceReleaseRecord&	 a_releaseRecord) const;
 		bool IsValidDescriptorIndexReleaseRecord(const Struct::DescriptorIndexReleaseRecord& a_releaseRecord) const;
 
-		void ReleaseCompletedGPUResource(const UINT64& a_completedFenceValue);
+		void ReleaseCompletedGPUResources(const UINT64& a_completedFenceValue);
 
 		template <Concept::IsDerivedDescriptorHeapBaseConcept DescriptorHeapType>
 		void ReleaseCompletedDescriptorIndices(const UINT64& a_completedFenceValue, std::vector<Struct::DescriptorIndexReleaseRecord>& a_releaseRecordList, DescriptorPool<DescriptorHeapType>& a_descriptorPool)

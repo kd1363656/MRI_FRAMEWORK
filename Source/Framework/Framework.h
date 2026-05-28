@@ -231,6 +231,10 @@
 // 遅延リソースリリースクラス
 #include "Graphics/Resource/DeferredRelease/DeferredResourceReleaseQueue.h"
 
+// レコードクラス
+#include "Graphics/Resource/Record/AssetRecordBase.h"
+#include "Graphics/Resource/Record/Texture/TextureRecord.h"
+
 // メモリアロケータクラス
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"
 
