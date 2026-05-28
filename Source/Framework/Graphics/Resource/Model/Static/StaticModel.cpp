@@ -128,8 +128,11 @@ void FWK::Graphics::StaticModel::ReleaseStaticModelReference()
 	const auto& l_renderer		   = l_graphicsManager.GetREFRenderer				   ();
 	const auto& l_directCommandQueue = l_renderer.GetREFDirectCommandQueue             ();
 
-	if (auto& l_staticModelSystem = l_resourceContext.GetMutableREFStaticModelSystem(); 
-		!l_staticModelSystem.ReleaseStaticModelReference(l_directCommandQueue, m_staticModelRecord))
+	auto& l_staticModelSystem		     = l_resourceContext.GetMutableREFStaticModelSystem           ();
+	auto& l_deferredResourceReleaseQueue = l_resourceContext.GetMutableREFDeferredResourceReleaseQueue();
+
+	if (
+		!l_staticModelSystem.ReleaseStaticModelReference(m_staticModelRecord, l_directCommandQueue, l_deferredResourceReleaseQueue))
 	{
 		assert(false && "StaticModelの参照数減算に失敗しました。");
 		return; 

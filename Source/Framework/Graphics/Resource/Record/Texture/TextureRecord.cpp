@@ -1,6 +1,6 @@
 ﻿#include "TextureRecord.h"
 
-bool FWK::Graphics::TextureRecord::PushDeferredRelease(DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue, const UINT64& a_retiredFenceValue)
+bool FWK::Graphics::TextureRecord::PushDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
 {
 	if (!m_gpuResource.m_resource)
 	{
@@ -44,7 +44,7 @@ bool FWK::Graphics::TextureRecord::PushDeferredRelease(DeferredResourceReleaseQu
 		return false;
 	}
 
-	// 二重開放を防ぐため、Queueへ渡したDescriptorIndexは無効化する
+	// 二解放を防ぐため、Queueへ渡したDescriptorIndexは無効化する
 	m_srvStorageID = Constant::k_invalidStorageID;
 
 	return true;

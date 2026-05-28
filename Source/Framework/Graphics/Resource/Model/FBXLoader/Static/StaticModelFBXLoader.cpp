@@ -1,8 +1,8 @@
 ﻿#include "StaticModelFBXLoader.h"
 
-bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath) const
+bool FWK::Graphics::StaticModelFBXLoader::LoadStaticModelFile(const std::filesystem::path& a_filePath, Graphics::StaticModelRecord& a_staticModelRecord) const
 {
-	auto& l_modelData = a_staticModelRecord.m_modelData;
+	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
 	// ModelDataはコピー代入禁止のため、保持しているModelMeshリストだけを空にする
 	l_modelData.m_modelMeshList.clear();

@@ -35,7 +35,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	// 既に登録済みのStaticModelなら再度ロード申請する必要がないのでreturn
 	if (const auto& l_record = m_staticModelStorage.FindVALRecord(l_filePath).lock())
 	{
-		const auto l_foundStorageID = l_record->m_storageID;
+		const auto l_foundStorageID = l_record->GetVALStorageID();
 
 		// 参照カウントの加算
 		if (!AddStaticModelReference(l_record))
@@ -62,9 +62,9 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 			return l_staticModelLoadResult;
 		}
 
-		++l_staticModelRecord->m_referenceCount;
+		l_staticModelRecord->AddReferenceCount();
 
-		l_staticModelLoadResult.m_storageID			= l_staticModelRecord->m_storageID;
+		l_staticModelLoadResult.m_storageID			= l_staticModelRecord->GetVALStorageID();
 		l_staticModelLoadResult.m_staticModelRecord = l_staticModelRecord;
 
 		return l_staticModelLoadResult;
@@ -78,11 +78,11 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 		return l_staticModelLoadResult;
 	}
 
-	auto l_staticModelRecord = std::make_shared<Struct::StaticModelRecord>();
+	auto l_staticModelRecord = std::make_shared<Graphics::StaticModelRecord>();
 
-	l_staticModelRecord->m_filePath       = l_filePath;
-	l_staticModelRecord->m_storageID      = l_allocateStorageID;
-	l_staticModelRecord->m_referenceCount = Constant::k_defaultAssetReferenceCount;
+	l_staticModelRecord->SetFilePath      (l_filePath);
+	l_staticModelRecord->SetStorageID     (l_allocateStorageID);
+	l_staticModelRecord->SetReferenceCount(Constant::k_defaultAssetReferenceCount);
 
 	// まずはバイナリーファイルから読み込み、読み込めなかった場合はFBXから読み込む
 	if (!LoadStaticModel(a_filePath, *l_staticModelRecord))
@@ -94,7 +94,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	}
 
 	// StaticModelのMaterialが参照しているTextureをロード予約する
-	for (auto& l_modelMesh : l_staticModelRecord->m_modelData.m_modelMeshList)
+	for (auto& l_modelMesh : l_staticModelRecord->GetREFModelData().m_modelMeshList)
 	{
 		const auto& l_modelMaterialAssetData   = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
 			  auto& l_modelMaterialRuntimeData = l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData;
@@ -120,7 +120,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 		return l_staticModelLoadResult;
 	}
 	
-	l_staticModelLoadResult.m_storageID			= l_staticModelRecord->m_storageID;
+	l_staticModelLoadResult.m_storageID			= l_staticModelRecord->GetVALStorageID();
 	l_staticModelLoadResult.m_staticModelRecord = l_staticModelRecord;
 
 	m_pendingStaticModelBatchUploadRecordMap.try_emplace(l_filePath, std::move(l_staticModelBatchUploadRecord));
@@ -144,19 +144,12 @@ void FWK::Graphics::StaticModelSystem::LoadPendingStaticModelAndWait(UploadSyste
 	m_pendingStaticModelBatchUploadRecordMap.clear();
 }
 
-void FWK::Graphics::StaticModelSystem::ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
-{
-	auto l_staticModelRecordReleaser = StaticModelRecordReleaser(a_srvDescriptorPool);
-
-	m_staticModelStorage.ReleaseCompletedUnusedRecords(a_directCommandQueue, l_staticModelRecordReleaser);
-}
-
 nlohmann::json FWK::Graphics::StaticModelSystem::Serialize() const
 {
 	return  m_staticModelSystemJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord)
+bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const std::weak_ptr<Graphics::StaticModelRecord>& a_staticModelRecord)
 {
 	if (!m_staticModelStorage.AddReference(a_staticModelRecord))
 	{
@@ -167,9 +160,9 @@ bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const std::weak_p
 	return true;
 }
 
-bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectCommandQueue& a_directCommandQueue, const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord)
+bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const std::weak_ptr<Graphics::StaticModelRecord>& a_staticModelRecord, const DirectCommandQueue& a_directCommandQueue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
 {
-	if (!m_staticModelStorage.ReleaseReference(a_directCommandQueue, a_staticModelRecord))
+	if (!m_staticModelStorage.ReleaseReference(a_staticModelRecord, a_directCommandQueue, a_deferredResourceReleaseQueue))
 	{
 		assert(false && "AssetStorageでの参照数減算に失敗したため、StaticModel解放予約に失敗しました。");
 		return false;
@@ -178,15 +171,15 @@ bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const DirectC
 	return true;
 }
 
-std::weak_ptr<FWK::Struct::StaticModelRecord> FWK::Graphics::StaticModelSystem::FindVALStaticModelRecord(const std::wstring& a_filePath) const
+std::weak_ptr<FWK::Graphics::StaticModelRecord> FWK::Graphics::StaticModelSystem::FindVALStaticModelRecord(const std::wstring& a_filePath) const
 {
 	return m_staticModelStorage.FindVALRecord(a_filePath);
 }
 
-bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath, Struct::StaticModelRecord& a_staticModelRecord)
+bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath, Graphics::StaticModelRecord& a_staticModelRecord)
 {
 	// ufbxを使用してメッシュやマテリアルを読み込む
-	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_staticModelRecord, a_fbxFilePath))
+	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_fbxFilePath, a_staticModelRecord))
 	{
 		assert(false && "StaticModelFBXLoaderによるFBX読み込みに失敗しました。");
 		return false;
@@ -242,9 +235,9 @@ std::shared_ptr<FWK::Graphics::Texture> FWK::Graphics::StaticModelSystem::Create
 	return l_texture;
 }
 
-bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::filesystem::path& a_filePath, Struct::StaticModelRecord& a_staticModelRecord)
+bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::filesystem::path& a_filePath, Graphics::StaticModelRecord& a_staticModelRecord)
 {
-	auto& l_modelData = a_staticModelRecord.m_modelData;
+	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
 	if (a_filePath.empty())
 	{
@@ -275,9 +268,9 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::filesystem::pa
 	return CreateStaticModelAssetFromFBX(a_filePath, l_assetFilePath, a_staticModelRecord);
 }
 
-bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(const std::filesystem::path& a_assetFilePath, Struct::StaticModelRecord& a_staticModelRecord)
+bool FWK::Graphics::StaticModelSystem::LoadStaticModelAsset(const std::filesystem::path& a_assetFilePath, Graphics::StaticModelRecord& a_staticModelRecord)
 {
-	auto& l_modelData = a_staticModelRecord.m_modelData;
+	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
 	l_modelData.m_modelMeshList.clear();
 
@@ -318,7 +311,7 @@ bool FWK::Graphics::StaticModelSystem::StaticModelCopyBatch(UploadSystem& a_uplo
 			return false;
 		}
 
-		if (!m_staticModelStorage.RegisterRecord(l_filePath, l_staticModelRecord))
+		if (!m_staticModelStorage.RegisterRecord(l_staticModelRecord, l_filePath))
 		{
 			assert(false && "StaticModelRecordの登録に失敗したため、StaticModelのバッチ登録に失敗しました。");
 			return false;

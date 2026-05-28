@@ -24,7 +24,7 @@ namespace FWK::Graphics
 
 		void InvalidateStorageID();
 
-		virtual bool PushDeferredRelease(DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue, const UINT64& a_retiredFenceValue) = 0;
+		virtual bool PushDeferredRelease(const UINT64& a_retiredFenceValue,DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue) = 0;
 
 		void SetFilePath(const std::wstring& a_set) { m_filePath = a_set; }
 

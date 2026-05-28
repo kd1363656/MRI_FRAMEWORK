@@ -75,7 +75,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const TypeAlias:
 		const auto& l_textureUploadRecord = l_pendingTextureBatchUploadRecord.m_textureUploadRecord;
 
 		// 
-		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->m_gpuResource.m_resource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
+		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->GetREFGPUResource().m_resource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
 	}
 
 	m_copyCommandList.Close				  ();
@@ -120,7 +120,7 @@ bool FWK::Graphics::UploadSystem::SubmitTextureCopyBatchAndWait(const std::vecto
 
 		const auto& l_textureUploadRecord = l_textureBatchUploadRecord.m_textureUploadRecord;
 
-		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->m_gpuResource.m_resource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
+		RecordTextureCopy(l_textureUploadRecord.m_layoutList, l_textureRecord->GetREFGPUResource().m_resource, l_textureUploadRecord.m_uploadBuffer.GetREFUploadBuffer());
 	}
 
 	m_copyCommandList.Close();

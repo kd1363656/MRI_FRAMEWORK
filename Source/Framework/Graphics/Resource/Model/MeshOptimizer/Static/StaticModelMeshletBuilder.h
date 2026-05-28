@@ -9,7 +9,7 @@ namespace FWK::Graphics
 		StaticModelMeshletBuilder () = default;
 		~StaticModelMeshletBuilder() = default;
 
-		bool BuildStaticModelRecordMeshletData(Struct::StaticModelRecord& a_staticModelRecord);
+		bool BuildStaticModelRecordMeshletData(Graphics::StaticModelRecord& a_staticModelRecord);
 
 	private:
 

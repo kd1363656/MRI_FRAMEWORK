@@ -9,7 +9,7 @@ namespace FWK::Graphics
 		 StaticModelFBXLoader()			 = default;
 		~StaticModelFBXLoader() override = default;
 
-		bool LoadStaticModelFile(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath) const;
+		bool LoadStaticModelFile(const std::filesystem::path& a_filePath, Graphics::StaticModelRecord& a_staticModelRecord) const;
 
 	private:
 

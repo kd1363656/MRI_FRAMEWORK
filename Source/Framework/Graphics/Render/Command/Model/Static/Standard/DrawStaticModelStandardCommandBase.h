@@ -79,7 +79,7 @@ namespace FWK::Graphics
 
 				if (!l_staticModelRecord) { continue; }
 
-				const auto& l_modelMeshList = l_staticModelRecord->m_modelData.m_modelMeshList;
+				const auto& l_modelMeshList = l_staticModelRecord->GetREFModelData().m_modelMeshList;
 
 				for (const auto& l_modelMesh : l_modelMeshList)
 				{
@@ -126,8 +126,8 @@ namespace FWK::Graphics
 					Struct::CBModelObject l_cbModelObject = {};
 
 					l_cbModelObject.m_worldMatrix		              = l_drawCommand->m_worldMatrix;
-					l_cbModelObject.m_baseColorTextureSRVIndex        = l_baseColorTextureRecord->m_srvStorageID;
-					l_cbModelObject.m_normalTextureSRVIndex           = l_normalTextureRecord->m_srvStorageID;
+					l_cbModelObject.m_baseColorTextureSRVIndex        = l_baseColorTextureRecord->GetVALSRVStorageID();
+					l_cbModelObject.m_normalTextureSRVIndex           = l_normalTextureRecord->GetVALSRVStorageID();
 					l_cbModelObject.m_vertexBufferSRVIndex            = l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID;
 					l_cbModelObject.m_meshletBufferSRVIndex           = l_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID;
 					l_cbModelObject.m_uniqueVertexIndexBufferSRVIndex = l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;

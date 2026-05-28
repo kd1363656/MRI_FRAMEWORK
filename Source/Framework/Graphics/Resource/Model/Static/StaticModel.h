@@ -30,6 +30,6 @@ namespace FWK::Graphics
 
 		TypeAlias::StorageID m_storageID;
 
-		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord;
+		std::weak_ptr<Graphics::StaticModelRecord> m_staticModelRecord;
 	};
 }

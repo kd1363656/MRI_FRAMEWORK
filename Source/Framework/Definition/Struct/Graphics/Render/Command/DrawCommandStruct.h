@@ -10,7 +10,7 @@ namespace FWK::Struct
 	// スプライト用
 	struct SpriteStandardDrawCommand final
 	{
-		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
+		std::weak_ptr<Graphics::TextureRecord> m_textureRecord = {};
 
 		TypeAlias::Math::Color m_color = {};
 
@@ -24,7 +24,7 @@ namespace FWK::Struct
 	// 静的モデル標準描画用
 	struct StaticModelStandardDrawCommand final
 	{
-		std::weak_ptr<Struct::StaticModelRecord> m_staticModelRecord = {};
+		std::weak_ptr<Graphics::StaticModelRecord> m_staticModelRecord = {};
 
 		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
 

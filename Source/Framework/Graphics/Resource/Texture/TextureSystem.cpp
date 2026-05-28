@@ -95,7 +95,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 		// すでに登録予約済みのテクスチャが再度登録されたら参照カウントを増やす
 		l_textureRecord->AddReferenceCount();
 
-		l_textureLoadResult.m_storageID     = l_textureRecord->GetVALSRVStorageID();
+		l_textureLoadResult.m_storageID     = l_textureRecord->GetVALStorageID();
 		l_textureLoadResult.m_textureRecord = l_textureRecord;
 
 		return l_textureLoadResult;

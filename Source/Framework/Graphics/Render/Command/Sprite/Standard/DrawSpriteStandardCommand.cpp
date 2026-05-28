@@ -73,8 +73,8 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 
 		const auto& l_textureRecord = l_spriteStandardDrawCommand->m_textureRecord.lock();
 
-		if (!l_textureRecord)					        { continue; }
-		if (!l_textureRecord->m_gpuResource.m_resource) { continue; }
+		if (!l_textureRecord)								  { continue; }
+		if (!l_textureRecord->GetREFGPUResource().m_resource) { continue; }
 		
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
@@ -86,7 +86,7 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 		l_cbSpriteObject.m_scale                    = l_spriteStandardDrawCommand->m_scale;
 		l_cbSpriteObject.m_pivot                    = l_spriteStandardDrawCommand->m_pivot;
 		l_cbSpriteObject.m_sourceRECT               = l_spriteStandardDrawCommand->m_sourceRECT;
-		l_cbSpriteObject.m_baseColorTextureSRVIndex = l_textureRecord->m_srvStorageID;
+		l_cbSpriteObject.m_baseColorTextureSRVIndex = l_textureRecord->GetVALSRVStorageID();
 
 		SetupPerDrawConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(*l_rootSignature,
 																		l_directCommandList,

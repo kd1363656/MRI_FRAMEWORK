@@ -44,9 +44,10 @@ namespace FWK::Graphics
 		DescriptorPool<SRVDescriptorHeap> m_srvDescriptorPool = {};
 		DescriptorPool<DSVDescriptorHeap> m_dsvDescriptorPool = {};
 
+		GPUMemoryAllocator m_gpuMemoryAllocator = {};
+
 		DeferredResourceReleaseQueue m_deferredResourceReleaseQueue = {};
 
-		GPUMemoryAllocator m_gpuMemoryAllocator = {};
 		UploadSystem       m_uploadSystem       = {};
 		TextureSystem      m_textureSystem      = {};
 		StaticModelSystem  m_staticModelSystem  = {};

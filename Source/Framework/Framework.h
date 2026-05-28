@@ -213,12 +213,26 @@
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Command/List/Copy/CopyCommandList.h"
 
+// StorageIDAllocator
+#include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
+#include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
+
 // ディスクリプタベースを継承しているかどうかを確認するコンセプト
 #include "Definition/Concept/IsDerivedBase/Graphics/Resource/Descriptor/IsDerivedDescriptorBaseConcept.h"
 
 // ディスクリプタプール
 #include "Converter/Json/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
 #include "Graphics/Resource/Descriptor/DescriptorPool.h"
+
+// アップロードシステム用構造体
+#include "Definition/Struct/Graphics/Resource/Upload/UploadSystemStruct.h"
+
+// テクスチャ一括アップロード用構造体
+#include "Definition/Struct/Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilderStruct.h"
+
+// モデル用構造体
+#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
+#include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
 
 // 遅延リソースリリースクラス
 #include "Graphics/Resource/DeferredRelease/DeferredResourceReleaseQueue.h"
@@ -230,23 +244,11 @@
 #include "Definition/Concept/IsDerivedBase/Struct/Graphics/Resource/Storage/IsDerivedAssetRecordBaseConcept.h"
 
 // Storage
-#include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
-#include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
 #include "Converter/Json/Graphics/Resource/Storage/AssetStorageJsonConverter.h"
 #include "Graphics/Resource/Storage/AssetStorage.h"
 
 // メモリアロケータクラス
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"
-
-// アップロードシステム用構造体
-#include "Definition/Struct/Graphics/Resource/Upload/UploadSystemStruct.h"
-
-// テクスチャ一括アップロード用構造体
-#include "Definition/Struct/Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilderStruct.h"
-
-// モデル用構造体
-#include "Definition/Struct/Graphics/Resource/Model/ModelStruct.h"
-#include "Definition/Struct/Graphics/Resource/Model/Static/StaticModelStruct.h"
 
 // ライトシステム
 #include "Graphics/Render/Light/LightSystem.h"
@@ -266,7 +268,6 @@
 #include "Graphics/Resource/Texture/Builder/TextureBatchUploadRecordBuilder.h"
 #include "Graphics/Resource/Texture/Builder/DefaultTextureBuilder.h"
 #include "Converter/Json/Graphics/Resource/Texture/TextureSystemJsonConverter.h"
-#include "Graphics/Resource/Texture/Releaser/TextureRecordReleaser.h"
 #include "Converter/Json/Graphics/Resource/Texture/DepthStencil/DepthStencilTextureJsonConverter.h"
 #include "Graphics/Resource/Texture/DepthStencil/DepthStencilTexture.h"
 #include "Converter/Json/Graphics/Resource/Texture/RenderTarget/RenderTargetTextureJsonConverter.h"
@@ -282,7 +283,6 @@
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticModelMeshletBuilder.h"
 #include "Converter/Json/Graphics/Resource/Model/Static/StaticModelSystemJsonConverter.h"
 #include "Graphics/Resource/Model/Builder/Static/StaticModelBatchUploadRecordBuilder.h"
-#include "Graphics/Resource/Model/Static/Releaser/StaticModelReleaser.h"
 #include "Graphics/Resource/Model/Static/StaticModelSystem.h"
 #include "Graphics/Resource/Model/Static/StaticModel.h"
 

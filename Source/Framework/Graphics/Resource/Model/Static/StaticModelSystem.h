@@ -24,14 +24,12 @@ namespace FWK::Graphics
 
 		void LoadPendingStaticModelAndWait(UploadSystem& a_uploadSystem);
 		
-		void ReleaseCompletedUnusedStaticModel(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
-
 		nlohmann::json Serialize() const;
 
-		bool AddStaticModelReference    (const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord);
-		bool ReleaseStaticModelReference(const DirectCommandQueue&						 a_directCommandQueue, const std::weak_ptr<Struct::StaticModelRecord>& a_staticModelRecord);
+		bool AddStaticModelReference    (const std::weak_ptr<Graphics::StaticModelRecord>& a_staticModelRecord);
+		bool ReleaseStaticModelReference(const std::weak_ptr<Graphics::StaticModelRecord>& a_staticModelRecord, const DirectCommandQueue& a_directCommandQueue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue);
 
-		std::weak_ptr<Struct::StaticModelRecord> FindVALStaticModelRecord(const std::wstring& a_filePath) const;
+		std::weak_ptr<Graphics::StaticModelRecord> FindVALStaticModelRecord(const std::wstring& a_filePath) const;
 
 		const auto& GetREFStaticModelStorage() const { return m_staticModelStorage; }
 
@@ -39,12 +37,12 @@ namespace FWK::Graphics
 
 	private:
 
-		bool					 CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath,	 const std::filesystem::path& a_assetFilePath,		   Struct::StaticModelRecord& a_staticModelRecord);
-		std::shared_ptr<Texture> CreateMaterialTexture		  (const std::filesystem::path& a_modelFilePath, const std::wstring&		  a_textureFilePath, const Enum::DefaultTextureType   a_defaultTextureType) const;
+		bool					 CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath,	 const std::filesystem::path& a_assetFilePath,         Graphics::StaticModelRecord& a_staticModelRecord);
+		std::shared_ptr<Texture> CreateMaterialTexture		  (const std::filesystem::path& a_modelFilePath, const std::wstring&		  a_textureFilePath, const Enum::DefaultTextureType     a_defaultTextureType) const;
 
-		bool LoadStaticModel(const std::filesystem::path& a_filePath, Struct::StaticModelRecord& a_staticModelRecord);
+		bool LoadStaticModel(const std::filesystem::path& a_filePath, Graphics::StaticModelRecord& a_staticModelRecord);
 
-		bool LoadStaticModelAsset(const std::filesystem::path& a_assetFilePath, Struct::StaticModelRecord& a_staticModelRecord);
+		bool LoadStaticModelAsset(const std::filesystem::path& a_assetFilePath, Graphics::StaticModelRecord& a_staticModelRecord);
 
 		bool CanUseStaticModelAsset(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath) const;
 
@@ -52,7 +50,7 @@ namespace FWK::Graphics
 
 		TypeAlias::PendingStaticModelBatchUploadRecordMap m_pendingStaticModelBatchUploadRecordMap = {};
 
-		AssetStorage<Struct::StaticModelRecord> m_staticModelStorage = {};
+		AssetStorage<Graphics::StaticModelRecord> m_staticModelStorage = {};
 
 		StaticModelFBXLoader                m_staticModelFBXLoader                = {};
 		StaticModelMeshOptimizer            m_staticModelMeshOptimizer            = {};

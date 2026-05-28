@@ -13,7 +13,7 @@ namespace FWK::Graphics
 												const GPUMemoryAllocator&					    a_gpuMemoryAllocator,
 													  std::vector<Struct::BufferUploadCommand>& a_bufferUploadCommandList,
 													  DescriptorPool<SRVDescriptorHeap>&		a_srvDescriptorHeap,
-													  Struct::StaticModelRecord&			    a_staticModelRecord) const;
+													  Graphics::StaticModelRecord&			    a_staticModelRecord) const;
 
 	private:
 

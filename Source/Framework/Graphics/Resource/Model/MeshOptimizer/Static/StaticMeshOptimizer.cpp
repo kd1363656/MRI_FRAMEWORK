@@ -1,8 +1,8 @@
 ﻿#include "StaticMeshOptimizer.h"
 
-bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeStaticModelRecord(Struct::StaticModelRecord& a_staticModelRecord) const
+bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeStaticModelRecord(Graphics::StaticModelRecord& a_staticModelRecord) const
 {
-	auto& l_modelData = a_staticModelRecord.m_modelData;
+	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
 	if (l_modelData.m_modelMeshList.empty())
 	{

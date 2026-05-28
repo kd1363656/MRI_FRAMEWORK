@@ -1,8 +1,8 @@
 ﻿#include "StaticModelMeshletBuilder.h"
 
-bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData(Struct::StaticModelRecord& a_staticModelRecord)
+bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData(Graphics::StaticModelRecord& a_staticModelRecord)
 {
-	for (auto& l_modelMesh : a_staticModelRecord.m_modelData.m_modelMeshList)
+	for (auto& l_modelMesh : a_staticModelRecord.GetREFModelData().m_modelMeshList)
 	{
 		if (!BuildModelMeshletData(l_modelMesh))
 		{

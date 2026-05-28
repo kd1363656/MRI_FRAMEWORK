@@ -4,9 +4,9 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateStaticModelBatchU
 																						    const GPUMemoryAllocator&						a_gpuMemoryAllocator,
 																								  std::vector<Struct::BufferUploadCommand>& a_bufferUploadCommandList,
 																								  DescriptorPool<SRVDescriptorHeap>&		a_srvDescriptorHeap,
-																								  Struct::StaticModelRecord&				a_staticModelRecord) const
+																								  Graphics::StaticModelRecord&				a_staticModelRecord) const
 {
-	auto& l_modelMeshList = a_staticModelRecord.m_modelData.m_modelMeshList;
+	auto& l_modelMeshList = a_staticModelRecord.GetREFModelData().m_modelMeshList;
 
 	if (l_modelMeshList.empty())
 	{

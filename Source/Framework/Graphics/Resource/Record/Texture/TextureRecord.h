@@ -15,7 +15,7 @@ namespace FWK::Graphics
 		TextureRecord& operator=(const TextureRecord&)			 = delete;
 		TextureRecord& operator=(	   TextureRecord&&) noexcept = default;
 
-		bool PushDeferredRelease(DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue, const UINT64& a_retiredFenceValue) override;
+		bool PushDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue) override;
 
 		void SetGPUResource(Struct::GPUResource&& a_set) { m_gpuResource = std::move(a_set); }
 
@@ -23,7 +23,7 @@ namespace FWK::Graphics
 
 		void SetSRVStorageID(const TypeAlias::StorageID a_set) { m_srvStorageID = a_set; }
 
-		const Struct::GPUResource& GetREFGpuResource() const { return m_gpuResource; }
+		const Struct::GPUResource& GetREFGPUResource() const { return m_gpuResource; }
 
 		D3D12_RESOURCE_STATES GetVALCurrentState() const { return m_currentState; }
 

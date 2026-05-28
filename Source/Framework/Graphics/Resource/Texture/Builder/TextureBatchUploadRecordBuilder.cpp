@@ -122,7 +122,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 		return false;
 	}
 
-	const auto& l_textureResource = l_textureRecord->GetREFGpuResource().m_resource;
+	const auto& l_textureResource = l_textureRecord->GetREFGPUResource().m_resource;
 
 	if (!l_textureResource)
 	{
@@ -257,7 +257,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const Dire
 																		    DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 																			Graphics::TextureRecord&		   a_textureRecord) const
 {
-	const auto& l_textureResource = a_textureRecord.GetREFGpuResource().m_resource;
+	const auto& l_textureResource = a_textureRecord.GetREFGPUResource().m_resource;
 
 	if (!l_textureResource)
 	{

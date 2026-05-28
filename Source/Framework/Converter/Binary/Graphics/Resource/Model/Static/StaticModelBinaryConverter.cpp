@@ -1,8 +1,8 @@
 ﻿#include "StaticModelBinaryConverter.h"
 
-bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath)
+bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath)
 {
-	auto& l_modelData = a_staticModelRecord.m_modelData;
+	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
 	if (!CreateReadMemoryMappedFile(a_filePath))
 	{
@@ -182,9 +182,9 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Struct::St
 
 	return true;
 }
-bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Struct::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath)
+bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Graphics::StaticModelRecord& a_staticModelRecord, const std::filesystem::path& a_filePath)
 {
-	const auto& l_modelData = a_staticModelRecord.m_modelData;
+	const auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
 	const auto& l_fileSize = CalculateStaticModelAssetFileSize(l_modelData);
 

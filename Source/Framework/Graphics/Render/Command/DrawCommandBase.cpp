@@ -59,11 +59,10 @@ void FWK::Graphics::DrawCommandBase::SetupGraphicsPipelineStateToCommandList(Ren
 
 void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Graphics::TextureRecord& a_textureRecord) const
 {
-	const auto l_currentState = a_textureRecord.GetVALCurrentState();
+	if (const auto l_currentState = a_textureRecord.GetVALCurrentState();
+		l_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) { return; }
 
-	if (l_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) { return; }
-
-	const auto& l_textureResource = a_textureRecord.GetREFGpuResource().m_resource.Get();
+	const auto& l_textureResource = a_textureRecord.GetREFGPUResource().m_resource;
 
 	if (!l_textureResource)
 	{
@@ -72,7 +71,7 @@ void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(cons
 	}
 
 	// PixelShaderからSRVとして読むため、現在の状態からPIXEL_SHADER_RESOURCEへ遷移する
-	a_directCommandList.TransitionResource(a_textureRecord.GetVALCurrentState(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, *l_textureResource);
+	a_directCommandList.TransitionResource(a_textureRecord.GetVALCurrentState(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, *l_textureResource.Get());
 
 	a_textureRecord.SetCurrentState(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

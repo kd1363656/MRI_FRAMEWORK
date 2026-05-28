@@ -15,9 +15,9 @@ namespace FWK::Graphics
 		StaticModelRecord& operator=(const StaticModelRecord&)			 = delete;
 		StaticModelRecord& operator=(	   StaticModelRecord&&) noexcept = default;
 
-		bool PushDeferredRelease(DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue, const UINT64& a_retiredFenceValue) override;
+		bool PushDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue) override;
 
-		void SetModelData(Struct::ModelData&& a_modelData) { a_modelData = std::move(a_modelData); }
+		void SetModelData(Struct::ModelData&& a_set) { m_modelData = std::move(a_set); }
 
 		Struct::ModelData& GetREFModelData() { return m_modelData; }
 
@@ -27,7 +27,7 @@ namespace FWK::Graphics
 
 		bool IsValidStructuredBufferResource(const Struct::StructuredBufferResource& a_structuredBufferResource) const;
 
-		bool PushStructuredBufferResource(DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue, Struct::StructuredBufferResource& a_strcturedBufferResource, const UINT64& a_retiredFenceValue);
+		bool PushStructuredBufferResource(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue, Struct::StructuredBufferResource& a_structuredBufferResource);
 
 		Struct::ModelData m_modelData = {};
 	};

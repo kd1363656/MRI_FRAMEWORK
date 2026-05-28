@@ -59,7 +59,7 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			if (a_record->GetVALStorageID == Constant::k_invalidStorageID)
+			if (a_record->GetVALStorageID() == Constant::k_invalidStorageID)
 			{
 				assert(false && "StorageIDが無効のため、Recordの登録に失敗しました。");
 				return false;
@@ -109,12 +109,11 @@ namespace FWK::Graphics
 			}
 			
 			// まだ利用者が残っているなら何もしない
-			if (l_record->IsUnused()) { return true; }
-
-			const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
+			if (!l_record->IsUnused()) { return true; }
 
 			// Record自身に、GPUResourceやDescriptorIndexを遅延解放Queueへ積ませる
-			if (!l_record->PushDeferredRelease(a_deferredResourceReleaseQueue, l_lastSignaledFenceValue))
+			if (const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
+				!l_record->PushDeferredRelease(l_lastSignaledFenceValue, a_deferredResourceReleaseQueue))
 			{
 				assert(false && "Record固有リソースの遅延解放Queue登録に失敗しました。");
 				return false;
@@ -123,7 +122,7 @@ namespace FWK::Graphics
 			const auto& l_filePath  = l_record->GetREFFilePath ();
 			const auto  l_storageID = l_record->GetVALStorageID();
 
-			if (l_record->InvalidateStorageID())
+			if (l_storageID != Constant::k_invalidStorageID)
 			{
 				m_storageIDAllocator.Release(l_storageID);
 			}
