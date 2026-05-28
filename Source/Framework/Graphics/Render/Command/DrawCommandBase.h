@@ -28,37 +28,18 @@ namespace FWK::Graphics
 
 		// 定数バッファの上書き禁止
 		template <Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupConstantBuffer(const RootSignature&	   a_rootSignature,
-								 const DirectCommandList&  a_directCommandList,
-								 const ConstantBufferType& a_constantBuffer,
-									   UploadBuffer&	   a_uploadBuffer,
-									   std::uint8_t* const a_mappedData) const
+		void SetupConstantBuffer(const RootSignature&			   a_rootSignature,
+								 const DirectCommandList&		   a_directCommandList,
+								 const ConstantBufferType&		   a_constantBuffer,
+									   ConstantBufferUploaderBase& a_constantBufferUploaderBase) const
 		{
-			if (!a_mappedData)
-			{
-				assert(false && "定数バッファのMap済みアドレスが無効なため、定数バッファの設定に失敗しました。");
-				return false;
-			}
-
-			// 定数バッファは256バイトアライメントでなければならない
-			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), Constant::k_constantBufferAlignment);
-
-			const auto& l_currentBufferIndex = a_uploadBuffer.AllocateCurrentBufferIndex();
-
-			// 定数バッファの位置を現在のインデックス分進める
-			const auto l_constantBufferOffset = l_currentBufferIndex * l_constantBufferAlignedSize;
-
-			std::memcpy(a_mappedData + l_constantBufferOffset, &a_constantBuffer, sizeof(ConstantBufferType));
-
-			const auto l_gpuVirtualAddress = a_uploadBuffer.FetchVALGPUVirtualAddress() + l_constantBufferOffset;
+			const auto& l_gpuVirtualAddress = a_constantBufferUploaderBase.Write(a_constantBuffer);
 
 			// SetGraphicsRootConstantBufferView(ルートパラメータ番号、
 			//									 CBVとして参照させるGPU仮想アドレス);
 			// SetupConstantBufferView内でRootParameterTagからルートパラメータ番号を取得し、
 			// 指定したRootParameterへUploadBuffer上の定数バッファを結びつける
 			a_directCommandList.SetupConstantBufferView<RootParameterTagType>(l_gpuVirtualAddress, a_rootSignature);
-
-			return true;
 		}
 
 		// 定数バッファの上書きを許可

@@ -11,6 +11,7 @@ float4 main(MeshOutput a_input) : SV_Target0
     return l_color;
     
     // グレースケール
+
     //Texture2D<float4> l_sourceTexture = ResourceDescriptorHeap[g_sourceTextureSRVIndex];
     
     //float4 l_color = l_sourceTexture.Sample(g_postEffectSampler, a_input.uv);

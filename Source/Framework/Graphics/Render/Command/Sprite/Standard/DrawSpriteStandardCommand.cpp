@@ -62,27 +62,19 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 		return;
 	}
 
-	auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBufferUploader->GetMutableREFUploadBuffer();
-
-	auto* const l_spriteDrawMappedData = l_spriteDrawUploadBuffer.Map();
-	
-	if (!l_spriteDrawMappedData)
-	{
-		assert(false && "スプライト描画用定数バッファのMapに失敗したため、描画処理に失敗しました。");
-		return;
-	}
+	const auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBufferUploader->GetMutableREFUploadBuffer();
 
 	// 貯めこんでいたテクスチャ描画命令を回す
-	const auto& l_spriteDrawCommandList = GetREFDrawCommandList();
+	const auto& l_spriteStandardDrawCommandList = GetREFDrawCommandList();
 
-	for (auto l_spriteDrawCommandIndex = 0ULL; l_spriteDrawCommandIndex < l_spriteDrawCommandList.size(); ++l_spriteDrawCommandIndex)
+	for (auto l_spriteDrawCommandIndex = 0ULL; l_spriteDrawCommandIndex < l_spriteStandardDrawCommandList.size(); ++l_spriteDrawCommandIndex)
 	{
-		const auto& l_spriteDrawCommand = l_spriteDrawCommandList[l_spriteDrawCommandIndex].lock();
+		const auto& l_spriteStandardDrawCommand = l_spriteStandardDrawCommandList[l_spriteDrawCommandIndex].lock();
 		
 		// テクスチャ描画コマンドが作成されていなければreturn
-		if (!l_spriteDrawCommand) { continue; }
+		if (!l_spriteStandardDrawCommand) { continue; }
 
-		const auto& l_textureRecord = l_spriteDrawCommand->m_textureRecord.lock();
+		const auto& l_textureRecord = l_spriteStandardDrawCommand->m_textureRecord.lock();
 
 		if (!l_textureRecord)					        { continue; }
 		if (!l_textureRecord->m_gpuResource.m_resource) { continue; }
@@ -90,41 +82,20 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 		// 現在のテクスチャの状態がD3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCEでなければそれにする
 		TransitionTextureToPixelShaderResource(l_directCommandList, *l_textureRecord);
 
-		if (!SetupCBSpriteObject(*l_rootSignature, 
-							     l_directCommandList,
-							     *l_textureRecord,
-							     *l_spriteDrawCommand,
-							     l_spriteDrawUploadBuffer,
-							     l_spriteDrawMappedData))
-		{
-			continue;
-		}
-		
+		Struct::CBSpriteObject l_cbSpriteObject = {};
+
+		l_cbSpriteObject.m_color                    = l_spriteStandardDrawCommand->m_color;
+		l_cbSpriteObject.m_position                 = l_spriteStandardDrawCommand->m_position;
+		l_cbSpriteObject.m_scale                    = l_spriteStandardDrawCommand->m_scale;
+		l_cbSpriteObject.m_pivot                    = l_spriteStandardDrawCommand->m_pivot;
+		l_cbSpriteObject.m_sourceRECT               = l_spriteStandardDrawCommand->m_sourceRECT;
+		l_cbSpriteObject.m_baseColorTextureSRVIndex = l_textureRecord->m_srvStorageID;
+
+		SetupConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(*l_rootSignature,
+															     l_directCommandList,
+															     l_cbSpriteObject,
+															     *l_spriteObjectConstantBufferUploader);
+
 		l_directCommandList.DispatchMesh(GetVALDefaultDispatchMeshThreadGroupCountX(), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
 	}
-
-	l_spriteDrawUploadBuffer.UnMap();
-}
-
-bool FWK::Graphics::DrawSpriteStandardCommand::SetupCBSpriteObject(const RootSignature&					    a_rootSignature,
-																   const DirectCommandList&                 a_directCommandList,
-																   const Struct::TextureRecord&			    a_textureRecord,
-																   const Struct::SpriteStandardDrawCommand& a_spriteStandardDrawCommand,
-																		 UploadBuffer&			            a_spriteDrawUploadBuffer,
-																	     std::uint8_t* const		        a_spriteDrawMappedData) const
-{
-	Struct::CBSpriteObject l_cbSpriteObject = {};
-
-	l_cbSpriteObject.m_color                    = a_spriteStandardDrawCommand.m_color;
-	l_cbSpriteObject.m_position                 = a_spriteStandardDrawCommand.m_position;
-	l_cbSpriteObject.m_scale                    = a_spriteStandardDrawCommand.m_scale;
-	l_cbSpriteObject.m_pivot                    = a_spriteStandardDrawCommand.m_pivot;
-	l_cbSpriteObject.m_sourceRECT               = a_spriteStandardDrawCommand.m_sourceRECT;
-	l_cbSpriteObject.m_baseColorTextureSRVIndex = a_textureRecord.m_srvStorageID;
-
-	return SetupConstantBuffer<Tag::RootParameterCBSpriteObjectTag>(a_rootSignature,
-																    a_directCommandList,
-																    l_cbSpriteObject,
-																	a_spriteDrawUploadBuffer,
-																    a_spriteDrawMappedData);
 }

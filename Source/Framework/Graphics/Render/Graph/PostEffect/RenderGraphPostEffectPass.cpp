@@ -101,15 +101,6 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 		return;
 	}
 
-	const auto&		  l_postEffectUploadBuffer = l_postEffectConstantBufferUploader->GetREFUploadBuffer();
-		  auto* const l_postEffectMappedData   = l_postEffectUploadBuffer.Map						   ();
-
-	if (!l_postEffectMappedData)
-	{
-		assert(false && "PostEffect用ConstantBufferのMapに失敗したため、PostEffectPassを実行できませんでした。");
-		return;
-	}
-
 	Struct::CBPostEffect l_cbPostEffect = {};
 
 	l_cbPostEffect.m_sourceTextureSRVIndex = l_sceneColorTexture->GetVALSRVStorageID();

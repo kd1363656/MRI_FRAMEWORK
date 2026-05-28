@@ -24,7 +24,7 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 	const auto& l_lightSystem		= a_renderer.GetREFLightSystem	    ();
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
-	auto l_lightSystemConstantBuffer = l_currentFrameResource->FindPTRConstantBufferUploader<LightConstantBufferUploader>().lock();
+	const auto& l_lightSystemConstantBuffer = l_currentFrameResource->FindPTRConstantBufferUploader<LightConstantBufferUploader>().lock();
 
 	if (!l_lightSystemConstantBuffer)
 	{
@@ -32,29 +32,12 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 		return;
 	}
 
-	auto&		l_lightSystemUploadBuffer = l_lightSystemConstantBuffer->GetMutableREFUploadBuffer();
-	auto* const l_lightSystemMappedData   = l_lightSystemUploadBuffer.Map						  ();
+	const auto& l_cbLight = l_lightSystem.CreateCBLight();
 
-	if (!l_lightSystemMappedData)
-	{
-		assert(false && "Light用定数バッファが取得できないため、StaticModelLit描画処理に失敗しました。");
-		return;
-	}
-
-	if (const auto& l_cbLight = l_lightSystem.CreateCBLight();
-		!SetupConstantBuffer<FWK::Tag::RootParameterCBLightTag>(*l_rootSignature,
-																l_directCommandList,
-																l_cbLight,
-																l_lightSystemUploadBuffer,
-																l_lightSystemMappedData))
-	{
-		assert(false && "Light用定数バッファが設定できておらず、StaticModelLit描画処理に失敗しました。");
-		return;
-	}
-
-	// GPUに転送し終えたらアンマップ
-	l_lightSystemUploadBuffer.UnMap();
-
+	SetupConstantBuffer<FWK::Tag::RootParameterCBLightTag>(*l_rootSignature,
+														    l_directCommandList,
+														    l_cbLight,
+														    *l_lightSystemConstantBuffer);
 	// モデルを一つ一つ描画していく
 	DrawStaticModelStandardCommandBase::SetupCBModelObject(*l_rootSignature, l_directCommandList, *l_currentFrameResource);
 }

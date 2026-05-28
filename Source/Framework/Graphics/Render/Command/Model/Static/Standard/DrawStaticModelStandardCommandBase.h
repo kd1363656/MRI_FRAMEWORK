@@ -68,9 +68,7 @@ namespace FWK::Graphics
 				return false;
 			}
 
-				  auto&		  l_uploadBuffer					   = l_modelObjectConstantBufferUploader->GetMutableREFUploadBuffer();
-				  auto* const l_mappedData						   = l_uploadBuffer.Map											   ();
-			const auto&		  l_staticModelStandardDrawCommandList = GetREFDrawCommandList										   ();
+			const auto& l_staticModelStandardDrawCommandList = GetREFDrawCommandList();
 
 			for (const auto& l_staticModelStandardDrawCommand : l_staticModelStandardDrawCommandList)
 			{
@@ -136,14 +134,10 @@ namespace FWK::Graphics
 					l_cbModelObject.m_uniqueVertexIndexBufferSRVIndex = l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
 					l_cbModelObject.m_primitiveIndexBufferSRVIndex    = l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
 
-					if(!SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
-																				a_directCommandList,
-																				l_cbModelObject,
-																				l_uploadBuffer,
-																				l_mappedData))
-					{
-						continue;
-					}
+					SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
+																			a_directCommandList,
+																			l_cbModelObject,
+																			*l_modelObjectConstantBufferUploader);
 
 					a_directCommandList.DispatchMesh(static_cast<UINT>(l_modelMeshletData.m_meshletList.size()), GetVALDefaultDispatchMeshThreadGroupCountY(), GetVALDefaultDispatchMeshThreadGroupCountZ());
 				}

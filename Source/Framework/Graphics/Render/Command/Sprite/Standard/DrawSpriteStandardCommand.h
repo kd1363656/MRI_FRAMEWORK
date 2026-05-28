@@ -15,13 +15,6 @@ namespace FWK::Graphics
 
 	private:
 
-		bool SetupCBSpriteObject(const RootSignature&					   a_rootSignature,
-								 const DirectCommandList&			       a_directCommandList,
-								 const Struct::TextureRecord&			   a_textureRecord,
-								 const Struct::SpriteStandardDrawCommand&  a_spriteStandardDrawCommand,
-									   UploadBuffer&				       a_spriteDrawUploadBuffer,
-									   std::uint8_t* const		           a_spriteDrawMappedData) const;
-
 		static constexpr float k_defaultNearClip = 0.0F;
 		static constexpr float k_defaultFarClip  = 1.0F;
 
