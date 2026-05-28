@@ -50,7 +50,6 @@
 #include "Definition/Struct/Graphics/Render/Light/LightStruct.h"
 #include "Definition/Struct/Graphics/Resource/ResourceStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/BufferStruct.h"
-#include "Definition/Struct/Graphics/Resource/Storage/StorageStruct.h"
 #include "Definition/Struct/Graphics/Resource/Texture/TextureStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Sprite/SpriteConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Camera/CameraConstantBufferStruct.h"
@@ -106,7 +105,6 @@
 //===============================================================================
 #include "Definition/Concept/IsDerivedBase/IsDerivedBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/IsDerivedTagBaseConcept.h"
-#include "Definition/Concept/IsDerivedBase/Struct/Graphics/Resource/Storage/IsDerivedAssetRecordBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/Graphics/Render/Pipeline/IsDerivedPipelineStateTagBaseConcept.h"
 #include "Definition/Concept/IsDerivedBase/Tag/Graphics/Render/RootSignature/Parameter/IsDerivedRootParameterTagBaseConcept.h"
 #include "Definition/Concept/IsSmartPTR/IsSmartPTRConcept.h"
@@ -215,12 +213,6 @@
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Command/List/Copy/CopyCommandList.h"
 
-// Storage
-#include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
-#include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
-#include "Converter/Json/Graphics/Resource/Storage/AssetStorageJsonConverter.h"
-#include "Graphics/Resource/Storage/AssetStorage.h"
-
 // ディスクリプタベースを継承しているかどうかを確認するコンセプト
 #include "Definition/Concept/IsDerivedBase/Graphics/Resource/Descriptor/IsDerivedDescriptorBaseConcept.h"
 
@@ -234,6 +226,14 @@
 // レコードクラス
 #include "Graphics/Resource/Record/AssetRecordBase.h"
 #include "Graphics/Resource/Record/Texture/TextureRecord.h"
+#include "Graphics/Resource/Record/Model/Static/StaticModelRecord.h"
+#include "Definition/Concept/IsDerivedBase/Struct/Graphics/Resource/Storage/IsDerivedAssetRecordBaseConcept.h"
+
+// Storage
+#include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
+#include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
+#include "Converter/Json/Graphics/Resource/Storage/AssetStorageJsonConverter.h"
+#include "Graphics/Resource/Storage/AssetStorage.h"
 
 // メモリアロケータクラス
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"

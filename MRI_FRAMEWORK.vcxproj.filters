@@ -466,9 +466,6 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\Allocator">
       <UniqueIdentifier>{802c59e0-1bce-43ae-95ea-300180901f1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Storage">
-      <UniqueIdentifier>{5b113738-58d3-4155-a9d9-ee86d6fd4b49}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct">
       <UniqueIdentifier>{0b60662f-56d8-4ec4-a29e-89808e2d5e31}</UniqueIdentifier>
     </Filter>
@@ -1183,9 +1180,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Storage\StorageConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Storage\StorageStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Storage</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage\IsDerivedAssetRecordBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage</Filter>
