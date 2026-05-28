@@ -64,6 +64,11 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 												 a_dsvDescriptorHeap,
 												 *l_sceneDepthStencilTexture);
 
+	// SceneDrawPassはそのフレームのシーン描画の開始地点なので、
+	// 前フレームの色と深度を渡さないために明示的に暮らする
+	a_directCommandList.ClearRenderTargetTexture(*l_sceneColorTexture,		  a_rtvDescriptorHeap);
+	a_directCommandList.ClearDepthStencilTexture(*l_sceneDepthStencilTexture, a_dsvDescriptorHeap);
+	
 	// ビューポートとシザー矩形を設定する
 	a_directCommandList.SetupRenderArea(a_renderer.GetREFRenderArea());
 

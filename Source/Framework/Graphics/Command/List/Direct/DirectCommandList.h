@@ -26,22 +26,29 @@ namespace FWK::Graphics
 		void TransitionRenderTargetTexture (const D3D12_RESOURCE_STATES a_afterState,		 RenderTargetTexture&  a_renderTargetTexture)									const;
 		void TransitionDepthStencilTexture (const D3D12_RESOURCE_STATES a_afterState,		 DepthStencilTexture&  a_depthStencilTexture)									const;
 
+		void SetupRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
+
 		void SetupRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture,
 									  const RTVDescriptorHeap&	 a_rtvDescriptorHeap,
 									  const DSVDescriptorHeap&	 a_dsvDescriptorHeap,
 									  const DepthStencilTexture& a_depthStencilTexture) const;
+
+		void SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
 		void SetupBackBufferRenderTarget(const SwapChain&		    a_swapChain, 
 										 const RTVDescriptorHeap&   a_rtvDescriptorHeap,
 										 const DSVDescriptorHeap&   a_dsvDescriptorHeap,
 										 const DepthStencilTexture& a_depthStencilTexture) const;
 
+		void ClearRenderTargetTexture   (const RenderTargetTexture& a_renderTargetTexture, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
+		void ClearDepthStencilTexture   (const DepthStencilTexture& a_depthStencilTexture, const DSVDescriptorHeap& a_dsvDescriptorHeap)  const;
+		void ClearBackBufferRenderTarget(const SwapChain&			a_swapChain,		   const RTVDescriptorHeap& a_rtvDescriptorHeap)  const;
+
 		void SetupRenderArea    (const RenderArea&					 a_renderArea)     const;
 		void SetupRootSignature (const std::weak_ptr<RootSignature>& a_rootSignature);
 		void SetupPipelineState (const std::weak_ptr<PipelineState>& a_pipelineState);
 		void SetupDescriptorHeap(const DescriptorHeapBase&			 a_descriptorHeap) const;
 
-		void SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
 		template <Concept::IsDerivedRootParameterTagBaseConcept Type>
 		void SetupConstantBufferView(const D3D12_GPU_VIRTUAL_ADDRESS& a_gpuVirtualAddress, const RootSignature& a_rootSignature) const

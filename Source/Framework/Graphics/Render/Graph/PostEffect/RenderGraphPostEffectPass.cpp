@@ -85,23 +85,6 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 		return;
 	}
 
-	// デプスステンシルテクスチャの取得
-	const auto& l_sceneDepthStencilTextureRecord = l_renderGraphResourceRegistry.FindVALDepthStencilTexture(Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>()).lock();
-
-	if (!l_sceneDepthStencilTextureRecord)
-	{
-		assert(false && "SceneDepthStencilTextureが無効のため、PostEffectPassを実行できませんでした。");
-		return;
-	}
-
-	const auto& l_sceneDepthStencilTexture = l_sceneDepthStencilTextureRecord->m_depthStencilTexture;
-
-	if (!l_sceneDepthStencilTexture)
-	{
-		assert(false && "SceneDepthStencilTextureが無効のため、PostEffectPassを実行できませんでした。");
-		return;
-	}
-
 	const auto& l_rootSignature = m_rootSignature.lock();
 
 	if (!l_rootSignature)
@@ -140,11 +123,11 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 
 	// RenderGraph側でSceneColorTextureはShaderResourceへ、
 	// PostEffectColorTextureはRenderTargetへ遷移済み
-	// ここではPostEffectColoTextureを描画先として設定する
-	a_directCommandList.SetupRenderTargetTexture(*l_postEffectColorTexture,
-												  a_rtvDescriptorHeap,
-												  a_dsvDescriptorHeap,
-												  *l_sceneDepthStencilTexture);
+	// ここではPostEffectColorTextureを描画先として設定する
+	a_directCommandList.SetupRenderTargetTexture(*l_postEffectColorTexture, a_rtvDescriptorHeap);
+
+	// PostEffectColorTextureへ新しく書き込むため、前フレームの結果を残さないようにクリアする
+	a_directCommandList.ClearRenderTargetTexture(*l_postEffectColorTexture, a_rtvDescriptorHeap);
 
 	// ビューポートとシザー矩形を設定する
 	a_directCommandList.SetupRenderArea(a_renderer.GetREFRenderArea());
@@ -163,6 +146,6 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 
 	// SceneColorTextureを読んでPostEffectColorTextureへ書き込む
 	// DispatchMeshはMeshShaderを実行するDirectX12関数
-	// 今回は1グループだけ実行し、MeshShader側で画面残体を覆う三角形を1枚生成する
+	// 今回は1グループだけ実行し、MeshShader側で画面全体を覆う三角形を1枚生成する
 	a_directCommandList.DispatchFullScreenTriangle();
 }

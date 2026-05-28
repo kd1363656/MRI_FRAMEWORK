@@ -111,7 +111,10 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 	// BackBufferを最終出力先として設定する
 	a_directCommandList.SetupBackBufferRenderTarget(a_swapChain, a_rtvDescriptorHeap);
 
-	// BackBufferを最終出力先として設定する
+	// BackBufferへ最終結果を書き込むため、前フレームの内容を残さないようにクリアする
+	a_directCommandList.ClearBackBufferRenderTarget(a_swapChain, a_rtvDescriptorHeap);
+
+	// ビューポートとシザー矩形を設定する
 	a_directCommandList.SetupRenderArea(a_renderer.GetREFRenderArea());
 
 	// FinalPresent用のSRVDescriptorHeapを設定する
@@ -126,6 +129,6 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 	// FinalPresent用CBをb0へ設定する
 	a_directCommandList.SetupConstantBufferView<Tag::RootParameterCBFinalPresentTag>(l_gpuVirtualAddress, *l_rootSignature);
 
-	// SceneColorTextureを貼ったフルスクリーン三角形を描画する
+	// PostEffectColorTextureを貼ったフルスクリーン三角形を描画する
 	a_directCommandList.DispatchFullScreenTriangle();
 }

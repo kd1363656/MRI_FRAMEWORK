@@ -55,5 +55,13 @@ nlohmann::json FWK::Graphics::ConstantBufferBase::Serialize() const
 
 std::size_t FWK::Graphics::ConstantBufferBase::AllocateCurrentBufferIndex()
 {
+	const auto l_allocatedBufferIndex = m_uploadConstantBuffer.AllocateCurrentBufferIndex();
+
+	if (l_allocatedBufferIndex >= m_createConstantBufferNUM)
+	{
+		assert(false && "取得した定数バッファ用インデックスが定数バッファの作成した個数を超えています");
+		return Constant::k_invalidConstantBufferIndex;
+	}
+
 	return m_uploadConstantBuffer.AllocateCurrentBufferIndex();
 }

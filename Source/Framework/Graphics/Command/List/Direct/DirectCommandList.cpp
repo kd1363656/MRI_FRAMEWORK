@@ -114,6 +114,36 @@ void FWK::Graphics::DirectCommandList::TransitionDepthStencilTexture(const D3D12
 	a_depthStencilTexture.SetCurrentResourceState(a_afterState);
 }
 
+void FWK::Graphics::DirectCommandList::SetupRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "RTVStorageIDが無効のため、RenderTargetTextureの設定が行えませんでした。");
+		return;
+	}
+
+	if (a_renderTargetTexture.GetVALRTVStorageID() == Constant::k_invalidStorageID)
+	{
+		assert(false && "RTVStorageIDが無効のため、RenderTargetTextureの設定が行えませんでした。");
+		return;
+	}
+
+	// RenderTargetTexture用RTVハンドルを取得
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_renderTargetTexture.GetVALRTVStorageID());
+
+	// OMステージにレンダーターゲットを設定する関数
+	// OMSetRenderTargets(設定するレンダーターゲット数、
+	//					  レンダーターゲットディスクリプタ配列の先頭アドレス、
+	//					  ディスクリプタ連続配列かどうか、
+	//					  深度ステンシルビューのアドレス);
+	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
+											&l_rtvHandle,
+											true,
+											nullptr);
+}
+
 void FWK::Graphics::DirectCommandList::SetupRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture,
 																const RTVDescriptorHeap&   a_rtvDescriptorHeap,
 																const DSVDescriptorHeap&   a_dsvDescriptorHeap, 
@@ -148,44 +178,58 @@ void FWK::Graphics::DirectCommandList::SetupRenderTargetTexture(const RenderTarg
 	//					  レンダーターゲットディスクリプタ配列の先頭アドレス、
 	//					  ディスクリプタ連続配置かどうか、
 	//					  深度ステンシルビューのアドレス);
-
 	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
 											&l_rtvHandle,
 											true,
 											&l_dsvHandle);
-
-	// ClearDepthStencilView(クリアするDSV、
-	//						 クリア対象フラグ、
-	//						 深度クリア値、
-	//						 ステンシルクリア値、
-	//						 クリア範囲数、
-	//						 クリア範囲);
-
-	l_directCommandList->ClearDepthStencilView(l_dsvHandle,
-											   D3D12_CLEAR_FLAG_DEPTH,
-											   Constant::k_defaultDepthClearValue,
-											   Constant::k_defaultStencilClearValue,
-											   k_executeClearRectNUM,
-											   nullptr);
-
-	// 現在のレンダーターゲットを指定色でクリアする関数
-	// ClearRenderTargetView(クリア対象のRTVハンドル、
-	//						 クリア色RGBA配列、
-	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし全面クリアとなる),
-	//						 矩形配列の先頭アドレス);
-
-	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
-											   &a_renderTargetTexture.GetClearColor().x,
-											   k_executeClearRectNUM,
-											   nullptr);
 }
 
+void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、バックバッファの設定が行えませんでした。");
+		return;
+	}
+
+	const auto& l_backBufferList		 = a_swapChain.GetREFBackBufferList			 ();
+	const auto  l_currentBackBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
+
+	if (l_currentBackBufferIndex >= static_cast<UINT>(l_backBufferList.size()))
+	{
+		assert(false && "現在のインデックスがバックバッファリストの範囲外を指し示しており、バックバッファの設定が行えませんでした。");
+		return;
+	}
+
+	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex];
+
+	if (l_backBuffer.m_rtvStorageID == Constant::k_invalidStorageID)
+	{
+		assert(false && "RTVStorageIDが無効のため、バックバッファの設定が行えませんでした。");
+		return;
+	}
+
+	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_backBuffer.m_rtvStorageID);
+
+	// OMステージにバックバッファをレンダーターゲットとして設定する関数
+	// OMSetRenderTargets(設定するレンダーターゲット数、
+	//					  レンダーターゲットディスクリプタ配列の先頭アドレス、
+	//					  ディスクリプタが連続配置かどうか、
+	//					  深度ステンシルビューのアドレス);
+	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
+											&l_rtvHandle,
+											true,
+											nullptr);
+}
 void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapChain&		  	  a_swapChain, 
 																   const RTVDescriptorHeap&   a_rtvDescriptorHeap, 
 																   const DSVDescriptorHeap&   a_dsvDescriptorHeap, 
 																   const DepthStencilTexture& a_depthStencilTexture) const
 {
-	const auto& l_directCommandList = GetREFCommandList().Get();
+	const auto& l_directCommandList = GetREFCommandList();
 
 	if (!l_directCommandList)
 	{
@@ -210,6 +254,12 @@ void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapCha
 		return;
 	}
 
+	if (a_depthStencilTexture.GetVALDSVStorageID() == Constant::k_invalidStorageID)
+	{
+		assert(false && "DSVStorageIDが無効のため、バックバッファの設定が行えませんでした。");
+		return;
+	}
+
 	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
 	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_backBuffer.m_rtvStorageID);
 	const auto& l_dsvHandle = a_dsvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_depthStencilTexture.GetVALDSVStorageID());
@@ -224,6 +274,55 @@ void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapCha
 								            &l_rtvHandle,
 								            true,
 								            &l_dsvHandle);
+}
+
+void FWK::Graphics::DirectCommandList::ClearRenderTargetTexture(const RenderTargetTexture& a_renderTargetTexture, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、RenderTargetTextureのクリアが行えませんでした。");
+		return;
+	}
+
+	if (a_renderTargetTexture.GetVALRTVStorageID() == Constant::k_invalidStorageID)
+	{
+		assert(false && "RTVStorageIDが無効のため、RenderTargetTextureのクリアが行えませんでした。");
+		return;
+	}
+
+	// RenderTargetTexture用RTVハンドル
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_renderTargetTexture.GetVALRTVStorageID());
+
+	// 現在のレンダーターゲットを指定色でクリアする関数
+	// ClearRenderTargetView(クリア対象のRTVハンドル、
+	//						 クリア色RGBA配列、
+	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし全面クリア)、
+	//						 矩形配列の先頭アドレス);
+	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
+											   &a_renderTargetTexture.GetClearColor().x,
+											   k_executeClearRectNUM,
+											   nullptr);
+}
+void FWK::Graphics::DirectCommandList::ClearDepthStencilTexture(const DepthStencilTexture& a_depthStencilTexture, const DSVDescriptorHeap& a_dsvDescriptorHeap) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、DepthStencilTextureのクリアが行えませんでした。");
+		return;
+	}
+
+	if (a_depthStencilTexture.GetVALDSVStorageID() == Constant::k_invalidStorageID)
+	{
+		assert(false && "DSVStorageIDが無効のため、DepthStencilTextureのクリアが行えませんでした。");
+		return;
+	}
+
+	// DepthStencilTexture用DSVハンドルを取得する
+	const auto& l_dsvHandle = a_dsvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_depthStencilTexture.GetVALDSVStorageID());
 
 	// ClearDepthStencilView(クリアするDSV,
 	//						 クリア対象フラグ、
@@ -233,26 +332,54 @@ void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapCha
 	//						 クリア範囲);
 	l_directCommandList->ClearDepthStencilView(l_dsvHandle,
 											   D3D12_CLEAR_FLAG_DEPTH,
-										       Constant::k_defaultDepthClearValue,
+											   Constant::k_defaultDepthClearValue,
 											   Constant::k_defaultStencilClearValue,
 											   k_executeClearRectNUM,
 											   nullptr);
+}
+void FWK::Graphics::DirectCommandList::ClearBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
 
-	// 現在のレンダーターゲットを指定色でクリアする関数
+	if (!l_directCommandList)
+	{
+		assert(false && "ダイレクトコマンドリストが作成されておらず、バックバッファのクリアが行えませんでした。");
+		return;
+	}
+
+	const auto& l_backBufferList		 = a_swapChain.GetREFBackBufferList			 ();
+	const auto  l_currentBackBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
+
+	if (l_currentBackBufferIndex >= l_backBufferList.size())
+	{
+		assert(false && "RTVStorageIDが無効のため、バックバッファのクリアが行えませんでした。");
+		return;
+	}
+
+	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex];
+
+	if (l_backBuffer.m_rtvStorageID == Constant::k_invalidStorageID)
+	{
+		assert(false && "現在のインデックスがバックバッファリストの範囲外を指し示しており、バックバッファのクリアが行えませんでした。");
+		return;
+	}
+
+	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
+	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_backBuffer.m_rtvStorageID);
+
 	// ClearRenderTargetView(クリア対象のRTVハンドル、
 	//						 クリア色RGBA配列、
-	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし前面クリアとなる)、
-	//						 矩形配列の先頭アドレス);
-
+	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし全面クリアとなる)、
+	//					     矩形配列の先頭アドレス);
 	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
-											   &Constant::k_renderTargetDefaultClearColor.x, 
+											   &Constant::k_renderTargetDefaultClearColor.x,
 											   k_executeClearRectNUM,
 											   nullptr);
 }
 
 void FWK::Graphics::DirectCommandList::SetupRenderArea(const RenderArea& a_renderArea) const
 {
-	const auto& l_directCommandList = GetREFCommandList().Get();
+	const auto& l_directCommandList = GetREFCommandList();
 
 	if (!l_directCommandList)
 	{
@@ -388,62 +515,9 @@ void FWK::Graphics::DirectCommandList::SetupDescriptorHeap(const DescriptorHeapB
 	l_directCommandList->SetDescriptorHeaps(k_setDescriptorHeapNUM, l_descriptorHeapList);
 }
 
-void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
-{
-	const auto& l_directCommandList = GetREFCommandList();
-
-	if (!l_directCommandList)
-	{
-		assert(false && "ダイレクトコマンドリストが作成されておらず、バックバッファの設定が行えませんでした。");
-		return;
-	}
-
-	const auto& l_backBufferList		 = a_swapChain.GetREFBackBufferList			 ();
-	const auto  l_currentBackBufferIndex = a_swapChain.FetchVALCurrentBackBufferIndex();
-
-	if (l_currentBackBufferIndex >= static_cast<UINT>(l_backBufferList.size()))
-	{
-		assert(false && "現在のインデックスがバックバッファリストの範囲外を指し示しており、バックバッファの設定が行えませんでした。");
-		return;
-	}
-
-	const auto& l_backBuffer = l_backBufferList[l_currentBackBufferIndex];
-
-	if (l_backBuffer.m_rtvStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "RTVStorageIDが無効のため、バックバッファの設定が行えませんでした。");
-		return;
-	}
-
-	// 現在のバックバッファ番号に対応したRTVハンドルを取得する
-	const auto& l_rtvHandle = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_backBuffer.m_rtvStorageID);
-
-	// OMステージにレンダーターゲットを設定する関数
-	// OMSetRenderTargets(設定するレンダーターゲット数、
-	//					  レンダーターゲットディスクリプタ配列の先頭アドレス、
-	//					  ディスクリプタが連続配置かどうか、
-	//					　深度ステンシルビューのアドレス);
-
-	l_directCommandList->OMSetRenderTargets(k_executeRenderTargetNUM,
-								            &l_rtvHandle,
-								            true,
-								            nullptr);
-
-	// 現在のレンダーターゲットを指定色でクリアする関数
-	// ClearRenderTargetView(クリア対象のRTVハンドル、
-	//						 クリア色RGBA配列、
-	//						 部分クリアする矩形数(0の場合は矩形指定なしとみなし前面クリアとなる)、
-	//						 矩形配列の先頭アドレス);
-
-	l_directCommandList->ClearRenderTargetView(l_rtvHandle,
-											   &Constant::k_renderTargetDefaultClearColor.x, 
-											   k_executeClearRectNUM,
-											   nullptr);
-}
-
 void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const
 {
-	const auto& l_directCommandList = GetREFCommandList().Get();
+	const auto& l_directCommandList = GetREFCommandList();
 
 	if (!l_directCommandList)
 	{
