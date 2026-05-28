@@ -23,7 +23,7 @@ namespace FWK::Graphics
 
 		const auto& GetREFCreateConstantBufferNUM() const { return m_createConstantBufferNUM; }
 
-		const auto& GetREFUploadConstantBuffer() const { return m_uploadBuffer; }
+		const auto& GetREFUploadBuffer() const { return m_uploadBuffer; }
 
 		auto& GetMutableREFUploadBuffer() { return m_uploadBuffer; }
 

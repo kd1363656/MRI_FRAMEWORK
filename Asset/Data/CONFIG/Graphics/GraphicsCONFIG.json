@@ -1,4 +1,4 @@
-﻿{
+{
     "Renderer": {
         "FrameResourceList": [
             {
@@ -8,43 +8,43 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferTypeName": "SpritePassConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpritePassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
                     "RenderGraphResourceRegistry": {
@@ -101,43 +101,43 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferTypeName": "SpritePassConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpritePassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
                     "RenderGraphResourceRegistry": {
@@ -194,43 +194,43 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferTypeName": "SpritePassConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpritePassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
                     "RenderGraphResourceRegistry": {
@@ -287,43 +287,43 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferTypeName": "SpritePassConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "SpritePassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantUploaderBuffer"
+                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
                     "RenderGraphResourceRegistry": {

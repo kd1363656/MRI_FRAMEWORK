@@ -76,15 +76,15 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 		return;
 	}
 
-	const auto& l_finalPresentConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<FinalPresentConstantBuffer>().lock();
+	const auto& l_finalPresentConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<FinalPresentConstantBufferUploader>().lock();
 
-	if (!l_finalPresentConstantBuffer)
+	if (!l_finalPresentConstantBufferUploader)
 	{
 		assert(false && "FinalPresent用ConstantBufferが取得できないため、FinalPresentPassを実行できませんでした。");
 		return;
 	}
 
-	const auto&		  l_finalPresentUploadBuffer = l_finalPresentConstantBuffer->GetREFUploadConstantBuffer();
+	const auto&		  l_finalPresentUploadBuffer = l_finalPresentConstantBufferUploader->GetREFUploadBuffer();
 		  auto* const l_finalPresentMappedData   = l_finalPresentUploadBuffer.Map						   ();
 
 	if (!l_finalPresentMappedData)

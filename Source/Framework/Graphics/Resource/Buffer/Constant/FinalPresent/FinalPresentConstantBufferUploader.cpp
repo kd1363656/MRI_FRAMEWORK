@@ -1,7 +1,7 @@
 ﻿#include "FinalPresentConstantBufferUploader.h"
 
-FWK::Graphics::FinalPresentConstantBuffer::FinalPresentConstantBuffer() : 
-	ConstantBufferBase(k_bufferTypeSize)
+FWK::Graphics::FinalPresentConstantBufferUploader::FinalPresentConstantBufferUploader() :
+	ConstantBufferUploaderBase(k_bufferTypeSize)
 {}
 
-FWK::Graphics::FinalPresentConstantBuffer::~FinalPresentConstantBuffer() = default;
+FWK::Graphics::FinalPresentConstantBufferUploader::~FinalPresentConstantBufferUploader() = default;

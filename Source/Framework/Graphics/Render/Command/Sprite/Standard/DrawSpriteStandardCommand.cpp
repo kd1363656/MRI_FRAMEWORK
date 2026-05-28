@@ -44,25 +44,25 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 	// もし共通定数バッファの設定に失敗したらマップを解除
-	if (!SetupCommonPassConstantBuffer<SpritePassConstantBuffer, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
-																									l_directCommandList,
-																									*l_currentFrameResource,
-																									l_cbSpritePass,
-																									GetREFCommonPassIndex()))
+	if (!SetupCommonPassConstantBuffer<SpritePassConstantBufferUploader, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
+																											l_directCommandList,
+																											*l_currentFrameResource,
+																											l_cbSpritePass,
+																											GetREFCommonPassIndex()))
 	{
 		assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 		return;
 	}
 
-	auto l_spriteObjectConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<SpriteObjectConstantBuffer>().lock();
+	auto l_spriteObjectConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<SpriteObjectConstantBufferUploader>().lock();
 
-	if (!l_spriteObjectConstantBuffer)
+	if (!l_spriteObjectConstantBufferUploader)
 	{
 		assert(false && "スプライト描画用定数バッファが取得できないため、描画処理に失敗しました。");
 		return;
 	}
 
-	auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBuffer->GetMutableREFUploadConstantBuffer();
+	auto& l_spriteDrawUploadBuffer = l_spriteObjectConstantBufferUploader->GetMutableREFUploadBuffer();
 
 	auto* const l_spriteDrawMappedData = l_spriteDrawUploadBuffer.Map();
 	

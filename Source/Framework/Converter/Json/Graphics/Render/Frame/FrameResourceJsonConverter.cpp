@@ -49,7 +49,7 @@ void FWK::Converter::FrameResourceJsonConverter::DeserializeConstantBuffer(const
 			l_constantBufferUploader->Deserialize(l_json[k_constantBufferUploaderJsonKey]);
 		}
 
-		a_frameResource.AddConstantBuffer(l_constantBufferUploader);
+		a_frameResource.AddConstantBufferUploader(l_constantBufferUploader);
 	}
 }
 
@@ -57,17 +57,17 @@ nlohmann::json FWK::Converter::FrameResourceJsonConverter::SerializeConstantBuff
 {
 	nlohmann::json l_rootJsonArray = {};
 	
-	const auto& l_constantBufferMap = a_frameResource.GetREFConstantBufferMap();
+	const auto& l_constantBufferUploaderMap = a_frameResource.GetREFConstantBufferUploaderMap();
 
 	// 生成する定数バッファの名前とその定数バッファに必要な情報をSerialize
-	for (const auto& [l_staticTypeID, l_constantBuffer] : l_constantBufferMap)
+	for (const auto& [l_staticTypeID, l_constantBufferUploader] : l_constantBufferUploaderMap)
 	{
-		if (!l_constantBuffer) { continue; }
+		if (!l_constantBufferUploader) { continue; }
 
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson											 (l_json, Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferUploaderTypeNameJsonKey));
-		l_json[k_constantBufferUploaderJsonKey] = l_constantBuffer->Serialize();
+		Utility::Json::UpdateJson													  (l_json, Utility::Json::SerializeInstanceType(l_constantBufferUploader, k_constantBufferUploaderTypeNameJsonKey));
+		l_json[k_constantBufferUploaderJsonKey] = l_constantBufferUploader->Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);
 	}

@@ -60,17 +60,17 @@ namespace FWK::Graphics
 		bool SetupCBModelObject(const RootSignature& a_rootSignature, const DirectCommandList& a_directCommandList, const FrameResource& a_frameResource) const
 		{
 			// モデルオブジェクトマップ用定数バッファの取得
-			auto l_modelObjectConstantBuffer = a_frameResource.FindPTRConstantBuffer<ModelObjectConstantBufferUploader>().lock();
+			auto l_modelObjectConstantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ModelObjectConstantBufferUploader>().lock();
 
-			if (!l_modelObjectConstantBuffer)
+			if (!l_modelObjectConstantBufferUploader)
 			{
 				assert(false && "ModelObject用定数バッファが取得できないため、StaticModel描画処理に失敗しました。");
 				return false;
 			}
 
-				  auto&		  l_uploadBuffer					   = l_modelObjectConstantBuffer->GetMutableREFUploadBuffer();
-				  auto* const l_mappedData						   = l_uploadBuffer.Map									   ();
-			const auto&		  l_staticModelStandardDrawCommandList = GetREFDrawCommandList								   ();
+				  auto&		  l_uploadBuffer					   = l_modelObjectConstantBufferUploader->GetMutableREFUploadBuffer();
+				  auto* const l_mappedData						   = l_uploadBuffer.Map											   ();
+			const auto&		  l_staticModelStandardDrawCommandList = GetREFDrawCommandList										   ();
 
 			for (const auto& l_staticModelStandardDrawCommand : l_staticModelStandardDrawCommandList)
 			{

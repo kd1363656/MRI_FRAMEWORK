@@ -24,7 +24,7 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 	const auto& l_lightSystem		= a_renderer.GetREFLightSystem	    ();
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
-	auto l_lightSystemConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<LightConstantBuffer>().lock();
+	auto l_lightSystemConstantBuffer = l_currentFrameResource->FindPTRConstantBufferUploader<LightConstantBufferUploader>().lock();
 
 	if (!l_lightSystemConstantBuffer)
 	{
@@ -32,8 +32,8 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 		return;
 	}
 
-	auto&		l_lightSystemUploadBuffer = l_lightSystemConstantBuffer->GetMutableREFUploadConstantBuffer();
-	auto* const l_lightSystemMappedData   = l_lightSystemUploadBuffer.Map								  ();
+	auto&		l_lightSystemUploadBuffer = l_lightSystemConstantBuffer->GetMutableREFUploadBuffer();
+	auto* const l_lightSystemMappedData   = l_lightSystemUploadBuffer.Map						  ();
 
 	if (!l_lightSystemMappedData)
 	{

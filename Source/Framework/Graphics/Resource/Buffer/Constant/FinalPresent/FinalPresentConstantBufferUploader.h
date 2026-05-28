@@ -2,19 +2,19 @@
 
 namespace FWK::Graphics
 {
-	class FinalPresentConstantBuffer final : public ConstantBufferUploaderBase
+	class FinalPresentConstantBufferUploader final : public ConstantBufferUploaderBase
 	{
 	public:
 
-		 FinalPresentConstantBuffer();
-		~FinalPresentConstantBuffer() override ;
+		 FinalPresentConstantBufferUploader();
+		~FinalPresentConstantBufferUploader() override ;
 
 	private:
 
 		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBFinalPresent);
 
-		FWK_DEFINE_TYPE_INFO(FinalPresentConstantBuffer, ConstantBufferBase);
+		FWK_DEFINE_TYPE_INFO(FinalPresentConstantBufferUploader, ConstantBufferUploaderBase);
 	};
 }
 
-FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryConstantBuffer, FWK::Graphics::FinalPresentConstantBuffer);
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryConstantBufferUploader, FWK::Graphics::FinalPresentConstantBufferUploader);

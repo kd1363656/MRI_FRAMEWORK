@@ -12,7 +12,7 @@ namespace FWK::Graphics
 		void PostCreateSetup(Renderer& a_renderer) override;
 
 		void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
-					 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
+					 const DSVDescriptorHeap&,
 					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 					 const SwapChain&,
 						   DirectCommandList&				  a_directCommandList,

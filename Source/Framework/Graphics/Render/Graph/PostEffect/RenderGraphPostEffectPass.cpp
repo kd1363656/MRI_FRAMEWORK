@@ -29,7 +29,7 @@ void FWK::Graphics::RenderGraphPostEffectPass::PostCreateSetup(Renderer& a_rende
 }
 
 void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&				    a_rtvDescriptorHeap, 
-													   const DSVDescriptorHeap&				    a_dsvDescriptorHeap,
+													   const DSVDescriptorHeap&,
 													   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 													   const SwapChain&, 
 															 DirectCommandList&					a_directCommandList,
@@ -93,15 +93,15 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 		return;
 	}
 
-	const auto& l_postEffectConstantBuffer = l_currentFrameResource->FindPTRConstantBuffer<PostEffectConstantBuffer>().lock();
+	const auto& l_postEffectConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<PostEffectConstantBufferUploader>().lock();
 
-	if (!l_postEffectConstantBuffer)
+	if (!l_postEffectConstantBufferUploader)
 	{
 		assert(false && "PostEffect用ConstantBufferが取得できないため、PostEffectPassを実行できませんでした。");
 		return;
 	}
 
-	const auto&		  l_postEffectUploadBuffer = l_postEffectConstantBuffer->GetREFUploadConstantBuffer();
+	const auto&		  l_postEffectUploadBuffer = l_postEffectConstantBufferUploader->GetREFUploadBuffer();
 		  auto* const l_postEffectMappedData   = l_postEffectUploadBuffer.Map						   ();
 
 	if (!l_postEffectMappedData)

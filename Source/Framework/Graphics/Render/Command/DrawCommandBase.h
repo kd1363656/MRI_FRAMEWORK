@@ -102,7 +102,7 @@ namespace FWK::Graphics
 										   const CBType&			 a_constantBuffer,
 										   const std::size_t&		 a_constantBufferIndex)
 		{
-			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBuffer<ConstantBufferUploaderType>().lock();
+			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
 
 			if (!l_constantBufferUploader)
 			{
