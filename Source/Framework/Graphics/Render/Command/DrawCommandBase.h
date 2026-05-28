@@ -104,14 +104,14 @@ namespace FWK::Graphics
 		{
 			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBuffer<ConstantBufferUploaderType>().lock();
 
-			if (!l_constantBuffer)
+			if (!l_constantBufferUploader)
 			{
 				assert(false && "共通パス定数バッファが取得できないため、描画処理に失敗しました。");
 				return false;
 			}
 
-			auto&		l_constantUploadBuffer = l_constantBuffer->GetMutableREFUploadConstantBuffer();
-			auto* const l_mappedData		   = l_constantUploadBuffer.Map						    ();
+			auto&		l_uploadBuffer = l_constantBufferUploader->GetMutableREFUploadBuffer();
+			auto* const l_mappedData = l_uploadBuffer.Map									();
 
 			if (!l_mappedData)
 			{
@@ -124,14 +124,14 @@ namespace FWK::Graphics
 														   a_directCommandList,
 														   a_constantBuffer,
 														   a_constantBufferIndex,
-														   l_constantUploadBuffer,
+														   l_uploadBuffer,
 														   l_mappedData))
 			{
 				assert(false && "共通パス定数バッファのGPU送信命令に失敗したため、描画処理に失敗しました。");
 				return false;
 			}
 
-			l_constantUploadBuffer.UnMap();
+			l_uploadBuffer.UnMap();
 
 			return true;
 		}

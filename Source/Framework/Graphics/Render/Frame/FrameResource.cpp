@@ -22,11 +22,11 @@ bool FWK::Graphics::FrameResource::Create(const Device&			                   a_d
 												DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 												DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
-	for (const auto& [l_staticTypeID, l_constantBuffer] : m_constantBufferMap)
+	for (const auto& [l_staticTypeID, l_constantBufferUploader] : m_constantBufferUploaderMap)
 	{
-		if (!l_constantBuffer) { continue; }
+		if (!l_constantBufferUploader) { continue; }
 
-		l_constantBuffer->Create(a_device);
+		l_constantBufferUploader->Create(a_device);
 	}
 
 	if (!m_directCommandAllocator)
@@ -56,13 +56,13 @@ bool FWK::Graphics::FrameResource::Create(const Device&			                   a_d
 	return true;
 }
 
-void FWK::Graphics::FrameResource::BeginFrame()
-{
-	for (const auto& [l_tag, l_constantBuffer] : m_constantBufferMap)
+void FWK::Graphics::FrameResource::BeginFrame() const
+{ 
+	for (const auto& [l_tag, l_constantBufferUploader] : m_constantBufferUploaderMap)
 	{
-		if (!l_constantBuffer) { continue; }
+		if (!l_constantBufferUploader) { continue; }
 
-		l_constantBuffer->BeginFrame();
+		l_constantBufferUploader->BeginFrame();
 	}
 }
 
@@ -71,11 +71,11 @@ nlohmann::json FWK::Graphics::FrameResource::Serialize() const
 	return m_frameResourceJsonConverter.Serialize(*this);
 }
 
-void FWK::Graphics::FrameResource::AddConstantBuffer(const std::shared_ptr<ConstantBufferBase>& a_constantBuffer)
+void FWK::Graphics::FrameResource::AddConstantBufferUploader(const std::shared_ptr<ConstantBufferUploaderBase>& a_constantBufferUploader)
 {
-	if (!a_constantBuffer) { return; }
+	if (!a_constantBufferUploader) { return; }
 
-	const auto l_staticTypeID = a_constantBuffer->GetRuntimeTypeINFO().k_staticTypeID;
+	const auto l_staticTypeID = a_constantBufferUploader->GetRuntimeTypeINFO().k_staticTypeID;
 
-	m_constantBufferMap.try_emplace(l_staticTypeID, a_constantBuffer);
+	m_constantBufferUploaderMap.try_emplace(l_staticTypeID, a_constantBufferUploader);
 }

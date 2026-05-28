@@ -44,11 +44,11 @@ namespace FWK::Graphics
 			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 			// もし共通定数バッファの設定に失敗したらマップを解除
-			if (!DrawCommandBase::SetupCommonPassConstantBuffer<CameraConstantBuffer, Tag::RootParameterCBCameraTag>(*l_rootSignature,
-																													 l_directCommandList,
-																													 *l_currentFrameResource,
-																													 l_cbCamera->CreateCBCamera(),
-																												     GetREFCommonPassIndex()))
+			if (!DrawCommandBase::SetupCommonPassConstantBuffer<CameraConstantBufferUploader, Tag::RootParameterCBCameraTag>(*l_rootSignature,
+																															 l_directCommandList,
+																															 *l_currentFrameResource,
+																															 l_cbCamera->CreateCBCamera(),
+																															 GetREFCommonPassIndex()))
 			{
 				assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
 				return false;
@@ -60,7 +60,7 @@ namespace FWK::Graphics
 		bool SetupCBModelObject(const RootSignature& a_rootSignature, const DirectCommandList& a_directCommandList, const FrameResource& a_frameResource) const
 		{
 			// モデルオブジェクトマップ用定数バッファの取得
-			auto l_modelObjectConstantBuffer = a_frameResource.FindPTRConstantBuffer<ModelObjectConstantBuffer>().lock();
+			auto l_modelObjectConstantBuffer = a_frameResource.FindPTRConstantBuffer<ModelObjectConstantBufferUploader>().lock();
 
 			if (!l_modelObjectConstantBuffer)
 			{
@@ -68,9 +68,9 @@ namespace FWK::Graphics
 				return false;
 			}
 
-				  auto&		  l_uploadConstantBuffer			   = l_modelObjectConstantBuffer->GetMutableREFUploadConstantBuffer();
-				  auto* const l_mappedData						   = l_uploadConstantBuffer.Map									   ();
-			const auto&		  l_staticModelStandardDrawCommandList = GetREFDrawCommandList										   ();
+				  auto&		  l_uploadBuffer					   = l_modelObjectConstantBuffer->GetMutableREFUploadBuffer();
+				  auto* const l_mappedData						   = l_uploadBuffer.Map									   ();
+			const auto&		  l_staticModelStandardDrawCommandList = GetREFDrawCommandList								   ();
 
 			for (const auto& l_staticModelStandardDrawCommand : l_staticModelStandardDrawCommandList)
 			{
@@ -139,7 +139,7 @@ namespace FWK::Graphics
 					if(!SetupConstantBuffer<Tag::RootParameterCBModelObjectTag>(a_rootSignature, 
 																				a_directCommandList,
 																				l_cbModelObject,
-																				l_uploadConstantBuffer,
+																				l_uploadBuffer,
 																				l_mappedData))
 					{
 						continue;

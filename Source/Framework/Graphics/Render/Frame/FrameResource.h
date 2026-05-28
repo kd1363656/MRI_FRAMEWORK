@@ -24,25 +24,25 @@ namespace FWK::Graphics
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
-		void BeginFrame();
+		void BeginFrame() const;
 
 		nlohmann::json Serialize() const;
 
-		void AddConstantBuffer(const std::shared_ptr<ConstantBufferUploaderBase>& a_constantBuffer);
+		void AddConstantBufferUploader(const std::shared_ptr<ConstantBufferUploaderBase>& a_constantBufferUploader);
 
 		template <typename Type>
-		std::weak_ptr<ConstantBufferUploaderBase> FindPTRConstantBuffer() const
+		std::weak_ptr<ConstantBufferUploaderBase> FindPTRConstantBufferUploader() const
 		{
-			const auto& l_itr = m_constantBufferMap.find(Type::GetTypeINFO().k_staticTypeID);
+			const auto& l_itr = m_constantBufferUploaderMap.find(Type::GetTypeINFO().k_staticTypeID);
 
-			if (l_itr == m_constantBufferMap.end()) { return std::weak_ptr<ConstantBufferBase>(); }
+			if (l_itr == m_constantBufferUploaderMap.end()) { return std::weak_ptr<ConstantBufferUploaderBase>(); }
 
-			if (!l_itr->second) { return std::weak_ptr<ConstantBufferBase>(); }
+			if (!l_itr->second) { return std::weak_ptr<ConstantBufferUploaderBase>(); }
 
 			return l_itr->second;
 		}
 		
-		const auto& GetREFConstantBufferMap() const { return m_constantBufferMap; }
+		const auto& GetREFConstantBufferUploaderMap() const { return m_constantBufferUploaderMap; }
 
 		const auto& GetREFDirectCommandAllocator     () const { return m_directCommandAllocator; }
 		const auto& GetREFRenderGraphResourceRegistry() const { return m_renderGraphResourceRegistry; }
@@ -54,7 +54,7 @@ namespace FWK::Graphics
 
 		std::shared_ptr<DirectCommandAllocator> m_directCommandAllocator = nullptr;
 
-		ConstantBufferUploaderMap m_constantBufferMap = {};
+		ConstantBufferUploaderMap m_constantBufferUploaderMap = {};
 
 		RenderGraphResourceRegistry m_renderGraphResourceRegistry = {};
 
