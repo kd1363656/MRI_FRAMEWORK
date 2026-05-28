@@ -74,7 +74,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 			return l_textureLoadResult;
 		}
 		
-		l_textureLoadResult.m_storageID     = l_record->m_storageID;
+		l_textureLoadResult.m_storageID     = l_record->GetVALStorageID();
 		l_textureLoadResult.m_textureRecord = l_record;
 
 		return l_textureLoadResult;
@@ -93,9 +93,9 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 		}
 
 		// すでに登録予約済みのテクスチャが再度登録されたら参照カウントを増やす
-		++l_textureRecord->m_referenceCount;
+		l_textureRecord->AddReferenceCount();
 
-		l_textureLoadResult.m_storageID     = l_textureRecord->m_storageID;
+		l_textureLoadResult.m_storageID     = l_textureRecord->GetVALSRVStorageID();
 		l_textureLoadResult.m_textureRecord = l_textureRecord;
 
 		return l_textureLoadResult;
@@ -150,7 +150,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 		return l_textureLoadResult; 
 	}
 
-	l_textureLoadResult.m_storageID     = l_textureRecord->m_storageID;
+	l_textureLoadResult.m_storageID     = l_textureRecord->GetVALStorageID();
 	l_textureLoadResult.m_textureRecord = l_textureRecord;
 
 	// 作成し終えたTextureBatchUploadRecordをリストに格納する
@@ -172,19 +172,12 @@ void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_up
 	}
 }
 
-void FWK::Graphics::TextureSystem::ReleaseCompletedUnusedTexture(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
-{
-	TextureRecordReleaser l_textureRecordReleaser(a_srvDescriptorPool);
-
-	m_textureStorage.ReleaseCompletedUnusedRecords(a_directCommandQueue, l_textureRecordReleaser);
-}
-
 nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 {
 	return m_textureSystemJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::TextureSystem::AddTextureReference(const std::weak_ptr<Struct::TextureRecord>& a_textureRecord)
+bool FWK::Graphics::TextureSystem::AddTextureReference(const std::weak_ptr<Graphics::TextureRecord>& a_textureRecord)
 {
 	if (!m_textureStorage.AddReference(a_textureRecord))
 	{
@@ -194,9 +187,9 @@ bool FWK::Graphics::TextureSystem::AddTextureReference(const std::weak_ptr<Struc
 
 	return true;
 }
-bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQueue& a_directCommandQueue, const std::weak_ptr<Struct::TextureRecord>& a_textureRecord)
+bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const std::weak_ptr<Graphics::TextureRecord>& a_textureRecord, const DirectCommandQueue& a_directCommandQueue, DeferredResourceReleaseQueue& a_deferredReleaseQueue)
 {
-	if (!m_textureStorage.ReleaseReference(a_directCommandQueue, a_textureRecord))
+	if (!m_textureStorage.ReleaseReference(a_textureRecord, a_directCommandQueue, a_deferredReleaseQueue))
 	{
 		assert(false && "AssetStorageでの参照数減算に失敗したため、テクスチャ解放予約に失敗しました。");
 		return false;
@@ -205,7 +198,7 @@ bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const DirectCommandQu
 	return true;
 }
 
-std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const
+std::weak_ptr<FWK::Graphics::TextureRecord> FWK::Graphics::TextureSystem::FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const
 {
 	const auto l_defaultTextureRecordIndex = static_cast<std::size_t>(a_defaultTextureType);
 
@@ -217,7 +210,7 @@ std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALD
 
 	return m_defaultTextureRecordList[l_defaultTextureRecordIndex];
 }
-std::weak_ptr<FWK::Struct::TextureRecord> FWK::Graphics::TextureSystem::FindVALTextureRecord(const std::wstring& a_filePath) const
+std::weak_ptr<FWK::Graphics::TextureRecord> FWK::Graphics::TextureSystem::FindVALTextureRecord(const std::wstring& a_filePath) const
 {
 	return m_textureStorage.FindVALRecord(a_filePath);
 }
@@ -240,7 +233,7 @@ bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem
 			return false;
 		}
 
-		if (!m_textureStorage.RegisterRecord(l_filePath, l_textureRecord))
+		if (!m_textureStorage.RegisterRecord(l_textureRecord, l_filePath))
 		{
 			assert(false && "TextureRecordの登録に失敗したため、バッチテクスチャ登録に失敗しました。");
 			return false;

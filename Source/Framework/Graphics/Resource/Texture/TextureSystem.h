@@ -28,15 +28,13 @@ namespace FWK::Graphics
 
 		void LoadPendingTexturesAndWait(UploadSystem& a_uploadSystem);
 
-		void ReleaseCompletedUnusedTexture(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
-
 		nlohmann::json Serialize() const;
 
-		bool AddTextureReference    (const std::weak_ptr<Struct::TextureRecord>& a_textureRecord);
-		bool ReleaseTextureReference(const DirectCommandQueue&				     a_directCommandQueue, const std::weak_ptr<Struct::TextureRecord>& a_textureRecord);
+		bool AddTextureReference    (const std::weak_ptr<Graphics::TextureRecord>& a_textureRecord);
+		bool ReleaseTextureReference(const std::weak_ptr<Graphics::TextureRecord>& a_textureRecord, const DirectCommandQueue& a_directCommandQueue, DeferredResourceReleaseQueue& a_deferredReleaseQueue);
 
-		std::weak_ptr<Struct::TextureRecord> FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const;
-		std::weak_ptr<Struct::TextureRecord> FindVALTextureRecord       (const std::wstring&		    a_filePath) const;
+		std::weak_ptr<Graphics::TextureRecord> FindVALDefaultTextureRecord(const Enum::DefaultTextureType a_defaultTextureType) const;
+		std::weak_ptr<Graphics::TextureRecord> FindVALTextureRecord       (const std::wstring&		      a_filePath) const;
 
 		const auto& GetREFTextureStorage() const { return m_textureStorage; }
 
@@ -49,9 +47,9 @@ namespace FWK::Graphics
 
 		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
 
-		std::array<std::shared_ptr<Struct::TextureRecord>, Constant::k_defaultTextureCount> m_defaultTextureRecordList = {};
+		std::array<std::shared_ptr<Graphics::TextureRecord>, Constant::k_defaultTextureCount> m_defaultTextureRecordList = {};
 		
-		AssetStorage<Struct::TextureRecord> m_textureStorage = {};
+		AssetStorage<Graphics::TextureRecord> m_textureStorage = {};
 		
 		TextureLoader			        m_textureLoader				      = {};
 		TextureBatchUploadRecordBuilder m_textureBatchUploadRecordBuilder = {};

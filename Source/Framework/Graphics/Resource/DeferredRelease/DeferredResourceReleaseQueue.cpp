@@ -29,7 +29,7 @@ void FWK::Graphics::DeferredResourceReleaseQueue::ReleaseCompleted(const DirectC
 {
 	const auto& l_completedFenceValue = a_directCommandQueue.FetchVALCompletedFenceValue();
 
-	ReleaseCompletedGPUResource(l_completedFenceValue);
+	ReleaseCompletedGPUResources(l_completedFenceValue);
 
 	ReleaseCompletedDescriptorIndices(l_completedFenceValue, m_srvDescriptorIndexReleaseRecordList, a_srvDescriptorPool);
 }

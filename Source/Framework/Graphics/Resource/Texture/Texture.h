@@ -30,6 +30,6 @@ namespace FWK::Graphics
 
 		TypeAlias::StorageID m_storageID;
 
-		std::weak_ptr<Struct::TextureRecord> m_textureRecord = {};
+		std::weak_ptr<Graphics::TextureRecord> m_textureRecord = {};
 	};
 }

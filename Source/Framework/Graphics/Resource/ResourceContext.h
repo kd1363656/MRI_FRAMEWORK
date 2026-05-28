@@ -20,6 +20,8 @@ namespace FWK::Graphics
 		const auto& GetREFSRVDescriptorPool() const { return m_srvDescriptorPool; }
 		const auto& GetREFDSVDescriptorPool() const { return m_dsvDescriptorPool; }
 
+		const auto& GetREFDeferredResourceReleaseQueue() const { return m_deferredResourceReleaseQueue; }
+
 		const auto& GetREFGPUMemoryAllocator() const { return m_gpuMemoryAllocator; }
 		const auto& GetREFUploadSystem      () const { return m_uploadSystem; }
 		const auto& GetREFTextureSystem     () const { return m_textureSystem; }
@@ -28,6 +30,8 @@ namespace FWK::Graphics
 		auto& GetMutableREFRTVDescriptorPool() { return m_rtvDescriptorPool; }
 		auto& GetMutableREFSRVDescriptorPool() { return m_srvDescriptorPool; }
 		auto& GetMutableREFDSVDescriptorPool() { return m_dsvDescriptorPool; }
+
+		auto& GetMutableREFDeferredResourceReleaseQueue() { return m_deferredResourceReleaseQueue; }
 
 		auto& GetMutableREFGPUMemoryAllocator() { return m_gpuMemoryAllocator; }
 		auto& GetMutableREFUploadSystem	     () { return m_uploadSystem; }
@@ -39,6 +43,8 @@ namespace FWK::Graphics
 		DescriptorPool<RTVDescriptorHeap> m_rtvDescriptorPool = {};
 		DescriptorPool<SRVDescriptorHeap> m_srvDescriptorPool = {};
 		DescriptorPool<DSVDescriptorHeap> m_dsvDescriptorPool = {};
+
+		DeferredResourceReleaseQueue m_deferredResourceReleaseQueue = {};
 
 		GPUMemoryAllocator m_gpuMemoryAllocator = {};
 		UploadSystem       m_uploadSystem       = {};

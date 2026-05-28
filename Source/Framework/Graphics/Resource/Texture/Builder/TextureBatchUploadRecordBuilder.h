@@ -25,14 +25,14 @@ namespace FWK::Graphics
 
 	private:
 
-		bool CreateTextureResource(const DirectX::TexMetadata& a_texMetadata, const GPUMemoryAllocator& a_gpuMemoryAllocator, Struct::TextureRecord& a_textureRecord) const;
+		bool CreateTextureResource(const DirectX::TexMetadata& a_texMetadata, const GPUMemoryAllocator& a_gpuMemoryAllocator, Graphics::TextureRecord& a_textureRecord) const;
 
 		bool CreateTextureUploadRecord(const DirectX::ScratchImage& a_scratchImage, const Device& a_device, Struct::TextureBatchUploadRecord& a_textureBatchUploadRecord) const;
 
 		bool CreateTextureSRV(const DirectX::TexMetadata&              a_texMetadata,
 							  const Device&                            a_device,
 									DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
-									Struct::TextureRecord&			   a_textureRecord) const;
+									Graphics::TextureRecord&		   a_textureRecord) const;
 
 		static constexpr UINT64 k_uploadBufferBeginOffset         = 0ULL;
 		static constexpr UINT64 k_initialRequiredUploadBufferSize = 0ULL;

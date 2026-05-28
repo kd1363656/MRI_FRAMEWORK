@@ -5,7 +5,7 @@ void FWK::Graphics::AssetRecordBase::AddReferenceCount()
 	++m_referenceCount;
 }
 
-bool FWK::Graphics::AssetRecordBase::SubReferenceCount()
+bool FWK::Graphics::AssetRecordBase::SubtractReferenceCount()
 {
 	if (m_referenceCount == Constant::k_emptyAssetReferenceCount)
 	{

@@ -63,8 +63,9 @@ void FWK::Graphics::ResourceContext::BeginFrame(const DirectCommandQueue& a_dire
 	// ロード予約のあったStaticModelを一括ロード
 	m_staticModelSystem.LoadPendingStaticModelAndWait(m_uploadSystem);
 
-	// 参照カウントが0で削除すべきテクスチャを削除
-	m_textureSystem.ReleaseCompletedUnusedTexture(a_directCommandQueue, m_srvDescriptorPool);
+	// 参照カウントが0になったRecordからQueueへ積まれたGPUResource / SRVを、
+	// GPUのFence完了後に安全に開放する
+	m_deferredResourceReleaseQueue.ReleaseCompleted(a_directCommandQueue, m_srvDescriptorPool);
 
 	// 参照カウントが0で削除すべきStaticModelを削除
 	m_staticModelSystem.ReleaseCompletedUnusedStaticModel(a_directCommandQueue, m_srvDescriptorPool);

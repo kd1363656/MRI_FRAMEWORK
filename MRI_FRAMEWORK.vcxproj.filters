@@ -478,9 +478,6 @@
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage">
       <UniqueIdentifier>{aa9c62ad-314d-4573-b6f6-3da903886ac8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Texture\Releaser">
-      <UniqueIdentifier>{0650d9e1-699c-4112-ad71-c35996c3b760}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Tag">
       <UniqueIdentifier>{9aee4cc8-c441-446b-ac12-ca7bc419fed0}</UniqueIdentifier>
     </Filter>
@@ -558,9 +555,6 @@
     </Filter>
     <Filter Include="Source\Framework\Converter\Json\Graphics\Resource\Model\Static">
       <UniqueIdentifier>{479e9285-2dc8-4033-86a4-6ec721b3a746}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Resource\Model\Static\Releaser">
-      <UniqueIdentifier>{81006a9e-7bc9-46ba-a7b4-f51cef1823f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Model\Builder">
       <UniqueIdentifier>{31206ad0-dbdf-455d-9258-2cd5f6c6da02}</UniqueIdentifier>
@@ -1184,9 +1178,6 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage\IsDerivedAssetRecordBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Struct\Graphics\Resource\Storage</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.h">
-      <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
-    </ClInclude>
     <ClInclude Include="..\Library\UFBX\ufbx.h">
       <Filter>Library\UFBX</Filter>
     </ClInclude>
@@ -1231,9 +1222,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Model\Static\Releaser\StaticModelReleaser.h">
-      <Filter>Source\Framework\Graphics\Resource\Model\Static\Releaser</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Model\Builder\Static\StaticModelBatchUploadRecordBuilder.h">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Static</Filter>
@@ -1588,9 +1576,6 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Storage\Allocator\StorageIDAllocator.cpp">
       <Filter>Source\Framework\Graphics\Resource\Storage\Allocator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Releaser\TextureRecordReleaser.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Texture\Releaser</Filter>
-    </ClCompile>
     <ClCompile Include="..\Library\UFBX\ufbx.cpp">
       <Filter>Library\UFBX</Filter>
     </ClCompile>
@@ -1623,9 +1608,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\StaticModel.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Model\Static\Releaser\StaticModelReleaser.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Model\Static\Releaser</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Static\StaticModelBatchUploadRecordBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Static</Filter>

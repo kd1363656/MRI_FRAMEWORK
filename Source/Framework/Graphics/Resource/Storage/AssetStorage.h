@@ -45,7 +45,7 @@ namespace FWK::Graphics
 			m_storageIDAllocator.Release(a_storageID);
 		}
 
-		bool RegisterRecord(const std::wstring& a_filePath, const std::shared_ptr<RecordType>& a_record)
+		bool RegisterRecord(const std::shared_ptr<RecordType>& a_record, const std::wstring& a_filePath)
 		{
 			if (!a_record)
 			{
@@ -59,7 +59,7 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			if (a_record->m_storageID == Constant::k_invalidStorageID)
+			if (a_record->GetVALStorageID == Constant::k_invalidStorageID)
 			{
 				assert(false && "StorageIDが無効のため、Recordの登録に失敗しました。");
 				return false;
@@ -76,23 +76,6 @@ namespace FWK::Graphics
 			return true;
 		}
 
-		bool UnregisterRecord(const std::weak_ptr<RecordType>& a_record)
-		{
-			const auto& l_record = a_record.lock();
-
-			if (!l_record)
-			{
-				assert(false && "指定されたStorageIDのRecordが見つからないため、Recordの登録解除に失敗しました。");
-				return false;
-			}
-
-			// ストレージIDを解放し、レコード情報を削除
-			m_storageIDAllocator.Release(l_record->m_storageID);
-			m_recordMap.erase			(l_record->m_filePath);
-
-			return true;
-		}
-
 		bool AddReference(const std::weak_ptr<RecordType>& a_record)
 		{
 			const auto& l_record = a_record.lock();
@@ -104,12 +87,12 @@ namespace FWK::Graphics
 			}
 
 			// 参照カウントを加算
-			++l_record->m_referenceCount;
+			l_record->AddReferenceCount();
 
 			return true;
 		}
 
-		bool ReleaseReference(const DirectCommandQueue& a_directCommandQueue, const std::weak_ptr<RecordType>& a_record)
+		bool ReleaseReference(const std::weak_ptr<RecordType>& a_record, const DirectCommandQueue& a_directCommandQueue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
 		{
 			const auto& l_record = a_record.lock();
 
@@ -119,78 +102,37 @@ namespace FWK::Graphics
 				return false;
 			}
 
-			if (l_record->m_referenceCount == Constant::k_emptyAssetReferenceCount)
+			if (!l_record->SubtractReferenceCount())
 			{
-				assert(false && "参照数が0のRecordに対してさらに解放要求が行われました。");
+				assert(false && "Recordの参照数減算に失敗しました。");
 				return false;
 			}
-
-			--l_record->m_referenceCount;
-
+			
 			// まだ利用者が残っているなら何もしない
-			if (l_record->m_referenceCount > Constant::k_emptyAssetReferenceCount) { return true; }
+			if (l_record->IsUnused()) { return true; }
 
 			const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
 
-			// GPUに対して発行されたフェンス値を格納する
-			// GPUのフェンス値がこの格納されたフェンス値を超えていたら安全に解放できるということ
-			l_record->m_retiredFenceValue = l_lastSignaledFenceValue;
+			// Record自身に、GPUResourceやDescriptorIndexを遅延解放Queueへ積ませる
+			if (!l_record->PushDeferredRelease(a_deferredResourceReleaseQueue, l_lastSignaledFenceValue))
+			{
+				assert(false && "Record固有リソースの遅延解放Queue登録に失敗しました。");
+				return false;
+			}
+
+			const auto& l_filePath  = l_record->GetREFFilePath ();
+			const auto  l_storageID = l_record->GetVALStorageID();
+
+			if (l_record->InvalidateStorageID())
+			{
+				m_storageIDAllocator.Release(l_storageID);
+			}
+
+			l_record->InvalidateStorageID();
+
+			m_recordMap.erase(l_filePath);
 
 			return true;
-		}
-
-		template <typename RecordReleaserType>
-		void ReleaseCompletedUnusedRecords(const DirectCommandQueue& a_directCommandQueue, RecordReleaserType& a_recordReleaser)
-		{
-			const auto& l_completedFenceValue = a_directCommandQueue.FetchVALCompletedFenceValue();
-
-			auto l_itr = m_recordMap.begin();
-
-			while (l_itr != m_recordMap.end())
-			{
-				auto& l_record = l_itr->second;
-
-				if (!l_record)
-				{
-					l_itr = m_recordMap.erase(l_itr);
-					continue;
-				}
-
-				// まだ参照されているRecordは解放しない
-				if (l_record->m_referenceCount > Constant::k_emptyAssetReferenceCount)
-				{
-					++l_itr;
-					continue;
-				}
-
-				// 解放予約用のFence値が初期値なら解放しない
-				if (l_record->m_retiredFenceValue == Constant::k_unusedFenceValue)
-				{
-					++l_itr;
-					continue;
-				}
-
-				// GPUがまだこのRecordを利用している可能性があるため解放しない
-				if (l_record->m_retiredFenceValue > l_completedFenceValue)
-				{
-					++l_itr;
-					continue;
-				}
-
-				// Record固有のリソースを解放する
-				// TextureRecordならTextureResourceやSRVのStorageID返却などを行う
-				if (!a_recordReleaser.ReleaseRecord(*l_record))
-				{
-					assert(false && "Record固有リソースの解放に失敗しました。");
-					++l_itr;
-					continue;
-				}
-
-				// StorageIDを返却する
-				m_storageIDAllocator.Release(l_record->m_storageID);
-				// ファイルパスから対応するStorageIDを見つけるMapの要素を削除
-				l_itr = m_recordMap.erase(l_itr);
-			}
 		}
 
 		TypeAlias::StorageID FindVALStorageIDFromFilePath(const std::wstring& a_filePath) const
@@ -203,7 +145,7 @@ namespace FWK::Graphics
 
 			if (!l_record) { return Constant::k_invalidStorageID; }
 
-			return l_record->m_storageID;
+			return l_record->GetVALStorageID();
 		}
 
 		std::weak_ptr<RecordType> FindVALRecord(const std::wstring& a_filePath) const

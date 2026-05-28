@@ -20,7 +20,8 @@ bool FWK::Graphics::TextureRecord::PushDeferredRelease(DeferredResourceReleaseQu
 		return false;
 	}
 
-	// ※ 注意 std::moveをしよスしているのでm_gpuResourceにアクセスしたらUB(UndefinedBehavior)
+	// GPUResourceはQueueへ所有権を移す
+	// Queue内のRecordが消えるタイミングでComPtrが自然にReleaseされる
 	Struct::GPUResourceReleaseRecord l_gpuResourceReleaseRecord = {};
 
 	l_gpuResourceReleaseRecord.m_gpuResource	   = std::move(m_gpuResource);
@@ -43,6 +44,7 @@ bool FWK::Graphics::TextureRecord::PushDeferredRelease(DeferredResourceReleaseQu
 		return false;
 	}
 
+	// 二重開放を防ぐため、Queueへ渡したDescriptorIndexは無効化する
 	m_srvStorageID = Constant::k_invalidStorageID;
 
 	return true;

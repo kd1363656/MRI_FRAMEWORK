@@ -143,10 +143,11 @@ void FWK::Graphics::Texture::ReleaseTextureReference()
 	const auto& l_directCommandQueue = l_renderer.GetREFDirectCommandQueue();
 
 	auto& l_resourceContext = l_graphicsManager.GetMutableREFResourceContext();
+	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
 	
 	// 参照カウントを減らす
-	if (auto& l_textureSystem = l_resourceContext.GetMutableREFTextureSystem();
-		!l_textureSystem.ReleaseTextureReference(l_directCommandQueue, m_textureRecord))
+	if (auto& l_deferredResourceReleaseQueue = l_resourceContext.GetMutableREFDeferredResourceReleaseQueue();
+		!l_textureSystem.ReleaseTextureReference(m_textureRecord, l_directCommandQueue, l_deferredResourceReleaseQueue))
 	{
 		assert(false && "テクスチャ参照数解放に失敗しました。");
 		return;

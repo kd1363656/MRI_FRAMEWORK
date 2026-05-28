@@ -18,7 +18,7 @@ namespace FWK::Graphics
 
 		void AddReferenceCount();
 
-		bool SubReferenceCount();
+		bool SubtractReferenceCount();
 
 		bool IsUnused() const;
 
@@ -26,13 +26,21 @@ namespace FWK::Graphics
 
 		virtual bool PushDeferredRelease(DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue, const UINT64& a_retiredFenceValue) = 0;
 
+		void SetFilePath(const std::wstring& a_set) { m_filePath = a_set; }
+
 		void SetStorageID(const TypeAlias::StorageID& a_set) { m_storageID = a_set; }
+
+		void SetReferenceCount(const std::uint32_t a_set) { m_referenceCount = a_set; };
+
+		const auto& GetREFFilePath() const { return m_filePath; }
 
 		TypeAlias::StorageID GetVALStorageID() const { return m_storageID; }
 
 		std::uint32_t GetVALReferenceCount() const { return m_referenceCount; }
 
 	private:
+
+		std::wstring m_filePath = {};
 
 		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
 
