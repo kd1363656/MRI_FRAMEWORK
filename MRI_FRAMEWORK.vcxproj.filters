@@ -1400,7 +1400,7 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.h">
       <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseStruct.h">
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\DeferredRelease\DeferredResourceReleaseStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\DeferredRelease</Filter>
     </ClInclude>
   </ItemGroup>

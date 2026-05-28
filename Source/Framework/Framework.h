@@ -58,6 +58,7 @@
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/Model/ModelConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/PostEffect/PostEffectConstantBufferStruct.h"
 #include "Definition/Struct/Graphics/Resource/Buffer/Constant/FinalPresent/FinalPresentConstantBufferStruct.h"
+#include "Definition/Struct/Graphics/Resource/DeferredRelease/DeferredResourceReleaseStruct.h"
 
 // TypeTrait
 #include "Definition/Type/Trait/PTR/TypeTraitPTR.h"
@@ -214,9 +215,6 @@
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Command/List/Copy/CopyCommandList.h"
 
-// 遅延リソースリリースクラス
-#include "Graphics/Resource/DeferredRelease/DeferredResourceReleaseQueue.h"
-
 // Storage
 #include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
 #include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
@@ -229,6 +227,9 @@
 // ディスクリプタプール
 #include "Converter/Json/Graphics/Resource/Descriptor/DescriptorPoolJsonConverter.h"
 #include "Graphics/Resource/Descriptor/DescriptorPool.h"
+
+// 遅延リソースリリースクラス
+#include "Graphics/Resource/DeferredRelease/DeferredResourceReleaseQueue.h"
 
 // メモリアロケータクラス
 #include "Graphics/Resource/Memory/GPUMemoryAllocator.h"
