@@ -1,28 +1,28 @@
-﻿#include "ConstantBufferBase.h"
+﻿#include "ConstantBufferUploaderBase.h"
 
-FWK::Graphics::ConstantBufferBase::ConstantBufferBase() : 
-	m_uploadConstantBuffer       ({}),
-	m_constantBufferJsonConverter({}),
+FWK::Graphics::ConstantBufferUploaderBase::ConstantBufferUploaderBase() : 
+	m_uploadConstantBuffer				 ({}),
+	m_constantBufferUploaderJsonConverter({}),
 
 	m_constantBufferTypeSize (k_invalidBufferTypeSize),
 	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
 {}
-FWK::Graphics::ConstantBufferBase::ConstantBufferBase(const UINT64& a_constantBufferTypeSize) : 
-	m_uploadConstantBuffer       ({}),
-	m_constantBufferJsonConverter({}),
+FWK::Graphics::ConstantBufferUploaderBase::ConstantBufferUploaderBase(const UINT64& a_constantBufferTypeSize) : 
+	m_uploadConstantBuffer				 ({}),
+	m_constantBufferUploaderJsonConverter({}),
 
 	m_constantBufferTypeSize (a_constantBufferTypeSize),
 	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
 {}
-FWK::Graphics::ConstantBufferBase::~ConstantBufferBase() = default;
+FWK::Graphics::ConstantBufferUploaderBase::~ConstantBufferUploaderBase() = default;
 
-void FWK::Graphics::ConstantBufferBase::Deserialize(const nlohmann::json& a_rootJson)
+void FWK::Graphics::ConstantBufferUploaderBase::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
 
-	m_constantBufferJsonConverter.Deserialize(a_rootJson, *this);
+	m_constantBufferUploaderJsonConverter.Deserialize(a_rootJson, *this);
 }
-bool FWK::Graphics::ConstantBufferBase::Create(const Device& a_device)
+bool FWK::Graphics::ConstantBufferUploaderBase::Create(const Device& a_device)
 {
 	if (m_createConstantBufferNUM == Constant::k_invalidCreateConstantBufferNUM)
 	{
@@ -43,17 +43,17 @@ bool FWK::Graphics::ConstantBufferBase::Create(const Device& a_device)
 	return true;
 }
 
-void FWK::Graphics::ConstantBufferBase::BeginFrame()
+void FWK::Graphics::ConstantBufferUploaderBase::BeginFrame()
 {
 	m_uploadConstantBuffer.BeginFrame();
 }
 
-nlohmann::json FWK::Graphics::ConstantBufferBase::Serialize() const
+nlohmann::json FWK::Graphics::ConstantBufferUploaderBase::Serialize() const
 {
-	return m_constantBufferJsonConverter.Serialize(*this);
+	return m_constantBufferUploaderJsonConverter.Serialize(*this);
 }
 
-std::size_t FWK::Graphics::ConstantBufferBase::AllocateCurrentBufferIndex()
+std::size_t FWK::Graphics::ConstantBufferUploaderBase::AllocateCurrentBufferIndex()
 {
 	const auto l_allocatedBufferIndex = m_uploadConstantBuffer.AllocateCurrentBufferIndex();
 
@@ -63,5 +63,5 @@ std::size_t FWK::Graphics::ConstantBufferBase::AllocateCurrentBufferIndex()
 		return Constant::k_invalidConstantBufferIndex;
 	}
 
-	return m_uploadConstantBuffer.AllocateCurrentBufferIndex();
+	return l_allocatedBufferIndex;
 }

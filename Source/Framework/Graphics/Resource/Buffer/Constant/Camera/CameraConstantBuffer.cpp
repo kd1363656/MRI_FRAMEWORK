@@ -1,6 +1,6 @@
 ﻿#include "CameraConstantBuffer.h"
 
-FWK::Graphics::CameraConstantBuffer::CameraConstantBuffer() : 
-	ConstantBufferBase(k_bufferTypeSize)
+FWK::Graphics::CameraConstantBufferUploader::CameraConstantBufferUploader() : 
+	ConstantBufferUploaderBase(k_bufferTypeSize)
 {}
-FWK::Graphics::CameraConstantBuffer::~CameraConstantBuffer() = default;
+FWK::Graphics::CameraConstantBufferUploader::~CameraConstantBufferUploader() = default;

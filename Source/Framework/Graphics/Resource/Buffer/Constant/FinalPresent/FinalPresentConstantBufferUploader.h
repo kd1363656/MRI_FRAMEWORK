@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class FinalPresentConstantBuffer final : public ConstantBufferBase
+	class FinalPresentConstantBuffer final : public ConstantBufferUploaderBase
 	{
 	public:
 

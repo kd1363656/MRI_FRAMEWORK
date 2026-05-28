@@ -2,19 +2,19 @@
 
 namespace FWK::Graphics
 {
-	class CameraConstantBuffer final : public ConstantBufferBase
+	class CameraConstantBufferUploader final : public ConstantBufferUploaderBase
 	{
 	public:
 
-		 CameraConstantBuffer();
-		~CameraConstantBuffer() override;
+		 CameraConstantBufferUploader();
+		~CameraConstantBufferUploader() override;
 
 	private:
 
 		static constexpr UINT64  k_bufferTypeSize = sizeof(Struct::CBCamera);
 
-		FWK_DEFINE_TYPE_INFO(CameraConstantBuffer, ConstantBufferBase);
+		FWK_DEFINE_TYPE_INFO(CameraConstantBufferUploader, ConstantBufferUploaderBase);
 	};
 }
 
-FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryConstantBuffer, FWK::Graphics::CameraConstantBuffer);
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryConstantBufferUploader, FWK::Graphics::CameraConstantBufferUploader);

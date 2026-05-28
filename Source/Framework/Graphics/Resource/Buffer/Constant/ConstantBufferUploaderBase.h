@@ -2,13 +2,13 @@
 
 namespace FWK::Graphics
 {
-	class ConstantBufferBase
+	class ConstantBufferUploaderBase
 	{
 	public:
 
-		         ConstantBufferBase();
-		explicit ConstantBufferBase(const UINT64& a_constantBufferTypeSize);
-		virtual ~ConstantBufferBase();
+		         ConstantBufferUploaderBase();
+		explicit ConstantBufferUploaderBase(const UINT64& a_constantBufferTypeSize);
+		virtual ~ConstantBufferUploaderBase();
 
 		void Deserialize(const nlohmann::json& a_rootJson);
 		bool Create     (const Device&         a_device);
@@ -33,11 +33,11 @@ namespace FWK::Graphics
 
 		UploadBuffer m_uploadConstantBuffer = UploadBuffer();
 
-		Converter::ConstantBufferBaseJsonConverter m_constantBufferJsonConverter = {};
+		Converter::ConstantBufferUploaderBaseJsonConverter m_constantBufferUploaderJsonConverter = {};
 
 		UINT64 m_constantBufferTypeSize;
 		UINT64 m_createConstantBufferNUM;
 
-		FWK_DEFINE_TYPE_INFO_ROOT(ConstantBufferBase);
+		FWK_DEFINE_TYPE_INFO_ROOT(ConstantBufferUploaderBase);
 	};
 }

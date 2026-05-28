@@ -182,12 +182,12 @@
 #include "Graphics/Resource/Buffer/UploadBuffer.h"
 
 // 定数バッファ
-#include "Converter/Json/Graphics/Resource/Buffer/Constant/ConstantBufferJsonConverter.h"
+#include "Converter/Json/Graphics/Resource/Buffer/Constant/ConstantBufferUploaderJsonConverter.h"
 #include "Definition/Concept/IsDerivedBase/Graphics/Resource/Buffer/Constant/IsDerivedConstantBufferBaseConcept.h"
-#include "Graphics/Resource/Buffer/Constant/ConstantBufferBase.h"
+#include "Graphics/Resource/Buffer/Constant/ConstantBufferUploaderBase.h"
 
 // 定数バッファファクトリーの型エイリアス
-#include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBuffer.h"
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBufferUploader.h"
 
 // 定数バッファ
 #include "Graphics/Resource/Buffer/Constant/Sprite/Object/SpriteObjectConstantBuffer.h"

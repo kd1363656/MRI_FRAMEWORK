@@ -12,9 +12,9 @@ void FWK::Converter::FrameResourceJsonConverter::Deserialize(const nlohmann::jso
 	}
 
 	// 定数バッファのデシリアライズ
-	if (a_rootJson.contains(k_constantBufferMapJsonKey))
+	if (a_rootJson.contains(k_constantBufferUploaderMapJsonKey))
 	{
-		DeserializeConstantBuffer(a_rootJson[k_constantBufferMapJsonKey], a_frameResource);
+		DeserializeConstantBuffer(a_rootJson[k_constantBufferUploaderMapJsonKey], a_frameResource);
 	}
 }
 
@@ -25,7 +25,7 @@ nlohmann::json FWK::Converter::FrameResourceJsonConverter::Serialize(const Graph
 	const auto& l_renderGraphResourceRegistry = a_frameResource.GetREFRenderGraphResourceRegistry();
 	
 	l_rootJson[k_renderGraphResourceRegistryJsonKey] = l_renderGraphResourceRegistry.Serialize();
-	l_rootJson[k_constantBufferMapJsonKey]		     = SerializeConstantBuffer (a_frameResource);
+	l_rootJson[k_constantBufferUploaderMapJsonKey]   = SerializeConstantBuffer (a_frameResource);
 
 	return l_rootJson;
 }
@@ -36,20 +36,20 @@ void FWK::Converter::FrameResourceJsonConverter::DeserializeConstantBuffer(const
 	
 	for (const auto& l_json : a_rootJson)
 	{
-		std::shared_ptr<Graphics::ConstantBufferBase> l_constantBuffer = nullptr;
+		std::shared_ptr<Graphics::ConstantBufferUploaderBase> l_constantBufferUploader = nullptr;
 
 		// 定数バッファクラスをデシリアライズ
-		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryConstantBuffer>(l_json, k_constantBufferTypeNameJsonKey, l_constantBuffer);
+		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryConstantBufferUploader>(l_json, k_constantBufferUploaderTypeNameJsonKey, l_constantBufferUploader);
 
 		// 作製に成功していれば中身にポインタがしっかり入っているので初期化とデシリアライズを行う
-		if (!l_constantBuffer) { continue; }
+		if (!l_constantBufferUploader) { continue; }
 		
-		if (l_json.contains(k_constantBufferJsonKey))
+		if (l_json.contains(k_constantBufferUploaderJsonKey))
 		{
-			l_constantBuffer->Deserialize(l_json[k_constantBufferJsonKey]);
+			l_constantBufferUploader->Deserialize(l_json[k_constantBufferUploaderJsonKey]);
 		}
 
-		a_frameResource.AddConstantBuffer(l_constantBuffer);
+		a_frameResource.AddConstantBuffer(l_constantBufferUploader);
 	}
 }
 
@@ -66,8 +66,8 @@ nlohmann::json FWK::Converter::FrameResourceJsonConverter::SerializeConstantBuff
 
 		nlohmann::json l_json = {};
 
-		Utility::Json::UpdateJson								     (l_json, Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferTypeNameJsonKey));
-		l_json[k_constantBufferJsonKey] = l_constantBuffer->Serialize();
+		Utility::Json::UpdateJson											 (l_json, Utility::Json::SerializeInstanceType(l_constantBuffer, k_constantBufferUploaderTypeNameJsonKey));
+		l_json[k_constantBufferUploaderJsonKey] = l_constantBuffer->Serialize();
 
 		l_rootJsonArray.emplace_back(l_json);
 	}

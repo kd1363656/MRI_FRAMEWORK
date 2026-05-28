@@ -6,7 +6,7 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using ConstantBufferMap = std::unordered_map<TypeAlias::StaticTypeID, std::shared_ptr<ConstantBufferBase>>;
+		using ConstantBufferUploaderMap = std::unordered_map<TypeAlias::StaticTypeID, std::shared_ptr<ConstantBufferUploaderBase>>;
 
 	public:
 
@@ -28,10 +28,10 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		void AddConstantBuffer(const std::shared_ptr<ConstantBufferBase>& a_constantBuffer);
+		void AddConstantBuffer(const std::shared_ptr<ConstantBufferUploaderBase>& a_constantBuffer);
 
 		template <typename Type>
-		std::weak_ptr<ConstantBufferBase> FindPTRConstantBuffer() const
+		std::weak_ptr<ConstantBufferUploaderBase> FindPTRConstantBuffer() const
 		{
 			const auto& l_itr = m_constantBufferMap.find(Type::GetTypeINFO().k_staticTypeID);
 
@@ -54,7 +54,7 @@ namespace FWK::Graphics
 
 		std::shared_ptr<DirectCommandAllocator> m_directCommandAllocator = nullptr;
 
-		ConstantBufferMap m_constantBufferMap = {};
+		ConstantBufferUploaderMap m_constantBufferMap = {};
 
 		RenderGraphResourceRegistry m_renderGraphResourceRegistry = {};
 

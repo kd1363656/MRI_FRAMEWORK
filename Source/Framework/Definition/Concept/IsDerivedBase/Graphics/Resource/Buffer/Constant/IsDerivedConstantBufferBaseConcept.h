@@ -4,5 +4,5 @@ namespace FWK::Concept
 {
 	// ディスクリプタヒープベースを継承したクラスかどうかを確認するコンセプト
 	template <typename Type>
-	concept IsDerivedConstantBufferBaseConcept = IsDerivedBaseConcept<Type, Graphics::ConstantBufferBase>;
+	concept IsDerivedConstantBufferUploaderBaseConcept = IsDerivedBaseConcept<Type, Graphics::ConstantBufferUploaderBase>;
 }

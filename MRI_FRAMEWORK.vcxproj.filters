@@ -1085,7 +1085,7 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Command\DrawRequestCommandBase.h">
       <Filter>Source\Framework\Graphics\Render\Command</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h">
@@ -1094,10 +1094,10 @@
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasShaderFactoryConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasShaderFactoryConstantBufferUploader.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\UploadBufferConstant.h">
@@ -1133,7 +1133,7 @@
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Descriptor\DescriptorPoolJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.h">
+    <ClInclude Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.h">
@@ -1235,7 +1235,7 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Camera\Camera.h">
@@ -1280,7 +1280,7 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h">
@@ -1292,7 +1292,7 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant\IsDerivedConstantBufferBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.h">
@@ -1364,7 +1364,7 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FainalPresent</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h">
@@ -1385,7 +1385,7 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBuffer.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.h">
@@ -1513,10 +1513,10 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp">
       <Filter>Source\Framework\Graphics\Render\Command\Sprite\Standard</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferBase.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBuffer.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.cpp">
@@ -1546,7 +1546,7 @@
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Texture\TextureSystemJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferJsonConverter.cpp">
+    <ClCompile Include="Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Resource\Buffer\Constant</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Shader\ShaderJsonConverter.cpp">
@@ -1606,7 +1606,7 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBuffer.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBuffer.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBufferUploder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp">
@@ -1624,13 +1624,13 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBuffer.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp">
       <Filter>Source\Framework\Graphics\Render\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBuffer.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.cpp">
@@ -1672,7 +1672,7 @@
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\Resource\RenderGraphResourceRegistryJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBuffer.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp">
@@ -1684,7 +1684,7 @@
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBuffer.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.cpp">
