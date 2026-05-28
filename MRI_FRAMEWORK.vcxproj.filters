@@ -796,6 +796,9 @@
     <Filter Include="Source\Framework\Graphics\Resource\DeferredRelease">
       <UniqueIdentifier>{ecd5b665-d7b6-4999-8e4d-0df1550c546d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\DeferredRelease">
+      <UniqueIdentifier>{edad2b87-def3-4b38-85fb-ee471a4e22f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1396,6 +1399,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.h">
       <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\DeferredRelease</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

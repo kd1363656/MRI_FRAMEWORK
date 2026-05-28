@@ -214,6 +214,9 @@
 #include "Graphics/Command/List/Direct/DirectCommandList.h"
 #include "Graphics/Command/List/Copy/CopyCommandList.h"
 
+// 遅延リソースリリースクラス
+#include "Graphics/Resource/DeferredRelease/DeferredResourceReleaseQueue.h"
+
 // Storage
 #include "Converter/Json/Graphics/Resource/Storage/Allocator/StorageIDAllocatorJsonConverter.h"
 #include "Graphics/Resource/Storage/Allocator/StorageIDAllocator.h"
