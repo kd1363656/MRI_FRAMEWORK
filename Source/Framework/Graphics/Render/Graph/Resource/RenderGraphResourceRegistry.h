@@ -28,8 +28,6 @@ namespace FWK::Graphics
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
 						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
-		void RegisterDefaultSceneTexture();
-
 		nlohmann::json Serialize() const;
 
 		void AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord);

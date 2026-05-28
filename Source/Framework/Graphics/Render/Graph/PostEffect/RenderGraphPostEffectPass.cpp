@@ -147,5 +147,5 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 	// SceneColorTextureを読んでPostEffectColorTextureへ書き込む
 	// DispatchMeshはMeshShaderを実行するDirectX12関数
 	// 今回は1グループだけ実行し、MeshShader側で画面全体を覆う三角形を1枚生成する
-	a_directCommandList.DispatchFullScreenTriangle();
+	a_directCommandList.DispatchFullScreen();
 }

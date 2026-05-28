@@ -130,5 +130,5 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 	a_directCommandList.SetupConstantBufferView<Tag::RootParameterCBFinalPresentTag>(l_gpuVirtualAddress, *l_rootSignature);
 
 	// PostEffectColorTextureを貼ったフルスクリーン三角形を描画する
-	a_directCommandList.DispatchFullScreenTriangle();
+	a_directCommandList.DispatchFullScreen();
 }

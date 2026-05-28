@@ -532,7 +532,7 @@ void FWK::Graphics::DirectCommandList::DispatchMesh(const UINT a_threadCountGrou
 
 	l_directCommandList->DispatchMesh(a_threadCountGroupX, a_threadCountGroupY, a_threadCountGroupZ);
 }
-void FWK::Graphics::DirectCommandList::DispatchFullScreenTriangle() const
+void FWK::Graphics::DirectCommandList::DispatchFullScreen() const
 {
 	const auto& l_directCommandList = GetREFCommandList();
 
@@ -546,7 +546,7 @@ void FWK::Graphics::DirectCommandList::DispatchFullScreenTriangle() const
 	// DispatchMesh(X方向のグループ数、
 	//				Y方向のグループ数、
 	//				Z方向のグループ数);
-	l_directCommandList->DispatchMesh(k_fullScreenTriangleThreadGroupCountX, k_fullScreenTriangleThreadGroupCountY, k_fullScreenTriangleThreadGroupCountZ);
+	l_directCommandList->DispatchMesh(k_fullScreenThreadGroupCountX, k_fullScreenThreadGroupCountY, k_fullScreenThreadGroupCountZ);
 }
 
 void FWK::Graphics::DirectCommandList::ClearCurrentRootSignatureAndPipelineStateCache()

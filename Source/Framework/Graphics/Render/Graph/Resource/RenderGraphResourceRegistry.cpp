@@ -23,9 +23,6 @@ bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_d
 															  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
 															  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
-	// Jsonなどで最低限必要なSceneTextureが登録されていない場合でも、描画できるように補完する
-	RegisterDefaultSceneTexture();
-
 	for (const auto& l_renderTargetTextureResourceRecord : m_renderTargetTextureResourceRecordList)
 	{
 		if (!l_renderTargetTextureResourceRecord)
@@ -68,39 +65,6 @@ bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_d
 	}
 
 	return true;
-}
-
-void FWK::Graphics::RenderGraphResourceRegistry::RegisterDefaultSceneTexture()
-{
-	if (!FindVALRenderTargetTexture(Utility::Tag::GetTag<Tag::SceneColorTextureTag>()).lock())
-	{
-		auto l_sceneColorTextureResourceRecord = std::make_shared<Struct::RenderGraphRenderTargetTextureResourceRecord>();
-
-		l_sceneColorTextureResourceRecord->m_textureTag			 = Utility::Tag::GetTag<Tag::SceneColorTextureTag>();
-		l_sceneColorTextureResourceRecord->m_renderTargetTexture = std::make_shared<RenderTargetTexture>		  ();
-
-		AddRenderTargetTexture(l_sceneColorTextureResourceRecord);
-	}
-
-	if (!FindVALDepthStencilTexture(Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>()).lock())
-	{
-		auto l_sceneDepthStencilTextureResourceRecord = std::make_shared<Struct::RenderGraphDepthStencilTextureResourceRecord>();
-
-		l_sceneDepthStencilTextureResourceRecord->m_textureTag		    = Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>();
-		l_sceneDepthStencilTextureResourceRecord->m_depthStencilTexture = std::make_shared<DepthStencilTexture>					();
-
-		AddDepthStencilTexture(l_sceneDepthStencilTextureResourceRecord);
-	}
-
-	if (!FindVALRenderTargetTexture(Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>()).lock())
-	{
-		auto l_postEffectColorTextureResourceRecord = std::make_shared<Struct::RenderGraphRenderTargetTextureResourceRecord>();
-
-		l_postEffectColorTextureResourceRecord->m_textureTag		  = Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>();
-		l_postEffectColorTextureResourceRecord->m_renderTargetTexture = std::make_shared<RenderTargetTexture>			    ();
-
-		AddRenderTargetTexture(l_postEffectColorTextureResourceRecord);
-	}
 }
 
 nlohmann::json FWK::Graphics::RenderGraphResourceRegistry::Serialize() const

@@ -76,8 +76,8 @@ namespace FWK::Graphics
 			l_directCommandList->SetGraphicsRootConstantBufferView(l_rootParameterIndex, a_gpuVirtualAddress);
 		}
 
-		void DispatchMesh			   (const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const;
-		void DispatchFullScreenTriangle() const;
+		void DispatchMesh		(const UINT a_threadCountGroupX, const UINT a_threadCountGroupY, const UINT a_threadCountGroupZ) const;
+		void DispatchFullScreen() const;
 
 	private:
 
@@ -101,9 +101,9 @@ namespace FWK::Graphics
 		static constexpr UINT k_setScissorRectNUM    = 1U;
 		static constexpr UINT k_setDescriptorHeapNUM = 1U;
 
-		static constexpr UINT k_fullScreenTriangleThreadGroupCountX = 1U;
-		static constexpr UINT k_fullScreenTriangleThreadGroupCountY = 1U;
-		static constexpr UINT k_fullScreenTriangleThreadGroupCountZ = 1U;
+		static constexpr UINT k_fullScreenThreadGroupCountX = 1U;
+		static constexpr UINT k_fullScreenThreadGroupCountY = 1U;
+		static constexpr UINT k_fullScreenThreadGroupCountZ = 1U;
 
 		std::weak_ptr<RootSignature> m_currentRootSignature = {};
 		std::weak_ptr<PipelineState> m_currentPipelineState = {};
