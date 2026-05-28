@@ -114,12 +114,7 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 
 	l_cbPostEffect.m_sourceTextureSRVIndex = l_sceneColorTexture->GetVALSRVStorageID();
 
-	const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(Struct::CBPostEffect), Constant::k_constantBufferAlignment);
-	const auto  l_constantBufferOffset		= k_cbPostEffectIndex * l_constantBufferAlignedSize;
-
-	std::memcpy(l_postEffectMappedData + l_constantBufferOffset, &l_cbPostEffect, sizeof(Struct::CBPostEffect));
-
-	const auto& l_gpuVirtualAddress = l_postEffectUploadBuffer.FetchVALGPUVirtualAddress() + l_constantBufferOffset;
+	const auto& l_gpuVirtualAddress = l_postEffectConstantBufferUploader->Write(l_cbPostEffect);
 
 	// RenderGraph側でSceneColorTextureはShaderResourceへ、
 	// PostEffectColorTextureはRenderTargetへ遷移済み

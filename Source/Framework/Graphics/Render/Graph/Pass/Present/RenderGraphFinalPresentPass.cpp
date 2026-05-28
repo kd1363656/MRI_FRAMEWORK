@@ -84,25 +84,11 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 		return;
 	}
 
-	const auto&		  l_finalPresentUploadBuffer = l_finalPresentConstantBufferUploader->GetREFUploadBuffer();
-		  auto* const l_finalPresentMappedData   = l_finalPresentUploadBuffer.Map						   ();
-
-	if (!l_finalPresentMappedData)
-	{
-		assert(false && "FinalPresent用ConstantBufferのMapに失敗したため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
-
 	Struct::CBFinalPresent l_cbFinalPresent = {};
 
 	l_cbFinalPresent.m_sceneColorTextureSRVIndex = l_postEffectColorTexture->GetVALSRVStorageID();
 
-	const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(Struct::CBFinalPresent), Constant::k_constantBufferAlignment);
-	const auto  l_constantBufferOffset	    = k_cbFinalPresentIndex * l_constantBufferAlignedSize;
-
-	std::memcpy(l_finalPresentMappedData + l_constantBufferOffset, &l_cbFinalPresent, sizeof(Struct::CBFinalPresent));
-
-	const auto& l_gpuVirtualAddress = l_finalPresentUploadBuffer.FetchVALGPUVirtualAddress() + l_constantBufferOffset;
+	const auto& l_gpuVirtualAddress = l_finalPresentConstantBufferUploader->Write(l_cbFinalPresent);
 
 	// BackBufferはRenderGraphResourceRegistry管理外のSwapChainリソースなので、
 	// FinalPresentPass内でPresent -> RenderTargetへ遷移する
