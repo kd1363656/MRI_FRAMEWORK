@@ -24,6 +24,11 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
+		bool Resize(const Device&							 a_device,
+					const Struct::ClientSize&				 a_clientSize,
+						  DirectCommandQueue&				 a_directCommandQueue,
+						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
+
 		void ResizeBackBufferList(const std::size_t a_backBufferNum);
 
 		void SetSyncInterval(const UINT a_set) { m_syncInterval = a_set; }
@@ -44,6 +49,13 @@ namespace FWK::Graphics
 							 const Struct::WindowCONFIG& a_windowConfig);
 
 		bool CreateBackBufferList(const Device& a_device, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
+
+		bool IsValidBackBufferSize(const Struct::ClientSize& a_clientSize) const;
+
+		void ReleaseBackBufferList(DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
+
+		static constexpr std::uint32_t k_invalidBackBufferWidth  = 0U;
+		static constexpr std::uint32_t k_invalidBackBufferHeight = 0U;
 
 		static constexpr UINT k_swapChainPresentFlagNone = 0U;
 		static constexpr UINT k_swapChainDescFlags	     = 0U;

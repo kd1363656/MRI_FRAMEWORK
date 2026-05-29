@@ -45,6 +45,8 @@ namespace FWK::Graphics
 
 		void SetupCurrentFrameResource(const std::size_t& a_index);
 
+		bool PrepareForSwapChainResize();
+
 		void AddFrameResource  (const std::shared_ptr<FrameResource>&   a_frameResource);
 		void AddRootSignature  (const std::shared_ptr<RootSignature>&   a_rootSignature, const TypeAlias::TypeTag      a_tag);
 		void AddPipelineState  (const std::shared_ptr<PipelineState>&   a_pipelineState, const TypeAlias::TypeTag      a_tag);
@@ -67,8 +69,11 @@ namespace FWK::Graphics
 
 		const auto& GetREFRenderArea() const { return m_renderArea; }
 
-		auto& GetMutableREFDirectCommandList() { return m_directCommandList; }
-		auto& GetMutableREFRenderGraph		() { return m_renderGraph; }
+		auto& GetMutableREFDirectCommandQueue() { return m_directCommandQueue; }
+		auto& GetMutableREFDirectCommandList () { return m_directCommandList; }
+
+		auto& GetMutableREFRenderGraph() { return m_renderGraph; }
+		auto& GetMutableREFRenderArea () { return m_renderArea; }
 
 	private:
 

@@ -92,7 +92,7 @@ bool FWK::Graphics::Renderer::Create(const Device&							  a_device,
 }
 void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 {
-	m_renderArea.SetupRenderArea (a_swapChain);
+	m_renderArea.SetupRenderArea(a_swapChain);
 
 	m_renderGraph.PostCreateSetup(*this);
 
@@ -224,6 +224,60 @@ void FWK::Graphics::Renderer::SetupCurrentFrameResource(const std::size_t& a_ind
 
 	m_currentFrameResourceIndex = a_index;
 	m_currentFrameResource      = m_frameResourceList[m_currentFrameResourceIndex];
+}
+
+bool FWK::Graphics::Renderer::PrepareForSwapChainResize()
+{
+	// ResizeBuffers()の前に、GPUが直線までの描画命令を使い終わっている必要がある、
+	// ここでは最後にSignalしたFenceまで待機して、GPU側のBackBuffer使用が終わるのを待つ。
+	m_directCommandQueue.WaitForFenceValueIfNeeded(m_directCommandQueue.FetchREFLastSignaledFenceValue());
+
+	// フレームリソースにバックバッファ情報を残していてはいけないので全てのフレームリソースに対して
+	// リセット処理を行う
+	for (const auto& l_frameResource : m_frameResourceList)
+	{
+		if (!l_frameResource) { continue; }
+
+		const auto& l_commandAllocator = l_frameResource->GetREFDirectCommandAllocator();
+
+		if(!l_commandAllocator)
+		{
+			assert(false && "ダイレクトコマンドアロケータが無効のため、スワップチェインリサイズ前処理を行えませんでした。");
+			return false;
+		}
+
+		// コマンドアロケータをリセット
+		//　コマンドアロケータは、コマンドリストに記録した命令のメモリを管理するもの
+		// GPU待機後なので安全に利用可能
+		l_commandAllocator->Reset();
+	}
+
+	
+	const auto& l_currentFrameResource = m_currentFrameResource.lock();
+
+	if (!l_currentFrameResource)
+	{
+		assert(false && "フレームリソースの取得に失敗しており、描画終了処理を行うことができませんでした。");
+		return false;
+	}
+
+	const auto& l_commandAllocator = l_currentFrameResource->GetREFDirectCommandAllocator();
+
+	if (!l_commandAllocator)
+	{
+		assert(false && "ダイレクトコマンドアロケータが無効のため、スワップチェインリサイズ前処理を行えませんでした。");
+		return false;
+	}
+
+	// DirectCommandListをリセット
+	// これにより、前フレームで記録したBackBufferへのResourceBarrierなどの参照を外す。
+	m_directCommandList.Reset(*l_commandAllocator);
+
+	// Resetした直後のコマンドリストは「記録中」の状態になる。
+	// このままにすると次のBeginDraw(9で再度Reset出来なくなるため、空のままClearしておく
+	m_directCommandList.Close();
+
+	return true;
 }
 
 void FWK::Graphics::Renderer::AddFrameResource(const std::shared_ptr<FrameResource>& a_frameResource)

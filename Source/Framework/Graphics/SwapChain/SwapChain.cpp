@@ -69,6 +69,67 @@ nlohmann::json FWK::Graphics::SwapChain::Serialize() const
 	return m_swapChainJsonConverter.Serialize(*this);
 }
 
+bool FWK::Graphics::SwapChain::Resize(const Device&							   a_device, 
+									  const Struct::ClientSize&				   a_clientSize, 
+											DirectCommandQueue&				   a_directCommandQueue, 
+											DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
+{
+	if (!m_swapChain)
+	{
+		assert(false && "スワップチェインが作成されていないため、リサイズできません。");
+		return false;
+	}
+
+	if (!IsValidBackBufferSize(a_clientSize))
+	{
+		assert(false && "リサイズ後のバックバッファサイズが無効です。");
+		return false;
+	}
+
+	if (m_backBufferList.empty())
+	{
+		assert(false && "バックバッファリストが空のため、リサイズできません。");
+		return false;
+	}
+
+	// ResizeBuffers()の前に、GPUが古いBackBufferを使い終わっている必要がある
+	// まだGPUがBackBufferを使っている状態でComPTRを外すと危険なので、
+	// DirectCommandQueueで最後にSignalしたFence値まで待機
+	a_directCommandQueue.WaitForFenceValueIfNeeded(a_directCommandQueue.FetchREFLastSignaledFenceValue());
+
+	// ResizeBuffers()は、古いBAckBufferへの参照が残っていると失敗する。
+	// そのため、先にBackBufferのComPTRとRTV用StorageIDを解放する
+	ReleaseBackBufferList(a_rtvDescriptorPool);
+
+	// ResizeBufferは、SwapChain内部のBackBufferを新しいサイズで作り直すDXGI関数です。
+	// ResizeBuffers(バッファ枚数、
+	//				 新しい横幅、
+	//				 新しい縦幅、
+	//				 バックバッファのフォーマット、
+	//			     スワップチェイン作成時と同じ追加フラグ);
+	const auto l_hr = m_swapChain->ResizeBuffers(static_cast<UINT>(m_backBufferList.size()),
+												 a_clientSize.m_width,
+												 a_clientSize.m_height,
+												 Constant::k_defaultSwapChainBackBufferFormat,
+											     k_swapChainDescFlags);
+
+	if (FAILED(l_hr))
+	{
+		assert(false && "スワップチェインのResizeBuffersに失敗しました。");
+		return false;
+	}
+
+	// ResizeBuffers後は、SwapChain内部のBackBuffersが新しくなっている。
+	// そのため、GetBufferで新しいBackBufferを取得し直し、RTVも作り直す。
+	if (!CreateBackBufferList(a_device, a_rtvDescriptorPool))
+	{
+		assert(false && "リサイズ後のバックバッファリスト作成に失敗しました。");
+		return false;
+	}
+
+	return true;
+}
+
 void FWK::Graphics::SwapChain::ResizeBackBufferList(const std::size_t a_backBufferNum)
 {
 	m_backBufferList.resize(a_backBufferNum);
@@ -297,4 +358,30 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 	}
 
 	return true;
+}
+
+bool FWK::Graphics::SwapChain::IsValidBackBufferSize(const Struct::ClientSize& a_clientSize) const
+{
+	if (a_clientSize.m_width  == k_invalidBackBufferWidth)  { return false; }
+	if (a_clientSize.m_height == k_invalidBackBufferHeight) { return false; }
+	
+	return true;
+}
+
+void FWK::Graphics::SwapChain::ReleaseBackBufferList(DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
+{
+	for (auto& l_backBuffer : m_backBufferList)
+	{
+		// SwapChain::ResizeBuffers()の前に、BackBufferの参照を外す。
+		// ここは通常のComPtr自動解放に任せず、ResizeBuffers前に明示的にResetします。
+		l_backBuffer.m_backBufferResource.Reset();
+
+		if (l_backBuffer.m_rtvStorageID == Constant::k_invalidStorageID) { continue; }
+
+		// BackBuffer用RTVとして確保していたStorageIDをDescriptorPoolへ返す、
+		// BackBuffer自体はSwapChainが管理する特殊なリソースなのでDeferredReleaseへ積まない
+		a_rtvDescriptorPool.Release(l_backBuffer.m_rtvStorageID);
+
+		l_backBuffer.m_rtvStorageID = Constant::k_invalidStorageID;
+	}
 }

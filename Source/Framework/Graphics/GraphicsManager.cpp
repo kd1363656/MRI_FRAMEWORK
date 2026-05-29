@@ -128,6 +128,32 @@ bool FWK::Graphics::GraphicsManager::ApplyWindowResizeRequest(const Struct::Wind
 	// この状態でSwapChainやRenderTargetを作り直すと、0サイズのGPUリソース作成になって失敗してしまう。
 	if (a_resizeRequest.m_isMinimized) { return true; }
 
+	// ResizeBuffers()の前に、Rendererが待つDirectCommandList側のBackBuffer参照を外す、
+	// 前フレームのResourceBarrierなどがコマンドリスト内部に残っていると、
+	// SwapChain::ReleaseBackBufferList()でComPtrをResetしてもResizeBuffers()が失敗することがある
+	if (!m_renderer.PrepareForSwapChainResize())
+	{
+		assert(false && "スワップチェインリサイズ前処理に失敗しました。");
+		return false;
+	}
+
+	if (!m_swapChain.Resize(m_device,
+							a_resizeRequest.m_clientSize,
+							m_renderer.GetMutableREFDirectCommandQueue(),
+						    m_resourceContext.GetMutableREFRTVDescriptorPool()))
+	{
+		assert(false && "スワップチェインのリサイズに失敗しました。");
+		return false;
+	}
+
+	// SwapChainのBackBufferサイズが変わったため、
+	// BackBufferを基準にしているViewportとScissorRectも作り直す。
+	if (!m_renderer.GetMutableREFRenderArea().SetupRenderArea(m_swapChain))
+	{
+		assert(false && "リサイズ後のビューポート及びシザー矩形の再作成に失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 
