@@ -6,7 +6,7 @@ void FWK::Converter::EditorManagerJsonConverter::Deserialize(const nlohmann::jso
 
 	if (a_rootJson.contains(k_editorWindowListJsonKey))
 	{
-		DeserializeEditorWindow(a_rootJson[k_editorWindowJsonKey], a_editorManager);
+		DeserializeEditorWindow(a_rootJson[k_editorWindowListJsonKey], a_editorManager);
 	}
 }
 

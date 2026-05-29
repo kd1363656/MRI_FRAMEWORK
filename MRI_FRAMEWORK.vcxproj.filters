@@ -820,10 +820,13 @@
     <Filter Include="Source\Framework\Converter\Json\Editor">
       <UniqueIdentifier>{d95f44f8-0c60-4073-92d0-88e885414161}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Editor\Window\Viewport">
+    <Filter Include="Asset\Data\CONFIG\Editor">
+      <UniqueIdentifier>{21f7730b-2a52-4adb-b477-cd6b2605fa43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Editor\Window\View">
       <UniqueIdentifier>{3b6f647a-6f20-482e-8abc-923f2f27d733}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Editor\Window\Viewport\Scene">
+    <Filter Include="Source\Framework\Editor\Window\View\Scene">
       <UniqueIdentifier>{7364eddd-28ab-4465-8381-645b5160fe1b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -1442,8 +1445,8 @@
     <ClInclude Include="Source\Framework\Converter\Json\Editor\EditorManagerJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Editor\Window\Viewport\Scene\SceneViewEditorWindow.h">
-      <Filter>Source\Framework\Editor\Window\Viewport\Scene</Filter>
+    <ClInclude Include="Source\Framework\Editor\Window\View\Scene\SceneViewEditorWindow.h">
+      <Filter>Source\Framework\Editor\Window\View\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1753,8 +1756,8 @@
     <ClCompile Include="Source\Framework\Converter\Json\Editor\EditorManagerJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Editor\Window\Viewport\Scene\SceneViewEditorWindow.cpp">
-      <Filter>Source\Framework\Editor\Window\Viewport\Scene</Filter>
+    <ClCompile Include="Source\Framework\Editor\Window\View\Scene\SceneViewEditorWindow.cpp">
+      <Filter>Source\Framework\Editor\Window\View\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1813,6 +1816,9 @@
     </None>
     <None Include="Asset\Shader\PostEffect\PostEffect.hlsli">
       <Filter>Asset\Shader\PostEffect</Filter>
+    </None>
+    <None Include="Asset\Data\CONFIG\Editor\EditorCONFIG.json">
+      <Filter>Asset\Data\CONFIG\Editor</Filter>
     </None>
   </ItemGroup>
 </Project>

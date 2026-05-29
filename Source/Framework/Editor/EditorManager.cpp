@@ -148,6 +148,7 @@ void FWK::Editor::EditorManager::DrawEditor()
 	ImGui::NewFrame();
 
 	DrawDockingSpace();
+	DrawEditor      ();
 
 	// IMGUIの描画データを確定する
 	ImGui::Render();
@@ -292,6 +293,16 @@ void FWK::Editor::EditorManager::DrawDockingSpace() const
 	ImGui::DockSpace(l_dockSpaceID, l_size, ImGuiDockNodeFlags_None);
 
 	ImGui::End();
+}
+
+void FWK::Editor::EditorManager::DrawEditorWindow() const
+{
+	for (const auto& l_editorWindow : m_editorWindowList)
+	{
+		if (!l_editorWindow) { continue; }
+
+		l_editorWindow->Draw();
+	}
 }
 
 void FWK::Editor::EditorManager::Release()

@@ -368,6 +368,7 @@
 #include "Editor/Window/EditorWindowBase.h"
 #include "Definition/Type/Alias/Factory/Shared/Editor/Window/TypeAliasSharedFactoryEditorWindow.h"
 #include "Definition/Concept/IsDerivedBase/Editor/Window/IsDerivedEditorWindowBaseConcept.h"
+#include "Editor/Window/View/Scene/SceneViewEditorWindow.h"
 
 // エディターマネージャー
 #include "Converter/Json/Editor/EditorManagerJsonConverter.h"

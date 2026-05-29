@@ -46,26 +46,10 @@ namespace FWK::Editor
 		static void ReleaseSRVDescriptor(ImGui_ImplDX12_InitInfo* a_info, D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE a_gpuHandle);
 
 		void DrawDockingSpace() const;
+		void DrawEditorWindow() const;
 
 		void Release();
 
-		template <Concept::IsDerivedEditorWindowBaseConcept WindowType>
-		void CreateEditorWindow()
-		{
-			const TypeAlias::StaticTypeID l_staticTypeID = WindowType::GetTypeINFO().k_staticTypeID;
-
-			// Editorは一つしか存在を許したくないから
-			if (m_editorWindowMap.contains(l_staticTypeID)) { return; }
-
-			auto l_editorWindow = std::make_shared<WindowType>();
-
-			// もしリストに生成してよいクラスでない場合はreturn;
-			if (!l_editorWindow->IsAllowCreateInList()) { return; }
-
-			m_editorWindowList.emplace_back(l_editorWindow);
-			m_editorWindowMap.try_emplace  (l_staticTypeID, l_editorWindow);
-		}
-		
 		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/Editor/EditorCONFIG.json";
 
 		static constexpr const char* k_dockingWindowName = "DockSpace";
