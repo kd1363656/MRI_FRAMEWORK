@@ -230,7 +230,7 @@ bool FWK::Graphics::Renderer::PrepareForSwapChainResize()
 {
 	// ResizeBuffers()の前に、GPUが直線までの描画命令を使い終わっている必要がある、
 	// ここでは最後にSignalしたFenceまで待機して、GPU側のBackBuffer使用が終わるのを待つ。
-	m_directCommandQueue.WaitForFenceValueIfNeeded(m_directCommandQueue.FetchREFLastSignaledFenceValue());
+	m_directCommandQueue.WaitForGPUIdleIfNeeded();
 
 	// フレームリソースにバックバッファ情報を残していてはいけないので全てのフレームリソースに対して
 	// リセット処理を行う

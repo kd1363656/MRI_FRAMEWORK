@@ -137,10 +137,7 @@ bool FWK::Graphics::GraphicsManager::ApplyWindowResizeRequest(const Struct::Wind
 		return false;
 	}
 
-	if (!m_swapChain.Resize(m_device,
-							a_resizeRequest.m_clientSize,
-							m_renderer.GetMutableREFDirectCommandQueue(),
-						    m_resourceContext.GetMutableREFRTVDescriptorPool()))
+	if (!m_swapChain.Resize(m_device, a_resizeRequest.m_clientSize, m_resourceContext.GetMutableREFRTVDescriptorPool()))
 	{
 		assert(false && "スワップチェインのリサイズに失敗しました。");
 		return false;

@@ -24,10 +24,9 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
-		bool Resize(const Device&							 a_device,
-					const Struct::ClientSize&				 a_clientSize,
-						  DirectCommandQueue&				 a_directCommandQueue,
-						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
+		// ※注意
+		// 呼び出す前にGPUとの完全同期を取ること
+		bool Resize(const Device& a_device, const Struct::ClientSize& a_clientSize, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
 
 		void ResizeBackBufferList(const std::size_t a_backBufferNum);
 

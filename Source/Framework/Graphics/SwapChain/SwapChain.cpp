@@ -69,10 +69,7 @@ nlohmann::json FWK::Graphics::SwapChain::Serialize() const
 	return m_swapChainJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::SwapChain::Resize(const Device&							   a_device, 
-									  const Struct::ClientSize&				   a_clientSize, 
-											DirectCommandQueue&				   a_directCommandQueue, 
-											DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
+bool FWK::Graphics::SwapChain::Resize(const Device& a_device, const Struct::ClientSize&	a_clientSize, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
 {
 	if (!m_swapChain)
 	{
@@ -91,11 +88,6 @@ bool FWK::Graphics::SwapChain::Resize(const Device&							   a_device,
 		assert(false && "バックバッファリストが空のため、リサイズできません。");
 		return false;
 	}
-
-	// ResizeBuffers()の前に、GPUが古いBackBufferを使い終わっている必要がある
-	// まだGPUがBackBufferを使っている状態でComPTRを外すと危険なので、
-	// DirectCommandQueueで最後にSignalしたFence値まで待機
-	a_directCommandQueue.WaitForFenceValueIfNeeded(a_directCommandQueue.FetchREFLastSignaledFenceValue());
 
 	// ResizeBuffers()は、古いBAckBufferへの参照が残っていると失敗する。
 	// そのため、先にBackBufferのComPTRとRTV用StorageIDを解放する

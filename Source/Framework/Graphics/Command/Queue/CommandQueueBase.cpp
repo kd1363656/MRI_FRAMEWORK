@@ -11,7 +11,7 @@ FWK::Graphics::CommandQueueBase::~CommandQueueBase()
 {
 	// GPUと完全同期をとってDirectX12のデバイスが
 	// Releaseされてもいい状態にする
-	WaitForGPUIdleIfNeed();
+	WaitForGPUIdleIfNeeded();
 }
 
 bool FWK::Graphics::CommandQueueBase::Create(const Device& a_device)
@@ -35,6 +35,45 @@ void FWK::Graphics::CommandQueueBase::WaitForFenceValueIfNeeded(const UINT64& a_
 {
 	// 待つ必要があればWaitする
 	m_fence.WaitForFenceValueIfNeeded(a_waitFenceValue);
+}
+void FWK::Graphics::CommandQueueBase::WaitForGPUIdleIfNeeded()
+{
+	const auto& l_fence = m_fence.GetREFFence();
+
+	// フェンスが存在しなければGPU完了確認はできない
+	if (!l_fence)
+	{
+		assert(false && "フェンスの作成に失敗しておりコマンドアロケータの使用可能かどうかの選定に失敗しました。");
+		return;
+	}
+
+	if (!m_commandQueue)
+	{
+		assert(false && "コマンドキューが作成されておらず、GPUとの同期が取れません。");
+		return;
+	}
+
+	// 今回の待機用に新しいフェンス値を発行する
+	// 同じ値を使いまわすとどこまでの処理完了を待っているのか分からなくなるため
+	const auto& l_incrementedFenceValue = FetchREFLastSignaledFenceValue() + k_incrementFenceValue;
+
+	m_fence.SetLastSignaledFenceValue(l_incrementedFenceValue);
+
+	// コマンドキューに対して「命令したGPU処理が終わったら、m_fenceの値をl_targetFenceValueに更新してください」
+	// と命令をする関数
+	// Signal(更新対象のフェンスオブジェクト、
+	//		  GPU完了時に設定するフェンス値);
+
+	auto l_hr = m_commandQueue->Signal(l_fence.Get(), l_incrementedFenceValue);
+
+	// Signal命令に失敗したらreturn
+	if (FAILED(l_hr))
+	{
+		assert(false && "コマンドキューへのフェンスシグナルに失敗しました。");
+		return;
+	}
+	
+	WaitForFenceValueIfNeeded(l_incrementedFenceValue);
 }
 
 void FWK::Graphics::CommandQueueBase::EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator)
@@ -174,44 +213,4 @@ bool FWK::Graphics::CommandQueueBase::CreateCommandQueue(const Device& a_device)
 bool FWK::Graphics::CommandQueueBase::CreateFence(const Device& a_device)
 {
 	return m_fence.Create(a_device);
-}
-
-void FWK::Graphics::CommandQueueBase::WaitForGPUIdleIfNeed()
-{
-	const auto& l_fence = m_fence.GetREFFence();
-
-	// フェンスが存在しなければGPU完了確認はできない
-	if (!l_fence)
-	{
-		assert(false && "フェンスの作成に失敗しておりコマンドアロケータの使用可能かどうかの選定に失敗しました。");
-		return;
-	}
-
-	if (!m_commandQueue)
-	{
-		assert(false && "コマンドキューが作成されておらず、GPUとの同期が取れません。");
-		return;
-	}
-
-	// 今回の待機用に新しいフェンス値を発行する
-	// 同じ値を使いまわすとどこまでの処理完了を待っているのか分からなくなるため
-	const auto& l_incrementedFenceValue = FetchREFLastSignaledFenceValue() + k_incrementFenceValue;
-
-	m_fence.SetLastSignaledFenceValue(l_incrementedFenceValue);
-
-	// コマンドキューに対して「命令したGPU処理が終わったら、m_fenceの値をl_targetFenceValueに更新してください」
-	// と命令をする関数
-	// Signal(更新対象のフェンスオブジェクト、
-	//		  GPU完了時に設定するフェンス値);
-
-	auto l_hr = m_commandQueue->Signal(l_fence.Get(), l_incrementedFenceValue);
-
-	// Signal命令に失敗したらreturn
-	if (FAILED(l_hr))
-	{
-		assert(false && "コマンドキューへのフェンスシグナルに失敗しました。");
-		return;
-	}
-	
-	WaitForFenceValueIfNeeded(l_incrementedFenceValue);
 }

@@ -18,6 +18,7 @@ namespace FWK::Graphics
 		bool Create(const Device& a_device);
 
 		void WaitForFenceValueIfNeeded(const UINT64& a_waitFenceValue);
+		void WaitForGPUIdleIfNeeded	  ();
 
 		void EnsureAllocatorAvailable(const CommandAllocatorBase& a_commandAllocator);
 
@@ -39,8 +40,6 @@ namespace FWK::Graphics
 
 		bool CreateCommandQueue(const Device& a_device);
 		bool CreateFence	   (const Device& a_device);
-
-		void WaitForGPUIdleIfNeed();
 
 		static constexpr UINT64 k_incrementFenceValue = 1ULL;
 
