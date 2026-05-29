@@ -53,8 +53,8 @@ bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::Wi
 	if (!m_renderer.Create(m_device, 
 						   m_shaderCompiler,
 						   m_resourceContext.GetREFGPUMemoryAllocator(),
-						   a_windowCONFIG.m_width,
-						   a_windowCONFIG.m_height,
+						   a_windowCONFIG.m_clientSize.m_width,
+						   a_windowCONFIG.m_clientSize.m_height,
 						   m_resourceContext.GetMutableREFRTVDescriptorPool(),
 						   m_resourceContext.GetMutableREFSRVDescriptorPool(),
 					       m_resourceContext.GetMutableREFDSVDescriptorPool()))
@@ -117,6 +117,16 @@ void FWK::Graphics::GraphicsManager::SaveCONFIG() const
 	const auto& l_rootJson = m_graphicsManagerJsonConverter.Serialize(*this);
 
 	Utility::File::SaveJsonFile(l_rootJson, k_configFileIOPath);
+}
+
+bool FWK::Graphics::GraphicsManager::ApplyWindowResizeRequest(const Struct::WindowResizeRequest& a_resizeRequest)
+{
+	// window側でサイズ変更が起きていない場合は、何もしない
+	if (!a_resizeRequest.m_isRequested) { return true; }
+
+	// 最小化中はクライアント領域が0になることがある
+	// この状態でSwapChainやRenderTargetを作り直すと、0サイズのGPUリソース作成になって失敗してしまう。
+	if (a_resizeRequest.m_isMinimized) { return true; }
 }
 
 #if defined(_DEBUG)
