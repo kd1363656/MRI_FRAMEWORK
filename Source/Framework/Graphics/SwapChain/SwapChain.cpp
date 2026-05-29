@@ -128,10 +128,10 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 	DXGI_SWAP_CHAIN_DESC1 l_desc = {};
 
 	// バックバッファ1枚当たりの横幅
-	l_desc.Width = a_windowConfig.m_width;
+	l_desc.Width = a_windowConfig.m_clientSize.m_width;
 
 	// バックバッファ一枚当たりの縦幅
-	l_desc.Height = a_windowConfig.m_height;
+	l_desc.Height = a_windowConfig.m_clientSize.m_height;
 
 	// バックバッファの画素フォーマット
 	// 1ピクセルをどういう並びの色データとして持つかを表す。

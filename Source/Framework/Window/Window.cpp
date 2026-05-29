@@ -21,9 +21,11 @@ void FWK::Window::INIT()
 {
 	m_hwnd = nullptr;
 
-	m_windowCONFIG.m_styleTag = Utility::Tag::GetTag<Tag::WindowStyleNormalTag>();
-	m_windowCONFIG.m_width    = Constant::k_defaultWindowWidth;
-	m_windowCONFIG.m_height   = Constant::k_defaultWindowHeight;
+	m_windowCONFIG.m_styleTag		     = Utility::Tag::GetTag<Tag::WindowStyleNormalTag>();
+	m_windowCONFIG.m_clientSize.m_width  = Constant::k_defaultWindowWidth;
+	m_windowCONFIG.m_clientSize.m_height = Constant::k_defaultWindowHeight;
+
+	m_resizeRequest = {};
 }
 void FWK::Window::LoadCONFIG()
 {
@@ -101,10 +103,112 @@ bool FWK::Window::HasHWND() const
 	return m_hwnd ? true : false;
 }
 
+bool FWK::Window::RequestClientSize(const Struct::ClientSize& a_clientSize)
+{
+	if (!m_hwnd)
+	{
+		assert(false && "HWNDが無効のため、クライアント領域サイズ変更要求に失敗しました。");
+		return false;
+	}
+
+	if (!IsValidClientSize(a_clientSize))
+	{
+		assert(false && "要求されたクライアント領域サイズが無効です。");
+		return false;
+	}
+
+	RECT l_currentWindowRECT = {};
+
+	// 現在のウィンドウ位置を取得する。
+	// サイズ変更時に毎回左上へ移動すると扱いにくいため、現在位置を維持する
+	if (!GetWindowRect(m_hwnd, &l_currentWindowRECT))
+	{
+		assert(false && "現在のウィンドウ矩形取得に失敗しました。");
+		return false;
+	}
+
+	RECT l_clientRECT = {};
+
+	// AdjustWindowRECTに渡す矩形は、ここで配置ではなくサイズ計算用。
+	// そのため、左上はクライアント矩形用の原点定数を使用する
+	l_clientRECT.left   = k_clientRectOriginX;
+	l_clientRECT.top    = k_clientRectOriginY;
+	l_clientRECT.right  = static_cast<LONG>(a_clientSize.m_width);
+	l_clientRECT.bottom = static_cast<LONG>(a_clientSize.m_height);
+
+	// AdjustWindowRECTは、指定したクライアント領域サイズになるように、
+	// タイトルバーや枠を含めたウィンドウ全体サイズを計算するAPI
+	if (const DWORD l_style = FetchVALWindowStyle();
+		!AdjustWindowRect(&l_clientRECT, l_style, FALSE))
+	{
+		assert(false && "クライアント領域にあわせたウィンドウ全体サイズ計算に失敗しました。");
+		return false;
+	}
+
+	const auto l_windowWidth  = static_cast<int>(l_clientRECT.right  - l_clientRECT.left);
+	const auto l_windowHeight = static_cast<int>(l_clientRECT.bottom - l_clientRECT.top);
+
+	// MoveWindowは、ウィンドウ位置とウィンドウ全体サイズを変更する
+	// ここでは現在位置を維持しつつ、クライアント領域がa_clientSizeになるように変更
+	if (!MoveWindow(m_hwnd, 
+					l_currentWindowRECT.left,
+					l_currentWindowRECT.top,
+				    l_windowWidth,
+					l_windowHeight,
+					FALSE))
+	{
+		assert(false && "ウィンドウサイズ変更に失敗しました。");
+		return false;
+	}
+
+	// MoveWindow後にWM_SIZEが届くが、ゲーム内からのサイズ変更要求として即座に状態も更新
+	m_windowCONFIG.m_clientSize = a_clientSize;
+
+	m_resizeRequest.m_isRequested = true;
+	m_resizeRequest.m_isMinimized = false;
+	m_resizeRequest.m_clientSize  = a_clientSize;
+
+	return true;
+}
+
+FWK::Struct::WindowResizeRequest FWK::Window::ConsumeResizeRequest()
+{
+	const auto l_resizeRequest = m_resizeRequest;
+
+	// 要求は1度取り出したら消費済みにする
+	// これをしないと、毎フレーム同じリサイズ要求送り続ける
+	m_resizeRequest.m_isRequested = false;
+
+	return l_resizeRequest;
+}
+
+bool FWK::Window::IsMinimized() const
+{
+	return m_resizeRequest.m_isMinimized;
+}
+
+FWK::Struct::ClientSize FWK::Window::FetchVALClientSize() const
+{
+	if (!m_hwnd) { return m_windowCONFIG.m_clientSize; }
+
+	RECT l_clientRECT = {};
+
+	// GetClientRECTは、現在のクライアント領域サイズを取得するAPI
+	// 通常ウィンドウの枠やタイトルバーは含まれない
+	if (!GetClientRect(m_hwnd, &l_clientRECT)) { return m_windowCONFIG.m_clientSize; }
+
+	Struct::ClientSize l_clientSize = {};
+
+	l_clientSize.m_width  = static_cast<std::uint32_t>(l_clientRECT.right  - l_clientRECT.left);
+	l_clientSize.m_height = static_cast<std::uint32_t>(l_clientRECT.bottom - l_clientRECT.top);
+
+	return l_clientSize;
+}
+
 LRESULT FWK::Window::CallWindowProcedure(const HWND   a_hwnd, 
 										 const UINT   a_message, 
-										 const WPARAM a_wParam,
-										 const LPARAM a_lParam)
+										 const WPARAM a_wPARAM,
+										 const LPARAM a_lPARAM)
 {
 	// ウィンドウに関連付けたWindowクラスのインスタンスアドレスを取得する
 	auto* l_this = static_cast<Window*>(GetProp(a_hwnd, k_windowInstancePropertyName.data()));
@@ -115,7 +219,7 @@ LRESULT FWK::Window::CallWindowProcedure(const HWND   a_hwnd,
 		if (a_message == WM_CREATE)
 		{
 			// CreateWindowで渡した生成情報を取得する
-			auto* l_createStruct = reinterpret_cast<CREATESTRUCT*>(a_lParam);
+			auto* l_createStruct = reinterpret_cast<CREATESTRUCT*>(a_lPARAM);
 
 			// lpCreateParamsに渡しておいたWindowクラスのインスタンスアドレスを取り出す
 			auto* l_window = static_cast<FWK::Window*>(l_createStruct->lpCreateParams);
@@ -132,27 +236,27 @@ LRESULT FWK::Window::CallWindowProcedure(const HWND   a_hwnd,
 			// まだ自分のクラスへ処理を渡せていないので、Windowsの標準の処理に任せる
 			return DefWindowProc(a_hwnd,
 								 a_message,
-								 a_wParam,
-								 a_lParam);
+								 a_wPARAM,
+								 a_lPARAM);
 		}
 	}
 	
 	// 登録済みのウィンドウクラスのインスタンスへ処理を渡す
 	return l_this->WindowProcedure(a_hwnd,
 								   a_message,
-								   a_wParam,
-								   a_lParam);
+								   a_wPARAM,
+								   a_lPARAM);
 }
 
 LRESULT FWK::Window::WindowProcedure(const HWND   a_hwnd, 
 									 const UINT   a_message,
-									 const WPARAM a_wParam,
-									 const LPARAM a_lParam)
+									 const WPARAM a_wPARAM,
+									 const LPARAM a_lPARAM)
 {
 	if (ImGui::GetCurrentContext() && ImGui_ImplWin32_WndProcHandler(a_hwnd, 
 																	 a_message,
-																	 a_wParam,
-																	 a_lParam))
+																	 a_wPARAM,
+																	 a_lPARAM))
 	{
 		return k_windowProcedureHandledResult;
 	}
@@ -179,13 +283,28 @@ LRESULT FWK::Window::WindowProcedure(const HWND   a_hwnd,
 		}
 		break;
 
+		// ウィンドウのクライアント領域サイズが変更されたときに届くメッセージ
+		case WM_SIZE:
+		{
+			// WM_SIZEのLPARAMには、クライアント領域の横幅と縦幅がまとめて入っている。
+			// LOWORDで下位側の値、横幅を取り出す。
+			const auto l_width = static_cast<UINT>(LOWORD(a_lPARAM));
+
+			// HIWORDで上位側の値、縦幅を取り出す。
+			const auto l_height = static_cast<UINT>(HIWORD(a_lPARAM));
+
+			ApplyClientSizeFromWMSize(l_width, l_height, a_wPARAM);
+
+		}
+		break;
+
 		default:
 		{
 			// 自分で処理しないメッセージはWindows標準の処理に任せる
 			return DefWindowProc(a_hwnd,
 								 a_message,
-								 a_wParam,
-								 a_lParam);
+								 a_wPARAM,
+								 a_lPARAM);
 		}
 		break;
 	}
@@ -269,8 +388,8 @@ bool FWK::Window::CreateWindowInstance(const std::wstring& a_windowClassName, co
 						  l_style,
 						  k_defaultWindowPositionX,
 						  k_defaultWindowPositionY,
-						  m_windowCONFIG.m_width,
-						  m_windowCONFIG.m_height,
+						  m_windowCONFIG.m_clientSize.m_width,
+						  m_windowCONFIG.m_clientSize.m_height,
 						  nullptr,
 						  nullptr,
 						  l_hInstance,
@@ -310,9 +429,6 @@ void FWK::Window::SetupClientSize()
 		const int l_screenWidth  = GetSystemMetrics(SM_CXSCREEN);
 		const int l_screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-		m_windowCONFIG.m_height = l_screenHeight;
-		m_windowCONFIG.m_width  = l_screenWidth;
-
 		// ボーダーレスウィンドウ(WS_POPUP)はフレームがないため、
 		// 画面サイズをそのまま指定すればクライアント領域も画面全体と同じ大きさになる
 		// MoveWindow(対象ウィンドウハンドル、
@@ -329,8 +445,8 @@ void FWK::Window::SetupClientSize()
 				   TRUE);
 
 		// ボーダーレスフルウィンドウのためクライアント領域かどうかを計算する必要がない
-		m_windowCONFIG.m_width  = static_cast<std::uint32_t>(l_screenWidth);
-		m_windowCONFIG.m_height = static_cast<std::uint32_t>(l_screenHeight);
+		m_windowCONFIG.m_clientSize.m_width  = static_cast<std::uint32_t>(l_screenWidth);
+		m_windowCONFIG.m_clientSize.m_height = static_cast<std::uint32_t>(l_screenHeight);
 
 		return;
 	}
@@ -356,8 +472,8 @@ void FWK::Window::SetupClientSize()
 		MoveWindow(m_hwnd,
 				   l_rcWND.left,
 				   l_rcWND.top,  
-				   static_cast<int>(m_windowCONFIG.m_width)  + l_frameWidth, 
-				   static_cast<int>(m_windowCONFIG.m_height) + l_frameHeight,
+				   static_cast<int>(m_windowCONFIG.m_clientSize.m_width)  + l_frameWidth, 
+				   static_cast<int>(m_windowCONFIG.m_clientSize.m_height) + l_frameHeight,
 				   TRUE);
 
 		return;
@@ -379,6 +495,33 @@ void FWK::Window::Release()
 	// もうこのウィンドウは使えない状態になったことを示すためnullptrを格納
 	// ウィンドウの存在確認やゲームループの終了判定に使いやすくなる
 	m_hwnd = nullptr;
+}
+
+void FWK::Window::ApplyClientSizeFromWMSize(const UINT a_width, const UINT a_height, const WPARAM& a_wPARAM)
+{
+	Struct::ClientSize l_clientSize = {};
+
+	l_clientSize.m_width  = a_width;
+	l_clientSize.m_height = a_height;
+
+	m_resizeRequest.m_clientSize  = l_clientSize;
+	m_resizeRequest.m_isRequested = true;
+	m_resizeRequest.m_isMinimized = a_wPARAM == SIZE_MINIMIZED;
+
+	// 最小化中は、クライアント領域が0になることがある
+	if (m_resizeRequest.m_isMinimized) { return; }
+
+	if (!IsValidClientSize(l_clientSize)) { return; }
+
+	m_windowCONFIG.m_clientSize = l_clientSize;
+}
+
+bool FWK::Window::IsValidClientSize(const Struct::ClientSize& a_clientSize) const
+{
+	if (a_clientSize.m_width  == k_invalidWindowClientWidth)  { return false; }
+	if (a_clientSize.m_height == k_invalidWindowClientHeight) { return false; }
+
+	return true;
 }
 
 HINSTANCE FWK::Window::FetchVALInstanceHandle() const

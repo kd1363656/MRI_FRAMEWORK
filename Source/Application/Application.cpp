@@ -51,13 +51,16 @@ void Application::Execute()
 
 		Update(l_sceneManager);
 
-		// 描画
-		BeginDraw(l_graphicsManager);
-		Draw	 (l_graphicsManager);
-		EndDraw  (l_graphicsManager);
+		if (m_canDraw)
+		{
+			// 描画
+			BeginDraw(l_graphicsManager);
+			Draw     (l_graphicsManager);
+			EndDraw  (l_graphicsManager);
 
-		// FPSの更新
-		EndFrame(l_graphicsManager);
+			// FPSの更新
+			EndFrame(l_graphicsManager);
+		}
 	}
 
 	// もしゲームデータがセーブされていなくても変更が適用されるべき項目を自動セーブする
@@ -111,6 +114,8 @@ void Application::RegisterDrawCommand(const FWK::SceneManager& a_sceneManager) c
 
 bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
+	m_canDraw = false;
+
 	// FPSの計測開始
 	m_fpsController.BeginFrame();
 
@@ -124,8 +129,22 @@ bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 		return false;
 	}
 
+	// ウィンドウサイズリサイズ要求が来ているかどうか
+	if (const auto l_resizeRequest = m_window.ConsumeResizeRequest();
+		!a_graphicsManager.ApplyWindowResizeRequest(l_resizeRequest))
+	{
+		assert(false && "ウィンドウサイズ変更要求の適用に失敗しました。");
+		return false;
+	}
+
+	// 最小化中は描画対象のサイズが0になることがあるため、描画処理へ進まないようにする。
+	// ただし、メッセージ処理は継続したいのでアプリは終了しない
+	if (m_window.IsMinimized()) { return true; }
+
 	// 描画するためのテクスチャなどを動的にロードする処理
 	a_graphicsManager.BeginFrame();
+
+	m_canDraw = true;
 
 	return true;
 }
@@ -152,7 +171,10 @@ void Application::Update(FWK::SceneManager& a_sceneManager) const
 
 void Application::EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 {
-	a_graphicsManager.EndFrame();
+	if (m_canDraw)
+	{
+		a_graphicsManager.EndFrame();
+	}
 
 	// フレームレート制御
 	m_fpsController.EndFrame();

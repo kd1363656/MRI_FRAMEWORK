@@ -11,8 +11,8 @@ void FWK::Graphics::DepthStencilTexture::ApplyWindowSizeIfNeed(const Struct::Win
 	// ウィンドウサイズに合わせないデプスステンシルならreturn;
 	if (!m_isUseWindowSize) { return; }
 
-	m_width  = a_windowConfig.m_width;
-	m_height = a_windowConfig.m_height;
+	m_width  = a_windowConfig.m_clientSize.m_width;
+	m_height = a_windowConfig.m_clientSize.m_height;
 }
 
 bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device, const GPUMemoryAllocator& a_gpuMemoryAllocator, DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)

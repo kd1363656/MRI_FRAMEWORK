@@ -19,7 +19,17 @@ namespace FWK
 
 		bool HasHWND() const;
 
+		bool RequestClientSize(const Struct::ClientSize& a_clientSize);
+
+		Struct::WindowResizeRequest ConsumeResizeRequest();
+
+		bool IsMinimized() const;
+
 		void SetWindowCONFIG(const auto& a_set) { m_windowCONFIG = a_set; }
+
+		Struct::ClientSize FetchVALClientSize() const;
+
+		const Struct::ClientSize& GetREFClientSize() const { return m_windowCONFIG.m_clientSize; }
 
 		const auto& GetREFHWND() const { return m_hwnd; }
 
@@ -31,13 +41,13 @@ namespace FWK
 		// static関数として定義して呼び出しの入口にする
 		static LRESULT CALLBACK CallWindowProcedure(const HWND   a_hwnd,
 												    const UINT   a_message,
-												    const WPARAM a_wParam,
-												    const LPARAM a_lParam);
+												    const WPARAM a_wPARAM,
+												    const LPARAM a_lPARAM);
 
 		LRESULT CALLBACK WindowProcedure(const HWND   a_hwnd,
 										 const UINT   a_message,
-										 const WPARAM a_wParam,
-										 const LPARAM a_lParam);
+										 const WPARAM a_wARAM,
+										 const LPARAM a_lARAM);
 
 		bool CreateWindowInstance(const std::wstring& a_windowClassName, const std::string& a_titleName);
 
@@ -45,14 +55,21 @@ namespace FWK
 
 		void Release();
 
+		void ApplyClientSizeFromWMSize(const UINT a_width, const UINT a_height, const WPARAM& a_wPARAM);
+
+		bool IsValidClientSize(const Struct::ClientSize& a_clientSize) const;
+
 		HINSTANCE FetchVALInstanceHandle() const;
 
 		DWORD FetchVALWindowStyle() const;
 
 		static constexpr LRESULT k_windowProcedureHandledResult = 0;
 		
-		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW - WS_THICKFRAME;
+		static constexpr DWORD k_generalWindowStyle = WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME;
 
+		static constexpr std::uint32_t k_invalidWindowClientWidth  = 0U;
+		static constexpr std::uint32_t k_invalidWindowClientHeight = 0U;
+		
 		static constexpr UINT k_windowStyle = CS_HREDRAW | CS_VREDRAW;
 
 		static constexpr UINT k_timeResolutionMS = 1U;
@@ -60,6 +77,9 @@ namespace FWK
 		static constexpr UINT k_msgFilterMIN          = 0U;
 		static constexpr UINT k_msgFilterMAX          = 0U;
 		static constexpr UINT k_wmCreateHandledResult = 0U;
+
+		static constexpr LONG k_clientRectOriginX = 0L;
+		static constexpr LONG k_clientRectOriginY = 0L;
 
 		// ウィンドウのタイトルバー、最小化、最大化機能を持たせウィンドウのサイズ変更機能を除外したスタイル
 		static constexpr std::wstring_view k_windowInstancePropertyName = L"GameWindowInstance";
@@ -78,6 +98,7 @@ namespace FWK
 
 		Converter::WindowJsonConverter m_windowJsonConverter = {};
 
-		Struct::WindowCONFIG m_windowCONFIG = {};
+		Struct::WindowCONFIG		m_windowCONFIG  = {};
+		Struct::WindowResizeRequest m_resizeRequest = {};
 	};
 }

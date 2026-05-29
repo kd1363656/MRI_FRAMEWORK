@@ -11,8 +11,8 @@ void FWK::Graphics::RenderTargetTexture::ApplyWindowSizeIfNeed(const Struct::Win
 	// ウィンドウサイズに合わせないレンダーターゲットならreturn;
 	if (!m_isUseWindowSize) { return; }
 
-	m_width  = a_windowConfig.m_width;
-	m_height = a_windowConfig.m_height;
+	m_width  = a_windowConfig.m_clientSize.m_width;
+	m_height = a_windowConfig.m_clientSize.m_height;
 }
 
 bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device,

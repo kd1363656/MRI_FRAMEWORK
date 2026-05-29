@@ -40,6 +40,8 @@ private:
 	FWK::Window        m_window        = {};
 	FWK::FPSController m_fpsController = {};
 
+	bool m_canDraw = false;
+
 	//=========================
 	// シングルトン
 	//=========================

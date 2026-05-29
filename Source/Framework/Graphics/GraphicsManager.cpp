@@ -127,6 +127,8 @@ bool FWK::Graphics::GraphicsManager::ApplyWindowResizeRequest(const Struct::Wind
 	// 最小化中はクライアント領域が0になることがある
 	// この状態でSwapChainやRenderTargetを作り直すと、0サイズのGPUリソース作成になって失敗してしまう。
 	if (a_resizeRequest.m_isMinimized) { return true; }
+
+	return true;
 }
 
 #if defined(_DEBUG)
