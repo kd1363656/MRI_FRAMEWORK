@@ -18,6 +18,8 @@ namespace FWK::Editor
 
 		void SaveCONFIG() const;
 
+		void AddEditorWindow(const std::shared_ptr<EditorWindowBase>& a_editorWindow);
+
 		template <Concept::IsDerivedEditorWindowBaseConcept WindowType>
 		std::weak_ptr<WindowType> FetchWindowEditor() const
 		{
@@ -33,6 +35,8 @@ namespace FWK::Editor
 
 			return std::static_pointer_cast<WindowType>(l_editorWindow);
 		}
+
+		const auto& GetREFEditorWindowList() const { return m_editorWindowList; }
 
 	private:
 
@@ -75,7 +79,7 @@ namespace FWK::Editor
 		StorageIDMap    m_srvStorageIDMap = {};
 		EditorWindowMap m_editorWindowMap = {};
 
-		std::vector<FWK::Editor::EditorWindowBase> m_editorWindowList = {};
+		std::vector<std::shared_ptr<FWK::Editor::EditorWindowBase>> m_editorWindowList = {};
 
 		Converter::EditorManagerJsonConverter m_editorManagerJsonConverter = {};
 

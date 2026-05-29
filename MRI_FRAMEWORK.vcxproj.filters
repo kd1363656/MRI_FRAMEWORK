@@ -820,6 +820,12 @@
     <Filter Include="Source\Framework\Converter\Json\Editor">
       <UniqueIdentifier>{d95f44f8-0c60-4073-92d0-88e885414161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Editor\Window\Viewport">
+      <UniqueIdentifier>{3b6f647a-6f20-482e-8abc-923f2f27d733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Editor\Window\Viewport\Scene">
+      <UniqueIdentifier>{7364eddd-28ab-4465-8381-645b5160fe1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1436,6 +1442,9 @@
     <ClInclude Include="Source\Framework\Converter\Json\Editor\EditorManagerJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Editor\Window\Viewport\Scene\SceneViewEditorWindow.h">
+      <Filter>Source\Framework\Editor\Window\Viewport\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1743,6 +1752,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Editor\EditorManagerJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Editor\Window\Viewport\Scene\SceneViewEditorWindow.cpp">
+      <Filter>Source\Framework\Editor\Window\Viewport\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

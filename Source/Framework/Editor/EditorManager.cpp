@@ -176,6 +176,23 @@ void FWK::Editor::EditorManager::SaveCONFIG() const
 	Utility::File::SaveJsonFile(l_rootJson, k_configFileIOPath);
 }
 
+void FWK::Editor::EditorManager::AddEditorWindow(const std::shared_ptr<EditorWindowBase>& a_editorWindow)
+{
+	if (!a_editorWindow)
+	{
+		assert(false && "作成しようとしているEditorWindowが無効です。");
+		return;
+	}
+
+	const auto& l_staticID = a_editorWindow->GetRuntimeTypeINFO().k_staticTypeID;
+
+	// 既に作成されているならばreturn
+	if (m_editorWindowMap.contains(l_staticID)) { return; }
+
+	m_editorWindowList.emplace_back(a_editorWindow);
+	m_editorWindowMap.try_emplace  (l_staticID, a_editorWindow);
+}
+
 void FWK::Editor::EditorManager::AllocateSRVDescriptor(ImGui_ImplDX12_InitInfo* a_info, D3D12_CPU_DESCRIPTOR_HANDLE* a_outCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE* a_outGPUHandle)
 {
 	auto& l_graphicsManager    = Graphics::GraphicsManager::GetInstance		 ();

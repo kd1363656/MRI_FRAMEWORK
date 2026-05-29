@@ -2,5 +2,5 @@
 
 namespace FWK::TypeAlias
 {
-	using SharedFactoryEditorWindoe = GenericFactory<std::shared_ptr<FWK::Editor::EditorWindowBase>>;
+	using SharedFactoryEditorWindow = GenericFactory<std::shared_ptr<FWK::Editor::EditorWindowBase>>;
 }
