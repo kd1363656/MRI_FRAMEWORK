@@ -49,7 +49,6 @@ void Application::Execute()
 		// 更新
 		if (!BeginFrame(l_graphicsManager)) { break; }
 
-		// 更新
 		Update(l_sceneManager);
 
 		// 描画
@@ -101,7 +100,7 @@ bool Application::PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManag
 	return true;
 }
 
-void Application::RegisterDrawCommand(const FWK::SceneManager& a_sceneManager)
+void Application::RegisterDrawCommand(const FWK::SceneManager& a_sceneManager) const
 {
 	a_sceneManager.RegisterDrawCommand();
 }
