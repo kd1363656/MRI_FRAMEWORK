@@ -99,6 +99,61 @@ nlohmann::json FWK::Graphics::RenderGraphResourceRegistry::Serialize() const
 	return m_renderGraphResourceRegistryJsonConverter.Serialize(*this);
 }
 
+bool FWK::Graphics::RenderGraphResourceRegistry::Resize(const Device&							 a_device,
+													    const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
+														const Struct::ClientSize&				 a_clientSize, 
+														const UINT64&							 a_retiredFenceValue, 
+															  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool, 
+															  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+															  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool, 
+															  DeferredResourceReleaseQueue&		 a_deferredResourceReleaseQueue)
+{
+	for (const auto& l_renderTargetTextureResourceRecord : m_renderTargetTextureResourceRecordList)
+	{
+		auto& l_renderTargetTexture = l_renderTargetTextureResourceRecord->m_renderTargetTexture;
+
+		if (!l_renderTargetTexture) { continue; }
+
+		// ウィンドウサイズに依存しなレンダーターゲットテクスチャは作り直さない
+		if (!l_renderTargetTexture->GetIsUseWindowSize()) { continue; }
+
+		if (!l_renderTargetTexture->Resize(a_device,
+										   a_gpuMemoryAllocator,
+										   a_clientSize,
+										   a_retiredFenceValue,
+										   a_rtvDescriptorPool,
+										   a_srvDescriptorPool,
+										   a_deferredResourceReleaseQueue))
+		{
+			assert(false && "RenderTargetTextureのリサイズに失敗しました。");
+			return false;
+		}
+	}
+
+	for (const auto& l_depthStencilTextureResourceRecord : m_depthStencilTextureResourceRecordList)
+	{
+		auto& l_depthStencilTexture = l_depthStencilTextureResourceRecord->m_depthStencilTexture;
+
+		if (!l_depthStencilTexture) { continue; }
+
+		// ウィンドウサイズに依存しなレンダーターゲットテクスチャは作り直さない
+		if (!l_depthStencilTexture->GetIsUseWindowSize()) { continue; }
+
+		if (!l_depthStencilTexture->Resize(a_device,
+										   a_gpuMemoryAllocator,
+										   a_clientSize,
+										   a_retiredFenceValue,
+										   a_dsvDescriptorPool,
+										   a_deferredResourceReleaseQueue))
+		{
+			assert(false && "RenderTargetTextureのリサイズに失敗しました。");
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void FWK::Graphics::RenderGraphResourceRegistry::AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord)
 {
 	if (!a_renderTargetTextureResourceRecord)

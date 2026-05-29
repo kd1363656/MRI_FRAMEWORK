@@ -226,6 +226,37 @@ void FWK::Graphics::Renderer::SetupCurrentFrameResource(const std::size_t& a_ind
 	m_currentFrameResource      = m_frameResourceList[m_currentFrameResourceIndex];
 }
 
+bool FWK::Graphics::Renderer::Resize(const Device&							  a_device,
+									 const GPUMemoryAllocator&				  a_gpuMemoryAllocator,
+									 const Struct::ClientSize&				  a_clientSize,
+									 const UINT64&							  a_retiredFenceValue,
+									 	   DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+									 	   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+									 	   DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool,
+									 	   DeferredResourceReleaseQueue&	  a_deferredResourceReleaseQueue) const
+{
+	for (const auto& l_frameResource : m_frameResourceList)
+	{
+		if (!l_frameResource) { continue; }
+
+		if (!l_frameResource->Resize(a_device, 
+									 a_gpuMemoryAllocator,
+									 a_clientSize,
+									 a_retiredFenceValue,
+									 a_rtvDescriptorPool,
+									 a_srvDescriptorPool,
+									 a_dsvDescriptorPool,
+									 a_deferredResourceReleaseQueue))
+		{
+			assert(false && "FrameResourceのリサイズに失敗しました。");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
 bool FWK::Graphics::Renderer::PrepareForSwapChainResize()
 {
 	// ResizeBuffers()の前に、GPUが直線までの描画命令を使い終わっている必要がある、

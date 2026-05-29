@@ -29,6 +29,15 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
+		bool Resize(const Device&							 a_device,
+					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
+					const Struct::ClientSize&				 a_clientSize,
+					const UINT64&							 a_retiredFenceValue,
+						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool,
+						  DeferredResourceReleaseQueue&		 a_deferredResourceReleaseQueue);
+
 		void AddConstantBufferUploader(const std::shared_ptr<ConstantBufferUploaderBase>& a_constantBufferUploader);
 
 		template <typename Type>

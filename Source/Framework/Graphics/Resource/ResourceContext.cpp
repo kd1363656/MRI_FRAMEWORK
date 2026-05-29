@@ -65,7 +65,10 @@ void FWK::Graphics::ResourceContext::BeginFrame(const DirectCommandQueue& a_dire
 
 	// 参照カウントが0になったRecordからQueueへ積まれたGPUResource/SRVを、
 	// GPUのFence完了後に安全に解放する
-	m_deferredResourceReleaseQueue.ReleaseCompleted(a_directCommandQueue, m_srvDescriptorPool);
+	m_deferredResourceReleaseQueue.ReleaseCompleted(a_directCommandQueue, 
+													m_rtvDescriptorPool,
+													m_srvDescriptorPool,
+													m_dsvDescriptorPool);
 }
 
 nlohmann::json FWK::Graphics::ResourceContext::Serialize() const

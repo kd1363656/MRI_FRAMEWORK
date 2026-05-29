@@ -101,3 +101,115 @@ nlohmann::json FWK::Graphics::DepthStencilTexture::Serialize() const
 {
 	return m_depthStencilTextureJsonConverter.Serialize(*this);
 }
+
+bool FWK::Graphics::DepthStencilTexture::Resize(const Device&							 a_device, 
+											    const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
+												const Struct::ClientSize&				 a_clientSize, 
+												const UINT64&							 a_retiredFenceValue, 
+													  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool, 
+													  DeferredResourceReleaseQueue&		 a_deferredResourceReleaseQueue)
+{
+	if (!IsValidTextureSize(a_clientSize))
+	{
+		assert(false && "DepthStencilTextureのリサイズ後サイズが無効です。");
+		return false;
+	}
+
+	if (IsSameTextureSize(a_clientSize)) { return true; }
+
+	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
+	{
+		assert(false && "現在のDepthStencilTextureを遅延解放できない状態です。");
+		return false;
+	}
+
+	DepthStencilTexture l_newDepthStencilTexture = {};
+
+	l_newDepthStencilTexture.SetFormat		   (m_format);
+	l_newDepthStencilTexture.SetWidth		   (a_clientSize.m_width);
+	l_newDepthStencilTexture.SetHeight		   (a_clientSize.m_height);
+	l_newDepthStencilTexture.SetIsUseWindowSize(m_isUseWindowSize);
+
+	// 先に新しいDepthStencilTextureを作成。
+	// 古いリソースを先にQueueへ移してから新規作成に失敗すると、
+	// このインスタンスが有効な深度ステンシルを失ってしまうため
+	if (!l_newDepthStencilTexture.Create(a_device,
+										 a_gpuMemoryAllocator,
+										 a_dsvDescriptorPool))
+	{
+		assert(false && "リサイズ後のDepthStencilTexture作成に失敗しました。");
+		return false;
+	}
+
+	// 新しいDepthStencilTextureの作成に成功した後で、古いリソースをDeferredReleaseへ渡す。
+	if (!PushCurrentResourceForDeferredRelease(a_retiredFenceValue, a_deferredResourceReleaseQueue))
+	{
+		assert(false && "古いDepthStencilTextureの遅延解放Queue登録に失敗しました。");
+		return false;
+	}
+
+	*this = std::move(l_newDepthStencilTexture);
+
+	return true;
+}
+
+bool FWK::Graphics::DepthStencilTexture::IsValidTextureSize(const Struct::ClientSize& a_clientSize) const
+{
+	if (a_clientSize.m_width  == Constant::k_invalidTextureWidth)  { return false; }
+	if (a_clientSize.m_height == Constant::k_invalidTextureHeight) { return false; }
+
+	return true;
+}
+
+bool FWK::Graphics::DepthStencilTexture::IsSameTextureSize(const Struct::ClientSize& a_clientSize) const
+{
+	if (m_width  != a_clientSize.m_width)  { return false; }
+	if (m_height != a_clientSize.m_height) { return false; }
+
+	return true;
+}
+
+bool FWK::Graphics::DepthStencilTexture::IsValidCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue) const
+{
+	if (!m_gpuResource.m_resource)						     { return false; }
+	if (m_dsvStorageID      == Constant::k_invalidStorageID) { return false; }
+	if (a_retiredFenceValue == Constant::k_unusedFenceValue) { return false; }
+
+	return true;
+}
+
+bool FWK::Graphics::DepthStencilTexture::PushCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
+{
+	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
+	{
+		assert(false && "DepthStencilTextureが無効なため、遅延解放Queueへ登録できません。");
+		return false;
+	}
+
+	Struct::GPUResourceReleaseRecord l_gpuResourceReleaseRecord = {};
+
+	l_gpuResourceReleaseRecord.m_gpuResource	   = std::move(m_gpuResource);
+	l_gpuResourceReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
+
+	Struct::DescriptorIndexReleaseRecord l_dsvDescriptorIndexReleaseRecord = {};
+
+	l_dsvDescriptorIndexReleaseRecord.m_storageID		  = m_dsvStorageID;
+	l_dsvDescriptorIndexReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
+
+	if (!a_deferredResourceReleaseQueue.PushGPUResourceRecord(std::move(l_gpuResourceReleaseRecord)))
+	{
+		assert(false && "DepthStencilTextureのGPUResourceを遅延解放Queueへ登録できませんでした。");
+		return false;
+	}
+
+	if (!a_deferredResourceReleaseQueue.PushDSVDescriptorIndex(std::move(l_dsvDescriptorIndexReleaseRecord)))
+	{
+		assert(false && "DepthStencilTextureのDSVDescriptorIndexを遅延解放Queueへ登録できませんでした。");
+		return false;
+	}
+
+	// 二重解放を防ぐため、Queueへ渡したDescriptorIndexは無効化します。
+	m_dsvStorageID = Constant::k_invalidStorageID;
+
+	return true;
+}

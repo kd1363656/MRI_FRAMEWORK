@@ -9,12 +9,25 @@ namespace FWK::Graphics
 		 DepthStencilTexture() = default;
 		~DepthStencilTexture() = default;
 	
+		DepthStencilTexture(const DepthStencilTexture&)			  = delete;
+		DepthStencilTexture(	  DepthStencilTexture&&) noexcept = default;
+		
+		DepthStencilTexture& operator=(const DepthStencilTexture&)			 = delete;
+		DepthStencilTexture& operator=(		 DepthStencilTexture&&) noexcept = default;
+
 		void Deserialize		  (const nlohmann::json& a_rootJson);
 		void ApplyWindowSizeIfNeed(const Struct::WindowCONFIG& a_windowConfig);
 
 		bool Create(const Graphics::Device& a_device, const GPUMemoryAllocator& a_gpuMemoryAllocator, DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 	
 		nlohmann::json Serialize() const;
+
+		bool Resize(const Device&							 a_device, 
+					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
+					const Struct::ClientSize&				 a_clientSize,
+					const UINT64&							 a_retiredFenceValue,
+						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool,
+						  DeferredResourceReleaseQueue&      a_deferredResourceReleaseQueue);
 
 		void SetCurrentResourceState(const D3D12_RESOURCE_STATES a_set) { m_currentResourceState = a_set; }
 
@@ -40,6 +53,14 @@ namespace FWK::Graphics
 
 	private:
 	
+		bool IsValidTextureSize(const Struct::ClientSize& a_clientSize) const;
+
+		bool IsSameTextureSize(const Struct::ClientSize& a_clientSize) const;
+
+		bool IsValidCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue) const;
+
+		bool PushCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue);
+
 		Converter::DepthStencilTextureJsonConverter m_depthStencilTextureJsonConverter = {};
 
 		Struct::GPUResource m_gpuResource = {};

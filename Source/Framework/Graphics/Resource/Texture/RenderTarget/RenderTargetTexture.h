@@ -9,6 +9,12 @@ namespace FWK::Graphics
 		 RenderTargetTexture() = default;
 		~RenderTargetTexture() = default;
 
+		RenderTargetTexture(const RenderTargetTexture&)			  = delete;
+		RenderTargetTexture(	  RenderTargetTexture&&) noexcept = default;
+		
+		RenderTargetTexture& operator=(const RenderTargetTexture&)			 = delete;
+		RenderTargetTexture& operator=(		 RenderTargetTexture&&) noexcept = default;
+
 		void Deserialize		  (const nlohmann::json&	   a_rootJson);
 		void ApplyWindowSizeIfNeed(const Struct::WindowCONFIG& a_windowConfig);
 
@@ -18,6 +24,14 @@ namespace FWK::Graphics
 						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
 
 		nlohmann::json Serialize() const;
+
+		bool Resize(const Device&							 a_device, 
+					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
+					const Struct::ClientSize&				 a_clientSize,
+					const UINT64&							 a_retiredFenceValue,
+						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+						  DeferredResourceReleaseQueue&      a_deferredReleaseQueue);
 
 		void SetClearColor(const TypeAlias::Math::Color& a_set) { m_clearColor = a_set; }
 
@@ -47,6 +61,14 @@ namespace FWK::Graphics
 		bool GetIsUseWindowSize() const { return m_isUseWindowSize; }
 
 	private:
+
+		bool IsValidTextureSize(const Struct::ClientSize& a_clientSize) const;
+
+		bool IsSameTextureSize(const Struct::ClientSize& a_clientSize) const;
+
+		bool IsValidCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue) const;
+
+		bool PushCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue);
 
 		bool CreateRenderTargetView(const Device& a_device, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
 

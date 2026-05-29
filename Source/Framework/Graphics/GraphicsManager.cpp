@@ -151,6 +151,21 @@ bool FWK::Graphics::GraphicsManager::ApplyWindowResizeRequest(const Struct::Wind
 		return false;
 	}
 
+	const auto& l_retiredFenceValue = m_renderer.GetMutableREFDirectCommandQueue().FetchREFLastSignaledFenceValue();
+
+	if (!m_renderer.Resize(m_device,
+						   m_resourceContext.GetREFGPUMemoryAllocator(),
+						   a_resizeRequest.m_clientSize,
+						   l_retiredFenceValue,
+						   m_resourceContext.GetMutableREFRTVDescriptorPool(),
+						   m_resourceContext.GetMutableREFSRVDescriptorPool(),
+						   m_resourceContext.GetMutableREFDSVDescriptorPool(),
+						   m_resourceContext.GetMutableREFDeferredResourceReleaseQueue()))
+	{
+		assert(false && "Renderer管理リソースのリサイズに失敗しました。");
+		return false;
+	}
+
 	return true;
 }
 

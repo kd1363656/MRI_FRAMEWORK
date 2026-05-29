@@ -43,13 +43,22 @@ namespace FWK::Graphics
 
 		nlohmann::json Serialize() const;
 
+		bool Resize(const Device&							 a_device,
+					const GPUMemoryAllocator&				 a_gpuMemoryAllocator,
+					const Struct::ClientSize&				 a_clientSize,
+					const UINT64&							 a_retiredFenceValue,
+						  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+						  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+						  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool,
+						  DeferredResourceReleaseQueue&		 a_deferredResourceReleaseQueue) const;
+
 		void SetupCurrentFrameResource(const std::size_t& a_index);
 
 		bool PrepareForSwapChainResize();
 
 		void AddFrameResource  (const std::shared_ptr<FrameResource>&   a_frameResource);
-		void AddRootSignature  (const std::shared_ptr<RootSignature>&   a_rootSignature, const TypeAlias::TypeTag      a_tag);
-		void AddPipelineState  (const std::shared_ptr<PipelineState>&   a_pipelineState, const TypeAlias::TypeTag      a_tag);
+		void AddRootSignature  (const std::shared_ptr<RootSignature>&   a_rootSignature, const TypeAlias::TypeTag a_tag);
+		void AddPipelineState  (const std::shared_ptr<PipelineState>&   a_pipelineState, const TypeAlias::TypeTag a_tag);
 
 		std::weak_ptr<RootSignature> FindVALRootSignature(const TypeAlias::TypeTag a_tag) const;
 		std::weak_ptr<PipelineState> FindVALPipelineState(const TypeAlias::TypeTag a_tag) const;

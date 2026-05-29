@@ -14,6 +14,6 @@ namespace FWK::Struct
 
 	struct DescriptorIndexReleaseRecord final : public DeferredResourceReleaseRecordBase
 	{
-		TypeAlias::StorageID m_storageID = {};
+		TypeAlias::StorageID m_storageID = Constant::k_invalidStorageID;
 	};
 }

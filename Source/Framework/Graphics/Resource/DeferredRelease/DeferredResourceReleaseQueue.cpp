@@ -12,6 +12,19 @@ bool FWK::Graphics::DeferredResourceReleaseQueue::PushGPUResourceRecord(Struct::
 
 	return true;
 }
+
+bool FWK::Graphics::DeferredResourceReleaseQueue::PushRTVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord)
+{
+	if (!IsValidDescriptorIndexReleaseRecord(a_releaseRecord))
+	{
+		assert(false && "RTV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。");
+		return false;
+	}
+
+	m_rtvDescriptorIndexReleaseRecordList.emplace_back(std::move(a_releaseRecord));
+
+	return true;
+}
 bool FWK::Graphics::DeferredResourceReleaseQueue::PushSRVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord)
 {
 	if (!IsValidDescriptorIndexReleaseRecord(a_releaseRecord))
@@ -24,14 +37,36 @@ bool FWK::Graphics::DeferredResourceReleaseQueue::PushSRVDescriptorIndex(Struct:
 
 	return true;
 }
+bool FWK::Graphics::DeferredResourceReleaseQueue::PushDSVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord)
+{
+	if (!IsValidDescriptorIndexReleaseRecord(a_releaseRecord))
+	{
+		assert(false && "DSV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。");
+		return false;
+	}
 
-void FWK::Graphics::DeferredResourceReleaseQueue::ReleaseCompleted(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool)
+	m_dsvDescriptorIndexReleaseRecordList.emplace_back(std::move(a_releaseRecord));
+
+	return true;
+}
+
+void FWK::Graphics::DeferredResourceReleaseQueue::ReleaseCompleted(const DirectCommandQueue&				a_directCommandQueue, 
+																		 DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool, 
+																		 DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+																		 DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
 	const auto& l_completedFenceValue = a_directCommandQueue.FetchVALCompletedFenceValue();
 
+	// GPUResource本体を解放
+	// ComPTRを保持しているRecordをpop_backすることで、GPUResourceの参照が外れる。
 	ReleaseCompletedGPUResources(l_completedFenceValue);
 
+	// DescriptorのStorageIDを、それぞれ対応するDescriptorPoolへ返す、
+	// RTV/SRV/DSVは別のDescriptorHeapなので、必ず別々のPoolへ返す
+	ReleaseCompletedDescriptorIndices(l_completedFenceValue, m_rtvDescriptorIndexReleaseRecordList, a_rtvDescriptorPool);
 	ReleaseCompletedDescriptorIndices(l_completedFenceValue, m_srvDescriptorIndexReleaseRecordList, a_srvDescriptorPool);
+	ReleaseCompletedDescriptorIndices(l_completedFenceValue, m_dsvDescriptorIndexReleaseRecordList, a_dsvDescriptorPool);
+
 }
 
 bool FWK::Graphics::DeferredResourceReleaseQueue::IsValidGPUResourceReleaseRecord(const Struct::GPUResourceReleaseRecord& a_releaseRecord) const

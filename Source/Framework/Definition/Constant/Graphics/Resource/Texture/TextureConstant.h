@@ -16,6 +16,9 @@ namespace FWK::Constant
 	inline constexpr std::size_t k_defaultTextureCount     = static_cast<std::size_t>(Enum::DefaultTextureType::Count);
 	inline constexpr std::size_t k_defaultRGBAElementCount = 4ULL;
 
+	static constexpr std::uint32_t k_invalidTextureWidth  = 0U;
+	static constexpr std::uint32_t k_invalidTextureHeight = 0U;
+
 	inline constexpr UINT k_defaultSpriteRECTX      = 0U;
 	inline constexpr UINT k_defaultSpriteRECTY      = 0U;
 	inline constexpr UINT k_defaultSpriteRECTWidth  = 0U;

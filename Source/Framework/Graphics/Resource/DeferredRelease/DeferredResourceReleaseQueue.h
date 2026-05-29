@@ -9,10 +9,16 @@ namespace FWK::Graphics
 		 DeferredResourceReleaseQueue() = default;
 		~DeferredResourceReleaseQueue() = default;
 
-		bool PushGPUResourceRecord (Struct::GPUResourceReleaseRecord&&	   a_releaseRecord);
+		bool PushGPUResourceRecord (Struct::GPUResourceReleaseRecord&& a_releaseRecord);
+
+		bool PushRTVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord);
 		bool PushSRVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord);
+		bool PushDSVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord);
 		
-		void ReleaseCompleted(const DirectCommandQueue& a_directCommandQueue, DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool);
+		void ReleaseCompleted(const DirectCommandQueue&				   a_directCommandQueue, 
+								    DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+									DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+									DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool);
 
 	private:
 
@@ -48,7 +54,10 @@ namespace FWK::Graphics
 			}
 		}
 
-		std::vector<Struct::GPUResourceReleaseRecord>     m_gpuResourceReleaseRecordList		= {};
+		std::vector<Struct::GPUResourceReleaseRecord> m_gpuResourceReleaseRecordList = {};
+
+		std::vector<Struct::DescriptorIndexReleaseRecord> m_rtvDescriptorIndexReleaseRecordList = {};
 		std::vector<Struct::DescriptorIndexReleaseRecord> m_srvDescriptorIndexReleaseRecordList = {};
+		std::vector<Struct::DescriptorIndexReleaseRecord> m_dsvDescriptorIndexReleaseRecordList = {};
 	};
 }

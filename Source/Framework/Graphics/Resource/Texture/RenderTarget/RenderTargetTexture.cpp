@@ -83,6 +83,137 @@ nlohmann::json FWK::Graphics::RenderTargetTexture::Serialize() const
 	return m_renderTargetTextureJsonConverter.Serialize(*this);
 }
 
+bool FWK::Graphics::RenderTargetTexture::Resize(const Device&							 a_device, 
+												const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
+												const Struct::ClientSize&				 a_clientSize, 
+												const UINT64&							 a_retiredFenceValue, 
+													  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool,
+													  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
+													  DeferredResourceReleaseQueue&      a_deferredReleaseQueue)
+{
+	if (!IsValidTextureSize(a_clientSize))
+	{
+		assert(false && "RenderTargetTextureのリサイズ後サイズが無効です。");
+		return false;
+	}
+
+	if (IsSameTextureSize(a_clientSize)) { return true; }
+
+	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
+	{
+		assert(false && "現在のRenderTargetTextureを遅延解放できない状態です。");
+		return false;
+	}
+
+	RenderTargetTexture l_newRenderTargetTexture = {};
+
+	l_newRenderTargetTexture.SetClearColor     (m_clearColor);
+	l_newRenderTargetTexture.SetFormat         (m_format);
+	l_newRenderTargetTexture.SetWidth	       (a_clientSize.m_width);
+	l_newRenderTargetTexture.SetHeight	       (a_clientSize.m_height);
+	l_newRenderTargetTexture.SetIsUseWindowSize(m_isUseWindowSize);
+
+	// 先にあたらしいRenderTargetTextureを作成。
+	// 古いリソースを先にQueueへ写してから新規作成に失敗すると、
+	// このインスタンが有効な描画先を失うため
+	if (!l_newRenderTargetTexture.Create(a_device,
+										 a_gpuMemoryAllocator,
+										 a_rtvDescriptorPool,
+										 a_srvDescriptorPool))
+	{
+		assert(false && "リサイズ後のRenderTargetTexture作成に失敗しました。");
+		return false;
+	}
+
+	// 新しいRenderTargetTextureの作成に成功した後で、古いリソースをDeferredReleaseへ渡す
+	// Queue内のComPTRが古いGPUResourceを保持するため、
+	// GPUが使い終わるまで古いリソースの寿命を延ばせる
+	if (!PushCurrentResourceForDeferredRelease(a_retiredFenceValue, a_deferredReleaseQueue))
+	{
+		assert(false && "古いRenderTargetTextureの遅延解放Queue登録に失敗しました。");
+		return false;
+	}
+
+	// 古いリソースをQueueへ渡せたので、新しリソースを現在のTextureとして採用する
+	*this = std::move(l_newRenderTargetTexture);
+
+	return true;
+}
+
+bool FWK::Graphics::RenderTargetTexture::IsValidTextureSize(const Struct::ClientSize& a_clientSize) const
+{
+	if (a_clientSize.m_width  == Constant::k_invalidTextureWidth)  { return false; }
+	if (a_clientSize.m_height == Constant::k_invalidTextureHeight) { return false; }
+
+	return true;
+}
+
+bool FWK::Graphics::RenderTargetTexture::IsSameTextureSize(const Struct::ClientSize& a_clientSize) const
+{
+	if (m_width  != a_clientSize.m_width)  { return false; }
+	if (m_height != a_clientSize.m_height) { return false; }
+
+	return true;
+}
+
+bool FWK::Graphics::RenderTargetTexture::IsValidCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue) const
+{
+	if (!m_gpuResource.m_resource)							 { return false; }
+	if (m_rtvStorageID      == Constant::k_invalidStorageID) { return false; }
+	if (m_srvStorageID      == Constant::k_invalidStorageID) { return false; }
+	if (a_retiredFenceValue == Constant::k_unusedFenceValue) { return false; }
+
+	return true;
+}
+
+bool FWK::Graphics::RenderTargetTexture::PushCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
+{
+	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
+	{
+		assert(false && "RenderTargetTextureが無効なため、遅延解放Queueへ登録できません。");
+		return false;
+	}
+
+	Struct::GPUResourceReleaseRecord l_gpuResourceReleaseRecord = {};
+
+	l_gpuResourceReleaseRecord.m_gpuResource	   = std::move(m_gpuResource);
+	l_gpuResourceReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
+
+	Struct::DescriptorIndexReleaseRecord l_rtvDescriptorIndexReleaseRecord = {};
+
+	l_rtvDescriptorIndexReleaseRecord.m_storageID		  = m_rtvStorageID;
+	l_rtvDescriptorIndexReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
+
+	Struct::DescriptorIndexReleaseRecord l_srvDescriptorIndexReleaseRecord = {};
+
+	l_srvDescriptorIndexReleaseRecord.m_storageID		  = m_srvStorageID;
+	l_srvDescriptorIndexReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
+
+	if (!a_deferredResourceReleaseQueue.PushGPUResourceRecord(std::move(l_gpuResourceReleaseRecord)))
+	{
+		assert(false && "RenderTargetTextureのGPUResourceを遅延解放Queueへ登録できませんでした。");
+		return false;
+	}
+
+	if (!a_deferredResourceReleaseQueue.PushRTVDescriptorIndex(std::move(l_rtvDescriptorIndexReleaseRecord)))
+	{
+		assert(false && "RenderTargetTextureのRTVDescriptorIndexを遅延解放Queueへ登録できませんでした。");
+		return false;
+	}
+
+	if (!a_deferredResourceReleaseQueue.PushSRVDescriptorIndex(std::move(l_srvDescriptorIndexReleaseRecord)))
+	{
+		assert(false && "RenderTargetTextureのSRVDescriptorIndexを遅延解放Queueへ登録できませんでした。");
+		return false;
+	}
+
+	// 二重解放を防ぐため、Queueへ渡したDescriptorIndexは無効化します。
+	m_rtvStorageID = Constant::k_invalidStorageID;
+	m_srvStorageID = Constant::k_invalidStorageID;
+
+	return true;
+}
+
 bool FWK::Graphics::RenderTargetTexture::CreateRenderTargetView(const Device& a_device, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
 {
 	const auto& l_device = a_device.GetREFDevice();
