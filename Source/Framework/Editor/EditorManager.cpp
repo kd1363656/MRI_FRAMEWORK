@@ -54,7 +54,9 @@ void FWK::Editor::EditorManager::INIT(const HWND& a_hwnd)
 	//l_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	l_io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-	ImGui::StyleColorsDark();
+	// スタイル設定
+	EditorStyle::ApplyDefaultFont    ();
+	EditorStyle::ApplySakuraDarkStyle();
 
 	// WIN32用IMGUIバックエンドを初期化する
 	// ImGui_ImplWind32_Init(入力を受け取る対象ウィンドウハンドル);

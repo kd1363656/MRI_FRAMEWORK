@@ -829,6 +829,9 @@
     <Filter Include="Source\Framework\Editor\Window\View\Scene">
       <UniqueIdentifier>{7364eddd-28ab-4465-8381-645b5160fe1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Editor\Style">
+      <UniqueIdentifier>{a4410cfe-23b9-449a-900c-6369321c2e2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1448,6 +1451,9 @@
     <ClInclude Include="Source\Framework\Editor\Window\View\Scene\SceneViewEditorWindow.h">
       <Filter>Source\Framework\Editor\Window\View\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Editor\Style\EditorStyle.h">
+      <Filter>Source\Framework\Editor\Style</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1758,6 +1764,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Editor\Window\View\Scene\SceneViewEditorWindow.cpp">
       <Filter>Source\Framework\Editor\Window\View\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Editor\Style\EditorStyle.cpp">
+      <Filter>Source\Framework\Editor\Style</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

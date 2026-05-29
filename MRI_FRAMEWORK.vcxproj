@@ -448,6 +448,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Trait\PTR\TypeTraitPTR.h" />
     <ClInclude Include="Source\Framework\Editor\EditorManager.h" />
+    <ClInclude Include="Source\Framework\Editor\Style\EditorStyle.h" />
     <ClInclude Include="Source\Framework\Editor\Window\EditorWindowBase.h" />
     <ClInclude Include="Source\Framework\Editor\Window\View\Scene\SceneViewEditorWindow.h" />
     <ClInclude Include="Source\Framework\Factory\GenericFactory.h" />
@@ -582,6 +583,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.cpp" />
     <ClCompile Include="Source\Framework\Editor\EditorManager.cpp" />
+    <ClCompile Include="Source\Framework\Editor\Style\EditorStyle.cpp" />
     <ClCompile Include="Source\Framework\Editor\Window\View\Scene\SceneViewEditorWindow.cpp" />
     <ClCompile Include="Source\Framework\FPS\FPSController.cpp" />
     <ClCompile Include="Source\Framework\GameObject\GameObject.cpp" />
