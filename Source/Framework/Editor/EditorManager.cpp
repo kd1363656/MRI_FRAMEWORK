@@ -148,7 +148,7 @@ void FWK::Editor::EditorManager::DrawEditor()
 	ImGui::NewFrame();
 
 	DrawDockingSpace();
-	DrawEditor      ();
+	DrawEditorWindow();
 
 	// IMGUIの描画データを確定する
 	ImGui::Render();

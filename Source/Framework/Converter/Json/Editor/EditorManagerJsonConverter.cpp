@@ -21,7 +21,7 @@ nlohmann::json FWK::Converter::EditorManagerJsonConverter::Serialize(const Edito
 
 void FWK::Converter::EditorManagerJsonConverter::DeserializeEditorWindow(const nlohmann::json& a_rootJson, Editor::EditorManager& a_editorManager) const
 {
-	if (!a_rootJson.is_null())				 { return; }
+	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
 
 	// jsonファイルに保存されていたエディターを復元
