@@ -51,6 +51,7 @@ void FWK::Editor::EditorManager::INIT(const HWND& a_hwnd)
 
 	auto& l_io = ImGui::GetIO();
 
+	//l_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	l_io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	ImGui::StyleColorsDark();
@@ -105,6 +106,15 @@ void FWK::Editor::EditorManager::INIT(const HWND& a_hwnd)
 	m_isInitialized = true;
 }
 
+void FWK::Editor::EditorManager::LoadCONFIG()
+{
+	const auto& l_rootJson = Utility::File::LoadJsonFile(k_configFileIOPath);
+
+	if (l_rootJson.is_null()) { return; }
+
+	m_editorManagerJsonConverter.Deserialize(l_rootJson, *this);
+}
+
 void FWK::Editor::EditorManager::DrawEditor()
 {
 	if (!m_isInitialized) { return; }
@@ -137,7 +147,7 @@ void FWK::Editor::EditorManager::DrawEditor()
 	// IMGUIのフレーム開始
 	ImGui::NewFrame();
 
-	ImGui::ShowDemoWindow();
+	DrawDockingSpace();
 
 	// IMGUIの描画データを確定する
 	ImGui::Render();
@@ -157,6 +167,13 @@ void FWK::Editor::EditorManager::DrawEditor()
 	//								  描画命令を書き込むDirectCommandList);
 
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), l_directCommandList.Get());
+}
+
+void FWK::Editor::EditorManager::SaveCONFIG() const
+{
+	const auto& l_rootJson = m_editorManagerJsonConverter.Serialize(*this);
+
+	Utility::File::SaveJsonFile(l_rootJson, k_configFileIOPath);
 }
 
 void FWK::Editor::EditorManager::AllocateSRVDescriptor(ImGui_ImplDX12_InitInfo* a_info, D3D12_CPU_DESCRIPTOR_HANDLE* a_outCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE* a_outGPUHandle)
@@ -216,6 +233,48 @@ void FWK::Editor::EditorManager::ReleaseSRVDescriptor(ImGui_ImplDX12_InitInfo* a
 	l_srvDescriptorPool.Release(l_itr->second);
 
 	l_editorManager->m_srvStorageIDMap.erase(l_itr);
+}
+
+void FWK::Editor::EditorManager::DrawDockingSpace() const
+{
+	// IMGUIDockingSpaceの作成
+	// DockSpace全体を包むルートウィンドウ(親ウィンドウ)を画面サイズで作成
+	ImGuiWindowFlags l_windowFlag = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+
+	const ImGuiViewport* l_viewPort	= ImGui::GetMainViewport();
+
+	// メインウィンドウを取得してサイズ、描画位置を現在のウィンドウサイズに合わせる
+	ImGui::SetNextWindowPos     (l_viewPort->WorkPos);
+	ImGui::SetNextWindowSize    (l_viewPort->WorkSize);
+	ImGui::SetNextWindowViewport(l_viewPort->ID);
+
+	// 親ウィンドウとして振舞うためウィンドウ名を表示しない、折り畳みができない
+	// 移動しない、他ウィンドウがこのウィンドウより上に描画されるようにする、
+	// キーボードナビゲーションでこのウィンドウにフォーカスがいかないようにする
+	l_windowFlag |= ImGuiWindowFlags_NoTitleBar            | 
+					ImGuiWindowFlags_NoCollapse            | 
+					ImGuiWindowFlags_NoMove                |
+					ImGuiWindowFlags_NoBringToFrontOnFocus |
+					ImGuiWindowFlags_NoNavFocus;
+
+	// 親ウィンドウを角丸・枠なしにする設定
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding,   k_dockingWindowRounding);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, k_dockingWindowBorderSize);
+
+	// Begin(ウィンドウ名、
+	//		 開閉状態を管理するboolポインタ(nullptrなら外部から閉じない)、
+	//		 ウィンドウの挙動フラグ);
+	ImGui::Begin(k_dockingWindowName, nullptr, l_windowFlag);
+
+	ImGui::PopStyleVar(k_dockingStyleVarPopCount);
+
+	// "DockSpace"の作成
+	ImGuiID l_dockSpaceID = ImGui::GetID(k_dockingSpaceName);
+	ImVec2  l_size        = {};
+
+	ImGui::DockSpace(l_dockSpaceID, l_size, ImGuiDockNodeFlags_None);
+
+	ImGui::End();
 }
 
 void FWK::Editor::EditorManager::Release()

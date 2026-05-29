@@ -4,11 +4,35 @@ namespace FWK::Editor
 {
 	class EditorManager final : public SingletonBase<EditorManager>
 	{
+	private:
+
+		using StorageIDMap    = std::unordered_map<UINT64,				    TypeAlias::StorageID>;
+		using EditorWindowMap = std::unordered_map<TypeAlias::StaticTypeID, std::weak_ptr<EditorWindowBase>>;
+
 	public:
 
-		void INIT(const HWND& a_hwnd);
+		void INIT	   (const HWND& a_hwnd);
+		void LoadCONFIG();
 
 		void DrawEditor();
+
+		void SaveCONFIG() const;
+
+		template <Concept::IsDerivedEditorWindowBaseConcept WindowType>
+		std::weak_ptr<WindowType> FetchWindowEditor() const
+		{
+			const TypeAlias::StaticTypeID l_staticTypeID = WindowType::GetTypeINFO().k_staticTypeID;
+
+			const auto& l_itr = m_editorWindowMap.find(l_staticTypeID);
+
+			if (l_itr == m_editorWindowMap.end()) { return {}; }
+
+			auto l_editorWindow = l_itr->second.lock();
+
+			if (!l_editorWindow) { return {}; }
+
+			return std::static_pointer_cast<WindowType>(l_editorWindow);
+		}
 
 	private:
 
@@ -17,9 +41,43 @@ namespace FWK::Editor
 		// 内部で使用していないため警告が出るがSRVリリース関数がIMGUI側で必要なため仕方ない
 		static void ReleaseSRVDescriptor(ImGui_ImplDX12_InitInfo* a_info, D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE a_gpuHandle);
 
+		void DrawDockingSpace() const;
+
 		void Release();
 
-		std::unordered_map<UINT64, TypeAlias::StorageID> m_srvStorageIDMap = {};
+		template <Concept::IsDerivedEditorWindowBaseConcept WindowType>
+		void CreateEditorWindow()
+		{
+			const TypeAlias::StaticTypeID l_staticTypeID = WindowType::GetTypeINFO().k_staticTypeID;
+
+			// Editorは一つしか存在を許したくないから
+			if (m_editorWindowMap.contains(l_staticTypeID)) { return; }
+
+			auto l_editorWindow = std::make_shared<WindowType>();
+
+			// もしリストに生成してよいクラスでない場合はreturn;
+			if (!l_editorWindow->IsAllowCreateInList()) { return; }
+
+			m_editorWindowList.emplace_back(l_editorWindow);
+			m_editorWindowMap.try_emplace  (l_staticTypeID, l_editorWindow);
+		}
+		
+		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/Editor/EditorCONFIG.json";
+
+		static constexpr const char* k_dockingWindowName = "DockSpace";
+		static constexpr const char* k_dockingSpaceName  = "DockSpace";
+
+		static constexpr float k_dockingWindowRounding   = 0.0F;
+		static constexpr float k_dockingWindowBorderSize = 0.0F;
+
+		static constexpr int k_dockingStyleVarPopCount = 2;
+
+		StorageIDMap    m_srvStorageIDMap = {};
+		EditorWindowMap m_editorWindowMap = {};
+
+		std::vector<FWK::Editor::EditorWindowBase> m_editorWindowList = {};
+
+		Converter::EditorManagerJsonConverter m_editorManagerJsonConverter = {};
 
 		bool m_isInitialized = false;
 

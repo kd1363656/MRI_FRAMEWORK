@@ -364,8 +364,15 @@
 #include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"
 #include "Graphics/GraphicsManager.h"
 
+// エディターウィンドウ
+#include "Editor/Window/EditorWindowBase.h"
+#include "Definition/Type/Alias/Factory/Shared/Editor/Window/TypeAliasSharedFactoryEditorWindow.h"
+#include "Definition/Concept/IsDerivedBase/Editor/Window/IsDerivedEditorWindowBaseConcept.h"
+
 // エディターマネージャー
+#include "Converter/Json/Editor/EditorManagerJsonConverter.h"
 #include "Editor/EditorManager.h"
+
 
 // ゲームオブジェクト
 #include "GameObject/GameObject.h"

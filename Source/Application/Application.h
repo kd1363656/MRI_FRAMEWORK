@@ -12,7 +12,7 @@ public:
 private:
 
 	void INIT          (FWK::Graphics::GraphicsManager& a_graphicsManager);
-	void LoadCONFIG    (FWK::Graphics::GraphicsManager& a_graphicsManager);
+	void LoadCONFIG    (FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::Editor::EditorManager& a_editorManager);
 	bool PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager);
 
 	void RegisterDrawCommand(const FWK::SceneManager& a_sceneManager);
@@ -27,7 +27,7 @@ private:
 
 	void EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 
-	void SaveCONFIG(const FWK::Graphics::GraphicsManager& a_graphicsManager) const;
+	void SaveCONFIG(const FWK::Graphics::GraphicsManager& a_graphicsManager, const FWK::Editor::EditorManager& a_edtorManager) const;
 
 	void UpdateWindowTitleBar() const;
 

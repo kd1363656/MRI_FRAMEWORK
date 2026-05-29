@@ -33,7 +33,7 @@ void Application::Execute()
 
 	// 初期化関係処理
 	INIT      (l_graphicsManager);
-	LoadCONFIG(l_graphicsManager);
+	LoadCONFIG(l_graphicsManager, l_editorManager);
 
 	if (!PostLoadCONFIG(l_graphicsManager, l_sceneManager, l_editorManager))
 	{
@@ -62,7 +62,7 @@ void Application::Execute()
 	}
 
 	// もしゲームデータがセーブされていなくても変更が適用されるべき項目を自動セーブする
-	SaveCONFIG(l_graphicsManager);
+	SaveCONFIG(l_graphicsManager, l_editorManager);
 }
 
 void Application::INIT(FWK::Graphics::GraphicsManager& a_graphicsManager)
@@ -70,11 +70,12 @@ void Application::INIT(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	m_window.INIT		  ();
 	a_graphicsManager.INIT();
 }
-void Application::LoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager)
+void Application::LoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::Editor::EditorManager& a_editorManager)
 {
 	m_window.LoadCONFIG			();
 	m_fpsController.LoadCONFIG  ();
 	a_graphicsManager.LoadCONFIG();
+	a_editorManager.LoadCONFIG  ();
 }
 bool Application::PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager)
 {
@@ -156,11 +157,12 @@ void Application::EndFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	UpdateWindowTitleBar();
 }
 
-void Application::SaveCONFIG(const FWK::Graphics::GraphicsManager& a_graphicsManager) const
+void Application::SaveCONFIG(const FWK::Graphics::GraphicsManager& a_graphicsManager, const FWK::Editor::EditorManager& a_edtorManager) const
 {
 	m_window.SaveCONFIG         ();
 	m_fpsController.SaveCONFIG  ();
 	a_graphicsManager.SaveCONFIG();
+	a_edtorManager.SaveCONFIG   ();
 }
 
 void Application::UpdateWindowTitleBar() const

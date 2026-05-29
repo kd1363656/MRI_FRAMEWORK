@@ -802,6 +802,24 @@
     <Filter Include="Source\Framework\Graphics\Resource\Record\Model\Static">
       <UniqueIdentifier>{055e1792-fb31-4f46-a6a4-5c606e8fd9d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Editor\Window">
+      <UniqueIdentifier>{840dd31e-a2f0-45a6-92f3-c86b38ff2f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Editor">
+      <UniqueIdentifier>{6af5f119-36e3-41a7-87c0-ac98c5b8f622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Editor\Window">
+      <UniqueIdentifier>{12568817-986d-4a19-9b44-ffa28cc02cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Editor">
+      <UniqueIdentifier>{a93de1c7-e5c6-4831-a4d2-05553a43f283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Editor\Window">
+      <UniqueIdentifier>{20e94a7e-de7a-427c-81fb-65082a134af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Converter\Json\Editor">
+      <UniqueIdentifier>{d95f44f8-0c60-4073-92d0-88e885414161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1406,6 +1424,18 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Record\Model\Static\StaticModelRecord.h">
       <Filter>Source\Framework\Graphics\Resource\Record\Model\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Editor\Window\EditorWindowBase.h">
+      <Filter>Source\Framework\Editor\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Editor\Window\TypeAliasSharedFactoryEditorWindow.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Editor\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Editor\Window\IsDerivedEditorWindowBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Editor\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Converter\Json\Editor\EditorManagerJsonConverter.h">
+      <Filter>Source\Framework\Converter\Json\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1710,6 +1740,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Record\Model\Static\StaticModelRecord.cpp">
       <Filter>Source\Framework\Graphics\Resource\Record\Model\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Converter\Json\Editor\EditorManagerJsonConverter.cpp">
+      <Filter>Source\Framework\Converter\Json\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
