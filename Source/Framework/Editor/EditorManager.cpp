@@ -291,10 +291,8 @@ void FWK::Editor::EditorManager::DrawDockingSpace() const
 	ImVec2  l_size        = {};
 
 	ImGui::DockSpace(l_dockSpaceID, l_size, ImGuiDockNodeFlags_None);
-
-	ImGui::End();
+	ImGui::End      ();
 }
-
 void FWK::Editor::EditorManager::DrawEditorWindow() const
 {
 	for (const auto& l_editorWindow : m_editorWindowList)
