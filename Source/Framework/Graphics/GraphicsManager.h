@@ -6,10 +6,11 @@ namespace FWK::Graphics
 	{
 	public:
 
-		void INIT           ();
-		void LoadCONFIG     ();
-		bool Create         (const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG);
-		void PostCreateSetup(const HWND& a_hwnd);
+		void INIT				 ();
+		void LoadCONFIG			 ();
+		void PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG);
+		bool Create              (const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG);
+		void PostCreateSetup     (const HWND& a_hwnd);
 
 		void BeginFrame();
 

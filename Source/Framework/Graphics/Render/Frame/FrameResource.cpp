@@ -14,6 +14,10 @@ void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 
 	m_frameResourceJsonConverter.Deserialize(a_rootJson, *this);
 }
+void FWK::Graphics::FrameResource::PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG)
+{
+	m_renderGraphResourceRegistry.PostDeserializeSetup(a_windowCONFIG);
+}
 bool FWK::Graphics::FrameResource::Create(const Device&			                   a_device, 
 										  const GPUMemoryAllocator&                a_gpuMemoryAllocator, 
 										  const UINT				               a_width, 

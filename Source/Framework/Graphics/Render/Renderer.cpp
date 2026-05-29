@@ -11,6 +11,15 @@ void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 
 	m_rendererJsonConverter.Deserialize(a_rootJson, *this);
 }
+void FWK::Graphics::Renderer::PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG)
+{
+	for (const auto& l_frameResource : m_frameResourceList)
+	{
+		if (!l_frameResource) { continue; }
+
+		l_frameResource->PostDeserializeSetup(a_windowCONFIG);
+	}
+}
 bool FWK::Graphics::Renderer::Create(const Device&							  a_device, 
 									 const ShaderCompiler&					  a_shaderCompiler, 
 									 const GPUMemoryAllocator&				  a_gpuMemoryAllocator,

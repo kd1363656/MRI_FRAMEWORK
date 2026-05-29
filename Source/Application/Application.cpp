@@ -84,6 +84,10 @@ bool Application::PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManag
 		return false;
 	}
 
+	// ウィンドウサイズが決定してからウィンドウサイズに依存する
+	// デプスステンシルテクスチャやレンダーターゲットテクスチャのサイズを決める
+	a_graphicsManager.PostDeserializeSetup(m_window.GetREFWindowCONFIG());
+
 	if (!a_graphicsManager.Create(m_window.GetREFHWND(), m_window.GetREFWindowCONFIG()))
 	{
 		assert(false && "グラフィックスの作成処理に失敗しました。");

@@ -20,6 +20,10 @@ void FWK::Graphics::GraphicsManager::LoadCONFIG()
 
 	m_graphicsManagerJsonConverter.Deserialize(l_rootJson, *this);
 }
+void FWK::Graphics::GraphicsManager::PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG)
+{
+	m_renderer.PostDeserializeSetup(a_windowCONFIG);
+}
 bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG)
 {
 	if (!m_factory.Create())

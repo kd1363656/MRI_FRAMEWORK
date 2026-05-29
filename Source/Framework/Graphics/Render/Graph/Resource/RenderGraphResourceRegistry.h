@@ -17,8 +17,9 @@ namespace FWK::Graphics
 		 RenderGraphResourceRegistry() = default;
 		~RenderGraphResourceRegistry() = default;
 
-		void INIT		();
-		void Deserialize(const nlohmann::json& a_rootJson);
+		void INIT			     ();
+		void Deserialize	     (const nlohmann::json& a_rootJson);
+		void PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG);
 
 		bool Create(const Device&			  a_device,
 					const GPUMemoryAllocator& a_gpuMemoryAllocator,

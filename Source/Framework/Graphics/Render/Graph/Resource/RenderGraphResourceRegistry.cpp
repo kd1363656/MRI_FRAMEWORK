@@ -15,6 +15,33 @@ void FWK::Graphics::RenderGraphResourceRegistry::Deserialize(const nlohmann::jso
 	m_renderGraphResourceRegistryJsonConverter.Deserialize(a_rootJson, *this);
 }
 
+void FWK::Graphics::RenderGraphResourceRegistry::PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG)
+{
+	// レンダーターゲットテクスチャ、デプスステンシルテクスチャに
+	// ウィンドウサイズに合わせる必要のあるものがあればウィンドウサイズに合わせる
+	for (const auto& l_renderTargetTextureResourceRecord : m_renderTargetTextureResourceRecordList)
+	{
+		if (!l_renderTargetTextureResourceRecord) { continue; }
+
+		const auto& l_renderTargetTexture = l_renderTargetTextureResourceRecord->m_renderTargetTexture;
+
+		if (!l_renderTargetTexture) { continue; }
+
+		l_renderTargetTexture->ApplyWindowSizeIfNeed(a_windowCONFIG);
+	}
+
+	for (const auto& l_depthStencilTextureResourceRecord : m_depthStencilTextureResourceRecordList)
+	{
+		if (!l_depthStencilTextureResourceRecord) { continue; }
+
+		const auto& l_depthStencilTexture = l_depthStencilTextureResourceRecord->m_depthStencilTexture;
+
+		if (!l_depthStencilTexture) { continue; }
+
+		l_depthStencilTexture->ApplyWindowSizeIfNeed(a_windowCONFIG);
+	}
+}
+
 bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_device, 
 													    const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
 														const UINT								 a_width,

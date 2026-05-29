@@ -68,6 +68,7 @@ namespace FWK::Editor
 		Converter::EditorManagerJsonConverter m_editorManagerJsonConverter = {};
 
 		bool m_isInitialized = false;
+		bool m_isValidEditor = false;
 
 		//=========================
 		// シングルトン
