@@ -2,6 +2,8 @@
 
 namespace FWK::Constant
 {
+	inline const std::filesystem::path k_lowerDDSExtension = ".dds";
+
 	inline constexpr TypeAlias::Math::Color k_noColor = { 0.0F, 0.0F, 0.0F, 1.0F };
 
 	inline constexpr TypeAlias::Math::Vector2 k_defaultPivot = { 0.5F, 0.5F };

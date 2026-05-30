@@ -23,7 +23,16 @@ namespace FWK
 		{
 			static auto l_staticTypeID = k_initialStaticTypeID;
 
-			return l_staticTypeID++;
+			// 戻り値として扱うStaticTypeIDを格納
+			const auto l_generatedID = l_staticTypeID;
+
+			// 次のStaticTypeID出力備えてインクリメント
+			++l_staticTypeID;
+
+			// 登録可能上限を超えていたらアサート
+			FWK_ASSERT_RETURN_VALUE_IF(l_staticTypeID == Constant::k_invalidStaticTypeID, "静的TypeIDの登録可能上限に到達しています。", Constant::k_invalidStaticTypeID)
+
+			return l_generatedID;
 		}
 
 		static constexpr TypeAlias::StaticTypeID k_initialStaticTypeID = 0U;

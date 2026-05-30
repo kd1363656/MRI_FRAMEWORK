@@ -84,6 +84,7 @@
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,6 +154,7 @@ if "$(Configuration)"=="Debug" (
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -220,6 +222,7 @@ if "$(Configuration)"=="Debug" (
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -289,6 +292,7 @@ if "$(Configuration)"=="Debug" (
       <ForcedIncludeFiles>PCH.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -384,7 +388,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\RootSignature\Parameter\IsDerivedRootParameterTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\IsDerivedTagBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsSmartPTR\IsSmartPTRConcept.h" />
-    <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\CommandConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Command\Queue\Fence\FenceConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h" />
@@ -404,6 +407,10 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\SwapChain\SwapChainConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\StaticTypeID\StaticTypeIDConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\TypeTag\TypeTagConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\File\FileUtilityConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\Json\JsonUtilityConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\Math\MathUtilityConstant.h" />
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\String\StringUtilityConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Constant\WindowSize\WindowSizeConstant.h" />
     <ClInclude Include="Source\Framework\Definition\Enum\Graphics\Resource\Texture\DefaultTextureTypeEnum.h" />
     <ClInclude Include="Source\Framework\Definition\Enum\Type\Trait\PTR\TypeTraitPTREnum.h" />
@@ -531,7 +538,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Singleton\SingletonBase.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\Frame\Scene\SceneTextureTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Access\RenderGraphAccessTag.h" />
-    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Pass\RenderGraphPassTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Texture\RenderGraphTextureUsageTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\PipelineState\PipelineStateTag.h" />
     <ClInclude Include="Source\Framework\Tag\Graphics\Render\RootSignature\Parameter\RootParameterTag.h" />

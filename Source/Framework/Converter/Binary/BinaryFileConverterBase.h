@@ -2,6 +2,9 @@
 
 namespace FWK::Converter
 {
+	// メモリマップドファイルを使って、バイナリーファイルの読み書きを行うための基底クラス
+	// メモリマップドファイルは通常のファイル読み込みのようなコピーをせず
+	// ファイルを開きメモリ空間にファイル内容を対応付けるためきわめて高速
 	class BinaryFileConverterBase
 	{
 	public:
@@ -36,17 +39,8 @@ namespace FWK::Converter
 			// 読み込むバイト数が0の場合は、何もせずに終了する
 			if (l_readDataSize == k_emptyReadDataSize) { return; }
 
-			if (!a_destinationData)
-			{
-				assert(false && "読み込み先データがnullptrです。");
-				return;
-			}
-
-			if (!a_readData)
-			{
-				assert(false && "読み込み元データがnullptrです。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!a_destinationData, "読み込み先データがnullptrです。");
+			FWK_ASSERT_RETURN_IF(!a_readData,		 "読み込み元データがnullptrです。");
 
 			// メモリマップされたバイナリデータの現在位置から、
 			// 指定された型と個数分のデータを読み込み先へコピーする
@@ -74,11 +68,8 @@ namespace FWK::Converter
 				return;
 			}
 
-			if (!a_writeData)
-			{
-				assert(false && "書き込み先データがnullptrです。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!a_sourceData, "読み込み元データがnullptrです。");
+			FWK_ASSERT_RETURN_IF(!a_writeData,  "読み込み元データがnullptrです。");
 
 			// 書き込み先のメモリマップ領域の現在医師へ、
 			// 指定された方と個数分のデータを書き込む

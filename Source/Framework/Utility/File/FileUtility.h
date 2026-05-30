@@ -2,15 +2,11 @@
 
 namespace FWK::Utility::File
 {
-	inline constexpr int k_jsonIndentCount = 4;
-
 	// ファイルが読み込める形式かどうかを確認する。
 	inline bool CanLoadFilePath(const std::filesystem::path& a_filePath)
 	{
-		if (a_filePath.empty()) { return false; }
-
-		if (!std::filesystem::exists(a_filePath)) { return false; }
-
+		if (a_filePath.empty())							   { return false; }
+		if (!std::filesystem::exists(a_filePath))		   { return false; }
 		if (!std::filesystem::is_regular_file(a_filePath)) { return false; }
 
 		return true;
@@ -19,8 +15,7 @@ namespace FWK::Utility::File
 	// ファイルが読み込める形式かどうか拡張子が一致しているかどうかを確認する
 	inline bool CanLoadFilePath(const std::filesystem::path& a_filePath, const std::filesystem::path& a_extension)
 	{
-		if (!CanLoadFilePath(a_filePath)) { return false; }
-
+		if (!CanLoadFilePath(a_filePath))		   { return false; }
 		if (a_filePath.extension() != a_extension) { return false; }
 
 		return true;
@@ -65,7 +60,7 @@ namespace FWK::Utility::File
 		std::ofstream l_ofs(a_filePath, std::ios::out);
 
 		// ファイルパスにあるjsonにjsonデータを保存
-		l_ofs << a_json.dump(k_jsonIndentCount);
+		l_ofs << a_json.dump(Constant::k_jsonIndentCount);
 		l_ofs.close         ();
 	}
 }

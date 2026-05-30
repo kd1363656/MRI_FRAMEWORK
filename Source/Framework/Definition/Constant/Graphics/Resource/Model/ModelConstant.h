@@ -2,6 +2,8 @@
 
 namespace FWK::Constant
 {
+	inline const std::filesystem::path k_lowerFBXExtension = ".fbx";
+
 	inline constexpr std::size_t k_emptyModelMeshCount = 0ULL;
 
 	inline constexpr std::uint32_t k_disableModelTexture = 0U;

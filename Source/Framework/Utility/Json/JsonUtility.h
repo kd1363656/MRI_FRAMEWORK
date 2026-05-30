@@ -30,10 +30,10 @@ namespace FWK::Utility::Json
 	{
 		return TypeAlias::Math::Color    
 		{ 
-			a_json.value("X", 0.0f), 
-			a_json.value("Y", 0.0f), 
-			a_json.value("Z", 0.0f),
-			a_json.value("W", 0.0F)
+			a_json.value("X", Constant::k_noColor.R()), 
+			a_json.value("Y", Constant::k_noColor.G()), 
+			a_json.value("Z", Constant::k_noColor.B()),
+			a_json.value("W", Constant::k_noColor.A())
 		}; 
 	}
 	inline nlohmann::json SerializeColor(const TypeAlias::Math::Color& a_color) 

@@ -178,9 +178,6 @@
     <Filter Include="Source\Framework\Graphics\Shader">
       <UniqueIdentifier>{9cabef64-e3a3-4c4b-b3a0-25f747de6c25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Constant\FileExtnsion">
-      <UniqueIdentifier>{72cd5aac-7305-4594-b450-5aaa3986bbe1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Render\Pipeline">
       <UniqueIdentifier>{e0a0886d-177f-432c-9403-ff62ec98afb5}</UniqueIdentifier>
     </Filter>
@@ -712,9 +709,6 @@
     <Filter Include="Source\Framework\Tag\Graphics\Render\Graph">
       <UniqueIdentifier>{c7c684e1-094e-4c68-afc6-662fe4ccf233}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Tag\Graphics\Render\Graph\Pass">
-      <UniqueIdentifier>{8f823e4c-06d5-4f31-9b5d-d30b3f981aaa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Resource">
       <UniqueIdentifier>{c46dfad1-2361-45de-836e-98ad1dcad2fa}</UniqueIdentifier>
     </Filter>
@@ -819,6 +813,21 @@
     </Filter>
     <Filter Include="Source\Framework\Definition\Macros\Assert">
       <UniqueIdentifier>{ca40fc56-940e-4abc-a659-04fc0def1e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Utility">
+      <UniqueIdentifier>{ecd50a89-710d-4409-b415-6820ea6a801c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Utility\Json">
+      <UniqueIdentifier>{bacddd9b-09e6-4f36-b000-7fe8cfe4de69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Utility\File">
+      <UniqueIdentifier>{c840ae0b-15d2-436b-8413-33eeedf2fc66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Utility\String">
+      <UniqueIdentifier>{03460fd6-9cc2-4c07-b198-8a2e93f29a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Constant\Utility\Math">
+      <UniqueIdentifier>{73cf0862-19ab-4f01-a6cd-82fb85287775}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -976,9 +985,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Shader\Shader.h">
       <Filter>Source\Framework\Graphics\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\FileExtension\FileExtensionConstant.h">
-      <Filter>Source\Framework\Definition\Constant\FileExtnsion</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h">
       <Filter>Source\Framework\Graphics\Render\Pipeline</Filter>
@@ -1346,9 +1352,6 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Tag\Graphics\Render\Graph\Pass\RenderGraphPassTag.h">
-      <Filter>Source\Framework\Tag\Graphics\Render\Graph\Pass</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Resource\RenderGraphResourceStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Render\Graph\Resource</Filter>
     </ClInclude>
@@ -1429,6 +1432,18 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Macros\Assert\AsserReturnMacros.h">
       <Filter>Source\Framework\Definition\Macros\Assert</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\Json\JsonUtilityConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Utility\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\File\FileUtilityConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Utility\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\String\StringUtilityConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Utility\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Constant\Utility\Math\MathUtilityConstant.h">
+      <Filter>Source\Framework\Definition\Constant\Utility\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

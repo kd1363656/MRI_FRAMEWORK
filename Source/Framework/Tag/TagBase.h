@@ -10,5 +10,5 @@
 // 心配がなく、定義順も気にしなくていいのでEnumよりもこちらを使うことを推奨
 namespace FWK::Tag
 {
-	struct TagBase { FWK_DEFINE_TYPE_INFO_ROOT_TAG(TagBase); };
+	struct TagBase { FWK_DEFINE_TYPE_INFO_ROOT_TAG(TagBase) };
 }

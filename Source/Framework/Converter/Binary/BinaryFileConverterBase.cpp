@@ -23,11 +23,7 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 	DestroyMemoryMappedFile();
 
 	// ファイルを読み込めるかを確認
-	if (!Utility::File::CanLoadFilePath(a_filePath))
-	{
-		assert(false && "BinaryFileの読み込みに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!Utility::File::CanLoadFilePath(a_filePath), "BinaryFileの読み込みに失敗しました。", false)
 
 	// ファイルを開く
 	// CreateFileW(開くファイルパス、
@@ -48,10 +44,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 	// 無効なファイルハンドルならreturn
 	if (m_fileHandle == INVALID_HANDLE_VALUE)
 	{
-		assert				   (false && "BinaryFileの読み込み用ファイルハンドル作成に失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの読み込み用ファイルハンドル作成に失敗しました。", false)
 	}
 
 	auto l_fileSizeHigh = k_fileSizeHigh;
@@ -73,10 +67,9 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 
 		if (l_error != NO_ERROR)
 		{
-			assert				   (false && "BinaryFileのファイルサイズ取得に失敗しました。");
-			DestroyMemoryMappedFile();
 
-			return false;
+			DestroyMemoryMappedFile();
+			FWK_ASSERT_RETURN_VALUE("BinaryFileのファイルサイズ取得に失敗しました。", false)
 		}
 	}
 
@@ -86,10 +79,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 
 	if (m_mappedDataSize == k_emptyMappedDataSize)
 	{
-		assert				   (false && "BinaryFileの読み込み用ファイルサイズが0です。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの読み込み用ファイルサイズが0です。", false)
 	}
 
 	// ファイルをメモリ空間へ対応付けるための中間管理オブジェクトを作成する
@@ -108,10 +99,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 
 	if (!m_fileMappingHandle)
 	{
-		assert				   (false && "BinaryFileの読み込み用ファイルマッピング作成に失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの読み込み用ファイルマッピング作成に失敗しました。", false)
 	}
 
 	// CreateFileMappingWで作成したマッピングオブジェクトを使って、
@@ -130,10 +119,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateReadMemoryMappedFile(const s
 
 	if (!m_mappedData)
 	{
-		assert				   (false && "BinaryFileの読み込み用メモリマップに失敗しました。");
 		DestroyMemoryMappedFile();
-		
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの読み込み用メモリマップに失敗しました。", false)
 	}
 
 	m_isWritable = k_isReadOnlyMappedFile;
@@ -145,17 +132,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	// 既に別のファイルを開いていた場合に備えて前のマッピングを破棄する
 	DestroyMemoryMappedFile();
 
-	if (a_filePath.empty())
-	{
-		assert(false && "BinaryFileの書き込み用ファイルパスが空です。");
-		return false;
-	}
-
-	if (a_fileSize == k_emptyWriteFileSize)
-	{
-		assert(false && "BinaryFileの書き込みサイズが0です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_filePath.empty(),				   "BinaryFileの書き込み用ファイルパスが空です。", false);
+	FWK_ASSERT_RETURN_VALUE_IF(a_fileSize == k_emptyWriteFileSize, "BinaryFileの書き込みサイズが0です。",		   false);
 
 	// createFileWは存在しない親フォルダまでは作成してくれないため、
 	// 書き込み先ファイルの親フォルダが指定されている場合は、
@@ -184,10 +162,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 
 	if (m_fileHandle == INVALID_HANDLE_VALUE)
 	{
-		assert				   (false && "BinaryFileの書き込み用ファイルハンドル作成に失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの書き込み用ファイルハンドル作成に失敗しました。", false)
 	}
 
 	const auto l_fileSizeLow  = static_cast<DWORD>(a_fileSize);
@@ -214,10 +190,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 
 		if (l_error != NO_ERROR)
 		{
-			assert				   (false && "BinaryFileの書き込み用ファイルサイズ指定位置の移動に失敗しました。");
 			DestroyMemoryMappedFile();
-
-			return false;
+			FWK_ASSERT_RETURN_VALUE("BinaryFileの書き込み用ファイルサイズ指定位置の移動に失敗しました。", false)
 		}
 	}
 
@@ -225,10 +199,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	// SetEndOfFile(ファイルハンドル);
 	if (!SetEndOfFile(m_fileHandle))
 	{
-		assert				   (false && "BinaryFileの書き込み用ファイルサイズ確保に失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの書き込み用ファイルサイズ指定位置の移動に失敗しました。", false)
 	}
 
 	m_mappedDataSize = a_fileSize;
@@ -250,10 +222,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 
 	if (!m_fileMappingHandle)
 	{
-		assert				   (false && "BinaryFileの書き込み用ファイルマッピング作成に失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの書き込み用ファイルマッピング作成に失敗しました。", false)
 	}
 
 	// CreateFileMappingWで作成したマッピングオブジェクトを使って、
@@ -272,10 +242,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 
 	if (!m_mappedData)
 	{
-		assert				   (false && "BinaryFileの書き込み用メモリマップに失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("BinaryFileの書き込み用メモリマップに失敗しました。", false)
 	}
 
 	m_isWritable = k_isWriteMappedFile;

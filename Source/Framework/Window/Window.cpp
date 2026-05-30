@@ -37,11 +37,7 @@ void FWK::Window::LoadCONFIG()
 }
 bool FWK::Window::Create(const std::wstring& a_windowClassName, const std::string& a_titleName)
 {
-	if (!CreateWindowInstance(a_windowClassName, a_titleName))
-	{
-		assert(false && "ウィンドウインスタンスの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateWindowInstance(a_windowClassName, a_titleName), "ウィンドウインスタンスの作成に失敗しました。", false)
 
 	// クライアント領域のサイズが設定値通りになるようにウィンドウサイズを調整する
 	SetupClientSize();
@@ -105,27 +101,15 @@ bool FWK::Window::HasHWND() const
 
 bool FWK::Window::RequestClientSize(const Struct::ClientSize& a_clientSize)
 {
-	if (!m_hwnd)
-	{
-		assert(false && "HWNDが無効のため、クライアント領域サイズ変更要求に失敗しました。");
-		return false;
-	}
-
-	if (!IsValidClientSize(a_clientSize))
-	{
-		assert(false && "要求されたクライアント領域サイズが無効です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_hwnd,						     "HWNDが無効のため、クライアント領域サイズ変更要求に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidClientSize(a_clientSize), "要求されたクライアント領域サイズが無効です。",					     false)
 
 	RECT l_currentWindowRECT = {};
 
 	// 現在のウィンドウ位置を取得する。
 	// サイズ変更時に毎回左上へ移動すると扱いにくいため、現在位置を維持する
-	if (!GetWindowRect(m_hwnd, &l_currentWindowRECT))
-	{
-		assert(false && "現在のウィンドウ矩形取得に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!GetWindowRect(m_hwnd, &l_currentWindowRECT), "現在のウィンドウ矩形取得に失敗しました。", false)
+
 
 	RECT l_clientRECT = {};
 
@@ -138,28 +122,22 @@ bool FWK::Window::RequestClientSize(const Struct::ClientSize& a_clientSize)
 
 	// AdjustWindowRECTは、指定したクライアント領域サイズになるように、
 	// タイトルバーや枠を含めたウィンドウ全体サイズを計算するAPI
-	if (const DWORD l_style = FetchVALWindowStyle();
-		!AdjustWindowRect(&l_clientRECT, l_style, FALSE))
-	{
-		assert(false && "クライアント領域にあわせたウィンドウ全体サイズ計算に失敗しました。");
-		return false;
-	}
+	const DWORD l_style = FetchVALWindowStyle();
+	FWK_ASSERT_RETURN_VALUE_IF(!AdjustWindowRect(&l_clientRECT, l_style, FALSE), "クライアント領域に合わせたウィンドウ全体サイズ計算に失敗しました。", false)
 
 	const auto l_windowWidth  = static_cast<int>(l_clientRECT.right  - l_clientRECT.left);
 	const auto l_windowHeight = static_cast<int>(l_clientRECT.bottom - l_clientRECT.top);
 
 	// MoveWindowは、ウィンドウ位置とウィンドウ全体サイズを変更する
 	// ここでは現在位置を維持しつつ、クライアント領域がa_clientSizeになるように変更
-	if (!MoveWindow(m_hwnd, 
-					l_currentWindowRECT.left,
-					l_currentWindowRECT.top,
-				    l_windowWidth,
-					l_windowHeight,
-					FALSE))
-	{
-		assert(false && "ウィンドウサイズ変更に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!MoveWindow(m_hwnd, 
+								l_currentWindowRECT.left,
+								l_currentWindowRECT.top,
+								l_windowWidth,
+								l_windowHeight,
+								FALSE), 
+								"ウィンドウサイズ変更に失敗しました。",
+								false)
 
 	// MoveWindow後にWM_SIZEが届くが、ゲーム内からのサイズ変更要求として即座に状態も更新
 	m_windowCONFIG.m_clientSize = a_clientSize;
@@ -479,9 +457,7 @@ void FWK::Window::SetupClientSize()
 		return;
 	}
 
-	assert(false && "ウィンドウスタイルタグの取得に失敗しておりクライアントサイズの設定を行えませんでした。");
-
-	return;
+	FWK_ASSERT_RETURN("ウィンドウスタイルタグの取得に失敗しておりクライアントサイズの設定を行えませんでした。")
 }
 
 void FWK::Window::Release()
@@ -537,7 +513,5 @@ DWORD FWK::Window::FetchVALWindowStyle() const
 	if	   (m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>()) { return WS_POPUP; }
 	else if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())		          { return k_generalWindowStyle; }
 
-	assert(false && "ウィンドウスタイルが設定されていませんでした。");
-
-	return k_generalWindowStyle;
+	FWK_ASSERT_RETURN_VALUE("ウィンドウスタイルタグの取得に失敗しておりクライアントサイズの設定を行えませんでした。", k_generalWindowStyle)
 }
