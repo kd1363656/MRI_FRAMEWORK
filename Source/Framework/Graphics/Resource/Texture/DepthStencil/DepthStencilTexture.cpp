@@ -19,19 +19,11 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、DepthStencilTextureの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、DepthStencilTextureの作成に失敗しました。", false)
 
 	const auto l_dsvStorageID = a_dsvDescriptorPool.Allocate();
 
-	if (l_dsvStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "DSVStorageIDの確認に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_dsvStorageID == Constant::k_invalidStorageID, "DSVStorageIDの確認に失敗しました。", false)
 
 	// D3D12_CLEAR_VALUEについて
 	// Format			    : クリア対象リソースのフォーマット
@@ -43,6 +35,7 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 	l_clearValue.DepthStencil.Depth   = Constant::k_defaultDepthClearValue;
 	l_clearValue.DepthStencil.Stencil = Constant::k_defaultStencilClearValue;
 
+	// 書き込み用深度テクスチャの作成
 	// D3D12_RESOURCE_DESCについて
 	// Tex2D(フォーマット、
 	//		 幅、
@@ -52,26 +45,21 @@ bool FWK::Graphics::DepthStencilTexture::Create(const Graphics::Device& a_device
 	//		 サンプル数、
 	//		 サンプル品質、
 	//		 リソースフラグ);
+	const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(m_format,
+															 m_width,
+															 m_height,
+															 Constant::k_renderTextureDefaultArraySize,
+															 Constant::k_renderTextureDefaultMIPLevels,
+															 Constant::k_renderTextureDefaultSampleCount,
+															 Constant::k_renderTextureDefaultSampleQuality,
+															 D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 
-	// 書き込み用深度テクスチャの作成
-	if (const auto l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(m_format,
-															     m_width,
-															     m_height,
-															     Constant::k_renderTextureDefaultArraySize,
-															     Constant::k_renderTextureDefaultMIPLevels,
-															     Constant::k_renderTextureDefaultSampleCount,
-															     Constant::k_renderTextureDefaultSampleQuality,
-															     D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
-		!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
-													&l_clearValue,
-													Constant::k_defaultDepthStencilTextureResourceState,
-												    m_gpuResource))
-	{
-		a_dsvDescriptorPool.Release(l_dsvStorageID);
-
-		assert(false && "DepthStencilTexture用TextureResourceの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
+																		   &l_clearValue,
+																		   Constant::k_defaultDepthStencilTextureResourceState,
+																		   m_gpuResource),
+																		   "DepthStencilTexture用TextureResourceの作成に失敗しました。",
+																		   false)
 
 	// D3D12_DEPTH_STENCIL_VIEW_DESCについて
 	// Format	     : DSVとしてみるときのフォーマット
@@ -109,19 +97,11 @@ bool FWK::Graphics::DepthStencilTexture::Resize(const Device&							 a_device,
 													  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool, 
 													  DeferredResourceReleaseQueue&		 a_deferredResourceReleaseQueue)
 {
-	if (!IsValidTextureSize(a_clientSize))
-	{
-		assert(false && "DepthStencilTextureのリサイズ後サイズが無効です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidTextureSize(a_clientSize), "DepthStencilTextureのリサイズ後サイズが無効です。", false)
 
 	if (IsSameTextureSize(a_clientSize)) { return true; }
 
-	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
-	{
-		assert(false && "現在のDepthStencilTextureを遅延解放できない状態です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue), "現在のDepthStencilTextureを遅延解放できない状態です。", false)
 
 	DepthStencilTexture l_newDepthStencilTexture = {};
 
@@ -133,20 +113,10 @@ bool FWK::Graphics::DepthStencilTexture::Resize(const Device&							 a_device,
 	// 先に新しいDepthStencilTextureを作成。
 	// 古いリソースを先にQueueへ移してから新規作成に失敗すると、
 	// このインスタンスが有効な深度ステンシルを失ってしまうため
-	if (!l_newDepthStencilTexture.Create(a_device,
-										 a_gpuMemoryAllocator,
-										 a_dsvDescriptorPool))
-	{
-		assert(false && "リサイズ後のDepthStencilTexture作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_newDepthStencilTexture.Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool), "リサイズ後のDepthStencilTexture作成に失敗しました。", false)
 
 	// 新しいDepthStencilTextureの作成に成功した後で、古いリソースをDeferredReleaseへ渡す。
-	if (!PushCurrentResourceForDeferredRelease(a_retiredFenceValue, a_deferredResourceReleaseQueue))
-	{
-		assert(false && "古いDepthStencilTextureの遅延解放Queue登録に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!PushCurrentResourceForDeferredRelease(a_retiredFenceValue, a_deferredResourceReleaseQueue), "古いDepthStencilTextureの遅延解放Queue登録に失敗しました。", false)
 
 	*this = std::move(l_newDepthStencilTexture);
 
@@ -180,11 +150,7 @@ bool FWK::Graphics::DepthStencilTexture::IsValidCurrentResourceForDeferredReleas
 
 bool FWK::Graphics::DepthStencilTexture::PushCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
 {
-	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
-	{
-		assert(false && "DepthStencilTextureが無効なため、遅延解放Queueへ登録できません。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue), "DepthStencilTextureが無効なため、遅延解放Queueへ登録できません。", false)
 
 	Struct::GPUResourceReleaseRecord l_gpuResourceReleaseRecord = {};
 
@@ -196,17 +162,8 @@ bool FWK::Graphics::DepthStencilTexture::PushCurrentResourceForDeferredRelease(c
 	l_dsvDescriptorIndexReleaseRecord.m_storageID		  = m_dsvStorageID;
 	l_dsvDescriptorIndexReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
 
-	if (!a_deferredResourceReleaseQueue.PushGPUResourceRecord(std::move(l_gpuResourceReleaseRecord)))
-	{
-		assert(false && "DepthStencilTextureのGPUResourceを遅延解放Queueへ登録できませんでした。");
-		return false;
-	}
-
-	if (!a_deferredResourceReleaseQueue.PushDSVDescriptorIndex(std::move(l_dsvDescriptorIndexReleaseRecord)))
-	{
-		assert(false && "DepthStencilTextureのDSVDescriptorIndexを遅延解放Queueへ登録できませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_deferredResourceReleaseQueue.PushGPUResourceRecord(std::move(l_gpuResourceReleaseRecord)),		 "DepthStencilTextureのGPUResourceを遅延解放Queueへ登録できませんでした。",		   false)
+	FWK_ASSERT_RETURN_VALUE_IF(!a_deferredResourceReleaseQueue.PushDSVDescriptorIndex(std::move(l_dsvDescriptorIndexReleaseRecord)), "DepthStencilTextureのDSVDescriptorIndexを遅延解放Queueへ登録できませんでした。", false)
 
 	// 二重解放を防ぐため、Queueへ渡したDescriptorIndexは無効化します。
 	m_dsvStorageID = Constant::k_invalidStorageID;
