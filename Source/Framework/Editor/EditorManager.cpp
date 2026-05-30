@@ -187,7 +187,7 @@ void FWK::Editor::EditorManager::AddEditorWindow(const std::shared_ptr<EditorWin
 		return;
 	}
 
-	const auto& l_staticID = a_editorWindow->GetRuntimeTypeINFO().k_staticTypeID;
+	const auto& l_staticID = a_editorWindow->GetREFRuntimeTypeINFO().k_staticTypeID;
 
 	// 既に作成されているならばreturn
 	if (m_editorWindowMap.contains(l_staticID)) { return; }

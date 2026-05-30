@@ -107,7 +107,7 @@ void FWK::Graphics::FrameResource::AddConstantBufferUploader(const std::shared_p
 {
 	if (!a_constantBufferUploader) { return; }
 
-	const auto l_staticTypeID = a_constantBufferUploader->GetRuntimeTypeINFO().k_staticTypeID;
+	const auto l_staticTypeID = a_constantBufferUploader->GetREFRuntimeTypeINFO().k_staticTypeID;
 
 	m_constantBufferUploaderMap.try_emplace(l_staticTypeID, a_constantBufferUploader);
 }

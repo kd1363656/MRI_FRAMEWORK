@@ -43,7 +43,7 @@ namespace FWK::Graphics
 		template <typename Type>
 		std::weak_ptr<ConstantBufferUploaderBase> FindPTRConstantBufferUploader() const
 		{
-			const auto& l_itr = m_constantBufferUploaderMap.find(Type::GetTypeINFO().k_staticTypeID);
+			const auto& l_itr = m_constantBufferUploaderMap.find(Type::GetREFTypeINFO().k_staticTypeID);
 
 			if (l_itr == m_constantBufferUploaderMap.end()) { return std::weak_ptr<ConstantBufferUploaderBase>(); }
 

@@ -38,7 +38,7 @@ namespace FWK::Graphics
 
 		void SetIsUseWindowSize(const bool a_set) { m_isUseWindowSize = a_set; }
 
-		static constexpr auto GetDefaultDepthStencilTextureFormat() { return k_defaultDepthStencilTextureFormat; }
+		static constexpr auto GetVALDefaultDepthStencilTextureFormat() { return k_defaultDepthStencilTextureFormat; }
 
 		const auto& GetREFGPUResource() const { return m_gpuResource; }
 

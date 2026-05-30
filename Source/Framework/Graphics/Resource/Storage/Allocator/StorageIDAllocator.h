@@ -22,7 +22,7 @@ namespace FWK::Graphics
 
 		void SetStorageIDCapacity(TypeAlias::StorageID a_set) { m_storageIDCapacity = a_set; }
 
-		static constexpr auto GetDefaultCreateStorageIDCapacity() { return k_defaultCreateStorageIDCapacity; }
+		static constexpr auto GetVALDefaultCreateStorageIDCapacity() { return k_defaultCreateStorageIDCapacity; }
 
 		auto GetVALStorageIDCapacity() const { return m_storageIDCapacity; }
 

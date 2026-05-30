@@ -205,7 +205,7 @@ void FWK::Graphics::RenderGraph::AddDrawCommand(const std::shared_ptr<DrawComman
 		return;
 	}
 
-	const auto l_staticTypeID = a_drawCommand->GetRuntimeTypeINFO().k_staticTypeID;
+	const auto l_staticTypeID = a_drawCommand->GetREFRuntimeTypeINFO().k_staticTypeID;
 
 	if (m_drawCommandMap.contains(l_staticTypeID))
 	{
@@ -219,11 +219,11 @@ void FWK::Graphics::RenderGraph::AddDrawCommand(const std::shared_ptr<DrawComman
 
 bool FWK::Graphics::RenderGraph::IsReadAccess(const Struct::RenderGraphTextureAccess& a_textureAccess) const
 {
-	return a_textureAccess.m_accessTag == Utility::Tag::GetTag<Tag::RenderGraphReadAccessTag>();
+	return a_textureAccess.m_accessTag == Utility::Tag::GetVALTag<Tag::RenderGraphReadAccessTag>();
 }
 bool FWK::Graphics::RenderGraph::IsWriteAccess(const Struct::RenderGraphTextureAccess& a_textureAccess) const
 {
-	return a_textureAccess.m_accessTag == Utility::Tag::GetTag<Tag::RenderGraphWriteAccessTag>();
+	return a_textureAccess.m_accessTag == Utility::Tag::GetVALTag<Tag::RenderGraphWriteAccessTag>();
 }
 
 void FWK::Graphics::RenderGraph::AddDependencyEdge(const std::uint32_t							  a_fromPassIndex, 
@@ -520,31 +520,31 @@ bool FWK::Graphics::RenderGraph::TransitionDepthStencilTexture(const Struct::Ren
 
 D3D12_RESOURCE_STATES FWK::Graphics::RenderGraph::ConvertTextureUsageToResourceState(const TypeAlias::TypeTag a_usageTag) const
 {
-	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphRenderTargetUsageTag>())
+	if (a_usageTag == Utility::Tag::GetVALTag<Tag::RenderGraphRenderTargetUsageTag>())
 	{
 		// RenderTargetとして書き込むためのResourceState
 		return D3D12_RESOURCE_STATE_RENDER_TARGET;
 	}
 
-	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphCopySourceUsageTag>())
+	if (a_usageTag == Utility::Tag::GetVALTag<Tag::RenderGraphCopySourceUsageTag>())
 	{
 		// CopyTextureRegionなどでコピー元として読むためのResourceState
 		return D3D12_RESOURCE_STATE_COPY_SOURCE;
 	}
 
-	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphShaderReadUsageTag>())
+	if (a_usageTag == Utility::Tag::GetVALTag<Tag::RenderGraphShaderReadUsageTag>())
 	{
 		// PixelShader / MeshShader / ComputeShaderなど、シェーダーから読むためのResourceState
 		return D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE | D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
 	}
 
-	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphDepthWriteUsageTag>())
+	if (a_usageTag == Utility::Tag::GetVALTag<Tag::RenderGraphDepthWriteUsageTag>())
 	{
 		// DepthStencilとして深度を書き込むためのResourceState
 		return D3D12_RESOURCE_STATE_DEPTH_WRITE;
 	}
 
-	if (a_usageTag == Utility::Tag::GetTag<Tag::RenderGraphDepthReadUsageTag>())
+	if (a_usageTag == Utility::Tag::GetVALTag<Tag::RenderGraphDepthReadUsageTag>())
 	{
 		// DepthStencilとして深度を読むためのResourceState
 		return D3D12_RESOURCE_STATE_DEPTH_READ;

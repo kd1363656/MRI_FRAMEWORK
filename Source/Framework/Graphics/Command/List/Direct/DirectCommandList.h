@@ -61,7 +61,7 @@ namespace FWK::Graphics
 				return;
 			}
 
-			const auto l_rootParameterIndex = a_rootSignature.FindVALRootParameterIndex(Utility::Tag::GetTag<Type>());
+			const auto l_rootParameterIndex = a_rootSignature.FindVALRootParameterIndex(Utility::Tag::GetVALTag<Type>());
 
 			if (l_rootParameterIndex == Constant::k_invalidRootParameterIndex)
 			{

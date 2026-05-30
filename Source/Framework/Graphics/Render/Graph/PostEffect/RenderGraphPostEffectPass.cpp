@@ -2,14 +2,14 @@
 
 FWK::Graphics::RenderGraphPostEffectPass::RenderGraphPostEffectPass()
 {
-	ReadTexture (Utility::Tag::GetTag<Tag::SceneColorTextureTag>(),		 Utility::Tag::GetTag<Tag::RenderGraphShaderReadUsageTag>());
-	WriteTexture(Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphRenderTargetUsageTag>());
+	ReadTexture (Utility::Tag::GetVALTag<Tag::SceneColorTextureTag>(),		Utility::Tag::GetVALTag<Tag::RenderGraphShaderReadUsageTag>());
+	WriteTexture(Utility::Tag::GetVALTag<Tag::PostEffectColorTextureTag>(), Utility::Tag::GetVALTag<Tag::RenderGraphRenderTargetUsageTag>());
 }
 FWK::Graphics::RenderGraphPostEffectPass::~RenderGraphPostEffectPass() = default;
 
 void FWK::Graphics::RenderGraphPostEffectPass::PostCreateSetup(Renderer& a_renderer)
 {
-	m_pipelineState = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<Tag::PostEffectPipelineStateTag>());
+	m_pipelineState = a_renderer.FindVALPipelineState(Utility::Tag::GetVALTag<Tag::PostEffectPipelineStateTag>());
 
 	const auto& l_pipelineState = m_pipelineState.lock();
 
@@ -45,7 +45,7 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 	}
 
 	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
-	const auto& l_sceneColorTextureRecord	  = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetTag<Tag::SceneColorTextureTag>()).lock();
+	const auto& l_sceneColorTextureRecord	  = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetVALTag<Tag::SceneColorTextureTag>()).lock();
 
 	// シーンカラーテクスチャの取得
 	if (!l_sceneColorTextureRecord)
@@ -69,7 +69,7 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 	}
 
 	// ポストエフェクトカラーテクスチャの取得
-	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture(Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>()).lock();
+	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture(Utility::Tag::GetVALTag<Tag::PostEffectColorTextureTag>()).lock();
 
 	if (!l_postEffectColorTextureRecord)
 	{

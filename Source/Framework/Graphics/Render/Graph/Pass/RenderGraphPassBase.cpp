@@ -2,12 +2,12 @@
 
 void FWK::Graphics::RenderGraphPassBase::ReadTexture(const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_usageTag)
 {
-	AddTextureAccess(a_textureTag, Utility::Tag::GetTag<Tag::RenderGraphReadAccessTag>(), a_usageTag);
+	AddTextureAccess(a_textureTag, Utility::Tag::GetVALTag<Tag::RenderGraphReadAccessTag>(), a_usageTag);
 }
 
 void FWK::Graphics::RenderGraphPassBase::WriteTexture(const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_usageTag)
 {
-	AddTextureAccess(a_textureTag, Utility::Tag::GetTag<Tag::RenderGraphWriteAccessTag>(), a_usageTag);
+	AddTextureAccess(a_textureTag, Utility::Tag::GetVALTag<Tag::RenderGraphWriteAccessTag>(), a_usageTag);
 }
 
 void FWK::Graphics::RenderGraphPassBase::AddTextureAccess(const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_accessTag, const TypeAlias::TypeTag a_usageTag)

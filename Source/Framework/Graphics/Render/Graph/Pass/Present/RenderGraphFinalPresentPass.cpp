@@ -2,14 +2,14 @@
 
 FWK::Graphics::RenderGraphFinalPresentPass::RenderGraphFinalPresentPass()
 {
-	ReadTexture(Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphShaderReadUsageTag>());
+	ReadTexture(Utility::Tag::GetVALTag<Tag::PostEffectColorTextureTag>(), Utility::Tag::GetVALTag<Tag::RenderGraphShaderReadUsageTag>());
 }
 
 FWK::Graphics::RenderGraphFinalPresentPass::~RenderGraphFinalPresentPass() = default;
 
 void FWK::Graphics::RenderGraphFinalPresentPass::PostCreateSetup(Renderer& a_renderer)
 {
-	m_pipelineState = a_renderer.FindVALPipelineState(Utility::Tag::GetTag<Tag::FinalPresentPipelineStateTag>());
+	m_pipelineState = a_renderer.FindVALPipelineState(Utility::Tag::GetVALTag<Tag::FinalPresentPipelineStateTag>());
 
 	const auto& l_pipelineState = m_pipelineState.lock();
 
@@ -46,7 +46,7 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 	}
 
 	const auto& l_renderGraphResourceRegistry  = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
-	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>()).lock();
+	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetVALTag<Tag::PostEffectColorTextureTag>()).lock();
 
 	if (!l_postEffectColorTextureRecord)
 	{

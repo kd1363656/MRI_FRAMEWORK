@@ -47,7 +47,7 @@ ImTextureID FWK::Editor::SceneViewEditorWindow::FetchVALSceneViewTextureID() con
 
 	// PostEffectColorTextureTagが付いたRenderTargetTextureTagを探す
 	// これはポストエフェクト後の最後カラー画像として扱う
-	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture(Utility::Tag::GetTag<Tag::PostEffectColorTextureTag>()).lock();
+	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture(Utility::Tag::GetVALTag<Tag::PostEffectColorTextureTag>()).lock();
 
 	if (!l_postEffectColorTextureRecord) { return k_invalidSceneViewTextureID; }
 

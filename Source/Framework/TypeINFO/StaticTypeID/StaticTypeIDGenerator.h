@@ -9,7 +9,7 @@ namespace FWK
 
 		// テンプレートを使った関数の特殊化を用いて動的に型ごとに一意なIDを生成
 		template <typename Type>
-		static TypeAlias::StaticTypeID GetTypeID()
+		static TypeAlias::StaticTypeID GetVALTypeID()
 		{
 			static auto l_staticTypeID = GenerateTypeID();
 

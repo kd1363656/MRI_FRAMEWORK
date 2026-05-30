@@ -21,7 +21,7 @@ void FWK::Window::INIT()
 {
 	m_hwnd = nullptr;
 
-	m_windowCONFIG.m_styleTag		     = Utility::Tag::GetTag<Tag::WindowStyleNormalTag>();
+	m_windowCONFIG.m_styleTag		     = Utility::Tag::GetVALTag<Tag::WindowStyleNormalTag>();
 	m_windowCONFIG.m_clientSize.m_width  = Constant::k_defaultWindowWidth;
 	m_windowCONFIG.m_clientSize.m_height = Constant::k_defaultWindowHeight;
 
@@ -401,7 +401,7 @@ void FWK::Window::SetupClientSize()
 	//		再描画をするかどうか、
 	// );
 
-	if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>())
+	if(m_windowCONFIG.m_styleTag == Utility::Tag::GetVALTag<Tag::WindowStyleBorderlessFullScreenTag>())
 	{
 		// メイン画面の横幅、高さをピクセル単位で取得
 		const int l_screenWidth  = GetSystemMetrics(SM_CXSCREEN);
@@ -428,7 +428,7 @@ void FWK::Window::SetupClientSize()
 
 		return;
 	}
-	else if (m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())
+	else if (m_windowCONFIG.m_styleTag == Utility::Tag::GetVALTag<Tag::WindowStyleNormalTag>())
 	{
 		// 通常のウィンドウには枠やタイトルバーがあるため、
 		//「描画中に使う中身の領域(クライアント領域)」と
@@ -510,8 +510,8 @@ HINSTANCE FWK::Window::FetchVALInstanceHandle() const
 DWORD FWK::Window::FetchVALWindowStyle() const
 {
 	// 持っているタグから返すウィンドウスタイルを判定する
-	if	   (m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleBorderlessFullScreenTag>()) { return WS_POPUP; }
-	else if(m_windowCONFIG.m_styleTag == Utility::Tag::GetTag<Tag::WindowStyleNormalTag>())		          { return k_generalWindowStyle; }
+	if	   (m_windowCONFIG.m_styleTag == Utility::Tag::GetVALTag<Tag::WindowStyleBorderlessFullScreenTag>()) { return WS_POPUP; }
+	else if(m_windowCONFIG.m_styleTag == Utility::Tag::GetVALTag<Tag::WindowStyleNormalTag>())		         { return k_generalWindowStyle; }
 
 	FWK_ASSERT_RETURN_VALUE("ウィンドウスタイルタグの取得に失敗しておりクライアントサイズの設定を行えませんでした。", k_generalWindowStyle)
 }

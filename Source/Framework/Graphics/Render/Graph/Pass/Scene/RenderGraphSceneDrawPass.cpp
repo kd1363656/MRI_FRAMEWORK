@@ -2,8 +2,8 @@
 
 FWK::Graphics::RenderGraphSceneDrawPass::RenderGraphSceneDrawPass()
 {
-	WriteTexture(Utility::Tag::GetTag<Tag::SceneColorTextureTag>(),		   Utility::Tag::GetTag<Tag::RenderGraphRenderTargetUsageTag>());
-	WriteTexture(Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>(), Utility::Tag::GetTag<Tag::RenderGraphDepthWriteUsageTag>());
+	WriteTexture(Utility::Tag::GetVALTag<Tag::SceneColorTextureTag>(),		  Utility::Tag::GetVALTag<Tag::RenderGraphRenderTargetUsageTag>());
+	WriteTexture(Utility::Tag::GetVALTag<Tag::SceneDepthStencilTextureTag>(), Utility::Tag::GetVALTag<Tag::RenderGraphDepthWriteUsageTag>());
 }
 FWK::Graphics::RenderGraphSceneDrawPass::~RenderGraphSceneDrawPass() = default;
 
@@ -24,7 +24,7 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 	}
 
 	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
-	const auto& l_sceneColorTextureRecord     = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetTag<Tag::SceneColorTextureTag>()).lock();
+	const auto& l_sceneColorTextureRecord     = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetVALTag<Tag::SceneColorTextureTag>()).lock();
 
 	if (!l_sceneColorTextureRecord)
 	{
@@ -40,7 +40,7 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 		return;
 	}
 
-	const auto& l_sceneDepthStencilTextureRecord = l_renderGraphResourceRegistry.FindVALDepthStencilTexture(Utility::Tag::GetTag<Tag::SceneDepthStencilTextureTag>()).lock();
+	const auto& l_sceneDepthStencilTextureRecord = l_renderGraphResourceRegistry.FindVALDepthStencilTexture(Utility::Tag::GetVALTag<Tag::SceneDepthStencilTextureTag>()).lock();
 
 	if (!l_sceneDepthStencilTextureRecord)
 	{

@@ -51,7 +51,7 @@ namespace FWK::Graphics
 		template <Concept::IsDerivedDrawCommandBaseConcept Type>
 		std::shared_ptr<Type> FindVALDrawCommand() const
 		{
-			if (const auto& l_itr = m_drawCommandMap.find(Type::GetTypeINFO().k_staticTypeID);
+			if (const auto& l_itr = m_drawCommandMap.find(Type::GetREFTypeINFO().k_staticTypeID);
 				l_itr != m_drawCommandMap.end())
 			{
 				if (auto l_drawCommand = l_itr->second.lock())

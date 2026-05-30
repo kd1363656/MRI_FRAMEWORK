@@ -12,7 +12,7 @@ namespace FWK::Graphics
 
 		void PostCreateSetup(Renderer& a_renderer) override
 		{
-			SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetTag<Type>());
+			SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetVALTag<Type>());
 		}
 
 		bool SetupCommonPassConstantBuffer(Renderer& a_renderer)

@@ -107,7 +107,7 @@ namespace FWK::Utility::Json
 
 		auto l_rootJson = nlohmann::json();
 
-		l_rootJson[a_key] = a_instance->GetRuntimeTypeINFO().k_name;
+		l_rootJson[a_key] = a_instance->GetREFRuntimeTypeINFO().k_name;
 
 		return l_rootJson;
 	}
