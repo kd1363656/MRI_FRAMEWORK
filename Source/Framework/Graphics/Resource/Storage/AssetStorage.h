@@ -21,11 +21,7 @@ namespace FWK::Graphics
 		}
 		bool Create()
 		{
-			if (!m_storageIDAllocator.Create())
-			{
-				assert(false && "StorageIDAllocatorの作成に失敗したため、AssetStorageの作成に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!m_storageIDAllocator.Create(), "StorageIDAllocatorの作成に失敗したため、AssetStorageの作成に失敗しました。", false)
 
 			return true;
 		}
@@ -47,29 +43,10 @@ namespace FWK::Graphics
 
 		bool RegisterRecord(const std::shared_ptr<RecordType>& a_record, const std::wstring& a_filePath)
 		{
-			if (!a_record)
-			{
-				assert(false && "レコードのインスタンス化がされていません。");
-				return false;
-			}
-
-			if (a_filePath.empty())
-			{
-				assert(false && "ファイルパスが空のため、Recordの登録に失敗しました。");
-				return false;
-			}
-
-			if (a_record->GetVALStorageID() == Constant::k_invalidStorageID)
-			{
-				assert(false && "StorageIDが無効のため、Recordの登録に失敗しました。");
-				return false;
-			}
-
-			if (m_recordMap.contains(a_filePath))
-			{
-				assert(false && "同じファイルパスのRecordが既に登録されているため、Recordの登録に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!a_record,													"レコードのインスタンス化がされていません。",									  false)
+			FWK_ASSERT_RETURN_VALUE_IF(a_filePath.empty(),											"ファイルパスが空のため、Recordの登録に失敗しました。",							  false)
+			FWK_ASSERT_RETURN_VALUE_IF(a_record->GetVALStorageID() == Constant::k_invalidStorageID, "StorageIDが無効のため、Recordの登録に失敗しました。",							  false)
+			FWK_ASSERT_RETURN_VALUE_IF(m_recordMap.contains(a_filePath),							"同じファイルパスのRecordが既に登録されているため、Recordの登録に失敗しました。", false)
 
 			m_recordMap.try_emplace(a_filePath, a_record);
 
@@ -80,11 +57,7 @@ namespace FWK::Graphics
 		{
 			const auto& l_record = a_record.lock();
 
-			if (!l_record)
-			{
-				assert(false && "指定されたStorageIDのRecordが見つからないため、参照数加算に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_record, "指定されたStorageIDのRecordが見つからないため、参照数加算に失敗しました。", false)
 
 			// 参照カウントを加算
 			l_record->AddReferenceCount();
@@ -96,28 +69,16 @@ namespace FWK::Graphics
 		{
 			const auto& l_record = a_record.lock();
 
-			if (!l_record)
-			{
-				assert(false && "指定されたStorageIDのRecordが見つからないため、解放予約に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_record,							"指定されたStorageIDのRecordが見つからないため、解放予約に失敗しました。", false)
+			FWK_ASSERT_RETURN_VALUE_IF(!l_record->SubtractReferenceCount(), "Recordの参照数減算に失敗しました。",									   false)
 
-			if (!l_record->SubtractReferenceCount())
-			{
-				assert(false && "Recordの参照数減算に失敗しました。");
-				return false;
-			}
-			
 			// まだ利用者が残っているなら何もしない
 			if (!l_record->IsUnused()) { return true; }
 
 			// Record自身に、GPUResourceやDescriptorIndexを遅延解放Queueへ積ませる
-			if (const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
-				!l_record->PushDeferredRelease(l_lastSignaledFenceValue, a_deferredResourceReleaseQueue))
-			{
-				assert(false && "Record固有リソースの遅延解放Queue登録に失敗しました。");
-				return false;
-			}
+			const auto& l_lastSignaledFenceValue = a_directCommandQueue.FetchREFLastSignaledFenceValue();
+
+			FWK_ASSERT_RETURN_VALUE_IF(!l_record->PushDeferredRelease(l_lastSignaledFenceValue, a_deferredResourceReleaseQueue), "Record固有リソースの遅延解放Queue登録に失敗しました。", false)
 
 			const auto& l_filePath  = l_record->GetREFFilePath ();
 			const auto  l_storageID = l_record->GetVALStorageID();
@@ -149,11 +110,7 @@ namespace FWK::Graphics
 
 		std::weak_ptr<RecordType> FindVALRecord(const std::wstring& a_filePath) const
 		{
-			if (a_filePath.empty())
-			{
-				assert(false && "ファイルパスが空のため、Recordの取得に失敗しました。");
-				return {};
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(a_filePath.empty(), "ファイルパスが空のため、Recordの取得に失敗しました。", {})
 
 			const auto& l_itr = m_recordMap.find(a_filePath);
 
