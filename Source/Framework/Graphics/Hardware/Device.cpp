@@ -134,7 +134,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 	auto l_hr = D3D12CreateDevice(l_selectedAdapter.Get(), l_selectedFeatureLevel, IID_PPV_ARGS(m_device.ReleaseAndGetAddressOf()));
 
 	// 作成が失敗した場合はエラー
-	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "デバイスの作成に失敗しました。", false);
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "デバイスの作成に失敗しました。", false)
 
 	// デバイス作成に成功した際のアダプタを格納
 	m_adapter = l_selectedAdapter;

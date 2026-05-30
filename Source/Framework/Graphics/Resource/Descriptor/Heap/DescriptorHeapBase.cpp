@@ -196,8 +196,8 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUHandle
 }
 D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALGPUHandle(const TypeAlias::StorageID a_storageID, const DescriptorHeapRecord& a_descriptorHeapRecord) const
 {
-	FWK_ASSERT_RETURN_VALUE_IF(!a_descriptorHeapRecord.m_descriptorHeap,	 "ディスクリプタヒープが未作成でGPUハンドル取得ができません。",										  {});
-	FWK_ASSERT_RETURN_VALUE_IF(a_storageID >= m_descriptorStorageIDCapacity, "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのGPUハンドル取得に失敗しました。", {});
+	FWK_ASSERT_RETURN_VALUE_IF(!a_descriptorHeapRecord.m_descriptorHeap,	 "ディスクリプタヒープが未作成でGPUハンドル取得ができません。",										  {})
+	FWK_ASSERT_RETURN_VALUE_IF(a_storageID >= m_descriptorStorageIDCapacity, "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのGPUハンドル取得に失敗しました。", {})
 
 	// 先頭GPUハンドルを基準にする
 	auto l_handle = a_descriptorHeapRecord.m_gpuStart;

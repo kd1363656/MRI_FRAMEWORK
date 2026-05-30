@@ -132,8 +132,8 @@ bool FWK::Converter::BinaryFileConverterBase::CreateWriteMemoryMappedFile(const 
 	// 既に別のファイルを開いていた場合に備えて前のマッピングを破棄する
 	DestroyMemoryMappedFile();
 
-	FWK_ASSERT_RETURN_VALUE_IF(a_filePath.empty(),				   "BinaryFileの書き込み用ファイルパスが空です。", false);
-	FWK_ASSERT_RETURN_VALUE_IF(a_fileSize == k_emptyWriteFileSize, "BinaryFileの書き込みサイズが0です。",		   false);
+	FWK_ASSERT_RETURN_VALUE_IF(a_filePath.empty(),				   "BinaryFileの書き込み用ファイルパスが空です。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(a_fileSize == k_emptyWriteFileSize, "BinaryFileの書き込みサイズが0です。",		   false)
 
 	// createFileWは存在しない親フォルダまでは作成してくれないため、
 	// 書き込み先ファイルの親フォルダが指定されている場合は、
@@ -336,7 +336,7 @@ void FWK::Converter::BinaryFileConverterBase::WriteWStringBinaryData(const std::
 
 std::uint64_t FWK::Converter::BinaryFileConverterBase::CalculateWStringBinaryFileSize(const std::wstring& a_string) const
 {
-	// std::wsstringの文字数を、バイナリファイルへ書き込むバイト数に変換する
+	// std::wstringの文字数を、バイナリファイルへ書き込むバイト数に変換する
 	// 終端文字は保存しないため、size()分のwchar_tだけをファイルサイズとして計算する
 	return sizeof(wchar_t) * a_string.size();
 }

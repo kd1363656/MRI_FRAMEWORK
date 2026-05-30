@@ -4,18 +4,10 @@ bool FWK::Graphics::UploadBuffer::Create(const Device& a_device, const UINT64& a
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、UploadBufferの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、UploadBufferの作成に失敗しました。", false)
 
 	// サイズ0のバッファは作成する意味がないため失敗扱いにする
-	if (a_bufferSize == Constant::k_invalidBufferSize)
-	{
-		assert(false && "UploadBufferの作成サイズが0のため、UploadBufferの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_bufferSize == Constant::k_invalidBufferSize, "UploadBufferの作成サイズが0のため、UploadBufferの作成に失敗しました。", false)
 
 	constexpr auto l_nodeMask = Constant::k_defaultGPUNodeMask;
 
@@ -54,11 +46,7 @@ bool FWK::Graphics::UploadBuffer::Create(const Device& a_device, const UINT64& a
 														nullptr,
 														IID_PPV_ARGS(m_uploadBuffer.ReleaseAndGetAddressOf()));
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "UploadBufferの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "UploadBufferの作成に失敗しました。", false)
 
 	return true;
 }
@@ -79,11 +67,7 @@ std::size_t FWK::Graphics::UploadBuffer::AllocateCurrentBufferIndex()
 
 std::uint8_t* FWK::Graphics::UploadBuffer::Map() const
 {
-	if (!m_uploadBuffer)
-	{
-		assert(false && "UploadBufferが作成されておらず、Mapに失敗しました。");
-		return nullptr;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_uploadBuffer, "UploadBufferが作成されておらず、Mapに失敗しました。", nullptr)
 
 	// Map成功時にCPUから書き込める先頭アドレスを受け取る
 	void* l_mappedData = nullptr;
@@ -96,22 +80,14 @@ std::uint8_t* FWK::Graphics::UploadBuffer::Map() const
 	// UploadBufferはCPUから書き込みたい用途なのでMapして生ポインタを取得する
 	const auto l_hr = m_uploadBuffer->Map(Constant::k_firstSubresourceIndex, nullptr, &l_mappedData);
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "UploadBufferのMapに失敗しました。");
-		return nullptr;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "UploadBufferのMapに失敗しました。", nullptr)
 
 	// byte単位でオフセット計算しやすいようstd::uint8_t*へ変換して返す
 	return static_cast<std::uint8_t*>(l_mappedData);
 }
 void FWK::Graphics::UploadBuffer::UnMap() const
 {
-	if (!m_uploadBuffer)
-	{
-		assert(false && "UploadBufferが作成されておらず、UnMapに失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!m_uploadBuffer, "UploadBufferが作成されておらず、UnMapに失敗しました。")
 
 	// Unmap(対象サブリソース番号、
 	//		 CPUが書き込んだ範囲情報(nullptrなので範囲指定なし));
@@ -123,11 +99,8 @@ void FWK::Graphics::UploadBuffer::UnMap() const
 
 D3D12_GPU_VIRTUAL_ADDRESS FWK::Graphics::UploadBuffer::FetchVALGPUVirtualAddress() const
 {
-	if (!m_uploadBuffer)
-	{
-		assert(false && "UploadBufferが作成されておらず、GPU仮想アドレスの取得に失敗しました。");
-		return k_invalidGPUVirtualAddress;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_uploadBuffer, "UploadBufferが作成されておらず、GPU仮想アドレスの取得に失敗しました。", k_invalidGPUVirtualAddress)
+
 
 	// SetGraphcisRootConstantBufferViewに渡すためのGPU仮想アドレスを取得する
 	return m_uploadBuffer->GetGPUVirtualAddress();
