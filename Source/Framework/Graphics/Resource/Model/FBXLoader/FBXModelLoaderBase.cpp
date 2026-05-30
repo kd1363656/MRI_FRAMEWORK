@@ -4,15 +4,9 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 {
 	// FBXファイルとして読み込めるパスか確認する
 	// 存在しないファイルや.fbx以外のファイルをufbxへ渡さないための事前チェック
-	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerFBXExtension))
-	{
-		assert(false && "FBXファイルが読み込める形式ではありません、FBXシーンの読み込みに失敗しました。");
-		return nullptr;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerFBXExtension), "FBXファイルが読み込める形式ではありません、FBXシーンの読み込みに失敗しました。", nullptr)
 
 	// ufbx_load_optsは、ufbxでFBXを読み込むときの設定
-	// 今は特別な読み込み設定を使わないため、空初期化でデフォルト設定で読み込む
-
 	const auto& l_loadOptions = CreateFBXLoadOptions();
 	
 	// ufbx_errorは、読み込み失敗時の詳細情報を受け取るための変数
@@ -42,10 +36,9 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 		ufbx_format_error (l_errorText.data(), l_errorText.size(), &l_error);
 		OutputDebugStringA(l_errorText.data());
 
-		assert(false && "ufbx_load_fileによるFBXシーンの読み込みに失敗しました。");
 #endif
 
-		return nullptr;
+		FWK_ASSERT_RETURN_VALUE("ufbx_load_fileによるFBXシーンの読み込みに失敗しました。", nullptr)
 	}
 
 	return l_fbxScene;
@@ -57,17 +50,13 @@ void FWK::Graphics::FBXModelLoaderBase::DestroyFBXScene(ufbx_scene* a_fbxScene) 
 
 	// ufbx_load_file()で作成されたufbx_sceneは、使い終わったらufbx_free_scene()で解放する
 	// 今回はModelDataへ必要な情報をコピーした後、StaticModelFBXLoader側でこの関数を呼ぶ
-
 	ufbx_free_scene(a_fbxScene);
 }
 
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchLocalVertexPosition(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
 {
-	if (!a_fbxMesh)
-	{
-		assert(false && "ufbx_meshがnullptrのため、ローカル頂点座標の取得に失敗しました。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_fbxMesh, "ufbx_meshがnullptrのため、ローカル頂点座標の取得に失敗しました。", {})
+
 	// ufbx_get_vertex_vec3()で、指定した頂点インデックスの座標を取得する
 	// ufbx_mesh::vertex_positionには、FBX内のローカル空間の頂点座標データが入っている
 	const auto& l_position = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_position, a_vertexIndex);
@@ -77,11 +66,7 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchLocalVerte
 
 FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::FetchVertexUV(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
 {
-	if (!a_fbxMesh)
-	{
-		assert(false && "ufbx_meshがnullptrのため、UVの取得に失敗しました。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_fbxMesh, "ufbx_meshがnullptrのため、UVの取得に失敗しました。", {})
 
 	// FBXによってはUVが入っていない場合がある
 	// その場合は今は空のVector2を返し、読み込み自体は続行する
@@ -101,33 +86,23 @@ FWK::TypeAlias::Math::Vector2 FWK::Graphics::FBXModelLoaderBase::FetchVertexUV(c
 }
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::FetchLocalVertexNormal(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
 {
-	if (!a_fbxMesh)
-	{
-		assert(false && "ufbx_meshがnullptrのため、ローカル頂点法線の取得に失敗しました。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_fbxMesh, "ufbx_meshがnullptrのため、ローカル頂点法線の取得に失敗しました。", {})
 
 	if (!a_fbxMesh->vertex_normal.exists) { return {}; }
 
 	// ufbx_get_vertex_vec3(取得する頂点属性、
 	//						取得したい頂点Index);
-
 	const auto& l_normal = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_normal, a_vertexIndex);
 
 	// ufbx_vec3_normalize(正規化したいベクトル);
 	// ライティング計算では長さ1の法線を前提にするため、取得時点で正規化する
-
 	const auto& l_normalizedNormal = ufbx_vec3_normalize(l_normal);
 
 	return ConvertUFBXVector3ToVector3(l_normalizedNormal);
 }
 FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::FetchLocalVertexTangent(const ufbx_mesh* a_fbxMesh, const std::uint32_t a_vertexIndex) const
 {
-	if (!a_fbxMesh)
-	{
-		assert(false && "ufbx_meshがnullptrのため、頂点接線の取得に失敗しました。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_fbxMesh, "ufbx_meshがnullptrのため、頂点接線の取得に失敗しました。", {})
 
 	if (!a_fbxMesh->vertex_tangent.exists)
 	{
@@ -142,12 +117,10 @@ FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::FetchLocalVerte
 
 	// ufbx_get_vertex_vec3(取得する頂点属性、
 	//						取得したい頂点Index);
-
 	const auto& l_tangent = ufbx_get_vertex_vec3(&a_fbxMesh->vertex_tangent, a_vertexIndex);
 
 	// ufbx_vec3_normalize(正規化したいベクトル);
 	// NormalMapのTBN計算では長さ1の接線を前提にするため、取得時点で正規化する
-
 	const auto& l_normalizedTangent = ufbx_vec3_normalize(l_tangent);
 
 	return
@@ -161,7 +134,7 @@ FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::FetchLocalVerte
 
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::TransformImportPosition(const TypeAlias::Math::Vector3& a_position) const
 {
-	// FBX / Blneder空間の座標を、自作エンジン空間へ変換する
+	// FBX / Blender空間の座標を、自作エンジン空間へ変換する
 	return
 	{
 		a_position.x * k_modelImportScale,
@@ -173,7 +146,6 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::TransformImport
 {
 	// 法線は方向ベクトルなので、位置のような平行移動やスケール補正は使わない
 	// 今回のインポートん変換は軸変換 + 均一スケールなので、軸変換後に正規化する
-
 	TypeAlias::Math::Vector3 l_normal =
 	{
 		a_normal.x,
@@ -189,7 +161,6 @@ FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::TransformImport
 {
 	// 接線は方向ベクトルなので、位置のような平行移動やスケール補正は使わない
 	// xyzは軸変換後に正規化し、wはTangent空間の向き判定に使うため維持する
-	
 	TypeAlias::Math::Vector3 l_tangent =
 	{
 		a_tangent.x,
@@ -233,7 +204,6 @@ ufbx_load_opts FWK::Graphics::FBXModelLoaderBase::CreateFBXLoadOptions() const
 	// ufbx_load_optsは、ufbxでFBXを読み込むときの設定
 	// 座標系変換とスケール補正は自作エンジン側で一貫して行うため、
 	// ufbxのroot_transformでは変換しない
-
 	ufbx_load_opts l_loadOptions = {};
 
 	// generate_missing_normals;
