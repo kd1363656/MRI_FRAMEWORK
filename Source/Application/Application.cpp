@@ -37,7 +37,7 @@ void Application::Execute()
 
 	if (!PostLoadCONFIG(l_graphicsManager, l_sceneManager, l_editorManager))
 	{
-		assert(false && "アプリケーションのPostLoadSetup関数処理が失敗しました。");
+		assert(false && "アプリケーションのPostLoadCONFIG処理が失敗しました。");
 		return;
 	}
 

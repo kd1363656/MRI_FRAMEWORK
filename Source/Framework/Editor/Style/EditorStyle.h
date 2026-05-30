@@ -4,16 +4,6 @@ namespace FWK::Editor
 {
 	class EditorStyle final
 	{
-	private:
-
-		struct EditorColor final
-		{
-			float m_red   = 0.0F;
-			float m_green = 0.0F;
-			float m_blue  = 0.0F;
-			float m_alpha = 0.0F;
-		};
-
 	public:
 
 		 EditorStyle() = default;
@@ -24,7 +14,7 @@ namespace FWK::Editor
 
 	private:
 
-		static ImVec4 ConvertEditorColorToIMVEC4(const EditorColor& a_color);
+		static ImVec4 ConvertEditorColorToIMVEC4(const TypeAlias::Math::Color&a_color);
 
 		static constexpr float k_editorGlobalScale = 1.0F;
 
@@ -54,7 +44,7 @@ namespace FWK::Editor
 		static constexpr float k_indentSpacing = 18.0F;
 		static constexpr float k_scrollbarSize = 14.0F;
 
-		static constexpr EditorColor k_clearColor =
+		static constexpr TypeAlias::Math::Color k_clearColor =
 		{
 			0.00F,
 			0.02F,
@@ -62,7 +52,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_backgroundColor =
+		static constexpr TypeAlias::Math::Color k_backgroundColor =
 		{
 			0.01F,
 			0.08F,
@@ -70,7 +60,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_panelColor =
+		static constexpr TypeAlias::Math::Color k_panelColor =
 		{
 			0.02F,
 			0.13F,
@@ -78,7 +68,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_panelHoverColor =
+		static constexpr TypeAlias::Math::Color k_panelHoverColor =
 		{
 			0.05F,
 			0.24F,
@@ -86,7 +76,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_panelActiveColor =
+		static constexpr TypeAlias::Math::Color k_panelActiveColor =
 		{
 			0.08F,
 			0.32F,
@@ -94,7 +84,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_borderColor =
+		static constexpr TypeAlias::Math::Color k_borderColor =
 		{
 			0.15F,
 			0.65F,
@@ -102,7 +92,7 @@ namespace FWK::Editor
 			0.75F
 		};
 
-		static constexpr EditorColor k_borderShadowColor =
+		static constexpr TypeAlias::Math::Color k_borderShadowColor =
 		{
 			0.00F,
 			0.00F,
@@ -110,7 +100,7 @@ namespace FWK::Editor
 			0.00F
 		};
 
-		static constexpr EditorColor k_textColor =
+		static constexpr TypeAlias::Math::Color k_textColor =
 		{
 			0.92F,
 			0.96F,
@@ -118,7 +108,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_textDisabledColor =
+		static constexpr TypeAlias::Math::Color k_textDisabledColor =
 		{
 			0.45F,
 			0.58F,
@@ -126,7 +116,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_accentColor =
+		static constexpr TypeAlias::Math::Color k_accentColor =
 		{
 			1.00F,
 			0.25F,
@@ -134,7 +124,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_accentHoverColor =
+		static constexpr TypeAlias::Math::Color k_accentHoverColor =
 		{
 			1.00F,
 			0.36F,
@@ -142,7 +132,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_accentActiveColor =
+		static constexpr TypeAlias::Math::Color k_accentActiveColor =
 		{
 			1.00F,
 			0.18F,
@@ -150,7 +140,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_buttonColor =
+		static constexpr TypeAlias::Math::Color k_buttonColor =
 		{
 			0.03F,
 			0.18F,
@@ -158,7 +148,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_buttonHoverColor =
+		static constexpr TypeAlias::Math::Color k_buttonHoverColor =
 		{
 			0.08F,
 			0.32F,
@@ -166,7 +156,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_buttonActiveColor =
+		static constexpr TypeAlias::Math::Color k_buttonActiveColor =
 		{
 			0.10F,
 			0.42F,
@@ -174,7 +164,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_headerColor =
+		static constexpr TypeAlias::Math::Color k_headerColor =
 		{
 			0.04F,
 			0.20F,
@@ -182,7 +172,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_headerHoverColor =
+		static constexpr TypeAlias::Math::Color k_headerHoverColor =
 		{
 			0.08F,
 			0.32F,
@@ -190,7 +180,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_headerActiveColor =
+		static constexpr TypeAlias::Math::Color k_headerActiveColor =
 		{
 			0.12F,
 			0.42F,
@@ -198,7 +188,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_tabColor =
+		static constexpr TypeAlias::Math::Color k_tabColor =
 		{
 			0.02F,
 			0.12F,
@@ -206,7 +196,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_tabHoverColor =
+		static constexpr TypeAlias::Math::Color k_tabHoverColor =
 		{
 			0.08F,
 			0.28F,
@@ -214,7 +204,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_tabActiveColor =
+		static constexpr TypeAlias::Math::Color k_tabActiveColor =
 		{
 			0.05F,
 			0.22F,
@@ -222,7 +212,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_frameColor =
+		static constexpr TypeAlias::Math::Color k_frameColor =
 		{
 			0.02F,
 			0.12F,
@@ -230,7 +220,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_frameHoverColor =
+		static constexpr TypeAlias::Math::Color k_frameHoverColor =
 		{
 			0.06F,
 			0.28F,
@@ -238,7 +228,7 @@ namespace FWK::Editor
 			1.00F
 		};
 
-		static constexpr EditorColor k_frameActiveColor =
+		static constexpr TypeAlias::Math::Color k_frameActiveColor =
 		{
 			0.10F,
 			0.38F,

@@ -832,6 +832,9 @@
     <Filter Include="Source\Framework\Editor\Style">
       <UniqueIdentifier>{a4410cfe-23b9-449a-900c-6369321c2e2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Macros\Assert">
+      <UniqueIdentifier>{ca40fc56-940e-4abc-a659-04fc0def1e6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1453,6 +1456,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Editor\Style\EditorStyle.h">
       <Filter>Source\Framework\Editor\Style</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Macros\Assert\AsserReturnMacros.h">
+      <Filter>Source\Framework\Definition\Macros\Assert</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

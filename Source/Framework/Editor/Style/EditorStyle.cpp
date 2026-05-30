@@ -230,17 +230,17 @@ void FWK::Editor::EditorStyle::ApplyDefaultFont()
 	// この関数を毎フレーム呼ぶとフォントが重複登録される。
 	// 必ずEditor初期化時に1回だけ呼ぶ
 	// IMGUIに標準フォントを登録する。
-	// 日本語表示やアイコン表示を突く場合は、後でここに日本語フォントとFontAwesomeをマージする。
+	// 日本語表示やアイコン表示をする場合は、後でここに日本語フォントとFontAwesomeをマージする。
 	l_io.Fonts->AddFontDefault();
 }
 
-ImVec4 FWK::Editor::EditorStyle::ConvertEditorColorToIMVEC4(const EditorColor& a_color)
+ImVec4 FWK::Editor::EditorStyle::ConvertEditorColorToIMVEC4(const TypeAlias::Math::Color& a_color)
 {
 	return
 	{
-		a_color.m_red,
-		a_color.m_green,
-		a_color.m_blue,
-		a_color.m_alpha
+		a_color.R(),
+		a_color.G(),
+		a_color.B(),
+		a_color.A()
 	};
 }
