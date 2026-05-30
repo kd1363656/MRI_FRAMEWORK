@@ -20,7 +20,7 @@ namespace FWK::Graphics
 
 		// ※注意 テンプレートクラスをDrawCommandBaseは使っているのでそのDrawCommandBaseを継承している
 		// 基底クラスとして設定する
-		FWK_DEFINE_TYPE_INFO(DrawSpriteStandardCommand, DrawCommandBase);
+		FWK_DEFINE_TYPE_INFO(DrawSpriteStandardCommand, DrawCommandBase)
 	};
 }
 

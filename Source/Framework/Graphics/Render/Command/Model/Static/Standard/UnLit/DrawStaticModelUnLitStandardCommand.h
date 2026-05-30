@@ -11,7 +11,7 @@ namespace FWK::Graphics
 		
 		void Draw(Renderer& a_renderer) override;
 
-		FWK_DEFINE_TYPE_INFO(DrawStaticModelUnLitStandardCommand, DrawCommandBase);
+		FWK_DEFINE_TYPE_INFO(DrawStaticModelUnLitStandardCommand, DrawCommandBase)
 	};
 }
 

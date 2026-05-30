@@ -23,6 +23,6 @@ namespace FWK::Graphics
 
 		std::vector<Struct::RenderGraphTextureAccess> m_textureAccessList  = {};
 
-		FWK_DEFINE_TYPE_INFO(RenderGraphPassBase, IRenderGraphPass);
+		FWK_DEFINE_TYPE_INFO(RenderGraphPassBase, IRenderGraphPass)
 	};
 }

@@ -26,7 +26,7 @@ namespace FWK::Graphics
 		std::weak_ptr<RootSignature> m_rootSignature = {};
 		std::weak_ptr<PipelineState> m_pipelineState = {};
 
-		FWK_DEFINE_TYPE_INFO(RenderGraphPostEffectPass, RenderGraphPassBase);
+		FWK_DEFINE_TYPE_INFO(RenderGraphPostEffectPass, RenderGraphPassBase)
 	};
 }
 

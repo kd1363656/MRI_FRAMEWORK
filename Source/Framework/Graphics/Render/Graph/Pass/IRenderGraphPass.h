@@ -27,6 +27,6 @@ namespace FWK::Graphics
 								   Renderer&						  a_renderer,
 								   RenderGraph&						  a_renderGraph) = 0;
 
-		FWK_DEFINE_TYPE_INFO_ROOT(IRenderGraphPass);
+		FWK_DEFINE_TYPE_INFO_ROOT(IRenderGraphPass)
 	};
 }

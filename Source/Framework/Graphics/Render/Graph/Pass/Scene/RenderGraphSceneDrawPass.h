@@ -17,7 +17,7 @@ namespace FWK::Graphics
 						   Renderer&						  a_renderer,
 						   RenderGraph&						  a_renderGraph) override;
 
-		FWK_DEFINE_TYPE_INFO(RenderGraphSceneDrawPass, RenderGraphPassBase);
+		FWK_DEFINE_TYPE_INFO(RenderGraphSceneDrawPass, RenderGraphPassBase)
 	};
 }
 

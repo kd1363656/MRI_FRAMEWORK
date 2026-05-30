@@ -13,7 +13,7 @@ namespace FWK::Graphics
 
 		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBSpritePass);
 
-		FWK_DEFINE_TYPE_INFO(SpritePassConstantBufferUploader, ConstantBufferUploaderBase);
+		FWK_DEFINE_TYPE_INFO(SpritePassConstantBufferUploader, ConstantBufferUploaderBase)
 	};
 }
 

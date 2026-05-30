@@ -26,20 +26,15 @@ namespace FWK::Graphics
 		{
 			auto* const l_mappedData = m_uploadBuffer.Map();
 
-			if (!l_mappedData)
-			{
-				assert(false && "定数バッファのMapに失敗しました。");
-				return {};
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_mappedData, "定数バッファのMapに失敗しました。", {})
 
 			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), k_constantBufferAlignment);
 
 			// 定数バッファのサイズがこの定数バッファアップローダーと一致しなければreturn
 			if (Utility::Math::AlignUp(m_constantBufferTypeSize, k_constantBufferAlignment) != l_constantBufferAlignedSize)
 			{
-				assert			    (false && "定数バッファのアライメントサイズが一致しません。");
 				m_uploadBuffer.UnMap();
-				return {};
+				FWK_ASSERT_RETURN_VALUE("定数バッファのアライメントサイズが一致しません。", {})
 			}
 
 			// 現在未使用の定数バッファのインデックスを取得
@@ -63,20 +58,15 @@ namespace FWK::Graphics
 		{
 			auto* const l_mappedData = m_uploadBuffer.Map();
 
-			if (!l_mappedData)
-			{
-				assert(false && "定数バッファのMapに失敗しました。");
-				return {};
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_mappedData, "定数バッファのMapに失敗しました。", {})
 
 			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), k_constantBufferAlignment);
 
 			// 定数バッファのサイズがこの定数バッファアップローダーと一致しなければreturn
 			if (Utility::Math::AlignUp(m_constantBufferTypeSize, k_constantBufferAlignment) != l_constantBufferAlignedSize)
 			{
-				assert				(false && "定数バッファのアライメントサイズが一致しません。");
 				m_uploadBuffer.UnMap();
-				return {};
+				FWK_ASSERT_RETURN_VALUE("定数バッファのアライメントサイズが一致しません。", {})
 			}
 
 			const auto  l_constantBufferOffset = k_commonPassConstantBufferIndex * l_constantBufferAlignedSize;
@@ -119,6 +109,6 @@ namespace FWK::Graphics
 		UINT64 m_constantBufferTypeSize;
 		UINT64 m_createConstantBufferNUM;
 
-		FWK_DEFINE_TYPE_INFO_ROOT(ConstantBufferUploaderBase);
+		FWK_DEFINE_TYPE_INFO_ROOT(ConstantBufferUploaderBase)
 	};
 }
