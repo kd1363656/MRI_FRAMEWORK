@@ -5,14 +5,14 @@ FWK::Graphics::ConstantBufferUploaderBase::ConstantBufferUploaderBase() :
 	m_constantBufferUploaderJsonConverter({}),
 
 	m_constantBufferTypeSize (k_invalidBufferTypeSize),
-	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
+	m_createConstantBufferNUM(k_invalidCreateConstantBufferNUM)
 {}
 FWK::Graphics::ConstantBufferUploaderBase::ConstantBufferUploaderBase(const UINT64& a_constantBufferTypeSize) : 
 	m_uploadBuffer						 ({}),
 	m_constantBufferUploaderJsonConverter({}),
 
 	m_constantBufferTypeSize (a_constantBufferTypeSize),
-	m_createConstantBufferNUM(Constant::k_invalidCreateConstantBufferNUM)
+	m_createConstantBufferNUM(k_invalidCreateConstantBufferNUM)
 {}
 FWK::Graphics::ConstantBufferUploaderBase::~ConstantBufferUploaderBase() = default;
 
@@ -24,14 +24,14 @@ void FWK::Graphics::ConstantBufferUploaderBase::Deserialize(const nlohmann::json
 }
 bool FWK::Graphics::ConstantBufferUploaderBase::Create(const Device& a_device)
 {
-	if (m_createConstantBufferNUM == Constant::k_invalidCreateConstantBufferNUM)
+	if (m_createConstantBufferNUM == k_invalidCreateConstantBufferNUM)
 	{
 		assert(false && "定数バッファの作成個数が0のため作成処理に失敗しました。");
 		return false;
 	}
 
 	// 送る定数バッファの型サイズを256バイトにアライメントする
-	const auto& l_alignedTypeSize = Utility::Math::AlignUp(m_constantBufferTypeSize, Constant::k_constantBufferAlignment);
+	const auto& l_alignedTypeSize = Utility::Math::AlignUp(m_constantBufferTypeSize, k_constantBufferAlignment);
 	
 	if (const auto& l_constantBufferSize = m_createConstantBufferNUM * l_alignedTypeSize;
 		!m_uploadBuffer.Create(a_device, l_constantBufferSize))
@@ -60,7 +60,7 @@ std::size_t FWK::Graphics::ConstantBufferUploaderBase::AllocateCurrentBufferInde
 	if (l_allocatedBufferIndex >= m_createConstantBufferNUM)
 	{
 		assert(false && "取得した定数バッファ用インデックスが定数バッファの作成した個数を超えています");
-		return Constant::k_invalidConstantBufferIndex;
+		return k_invalidConstantBufferIndex;
 	}
 
 	return l_allocatedBufferIndex;

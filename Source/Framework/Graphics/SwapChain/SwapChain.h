@@ -34,6 +34,10 @@ namespace FWK::Graphics
 
 		UINT FetchVALCurrentBackBufferIndex() const;
 
+		static constexpr auto GetVALDefaultBackBufferNUM() { return k_defaultBackBufferNUM; }
+
+		static constexpr auto GetVALDefaultSyncInterval() { return k_defaultSyncInterval; }
+
 		const auto& GetREFBackBufferList() const { return m_backBufferList; }
 
 		const auto& GetREFSwapChain() const { return m_swapChain; }
@@ -53,11 +57,16 @@ namespace FWK::Graphics
 
 		void ReleaseBackBufferList(DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool);
 
+
 		static constexpr std::uint32_t k_invalidBackBufferWidth  = 0U;
 		static constexpr std::uint32_t k_invalidBackBufferHeight = 0U;
 
+		static constexpr UINT k_defaultBackBufferNUM = 2U;
+
 		static constexpr UINT k_swapChainPresentFlagNone = 0U;
 		static constexpr UINT k_swapChainDescFlags	     = 0U;
+
+		static constexpr UINT k_defaultSyncInterval = 1U;
 
 		std::vector<Struct::BackBuffer> m_backBufferList = {};
 
@@ -65,6 +74,6 @@ namespace FWK::Graphics
 
 		Converter::SwapChainJsonConverter m_swapChainJsonConverter = {};
 
-		UINT m_syncInterval = Constant::k_defaultSyncInterval;
+		UINT m_syncInterval = k_defaultSyncInterval;
 	};
 }

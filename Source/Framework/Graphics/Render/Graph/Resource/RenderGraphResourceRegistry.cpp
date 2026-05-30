@@ -240,13 +240,13 @@ bool FWK::Graphics::RenderGraphResourceRegistry::CreateRenderTargetTexture(const
 	}
 
 	// 幅が0ならウィンドウサイズを安全のためにセットする
-	if (l_renderTargetTexture->GetWidth() == Constant::k_defaultRenderTextureWidth)
+	if (l_renderTargetTexture->GetWidth() == Constant::k_invalidRenderTextureWidth)
 	{
 		l_renderTargetTexture->SetWidth(a_width);
 	}
 
 	// 高さが0ならウィンドウサイズを安全のためにセットする
-	if (l_renderTargetTexture->GetHeight() == Constant::k_defaultRenderTextureHeight)
+	if (l_renderTargetTexture->GetHeight() == Constant::k_invalidRenderTextureHeight)
 	{
 		l_renderTargetTexture->SetHeight(a_height);
 	}
@@ -278,13 +278,13 @@ bool FWK::Graphics::RenderGraphResourceRegistry::CreateDepthStencilTexture(const
 	}
 
 	// 幅が0ならウィンドウサイズを安全のためにセットする
-	if (l_depthStencilTexture->GetWidth() == Constant::k_defaultDepthStencilTextureWidth)
+	if (l_depthStencilTexture->GetWidth() == Constant::k_invalidDepthStencilTextureWidth)
 	{
 		l_depthStencilTexture->SetWidth(a_width);
 	}
 
 	// 高さが0ならウィンドウサイズを安全のためにセットする
-	if (l_depthStencilTexture->GetHeight() == Constant::k_defaultDepthStencilTextureHeight)
+	if (l_depthStencilTexture->GetHeight() == Constant::k_invalidDepthStencilTextureHeight)
 	{
 		l_depthStencilTexture->SetHeight(a_height);
 	}

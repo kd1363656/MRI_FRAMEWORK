@@ -32,10 +32,10 @@ namespace FWK::Graphics
 				return {};
 			}
 
-			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), Constant::k_constantBufferAlignment);
+			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), k_constantBufferAlignment);
 
 			// 定数バッファのサイズがこの定数バッファアップローダーと一致しなければreturn
-			if (Utility::Math::AlignUp(m_constantBufferTypeSize, Constant::k_constantBufferAlignment) != l_constantBufferAlignedSize)
+			if (Utility::Math::AlignUp(m_constantBufferTypeSize, k_constantBufferAlignment) != l_constantBufferAlignedSize)
 			{
 				assert			    (false && "定数バッファのアライメントサイズが一致しません。");
 				m_uploadBuffer.UnMap();
@@ -69,10 +69,10 @@ namespace FWK::Graphics
 				return {};
 			}
 
-			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), Constant::k_constantBufferAlignment);
+			const auto& l_constantBufferAlignedSize = Utility::Math::AlignUp(sizeof(ConstantBufferType), k_constantBufferAlignment);
 
 			// 定数バッファのサイズがこの定数バッファアップローダーと一致しなければreturn
-			if (Utility::Math::AlignUp(m_constantBufferTypeSize, Constant::k_constantBufferAlignment) != l_constantBufferAlignedSize)
+			if (Utility::Math::AlignUp(m_constantBufferTypeSize, k_constantBufferAlignment) != l_constantBufferAlignedSize)
 			{
 				assert				(false && "定数バッファのアライメントサイズが一致しません。");
 				m_uploadBuffer.UnMap();
@@ -92,6 +92,8 @@ namespace FWK::Graphics
 
 		void SetCreateConstantBufferNUM(const UINT64& a_set) { m_createConstantBufferNUM = a_set; }
 
+		static constexpr auto GetVALInvalidConstantBufferNUM() { return k_invalidCreateConstantBufferNUM; }
+
 		const auto& GetREFCreateConstantBufferNUM() const { return m_createConstantBufferNUM; }
 
 		const auto& GetREFUploadBuffer() const { return m_uploadBuffer; }
@@ -99,8 +101,14 @@ namespace FWK::Graphics
 		auto& GetMutableREFUploadBuffer() { return m_uploadBuffer; }
 
 	private:
-		
+	
 		static constexpr std::size_t k_commonPassConstantBufferIndex = 0ULL;
+
+		static constexpr UINT64 k_invalidCreateConstantBufferNUM = 0ULL;
+
+		static constexpr UINT64 k_constantBufferAlignment = 256ULL;
+
+		static constexpr UINT64 k_invalidConstantBufferIndex = std::numeric_limits<UINT64>::max();
 
 		static constexpr UINT k_invalidBufferTypeSize = 0U;
 

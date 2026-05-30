@@ -250,14 +250,8 @@
     <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture">
       <UniqueIdentifier>{8fd7d956-bd38-4292-bdc3-c030c9e4746f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap">
-      <UniqueIdentifier>{e83a6d0d-c314-4eec-ac8b-9707c7cd97a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Utility\Math">
       <UniqueIdentifier>{471fe9d6-bce8-4d97-b020-65d8b5760106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline">
-      <UniqueIdentifier>{3d716490-6f6e-401d-8332-fb54ca4a8019}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Memory">
       <UniqueIdentifier>{ca01cba4-1a80-414e-8cb4-3b7326367289}</UniqueIdentifier>
@@ -369,12 +363,6 @@
     </Filter>
     <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant">
       <UniqueIdentifier>{562e028c-5a2e-440e-9c87-8f5e68b20147}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer">
-      <UniqueIdentifier>{a1ae9820-2605-4b66-9055-5eea5e9f4a20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant">
-      <UniqueIdentifier>{aee8008f-074a-4e8c-ad87-aa3bc3fd89d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource">
       <UniqueIdentifier>{a6a84b01-2f66-4cb5-8597-0963ce9dcd70}</UniqueIdentifier>
@@ -1046,14 +1034,8 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Texture\TextureConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Heap\HeapConstant.h">
-      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Heap</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Utility\Math\MathUtility.h">
       <Filter>Source\Framework\Utility\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Render\Pipeline\PipelineStateConstant.h">
-      <Filter>Source\Framework\Definition\Constant\Graphics\Render\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Constant\Graphics\GraphicsConstant.h">
       <Filter>Source\Framework\Definition\Constant\Graphics</Filter>
@@ -1124,9 +1106,6 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant\ConstantBufferConstant.h">
-      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer\Constant</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command</Filter>
     </ClInclude>
@@ -1135,9 +1114,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\Graphics\Resource\Buffer\UploadBufferConstant.h">
-      <Filter>Source\Framework\Definition\Constant\Graphics\Resource\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\FPS\FPSControllerJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\FPS</Filter>

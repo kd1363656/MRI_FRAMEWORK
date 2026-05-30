@@ -24,6 +24,8 @@ namespace FWK::Graphics
 
 	private:
 
+		static constexpr D3D12_GPU_VIRTUAL_ADDRESS k_invalidGPUVirtualAddress = 0ULL;
+
 		static constexpr size_t k_initialBufferIndex = 0ULL;
 
 		TypeAlias::ComPtr<ID3D12Resource2> m_uploadBuffer = nullptr;

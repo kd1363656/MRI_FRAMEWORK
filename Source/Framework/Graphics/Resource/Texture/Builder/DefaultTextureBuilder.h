@@ -31,6 +31,9 @@ namespace FWK::Graphics
 
 		DefaultTextureCreateDesc GetVALDefaultTextureCreateDesc(const Enum::DefaultTextureType a_defaultTextureType) const;
 
+		static constexpr std::wstring_view k_defaultBaseColorTextureFilePath = L"DefaultTextureBaseColor";
+		static constexpr std::wstring_view k_defaultNormalTextureFilePath	 = L"DefaultNormal";
+
 		static constexpr std::size_t k_defaultTextureWidth     = 1ULL;
 		static constexpr std::size_t k_defaultTextureHeight    = 1ULL;
 		static constexpr std::size_t k_defaultTextureArraySize = 1ULL;

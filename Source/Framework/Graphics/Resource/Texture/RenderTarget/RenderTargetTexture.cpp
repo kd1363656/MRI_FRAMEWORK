@@ -285,10 +285,10 @@ bool FWK::Graphics::RenderTargetTexture::CreateShaderResourceView(const Device& 
 	// MIPLevels	       : 読めるMIP数
 	// PlaneSlice          : 通常カラーTextureなので0
 	// ResourceMINLODCLAMP : 最小LOD制限
-	l_srvDesc.Texture2D.MostDetailedMip     = Constant::k_textureSRVMostDetailedMIP;
+	l_srvDesc.Texture2D.MostDetailedMip     = k_textureSRVMostDetailedMIP;
 	l_srvDesc.Texture2D.MipLevels           = Constant::k_renderTextureDefaultMIPLevels;
-	l_srvDesc.Texture2D.PlaneSlice		    = Constant::k_textureSRVPlaneSlice;
-	l_srvDesc.Texture2D.ResourceMinLODClamp = Constant::k_textureSRVResourceMINLODClamp;
+	l_srvDesc.Texture2D.PlaneSlice		    = k_textureSRVPlaneSlice;
+	l_srvDesc.Texture2D.ResourceMinLODClamp = k_textureSRVResourceMINLODClamp;
 
 	const auto l_cpuOnlyCPUHandle = a_srvDescriptorPool.FetchVALCPUOnlyCPUHandle(l_srvStorageID);
 

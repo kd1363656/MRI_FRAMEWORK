@@ -18,7 +18,7 @@ namespace FWK
 
 		void SetTargetFPS(const float a_set) { m_targetFPS = a_set; }
 
-		static constexpr float GetDefaultFPS() { return k_defaultFPS; }
+		static constexpr float GetVALDefaultFPS() { return k_defaultFPS; }
 
 		float GetVALCurrentFPS() const { return m_currentFPS; }
 		float GetVALTargetFPS () const { return m_targetFPS; }

@@ -4,10 +4,10 @@ void FWK::Converter::DepthStencilTextureJsonConverter::Deserialize(const nlohman
 {
 	if (a_rootJson.is_null()) { return; }
 
-	a_depthStencilTexture.SetFormat(a_rootJson.value(k_formatJsonKey, Constant::k_defaultDepthStencilTextureFormat));
+	a_depthStencilTexture.SetFormat(a_rootJson.value(k_formatJsonKey, a_depthStencilTexture.GetDefaultDepthStencilTextureFormat()));
 
-	a_depthStencilTexture.SetWidth			(a_rootJson.value(k_widthJsonKey,		    Constant::k_defaultDepthStencilTextureWidth));
-	a_depthStencilTexture.SetHeight			(a_rootJson.value(k_heightJsonKey,		    Constant::k_defaultDepthStencilTextureHeight));
+	a_depthStencilTexture.SetWidth			(a_rootJson.value(k_widthJsonKey,		    Constant::k_invalidDepthStencilTextureWidth));
+	a_depthStencilTexture.SetHeight			(a_rootJson.value(k_heightJsonKey,		    Constant::k_invalidDepthStencilTextureHeight));
 	a_depthStencilTexture.SetIsUseWindowSize(a_rootJson.value(k_isUseWindowSizeJsonKey, false));
 }
 

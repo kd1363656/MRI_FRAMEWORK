@@ -126,7 +126,7 @@ D3D12_GPU_VIRTUAL_ADDRESS FWK::Graphics::UploadBuffer::FetchVALGPUVirtualAddress
 	if (!m_uploadBuffer)
 	{
 		assert(false && "UploadBufferが作成されておらず、GPU仮想アドレスの取得に失敗しました。");
-		return Constant::k_invalidGPUVirtualAddress;
+		return k_invalidGPUVirtualAddress;
 	}
 
 	// SetGraphcisRootConstantBufferViewに渡すためのGPU仮想アドレスを取得する

@@ -18,7 +18,7 @@ bool FWK::Graphics::TextureSystem::Create(const Device&			                   a_d
 
 	std::vector<Struct::TextureBatchUploadRecord> l_defaultTextureBatchUploadRecordList = {};
 
-	l_defaultTextureBatchUploadRecordList.reserve(Constant::k_defaultTextureCount);
+	l_defaultTextureBatchUploadRecordList.reserve(k_defaultTextureCount);
 
 	for (std::uint32_t l_defaultTextureTypeIndex = 0U; l_defaultTextureTypeIndex < static_cast<std::uint32_t>(Enum::DefaultTextureType::Count); ++l_defaultTextureTypeIndex)
 	{

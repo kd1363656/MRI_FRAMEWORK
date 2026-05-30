@@ -38,6 +38,8 @@ namespace FWK::Graphics
 
 		void SetIsUseWindowSize(const bool a_set) { m_isUseWindowSize = a_set; }
 
+		static constexpr auto GetDefaultDepthStencilTextureFormat() { return k_defaultDepthStencilTextureFormat; }
+
 		const auto& GetREFGPUResource() const { return m_gpuResource; }
 
 		auto GetVALCurrentResourceState() const { return m_currentResourceState; }
@@ -61,18 +63,20 @@ namespace FWK::Graphics
 
 		bool PushCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue);
 
+		static constexpr DXGI_FORMAT k_defaultDepthStencilTextureFormat = DXGI_FORMAT_D32_FLOAT;
+
 		Converter::DepthStencilTextureJsonConverter m_depthStencilTextureJsonConverter = {};
 
 		Struct::GPUResource m_gpuResource = {};
 
 		D3D12_RESOURCE_STATES m_currentResourceState = Constant::k_defaultDepthStencilTextureResourceState;
 
-		DXGI_FORMAT m_format = Constant::k_defaultDepthStencilTextureFormat;
+		DXGI_FORMAT m_format = k_defaultDepthStencilTextureFormat;
 
 		TypeAlias::StorageID m_dsvStorageID = Constant::k_invalidStorageID;
 
-		UINT m_width  = Constant::k_defaultDepthStencilTextureWidth;
-		UINT m_height = Constant::k_defaultDepthStencilTextureHeight;
+		UINT m_width  = Constant::k_invalidDepthStencilTextureWidth;
+		UINT m_height = Constant::k_invalidDepthStencilTextureHeight;
 
 		bool m_isUseWindowSize = false;
 	};

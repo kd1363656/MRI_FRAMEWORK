@@ -63,6 +63,8 @@ namespace FWK::Graphics
 
 		D3D12_SHADER_BYTECODE FetchShaderByteCode(const Shader& a_shader) const;
 
+		static constexpr UINT k_initialSampleMask = UINT_MAX;
+
 		std::vector<DXGI_FORMAT> m_rtvFormatList = {};
 
 		TypeAlias::ComPtr<ID3D12PipelineState> m_pipelineState = nullptr;
@@ -83,7 +85,7 @@ namespace FWK::Graphics
 
 		DXGI_FORMAT m_dsvFormat = DXGI_FORMAT_UNKNOWN;
 
-		UINT m_sampleMask = Constant::k_initialSampleMask;
+		UINT m_sampleMask = k_initialSampleMask;
 
 		TypeAlias::TypeTag m_useRootSignatureTag = Constant::k_invalidTypeTag;
 	};

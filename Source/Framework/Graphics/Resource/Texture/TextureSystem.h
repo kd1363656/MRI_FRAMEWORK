@@ -45,9 +45,11 @@ namespace FWK::Graphics
 
 		bool TextureCopyBatch(UploadSystem& a_uploadSystem);
 
+		static constexpr std::size_t k_defaultTextureCount = static_cast<std::size_t>(Enum::DefaultTextureType::Count);
+
 		TypeAlias::PendingTextureBatchUploadRecordMap m_pendingTextureBatchUploadRecordMap = {};
 
-		std::array<std::shared_ptr<Graphics::TextureRecord>, Constant::k_defaultTextureCount> m_defaultTextureRecordList = {};
+		std::array<std::shared_ptr<Graphics::TextureRecord>, k_defaultTextureCount> m_defaultTextureRecordList = {};
 		
 		AssetStorage<Graphics::TextureRecord> m_textureStorage = {};
 		
