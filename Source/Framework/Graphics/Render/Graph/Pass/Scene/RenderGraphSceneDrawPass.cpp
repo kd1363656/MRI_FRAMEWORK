@@ -65,7 +65,7 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 												 *l_sceneDepthStencilTexture);
 
 	// SceneDrawPassはそのフレームのシーン描画の開始地点なので、
-	// 前フレームの色と深度を渡さないために明示的に暮らする
+	// 前フレームの色と深度を渡さないために明示的にクリアする
 	a_directCommandList.ClearRenderTargetTexture(*l_sceneColorTexture,		  a_rtvDescriptorHeap);
 	a_directCommandList.ClearDepthStencilTexture(*l_sceneDepthStencilTexture, a_dsvDescriptorHeap);
 	

@@ -520,7 +520,7 @@
 	例↓
 	if (!GetTypeInfo<Type>()) { return; }
 }
-・処理をしてretrunするなら改行する
+・処理をしてreturnするなら改行する
 {
 	例↓
 	if (!GetTypeInfo<Type>()) 

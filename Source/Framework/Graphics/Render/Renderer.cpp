@@ -259,7 +259,7 @@ bool FWK::Graphics::Renderer::Resize(const Device&							  a_device,
 
 bool FWK::Graphics::Renderer::PrepareForSwapChainResize()
 {
-	// ResizeBuffers()の前に、GPUが直線までの描画命令を使い終わっている必要がある、
+	// ResizeBuffers()の前に、GPUが直前までの描画命令を使い終わっている必要がある、
 	// ここでは最後にSignalしたFenceまで待機して、GPU側のBackBuffer使用が終わるのを待つ。
 	m_directCommandQueue.WaitForGPUIdleIfNeeded();
 
@@ -305,7 +305,7 @@ bool FWK::Graphics::Renderer::PrepareForSwapChainResize()
 	m_directCommandList.Reset(*l_commandAllocator);
 
 	// Resetした直後のコマンドリストは「記録中」の状態になる。
-	// このままにすると次のBeginDraw(9で再度Reset出来なくなるため、空のままClearしておく
+	// このままにすると次のBeginDraw()で再度Reset出来なくなるため、空のままCloseしておく
 	m_directCommandList.Close();
 
 	return true;

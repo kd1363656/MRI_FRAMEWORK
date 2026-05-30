@@ -11,7 +11,6 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 	
 	// ufbx_errorは、読み込み失敗時の詳細情報を受け取るための変数
 	// ufbx_load_file()が失敗した場合、この中にエラー理由が入る
-
 	ufbx_error l_error = {};
 
 	const auto& l_filePath = a_filePath.string();
@@ -20,7 +19,6 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 	// ufbx_load_file(読み込むFBXファイルパス、
 	//				  読み込み設定、
 	//				  エラー情報の書き込み先);
-
 	auto* l_fbxScene = ufbx_load_file(l_filePath.c_str(), &l_loadOptions, &l_error);
 
 	if (!l_fbxScene)
@@ -32,12 +30,10 @@ ufbx_scene* FWK::Graphics::FBXModelLoaderBase::LoadFBXScene(const std::filesyste
 		// ufbx_format_error(エラー文字列の書き込み先、
 		//					 書き込み先バッファサイズ、
 		//					 ufbx_load_fileで取得したエラー情報);
-
 		ufbx_format_error (l_errorText.data(), l_errorText.size(), &l_error);
 		OutputDebugStringA(l_errorText.data());
 
 #endif
-
 		FWK_ASSERT_RETURN_VALUE("ufbx_load_fileによるFBXシーンの読み込みに失敗しました。", nullptr)
 	}
 
@@ -134,7 +130,16 @@ FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::FetchLocalVerte
 
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::TransformImportPosition(const TypeAlias::Math::Vector3& a_position) const
 {
-	// FBX / Blender空間の座標を、自作エンジン空間へ変換する
+	// UnrealEngineで作成・出力したモデルをBlenderへ持ち込み、
+	// そのBlenderからFBXとして出力したモデルを読み込む前提で座標を補正する前提である。
+	// FBX/Blender側の座標と、自作エンジン側の座標系では、
+	// 「上方向」や「下方向」として扱う軸が異なるため、
+	// 読み込んだ頂点座標をそのまま使うとモデルの向きが合わない、
+	// そのため、ここでは読み込んだ座標を以下の通りに並び替える
+	// 読み込み元 : x,y,z -> 自作エンジン : x,z,-y
+	// yとzを入れ替えることで、Blender/FBX側の上方向を自作エンジン側の上方向へ合わせる。
+	// さらに-yにすることで前方向の向きを自作エンジンの左手系座標へ合わせる
+	// また、UnrealEngineは標準でcm単位を使うため、0.01倍にしてcm単位からm単位へ変換する
 	return
 	{
 		a_position.x * k_modelImportScale,
@@ -144,8 +149,15 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::TransformImport
 }
 FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::TransformImportNormal(const TypeAlias::Math::Vector3& a_normal) const
 {
+	// UnrealEngineで作成・出力したモデルをBlenderへ持ち込み、
+	// そのBlenderからFBXとして出力したモデルを読み込む前提で座標を補正する前提である。
+	// FBX/Blender側の座標と、自作エンジン側の座標系では、
+	// 「上方向」や「下方向」として扱う軸が異なるため、
+	// 読み込んだ頂点座標をそのまま使うとモデルの向きが合わない、
+	// そのため、ここでは読み込んだ座標を以下の通りに並び替える
+	// 読み込み元 : x,y,z -> 自作エンジン : x,z,-y
+	// yとzを入れ替えることで、Blender/FBX側の上方向を自作エンジン側の上方向へ合わせる。
 	// 法線は方向ベクトルなので、位置のような平行移動やスケール補正は使わない
-	// 今回のインポートん変換は軸変換 + 均一スケールなので、軸変換後に正規化する
 	TypeAlias::Math::Vector3 l_normal =
 	{
 		a_normal.x,
@@ -159,6 +171,14 @@ FWK::TypeAlias::Math::Vector3 FWK::Graphics::FBXModelLoaderBase::TransformImport
 }
 FWK::TypeAlias::Math::Vector4 FWK::Graphics::FBXModelLoaderBase::TransformImportTangent(const TypeAlias::Math::Vector4& a_tangent) const
 {
+	// UnrealEngineで作成・出力したモデルをBlenderへ持ち込み、
+	// そのBlenderからFBXとして出力したモデルを読み込む前提で座標を補正する前提である。
+	// FBX/Blender側の座標と、自作エンジン側の座標系では、
+	// 「上方向」や「下方向」として扱う軸が異なるため、
+	// 読み込んだ頂点座標をそのまま使うとモデルの向きが合わない、
+	// そのため、ここでは読み込んだ座標を以下の通りに並び替える
+	// 読み込み元 : x,y,z -> 自作エンジン : x,z,-y
+	// yとzを入れ替えることで、Blender/FBX側の上方向を自作エンジン側の上方向へ合わせる。
 	// 接線は方向ベクトルなので、位置のような平行移動やスケール補正は使わない
 	// xyzは軸変換後に正規化し、wはTangent空間の向き判定に使うため維持する
 	TypeAlias::Math::Vector3 l_tangent =

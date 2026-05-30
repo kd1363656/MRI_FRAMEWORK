@@ -5,9 +5,9 @@
 void main(out vertices MeshOutput a_vertexList   [k_postEffectVertexCount],
           out indices uint3       a_primitiveList[k_postEffectPrimitiveCount])
 {
-    // フルスクリーン描画では、四角形を三角形2毎で作る方法もあるが、
+    // フルスクリーン描画では、四角形を三角形2枚で作る方法もあるが、
     // 三角形2枚にすると対角線の境界付近でPixelShaderの実行単位が重複しやすい、
-    // そのため、ここでは画面外まではみ出す巨大な三角形1毎で描画全体を覆う
+    // そのため、ここでは画面外まではみ出す巨大な三角形1枚で描画全体を覆う
     // 画面外にはみ出した部分はGPUのクリッピングで破棄される
     // これにより、三角形同士の境界がなくなり、PostEffect用の全画面描画に向いた形になる。
     

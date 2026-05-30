@@ -35,7 +35,7 @@ namespace FWK::Graphics
 		static constexpr std::size_t k_errorTextBufferSize = 1024ULL;
 #endif
 
-		static constexpr float k_modelImportScale   = 0.01F;
+		static constexpr float k_modelImportScale = 0.01F;
 
 		static constexpr float k_importAxisNegative = -1.0F;
 
