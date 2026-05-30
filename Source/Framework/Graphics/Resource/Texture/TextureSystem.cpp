@@ -10,11 +10,7 @@ bool FWK::Graphics::TextureSystem::Create(const Device&			                   a_d
 												DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 												UploadSystem&					   a_uploadSystem)
 {
-	if (!m_textureStorage.Create())
-	{
-		assert(false && "AssetStorageの作成に失敗したため、TextureSystemの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_textureStorage.Create(), "AssetStorageの作成に失敗したため、TextureSystemの作成処理に失敗しました。", false)
 
 	std::vector<Struct::TextureBatchUploadRecord> l_defaultTextureBatchUploadRecordList = {};
 
@@ -26,16 +22,15 @@ bool FWK::Graphics::TextureSystem::Create(const Device&			                   a_d
 
 		Struct::TextureBatchUploadRecord l_defaultTextureBatchUploadRecord = {};
 
-		if (!m_defaultTextureBuilder.CreateDefaultTextureBatchUploadRecord(a_device,
-																		   a_gpuMemoryAllocator,
-																	       m_textureBatchUploadRecordBuilder,
-																		   l_defaultTextureType,
-																		   a_srvDescriptorPool,
-																		   l_defaultTextureBatchUploadRecord))
-		{
-			assert(false && "デフォルトテクスチャの作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!m_defaultTextureBuilder.CreateDefaultTextureBatchUploadRecord(a_device,
+																								  a_gpuMemoryAllocator,
+																								  m_textureBatchUploadRecordBuilder,
+																								  l_defaultTextureType,
+																								  a_srvDescriptorPool,
+																								  l_defaultTextureBatchUploadRecord),
+																								  "デフォルトテクスチャの作成に失敗しました。",
+																								  false)
+
 
 		const auto l_defaultTextureRecordIndex = static_cast<std::size_t>(l_defaultTextureType);
 
@@ -44,11 +39,7 @@ bool FWK::Graphics::TextureSystem::Create(const Device&			                   a_d
 		l_defaultTextureBatchUploadRecordList.emplace_back(std::move(l_defaultTextureBatchUploadRecord));
 	}
 
-	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_defaultTextureBatchUploadRecordList))
-	{
-		assert(false && "デフォルトテクスチャのGPU転送に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_uploadSystem.SubmitTextureCopyBatchAndWait(l_defaultTextureBatchUploadRecordList), "AssetStorageの作成に失敗したため、TextureSystemの作成処理に失敗しました。", false)
 
 	return true;
 }
@@ -68,12 +59,8 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	// 既に登録済みのテクスチャなら再度ロード申請する必要がないのでreturn
 	if (const auto& l_record = m_textureStorage.FindVALRecord(l_filePath).lock())
 	{
-		if (!AddTextureReference(l_record))
-		{
-			assert(false && "登録済みテクスチャの参照数加算に失敗したため、テクスチャ読み込み処理に失敗しました。");
-			return l_textureLoadResult;
-		}
-		
+		FWK_ASSERT_RETURN_VALUE_IF(!AddTextureReference(l_record), "登録済みテクスチャの参照数加算に失敗したため、テクスチャ読み込み処理に失敗しました。", l_textureLoadResult)
+	
 		l_textureLoadResult.m_storageID     = l_record->GetVALStorageID();
 		l_textureLoadResult.m_textureRecord = l_record;
 
@@ -86,11 +73,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	{
 		const auto& l_textureRecord = l_itr->second.m_textureRecord;
 
-		if (!l_textureRecord)
-		{
-			assert(false && "該当するStorageIDのテクスチャーレコードが無効のため、StorageIDを返せませんでした。");
-			return l_textureLoadResult;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_textureRecord, "該当するStorageIDのテクスチャーレコードが無効のため、StorageIDを返せませんでした。", l_textureLoadResult)
 
 		// すでに登録予約済みのテクスチャが再度登録されたら参照カウントを増やす
 		l_textureRecord->AddReferenceCount();
@@ -105,21 +88,13 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 	DirectX::TexMetadata  l_texMetadata  = {};
 
 	// まずはテクスチャをロードしてロードできるかどうかを確認
-	if (!m_textureLoader.LoadTextureFile(l_scratchImage, l_texMetadata, l_filePath))
-	{
-		assert(false && "DDSテクスチャ読み込みに失敗したため、テクスチャのバッチロード処理に失敗しました。");
-		return l_textureLoadResult;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_textureLoader.LoadTextureFile(l_scratchImage, l_texMetadata, l_filePath), "DDSテクスチャ読み込みに失敗したため、テクスチャのバッチロード処理に失敗しました。", l_textureLoadResult)
 
 	Struct::TextureBatchUploadRecord l_textureBatchUploadRecord = {};
 
 	const auto l_allocateStorageID = m_textureStorage.AllocateStorageID();
 
-	if (l_allocateStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "StorageIDの割り当てに失敗したため、テクスチャ読み込み処理に失敗しました。");
-		return l_textureLoadResult;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_allocateStorageID == Constant::k_invalidStorageID, "StorageIDの割り当てに失敗したため、テクスチャ読み込み処理に失敗しました。", l_textureLoadResult)
 
 	// テクスチャを作成、管理するのに必要な情報全てを作成
 	if (!m_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecord(l_scratchImage, 
@@ -135,8 +110,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 		// StorageIDを開放しておく
 		m_textureStorage.ReleaseStorageID(l_allocateStorageID);
 
-		assert(false && "テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。");
-		return l_textureLoadResult;
+		FWK_ASSERT_RETURN_VALUE("テクスチャアップロード情報の作成に失敗したため、バッチテクスチャ登録に失敗しました。", l_textureLoadResult)
 	}
 
 	const auto& l_textureRecord = l_textureBatchUploadRecord.m_textureRecord;
@@ -146,8 +120,7 @@ FWK::Struct::TextureLoadResult FWK::Graphics::TextureSystem::LoadTextureForBatch
 		// Allocate済みのStorageIDなので、失敗時は返却しておく
 		m_textureStorage.ReleaseStorageID(l_allocateStorageID);
 
-		assert(false && "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。");
-		return l_textureLoadResult; 
+		FWK_ASSERT_RETURN_VALUE("TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。", l_textureLoadResult)
 	}
 
 	l_textureLoadResult.m_storageID     = l_textureRecord->GetVALStorageID();
@@ -165,11 +138,7 @@ void FWK::Graphics::TextureSystem::LoadPendingTexturesAndWait(UploadSystem& a_up
 	if (m_pendingTextureBatchUploadRecordMap.empty()) { return; }
 
 	// ロード申請が来ていたテクスチャを一括ロードする
-	if (!TextureCopyBatch(a_uploadSystem))
-	{
-		assert(false && "ロード待ちテクスチャのバッチ登録に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!TextureCopyBatch(a_uploadSystem), "ロード待ちテクスチャのバッチ登録に失敗しました。")
 }
 
 nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
@@ -179,21 +148,13 @@ nlohmann::json FWK::Graphics::TextureSystem::Serialize() const
 
 bool FWK::Graphics::TextureSystem::AddTextureReference(const std::weak_ptr<Graphics::TextureRecord>& a_textureRecord)
 {
-	if (!m_textureStorage.AddReference(a_textureRecord))
-	{
-		assert(false && "AssetStorageでの参照数加算に失敗したため、テクスチャ参照数加算に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_textureStorage.AddReference(a_textureRecord), "AssetStorageでの参照数加算に失敗したため、テクスチャ参照数加算に失敗しました。", false)
 
 	return true;
 }
 bool FWK::Graphics::TextureSystem::ReleaseTextureReference(const std::weak_ptr<Graphics::TextureRecord>& a_textureRecord, const DirectCommandQueue& a_directCommandQueue, DeferredResourceReleaseQueue& a_deferredReleaseQueue)
 {
-	if (!m_textureStorage.ReleaseReference(a_textureRecord, a_directCommandQueue, a_deferredReleaseQueue))
-	{
-		assert(false && "AssetStorageでの参照数減算に失敗したため、テクスチャ解放予約に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_textureStorage.ReleaseReference(a_textureRecord, a_directCommandQueue, a_deferredReleaseQueue), "AssetStorageでの参照数減算に失敗したため、テクスチャ解放予約に失敗しました。", false)
 
 	return true;
 }
@@ -202,11 +163,7 @@ std::weak_ptr<FWK::Graphics::TextureRecord> FWK::Graphics::TextureSystem::FindVA
 {
 	const auto l_defaultTextureRecordIndex = static_cast<std::size_t>(a_defaultTextureType);
 
-	if (l_defaultTextureRecordIndex >= m_defaultTextureRecordList.size())
-	{
-		assert(false && "DefaultTextureTypeが範囲外です。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_defaultTextureRecordIndex >= m_defaultTextureRecordList.size(), "DefaultTextureTypeが範囲外です。", {})
 
 	return m_defaultTextureRecordList[l_defaultTextureRecordIndex];
 }
@@ -217,27 +174,14 @@ std::weak_ptr<FWK::Graphics::TextureRecord> FWK::Graphics::TextureSystem::FindVA
 
 bool FWK::Graphics::TextureSystem::TextureCopyBatch(UploadSystem& a_uploadSystem)
 {
-	if (!a_uploadSystem.SubmitTextureCopyBatchAndWait(m_pendingTextureBatchUploadRecordMap))
-	{
-		assert(false && "UploadSystemでのバッチテクスチャコピーに失敗したため、バッチテクスチャ登録に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_uploadSystem.SubmitTextureCopyBatchAndWait(m_pendingTextureBatchUploadRecordMap), "UploadSystemでのバッチテクスチャコピーに失敗したため、バッチテクスチャ登録に失敗しました。", false)
 
 	for (const auto& [l_filePath, l_pendingTextureBatchUploadRecord] : m_pendingTextureBatchUploadRecordMap)
 	{
 		auto& l_textureRecord = l_pendingTextureBatchUploadRecord.m_textureRecord;
 
-		if (!l_textureRecord)
-		{	
-			assert(false && "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。");
-			return false;
-		}
-
-		if (!m_textureStorage.RegisterRecord(l_textureRecord, l_filePath))
-		{
-			assert(false && "TextureRecordの登録に失敗したため、バッチテクスチャ登録に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_textureRecord,											  "TextureRecordが無効のため、バッチテクスチャ登録に失敗しました。",			 false)
+		FWK_ASSERT_RETURN_VALUE_IF(!m_textureStorage.RegisterRecord(l_textureRecord, l_filePath), "TextureRecordの登録に失敗したため、バッチテクスチャ登録に失敗しました。", false)
 	}
 
 	// そのフレーム内でロードすべきテクスチャをすべてロードし終えた状態なのでクリア

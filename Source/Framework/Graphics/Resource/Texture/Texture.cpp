@@ -103,11 +103,7 @@ void FWK::Graphics::Texture::SetupDefaultTexture(const Enum::DefaultTextureType 
 	
 	const auto& l_defaultTextureRecord = l_textureSystem.FindVALDefaultTextureRecord(a_defaultTextureType);
 
-	if (l_defaultTextureRecord.expired())
-	{
-		assert(false && "DefaultTextureRecordが無効のため、デフォルトテクスチャ設定に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(l_defaultTextureRecord.expired(), "DefaultTextureRecordが無効のため、デフォルトテクスチャ設定に失敗しました。");
 
 	// デフォルトテクスチャはAssetStorage管理ではないため、StorageIDは無効値のままにする
 	m_storageID     = Constant::k_invalidStorageID;
@@ -123,11 +119,7 @@ void FWK::Graphics::Texture::AddTextureReference() const
 	auto& l_resourceContext = l_graphicsManager.GetMutableREFResourceContext();
 	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
 
-	if (!l_textureSystem.AddTextureReference(m_textureRecord))
-	{
-		assert(false && "テクスチャ参照数加算に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_textureSystem.AddTextureReference(m_textureRecord), "テクスチャ参照数加算に失敗しました。");
 }
 void FWK::Graphics::Texture::ReleaseTextureReference()
 {
@@ -146,12 +138,9 @@ void FWK::Graphics::Texture::ReleaseTextureReference()
 	auto& l_textureSystem   = l_resourceContext.GetMutableREFTextureSystem  ();
 	
 	// 参照カウントを減らす
-	if (auto& l_deferredResourceReleaseQueue = l_resourceContext.GetMutableREFDeferredResourceReleaseQueue();
-		!l_textureSystem.ReleaseTextureReference(m_textureRecord, l_directCommandQueue, l_deferredResourceReleaseQueue))
-	{
-		assert(false && "テクスチャ参照数解放に失敗しました。");
-		return;
-	}
+	auto& l_deferredResourceReleaseQueue = l_resourceContext.GetMutableREFDeferredResourceReleaseQueue();
+
+	FWK_ASSERT_RETURN_IF(!l_textureSystem.ReleaseTextureReference(m_textureRecord, l_directCommandQueue, l_deferredResourceReleaseQueue), "テクスチャ参照数解放に失敗しました。");
 
 	m_storageID = Constant::k_invalidStorageID;
 	m_textureRecord.reset();
