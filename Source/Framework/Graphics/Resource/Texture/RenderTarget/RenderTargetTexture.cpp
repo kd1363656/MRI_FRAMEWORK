@@ -43,37 +43,26 @@ bool FWK::Graphics::RenderTargetTexture::Create(const Device&							 a_device,
 	//		 サンプル数、
 	//		 サンプル品質、
 	//		 リソースフラグ);
-
-	if (const auto& l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(m_format,
-																  m_width,
-																  m_height,
-																  Constant::k_renderTextureDefaultArraySize,
-																  Constant::k_renderTextureDefaultMIPLevels,
-																  Constant::k_renderTextureDefaultSampleCount,
-																  Constant::k_renderTextureDefaultSampleQuality,
-																  D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
-		!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
-													&l_clearValue,
-													D3D12_RESOURCE_STATE_RENDER_TARGET,
-													m_gpuResource))
-	{
-		assert(false && "RenderTargetTexture用TextureResourceの作成に失敗しました。");
-		return false;
-	}
+	const auto& l_resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(m_format,
+															  m_width,
+															  m_height,
+															  Constant::k_renderTextureDefaultArraySize,
+															  Constant::k_renderTextureDefaultMIPLevels,
+															  Constant::k_renderTextureDefaultSampleCount,
+															  Constant::k_renderTextureDefaultSampleQuality,
+															  D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+		
+	FWK_ASSERT_RETURN_VALUE_IF(!a_gpuMemoryAllocator.CreateTextureResource(l_resourceDesc,
+																		   &l_clearValue,
+																		   D3D12_RESOURCE_STATE_RENDER_TARGET,
+																		   m_gpuResource),
+																		   "RenderTargetTexture用TextureResourceの作成に失敗しました。",
+																		   false)
 
 	m_currentResourceState = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
-	if (!CreateRenderTargetView(a_device, a_rtvDescriptorPool))
-	{
-		assert(false && "RenderTargetTexture用RTVの作成に失敗しました。");
-		return false;
-	}
-
-	if (!CreateShaderResourceView(a_device, a_srvDescriptorPool))
-	{
-		assert(false && "RenderTargetTexture用SRVの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateRenderTargetView  (a_device, a_rtvDescriptorPool), "RenderTargetTexture用RTVの作成に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateShaderResourceView(a_device, a_srvDescriptorPool), "RenderTargetTexture用SRVの作成に失敗しました。", false)
 
 	return true;
 }
@@ -91,19 +80,11 @@ bool FWK::Graphics::RenderTargetTexture::Resize(const Device&							 a_device,
 													  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 													  DeferredResourceReleaseQueue&      a_deferredReleaseQueue)
 {
-	if (!IsValidTextureSize(a_clientSize))
-	{
-		assert(false && "RenderTargetTextureのリサイズ後サイズが無効です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidTextureSize(a_clientSize), "RenderTargetTextureのリサイズ後サイズが無効です。", false)
 
 	if (IsSameTextureSize(a_clientSize)) { return true; }
 
-	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
-	{
-		assert(false && "現在のRenderTargetTextureを遅延解放できない状態です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue), "現在のRenderTargetTextureを遅延解放できない状態です。", false)
 
 	RenderTargetTexture l_newRenderTargetTexture = {};
 
@@ -116,23 +97,17 @@ bool FWK::Graphics::RenderTargetTexture::Resize(const Device&							 a_device,
 	// 先にあたらしいRenderTargetTextureを作成。
 	// 古いリソースを先にQueueへ写してから新規作成に失敗すると、
 	// このインスタンが有効な描画先を失うため
-	if (!l_newRenderTargetTexture.Create(a_device,
-										 a_gpuMemoryAllocator,
-										 a_rtvDescriptorPool,
-										 a_srvDescriptorPool))
-	{
-		assert(false && "リサイズ後のRenderTargetTexture作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_newRenderTargetTexture.Create(a_device,
+							   a_gpuMemoryAllocator,
+							   a_rtvDescriptorPool,
+							   a_srvDescriptorPool),
+							   "リサイズ後のRenderTargetTexture作成に失敗しました。",
+							   false)
 
 	// 新しいRenderTargetTextureの作成に成功した後で、古いリソースをDeferredReleaseへ渡す
 	// Queue内のComPTRが古いGPUResourceを保持するため、
 	// GPUが使い終わるまで古いリソースの寿命を延ばせる
-	if (!PushCurrentResourceForDeferredRelease(a_retiredFenceValue, a_deferredReleaseQueue))
-	{
-		assert(false && "古いRenderTargetTextureの遅延解放Queue登録に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!PushCurrentResourceForDeferredRelease(a_retiredFenceValue, a_deferredReleaseQueue), "古いRenderTargetTextureの遅延解放Queue登録に失敗しました。", false)
 
 	// 古いリソースをQueueへ渡せたので、新しリソースを現在のTextureとして採用する
 	*this = std::move(l_newRenderTargetTexture);
@@ -168,11 +143,7 @@ bool FWK::Graphics::RenderTargetTexture::IsValidCurrentResourceForDeferredReleas
 
 bool FWK::Graphics::RenderTargetTexture::PushCurrentResourceForDeferredRelease(const UINT64& a_retiredFenceValue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
 {
-	if (!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue))
-	{
-		assert(false && "RenderTargetTextureが無効なため、遅延解放Queueへ登録できません。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidCurrentResourceForDeferredRelease(a_retiredFenceValue), "RenderTargetTextureが無効なため、遅延解放Queueへ登録できません。", false)
 
 	Struct::GPUResourceReleaseRecord l_gpuResourceReleaseRecord = {};
 
@@ -189,23 +160,9 @@ bool FWK::Graphics::RenderTargetTexture::PushCurrentResourceForDeferredRelease(c
 	l_srvDescriptorIndexReleaseRecord.m_storageID		  = m_srvStorageID;
 	l_srvDescriptorIndexReleaseRecord.m_retiredFenceValue = a_retiredFenceValue;
 
-	if (!a_deferredResourceReleaseQueue.PushGPUResourceRecord(std::move(l_gpuResourceReleaseRecord)))
-	{
-		assert(false && "RenderTargetTextureのGPUResourceを遅延解放Queueへ登録できませんでした。");
-		return false;
-	}
-
-	if (!a_deferredResourceReleaseQueue.PushRTVDescriptorIndex(std::move(l_rtvDescriptorIndexReleaseRecord)))
-	{
-		assert(false && "RenderTargetTextureのRTVDescriptorIndexを遅延解放Queueへ登録できませんでした。");
-		return false;
-	}
-
-	if (!a_deferredResourceReleaseQueue.PushSRVDescriptorIndex(std::move(l_srvDescriptorIndexReleaseRecord)))
-	{
-		assert(false && "RenderTargetTextureのSRVDescriptorIndexを遅延解放Queueへ登録できませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_deferredResourceReleaseQueue.PushGPUResourceRecord(std::move(l_gpuResourceReleaseRecord)),		 "RenderTargetTextureのGPUResourceを遅延解放Queueへ登録できませんでした。",		   false)
+	FWK_ASSERT_RETURN_VALUE_IF(!a_deferredResourceReleaseQueue.PushRTVDescriptorIndex(std::move(l_rtvDescriptorIndexReleaseRecord)), "RenderTargetTextureのRTVDescriptorIndexを遅延解放Queueへ登録できませんでした。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!a_deferredResourceReleaseQueue.PushSRVDescriptorIndex(std::move(l_srvDescriptorIndexReleaseRecord)), "RenderTargetTextureのSRVDescriptorIndexを遅延解放Queueへ登録できませんでした。", false)
 
 	// 二重解放を防ぐため、Queueへ渡したDescriptorIndexは無効化します。
 	m_rtvStorageID = Constant::k_invalidStorageID;
@@ -218,19 +175,11 @@ bool FWK::Graphics::RenderTargetTexture::CreateRenderTargetView(const Device& a_
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、RenderTargetTexture用のRTVの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、RenderTargetTexture用のRTVの作成に失敗しました。", false)
 
 	const auto l_rtvStorageID = a_rtvDescriptorPool.Allocate();
 
-	if (l_rtvStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "RTVStorageIDの確保に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_rtvStorageID == Constant::k_invalidStorageID, "RTVStorageIDの確保に失敗しました。", false)
 
 	// D3D12_RENDER_TARGET_VIEW_DESCについて
 	// Format		 : RTVとしてみるときのフォーマット
@@ -256,19 +205,11 @@ bool FWK::Graphics::RenderTargetTexture::CreateShaderResourceView(const Device& 
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、RenderTargetTexture用のSRVの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、RenderTargetTexture用のSRVの作成に失敗しました。", false)
 
 	const auto l_srvStorageID = a_srvDescriptorPool.Allocate();
 
-	if (l_srvStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "SRVStorageIDの確保に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_srvStorageID == Constant::k_invalidStorageID, "SRVStorageIDの確保に失敗しました。", false)
 
 	// D3D12_SHADER_RESOURCE_VIEW_DESCについて
 	// Shader4ComponentMapping : Shader側でRGBA成分をどう読むか
@@ -302,8 +243,7 @@ bool FWK::Graphics::RenderTargetTexture::CreateShaderResourceView(const Device& 
 	{
 		a_srvDescriptorPool.Release(l_srvStorageID);
 
-		assert(false && "CPUOnlyからShaderVisibleSRVへのコピーに失敗したため、RenderTargetTexture用SRVの作成に失敗しました。");
-		return false;
+		FWK_ASSERT_RETURN_VALUE("CPUOnlyからShaderVisibleSRVへのコピーに失敗したため、RenderTargetTexture用SRVの作成に失敗しました。", false)
 	}
 
 	m_srvStorageID = l_srvStorageID;
