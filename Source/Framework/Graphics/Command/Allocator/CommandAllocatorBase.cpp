@@ -14,38 +14,25 @@ bool FWK::Graphics::CommandAllocatorBase::Create(const Device& a_device)
 	const auto& l_device = a_device.GetREFDevice();
 
 	// デバイスが存在しないなら作成できないのでreturn
-	if (!l_device)
-	{
-		assert(false && "デバイスの作成に失敗しており、コマンドアロケータの作成が出来ませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスの作成に失敗しており、コマンドアロケータの作成が出来ませんでした。", false)
+
 
 	// コマンドアロケータを作成する関数
 	// CreateCommandAllocator(このコマンドアロケータが記録対象とするコマンドリストの種類(※注意 : 作成するコマンドリストの種類と合わせる必要がある)、
 	//						  受け取りたいCOMインターフェース型のID、
 	//					      作成結果のポインタを書き込むアドレス);
-
 	auto l_hr = l_device->CreateCommandAllocator(k_createCommandListType, IID_PPV_ARGS(m_commandAllocator.ReleaseAndGetAddressOf()));
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "コマンドアロケータの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "コマンドアロケータの作成に失敗しました。", false)
 
 	return true;
 }
 
 void FWK::Graphics::CommandAllocatorBase::Reset() const
 {
-	if (!m_commandAllocator)
-	{
-		assert(false && "コマンドアロケータの作成に失敗しており、リセット処理を行うことができませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!m_commandAllocator, "コマンドアロケータの作成に失敗しており、リセット処理を行うことができませんでした。")
 
 	// コマンドアロケータを再利用できる状態に戻す関数
 	// Reset();
-
 	m_commandAllocator->Reset();
 }
