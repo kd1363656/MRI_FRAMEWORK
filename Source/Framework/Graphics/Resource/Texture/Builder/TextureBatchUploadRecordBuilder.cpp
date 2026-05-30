@@ -19,36 +19,22 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 	}
 
 	// まずはGPU側用のテクスチャリソースのヒープ領域を確保
-	if (!CreateTextureResource(a_texMetadata, a_gpuMemoryAllocator, *l_textureRecord))
-	{
-		assert(false && "TextureResource作成処理に失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateTextureResource(a_texMetadata, a_gpuMemoryAllocator, *l_textureRecord), "TextureResource作成処理に失敗したため、テクスチャアップロード情報作成処理に失敗しました。", false)
 
 	// ScratchImageの画像データをUploadBufferへ書き込み、UploadSystemへ渡すコピー情報を作成する
 	// ここではCopyCommandQueueへ送信しない(バッチ処理を行うため)
-	if (!CreateTextureUploadRecord(a_scratchImage, a_device, a_textureBatchUploadRecord))
-	{
-		assert(false && "テクスチャサブリソースアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateTextureUploadRecord(a_scratchImage, a_device, a_textureBatchUploadRecord), "テクスチャサブリソースアップロード情報作成処理に失敗しました。", false)
 
 	// 作成したTextureResourceをシェーダーから参照できるように、CPUOnly側のDescriptorHeapへSRVを作成する
-	if (!CreateTextureSRV(a_texMetadata,
-						  a_device,
-						  a_srvDescriptorPool,
-						  *a_textureBatchUploadRecord.m_textureRecord))
-	{
-		assert(false && "TextureSRV作成に失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateTextureSRV(a_texMetadata,
+												 a_device,
+												 a_srvDescriptorPool,
+												 *a_textureBatchUploadRecord.m_textureRecord),
+												 "TextureSRV作成に失敗したため、テクスチャアップロード情報作成処理に失敗しました。",
+												 false)
 
 	// CPUOnlyに作成したSRVをShaderVisible側へコピーする
-	if (!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_textureRecord->GetVALSRVStorageID(), a_device))
-	{
-		assert(false && "CPUOnlyからshaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_srvDescriptorPool.CopyCPUOnlyDescriptorToShaderVisibleDescriptor(l_textureRecord->GetVALSRVStorageID(), a_device), "CPUOnlyからshaderVisibleSRVへのコピーに失敗したため、テクスチャアップロード情報作成処理に失敗しました。", false)
 
 	// 最後にD3D12_RESOURCE_STATESと参照カウント、ファイルパスを格納する
 	l_textureRecord->SetCurrentState  (D3D12_RESOURCE_STATE_COMMON);
@@ -61,17 +47,8 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureBatchUploadRec
 
 bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const DirectX::TexMetadata& a_texMetadata, const GPUMemoryAllocator& a_gpuMemoryAllocator, Graphics::TextureRecord& a_textureRecord) const
 {
-	if (a_texMetadata.format == DXGI_FORMAT_UNKNOWN)
-	{
-		assert(false && "テクスチャフォーマットが無効のため、TextureResource作成処理に失敗しました。");
-		return false;
-	}
-
-	if (a_texMetadata.dimension != DirectX::TEX_DIMENSION_TEXTURE2D)
-	{
-		assert(false && "TextureResource作成処理はTexture2Dのみ対応しています。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_texMetadata.format	   == DXGI_FORMAT_UNKNOWN,				"テクスチャフォーマットが無効のため、TextureResource作成処理に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(a_texMetadata.dimension != DirectX::TEX_DIMENSION_TEXTURE2D, "TextureResource作成処理はTexture2Dのみ対応しています。",					   false)
 
 	Struct::GPUResource l_gpuResource = {};
 
@@ -81,23 +58,22 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureResource(const
 	//		 縦幅、
 	//		 配列数、
 	//		 MIP数);
-	if (const auto l_textureResourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(a_texMetadata.format,
-																	    a_texMetadata.width,
-																	    static_cast<UINT>(a_texMetadata.height),
-																	    static_cast<UINT16>(a_texMetadata.arraySize),
-																	    static_cast<UINT16>(a_texMetadata.mipLevels));
+	// CopyCommandQueueでCopyTextureRegionをするために、初期状態はCOMMONにする、
+	// COMMON状態のTextureResourceは、CopyCommandQueue上のCopyTextureRegionで
+	// コピー先として使用されると暗黙的にコピー先として扱われる
+	const auto l_textureResourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(a_texMetadata.format,
+																	a_texMetadata.width,
+																	static_cast<UINT>(a_texMetadata.height),
+																	static_cast<UINT16>(a_texMetadata.arraySize),
+																	static_cast<UINT16>(a_texMetadata.mipLevels));
 
-		// CopyCommandQueueでCopyTextureRegionをするために、初期状態はCOMMONにする、
-		// COMMON状態のTextureResourceは、CopyCommandQueue上のCopyTextureRegionで
-		// コピー先として使用されると暗黙的にコピー先として扱われる
-		!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
-													nullptr,
-													D3D12_RESOURCE_STATE_COMMON,
-													l_gpuResource))
-	{
-		assert(false && "D3D12MAによるTextureResource作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_gpuMemoryAllocator.CreateTextureResource(l_textureResourceDesc,
+																		   nullptr,
+																		   D3D12_RESOURCE_STATE_COMMON,
+																		   l_gpuResource),
+																		   "D3D12MAによるTextureResource作成処理に失敗しました。",
+																		   false)
+
 
 	a_textureRecord.SetGPUResource(std::move(l_gpuResource));
 
@@ -108,28 +84,16 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。", false)
 
 	const auto& l_textureRecord = a_textureBatchUploadRecord.m_textureRecord;
 
-	if (!l_textureRecord)
-	{
-		assert(false && "TextureRecordがインスタンス化されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_textureRecord, "TextureRecordがインスタンス化されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。", false)
 
 	const auto& l_textureResource = l_textureRecord->GetREFGPUResource().m_resource;
 
-	if (!l_textureResource)
-	{
-		assert(false && "TextureResourceが作成されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(!l_textureResource, "TextureResourceが作成されておらず、テクスチャサブリソースアップロード情報作成処理に失敗しました。", false)
+	
 	const auto& l_textureResourceDesc = l_textureResource->GetDesc();
 	const auto  l_subresourceCount    = static_cast<UINT>         (a_scratchImage.GetImageCount());
 
@@ -172,29 +136,20 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureUploadRecord(c
 
 	// DEFAULTヒープ上にあるTextureResourceは直接CPUから書き込むことはできないため
 	// CPU書き込み可能なUploadBufferを作成する
-	if (!l_uploadBuffer.Create(a_device, l_requiredUploadBufferSize))
-	{
-		assert(false && "テクスチャ用UploadBufferの作成処理に失敗したため、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_uploadBuffer.Create(a_device, l_requiredUploadBufferSize), "テクスチャ用UploadBufferの作成処理に失敗したため、テクスチャサブリソースアップロード情報作成処理に失敗しました。", false)
 
 	auto* l_mappedData = l_uploadBuffer.Map();
 
-	if (!l_mappedData)
-	{
-		assert(false && "UploadBufferのMapに失敗したため、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_mappedData, "UploadBufferのMapに失敗したため、テクスチャサブリソースアップロード情報作成処理に失敗しました。", false)
 
 	const auto* l_imageList = a_scratchImage.GetImages();
 
 	if (!l_imageList)
 	{
-		assert(false && "ScratchImageの画像データ取得に失敗したため、テクスチャサブリソースアップロード情報作成処理に失敗しました。");
 
 		// Mapを解除してからreturn
 		l_uploadBuffer.UnMap();
-		return false;
+		FWK_ASSERT_RETURN_VALUE("ScratchImageの画像データ取得に失敗したため、テクスチャサブリソースアップロード情報作成処理に失敗しました。", false)
 	}
 
 	// DirectXTexで読み込んだ画像データをUploadBufferへコピーする
@@ -259,25 +214,12 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const Dire
 {
 	const auto& l_textureResource = a_textureRecord.GetREFGPUResource().m_resource;
 
-	if (!l_textureResource)
-	{
-		assert(false && "TextureResourceが無効のため、TextureSRV作成処理に失敗しました。");
-		return false;
-	}
-
-	if (a_texMetadata.format == DXGI_FORMAT_UNKNOWN)
-	{
-		assert(false && "テクスチャフォーマットが無効のため、TextureSRV作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_textureResource,							"TextureResourceが無効のため、TextureSRV作成処理に失敗しました。",		  false)
+	FWK_ASSERT_RETURN_VALUE_IF(a_texMetadata.format == DXGI_FORMAT_UNKNOWN, "テクスチャフォーマットが無効のため、TextureSRV作成処理に失敗しました。", false)
 
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、TextureSRV作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、TextureSRV作成処理に失敗しました。", false)
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC l_srvDesc = {};
 
@@ -308,11 +250,7 @@ bool FWK::Graphics::TextureBatchUploadRecordBuilder::CreateTextureSRV(const Dire
 	// SRVストレージIDを格納
 	const auto l_srvStorageID = a_srvDescriptorPool.Allocate();
 
-	if (l_srvStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "SRV用ストレージIDの確保に失敗したため、TextureSRV作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_srvStorageID == Constant::k_invalidStorageID, "SRV用ストレージIDの確保に失敗したため、TextureSRV作成処理に失敗しました。", false)
 
 	a_textureRecord.SetSRVStorageID(l_srvStorageID);
 

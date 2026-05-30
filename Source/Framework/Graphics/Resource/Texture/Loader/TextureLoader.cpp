@@ -2,11 +2,7 @@
 
 bool FWK::Graphics::TextureLoader::LoadTextureFile(DirectX::ScratchImage& a_scratchImage, DirectX::TexMetadata& a_texMetadata, const std::wstring& a_filePath) const
 {
-	if (a_filePath.empty())
-	{
-		assert(false && "読み込み対象のDDSテクスチャファイルパスが空のため、DDS読み込みに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_filePath.empty(), "読み込み対象のDDSテクスチャファイルパスが空のため、DDS読み込みに失敗しました。", false)
 
 	a_scratchImage = {};
 	a_texMetadata  = {};
@@ -21,17 +17,8 @@ bool FWK::Graphics::TextureLoader::LoadTextureFile(DirectX::ScratchImage& a_scra
 											   &a_texMetadata,
 											   a_scratchImage);
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "DirectX::LoadFromDDSFileに失敗したため、DDS読み込みに失敗しました。");
-		return false;
-	}
-
-	if (a_texMetadata.format == DXGI_FORMAT_UNKNOWN)
-	{
-		assert(false && "DDSのDXGI_FORMATが不明なため、DDS読み込みに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr),								"DirectX::LoadFromDDSFileに失敗したため、DDS読み込みに失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(a_texMetadata.format == DXGI_FORMAT_UNKNOWN, "DDSのDXGI_FORMATが不明なため、DDS読み込みに失敗しました。",		       false)
 
 	return true;
 }

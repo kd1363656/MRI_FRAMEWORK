@@ -11,25 +11,21 @@ bool FWK::Graphics::DefaultTextureBuilder::CreateDefaultTextureBatchUploadRecord
 
 	DirectX::ScratchImage l_scratchImage = {};
 
-	if (!CreateDefaultTextureScratchImage(l_defaultTextureCreateDesc, l_scratchImage))
-	{
-		assert(false && "デフォルトテクスチャ用ScratchImageの作成に失敗しました。");
-		return false;
-	}
 
-	if (const auto& l_texMetadata = l_scratchImage.GetMetadata();
-		!a_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecord(l_scratchImage,
-																	      l_texMetadata,
-																	      a_device,
-																	      a_gpuMemoryAllocator,
-																	      std::wstring(l_defaultTextureCreateDesc.m_name),
-																	      Constant::k_invalidStorageID,
-																	      a_srvDescriptorPool,
-																	      a_textureBatchUploadRecord))
-	{
-		assert(false && "デフォルトテクスチャ用TextureBatchUploadRecordの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateDefaultTextureScratchImage(l_defaultTextureCreateDesc, l_scratchImage), "デフォルトテクスチャ用ScratchImageの作成に失敗しました。", false)
+
+	const auto& l_texMetadata = l_scratchImage.GetMetadata();
+
+	FWK_ASSERT_RETURN_VALUE_IF(!a_textureBatchUploadRecordBuilder.CreateTextureBatchUploadRecord(l_scratchImage,
+																								 l_texMetadata,
+																								 a_device,
+																								 a_gpuMemoryAllocator,
+																								 std::wstring(l_defaultTextureCreateDesc.m_name),
+																								 Constant::k_invalidStorageID,
+																								 a_srvDescriptorPool,
+																								 a_textureBatchUploadRecord),
+																								 "デフォルトテクスチャ用TextureBatchUploadRecordの作成に失敗しました。",
+																								 false)
 
 	return true;
 }
@@ -42,22 +38,14 @@ bool FWK::Graphics::DefaultTextureBuilder::CreateDefaultTextureScratchImage(cons
 													  k_defaultTextureArraySize,
 													  k_defaultTextureMIPLevels);
 
-	if (FAILED(l_result))
-	{
-		assert(false && "DirectXTex::ScratchImage::Initialize2Dに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_result), "DirectXTex::ScratchImage::Initialize2Dに失敗しました。", false)
 
 	// GetImage(MIPレベル番号、
 	//			Texture配列番号、
 	//			Texture用のスライス番号);
 	const auto* l_image = a_scratchImage.GetImage(k_defaultTextureMIPIndex, k_defaultTextureItemIndex, k_defaultTextureSliceIndex);
 
-	if (!l_image)
-	{
-		assert(false && "デフォルトテクスチャ用Imageの取得に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_image, "デフォルトテクスチャ用Imageの取得に失敗しました。", false)
 
 	std::memcpy(l_image->pixels, a_defaultTextureCreateDesc.m_pixel.data(), a_defaultTextureCreateDesc.m_pixel.size());
 
@@ -101,7 +89,6 @@ FWK::Graphics::DefaultTextureBuilder::DefaultTextureCreateDesc FWK::Graphics::De
 		break;
 
 		default:
-			assert(false && "未対応のDefaultTextureTypeです。");
-			return {};
+			FWK_ASSERT_RETURN_VALUE("未対応のDefaultTextureTypeです。", {})
 	}
 }
