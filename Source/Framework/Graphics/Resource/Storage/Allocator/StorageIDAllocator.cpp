@@ -9,17 +9,8 @@ void FWK::Graphics::StorageIDAllocator::Deserialize(const nlohmann::json& a_root
 bool FWK::Graphics::StorageIDAllocator::Create()
 {
 	// 無効値を容量として指定された場合は作成失敗とする
-	if (m_storageIDCapacity == Constant::k_invalidStorageIDCapacity)
-	{
-		assert(false && "ストレージIDの割り当て可能数が0です。");
-		return false;
-	}
-
-	if (m_storageIDCapacity == Constant::k_invalidStorageID)
-	{
-		assert(false && "StorageIDの割り当て可能数が無効値です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(m_storageIDCapacity == Constant::k_invalidStorageIDCapacity, "ストレージIDの割り当て可能数が0です。",   false)
+	FWK_ASSERT_RETURN_VALUE_IF(m_storageIDCapacity == Constant::k_invalidStorageID,         "StorageIDの割り当て可能数が無効値です。", false)
 
 	m_nextStorageID = k_initialNextStorageID;
 
@@ -40,18 +31,10 @@ nlohmann::json FWK::Graphics::StorageIDAllocator::Serialize() const
 void FWK::Graphics::StorageIDAllocator::Release(const TypeAlias::StorageID a_storageID)
 {
 	// 範囲外StorageIDの解放は不正
-	if (!IsValidStorageID(a_storageID))
-	{
-		assert(false && "解放しようとしたStorageIDが確保範囲外です。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!IsValidStorageID(a_storageID), "解放しようとしたStorageIDが確保範囲外です。")
 
 	// 未使用スロットの二重解放を防ぐ
-	if (!m_isAllocatedList[a_storageID])
-	{
-		assert(false && "未使用のStorageIDを解放しようとしました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!m_isAllocatedList[a_storageID], "未使用のStorageIDを解放しようとしました。")
 
 	m_isAllocatedList[a_storageID] = false;
 	m_freeStorageIDQueue.push(a_storageID);
@@ -67,11 +50,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
 		m_freeStorageIDQueue.pop();
 
 		// 有効なインデックスかどうかを確認
-		if (!IsValidStorageID(l_reuseStorageID))
-		{
-			assert(false && "再利用しようとしたストレージIDが確保範囲外です。");
-			return Constant::k_invalidStorageID;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!IsValidStorageID(l_reuseStorageID), "再利用しようとしたストレージIDが確保範囲外です。", Constant::k_invalidStorageID)
 
 		m_isAllocatedList[l_reuseStorageID] = true;
 
@@ -91,8 +70,7 @@ FWK::TypeAlias::StorageID FWK::Graphics::StorageIDAllocator::Allocate()
 		return l_allocateStorageID;
 	}
 
-	assert(false && "StorageIDの空きがなくなり、割り当てに失敗しました。");
-	return Constant::k_invalidStorageID;
+	FWK_ASSERT_RETURN_VALUE_IF(true, "StorageIDの空きがなくなり、割り当てに失敗しました。", Constant::k_invalidStorageID)
 }
 
 bool FWK::Graphics::StorageIDAllocator::IsValidStorageID(const TypeAlias::StorageID a_storageID) const

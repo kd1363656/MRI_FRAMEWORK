@@ -18,17 +18,8 @@ namespace FWK::Graphics
 		}
 		bool Create(const Device& a_device)
 		{
-			if (!m_storageIDAllocator.Create())
-			{
-				assert(false && "ディスクリプタヒープインデックスアロケータの作成処理に失敗しました。");
-				return false;
-			}
-
-			if (!m_descriptorHeap.Create(a_device, m_storageIDAllocator.GetVALStorageIDCapacity()))
-			{
-				assert(false && "ディスクリプタヒープの作成処理に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!m_storageIDAllocator.Create(),													   "ディスクリプタヒープインデックスアロケータの作成処理に失敗しました。", false)
+			FWK_ASSERT_RETURN_VALUE_IF(!m_descriptorHeap.Create(a_device, m_storageIDAllocator.GetVALStorageIDCapacity()), "ディスクリプタヒープの作成処理に失敗しました。",						   false)
 
 			return true;
 		}
