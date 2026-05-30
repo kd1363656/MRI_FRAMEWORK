@@ -4,11 +4,11 @@ void FWK::Converter::FrameResourceJsonConverter::Deserialize(const nlohmann::jso
 {
 	if (a_rootJson.is_null()) { return; }
 
-	if (a_rootJson.contains(k_renderGraphResourceRegistryJsonKey))
+	if (a_rootJson.contains(k_renderGraphFrameResourceRegistryJsonKey))
 	{
-		auto& l_renderGraphResourceRegistry = a_frameResource.GetMutableREFRenderGraphResourceRegistry();
+		auto& l_renderGraphFrameResourceRegistry = a_frameResource.GetMutableREFRenderGraphFrameResourceRegistry();
 
-		l_renderGraphResourceRegistry.Deserialize(a_rootJson[k_renderGraphResourceRegistryJsonKey]);
+		l_renderGraphFrameResourceRegistry.Deserialize(a_rootJson[k_renderGraphFrameResourceRegistryJsonKey]);
 	}
 
 	// 定数バッファのデシリアライズ
@@ -24,8 +24,8 @@ nlohmann::json FWK::Converter::FrameResourceJsonConverter::Serialize(const Graph
 
 	const auto& l_renderGraphResourceRegistry = a_frameResource.GetREFRenderGraphResourceRegistry();
 	
-	l_rootJson[k_renderGraphResourceRegistryJsonKey] = l_renderGraphResourceRegistry.Serialize();
-	l_rootJson[k_constantBufferUploaderMapJsonKey]   = SerializeConstantBuffer (a_frameResource);
+	l_rootJson[k_renderGraphFrameResourceRegistryJsonKey] = l_renderGraphResourceRegistry.Serialize();
+	l_rootJson[k_constantBufferUploaderMapJsonKey]        = SerializeConstantBuffer (a_frameResource);
 
 	return l_rootJson;
 }

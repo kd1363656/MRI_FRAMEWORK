@@ -1,6 +1,6 @@
-﻿#include "RenderGraphResourceRegistry.h"
+﻿#include "RenderGraphFrameResourceRegistry.h"
 
-void FWK::Graphics::RenderGraphResourceRegistry::INIT()
+void FWK::Graphics::RenderGraphFrameResourceRegistry::INIT()
 {
 	m_renderTargetTextureResourceRecordList.clear();
 	m_renderTargetTextureResourceRecordMap.clear ();
@@ -8,14 +8,14 @@ void FWK::Graphics::RenderGraphResourceRegistry::INIT()
 	m_depthStencilTextureResourceRecordList.clear();
 	m_depthStencilTextureResourceRecordMap.clear ();
 }
-void FWK::Graphics::RenderGraphResourceRegistry::Deserialize(const nlohmann::json& a_rootJson)
+void FWK::Graphics::RenderGraphFrameResourceRegistry::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
 
-	m_renderGraphResourceRegistryJsonConverter.Deserialize(a_rootJson, *this);
+	m_renderGraphFrameResourceRegistryJsonConverter.Deserialize(a_rootJson, *this);
 }
 
-void FWK::Graphics::RenderGraphResourceRegistry::PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG)
+void FWK::Graphics::RenderGraphFrameResourceRegistry::PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG)
 {
 	// レンダーターゲットテクスチャ、デプスステンシルテクスチャに
 	// ウィンドウサイズに合わせる必要のあるものがあればウィンドウサイズに合わせる
@@ -42,13 +42,13 @@ void FWK::Graphics::RenderGraphResourceRegistry::PostDeserializeSetup(const Stru
 	}
 }
 
-bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_device, 
-													    const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
-														const UINT								 a_width,
-														const UINT								 a_height,
-															  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorHeap, 
-															  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
-															  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
+bool FWK::Graphics::RenderGraphFrameResourceRegistry::Create(const Device&							  a_device, 
+															 const GPUMemoryAllocator&				  a_gpuMemoryAllocator, 
+															 const UINT								  a_width,
+															 const UINT								  a_height,
+															 	   DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorHeap, 
+															 	   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap, 
+															 	   DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
 	for (const auto& l_renderTargetTextureResourceRecord : m_renderTargetTextureResourceRecordList)
 	{
@@ -60,9 +60,9 @@ bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_d
 
 		if (!CreateRenderTargetTexture(a_device,
 									   a_gpuMemoryAllocator,
+									   *l_renderTargetTextureResourceRecord,
 								       a_width,
 								   	   a_height,
-									   *l_renderTargetTextureResourceRecord,
 									   a_rtvDescriptorHeap,
 									   a_srvDescriptorHeap))
 		{
@@ -81,9 +81,9 @@ bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_d
 
 		if (!CreateDepthStencilTexture(a_device,
 									   a_gpuMemoryAllocator,
+									   *l_depthStencilTextureResourceRecord,
 									   a_width,
 									   a_height,
-									   *l_depthStencilTextureResourceRecord,
 									   a_dsvDescriptorPool))
 		{
 			assert(false && "RenderGraph管理DepthStencilTextureの作成に失敗しました。");
@@ -94,23 +94,23 @@ bool FWK::Graphics::RenderGraphResourceRegistry::Create(const Device&							 a_d
 	return true;
 }
 
-nlohmann::json FWK::Graphics::RenderGraphResourceRegistry::Serialize() const
+nlohmann::json FWK::Graphics::RenderGraphFrameResourceRegistry::Serialize() const
 {
-	return m_renderGraphResourceRegistryJsonConverter.Serialize(*this);
+	return m_renderGraphFrameResourceRegistryJsonConverter.Serialize(*this);
 }
 
-bool FWK::Graphics::RenderGraphResourceRegistry::Resize(const Device&							 a_device,
-													    const GPUMemoryAllocator&				 a_gpuMemoryAllocator, 
-														const Struct::ClientSize&				 a_clientSize, 
-														const UINT64&							 a_retiredFenceValue, 
-															  DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool, 
-															  DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
-															  DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool, 
-															  DeferredResourceReleaseQueue&		 a_deferredResourceReleaseQueue)
+bool FWK::Graphics::RenderGraphFrameResourceRegistry::Resize(const Device&							  a_device,
+													         const GPUMemoryAllocator&				  a_gpuMemoryAllocator, 
+														     const Struct::ClientSize&				  a_clientSize, 
+														     const UINT64&							  a_retiredFenceValue, 
+														     	   DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool, 
+														     	   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+														     	   DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool, 
+														     	   DeferredResourceReleaseQueue&	  a_deferredResourceReleaseQueue)
 {
 	for (const auto& l_renderTargetTextureResourceRecord : m_renderTargetTextureResourceRecordList)
 	{
-		auto& l_renderTargetTexture = l_renderTargetTextureResourceRecord->m_renderTargetTexture;
+		const auto& l_renderTargetTexture = l_renderTargetTextureResourceRecord->m_renderTargetTexture;
 
 		if (!l_renderTargetTexture) { continue; }
 
@@ -132,7 +132,7 @@ bool FWK::Graphics::RenderGraphResourceRegistry::Resize(const Device&							 a_d
 
 	for (const auto& l_depthStencilTextureResourceRecord : m_depthStencilTextureResourceRecordList)
 	{
-		auto& l_depthStencilTexture = l_depthStencilTextureResourceRecord->m_depthStencilTexture;
+		const auto& l_depthStencilTexture = l_depthStencilTextureResourceRecord->m_depthStencilTexture;
 
 		if (!l_depthStencilTexture) { continue; }
 
@@ -154,7 +154,7 @@ bool FWK::Graphics::RenderGraphResourceRegistry::Resize(const Device&							 a_d
 	return true;
 }
 
-void FWK::Graphics::RenderGraphResourceRegistry::AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord)
+void FWK::Graphics::RenderGraphFrameResourceRegistry::AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord)
 {
 	if (!a_renderTargetTextureResourceRecord)
 	{
@@ -180,7 +180,7 @@ void FWK::Graphics::RenderGraphResourceRegistry::AddRenderTargetTexture(const st
 	m_renderTargetTextureResourceRecordMap.try_emplace  (a_renderTargetTextureResourceRecord->m_textureTag, a_renderTargetTextureResourceRecord);
 
 }
-void FWK::Graphics::RenderGraphResourceRegistry::AddDepthStencilTexture(const std::shared_ptr<Struct::RenderGraphDepthStencilTextureResourceRecord>& a_depthStencilTextureResourceRecord)
+void FWK::Graphics::RenderGraphFrameResourceRegistry::AddDepthStencilTexture(const std::shared_ptr<Struct::RenderGraphDepthStencilTextureResourceRecord>& a_depthStencilTextureResourceRecord)
 {
 	if (!a_depthStencilTextureResourceRecord)
 	{
@@ -206,7 +206,7 @@ void FWK::Graphics::RenderGraphResourceRegistry::AddDepthStencilTexture(const st
 	m_depthStencilTextureResourceRecordMap.try_emplace  (a_depthStencilTextureResourceRecord->m_textureTag, a_depthStencilTextureResourceRecord);
 }
 
-std::weak_ptr<FWK::Struct::RenderGraphRenderTargetTextureResourceRecord> FWK::Graphics::RenderGraphResourceRegistry::FindVALRenderTargetTexture(const TypeAlias::TypeTag a_textureTag) const
+std::weak_ptr<FWK::Struct::RenderGraphRenderTargetTextureResourceRecord> FWK::Graphics::RenderGraphFrameResourceRegistry::FindVALRenderTargetTexture(const TypeAlias::TypeTag a_textureTag) const
 {
 	const auto& l_itr = m_renderTargetTextureResourceRecordMap.find(a_textureTag);
 
@@ -214,7 +214,7 @@ std::weak_ptr<FWK::Struct::RenderGraphRenderTargetTextureResourceRecord> FWK::Gr
 
 	return l_itr->second;
 }
-std::weak_ptr<FWK::Struct::RenderGraphDepthStencilTextureResourceRecord> FWK::Graphics::RenderGraphResourceRegistry::FindVALDepthStencilTexture(const TypeAlias::TypeTag a_textureTag) const
+std::weak_ptr<FWK::Struct::RenderGraphDepthStencilTextureResourceRecord> FWK::Graphics::RenderGraphFrameResourceRegistry::FindVALDepthStencilTexture(const TypeAlias::TypeTag a_textureTag) const
 {
 	const auto& l_itr = m_depthStencilTextureResourceRecordMap.find(a_textureTag);
 
@@ -223,13 +223,13 @@ std::weak_ptr<FWK::Struct::RenderGraphDepthStencilTextureResourceRecord> FWK::Gr
 	return l_itr->second;
 }
 
-bool FWK::Graphics::RenderGraphResourceRegistry::CreateRenderTargetTexture(const Device&											   a_device, 
-																		   const GPUMemoryAllocator&								   a_gpuMemoryAllocator, 
-																		   const UINT												   a_width, 
-																		   const UINT												   a_height, 
-																				 Struct::RenderGraphRenderTargetTextureResourceRecord& a_renderTargetTextureResourceRecord, 
-																				 DescriptorPool<RTVDescriptorHeap>&					   a_rtvDescriptorPool, 
-																				 DescriptorPool<SRVDescriptorHeap>&					   a_srvDescriptorPool)
+bool FWK::Graphics::RenderGraphFrameResourceRegistry::CreateRenderTargetTexture(const Device&											    a_device, 
+																		        const GPUMemoryAllocator&								    a_gpuMemoryAllocator, 
+																			    const Struct::RenderGraphRenderTargetTextureResourceRecord& a_renderTargetTextureResourceRecord, 
+																		        const UINT												    a_width, 
+																		        const UINT												    a_height, 
+																				      DescriptorPool<RTVDescriptorHeap>&				    a_rtvDescriptorPool, 
+																				      DescriptorPool<SRVDescriptorHeap>&				    a_srvDescriptorPool)
 {
 	const auto& l_renderTargetTexture = a_renderTargetTextureResourceRecord.m_renderTargetTexture;
 
@@ -262,12 +262,12 @@ bool FWK::Graphics::RenderGraphResourceRegistry::CreateRenderTargetTexture(const
 
 	return true;
 }
-bool FWK::Graphics::RenderGraphResourceRegistry::CreateDepthStencilTexture(const Device&											   a_device, 
-																		   const GPUMemoryAllocator&								   a_gpuMemoryAllocator, 
-																		   const UINT												   a_width, 
-																		   const UINT												   a_height, 
-																				 Struct::RenderGraphDepthStencilTextureResourceRecord& a_depthStencilTextureResourceRecord, 
-																				 DescriptorPool<DSVDescriptorHeap>&					   a_dsvDescriptorPool)
+bool FWK::Graphics::RenderGraphFrameResourceRegistry::CreateDepthStencilTexture(const Device&										        a_device, 
+																		        const GPUMemoryAllocator&								    a_gpuMemoryAllocator, 
+																		        const Struct::RenderGraphDepthStencilTextureResourceRecord& a_depthStencilTextureResourceRecord, 
+																		        const UINT												    a_width, 
+																		        const UINT												    a_height, 
+																					  DescriptorPool<DSVDescriptorHeap>&					a_dsvDescriptorPool)
 {
 	auto& l_depthStencilTexture = a_depthStencilTextureResourceRecord.m_depthStencilTexture;
 

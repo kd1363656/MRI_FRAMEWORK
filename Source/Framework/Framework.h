@@ -300,8 +300,8 @@
 #include "Definition/Struct/Graphics/Render/Graph/Resource/RenderGraphResourceStruct.h"
 
 // レンダーグラフリソースレジストリー
-#include "Converter/Json/Graphics/Render/Graph/Resource/RenderGraphResourceRegistryJsonConverter.h"
-#include "Graphics/Render/Graph/Resource/RenderGraphResourceRegistry.h"
+#include "Converter/Json/Graphics/Render/Frame/RenderGraph/RenderGraphFrameResourceRegistryJsonConverter.h"
+#include "Graphics/Render/Frame/RenderGraph/RenderGraphFrameResourceRegistry.h"
 
 // フレームリソースクラス
 #include "Converter/Json/Graphics/Render/Frame/Scene/SceneTextureJsonConverter.h"
@@ -310,7 +310,7 @@
 #include "Graphics/Render/Frame/FrameResource.h"
 
 // 描画コマンドクラス
-#include "Graphics/Render/Command/DrawCommandBase.h"
+#include "Graphics/Render/Graph/Command/DrawCommandBase.h"
 
 // 描画コマンドの基底クラスを継承しているかどうかを確認するConcept
 #include "Definition/Concept/IsDerivedBase/Graphics/Renderer/Command/IsDerivedIDrawCommandConcept.h"
@@ -346,17 +346,17 @@
 #include "Graphics/Render/Renderer.h"
 
 // 描画コマンドクラス
-#include "Graphics/Render/Command/DrawRequestCommandBase.h"
-#include "Graphics/Render/Command/DrawRequestList.h"
+#include "Graphics/Render/Graph/Command/DrawRequestCommandBase.h"
+#include "Graphics/Render/Graph/Command/DrawRequestList.h"
 
 // 描画コマンドクラス用ファクトリTypeAlias
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"
 
 // 描画コマンドクラス
-#include "Graphics/Render/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
-#include "Graphics/Render/Command/Model/Static/Standard/DrawStaticModelStandardCommandBase.h"
-#include "Graphics/Render/Command/Model/Static/Standard/UnLit/DrawStaticModelUnLitStandardCommand.h"
-#include "Graphics/Render/Command/Model/Static/Standard/Lit/DrawStaticModelLitStandardCommand.h"
+#include "Graphics/Render/Graph/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
+#include "Graphics/Render/Graph/Command/Model/Static/Standard/DrawStaticModelStandardCommandBase.h"
+#include "Graphics/Render/Graph/Command/Model/Static/Standard/UnLit/DrawStaticModelUnLitStandardCommand.h"
+#include "Graphics/Render/Graph/Command/Model/Static/Standard/Lit/DrawStaticModelLitStandardCommand.h"
 
 // グラフィックスマネージャー
 #include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"

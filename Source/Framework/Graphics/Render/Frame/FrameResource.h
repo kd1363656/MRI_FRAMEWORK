@@ -54,11 +54,13 @@ namespace FWK::Graphics
 		
 		const auto& GetREFConstantBufferUploaderMap() const { return m_constantBufferUploaderMap; }
 
-		const auto& GetREFDirectCommandAllocator     () const { return m_directCommandAllocator; }
-		const auto& GetREFRenderGraphResourceRegistry() const { return m_renderGraphResourceRegistry; }
+		const auto& GetREFDirectCommandAllocator() const { return m_directCommandAllocator; }
+
+		const auto& GetREFRenderGraphResourceRegistry() const { return m_renderGraphFrameResourceRegistry; }
 
 		auto& GetMutableREFDirectCommandAllocator     () { return m_directCommandAllocator; }
-		auto& GetMutableREFRenderGraphResourceRegistry() { return m_renderGraphResourceRegistry; }
+
+		auto& GetMutableREFRenderGraphFrameResourceRegistry() { return m_renderGraphFrameResourceRegistry; }
 
 	private:
 
@@ -66,7 +68,7 @@ namespace FWK::Graphics
 
 		ConstantBufferUploaderMap m_constantBufferUploaderMap = {};
 
-		RenderGraphResourceRegistry m_renderGraphResourceRegistry = {};
+		RenderGraphFrameResourceRegistry m_renderGraphFrameResourceRegistry = {};
 
 		Converter::FrameResourceJsonConverter m_frameResourceJsonConverter = {};
 	};

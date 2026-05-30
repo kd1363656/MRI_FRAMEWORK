@@ -6,7 +6,7 @@ void FWK::Graphics::FrameResource::INIT()
 
 	m_directCommandAllocator = std::make_shared<DirectCommandAllocator>();
 
-	m_renderGraphResourceRegistry.INIT();
+	m_renderGraphFrameResourceRegistry.INIT();
 }
 void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 {
@@ -16,7 +16,7 @@ void FWK::Graphics::FrameResource::Deserialize(const nlohmann::json& a_rootJson)
 }
 void FWK::Graphics::FrameResource::PostDeserializeSetup(const Struct::WindowCONFIG& a_windowCONFIG)
 {
-	m_renderGraphResourceRegistry.PostDeserializeSetup(a_windowCONFIG);
+	m_renderGraphFrameResourceRegistry.PostDeserializeSetup(a_windowCONFIG);
 }
 bool FWK::Graphics::FrameResource::Create(const Device&			                   a_device, 
 										  const GPUMemoryAllocator&                a_gpuMemoryAllocator, 
@@ -45,13 +45,13 @@ bool FWK::Graphics::FrameResource::Create(const Device&			                   a_d
 		return false;
 	}
 
-	if (!m_renderGraphResourceRegistry.Create(a_device,
-											  a_gpuMemoryAllocator,
-											  a_width,
-											  a_height,
-											  a_rtvDescriptorPool,
-											  a_srvDescriptorPool,
-											  a_dsvDescriptorPool))
+	if (!m_renderGraphFrameResourceRegistry.Create(a_device,
+											       a_gpuMemoryAllocator,
+											       a_width,
+											       a_height,
+											       a_rtvDescriptorPool,
+											       a_srvDescriptorPool,
+											       a_dsvDescriptorPool))
 	{
 		assert(false && "FrameResource用RenderGraphResourceRegistryの作成に失敗しました。");
 		return false;
@@ -87,14 +87,14 @@ bool FWK::Graphics::FrameResource::Resize(const Device&							   a_device,
 	// FrameResourceごとにRenderGraphResourceRegistryを持っているため、
 	// ウィンドウサイズに依存するRenderTargetTexture / DepthStencilTextureも
 	// FrameResourceごとResizeする必要がある
-	if (!m_renderGraphResourceRegistry.Resize(a_device,		
-											  a_gpuMemoryAllocator,
-											  a_clientSize,
-											  a_retiredFenceValue,
-											  a_rtvDescriptorPool,
-											  a_srvDescriptorPool,
-											  a_dsvDescriptorPool,
-											  a_deferredResourceReleaseQueue))
+	if (!m_renderGraphFrameResourceRegistry.Resize(a_device,		
+											       a_gpuMemoryAllocator,
+											       a_clientSize,
+											       a_retiredFenceValue,
+											       a_rtvDescriptorPool,
+											       a_srvDescriptorPool,
+											       a_dsvDescriptorPool,
+											       a_deferredResourceReleaseQueue))
 	{
 		assert(false && "FrameResource用RenderGraphResourceRegistryのリサイズに失敗しました。");
 		return false;

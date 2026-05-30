@@ -2,7 +2,7 @@
 
 namespace FWK::Graphics
 {
-	class RenderGraphResourceRegistry final
+	class RenderGraphFrameResourceRegistry final
 	{
 	private:
 
@@ -14,8 +14,8 @@ namespace FWK::Graphics
 
 	public:
 
-		 RenderGraphResourceRegistry() = default;
-		~RenderGraphResourceRegistry() = default;
+		 RenderGraphFrameResourceRegistry() = default;
+		~RenderGraphFrameResourceRegistry() = default;
 
 		void INIT			     ();
 		void Deserialize	     (const nlohmann::json& a_rootJson);
@@ -53,17 +53,17 @@ namespace FWK::Graphics
 
 		bool CreateRenderTargetTexture(const Device&											   a_device,
 									   const GPUMemoryAllocator&								   a_gpuMemoryAllocator,
+									   const Struct::RenderGraphRenderTargetTextureResourceRecord& a_renderTargetTextureResourceRecord,
 									   const UINT												   a_width,
 									   const UINT												   a_height,
-											 Struct::RenderGraphRenderTargetTextureResourceRecord& a_renderTargetTextureResourceRecord,
 											 DescriptorPool<RTVDescriptorHeap>&					   a_rtvDescriptorPool,
 											 DescriptorPool<SRVDescriptorHeap>&					   a_srvDescriptorPool);
 
 		bool CreateDepthStencilTexture(const Device&											   a_device,
 									   const GPUMemoryAllocator&								   a_gpuMemoryAllocator,
+									   const Struct::RenderGraphDepthStencilTextureResourceRecord& a_depthStencilTextureResourceRecord,
 									   const UINT												   a_width,
 									   const UINT												   a_height,
-											 Struct::RenderGraphDepthStencilTextureResourceRecord& a_depthStencilTextureResourceRecord,
 											 DescriptorPool<DSVDescriptorHeap>&					   a_dsvDescriptorPool);
 
 		RenderTargetTextureResourceRecordList m_renderTargetTextureResourceRecordList = {};
@@ -72,6 +72,6 @@ namespace FWK::Graphics
 		DepthStencilTextureResourceRecordList m_depthStencilTextureResourceRecordList = {};
 		DepthStencilTextureResourceRecordMap  m_depthStencilTextureResourceRecordMap  = {};
 
-		Converter::RenderGraphResourceRegistryJsonConverter m_renderGraphResourceRegistryJsonConverter = {};
+		Converter::RenderGraphFrameResourceRegistryJsonConverter m_renderGraphFrameResourceRegistryJsonConverter = {};
 	};
 }

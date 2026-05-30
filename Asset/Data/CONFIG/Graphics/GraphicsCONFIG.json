@@ -47,7 +47,7 @@
                             "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
-                    "RenderGraphResourceRegistry": {
+                    "RenderGraphFrameResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {
@@ -140,7 +140,7 @@
                             "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
-                    "RenderGraphResourceRegistry": {
+                    "RenderGraphFrameResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {
@@ -233,7 +233,7 @@
                             "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
-                    "RenderGraphResourceRegistry": {
+                    "RenderGraphFrameResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {
@@ -326,7 +326,7 @@
                             "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
                         }
                     ],
-                    "RenderGraphResourceRegistry": {
+                    "RenderGraphFrameResourceRegistry": {
                         "DepthStencilTextureListRecord": [
                             {
                                 "DepthStencilTexture": {

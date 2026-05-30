@@ -1,31 +1,31 @@
-﻿#include "RenderGraphResourceRegistryJsonConverter.h"
+﻿#include "RenderGraphFrameResourceRegistryJsonConverter.h"
 
-void FWK::Converter::RenderGraphResourceRegistryJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+void FWK::Converter::RenderGraphFrameResourceRegistryJsonConverter::Deserialize(const nlohmann::json& a_rootJson, Graphics::RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry) const
 {
 	if (a_rootJson.is_null()) { return; }
 
 	if (a_rootJson.contains(k_renderTargetTextureRecordListJsonKey))
 	{
-		DeserializeRenderTargetTextureRecord(a_rootJson[k_renderTargetTextureRecordListJsonKey], a_renderGraphResourceRegistry);
+		DeserializeRenderTargetTextureRecord(a_rootJson[k_renderTargetTextureRecordListJsonKey], a_renderGraphFrameResourceRegistry);
 	}
 
 	if (a_rootJson.contains(k_depthStencilTextureRecordListJsonKey))
 	{
-		DeserializeDepthStencilTextureRecord(a_rootJson[k_depthStencilTextureRecordListJsonKey], a_renderGraphResourceRegistry);
+		DeserializeDepthStencilTextureRecord(a_rootJson[k_depthStencilTextureRecordListJsonKey], a_renderGraphFrameResourceRegistry);
 	}
 }
 
-nlohmann::json FWK::Converter::RenderGraphResourceRegistryJsonConverter::Serialize(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+nlohmann::json FWK::Converter::RenderGraphFrameResourceRegistryJsonConverter::Serialize(const Graphics::RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry) const
 {
 	nlohmann::json l_rootJson = {};
 
-	l_rootJson[k_renderTargetTextureRecordListJsonKey] = SerializeRenderTargetTextureRecord(a_renderGraphResourceRegistry);
-	l_rootJson[k_depthStencilTextureRecordListJsonKey] = SerializeDepthStencilTextureRecord(a_renderGraphResourceRegistry);
+	l_rootJson[k_renderTargetTextureRecordListJsonKey] = SerializeRenderTargetTextureRecord(a_renderGraphFrameResourceRegistry);
+	l_rootJson[k_depthStencilTextureRecordListJsonKey] = SerializeDepthStencilTextureRecord(a_renderGraphFrameResourceRegistry);
 
 	return l_rootJson;
 }
 
-void FWK::Converter::RenderGraphResourceRegistryJsonConverter::DeserializeRenderTargetTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+void FWK::Converter::RenderGraphFrameResourceRegistryJsonConverter::DeserializeRenderTargetTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry) const
 {
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
@@ -53,10 +53,10 @@ void FWK::Converter::RenderGraphResourceRegistryJsonConverter::DeserializeRender
 
 		l_renderTargetTextureResourceRecord->m_renderTargetTexture->Deserialize(l_json[k_renderTargetTextureJsonKey]);
 
-		a_renderGraphResourceRegistry.AddRenderTargetTexture(l_renderTargetTextureResourceRecord);
+		a_renderGraphFrameResourceRegistry.AddRenderTargetTexture(l_renderTargetTextureResourceRecord);
 	}
 }
-void FWK::Converter::RenderGraphResourceRegistryJsonConverter::DeserializeDepthStencilTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+void FWK::Converter::RenderGraphFrameResourceRegistryJsonConverter::DeserializeDepthStencilTextureRecord(const nlohmann::json& a_rootJson, Graphics::RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry) const
 {
 	if (a_rootJson.is_null())				 { return; }
 	if (!Utility::Json::IsArray(a_rootJson)) { return; }
@@ -84,15 +84,15 @@ void FWK::Converter::RenderGraphResourceRegistryJsonConverter::DeserializeDepthS
 
 		l_depthStencilTextureResourceRecord->m_depthStencilTexture->Deserialize(l_json[k_depthStencilTextureJsonKey]);
 
-		a_renderGraphResourceRegistry.AddDepthStencilTexture(l_depthStencilTextureResourceRecord);
+		a_renderGraphFrameResourceRegistry.AddDepthStencilTexture(l_depthStencilTextureResourceRecord);
 	}
 }
 
-nlohmann::json FWK::Converter::RenderGraphResourceRegistryJsonConverter::SerializeRenderTargetTextureRecord(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+nlohmann::json FWK::Converter::RenderGraphFrameResourceRegistryJsonConverter::SerializeRenderTargetTextureRecord(const Graphics::RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry) const
 {
 	auto l_rootJsonArray = nlohmann::json::array();
 
-	for (const auto& l_renderTargetTextureResourceRecord : a_renderGraphResourceRegistry.GetREFRenderTargetTextureResourceRecordList())
+	for (const auto& l_renderTargetTextureResourceRecord : a_renderGraphFrameResourceRegistry.GetREFRenderTargetTextureResourceRecordList())
 	{
 		if (!l_renderTargetTextureResourceRecord) { continue; }
 
@@ -111,11 +111,11 @@ nlohmann::json FWK::Converter::RenderGraphResourceRegistryJsonConverter::Seriali
 
 	return l_rootJsonArray;
 }
-nlohmann::json FWK::Converter::RenderGraphResourceRegistryJsonConverter::SerializeDepthStencilTextureRecord(const Graphics::RenderGraphResourceRegistry& a_renderGraphResourceRegistry) const
+nlohmann::json FWK::Converter::RenderGraphFrameResourceRegistryJsonConverter::SerializeDepthStencilTextureRecord(const Graphics::RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry) const
 {
 	auto l_rootJsonArray = nlohmann::json::array();
 
-	for (const auto& l_depthStencilTextureResourceRecord : a_renderGraphResourceRegistry.GetREFDepthStencilTextureResourceRecordList())
+	for (const auto& l_depthStencilTextureResourceRecord : a_renderGraphFrameResourceRegistry.GetREFDepthStencilTextureResourceRecordList())
 	{
 		if (!l_depthStencilTextureResourceRecord) { continue; }
 

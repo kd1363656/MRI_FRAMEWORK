@@ -477,9 +477,9 @@ void FWK::Graphics::RenderGraph::TransitionPassTexture(const IRenderGraphPass& a
 
 }
 
-bool FWK::Graphics::RenderGraph::TransitionRenderTargetTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList)
+bool FWK::Graphics::RenderGraph::TransitionRenderTargetTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry, const DirectCommandList& a_directCommandList)
 {
-	const auto& l_renderTargetTextureResourceRecord = a_renderGraphResourceRegistry.FindVALRenderTargetTexture(a_textureAccess.m_textureTag).lock();
+	const auto& l_renderTargetTextureResourceRecord = a_renderGraphFrameResourceRegistry.FindVALRenderTargetTexture(a_textureAccess.m_textureTag).lock();
 
 	if (!l_renderTargetTextureResourceRecord) { return false; }
 
@@ -497,9 +497,9 @@ bool FWK::Graphics::RenderGraph::TransitionRenderTargetTexture(const Struct::Ren
 
 	return true;
 }
-bool FWK::Graphics::RenderGraph::TransitionDepthStencilTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphResourceRegistry& a_renderGraphResourceRegistry, const DirectCommandList& a_directCommandList)
+bool FWK::Graphics::RenderGraph::TransitionDepthStencilTexture(const Struct::RenderGraphTextureAccess& a_textureAccess, const RenderGraphFrameResourceRegistry& a_renderGraphFrameResourceRegistry, const DirectCommandList& a_directCommandList)
 {
-	const auto& l_depthStencilTextureResourceRecord = a_renderGraphResourceRegistry.FindVALDepthStencilTexture(a_textureAccess.m_textureTag).lock();
+	const auto& l_depthStencilTextureResourceRecord = a_renderGraphFrameResourceRegistry.FindVALDepthStencilTexture(a_textureAccess.m_textureTag).lock();
 
 	if (!l_depthStencilTextureResourceRecord) { return false; }
 
