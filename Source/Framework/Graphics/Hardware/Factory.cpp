@@ -19,11 +19,7 @@ bool FWK::Graphics::Factory::Create()
 
 	auto l_hr = CreateDXGIFactory2(l_flags, IID_PPV_ARGS(m_factory.ReleaseAndGetAddressOf()));
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "ファクトリーの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "ファクトリーの作成に失敗しました。", false);
 
 	return true;
 }

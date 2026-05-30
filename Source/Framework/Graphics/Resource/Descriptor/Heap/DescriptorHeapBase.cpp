@@ -18,35 +18,26 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const Typ
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、ディスクリプタヒープの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、ディスクリプタヒープの作成に失敗しました。", false)
+
 
 	// ディスクリプタ数0のヒープは意味がないので失敗扱い
-	if (a_storageIDCapacity == Constant::k_invalidStorageIDCapacity)
-	{
-		assert(false && "作成するディスクリプタ数が0です。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_storageIDCapacity == Constant::k_invalidStorageIDCapacity, "作成するディスクリプタ数が0です。", false)
 
 	// CPUOnlyかShaderVisibleのどちらも使用しない場合作る必要のないクラスになってしまうのでreturn
-	if (!k_isUseCPUOnly && !k_isUseShaderVisible)
-	{
-		assert(false && "CPUOnlyとShaderVisibleのどちらのディスクリプタヒープも使用しない設定になっています。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!k_isUseCPUOnly && 
+							   !k_isUseShaderVisible, 
+								"CPUOnlyとShaderVisibleのどちらのディスクリプタヒープも使用しない設定になっています。", 
+								false)
 
 	// ShaderVisibleにできるのはCBV_SRV_UAVとSAMPLERだけ
-	if (k_isUseShaderVisible												 &&
-		k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV &&
-		k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER)
-	{
-		assert(false && "ShaderVisibleにできない種類のディスクリプタヒープです。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(k_isUseShaderVisible												    &&
+							   k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV &&
+							   k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, 
+							   "ShaderVisibleにできない種類のディスクリプタヒープです。",
+							   false)
 
+	
 	// ディスクリプタを何個確保するかを保存
 	m_descriptorStorageIDCapacity = a_storageIDCapacity;
 
@@ -55,24 +46,20 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const Typ
 	m_descriptorSize = l_device->GetDescriptorHandleIncrementSize(k_createDescriptorHeapType);
 
 	// CPUOnlyのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(a_device,
-											D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
-										    k_isUseCPUOnly,
-										    m_cpuOnlyDescriptorHeapRecord))
-	{
-		assert(false && "CPUOnly用ディスクリプタヒープの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateDescriptorHeapRecordIfNeeded(a_device,
+																   D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
+																   k_isUseCPUOnly,
+																   m_cpuOnlyDescriptorHeapRecord),
+																   "CPUOnly用ディスクリプタヒープの作成に失敗しました。",
+																   false)
 
 	// ShaderVisibleのディスクリプタヒープを使用する場合のみ作成する
-	if (!CreateDescriptorHeapRecordIfNeeded(a_device, 
-											D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
-										    k_isUseShaderVisible,
-										    m_shaderVisibleDescriptorHeapRecord))
-	{
-		assert(false && "ShaderVisible用ディスクリプタヒープの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateDescriptorHeapRecordIfNeeded(a_device, 
+																   D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
+																   k_isUseShaderVisible,
+																   m_shaderVisibleDescriptorHeapRecord),
+																   "ShaderVisible用ディスクリプタヒープの作成に失敗しました。",
+																   false)
 
 	return true;
 }
@@ -81,23 +68,9 @@ bool FWK::Graphics::DescriptorHeapBase::CopyCPUOnlyDescriptorToShaderVisibleDesc
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、ShaderVisible用ディスクリプタコピーに失敗しました。");
-		return false;
-	}
-
-	if (!m_cpuOnlyDescriptorHeapRecord)
-	{
-		assert(false && "CPUOnly用ディスクリプタヒープが未作成で、ShaderVisible用ディスクリプタコピーに失敗しました。");
-		return false;
-	}
-
-	if (!m_shaderVisibleDescriptorHeapRecord)
-	{
-		assert(false && "ShaderVisible用ディスクリプタヒープが未作成で、ShaderVisible用ディスクリプタコピーに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device,					         "デバイスが作成されておらず、ShaderVisible用ディスクリプタコピーに失敗しました。",				       false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_cpuOnlyDescriptorHeapRecord,       "CPUOnly用ディスクリプタヒープが未作成で、ShaderVisible用ディスクリプタコピーに失敗しました。",       false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_shaderVisibleDescriptorHeapRecord, "ShaderVisible用ディスクリプタヒープが未作成で、ShaderVisible用ディスクリプタコピーに失敗しました。", false)
 
 	const auto& l_srcCPUHandle = FetchVALCPUOnlyCPUHandle      (a_storageID);
 	const auto& l_dstCPUHandle = FetchVALShaderVisibleCPUHandle(a_storageID);
@@ -118,43 +91,27 @@ bool FWK::Graphics::DescriptorHeapBase::CopyCPUOnlyDescriptorToShaderVisibleDesc
 
 FWK::TypeAlias::ComPtr<ID3D12DescriptorHeap> FWK::Graphics::DescriptorHeapBase::FetchVALShaderVisibleDescriptorHeap() const
 {
-	if (!m_shaderVisibleDescriptorHeapRecord)
-	{
-		assert(false && "ShaderVisible用ディスクリプタヒープが未作成でディスクリプタヒープ取得ができませんでした。");
-		return nullptr;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_shaderVisibleDescriptorHeapRecord, "ShaderVisible用ディスクリプタヒープが未作成でディスクリプタヒープ取得ができませんでした。", nullptr)
 
 	return m_shaderVisibleDescriptorHeapRecord->m_descriptorHeap;
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUOnlyCPUHandle(const TypeAlias::StorageID a_storageID) const
 {
-	if (!m_cpuOnlyDescriptorHeapRecord)
-	{
-		assert(false && "CPUOnly用ディスクリプタヒープが未作成でCPUハンドル取得ができません。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_cpuOnlyDescriptorHeapRecord, "CPUOnly用ディスクリプタヒープが未作成でCPUハンドル取得ができません。", {})
 
 	return FetchVALCPUHandle(a_storageID, *m_cpuOnlyDescriptorHeapRecord);
 }
 D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVisibleCPUHandle(const TypeAlias::StorageID a_storageID) const
 {
-	if (!m_shaderVisibleDescriptorHeapRecord)
-	{
-		assert(false && "ShaderVisible用ディスクリプタヒープが未作成でCPUハンドル取得ができません。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_shaderVisibleDescriptorHeapRecord, "ShaderVisible用ディスクリプタヒープが未作成でCPUハンドル取得ができません。", {})
 
 	return FetchVALCPUHandle(a_storageID, *m_shaderVisibleDescriptorHeapRecord);
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALShaderVisibleGPUHandle(const TypeAlias::StorageID a_storageID) const
 {
-	if (!m_shaderVisibleDescriptorHeapRecord)
-	{
-		assert(false && "ShaderVisible用ディスクリプタヒープが無効でGPUハンドル取得ができません。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_shaderVisibleDescriptorHeapRecord, "ShaderVisible用ディスクリプタヒープが無効でGPUハンドル取得ができません。", {})
 
 	return FetchVALGPUHandle(a_storageID, *m_shaderVisibleDescriptorHeapRecord);
 }
@@ -163,11 +120,7 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const Device&
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、ディスクリプタヒープの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、ディスクリプタヒープの作成に失敗しました。", false)
 
 	// ディスクリプタヒープ作成設定を入れる構造体
 	D3D12_DESCRIPTOR_HEAP_DESC l_desc = {};
@@ -191,15 +144,10 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecord(const Device&
 
 	auto l_hr = l_device->CreateDescriptorHeap(&l_desc, IID_PPV_ARGS(a_descriptorHeapRecord.m_descriptorHeap.ReleaseAndGetAddressOf()));
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "ディスクリプタヒープの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "ディスクリプタヒープの作成に失敗しました。", false)
 
 	// ヒープ先頭のCPUハンドルを取得する
 	// RTV作成、SRV作成、ディスクリプタコピー元/コピー先の指定などに使う
-	
 	// ShaderVisibleでもそうでないCPUOnlyでも使用するため格納する
 	a_descriptorHeapRecord.m_cpuStart = a_descriptorHeapRecord.m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 
@@ -227,34 +175,16 @@ bool FWK::Graphics::DescriptorHeapBase::CreateDescriptorHeapRecordIfNeeded(const
 
 	a_descriptorHeapRecord = std::make_shared<DescriptorHeapRecord>();
 
-	if (!a_descriptorHeapRecord)
-	{
-		assert(false && "ディスクリプタヒープ情報の作成に失敗しました。");
-		return false;
-	}
-
-	if (!CreateDescriptorHeapRecord(a_device, a_descriptorHeapFlag, *a_descriptorHeapRecord))
-	{
-		assert(false && "ディスクリプタヒープの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_descriptorHeapRecord,																 "ディスクリプタヒープ情報の作成に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateDescriptorHeapRecord(a_device, a_descriptorHeapFlag, *a_descriptorHeapRecord), "ディスクリプタヒープの作成に失敗しました。",	   false)
 
 	return true;
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUHandle(const TypeAlias::StorageID a_storageID, const DescriptorHeapRecord& a_descriptorHeapRecord) const
 {
-	if (!a_descriptorHeapRecord.m_descriptorHeap)
-	{
-		assert(false && "ディスクリプタヒープが未作成でCPUハンドル取得ができません。");
-		return {};
-	}
-
-	if (a_storageID >= m_descriptorStorageIDCapacity)
-	{
-		assert(false && "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのCPUハンドル取得に失敗しました。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_descriptorHeapRecord.m_descriptorHeap,	 "ディスクリプタヒープが未作成でCPUハンドル取得ができません。",										  {})
+	FWK_ASSERT_RETURN_VALUE_IF(a_storageID >= m_descriptorStorageIDCapacity, "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのCPUハンドル取得に失敗しました。", {})
 
 	// 先頭CPUハンドルを基準にする
 	auto l_handle = a_descriptorHeapRecord.m_cpuStart;
@@ -266,17 +196,8 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALCPUHandle
 }
 D3D12_GPU_DESCRIPTOR_HANDLE FWK::Graphics::DescriptorHeapBase::FetchVALGPUHandle(const TypeAlias::StorageID a_storageID, const DescriptorHeapRecord& a_descriptorHeapRecord) const
 {
-	if (!a_descriptorHeapRecord.m_descriptorHeap)
-	{
-		assert(false && "ディスクリプタヒープが未作成でGPUハンドル取得ができません。");
-		return {};
-	}
-
-	if (a_storageID >= m_descriptorStorageIDCapacity)
-	{
-		assert(false && "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのGPUハンドル取得に失敗しました。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_descriptorHeapRecord.m_descriptorHeap,	 "ディスクリプタヒープが未作成でGPUハンドル取得ができません。",										  {});
+	FWK_ASSERT_RETURN_VALUE_IF(a_storageID >= m_descriptorStorageIDCapacity, "ディスクリプタヒープの確保上限数を超えておりディスクリプタヒープのGPUハンドル取得に失敗しました。", {});
 
 	// 先頭GPUハンドルを基準にする
 	auto l_handle = a_descriptorHeapRecord.m_gpuStart;
