@@ -26,6 +26,8 @@ namespace FWK::Graphics
 
 	private:
 
+		const std::filesystem::path k_lowerCSOExtension = ".cso";
+		
 		TypeAlias::ComPtr<IDxcBlob> m_dxcBlob = nullptr;
 
 		Converter::ShaderJsonConverter m_shaderJsonConverter = {};

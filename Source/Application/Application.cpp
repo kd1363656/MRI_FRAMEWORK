@@ -35,11 +35,7 @@ void Application::Execute()
 	INIT      (l_graphicsManager);
 	LoadCONFIG(l_graphicsManager, l_editorManager);
 
-	if (!PostLoadCONFIG(l_graphicsManager, l_sceneManager, l_editorManager))
-	{
-		assert(false && "アプリケーションのPostLoadCONFIG処理が失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN(!PostLoadCONFIG(l_graphicsManager, l_sceneManager, l_editorManager), "アプリケーションのPostLoadCONFIG処理が失敗しました。");
 
 	// 描画コマンドポインタの登録
 	RegisterDrawCommand(l_sceneManager);
@@ -81,21 +77,13 @@ void Application::LoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, 
 }
 bool Application::PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager& a_sceneManager, FWK::Editor::EditorManager& a_editorManager)
 {
-	if (!m_window.Create(k_windowClassName, k_titleName))
-	{
-		assert(false && "ウィンドウの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_WITH_VALUE(!m_window.Create(k_windowClassName, k_titleName), "ウィンドウの作成処理に失敗しました。", false);
 
 	// ウィンドウサイズが決定してからウィンドウサイズに依存する
 	// デプスステンシルテクスチャやレンダーターゲットテクスチャのサイズを決める
 	a_graphicsManager.PostDeserializeSetup(m_window.GetREFWindowCONFIG());
 
-	if (!a_graphicsManager.Create(m_window.GetREFHWND(), m_window.GetREFWindowCONFIG()))
-	{
-		assert(false && "グラフィックスの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_WITH_VALUE(!a_graphicsManager.Create(m_window.GetREFHWND(), m_window.GetREFWindowCONFIG()), "グラフィックスの作成処理に失敗しました。", false);
 
 	// Create処理が終わった後に実行する処理
 	a_graphicsManager.PostCreateSetup(m_window.GetREFHWND());
@@ -130,12 +118,7 @@ bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)
 	}
 
 	// ウィンドウサイズリサイズ要求が来ているかどうか
-	if (const auto l_resizeRequest = m_window.ConsumeResizeRequest();
-		!a_graphicsManager.ApplyWindowResizeRequest(l_resizeRequest))
-	{
-		assert(false && "ウィンドウサイズ変更要求の適用に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_WITH_VALUE(!a_graphicsManager.ApplyWindowResizeRequest(m_window.ConsumeResizeRequest()), "ウィンドウサイズ変更要求の適用に失敗しました。", false);
 
 	// 最小化中は描画対象のサイズが0になることがあるため、描画処理へ進まないようにする。
 	// ただし、メッセージ処理は継続したいのでアプリは終了しない

@@ -9,7 +9,7 @@ void FWK::Graphics::Shader::Deserialize(const nlohmann::json& a_rootJson)
 
 bool FWK::Graphics::Shader::CreateFromFile(const ShaderCompiler& a_shaderCompiler)
 {
-	if (!Utility::File::CanLoadFilePath(m_filePath, Constant::k_lowerCSOExtension))
+	if (!Utility::File::CanLoadFilePath(m_filePath, k_lowerCSOExtension))
 	{
 		assert(false && "シェーダーファイルの拡張子が.csoではありません");
 		return false;

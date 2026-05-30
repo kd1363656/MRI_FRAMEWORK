@@ -97,9 +97,6 @@
     <Filter Include="Source\Framework\FPS">
       <UniqueIdentifier>{f6da64d2-061c-410f-8beb-271249c2c714}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Constant\FPS">
-      <UniqueIdentifier>{b2519f6c-f6f2-4351-aac5-80f567a8346f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics">
       <UniqueIdentifier>{e8a98dbf-4ee6-4217-aa23-be28fab8d1c2}</UniqueIdentifier>
     </Filter>
@@ -916,9 +913,6 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\FPS\FPSController.h">
       <Filter>Source\Framework\FPS</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Constant\FPS\FPSConstant.h">
-      <Filter>Source\Framework\Definition\Constant\FPS</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\GraphicsManager.h">
       <Filter>Source\Framework\Graphics</Filter>

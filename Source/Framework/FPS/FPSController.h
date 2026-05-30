@@ -18,6 +18,8 @@ namespace FWK
 
 		void SetTargetFPS(const float a_set) { m_targetFPS = a_set; }
 
+		static constexpr float GetDefaultFPS() { return k_defaultFPS; }
+
 		float GetVALCurrentFPS() const { return m_currentFPS; }
 		float GetVALTargetFPS () const { return m_targetFPS; }
 
@@ -25,10 +27,14 @@ namespace FWK
 
 		void LimitFramerate() const;
 		
+		static constexpr float k_defaultFPS = 60.0F;
+
 		static constexpr float k_defaultTimeScale = 1.0F;
-		static constexpr float k_second           = 1.0F;
-		static constexpr float k_milliSecond      = 1000.0F;
-		static constexpr float k_minDeltaTime	  = 0.0F;
+
+		static constexpr float k_second      = 1.0F;
+		static constexpr float k_milliSecond = 1000.0F;
+
+		static constexpr float k_minDeltaTime = 0.0F;
 
 		const std::filesystem::path k_configFileIOPath = "Asset/Data/CONFIG/FPS/FPSCONFIG.json";
 
@@ -42,6 +48,6 @@ namespace FWK
 		float m_scaledDeltaTime = 0.0F;
 
 		float m_currentFPS = 0.0F;
-		float m_targetFPS  = Constant::k_defaultFPS;
+		float m_targetFPS  = k_defaultFPS;
 	};
 }
