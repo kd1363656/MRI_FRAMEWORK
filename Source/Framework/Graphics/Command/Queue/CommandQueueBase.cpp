@@ -5,7 +5,7 @@ FWK::Graphics::CommandQueueBase::CommandQueueBase(const D3D12_COMMAND_LIST_TYPE 
 
 	m_commandQueue(nullptr),
 
-	m_fence({})
+	m_fence()
 {}
 FWK::Graphics::CommandQueueBase::~CommandQueueBase() 
 {

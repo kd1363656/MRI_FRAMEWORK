@@ -4,13 +4,20 @@ namespace FWK::Converter
 {
 	// メモリマップドファイルを使って、バイナリーファイルの読み書きを行うための基底クラス
 	// メモリマップドファイルは通常のファイル読み込みのようなコピーをせず
-	// ファイルを開きメモリ空間にファイル内容を対応付けるためきわめて高速
+	// ファイルを開きメモリ空間にファイル内容を対応付けるため高速
+	// コピーすると同じハンドルと同じマップ済みポインタを複数インスタンスが持つ可能性があるのでコピー、ムーブ禁止
 	class BinaryFileConverterBase
 	{
 	public:
 
 				 BinaryFileConverterBase();
 		virtual ~BinaryFileConverterBase();
+
+		BinaryFileConverterBase(const BinaryFileConverterBase&)			  = delete;
+		BinaryFileConverterBase(	  BinaryFileConverterBase&&) noexcept = delete;
+
+		BinaryFileConverterBase& operator=(const BinaryFileConverterBase&)			 = delete;
+		BinaryFileConverterBase& operator=(	     BinaryFileConverterBase&&) noexcept = delete;
 
 	protected:
 
@@ -46,7 +53,7 @@ namespace FWK::Converter
 			// 指定された型と個数分のデータを読み込み先へコピーする
 			std::memcpy(a_destinationData, a_readData + a_readOffset, l_readDataSize);
 
-			// 次のデータを続けて読めるように、読み込んだバイト数分だけオフセットをス進める
+			// 次のデータを続けて読めるように、読み込んだバイト数分だけオフセットを進める
 			a_readOffset += l_readDataSize;
 		}
 
@@ -59,20 +66,14 @@ namespace FWK::Converter
 			// 書き込みデータの型サイズと個数から、実際にコピーするバイト数を計算する
 			const auto l_writeDataSize = sizeof(Type) * a_writeDataCount;
 
-			// 書き込みむバイト数が0の場合は、何もせずに終了する
+			// 書き込むバイト数が0の場合は、何もせずに終了する
 			if (l_writeDataSize == k_emptyWriteDataSize) { return; }
 
-			if (!a_sourceData)
-			{
-				assert(false && "書き込み元データがnullptrです。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!a_sourceData, "書き込み元データがnullptrです。")
+			FWK_ASSERT_RETURN_IF(!a_writeData,  "書き込み元データがnullptrです。")
 
-			FWK_ASSERT_RETURN_IF(!a_sourceData, "読み込み元データがnullptrです。")
-			FWK_ASSERT_RETURN_IF(!a_writeData,  "読み込み元データがnullptrです。")
-
-			// 書き込み先のメモリマップ領域の現在医師へ、
-			// 指定された方と個数分のデータを書き込む
+			// 書き込み先のメモリマップ領域の現在位置へ、
+			// 指定された型と個数分のデータを書き込む
 			std::memcpy(a_writeData + a_writeOffset, a_sourceData, l_writeDataSize);
 
 			// 次のデータを続けて書けるように、書き込んだバイト数分だけオフセットを進める

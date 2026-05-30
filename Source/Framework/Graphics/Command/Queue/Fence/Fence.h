@@ -2,12 +2,19 @@
 
 namespace FWK::Graphics
 {
+	// コピーやムーブを許可すると、複数インスタンスが同じイベントハンドルをCloseHandleする危険があるため禁止
 	class Fence final
 	{
 	public:
 
 		 Fence();
 		~Fence();
+
+		Fence(const Fence&)			  = delete;
+		Fence(		Fence&&) noexcept = delete;
+		
+		Fence& operator=(const Fence&)		     = delete;
+		Fence& operator=(	   Fence&&) noexcept = delete;
 
 		bool Create(const Device& a_device);
 
