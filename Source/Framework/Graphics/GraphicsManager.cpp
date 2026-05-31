@@ -5,11 +5,7 @@ void FWK::Graphics::GraphicsManager::INIT()
 	m_renderer.INIT();
 
 #if defined(_DEBUG)
-	if (!EnableDebugLayer())
-	{
-		assert(false && "デバッグレイヤーの有効化に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!EnableDebugLayer(), "デバッグレイヤーの有効化に失敗しました。")
 #endif
 }
 void FWK::Graphics::GraphicsManager::LoadCONFIG()
@@ -26,53 +22,31 @@ void FWK::Graphics::GraphicsManager::PostDeserializeSetup(const Struct::WindowCO
 }
 bool FWK::Graphics::GraphicsManager::Create(const HWND& a_hwnd, const Struct::WindowCONFIG& a_windowCONFIG)
 {
-	if (!m_factory.Create())
-	{
-		assert(false && "ファクトリーの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_factory.Create(),					"ファクトリーの作成に失敗しました。",			  false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_device.Create(m_factory),			"デバイスの作成処理に失敗しました。",			  false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_resourceContext.Create(m_device), "リソースコンテキストの作成処理に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_shaderCompiler.Create(),		    "シェーダーコンパイラの作成処理に失敗しました。", false)
 
-	if (!m_device.Create(m_factory))
-	{
-		assert(false && "デバイスの作成処理に失敗しました。");
-		return false;
-	}
 
-	if (!m_resourceContext.Create(m_device))
-	{
-		assert(false && "リソースコンテキストの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_renderer.Create(m_device, 
+							   m_shaderCompiler,
+							   m_resourceContext.GetREFGPUMemoryAllocator(),
+							   a_windowCONFIG.m_clientSize.m_width,
+							   a_windowCONFIG.m_clientSize.m_height,
+							   m_resourceContext.GetMutableREFRTVDescriptorPool(),
+							   m_resourceContext.GetMutableREFSRVDescriptorPool(),
+							   m_resourceContext.GetMutableREFDSVDescriptorPool()),
+							   "レンダラーの作成処理に失敗しました。",
+							   false)
 
-	if (!m_shaderCompiler.Create())
-	{
-		assert(false && "シェーダーコンパイラの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_renderer.Create(m_device, 
-						   m_shaderCompiler,
-						   m_resourceContext.GetREFGPUMemoryAllocator(),
-						   a_windowCONFIG.m_clientSize.m_width,
-						   a_windowCONFIG.m_clientSize.m_height,
-						   m_resourceContext.GetMutableREFRTVDescriptorPool(),
-						   m_resourceContext.GetMutableREFSRVDescriptorPool(),
-					       m_resourceContext.GetMutableREFDSVDescriptorPool()))
-	{
-		assert(false && "レンダラーの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_swapChain.Create(a_hwnd,
-							m_device,
-						    m_factory,
-						    m_renderer.GetREFDirectCommandQueue(),
-							a_windowCONFIG,
-							m_resourceContext.GetMutableREFRTVDescriptorPool()))
-	{
-		assert(false && "スワップチェインの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_swapChain.Create(a_hwnd,
+												   m_device,
+												   m_factory,
+												   m_renderer.GetREFDirectCommandQueue(),
+												   a_windowCONFIG,
+												   m_resourceContext.GetMutableREFRTVDescriptorPool()),
+												   "スワップチェインの作成処理に失敗しました。",
+												   false)
 
     return true;
 }
@@ -131,40 +105,25 @@ bool FWK::Graphics::GraphicsManager::ApplyWindowResizeRequest(const Struct::Wind
 	// ResizeBuffers()の前に、Rendererが待つDirectCommandList側のBackBuffer参照を外す、
 	// 前フレームのResourceBarrierなどがコマンドリスト内部に残っていると、
 	// SwapChain::ReleaseBackBufferList()でComPtrをResetしてもResizeBuffers()が失敗することがある
-	if (!m_renderer.PrepareForSwapChainResize())
-	{
-		assert(false && "スワップチェインリサイズ前処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_swapChain.Resize(m_device, a_resizeRequest.m_clientSize, m_resourceContext.GetMutableREFRTVDescriptorPool()))
-	{
-		assert(false && "スワップチェインのリサイズに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_renderer.PrepareForSwapChainResize(),																			"スワップチェインリサイズ前処理に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_swapChain.Resize(m_device, a_resizeRequest.m_clientSize, m_resourceContext.GetMutableREFRTVDescriptorPool()), "スワップチェインのリサイズに失敗しました。",	  false)
 
 	// SwapChainのBackBufferサイズが変わったため、
 	// BackBufferを基準にしているViewportとScissorRectも作り直す。
-	if (!m_renderer.GetMutableREFRenderArea().SetupRenderArea(m_swapChain))
-	{
-		assert(false && "リサイズ後のビューポート及びシザー矩形の再作成に失敗しました。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(!m_renderer.GetMutableREFRenderArea().SetupRenderArea(m_swapChain), "リサイズ後のビューポート及びシザー矩形の再作成に失敗しました。", false)
+	
 	const auto& l_retiredFenceValue = m_renderer.GetMutableREFDirectCommandQueue().FetchREFLastSignaledFenceValue();
 
-	if (!m_renderer.Resize(m_device,
-						   m_resourceContext.GetREFGPUMemoryAllocator(),
-						   a_resizeRequest.m_clientSize,
-						   l_retiredFenceValue,
-						   m_resourceContext.GetMutableREFRTVDescriptorPool(),
-						   m_resourceContext.GetMutableREFSRVDescriptorPool(),
-						   m_resourceContext.GetMutableREFDSVDescriptorPool(),
-						   m_resourceContext.GetMutableREFDeferredResourceReleaseQueue()))
-	{
-		assert(false && "Renderer管理リソースのリサイズに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_renderer.Resize(m_device,
+												  m_resourceContext.GetREFGPUMemoryAllocator(),
+												  a_resizeRequest.m_clientSize,
+												  l_retiredFenceValue,
+												  m_resourceContext.GetMutableREFRTVDescriptorPool(),
+												  m_resourceContext.GetMutableREFSRVDescriptorPool(),
+												  m_resourceContext.GetMutableREFDSVDescriptorPool(),
+												  m_resourceContext.GetMutableREFDeferredResourceReleaseQueue()),
+												  "Renderer管理リソースのリサイズに失敗しました。",
+												  false)
 
 	return true;
 }
@@ -177,14 +136,9 @@ bool FWK::Graphics::GraphicsManager::EnableDebugLayer() const
 	// デバッグ機能を有効化するためのインターフェースを取得する関数
 	// D3D12GetDebugInterface(受け取りたいCOMインターフェース型のID、
 	//					      作成結果のポインタを書き込むアドレス);
-
 	auto l_hr = D3D12GetDebugInterface(IID_PPV_ARGS(l_debug.ReleaseAndGetAddressOf()));
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "デバッグレイヤーの有効化に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "デバッグレイヤーの有効化に失敗しました。", false)
 
 	l_debug->EnableDebugLayer();
 
