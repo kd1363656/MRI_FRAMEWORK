@@ -15,35 +15,19 @@ void FWK::Editor::EditorManager::INIT(const HWND& a_hwnd)
 	const auto& l_renderer			 = l_graphicsManager.GetREFRenderer		  ();
 	const auto& l_resourceContext	 = l_graphicsManager.GetREFResourceContext();
 	
-	if (!l_device)
-	{
-		assert(false && "Deviceが無効のため、IMGUIの初期化に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_device, "Deviceが無効のため、IMGUIの初期化に失敗しました。")
 
 	const auto& l_directCommandQueue = l_renderer.GetREFDirectCommandQueue().GetREFCommandQueue();
 
-	if (!l_directCommandQueue)
-	{
-		assert(false && "コマンドキューが無効のため、IMGUIの初期化に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_directCommandQueue, "コマンドキューが無効のため、IMGUIの初期化に失敗しました。")
 
 	const auto& l_srvDescriptorHeap = l_resourceContext.GetREFSRVDescriptorPool().GetREFDescriptorHeap().FetchVALShaderVisibleDescriptorHeap();
 
-	if (!l_srvDescriptorHeap)
-	{
-		assert(false && "SRVDescriptorHeapが無効のため、IMGUIの初期化に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_srvDescriptorHeap, "SRVDescriptorHeapが無効のため、IMGUIの初期化に失敗しました。")
 
 	const auto& l_frameResourceList = l_renderer.GetREFFrameResourceList();
 
-	if (l_frameResourceList.empty()) 
-	{
-		assert(false && "フレームリソースリストが空のため、IMGUIの初期化に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(l_frameResourceList.empty(), "フレームリソースリストが空のため、IMGUIの初期化に失敗しました。")
 
 	// IMGUIのバージョンをチェックして、IMGUIContextを作成する
 	IMGUI_CHECKVERSION  ();
@@ -60,12 +44,7 @@ void FWK::Editor::EditorManager::INIT(const HWND& a_hwnd)
 
 	// WIN32用IMGUIバックエンドを初期化する
 	// ImGui_ImplWind32_Init(入力を受け取る対象ウィンドウハンドル);
-
-	if (!ImGui_ImplWin32_Init(a_hwnd))
-	{
-		assert(false && "IMGUI_IMPLWIN32_INITに失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!ImGui_ImplWin32_Init(a_hwnd), "IMGUI_IMPLWIN32_INITに失敗しました。")
 
 	ImGui_ImplDX12_InitInfo l_initINFO = {};
 
@@ -98,12 +77,7 @@ void FWK::Editor::EditorManager::INIT(const HWND& a_hwnd)
 
 	// DirectX12用IMGUIバックエンドを初期化する
 	// ImGui_ImplDX12_Init(DirectX12用初期化情報);
-
-	if (!ImGui_ImplDX12_Init(&l_initINFO))
-	{
-		assert(false && "ImGui_ImplDX12_Initに失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!ImGui_ImplDX12_Init(&l_initINFO), "ImGui_ImplDX12_Initに失敗しました。")
 
 	m_isInitialized = true;
 }
@@ -125,20 +99,12 @@ void FWK::Editor::EditorManager::DrawEditor()
 	const auto& l_renderer			 = l_graphicsManager.GetREFRenderer		  ();
 	const auto& l_directCommandList  = l_renderer.GetREFDirectCommandList	  ().GetREFCommandList();
 
-	if (!l_directCommandList)
-	{
-		assert(false && "DirectCommandListが無効のため、IMGUIの描画処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_directCommandList, "DirectCommandListが無効のため、IMGUIの描画処理に失敗しました。")
 
 	const auto& l_resourceContext   = l_graphicsManager.GetREFResourceContext  ();
 	const auto& l_srvDescriptorHeap = l_resourceContext.GetREFSRVDescriptorPool().GetREFDescriptorHeap().FetchVALShaderVisibleDescriptorHeap();
 
-	if (!l_srvDescriptorHeap)
-	{
-		assert(false && "SRVDescriptorHeapが無効のため、IMGUIの描画処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_srvDescriptorHeap, "SRVDescriptorHeapが無効のため、IMGUIの描画処理に失敗しました。")
 
 	// DirectX12用IMGUIバックエンドのフレーム開始処理
 	ImGui_ImplDX12_NewFrame();
@@ -181,11 +147,7 @@ void FWK::Editor::EditorManager::SaveCONFIG() const
 
 void FWK::Editor::EditorManager::AddEditorWindow(const std::shared_ptr<EditorWindowBase>& a_editorWindow)
 {
-	if (!a_editorWindow)
-	{
-		assert(false && "作成しようとしているEditorWindowが無効です。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!a_editorWindow, "作成しようとしているEditorWindowが無効です。")
 
 	const auto& l_staticID = a_editorWindow->GetREFRuntimeTypeINFO().k_staticTypeID;
 
@@ -203,29 +165,18 @@ void FWK::Editor::EditorManager::AllocateSRVDescriptor(ImGui_ImplDX12_InitInfo* 
 	
 	auto& l_srvDescriptorPool = l_resourceContext.GetMutableREFSRVDescriptorPool();
 
-	if (!a_info			||
-		!a_outCPUHandle ||
-		!a_outGPUHandle) 
-	{
-		assert(false && "IMGUI用のSRVDescriptorの確保に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!a_info	     ||
+						 !a_outCPUHandle ||
+						 !a_outGPUHandle,
+						 "IMGUI用のSRVDescriptorの確保に失敗しました。")
 
 	auto* const l_editorManager = static_cast<EditorManager*>(a_info->UserData);
 
-	if (!l_editorManager)
-	{
-		assert(false && "EditorManagerが無効のため、IMGUI用SRVDescriptorの確保に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_editorManager, "EditorManagerが無効のため、IMGUI用SRVDescriptorの確保に失敗しました。")
 
 	const auto l_srvStorageID = l_srvDescriptorPool.Allocate();
 
-	if (l_srvStorageID == Constant::k_invalidStorageID)
-	{
-		assert(false && "ImGui用SRVDescriptorのStorageID確保に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(l_srvStorageID == Constant::k_invalidStorageID, "ImGui用SRVDescriptorのStorageID確保に失敗しました。")
 
 	*a_outCPUHandle = l_srvDescriptorPool.FetchVALShaderVisibleCPUHandle(l_srvStorageID);
 	*a_outGPUHandle = l_srvDescriptorPool.FetchVALShaderVisibleGPUHandle(l_srvStorageID);
