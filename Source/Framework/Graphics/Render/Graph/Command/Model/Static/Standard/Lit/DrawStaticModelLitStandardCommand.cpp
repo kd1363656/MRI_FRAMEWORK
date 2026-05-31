@@ -7,30 +7,18 @@ void FWK::Graphics::DrawStaticModelLitStandardCommand::Draw(Renderer& a_renderer
 
 	const auto& l_rootSignature = GetVALRootSignature().lock();
 
-	if (!l_rootSignature)
-	{
-		assert(false && "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_rootSignature, "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。")
 
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
-	if (!l_currentFrameResource)
-	{
-		assert(false && "現在のフレームリソースの取得に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_currentFrameResource, "現在のフレームリソースの取得に失敗しました。")
 
 	const auto& l_lightSystem		= a_renderer.GetREFLightSystem	    ();
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 	const auto& l_lightSystemConstantBuffer = l_currentFrameResource->FindPTRConstantBufferUploader<LightConstantBufferUploader>().lock();
 
-	if (!l_lightSystemConstantBuffer)
-	{
-		assert(false && "Light用定数バッファが取得できないため、StaticModelLit描画処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_lightSystemConstantBuffer, "Light用定数バッファが取得できないため、StaticModelLit描画処理に失敗しました。")
 
 	const auto& l_cbLight = l_lightSystem.CreateCBLight();
 
