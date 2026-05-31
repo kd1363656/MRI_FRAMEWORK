@@ -37,7 +37,7 @@ bool FWK::Graphics::RenderGraph::Compile()
 
 	const auto l_passCount = m_passList.size();
 
-	FWK_ASSERT_RETURN_IF(m_passList.empty(), "RenderGraphPassが登録されていないため、Compileに失敗しました。")
+	FWK_ASSERT_RETURN_VALUE_IF(m_passList.empty(), "RenderGraphPassが登録されていないため、Compileに失敗しました。", false)
 
 	std::vector<std::vector<std::uint32_t>> l_edgeList	   = {};
 	std::vector<std::uint32_t>			    l_inDegreeList = {};
