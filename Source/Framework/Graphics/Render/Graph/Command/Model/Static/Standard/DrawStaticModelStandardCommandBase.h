@@ -19,19 +19,11 @@ namespace FWK::Graphics
 		{
 			const auto& l_rootSignature = GetVALRootSignature().lock();
 
-			if (!l_rootSignature)
-			{
-				assert(false && "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_rootSignature, "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。", false)
 
 			const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
-			if (!l_currentFrameResource)
-			{
-				assert(false && "現在のフレームリソースの取得に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_currentFrameResource, "現在のフレームリソースの取得に失敗しました。", false)
 
 			const auto& l_staticModelStandardPassConstant = GetPassConstant().lock();
 			
@@ -44,14 +36,12 @@ namespace FWK::Graphics
 			const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 			// もし共通定数バッファの設定に失敗したらマップを解除
-			if (!DrawCommandBase::SetupCommonPassConstantBuffer<CameraConstantBufferUploader, Tag::RootParameterCBCameraTag>(*l_rootSignature,
-																															 l_directCommandList,
-																															 *l_currentFrameResource,
-																															 l_cbCamera->CreateCBCamera()))
-			{
-				assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
-				return false;
-			}
+			const bool l_isSuccess = DrawCommandBase::SetupCommonPassConstantBuffer<CameraConstantBufferUploader, Tag::RootParameterCBCameraTag>(*l_rootSignature,
+																																				  l_directCommandList,
+																																				  *l_currentFrameResource,
+																																				  l_cbCamera->CreateCBCamera());
+
+			FWK_ASSERT_RETURN_VALUE_IF(!l_isSuccess, "共通パスの定数バッファが設定できず、描画処理に失敗しました。", false)
 
 			return true;
 		}
@@ -61,11 +51,7 @@ namespace FWK::Graphics
 			// モデルオブジェクトマップ用定数バッファの取得
 			auto l_modelObjectConstantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ModelObjectConstantBufferUploader>().lock();
 
-			if (!l_modelObjectConstantBufferUploader)
-			{
-				assert(false && "ModelObject用定数バッファが取得できないため、StaticModel描画処理に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_modelObjectConstantBufferUploader, "ModelObject用定数バッファが取得できないため、StaticModel描画処理に失敗しました。", false)
 
 			const auto& l_staticModelStandardDrawCommandList = GetREFDrawCommandList();
 
@@ -90,38 +76,18 @@ namespace FWK::Graphics
 					if (l_modelMeshletData.m_meshletList.size() == Constant::k_emptyMeshletCount) { continue; }
 
 					// モデル定数のセット
-					if (!l_modelMaterialRuntimeData.m_baseColorTexture)
-					{
-						assert(false && "BaseColorTextureが無効なため、StaticModel描画処理に失敗しました。");
-						return false;
-					}
-					
-					if (!l_modelMaterialRuntimeData.m_normalTexture)
-					{
-						assert(false && "NormalTextureが無効なため、StaticModel描画処理に失敗しました。");
-						return false;
-					}
+					FWK_ASSERT_RETURN_VALUE_IF(!l_modelMaterialRuntimeData.m_baseColorTexture, "BaseColorTextureが無効なため、StaticModel描画処理に失敗しました。", false)
+					FWK_ASSERT_RETURN_VALUE_IF(!l_modelMaterialRuntimeData.m_normalTexture,    "NormalTextureが無効なため、StaticModel描画処理に失敗しました。",    false)
+
 					const auto& l_baseColorTextureRecord = l_modelMaterialRuntimeData.m_baseColorTexture->GetREFTextureRecord().lock();
 					
-					if (!l_baseColorTextureRecord)
-					{
-						assert(false && "BaseColorTexture用TextureRecordが無効なため、StaticModel描画処理に失敗しました。");
-						return false;
-					}
+					FWK_ASSERT_RETURN_VALUE_IF(!l_baseColorTextureRecord, "BaseColorTexture用TextureRecordが無効なため、StaticModel描画処理に失敗しました。", false)
 					
 					const auto& l_normalTextureRecord = l_modelMaterialRuntimeData.m_normalTexture->GetREFTextureRecord().lock();
 					
-					if (!l_normalTextureRecord)
-					{
-						assert(false && "NormalTexture用TextureRecordが無効なため、StaticModel描画処理に失敗しました。");
-						return false;
-					}
-					
-					if (!ValidateModelMeshStructuredBufferSRV(l_modelMeshRuntimeData))
-					{
-						assert(false && "ModelMesh用StructuredBufferのSRVStorageIDが無効なため、StaticModel描画処理に失敗しました。");
-						return false;
-					}
+					FWK_ASSERT_RETURN_VALUE_IF(!l_normalTextureRecord,										  "NormalTexture用TextureRecordが無効なため、StaticModel描画処理に失敗しました。",		        false)
+					FWK_ASSERT_RETURN_VALUE_IF(!ValidateModelMeshStructuredBufferSRV(l_modelMeshRuntimeData), "ModelMesh用StructuredBufferのSRVStorageIDが無効なため、StaticModel描画処理に失敗しました。", false)
+
 
 					Struct::CBModelObject l_cbModelObject = {};
 

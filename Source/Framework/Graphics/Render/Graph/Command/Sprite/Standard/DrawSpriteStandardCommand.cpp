@@ -36,12 +36,12 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 	// もし共通定数バッファの設定に失敗したらマップを解除
-	const bool l_isSuccess = !SetupCommonPassConstantBuffer<SpritePassConstantBufferUploader, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
+	const bool l_isSuccess = SetupCommonPassConstantBuffer<SpritePassConstantBufferUploader, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
 																																 l_directCommandList,
 																																 *l_currentFrameResource,
 																																 l_cbSpritePass);
 
-	FWK_ASSERT_RETURN_IF(l_isSuccess, "共通パスの定数バッファが設定できず、描画処理に失敗しました。")
+	FWK_ASSERT_RETURN_IF(!l_isSuccess, "共通パスの定数バッファが設定できず、描画処理に失敗しました。")
 
 
 	auto l_spriteObjectConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<SpriteObjectConstantBufferUploader>().lock();
