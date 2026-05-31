@@ -12,23 +12,9 @@ void FWK::Graphics::RenderGraphPassBase::WriteTexture(const TypeAlias::TypeTag a
 
 void FWK::Graphics::RenderGraphPassBase::AddTextureAccess(const TypeAlias::TypeTag a_textureTag, const TypeAlias::TypeTag a_accessTag, const TypeAlias::TypeTag a_usageTag)
 {
-	if (a_textureTag == Constant::k_invalidTypeTag)
-	{
-		assert(false && "RenderGraphTextureAccessのTextureTagが無効です。");
-		return;
-	}
-
-	if (a_accessTag == Constant::k_invalidTypeTag)
-	{
-		assert(false && "RenderGraphTextureAccessのAccessTagが無効です。");
-		return;
-	}
-
-	if (a_usageTag == Constant::k_invalidTypeTag)
-	{
-		assert(false && "RenderGraphTextureAccessのUsageTagが無効です。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(a_textureTag == Constant::k_invalidTypeTag, "RenderGraphTextureAccessのTextureTagが無効です。")
+	FWK_ASSERT_RETURN_IF(a_accessTag == Constant::k_invalidTypeTag,  "RenderGraphTextureAccessのAccessTagが無効です。")
+	FWK_ASSERT_RETURN_IF(a_usageTag == Constant::k_invalidTypeTag,   "RenderGraphTextureAccessのUsageTagが無効です。")
 
 	Struct::RenderGraphTextureAccess l_textureAccess = {};
 

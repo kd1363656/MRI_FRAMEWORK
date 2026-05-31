@@ -75,7 +75,6 @@ std::uint8_t* FWK::Graphics::UploadBuffer::Map() const
 	// Map(対象サブリソース番号、
 	//	   CPUが読む範囲情報(nullptrなので範囲指定なし)、
 	//	   マップした先頭アドレスの受取先);
-	
 	// Bufferリソースなのでサブリソースは0固定で扱う
 	// UploadBufferはCPUから書き込みたい用途なのでMapして生ポインタを取得する
 	const auto l_hr = m_uploadBuffer->Map(Constant::k_firstSubresourceIndex, nullptr, &l_mappedData);

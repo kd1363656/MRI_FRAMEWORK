@@ -299,11 +299,9 @@
 #include "Definition/Struct/Graphics/Render/Graph/RenderGraphStruct.h"
 #include "Definition/Struct/Graphics/Render/Graph/Resource/RenderGraphResourceStruct.h"
 
-// レンダーグラフリソースレジストリー
+// フレームリソースクラス
 #include "Converter/Json/Graphics/Render/Frame/RenderGraph/RenderGraphFrameResourceRegistryJsonConverter.h"
 #include "Graphics/Render/Frame/RenderGraph/RenderGraphFrameResourceRegistry.h"
-
-// フレームリソースクラス
 #include "Converter/Json/Graphics/Render/Frame/Scene/SceneTextureJsonConverter.h"
 #include "Graphics/Render/Frame/Scene/SceneTexture.h"
 #include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"

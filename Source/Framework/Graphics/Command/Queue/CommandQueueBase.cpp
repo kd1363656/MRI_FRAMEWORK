@@ -67,7 +67,7 @@ void FWK::Graphics::CommandQueueBase::ExecuteCommandLists(const CommandListBase&
 	const auto& l_commandList  = a_commandList.GetREFCommandList();
 
 	FWK_ASSERT_RETURN_IF(!l_commandQueue, "コマンドキューが作成されておらず、コマンド実行処理が行えませんでした")
-	FWK_ASSERT_RETURN_IF(!l_commandList, "コマンドリストが作成されておらず、コマンド実行処理が行えませんでした")
+	FWK_ASSERT_RETURN_IF(!l_commandList,  "コマンドリストが作成されておらず、コマンド実行処理が行えませんでした")
 
 	// このキューと違うコマンドリストタイプならreturn
 	FWK_ASSERT_RETURN_IF(k_createCommandListType != a_commandList.GetVALCreateCommandListType(), "コマンドリストとコマンドキューのコマンドリストタイプが違います、コマンド実行処理が行えませんでした")

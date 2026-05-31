@@ -123,6 +123,7 @@ bool FWK::Window::RequestClientSize(const Struct::ClientSize& a_clientSize)
 	// AdjustWindowRECTは、指定したクライアント領域サイズになるように、
 	// タイトルバーや枠を含めたウィンドウ全体サイズを計算するAPI
 	const DWORD l_style = FetchVALWindowStyle();
+
 	FWK_ASSERT_RETURN_VALUE_IF(!AdjustWindowRect(&l_clientRECT, l_style, FALSE), "クライアント領域に合わせたウィンドウ全体サイズ計算に失敗しました。", false)
 
 	const auto l_windowWidth  = static_cast<int>(l_clientRECT.right  - l_clientRECT.left);

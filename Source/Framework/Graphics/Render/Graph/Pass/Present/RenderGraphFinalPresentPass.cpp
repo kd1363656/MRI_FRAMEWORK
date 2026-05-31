@@ -13,19 +13,11 @@ void FWK::Graphics::RenderGraphFinalPresentPass::PostCreateSetup(Renderer& a_ren
 
 	const auto& l_pipelineState = m_pipelineState.lock();
 
-	if (!l_pipelineState)
-	{
-		assert(false && "FinalPresent用PipelineStateが無効です。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_pipelineState, "FinalPresent用PipelineStateが無効です。")
 
 	m_rootSignature = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
 	
-	if (m_rootSignature.expired())
-	{
-		assert(false && "FinalPresent用RootSignatureが無効です。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(m_rootSignature.expired(), "FinalPresent用RootSignatureが無効です。")
 }
 
 void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 
@@ -39,50 +31,25 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 {
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
-	if (!l_currentFrameResource)
-	{
-		assert(false && "FrameResourceが無効のため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_currentFrameResource, "FrameResourceが無効のため、FinalPresentPassを実行できませんでした。")
 
 	const auto& l_renderGraphResourceRegistry  = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
 	const auto& l_postEffectColorTextureRecord = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetVALTag<Tag::PostEffectColorTextureTag>()).lock();
 
-	if (!l_postEffectColorTextureRecord)
-	{
-		assert(false && "PostEffectColorTextureが無効のため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_postEffectColorTextureRecord, "PostEffectColorTextureが無効のため、FinalPresentPassを実行できませんでした。")
 
 	const auto& l_postEffectColorTexture = l_postEffectColorTextureRecord->m_renderTargetTexture;
 
-	if (!l_postEffectColorTexture)
-	{
-		assert(false && "PostEffectColorTextureが無効のため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
-
-	if (l_postEffectColorTexture->GetVALSRVStorageID() == Constant::k_invalidStorageID)
-	{
-		assert(false && "PostEffectColorTextureのSRVStorageIDが無効のため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
-
+	FWK_ASSERT_RETURN_IF(!l_postEffectColorTexture,														 "PostEffectColorTextureが無効のため、FinalPresentPassを実行できませんでした。")
+	FWK_ASSERT_RETURN_IF(l_postEffectColorTexture->GetVALSRVStorageID() == Constant::k_invalidStorageID, "PostEffectColorTextureのSRVStorageIDが無効のため、FinalPresentPassを実行できませんでした。")
+	
 	const auto& l_rootSignature = m_rootSignature.lock();
 
-	if (!l_rootSignature)
-	{
-		assert(false && "FinalPresent用RootSignatureが無効のため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_rootSignature, "FinalPresent用RootSignatureが無効のため、FinalPresentPassを実行できませんでした。")
 
 	const auto& l_finalPresentConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<FinalPresentConstantBufferUploader>().lock();
 
-	if (!l_finalPresentConstantBufferUploader)
-	{
-		assert(false && "FinalPresent用ConstantBufferが取得できないため、FinalPresentPassを実行できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_finalPresentConstantBufferUploader, "FinalPresent用ConstantBufferが取得できないため、FinalPresentPassを実行できませんでした。")
 
 	Struct::CBFinalPresent l_cbFinalPresent = {};
 

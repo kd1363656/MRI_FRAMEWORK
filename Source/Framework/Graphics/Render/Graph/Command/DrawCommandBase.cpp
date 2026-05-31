@@ -15,20 +15,12 @@ void FWK::Graphics::DrawCommandBase::SetupPipelineStateAndRootSignature(const Re
 	const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(a_typeTag);
 	const auto& l_pipelineState     = l_pipelineStateWeak.lock();
 
-	if (!l_pipelineState) 
-	{
-		assert(false && "指定したTagに対応するパイプラインステートが無効です。");
-		return; 
-	}
+	FWK_ASSERT_RETURN_IF(!l_pipelineState, "指定したTagに対応するパイプラインステートが無効です。")
 
 	// パイプラインステートが使用するルートシグネチャを取得
 	const auto& l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
 
-	if (l_rootSignatureWeak.expired())
-	{
-		assert(false && "指定したルートシグネチャが無効です。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(l_rootSignatureWeak.expired(), "指定したルートシグネチャが無効です。")
 
 	m_pipelineState = l_pipelineStateWeak;
 	m_rootSignature = l_rootSignatureWeak;
@@ -36,17 +28,8 @@ void FWK::Graphics::DrawCommandBase::SetupPipelineStateAndRootSignature(const Re
 
 void FWK::Graphics::DrawCommandBase::SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const
 {
-	if (m_pipelineState.expired()) 
-	{
-		assert(false && "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。");
-		return;
-	}
-
-	if (m_rootSignature.expired())
-	{
-		assert(false && "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(m_pipelineState.expired(), "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。")
+	FWK_ASSERT_RETURN_IF(m_rootSignature.expired(), "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。")
 
 	auto& l_directCommandList = a_renderer.GetMutableREFDirectCommandList();
 
@@ -60,15 +43,14 @@ void FWK::Graphics::DrawCommandBase::SetupGraphicsPipelineStateToCommandList(Ren
 void FWK::Graphics::DrawCommandBase::TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Graphics::TextureRecord& a_textureRecord) const
 {
 	if (const auto l_currentState = a_textureRecord.GetVALCurrentState();
-		l_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) { return; }
+		l_currentState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE) 
+	{
+		return; 
+	}
 
 	const auto& l_textureResource = a_textureRecord.GetREFGPUResource().m_resource;
 
-	if (!l_textureResource)
-	{
-		assert(false && "テクスチャリソースが無効になっており、状態遷移を行えませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_textureResource, "テクスチャリソースが無効になっており、状態遷移を行えませんでした。")
 
 	// PixelShaderからSRVとして読むため、現在の状態からPIXEL_SHADER_RESOURCEへ遷移する
 	a_directCommandList.TransitionResource(a_textureRecord.GetVALCurrentState(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, *l_textureResource.Get());

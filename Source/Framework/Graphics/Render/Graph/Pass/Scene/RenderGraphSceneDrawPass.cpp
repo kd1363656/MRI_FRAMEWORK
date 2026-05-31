@@ -17,44 +17,24 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 {
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
-	if (!l_currentFrameResource)
-	{
-		assert(false && "FrameResourceが無効のため、SceneDrawPassを実行できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_currentFrameResource, "FrameResourceが無効のため、SceneDrawPassを実行できませんでした。")
 
 	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
 	const auto& l_sceneColorTextureRecord     = l_renderGraphResourceRegistry.FindVALRenderTargetTexture (Utility::Tag::GetVALTag<Tag::SceneColorTextureTag>()).lock();
 
-	if (!l_sceneColorTextureRecord)
-	{
-		assert(false && "SceneColorTextureが無効のため、SceneDrawPassを実行できませんでした。");
-		return;
-	}
-
+	FWK_ASSERT_RETURN_IF(!l_sceneColorTextureRecord, "SceneColorTextureが無効のため、SceneDrawPassを実行できませんでした。")
+	
 	const auto& l_sceneColorTexture = l_sceneColorTextureRecord->m_renderTargetTexture;
 
-	if (!l_sceneColorTexture)
-	{
-		assert(false && "SceneColorTextureが無効のため、SceneDrawPassを実行できませんでした。");
-		return;
-	}
-
+	FWK_ASSERT_RETURN_IF(!l_sceneColorTexture, "SceneColorTextureが無効のため、SceneDrawPassを実行できませんでした。")
+	
 	const auto& l_sceneDepthStencilTextureRecord = l_renderGraphResourceRegistry.FindVALDepthStencilTexture(Utility::Tag::GetVALTag<Tag::SceneDepthStencilTextureTag>()).lock();
 
-	if (!l_sceneDepthStencilTextureRecord)
-	{
-		assert(false && "SceneDepthStencilTextureが無効のため、SceneDrawPassを実行できませんでした。");
-		return;
-	}
-
+	FWK_ASSERT_RETURN_IF(!l_sceneDepthStencilTextureRecord, "SceneDepthStencilTextureが無効のため、SceneDrawPassを実行できませんでした。")
+	
 	const auto& l_sceneDepthStencilTexture = l_sceneDepthStencilTextureRecord->m_depthStencilTexture;
 
-	if (!l_sceneDepthStencilTexture)
-	{
-		assert(false && "SceneDepthStencilTextureが無効のため、SceneDrawPassを実行できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_sceneDepthStencilTexture, "SceneDepthStencilTextureが無効のため、SceneDrawPassを実行できませんでした。")
 
 	// RenderGraph側でSceneColorTextureはD3D12_RESOURCE_STATE_RENDER_TARGETへ、
 	// SceneDepthStencilTextureはD3D12_RESOURCE_STATE_DEPTH_WRITEへ遷移済み

@@ -50,7 +50,6 @@ void FWK::Graphics::CommandListBase::Close() const
 {
 	FWK_ASSERT_RETURN_IF(!m_commandList, "コマンドリストの作成に失敗しており、コマンドリストのクローズ処理が出来ませんでした。")
 
-
 	// コマンドリストへの命令記録を終了するクラス
 	// ※注意 : もしCloseをしなければコマンドキューのExecute処理を行うことができない
 	// Close();

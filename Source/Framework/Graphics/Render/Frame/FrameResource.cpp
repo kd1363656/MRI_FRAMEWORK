@@ -33,29 +33,18 @@ bool FWK::Graphics::FrameResource::Create(const Device&			                   a_d
 		l_constantBufferUploader->Create(a_device);
 	}
 
-	if (!m_directCommandAllocator)
-	{
-		assert(false && "ダイレクトコマンドアロケータが無効です。");
-		return false; 
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_directCommandAllocator,					"ダイレクトコマンドアロケータが無効です。",				  false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_directCommandAllocator->Create(a_device), "ダイレクトコマンドアロケータの作成処理に失敗しました。", false)
 
-	if (!m_directCommandAllocator->Create(a_device))
-	{
-		assert(false && "ダイレクトコマンドアロケータの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_renderGraphFrameResourceRegistry.Create(a_device,
-											       a_gpuMemoryAllocator,
-											       a_width,
-											       a_height,
-											       a_rtvDescriptorPool,
-											       a_srvDescriptorPool,
-											       a_dsvDescriptorPool))
-	{
-		assert(false && "FrameResource用RenderGraphResourceRegistryの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_renderGraphFrameResourceRegistry.Create(a_device,
+																		  a_gpuMemoryAllocator,
+																		  a_width,
+																		  a_height,
+																		  a_rtvDescriptorPool,
+																		  a_srvDescriptorPool,
+																		  a_dsvDescriptorPool),
+																		  "FrameResource用RenderGraphResourceRegistryの作成に失敗しました。",
+																		  false)
 
 	return true;
 }
@@ -87,18 +76,16 @@ bool FWK::Graphics::FrameResource::Resize(const Device&							   a_device,
 	// FrameResourceごとにRenderGraphResourceRegistryを持っているため、
 	// ウィンドウサイズに依存するRenderTargetTexture / DepthStencilTextureも
 	// FrameResourceごとResizeする必要がある
-	if (!m_renderGraphFrameResourceRegistry.Resize(a_device,		
-											       a_gpuMemoryAllocator,
-											       a_clientSize,
-											       a_retiredFenceValue,
-											       a_rtvDescriptorPool,
-											       a_srvDescriptorPool,
-											       a_dsvDescriptorPool,
-											       a_deferredResourceReleaseQueue))
-	{
-		assert(false && "FrameResource用RenderGraphResourceRegistryのリサイズに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_renderGraphFrameResourceRegistry.Resize(a_device,		
+																		  a_gpuMemoryAllocator,
+																		  a_clientSize,
+																		  a_retiredFenceValue,
+																		  a_rtvDescriptorPool,
+																		  a_srvDescriptorPool,
+																		  a_dsvDescriptorPool,
+																		  a_deferredResourceReleaseQueue),
+																		  "FrameResource用RenderGraphResourceRegistryのリサイズに失敗しました。",
+																		  false)
 
 	return true;
 }

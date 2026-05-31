@@ -36,13 +36,11 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 	//					 どのフィーチャーレベルで作りたいか、
 	//					 受け取りたいCOMインターフェース型のID、
 	//					 作成結果のポインタを書き込むアドレス);
-
 	// 指定した優先条件で、GPU一覧の中からa_index番目のGPUを取り出す関数
 	// EnumAdapterByGpuPreference(何番目のGPUアダプターを取得するか、
 	//							  どういう種類のGPUを優先して列挙するか、
 	//							  受け取りたいCOMインターフェース型のID、
 	//							  作成結果のポインタを書き込むアドレス)
-
 	auto l_adapterIndex = k_firstAdapterIndex;
 
 	while (SUCCEEDED(l_factory->EnumAdapterByGpuPreference(l_adapterIndex, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(l_adapter.ReleaseAndGetAddressOf()))))

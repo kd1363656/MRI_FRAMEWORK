@@ -11,14 +11,12 @@ void FWK::Graphics::SceneTexture::INIT()
 	m_renderTargetTextureRecordList.clear();
 	m_depthStencilTextureRecordList.clear();
 }
-
 void FWK::Graphics::SceneTexture::Deserialize(const nlohmann::json& a_rootJson)
 {
 	if (a_rootJson.is_null()) { return; }
 
 	m_sceneTextureJsonConverter.Deserialize(a_rootJson, *this);
 }
-
 bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device, 
 									     const GPUMemoryAllocator&				  a_gpuMemoryAllocator, 
 										 const UINT								  a_width, 
@@ -27,53 +25,34 @@ bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device,
 											   DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 											   DescriptorPool<DSVDescriptorHeap>& a_dsvDescriptorPool)
 {
-	if (!m_finalSceneTexture) 
-	{
-		assert(false && "最終シーン出力テクスチャがインスタンス化されていませんでした。");
-		return false; 
-	}
-
-	if (!m_finalSceneDepthStencilTexture)
-	{
-		assert(false && "最終デプスステンシル出力テクスチャがインスタンス化されていませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_finalSceneTexture,			 "最終シーン出力テクスチャがインスタンス化されていませんでした。",			 false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_finalSceneDepthStencilTexture, "最終デプスステンシル出力テクスチャがインスタンス化されていませんでした。", false)
 
 	// 最終出力シーンテクスチャはウィンドウサイズに依存するべき
 	m_finalSceneTexture->SetWidth (a_width);
 	m_finalSceneTexture->SetHeight(a_height);
 
 	// 最終出力シーン用テクスチャの作成
-	if (!m_finalSceneTexture->Create(a_device,
-									 a_gpuMemoryAllocator,
-									 a_rtvDescriptorPool,
-									 a_srvDescriptorPool))
-	{
-		assert(false && "SceneColorTextureの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_finalSceneTexture->Create(a_device,
+															a_gpuMemoryAllocator,
+															a_rtvDescriptorPool,
+															a_srvDescriptorPool),
+															"SceneColorTextureの作成に失敗しました。",
+														    false)
 
 	// 最終出力デプスステンシルテクスチャはウィンドウサイズに依存するべき
 	m_finalSceneDepthStencilTexture->SetWidth (a_width);
 	m_finalSceneDepthStencilTexture->SetHeight(a_height);
 
 	// 最終出力デプスステンシル用テクスチャの作成
-	if (!m_finalSceneDepthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool))
-	{
-		assert(false && "SceneDepthStencilTextureの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_finalSceneDepthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool), "SceneDepthStencilTextureの作成に失敗しました。", false)
 
 	// マルチパスレンダリング用レンダーターゲットテクスチャの作成
 	for (const auto& l_renderTargetTextureRecord : m_renderTargetTextureRecordList)
 	{
 		auto& l_renderTargetTexture = l_renderTargetTextureRecord.m_renderTargetTexture;
 
-		if (!l_renderTargetTexture)
-		{
-			assert(false && "SceneTexture管理RenderTargetTextureがnullptrです。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_renderTargetTexture, "SceneTexture管理RenderTargetTextureがnullptrです。", false)
 
 		// 幅が0ならウィンドウサイズを安全のためにセットする
 		if (l_renderTargetTexture->GetWidth() == Constant::k_invalidRenderTextureWidth)
@@ -87,14 +66,13 @@ bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device,
 			l_renderTargetTexture->SetHeight(a_height);
 		}
 
-		if (!l_renderTargetTexture->Create(a_device,
-										   a_gpuMemoryAllocator,
-										   a_rtvDescriptorPool,
-										   a_srvDescriptorPool))
-		{
-			assert(false && "SceneTexture管理RenderTargetTextureの作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_renderTargetTexture->Create(a_device,
+																  a_gpuMemoryAllocator,
+																  a_rtvDescriptorPool,
+																  a_srvDescriptorPool),
+																  "SceneTexture管理RenderTargetTextureの作成に失敗しました。",
+																  false)
+
 	}
 
 	// マルチパスレンダリング用デプスステンシルテクスチャの作成
@@ -102,11 +80,7 @@ bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device,
 	{
 		auto& l_depthStencilTexture = l_depthStencilTextureRecord.m_depthStencilTexture;
 
-		if (!l_depthStencilTexture)
-		{
-			assert(false && "SceneTexture管理DepthStencilTextureがnullptrです。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_depthStencilTexture, "SceneTexture管理DepthStencilTextureがnullptrです。", false)
 
 		// 幅が0ならウィンドウサイズを安全のためにセットする
 		if (l_depthStencilTexture->GetWidth() == Constant::k_invalidDepthStencilTextureWidth)
@@ -120,11 +94,8 @@ bool FWK::Graphics::SceneTexture::Create(const Device&							  a_device,
 			l_depthStencilTexture->SetHeight(a_height);
 		}
 
-		if (!l_depthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool))
-		{
-			assert(false && "SceneTexture管理DepthStencilTextureの作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_depthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool), "SceneTexture管理DepthStencilTextureの作成に失敗しました。", false)
+
 	}
 
 	return true;
@@ -137,23 +108,9 @@ nlohmann::json FWK::Graphics::SceneTexture::Serialize() const
 
 void FWK::Graphics::SceneTexture::AddRenderTargetTexture(const Struct::SceneRenderTargetTextureRecord& a_renderTargetTextureRecord)
 {
-	if (a_renderTargetTextureRecord.m_typeTag == Constant::k_invalidTypeTag)
-	{
-		assert(false && "RenderTargetTexture用TypeTagが無効です。");
-		return;
-	}
-
-	if (!a_renderTargetTextureRecord.m_renderTargetTexture)
-	{
-		assert(false && "RenderTargetTextureがnullptrです。");
-		return;
-	}
-
-	if (m_renderTargetTextureRecordMap.contains(a_renderTargetTextureRecord.m_typeTag))
-	{
-		assert(false && "同じTypeTagのRenderTargetが既に登録されています。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(a_renderTargetTextureRecord.m_typeTag == Constant::k_invalidTypeTag,			 "RenderTargetTexture用TypeTagが無効です。")
+	FWK_ASSERT_RETURN_IF(!a_renderTargetTextureRecord.m_renderTargetTexture,							 "RenderTargetTextureがnullptrです。")
+	FWK_ASSERT_RETURN_IF(m_renderTargetTextureRecordMap.contains(a_renderTargetTextureRecord.m_typeTag), "同じTypeTagのRenderTargetが既に登録されています。")
 
 	m_renderTargetTextureRecordList.emplace_back(a_renderTargetTextureRecord);
 	m_renderTargetTextureRecordMap.try_emplace  (a_renderTargetTextureRecord.m_typeTag, a_renderTargetTextureRecord.m_renderTargetTexture);
@@ -161,23 +118,9 @@ void FWK::Graphics::SceneTexture::AddRenderTargetTexture(const Struct::SceneRend
 
 void FWK::Graphics::SceneTexture::AddDepthStencilTexture(const Struct::SceneDepthStencilTextureRecord& a_depthStencilTextureRecord)
 {
-	if (a_depthStencilTextureRecord.m_typeTag == Constant::k_invalidTypeTag)
-	{
-		assert(false && "DepthStencilTexture用TypeTagが無効です。");
-		return;
-	}
-
-	if (!a_depthStencilTextureRecord.m_depthStencilTexture)
-	{
-		assert(false && "DepthStencilTextureがnullptrです。");
-		return;
-	}
-
-	if (m_depthStencilTextureRecordMap.contains(a_depthStencilTextureRecord.m_typeTag))
-	{
-		assert(false && "同じTypeTagのDepthStencilTextureが既に登録されています。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(a_depthStencilTextureRecord.m_typeTag == Constant::k_invalidTypeTag,			 "DepthStencilTexture用TypeTagが無効です。")
+	FWK_ASSERT_RETURN_IF(!a_depthStencilTextureRecord.m_depthStencilTexture,							 "DepthStencilTextureがnullptrです。")
+	FWK_ASSERT_RETURN_IF(m_depthStencilTextureRecordMap.contains(a_depthStencilTextureRecord.m_typeTag), "同じTypeTagのDepthStencilTextureが既に登録されています。")
 
 	m_depthStencilTextureRecordList.emplace_back(a_depthStencilTextureRecord);
 	m_depthStencilTextureRecordMap.try_emplace  (a_depthStencilTextureRecord.m_typeTag, a_depthStencilTextureRecord.m_depthStencilTexture);

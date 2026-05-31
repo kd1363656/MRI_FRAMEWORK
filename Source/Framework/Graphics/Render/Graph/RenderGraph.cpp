@@ -25,11 +25,7 @@ void FWK::Graphics::RenderGraph::PostCreateSetup(Renderer& a_renderer) const
 
 	for (const auto& l_pass : m_passList)
 	{
-		if (!l_pass)
-		{
-			assert(false && "RenderGraphPassが無効のため、PostCreateSetupを実行できませんでした。");
-			return;
-		}
+		FWK_ASSERT_RETURN_IF(!l_pass, "RenderGraphPassが無効のため、PostCreateSetupを実行できませんでした。")
 
 		l_pass->PostCreateSetup(a_renderer);
 	}
@@ -41,11 +37,7 @@ bool FWK::Graphics::RenderGraph::Compile()
 
 	const auto l_passCount = m_passList.size();
 
-	if (m_passList.empty())
-	{
-		assert(false && "RenderGraphPassが登録されていないため、Compileに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_IF(m_passList.empty(), "RenderGraphPassが登録されていないため、Compileに失敗しました。")
 
 	std::vector<std::vector<std::uint32_t>> l_edgeList	   = {};
 	std::vector<std::uint32_t>			    l_inDegreeList = {};
@@ -102,11 +94,7 @@ bool FWK::Graphics::RenderGraph::Compile()
 	// AはBの後に実行したい、
 	// BはAの後に実行したい、
 	// このような状態では正しい実行順序を作れない
-	if (m_sortedPassIndexList.size() != l_passCount)
-	{
-		assert(false && "RenderGraphPassの依存関係が循環しているため、Compileに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(m_sortedPassIndexList.size() != l_passCount, "RenderGraphPassの依存関係が循環しているため、Compileに失敗しました。", false)
 
 	return true;
 }
@@ -141,27 +129,15 @@ void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDesc
 											   DirectCommandList&				  a_directCommandList,
 											   Renderer&						  a_renderer)
 {
-	if (m_sortedPassIndexList.empty())
-	{
-		assert(false && "RenderGraphがCompileされていないため、実行できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(m_sortedPassIndexList.empty(), "RenderGraphがCompileされていないため、実行できませんでした。")
 
 	for (const auto l_passIndex : m_sortedPassIndexList)
 	{
-		if (m_passList.size() <= l_passIndex)
-		{
-			assert(false && "RenderGraphPassIndexが範囲外です。");
-			return;
-		}
+		FWK_ASSERT_RETURN_IF(m_passList.size() <= l_passIndex, "RenderGraphPassIndexが範囲外です。")
 
 		const auto& l_pass = m_passList[l_passIndex];
 
-		if (!l_pass)
-		{
-			assert(false && "RenderGraphPassが無効です。");
-			return;
-		}
+		FWK_ASSERT_RETURN_IF(!l_pass, "RenderGraphPassが無効です。")
 
 		// Passが必要としているResourceStateへ自動で遷移させる
 		// 例 : 
@@ -188,30 +164,18 @@ nlohmann::json FWK::Graphics::RenderGraph::Serialize() const
 
 void FWK::Graphics::RenderGraph::AddPass(std::unique_ptr<IRenderGraphPass>&& a_pass)
 {
-	if (!a_pass)
-	{
-		assert(false && "RenderGraphPassが無効のため、追加できませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!a_pass, "RenderGraphPassが無効のため、追加できませんでした。")
 
 	m_passList.emplace_back(std::move(a_pass));
 }
 
 void FWK::Graphics::RenderGraph::AddDrawCommand(const std::shared_ptr<DrawCommandBase>& a_drawCommand)
 {
-	if (!a_drawCommand) 
-	{
-		assert(false && "DrawCommandが無効のため、DrawCommandの登録に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!a_drawCommand, "DrawCommandが無効のため、DrawCommandの登録に失敗しました。")
 
 	const auto l_staticTypeID = a_drawCommand->GetREFRuntimeTypeINFO().k_staticTypeID;
 
-	if (m_drawCommandMap.contains(l_staticTypeID))
-	{
-		assert(false && "同じStaticTypeIDのDrawCommandを追加しようとしたため、DrawCommandの登録に失敗しました。");
-		return; 
-	}
+	FWK_ASSERT_RETURN_IF(m_drawCommandMap.contains(l_staticTypeID), "同じStaticTypeIDのDrawCommandを追加しようとしたため、DrawCommandの登録に失敗しました。")
 
 	m_drawCommandList.emplace_back(a_drawCommand);
 	m_drawCommandMap.try_emplace  (l_staticTypeID, a_drawCommand);
@@ -247,11 +211,7 @@ void FWK::Graphics::RenderGraph::AddDependencyEdge(const std::uint32_t							  a
 
 void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::uint32_t>>& a_edgeList, std::vector<std::uint32_t>& a_inDegreeList) const
 {
-	if (m_passList.empty())
-	{
-		assert(false && "PassListが空です。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(m_passList.empty(), "PassListが空です。")
 
 	// Passが持っているTextureAccessを、依存関係を作りやすい形に変換して一つの配列へ集める
 	// TextureAccessは「どのTextureTagを、Read/Writeのどちらで、どのUsageで使うか」を表す
@@ -266,38 +226,22 @@ void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::ui
 	{
 		const auto& l_pass = m_passList[l_passIndex];
 
-		if (!l_pass)
-		{
-			assert(false && "RenderGraphPassが無効です。");
-			return;
-		}
+		FWK_ASSERT_RETURN_IF(!l_pass, "RenderGraphPassが無効です。")
 
 		for (const auto& l_textureAccess : l_pass->GetREFTextureAccessList())
 		{
 			// TextureTagは「どのTextureを使うか」を表す
 			// これが無効だと、どのTexture動詞で依存関係を作ればいいか判断できない
-			if (l_textureAccess.m_textureTag == Constant::k_invalidTypeTag)
-			{
-				assert(false && "RenderGraphTextureAccessのTextureTagが無効です。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(l_textureAccess.m_textureTag == Constant::k_invalidTypeTag, "RenderGraphTextureAccessのTextureTagが無効です。")
 
 			// AccessTagは「ReadなのかWriteなのか」を表す
 			// BuildDependencyでは、この情報を使ってPass同地の実行順を決める
-			if (l_textureAccess.m_accessTag == Constant::k_invalidTypeTag)
-			{
-				assert(false && "RenderGraphTextureAccessのAccessTagが無効です。");
-				return;
-			}
-
+			FWK_ASSERT_RETURN_IF(l_textureAccess.m_accessTag == Constant::k_invalidTypeTag, "RenderGraphTextureAccessのAccessTagが無効です。")
+			
 			// UsageTagは「RenderTargetとして使うのか、CopySourceとして使うのか」などの用途を表す
 			// ResourceStateの自動遷移で使うため、ここで無効値を弾いておく
-			if (l_textureAccess.m_usageTag == Constant::k_invalidTypeTag)
-			{
-				assert(false && "RenderGraphTextureAccessのUsageTagが無効です。");
-				return;
-			}
-
+			FWK_ASSERT_RETURN_IF(l_textureAccess.m_usageTag == Constant::k_invalidTypeTag, "RenderGraphTextureAccessのUsageTagが無効です。")
+			
 			TextureAccessPassRecord l_textureAccessPassRecord = {};
 
 			l_textureAccessPassRecord.m_textureTag = l_textureAccess.m_textureTag;
@@ -311,16 +255,12 @@ void FWK::Graphics::RenderGraph::BuildDependency(std::vector<std::vector<std::ui
 			l_textureAccessPassRecord.m_isWrite = IsWriteAccess(l_textureAccess);
 
 			// 書き込み、読み込み、どちらでもない場合return;
-			if (!l_textureAccessPassRecord.m_isRead && !l_textureAccessPassRecord.m_isWrite)
-			{
-				assert(false && "RenderGraphTextureAccessのAccessTagが不正です。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!l_textureAccessPassRecord.m_isRead && !l_textureAccessPassRecord.m_isWrite, "RenderGraphTextureAccessのAccessTagが不正です。")
+
 
 			l_textureAccessPassRecordList.emplace_back(l_textureAccessPassRecord);
 		}
 	}
-
 
 	// TextureTagごとにAccessをまとめる
 	// 例:
@@ -458,11 +398,7 @@ void FWK::Graphics::RenderGraph::TransitionPassTexture(const IRenderGraphPass& a
 {
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
-	if (!l_currentFrameResource)
-	{
-		assert(false && "FrameResourceが無効のため、RenderGraphPass用Textureの状態遷移ができませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_currentFrameResource, "FrameResourceが無効のため、RenderGraphPass用Textureの状態遷移ができませんでした。")
 
 	const auto& l_renderGraphResourceRegistry = l_currentFrameResource->GetREFRenderGraphResourceRegistry();
 
@@ -471,8 +407,7 @@ void FWK::Graphics::RenderGraph::TransitionPassTexture(const IRenderGraphPass& a
 		if (TransitionRenderTargetTexture(l_textureAccess, l_renderGraphResourceRegistry, a_directCommandList)) { continue; }
 		if (TransitionDepthStencilTexture(l_textureAccess, l_renderGraphResourceRegistry, a_directCommandList)) { continue; }
 
-		assert(false && "RenderGraphTextureAccessに対応するTextureがRenderGraphResourceRegistryに登録されていません。");
-		return;
+		FWK_ASSERT_RETURN("RenderGraphTextureAccessに対応するTextureがRenderGraphResourceRegistryに登録されていません。")
 	}
 
 }
@@ -485,11 +420,7 @@ bool FWK::Graphics::RenderGraph::TransitionRenderTargetTexture(const Struct::Ren
 
 	const auto& l_renderTargetTexture = l_renderTargetTextureResourceRecord->m_renderTargetTexture;
 
-	if (!l_renderTargetTexture)
-	{
-		assert(false && "RenderGraph管理RenderTargetTextureが無効のため、状態遷移が出来ませんでした。");
-		return true;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_renderTargetTexture, "RenderGraph管理RenderTargetTextureが無効のため、状態遷移が出来ませんでした。", true)
 
 	const auto l_requiredState = ConvertTextureUsageToResourceState(a_textureAccess.m_usageTag);
 
@@ -505,11 +436,7 @@ bool FWK::Graphics::RenderGraph::TransitionDepthStencilTexture(const Struct::Ren
 
 	const auto& l_depthStencilTexture = l_depthStencilTextureResourceRecord->m_depthStencilTexture;
 
-	if (!l_depthStencilTexture)
-	{
-		assert(false && "RenderGraph管理DepthStencilTextureが無効のため、状態遷移が出来ませんでした。");
-		return true;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_depthStencilTexture, "RenderGraph管理DepthStencilTextureが無効のため、状態遷移が出来ませんでした。", true)
 
 	const auto l_requiredState = ConvertTextureUsageToResourceState(a_textureAccess.m_usageTag);
 
@@ -550,6 +477,5 @@ D3D12_RESOURCE_STATES FWK::Graphics::RenderGraph::ConvertTextureUsageToResourceS
 		return D3D12_RESOURCE_STATE_DEPTH_READ;
 	}
 
-	assert(false && "RenderGraphTextureAccessのUsageTagが不正です。");
-	return D3D12_RESOURCE_STATE_COMMON;
+	FWK_ASSERT_RETURN_VALUE("RenderGraphTextureAccessのUsageTagが不正です。", D3D12_RESOURCE_STATE_COMMON)
 }

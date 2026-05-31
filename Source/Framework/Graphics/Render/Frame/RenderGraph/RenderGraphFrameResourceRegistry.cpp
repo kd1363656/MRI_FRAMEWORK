@@ -52,43 +52,32 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::Create(const Device&						
 {
 	for (const auto& l_renderTargetTextureResourceRecord : m_renderTargetTextureResourceRecordList)
 	{
-		if (!l_renderTargetTextureResourceRecord)
-		{
-			assert(false && "RenderGraph管理RenderTargetTextureResourceRecordがnullptrです。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_renderTargetTextureResourceRecord, "RenderGraph管理RenderTargetTextureResourceRecordがnullptrです。", false)
 
-		if (!CreateRenderTargetTexture(a_device,
-									   a_gpuMemoryAllocator,
-									   *l_renderTargetTextureResourceRecord,
-								       a_width,
-								   	   a_height,
-									   a_rtvDescriptorHeap,
-									   a_srvDescriptorHeap))
-		{
-			assert(false && "RenderGraph管理RenderTargetTextureの作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!CreateRenderTargetTexture(a_device,
+															  a_gpuMemoryAllocator,
+															  *l_renderTargetTextureResourceRecord,
+															  a_width,
+								   							  a_height,
+															  a_rtvDescriptorHeap,
+															  a_srvDescriptorHeap),
+															  "RenderGraph管理RenderTargetTextureの作成に失敗しました。",
+															  false)
+
 	}
 
 	for (const auto& l_depthStencilTextureResourceRecord : m_depthStencilTextureResourceRecordList)
 	{
-		if (!l_depthStencilTextureResourceRecord)
-		{
-			assert(false && "RenderGraph管理DepthStencilTextureResourceRecordがnullptrです。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_depthStencilTextureResourceRecord, "RenderGraph管理DepthStencilTextureResourceRecordがnullptrです。", false)
 
-		if (!CreateDepthStencilTexture(a_device,
-									   a_gpuMemoryAllocator,
-									   *l_depthStencilTextureResourceRecord,
-									   a_width,
-									   a_height,
-									   a_dsvDescriptorPool))
-		{
-			assert(false && "RenderGraph管理DepthStencilTextureの作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!CreateDepthStencilTexture(a_device,
+															  a_gpuMemoryAllocator,
+															  *l_depthStencilTextureResourceRecord,
+															  a_width,
+															  a_height,
+															  a_dsvDescriptorPool),
+															  "RenderGraph管理DepthStencilTextureの作成に失敗しました。",
+															  false)
 	}
 
 	return true;
@@ -117,17 +106,15 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::Resize(const Device&						
 		// ウィンドウサイズに依存しなレンダーターゲットテクスチャは作り直さない
 		if (!l_renderTargetTexture->GetIsUseWindowSize()) { continue; }
 
-		if (!l_renderTargetTexture->Resize(a_device,
-										   a_gpuMemoryAllocator,
-										   a_clientSize,
-										   a_retiredFenceValue,
-										   a_rtvDescriptorPool,
-										   a_srvDescriptorPool,
-										   a_deferredResourceReleaseQueue))
-		{
-			assert(false && "RenderTargetTextureのリサイズに失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_renderTargetTexture->Resize(a_device,
+																  a_gpuMemoryAllocator,
+																  a_clientSize,
+																  a_retiredFenceValue,
+																  a_rtvDescriptorPool,
+																  a_srvDescriptorPool,
+																  a_deferredResourceReleaseQueue),
+																  "RenderTargetTextureのリサイズに失敗しました。",
+																  false)
 	}
 
 	for (const auto& l_depthStencilTextureResourceRecord : m_depthStencilTextureResourceRecordList)
@@ -139,16 +126,14 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::Resize(const Device&						
 		// ウィンドウサイズに依存しなレンダーターゲットテクスチャは作り直さない
 		if (!l_depthStencilTexture->GetIsUseWindowSize()) { continue; }
 
-		if (!l_depthStencilTexture->Resize(a_device,
-										   a_gpuMemoryAllocator,
-										   a_clientSize,
-										   a_retiredFenceValue,
-										   a_dsvDescriptorPool,
-										   a_deferredResourceReleaseQueue))
-		{
-			assert(false && "RenderTargetTextureのリサイズに失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_depthStencilTexture->Resize(a_device,
+																  a_gpuMemoryAllocator,
+																  a_clientSize,
+																  a_retiredFenceValue,
+																  a_dsvDescriptorPool,
+																  a_deferredResourceReleaseQueue),
+																  "RenderTargetTextureのリサイズに失敗しました。",
+																  false)
 	}
 
 	return true;
@@ -156,23 +141,9 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::Resize(const Device&						
 
 void FWK::Graphics::RenderGraphFrameResourceRegistry::AddRenderTargetTexture(const std::shared_ptr<Struct::RenderGraphRenderTargetTextureResourceRecord>& a_renderTargetTextureResourceRecord)
 {
-	if (!a_renderTargetTextureResourceRecord)
-	{
-		assert(false && "RenderGraph管理RenderTargetTextureResourceRecordがnullptrです。");
-		return;
-	}
-
-	if (a_renderTargetTextureResourceRecord->m_textureTag == Constant::k_invalidTypeTag)
-	{
-		assert(false && "RenderGraph管理RenderTargetTextureResourceRecordのTextureTagが無効です。");
-		return;
-	}
-
-	if (!a_renderTargetTextureResourceRecord->m_renderTargetTexture)
-	{
-		assert(false && "RenderGraph管理RenderTargetTextureがnullptrです。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!a_renderTargetTextureResourceRecord,											  "RenderGraph管理RenderTargetTextureResourceRecordがnullptrです。")
+	FWK_ASSERT_RETURN_IF(a_renderTargetTextureResourceRecord->m_textureTag == Constant::k_invalidTypeTag, "RenderGraph管理RenderTargetTextureResourceRecordのTextureTagが無効です。")
+	FWK_ASSERT_RETURN_IF(!a_renderTargetTextureResourceRecord->m_renderTargetTexture,					  "RenderGraph管理RenderTargetTextureがnullptrです。")
 
 	if (m_renderTargetTextureResourceRecordMap.contains(a_renderTargetTextureResourceRecord->m_textureTag)) { return; }
 
@@ -182,23 +153,9 @@ void FWK::Graphics::RenderGraphFrameResourceRegistry::AddRenderTargetTexture(con
 }
 void FWK::Graphics::RenderGraphFrameResourceRegistry::AddDepthStencilTexture(const std::shared_ptr<Struct::RenderGraphDepthStencilTextureResourceRecord>& a_depthStencilTextureResourceRecord)
 {
-	if (!a_depthStencilTextureResourceRecord)
-	{
-		assert(false && "RenderGraph管理DepthStencilTextureResourceRecordがnullptrです。");
-		return;
-	}
-
-	if (a_depthStencilTextureResourceRecord->m_textureTag == Constant::k_invalidTypeTag)
-	{
-		assert(false && "RenderGraph管理DepthStencilTextureResourceRecordのTextureTagが無効です。");
-		return;
-	}
-
-	if (!a_depthStencilTextureResourceRecord->m_depthStencilTexture)
-	{
-		assert(false && "RenderGraph管理DepthStencilTextureがnullptrです。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!a_depthStencilTextureResourceRecord,											  "RenderGraph管理DepthStencilTextureResourceRecordがnullptrです。")
+	FWK_ASSERT_RETURN_IF(a_depthStencilTextureResourceRecord->m_textureTag == Constant::k_invalidTypeTag, "RenderGraph管理DepthStencilTextureResourceRecordのTextureTagが無効です。")
+	FWK_ASSERT_RETURN_IF(!a_depthStencilTextureResourceRecord->m_depthStencilTexture,					  "RenderGraph管理DepthStencilTextureがnullptrです。")
 
 	if (m_depthStencilTextureResourceRecordMap.contains(a_depthStencilTextureResourceRecord->m_textureTag)) { return; }
 
@@ -233,11 +190,7 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::CreateRenderTargetTexture(
 {
 	const auto& l_renderTargetTexture = a_renderTargetTextureResourceRecord.m_renderTargetTexture;
 
-	if (!l_renderTargetTexture)
-	{
-		assert(false && "RenderGraph管理RenderTargetTextureがnullptrです。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_renderTargetTexture, "RenderGraph管理RenderTargetTextureがnullptrです。", false)
 
 	// 幅が0ならウィンドウサイズを安全のためにセットする
 	if (l_renderTargetTexture->GetWidth() == Constant::k_invalidRenderTextureWidth)
@@ -251,14 +204,13 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::CreateRenderTargetTexture(
 		l_renderTargetTexture->SetHeight(a_height);
 	}
 
-	if (!l_renderTargetTexture->Create(a_device,
-									   a_gpuMemoryAllocator,	
-									   a_rtvDescriptorPool,
-									   a_srvDescriptorPool))
-	{
-		assert(false && "RenderGraph管理RenderTargetTextureの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_renderTargetTexture->Create(a_device,
+															  a_gpuMemoryAllocator,	
+															  a_rtvDescriptorPool,
+															  a_srvDescriptorPool),
+															  "RenderGraph管理RenderTargetTextureの作成に失敗しました。",
+															  false)
+
 
 	return true;
 }
@@ -271,11 +223,7 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::CreateDepthStencilTexture(
 {
 	auto& l_depthStencilTexture = a_depthStencilTextureResourceRecord.m_depthStencilTexture;
 
-	if (!l_depthStencilTexture)
-	{
-		assert(false && "RenderGraph管理DepthStencilTextureがnullptrです。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_depthStencilTexture, "RenderGraph管理DepthStencilTextureがnullptrです。", false)
 
 	// 幅が0ならウィンドウサイズを安全のためにセットする
 	if (l_depthStencilTexture->GetWidth() == Constant::k_invalidDepthStencilTextureWidth)
@@ -289,11 +237,7 @@ bool FWK::Graphics::RenderGraphFrameResourceRegistry::CreateDepthStencilTexture(
 		l_depthStencilTexture->SetHeight(a_height);
 	}
 
-	if (!l_depthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool))
-	{
-		assert(false && "RenderGraph管理DepthStencilTextureの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_depthStencilTexture->Create(a_device, a_gpuMemoryAllocator, a_dsvDescriptorPool), "RenderGraph管理DepthStencilTextureの作成に失敗しました。", false)
 
 	return true;
 }

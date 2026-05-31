@@ -14,8 +14,7 @@ namespace FWK::Graphics
 		 SceneTexture() = default;
 		~SceneTexture() = default;
 
-		void INIT();
-
+		void INIT       ();
 		void Deserialize(const nlohmann::json& a_rootJson);
 
 		bool Create(const Device&							 a_device, 

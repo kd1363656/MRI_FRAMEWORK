@@ -68,11 +68,7 @@ namespace FWK::Graphics
 		{
 			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
 		
-			if (!l_constantBufferUploader)
-			{
-				assert(false && "共通パス定数バッファが取得できないため、描画処理に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_constantBufferUploader, "共通パス定数バッファが取得できないため、描画処理に失敗しました。", false)
 		
 			return SetupCommonConstantBuffer<RootParameterTagType>(a_rootSignature,
 																   a_directCommandList,

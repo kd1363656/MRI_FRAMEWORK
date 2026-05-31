@@ -2,8 +2,7 @@
 
 bool FWK::Graphics::DeferredResourceReleaseQueue::PushGPUResourceRecord(Struct::GPUResourceReleaseRecord&& a_releaseRecord)
 {
-	FWK_ASSERT_RETURN_VALUE_IF(!IsValidGPUResourceReleaseRecord(a_releaseRecord), "GPUResourceRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
-
+	FWK_ASSERT_RETURN_VALUE_IF				   (!IsValidGPUResourceReleaseRecord(a_releaseRecord), "GPUResourceRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
 	m_gpuResourceReleaseRecordList.emplace_back(std::move(a_releaseRecord));
 
 	return true;
@@ -11,24 +10,21 @@ bool FWK::Graphics::DeferredResourceReleaseQueue::PushGPUResourceRecord(Struct::
 
 bool FWK::Graphics::DeferredResourceReleaseQueue::PushRTVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord)
 {
-	FWK_ASSERT_RETURN_VALUE_IF(!IsValidDescriptorIndexReleaseRecord(a_releaseRecord), "RTV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
-
+	FWK_ASSERT_RETURN_VALUE_IF                        (!IsValidDescriptorIndexReleaseRecord(a_releaseRecord), "RTV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
 	m_rtvDescriptorIndexReleaseRecordList.emplace_back(std::move(a_releaseRecord));
 
 	return true;
 }
 bool FWK::Graphics::DeferredResourceReleaseQueue::PushSRVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord)
 {
-	FWK_ASSERT_RETURN_VALUE_IF(!IsValidDescriptorIndexReleaseRecord(a_releaseRecord), "SRV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
-
+	FWK_ASSERT_RETURN_VALUE_IF                        (!IsValidDescriptorIndexReleaseRecord(a_releaseRecord), "SRV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
 	m_srvDescriptorIndexReleaseRecordList.emplace_back(std::move(a_releaseRecord));
 
 	return true;
 }
 bool FWK::Graphics::DeferredResourceReleaseQueue::PushDSVDescriptorIndex(Struct::DescriptorIndexReleaseRecord&& a_releaseRecord)
 {
-	FWK_ASSERT_RETURN_VALUE_IF(!IsValidDescriptorIndexReleaseRecord(a_releaseRecord), "DSV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
-
+	FWK_ASSERT_RETURN_VALUE_IF                        (!IsValidDescriptorIndexReleaseRecord(a_releaseRecord), "DSV用DescriptorIndexReleaseRecordが無効のため、遅延解放Queueへの登録に失敗しました。", false)
 	m_dsvDescriptorIndexReleaseRecordList.emplace_back(std::move(a_releaseRecord));
 
 	return true;
