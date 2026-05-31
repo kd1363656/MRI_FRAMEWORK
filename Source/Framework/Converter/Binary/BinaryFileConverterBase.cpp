@@ -306,6 +306,7 @@ void FWK::Converter::BinaryFileConverterBase::ReadWStringBinaryData(const std::u
 	{
 		// 文字列のバイナリサイズが0の場合は、から文字列として扱う
 		a_string.clear();
+
 		return;
 	}
 
@@ -329,7 +330,7 @@ void FWK::Converter::BinaryFileConverterBase::WriteWStringBinaryData(const std::
 
 	// std::wstringの文字データだけを書き込む
 	// 文字列のサイズ自体はここでは書き込まないため、
-	// 呼び出し側で先にヘッダーなどへCalculateWStringBinaryFilesize()の結果を保存しておく
+	// 呼び出し側で先にヘッダーなどへCalculateWStringBinaryFileSize()の結果を保存しておく
 	// WriteBinaryData内で、書き込んだバイト数分だけa_writeOffsetが進む
 	WriteBinaryData(a_string.size(), a_string.data(), a_writeOffset, a_writeData);
 }

@@ -2,17 +2,8 @@
 
 void FWK::TypeINFORegistry::Register(const Struct::TypeINFO& a_typeINFO)
 {
-	if (a_typeINFO.k_staticTypeID == Constant::k_invalidStaticTypeID)
-	{
-		assert(false && "無効なIDを検出しました、型情報の確認をしてください");
-		return;
-	}
-
-	if (a_typeINFO.k_name.empty())
-	{
-		assert(false && "文字列が空です、型情報登録の確認をしてください。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(a_typeINFO.k_staticTypeID == Constant::k_invalidStaticTypeID, "無効なIDを検出しました、型情報の確認をしてください")
+	FWK_ASSERT_RETURN_IF(a_typeINFO.k_name.empty(),									   "文字列が空です、型情報登録の確認をしてください。")
 
 	m_allTypeINFONameMap.try_emplace        (a_typeINFO.k_name,         &a_typeINFO);
 	m_allTypeINFOStaticTypeIDMap.try_emplace(a_typeINFO.k_staticTypeID, &a_typeINFO);

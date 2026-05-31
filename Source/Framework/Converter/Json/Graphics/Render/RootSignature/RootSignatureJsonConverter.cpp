@@ -129,8 +129,7 @@ void FWK::Converter::RootSignatureJsonConverter::DeserializeRootParameterList(co
 
 			default:
 			{
-				assert(false && "未対応のRootParameterTypeが指定されました。");
-				return;
+				FWK_ASSERT_RETURN("未対応のRootParameterTypeが指定されました。")
 			}
 		}
 	}
@@ -261,8 +260,7 @@ nlohmann::json FWK::Converter::RootSignatureJsonConverter::SerializeRootParamete
 
 			default:
 			{
-				assert(false && "未対応のRootParameterTypeが指定されました。");
-				return {};
+				FWK_ASSERT_RETURN_VALUE("未対応のRootParameterTypeが指定されました。", {})
 			}
 		}
 		

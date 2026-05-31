@@ -24,21 +24,13 @@ void FWK::Graphics::ConstantBufferUploaderBase::Deserialize(const nlohmann::json
 }
 bool FWK::Graphics::ConstantBufferUploaderBase::Create(const Device& a_device)
 {
-	if (m_createConstantBufferNUM == k_invalidCreateConstantBufferNUM)
-	{
-		assert(false && "定数バッファの作成個数が0のため作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(m_createConstantBufferNUM == k_invalidCreateConstantBufferNUM, "定数バッファの作成個数が0のため作成処理に失敗しました。", false)
 
 	// 送る定数バッファの型サイズを256バイトにアライメントする
-	const auto& l_alignedTypeSize = Utility::Math::AlignUp(m_constantBufferTypeSize, k_constantBufferAlignment);
+	const auto& l_alignedTypeSize    = Utility::Math::AlignUp(m_constantBufferTypeSize, k_constantBufferAlignment);
+	const auto& l_constantBufferSize = m_createConstantBufferNUM * l_alignedTypeSize;
 	
-	if (const auto& l_constantBufferSize = m_createConstantBufferNUM * l_alignedTypeSize;
-		!m_uploadBuffer.Create(a_device, l_constantBufferSize))
-	{
-		assert(false && "スプライト描画用定数バッファの生成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_uploadBuffer.Create(a_device, l_constantBufferSize), "定数バッファの生成処理に失敗しました。", false)
 
 	return true;
 }
@@ -57,11 +49,7 @@ std::size_t FWK::Graphics::ConstantBufferUploaderBase::AllocateCurrentBufferInde
 {
 	const auto l_allocatedBufferIndex = m_uploadBuffer.AllocateCurrentBufferIndex();
 
-	if (l_allocatedBufferIndex >= m_createConstantBufferNUM)
-	{
-		assert(false && "取得した定数バッファ用インデックスが定数バッファの作成した個数を超えています");
-		return k_invalidConstantBufferIndex;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_allocatedBufferIndex >= m_createConstantBufferNUM, "取得した定数バッファ用インデックスが定数バッファの作成した個数を超えています", k_invalidConstantBufferIndex)
 
 	return l_allocatedBufferIndex;
 }

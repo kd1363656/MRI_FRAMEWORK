@@ -16,7 +16,6 @@ bool FWK::Graphics::Factory::Create()
 	// CreateDXGIFactory2(ファクトリー作成時のオプションを指定する、
 	//					  受け取りたいCOMインターフェース型のID、
 	//					  作成結果のポインタを書き込むアドレス);
-
 	auto l_hr = CreateDXGIFactory2(l_flags, IID_PPV_ARGS(m_factory.ReleaseAndGetAddressOf()));
 
 	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "ファクトリーの作成に失敗しました。", false)

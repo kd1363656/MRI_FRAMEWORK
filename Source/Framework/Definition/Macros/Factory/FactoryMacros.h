@@ -16,6 +16,7 @@ namespace FWK																								 \
 	inline const bool k_isFactoryRegistered<FactoryType, DerivedType> = []()								 \
 	{																										 \
 		FactoryType::GetInstance().Register<DerivedType>(std::string(DerivedType::GetREFTypeINFO().k_name)); \
+																											 \
 		return true;																						 \
 	}();																									 \
 }

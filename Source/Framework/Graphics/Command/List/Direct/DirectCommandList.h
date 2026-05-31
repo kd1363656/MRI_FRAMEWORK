@@ -55,19 +55,11 @@ namespace FWK::Graphics
 		{
 			const auto& l_directCommandList = GetREFCommandList();
 
-			if (!l_directCommandList)
-			{
-				assert(false && "ルートシグネチャが作成されておらず、定数バッファビュー設定が出来ませんでした。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!l_directCommandList, "ルートシグネチャが作成されておらず、定数バッファビュー設定が出来ませんでした。")
 
 			const auto l_rootParameterIndex = a_rootSignature.FindVALRootParameterIndex(Utility::Tag::GetVALTag<Type>());
 
-			if (l_rootParameterIndex == Constant::k_invalidRootParameterIndex)
-			{
-				assert(false && "パラメータインデックスが無効なため、定数バッファビュー設定ができませんでした。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(l_rootParameterIndex == Constant::k_invalidRootParameterIndex, "パラメータインデックスが無効なため、定数バッファビュー設定ができませんでした。")
 
 			// RootSignature側でD3D12_ROOT_PARAMETER_TYPE_CBVにした場所へ、
 			// UploadBuffer上の定数バッファ位置を直接結びつける

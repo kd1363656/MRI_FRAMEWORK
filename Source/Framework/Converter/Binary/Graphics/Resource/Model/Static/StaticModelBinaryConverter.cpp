@@ -4,20 +4,14 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::
 {
 	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
-	if (!CreateReadMemoryMappedFile(a_filePath))
-	{
-		assert(false && "読み込むためのメモリマップドファイル作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateReadMemoryMappedFile(a_filePath), "読み込むためのメモリマップドファイル作成に失敗しました。", false);
 
 	const auto* l_readData = GetPTRMappedData();
 
 	if (!l_readData)
 	{
-		assert                 (false && "読み込むためのメモリマップドデータの取得に失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("読み込むためのメモリマップドデータの取得に失敗しました。", false)
 	}
 
 	// StaticModelAssetHeaderより小さいファイルは、Headerを安全に読み込めないため壊れたAssetとして扱う
@@ -36,7 +30,6 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::
 		return false;
 	}
 
-	
 	auto l_readOffset = k_initialReadOffset;
 
 	StaticModelAssetHeader l_staticModelAssetHeader = {};
@@ -188,26 +181,15 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Grap
 
 	const auto& l_fileSize = CalculateStaticModelAssetFileSize(l_modelData);
 
-	if (l_fileSize == k_emptyStaticModelAssetFileSize)
-	{
-		assert(false && "StaticModelAssetのファイルサイズ計算に失敗しました。");
-		return false;
-	}
-
-	if (!CreateWriteMemoryMappedFile(a_filePath, l_fileSize)) 
-	{
-		assert(false && "書き込むためのメモリマップドファイル作成に失敗しました。");
-		return false; 
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(l_fileSize == k_emptyStaticModelAssetFileSize,		 "StaticModelAssetのファイルサイズ計算に失敗しました。",     false)
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateWriteMemoryMappedFile(a_filePath, l_fileSize), "書き込むためのメモリマップドファイル作成に失敗しました。", false)
+	
 	auto* l_writeData = GetMutablePTRMappedData();
 
 	if (!l_writeData)
 	{
-		assert				   (false && "書き込むためのメモリマップドデータの取得に失敗しました。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("書き込むためのメモリマップドデータの取得に失敗しました。", false)
 	}
 
 	auto l_writeOffset = k_initialWriteOffset;
@@ -290,10 +272,8 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Grap
 
 	if (l_writeOffset != l_fileSize)
 	{
-		assert				   (false && "StaticModelAssetの書き込みサイズが計算サイズと一致しません。");
 		DestroyMemoryMappedFile();
-
-		return false;
+		FWK_ASSERT_RETURN_VALUE("StaticModelAssetの書き込みサイズが計算サイズと一致しません。", false)
 	}
 
 	DestroyMemoryMappedFile();

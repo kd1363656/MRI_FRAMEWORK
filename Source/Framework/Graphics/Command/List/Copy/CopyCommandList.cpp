@@ -14,11 +14,7 @@ void FWK::Graphics::CopyCommandList::CopyTextureRegion(const D3D12_TEXTURE_COPY_
 {
 	const auto& l_copyCommandList = GetREFCommandList();
 
-	if (!l_copyCommandList)
-	{
-		assert(false && "コピーコマンドリストが作成されておらず、テクスチャコピー処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_copyCommandList, "コピーコマンドリストが作成されておらず、テクスチャコピー処理に失敗しました。")
 
 	// D3D12_TEXTURE_COPY_LOCATION構造体についての説明
 	// pResource : コピー先またはコピー元になるリソース
@@ -49,17 +45,8 @@ void FWK::Graphics::CopyCommandList::CopyBufferRegion(const UINT64&			 a_destina
 {
 	const auto& l_copyCommandList = GetREFCommandList();
 
-	if (!l_copyCommandList)
-	{
-		assert(false && "コピーコマンドリストが作成されておらず、バッファコピー処理に失敗しました。");
-		return;
-	}
-
-	if (a_bufferSize == Constant::k_invalidBufferSize)
-	{
-		assert(false && "コピーするBufferサイズが0のため、バッファコピー処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_copyCommandList,						    "コピーコマンドリストが作成されておらず、バッファコピー処理に失敗しました。")
+	FWK_ASSERT_RETURN_IF(a_bufferSize == Constant::k_invalidBufferSize, "コピーするBufferサイズが0のため、バッファコピー処理に失敗しました。")
 
 	// CopyBufferRegion(コピー先BufferResource、
 	//					コピー先BufferResource内の書き込み開始Offset、

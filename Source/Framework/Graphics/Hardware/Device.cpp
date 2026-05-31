@@ -5,11 +5,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 	// ファクトリーが未作成ならGPU列挙ができないのでreturn
 	const auto& l_factory = a_factory.GetREFFactory();
 
-	if (!l_factory)
-	{
-		assert(false && "ファクトリの作成ができておらず、デバイスの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_factory, "ファクトリの作成ができておらず、デバイスの作成に失敗しました。", false);
 
 	const auto l_preferredFeatureLevelList = std::to_array<D3D_FEATURE_LEVEL>
 	({
@@ -58,6 +54,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		if (!l_adapter) 
 		{
 			++l_adapterIndex;
+
 			continue; 
 		}
 
@@ -69,6 +66,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		if (FAILED(l_getDescResult)) 
 		{
 			++l_adapterIndex;
+
 			continue; 
 		}
 
@@ -76,6 +74,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 		if (l_desc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)
 		{
 			++l_adapterIndex;
+
 			continue; 
 		}
 
@@ -111,11 +110,7 @@ bool FWK::Graphics::Device::Create(const Factory& a_factory)
 	}
 
 	// 使用可能なGPUが一つも見つからなかった場合は失敗
-	if (!l_isFound)
-	{
-		assert(false && "対応するGPUが見つかっておらず、デバイスの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_isFound, "対応するGPUが見つかっておらず、デバイスの作成に失敗しました。", false)
 
 
 #if defined(_DEBUG)

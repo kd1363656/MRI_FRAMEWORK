@@ -36,7 +36,6 @@ bool FWK::Graphics::DescriptorHeapBase::Create(const Device& a_device, const Typ
 							   k_createDescriptorHeapType != D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, 
 							   "ShaderVisibleにできない種類のディスクリプタヒープです。",
 							   false)
-
 	
 	// ディスクリプタを何個確保するかを保存
 	m_descriptorStorageIDCapacity = a_storageIDCapacity;

@@ -3,8 +3,8 @@
 namespace FWK::Utility::Tag
 {
 	template <Concept::IsDerivedTagBaseConcept Type>
-	inline auto GetVALTag()
+	inline auto GetVALTag() 
 	{
-		return Type::GetREFTypeINFO().k_staticTypeID;
+		return Type::GetREFTypeINFO().k_staticTypeID; 
 	}
 }

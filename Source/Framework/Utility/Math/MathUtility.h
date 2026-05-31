@@ -6,10 +6,7 @@ namespace FWK::Utility::Math
 	inline constexpr UINT64 AlignUp(const UINT64& a_value, const UINT64& a_alignment)
 	{
 		// 切り上げたい倍数が0ならreturn
-		if (a_alignment == Constant::k_emptyAlignment)
-		{
-			return a_value;
-		}
+		if (a_alignment == Constant::k_emptyAlignment) { return a_value; }
 
 		// 余りが0なら倍数なのでa_valueをそのまま返す
 		if (const auto& l_remainder = a_value % a_alignment;
