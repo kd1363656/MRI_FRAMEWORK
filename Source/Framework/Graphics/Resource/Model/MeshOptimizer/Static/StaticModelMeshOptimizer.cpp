@@ -1,23 +1,15 @@
-﻿#include "StaticMeshOptimizer.h"
+﻿#include "StaticModelMeshOptimizer.h"
 
 bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeStaticModelRecord(Graphics::StaticModelRecord& a_staticModelRecord) const
 {
 	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
-	if (l_modelData.m_modelMeshList.empty())
-	{
-		assert(false && "ModelDataのMeshリストが空のため、StaticModelMeshの最適化に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_modelData.m_modelMeshList.empty(), "ModelDataのMeshリストが空のため、StaticModelMeshの最適化に失敗しました。", false)
 
 	for (auto& l_modelMesh : l_modelData.m_modelMeshList)
 	{
-		// ModelDataは複数Meshを持つ可能性があるため、Mesh単位で最適化する
-		if (!OptimizeModelMesh(l_modelMesh))
-		{
-			assert(false && "ModelMeshの最適化に失敗しました。");
-			return false;
-		}
+		// Mesh単位で最適化する
+		FWK_ASSERT_RETURN_VALUE_IF(!OptimizeModelMesh(l_modelMesh), "ModelMeshの最適化に失敗しました。", false)
 	}
 
 	return true;
@@ -25,17 +17,8 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeStaticModelRecord(Graphics
 
 bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMesh& a_modelMesh) const
 {
-	if (a_modelMesh.m_modelVertexList.empty())
-	{
-		assert(false && "ModelMeshの頂点リストが空のため、StaticModelMeshの最適化に失敗しました。");
-		return false;
-	}
-
-	if (a_modelMesh.m_indexList.empty())
-	{
-		assert(false && "ModelMeshのインデックスリストが空のため、StaticModelMeshの最適化に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_modelMesh.m_modelVertexList.empty(), "ModelMeshの頂点リストが空のため、StaticModelMeshの最適化に失敗しました。",		  false)
+	FWK_ASSERT_RETURN_VALUE_IF(a_modelMesh.m_indexList.empty(),       "ModelMeshのインデックスリストが空のため、StaticModelMeshの最適化に失敗しました。", false)
 
 	std::vector<std::uint32_t> l_vertexRemapList = {};
 
@@ -48,7 +31,6 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMes
 	//							   現在の頂点配列、	
 	//							   現在の頂点数、
 	//						       頂点一つ分のバイトサイズ);
-
 	const auto& l_optimizedVertexCount = meshopt_generateVertexRemap(l_vertexRemapList.data(),
 																	 a_modelMesh.m_indexList.data(),
 																	 a_modelMesh.m_indexList.size(),
@@ -56,22 +38,17 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMes
 																	 a_modelMesh.m_modelVertexList.size(),
 																	 sizeof(Struct::ModelVertex));
 
-	if (l_optimizedVertexCount == k_invalidOptimizedVertexCount)
-	{
-		assert(false && "meshopt_generateVertexRemapによる頂点リマップ作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_optimizedVertexCount == k_invalidOptimizedVertexCount, "meshopt_generateVertexRemapによる頂点リマップ作成に失敗しました。", false)
 
 	std::vector<std::uint32_t> l_optimizedIndexList = {};
+
+	l_optimizedIndexList.resize(a_modelMesh.m_indexList.size());
 
 	// 古い頂点番号を、重複削除後の新しい頂点番号へ変換する
 	// meshopt_remapIndexBuffer(最適化後のインデックス配列の書き込み先、
 	//							現在のインデックス配列、
 	//							現在のインデックス数、
 	//							meshopt_generateVertexRemapで作成した対応表);
-
-	l_optimizedIndexList.resize(a_modelMesh.m_indexList.size());
-
 	meshopt_remapIndexBuffer(l_optimizedIndexList.data(),
 							 a_modelMesh.m_indexList.data(),
 							 a_modelMesh.m_indexList.size(),
@@ -87,20 +64,17 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMes
 	//							 現在の頂点数、
 	//							 頂点一つ分のバイトサイズ、
 	//							 meshopt_generateVertexRemapで作成した対応表);
-
 	meshopt_remapVertexBuffer(l_optimizedModelVertexList.data(),
 							  a_modelMesh.m_modelVertexList.data(),
 							  a_modelMesh.m_modelVertexList.size(),
 							  sizeof(Struct::ModelVertex),
 							  l_vertexRemapList.data());
 
-
 	// GPUの頂点キャッシュに乗りやすい順番へインデックスを並べ替える
 	// meshopt_optimizeVertexCache(最適化後のインデックス配列の書き込み先、
 	//							   現在のインデックス配列、
 	//							   現在のインデックス、
 	//							   現在の頂点数);
-
 	meshopt_optimizeVertexCache(l_optimizedIndexList.data(),
 								l_optimizedIndexList.data(),
 								l_optimizedIndexList.size(),
@@ -112,7 +86,6 @@ bool FWK::Graphics::StaticModelMeshOptimizer::OptimizeModelMesh(Struct::ModelMes
 	//							   インデックス数、
 	//							   現在の頂点配列、
 	//							   頂点一つ分のバイトサイズ);
-
 	meshopt_optimizeVertexFetch(l_optimizedModelVertexList.data(),
 								l_optimizedIndexList.data(),
 								l_optimizedIndexList.size(),

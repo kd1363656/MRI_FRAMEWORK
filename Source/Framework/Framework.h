@@ -277,7 +277,7 @@
 #include "Graphics/Resource/Model/FBXLoader/FBXModelLoaderBase.h"
 #include "Converter/Binary/Graphics/Resource/Model/Static/StaticModelBinaryConverter.h"
 #include "Graphics/Resource/Model/FBXLoader/Static/StaticModelFBXLoader.h"
-#include "Graphics/Resource/Model/MeshOptimizer/Static/StaticMeshOptimizer.h"
+#include "Graphics/Resource/Model/MeshOptimizer/Static/StaticModelMeshOptimizer.h"
 #include "Graphics/Resource/Model/MeshOptimizer/Static/StaticModelMeshletBuilder.h"
 #include "Converter/Json/Graphics/Resource/Model/Static/StaticModelSystemJsonConverter.h"
 #include "Graphics/Resource/Model/Builder/Static/StaticModelBatchUploadRecordBuilder.h"
