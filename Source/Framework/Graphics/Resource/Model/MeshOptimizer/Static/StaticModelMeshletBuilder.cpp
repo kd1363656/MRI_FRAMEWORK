@@ -4,11 +4,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData
 {
 	for (auto& l_modelMesh : a_staticModelRecord.GetREFModelData().m_modelMeshList)
 	{
-		if (!BuildModelMeshletData(l_modelMesh))
-		{
-			assert(false && "ModelMeshのMeshletData作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!BuildModelMeshletData(l_modelMesh), "ModelMeshのMeshletData作成に失敗しました。", false)
 	}
 
 	return true;
@@ -16,24 +12,11 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData
 
 bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::ModelMesh& a_modelMesh)
 {
-	if (a_modelMesh.m_modelVertexList.size() == Constant::k_emptyModelVertexCount)
-	{
-		assert(false && "ModelMeshの頂点数が0のため、MeshletData作成に失敗しました。");
-		return false;
-	}
-
-	if (a_modelMesh.m_indexList.size() == Constant::k_emptyModelIndexCount)
-	{
-		assert(false && "ModelMeshのインデックス数が0のため、MeshletData作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_modelMesh.m_modelVertexList.size() == Constant::k_emptyModelVertexCount, "ModelMeshの頂点数が0のため、MeshletData作成に失敗しました。",			 false)
+	FWK_ASSERT_RETURN_VALUE_IF(a_modelMesh.m_indexList.size() == Constant::k_emptyModelIndexCount,		  "ModelMeshのインデックス数が0のため、MeshletData作成に失敗しました。", false)
 
 	// インデックスリストの総数を3で割った時に余りが0でないと、三角形を構成するインデックスリストとして不適切
-	if((a_modelMesh.m_indexList.size() % Constant::k_triangleVertexCount) != k_emptyRemainder)
-	{
-		assert(false && "ModelMeshのインデックス数が三角形単位ではないため、MeshletData作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF((a_modelMesh.m_indexList.size() % Constant::k_triangleVertexCount) != k_emptyRemainder, "ModelMeshのインデックス数が三角形単位ではないため、MeshletData作成に失敗しました。", false)
 
 	auto& l_modelMeshletData = a_modelMesh.m_modelMeshletData;
 
@@ -43,16 +26,12 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 	l_modelMeshletData.m_meshletBoundsList.clear    ();
 
 	// meshopt_buildMeshletsBound(インデックス数、
-	//						     Meshlet内の最大頂点数、
-	//							 Meshlet内の最大三角形数);
+	//						      Meshlet内の最大頂点数、
+	//							  Meshlet内の最大三角形数);
 	// Meshlet作成に必要になる最大Meshlet数を取得する
 	const auto l_maxMeshletCount = meshopt_buildMeshletsBound(a_modelMesh.m_indexList.size(), Constant::k_maxMeshletVertexCount, Constant::k_maxMeshletPrimitiveCount);
 
-	if (l_maxMeshletCount == Constant::k_emptyMeshletCount)
-	{
-		assert(false && "Meshletの最大数が0のため、MeshletData作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_maxMeshletCount == Constant::k_emptyMeshletCount, "Meshletの最大数が0のため、MeshletData作成に失敗しました。", false)
 
 	std::vector<meshopt_Meshlet> l_meshoptMeshletList		 = {};
 	std::vector<uint8_t>		 l_meshoptPrimitiveIndexList = {};
@@ -88,12 +67,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 													  Constant::k_maxMeshletPrimitiveCount,
 													  Constant::k_defaultMeshletConeWeight);
 
-	if (l_meshletCount == Constant::k_emptyMeshletCount)
-	{
-		assert(false && "MeshletData作成結果のMeshlet数が0です。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(l_meshletCount == Constant::k_emptyMeshletCount, "MeshletData作成結果のMeshlet数が0です。", false)
 
 	l_meshoptMeshletList.resize(l_meshletCount);
 
