@@ -38,21 +38,13 @@ namespace FWK::Graphics
 										     std::vector<Struct::BufferUploadCommand>& a_bufferUploadCommandList,
 											 Struct::GPUResource&					   a_destinationBufferGPUResource) const
 		{
-			if (a_bufferList.empty()) 
-			{
-				assert(false && "BufferListが空のため、BufferUploadCommandの作成に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(a_bufferList.empty(), "BufferListが空のため、BufferUploadCommandの作成に失敗しました。", false)
 
 			const auto& l_bufferSize = sizeof(Type) * a_bufferList.size();
 
 			// DEFAULTヒープ上に、MeshShaderから参照する本番用BufferResourceを作成する
 			// 初期状態をCOMMONにしておくことでCopyQueue上のCopyBufferRegion時にCOPY_DESTへ暗黙的に昇格できる
-			if (!a_gpuMemoryAllocator.CreateBufferResource(l_bufferSize, D3D12_RESOURCE_STATE_COMMON, a_destinationBufferGPUResource))
-			{
-				assert(false && "StaticModel用BufferResourceの作成に失敗したため、BufferUploadCommandの作成に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!a_gpuMemoryAllocator.CreateBufferResource(l_bufferSize, D3D12_RESOURCE_STATE_COMMON, a_destinationBufferGPUResource), "StaticModel用BufferResourceの作成に失敗したため、BufferUploadCommandの作成に失敗しました。", false)
 
 			Struct::BufferUploadCommand l_bufferUploadCommand = {};
 
@@ -63,19 +55,11 @@ namespace FWK::Graphics
 			l_bufferUploadRecord.m_bufferSize = l_bufferSize;
 
 			// DEFAULTヒープ上のBufferResourceへコピーするためのUploadBufferを作成する
-			if (!l_bufferUploadRecord.m_uploadBuffer.Create(a_device, l_bufferSize))
-			{
-				assert(false && "StaticModel用UploadBufferの作成に失敗したため、BufferUploadCommandの作成に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_bufferUploadRecord.m_uploadBuffer.Create(a_device, l_bufferSize), "StaticModel用UploadBufferの作成に失敗したため、BufferUploadCommandの作成に失敗しました。", false)
 
 			auto* l_mappedData = l_bufferUploadRecord.m_uploadBuffer.Map();
 
-			if (!l_mappedData)
-			{
-				assert(false && "StaticModel用UploadBufferのMapに失敗したため、BufferUploadCommandの作成に失敗しました。");
-				return false;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_mappedData, "StaticModel用UploadBufferのMapに失敗したため、BufferUploadCommandの作成に失敗しました。", false)
 
 			std::memcpy(l_mappedData, a_bufferList.data(), l_bufferSize);
 
@@ -94,37 +78,14 @@ namespace FWK::Graphics
 		{	
 			const auto& l_device = a_device.GetREFDevice();
 
-			if (!l_device)
-			{
-				assert(false && "デバイスが作成されておらず、StructuredBuffer用SRVの作成に失敗しました。");
-				return Constant::k_invalidStorageID;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(!l_device,												"デバイスが作成されておらず、StructuredBuffer用SRVの作成に失敗しました。",						   Constant::k_invalidStorageID)
+			FWK_ASSERT_RETURN_VALUE_IF(!a_bufferGPUResource.m_resource,							"BufferResourceが無効のため、StructuredBuffer用SRVの作成に失敗しました。",						   Constant::k_invalidStorageID)
+			FWK_ASSERT_RETURN_VALUE_IF(a_bufferList.empty(),									"BufferListが空のため、StructuredBuffer用SRVの作成に失敗しました。",								   Constant::k_invalidStorageID)
+			FWK_ASSERT_RETURN_VALUE_IF(a_bufferList.size() > k_maxStructuredBufferElementCount, "StructuredBufferの要素数がUINTの最大値を超えたため、StructuredBuffer用SRVの作成に失敗しました。", Constant::k_invalidStorageID)
 
-			if (!a_bufferGPUResource.m_resource)
-			{
-				assert(false && "BufferResourceが無効のため、StructuredBuffer用SRVの作成に失敗しました。");
-				return Constant::k_invalidStorageID;
-			}
-
-			if (a_bufferList.empty())
-			{
-				assert(false && "BufferListが空のため、StructuredBuffer用SRVの作成に失敗しました。");
-				return Constant::k_invalidStorageID;
-			}
-
-			if (a_bufferList.size() > k_maxStructuredBufferElementCount)
-			{
-				assert(false && "StructuredBufferの要素数がUINTの最大値を超えたため、StructuredBuffer用SRVの作成に失敗しました。");
-				return Constant::k_invalidStorageID;
-			}
-			
 			const auto l_srvStorageID = a_srvDescriptorHeap.Allocate();
 
-			if (l_srvStorageID == Constant::k_invalidStorageID)
-			{
-				assert(false && "SRV用StorageIDの確保に失敗したため、StructuredBuffer用のSRVの作成に失敗しました。");
-				return Constant::k_invalidStorageID;
-			}
+			FWK_ASSERT_RETURN_VALUE_IF(l_srvStorageID == Constant::k_invalidStorageID, "SRV用StorageIDの確保に失敗したため、StructuredBuffer用のSRVの作成に失敗しました。", Constant::k_invalidStorageID)
 
 			D3D12_SHADER_RESOURCE_VIEW_DESC l_srvDesc = {};
 
@@ -157,8 +118,7 @@ namespace FWK::Graphics
 			{
 				a_srvDescriptorHeap.Release(l_srvStorageID);
 
-				assert(false && "CPUOnlyからShaderVisibleSRVへのコピーに失敗したため、StructuredBuffer用SRVの作成に失敗しました。");
-				return Constant::k_invalidStorageID;
+				FWK_ASSERT_RETURN_VALUE("CPUOnlyからShaderVisibleSRVへのコピーに失敗したため、StructuredBuffer用SRVの作成に失敗しました。", Constant::k_invalidStorageID)
 			}
 
 			return l_srvStorageID;

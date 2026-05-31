@@ -24,11 +24,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 {
 	Struct::StaticModelResult l_staticModelLoadResult = {};
 
-	if (!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerFBXExtension))
-	{
-		assert(false && "StaticModelのFBXファイルが存在しません。");
-		return l_staticModelLoadResult;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!Utility::File::CanLoadFilePath(a_filePath, Constant::k_lowerFBXExtension), "StaticModelのFBXファイルが存在しません。", l_staticModelLoadResult)
 
 	const auto& l_filePath = a_filePath.wstring();
 
@@ -38,11 +34,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 		const auto l_foundStorageID = l_record->GetVALStorageID();
 
 		// 参照カウントの加算
-		if (!AddStaticModelReference(l_record))
-		{
-			assert(false && "登録済みStaticModelの参照数加算に失敗したため、StaticModel読み込み処理に失敗しました。");
-			return l_staticModelLoadResult;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!AddStaticModelReference(l_record), "登録済みStaticModelの参照数加算に失敗したため、StaticModel読み込み処理に失敗しました。", l_staticModelLoadResult)
 
 		l_staticModelLoadResult.m_storageID			= l_foundStorageID;
 		l_staticModelLoadResult.m_staticModelRecord = l_record;
@@ -56,11 +48,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	{
 		const auto& l_staticModelRecord = l_itr->second.m_staticModelRecord;
 
-		if (!l_staticModelRecord)
-		{
-			assert(false && "Pending中のStaticModelRecordが無効のため、StaticModel読み込み処理に失敗しました。");
-			return l_staticModelLoadResult;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_staticModelRecord, "Pending中のStaticModelRecordが無効のため、StaticModel読み込み処理に失敗しました。", l_staticModelLoadResult)
 
 		l_staticModelRecord->AddReferenceCount();
 
@@ -88,9 +76,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 	if (!LoadStaticModel(a_filePath, *l_staticModelRecord))
 	{
 		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
-
-		assert(false && "StaticModelの読み込みに失敗しました。");
-		return l_staticModelLoadResult;
+		FWK_ASSERT_RETURN_VALUE			     ("StaticModelの読み込みに失敗しました。", l_staticModelLoadResult)
 	}
 
 	// StaticModelのMaterialが参照しているTextureをロード予約する
@@ -115,9 +101,7 @@ FWK::Struct::StaticModelResult FWK::Graphics::StaticModelSystem::LoadStaticModel
 																				  *l_staticModelRecord))
 	{
 		m_staticModelStorage.ReleaseStorageID(l_allocateStorageID);
-
-		assert(false && "StaticModel用BufferUploadCommandの作成に失敗しました。");
-		return l_staticModelLoadResult;
+		FWK_ASSERT_RETURN_VALUE				 ("StaticModel用BufferUploadCommandの作成に失敗しました。", l_staticModelLoadResult)
 	}
 	
 	l_staticModelLoadResult.m_storageID			= l_staticModelRecord->GetVALStorageID();
@@ -134,11 +118,7 @@ void FWK::Graphics::StaticModelSystem::LoadPendingStaticModelAndWait(UploadSyste
 	if (m_pendingStaticModelBatchUploadRecordMap.empty()) { return; }
 
 	// ロード申請が来ていたStaticModelを一括ロードする
-	if (!StaticModelCopyBatch(a_uploadSystem))
-	{
-		assert(false && "ロード待ちStaticModelのバッチ登録に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!StaticModelCopyBatch(a_uploadSystem), "ロード待ちStaticModelのバッチ登録に失敗しました。")
 
 	// そのフレーム内でロードすべきStaticModelをすべてロードし終えた状態なのでクリア
 	m_pendingStaticModelBatchUploadRecordMap.clear();
@@ -151,22 +131,14 @@ nlohmann::json FWK::Graphics::StaticModelSystem::Serialize() const
 
 bool FWK::Graphics::StaticModelSystem::AddStaticModelReference(const std::weak_ptr<Graphics::StaticModelRecord>& a_staticModelRecord)
 {
-	if (!m_staticModelStorage.AddReference(a_staticModelRecord))
-	{
-		assert(false && "AssetStorageでの参照数加算に失敗したため、StaticModel参照数加算に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelStorage.AddReference(a_staticModelRecord), "AssetStorageでの参照数加算に失敗したため、StaticModel参照数加算に失敗しました。", false)
 
 	return true;
 }
 
 bool FWK::Graphics::StaticModelSystem::ReleaseStaticModelReference(const std::weak_ptr<Graphics::StaticModelRecord>& a_staticModelRecord, const DirectCommandQueue& a_directCommandQueue, DeferredResourceReleaseQueue& a_deferredResourceReleaseQueue)
 {
-	if (!m_staticModelStorage.ReleaseReference(a_staticModelRecord, a_directCommandQueue, a_deferredResourceReleaseQueue))
-	{
-		assert(false && "AssetStorageでの参照数減算に失敗したため、StaticModel解放予約に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelStorage.ReleaseReference(a_staticModelRecord, a_directCommandQueue, a_deferredResourceReleaseQueue), "AssetStorageでの参照数減算に失敗したため、StaticModel解放予約に失敗しました。", false)
 
 	return true;
 }
@@ -179,33 +151,18 @@ std::weak_ptr<FWK::Graphics::StaticModelRecord> FWK::Graphics::StaticModelSystem
 bool FWK::Graphics::StaticModelSystem::CreateStaticModelAssetFromFBX(const std::filesystem::path& a_fbxFilePath, const std::filesystem::path& a_assetFilePath, Graphics::StaticModelRecord& a_staticModelRecord)
 {
 	// ufbxを使用してメッシュやマテリアルを読み込む
-	if (!m_staticModelFBXLoader.LoadStaticModelFile(a_fbxFilePath, a_staticModelRecord))
-	{
-		assert(false && "StaticModelFBXLoaderによるFBX読み込みに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelFBXLoader.LoadStaticModelFile(a_fbxFilePath, a_staticModelRecord), "StaticModelFBXLoaderによるFBX読み込みに失敗しました。", false)
+
 
 	// meshoptimizerを使用して頂点とインデックスをGPUで扱いやすい配置へ最適化
-	if (!m_staticModelMeshOptimizer.OptimizeStaticModelRecord(a_staticModelRecord))
-	{
-		assert(false && "StaticModelMeshOptimizerによるStaticModelRecordの最適化に失敗しました。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelMeshOptimizer.OptimizeStaticModelRecord(a_staticModelRecord), "StaticModelMeshOptimizerによるStaticModelRecordの最適化に失敗しました。", false)
+	
 	// MeshShaderで扱うため、最適化済みの頂点とインデックスからMeshletDataを作成
-	if (!m_staticModelMeshletBuilder.BuildStaticModelRecordMeshletData(a_staticModelRecord))
-	{
-		assert(false && "StaticModelのMeshletData作成に失敗しました。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelMeshletBuilder.BuildStaticModelRecordMeshletData(a_staticModelRecord), "StaticModelのMeshletData作成に失敗しました。", false)
+	
 	// バイナリーファイルとして保存
-	if (!m_staticModelBinaryConverter.SaveStaticModelAsset(a_staticModelRecord, a_assetFilePath))
-	{
-		assert(false && "StaticModelAssetの保存に失敗しました。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelBinaryConverter.SaveStaticModelAsset(a_staticModelRecord, a_assetFilePath), "StaticModelAssetの保存に失敗しました。", false)
+	
 	return true;
 }
 
@@ -239,17 +196,8 @@ bool FWK::Graphics::StaticModelSystem::LoadStaticModel(const std::filesystem::pa
 {
 	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
-	if (a_filePath.empty())
-	{
-		assert(false && "StaticModelのFBXファイルパスが空です。");
-		return false;
-	}
-
-	if (!std::filesystem::exists(a_filePath))
-	{
-		assert(false && "StaticModelのFBXファイルが存在しません。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(a_filePath.empty(),					 "StaticModelのFBXファイルパスが空です。",   false)
+	FWK_ASSERT_RETURN_VALUE_IF(!std::filesystem::exists(a_filePath), "StaticModelのFBXファイルが存在しません。", false)
 
 	// アセットデータファイルの存在確認
 	const auto& l_assetFilePath = Utility::File::CreateFilePathByReplaceExtension(a_filePath, Constant::k_lowerAssetExtension);
@@ -294,28 +242,14 @@ bool FWK::Graphics::StaticModelSystem::CanUseStaticModelAsset(const std::filesys
 
 bool FWK::Graphics::StaticModelSystem::StaticModelCopyBatch(UploadSystem& a_uploadSystem)
 {
-	if (!a_uploadSystem.SubmitStaticModelBufferCopyBatchAndWait(m_pendingStaticModelBatchUploadRecordMap))
-	{
-
-		assert(false && "UploadSystemでのStaticModel用BufferResourceのバッチコピーに失敗したため、StaticModelのバッチ登録に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!a_uploadSystem.SubmitStaticModelBufferCopyBatchAndWait(m_pendingStaticModelBatchUploadRecordMap), "UploadSystemでのStaticModel用BufferResourceのバッチコピーに失敗したため、StaticModelのバッチ登録に失敗しました。", false)
 
 	for (const auto& [l_filePath, l_staticModelBatchUploadRecord] : m_pendingStaticModelBatchUploadRecordMap)
 	{
 		const auto& l_staticModelRecord = l_staticModelBatchUploadRecord.m_staticModelRecord;
 
-		if (!l_staticModelRecord)
-		{
-			assert(false && "StaticModelRecordが無効のため、StaticModelのバッチ登録に失敗しました。");
-			return false;
-		}
-
-		if (!m_staticModelStorage.RegisterRecord(l_staticModelRecord, l_filePath))
-		{
-			assert(false && "StaticModelRecordの登録に失敗したため、StaticModelのバッチ登録に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!l_staticModelRecord,												  "StaticModelRecordが無効のため、StaticModelのバッチ登録に失敗しました。",		    false)
+		FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelStorage.RegisterRecord(l_staticModelRecord, l_filePath), "StaticModelRecordの登録に失敗したため、StaticModelのバッチ登録に失敗しました。", false)
 	}
 
 	return true;

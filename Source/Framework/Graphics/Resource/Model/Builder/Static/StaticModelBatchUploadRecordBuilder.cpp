@@ -8,11 +8,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateStaticModelBatchU
 {
 	auto& l_modelMeshList = a_staticModelRecord.GetREFModelData().m_modelMeshList;
 
-	if (l_modelMeshList.empty())
-	{
-		assert(false && "ModelMeshListが空のため、StaticModelBatchUploadの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(l_modelMeshList.empty(), "ModelMeshListが空のため、StaticModelBatchUploadの作成に失敗しました。", false)
 
 	for (auto& l_modelMesh : l_modelMeshList)
 	{
@@ -23,9 +19,7 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateStaticModelBatchU
 										  l_modelMesh))
 		{
 			ReleaseCreatedStaticModelStructuredBufferSRV(l_modelMeshList, a_srvDescriptorHeap);
-
-			assert(false && "ModelMesh用BatchUploadRecordの作成に失敗したため、StaticModelBatchUploadRecordの作成に失敗しました。");
-			return false;
+			FWK_ASSERT_RETURN_VALUE					    ("ModelMesh用BatchUploadRecordの作成に失敗したため、StaticModelBatchUploadRecordの作成に失敗しました。", false)
 		}
 	}
 
@@ -42,59 +36,50 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 		  auto& l_modelMeshRuntimeData = a_modelMesh.m_modelMeshRuntimeData;
 
 	// 頂点バッファー用アップロードバッファの作成
-	if (!CreateBufferUploadCommand(a_modelMesh.m_modelVertexList,
-								   a_device,
-								   a_gpuMemoryAllocator,
-								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_vertexBuffer.m_bufferGPUResource))
-	{
-		assert(false && "ModelVertexBuffer用BufferUploadCommandの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateBufferUploadCommand(a_modelMesh.m_modelVertexList,
+														  a_device,
+														  a_gpuMemoryAllocator,
+														  a_bufferUploadCommandList,
+														  l_modelMeshRuntimeData.m_vertexBuffer.m_bufferGPUResource),
+														  "ModelVertexBuffer用BufferUploadCommandの作成に失敗しました。",
+														  false)
 
 	// メッシュレットバッファー用アップロードバッファの作成
-	if (!CreateBufferUploadCommand(l_modelMeshletData.m_meshletList,
-								   a_device,
-								   a_gpuMemoryAllocator,
-								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_meshletBuffer.m_bufferGPUResource))
-	{
-		assert(false && "MeshletBuffer用BufferUploadCommandの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateBufferUploadCommand(l_modelMeshletData.m_meshletList,
+														  a_device,
+														  a_gpuMemoryAllocator,
+														  a_bufferUploadCommandList,
+														  l_modelMeshRuntimeData.m_meshletBuffer.m_bufferGPUResource),
+														  "MeshletBuffer用BufferUploadCommandの作成に失敗しました。",
+														  false)
+
 
 	// ユニーク頂点インデックスバッファー用アップロードバッファの作成
-	if (!CreateBufferUploadCommand(l_modelMeshletData.m_uniqueVertexIndexList,
-								   a_device,
-								   a_gpuMemoryAllocator,
-								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_bufferGPUResource))
-	{
-		assert(false && "UniqueVertexIndexBuffer用BufferUploadCommandの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateBufferUploadCommand(l_modelMeshletData.m_uniqueVertexIndexList,
+														  a_device,
+														  a_gpuMemoryAllocator,
+														  a_bufferUploadCommandList,
+														  l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_bufferGPUResource),
+														  "UniqueVertexIndexBuffer用BufferUploadCommandの作成に失敗しました。",
+														  false)
 
 	// プリミティブインデックスバッファー用アップロードバッファの作成
-	if (!CreateBufferUploadCommand(l_modelMeshletData.m_primitiveIndexList,
-								   a_device,
-								   a_gpuMemoryAllocator,
-								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_bufferGPUResource))
-	{
-		assert(false && "PrimitiveIndexBuffer用BufferUploadCommandの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateBufferUploadCommand(l_modelMeshletData.m_primitiveIndexList,
+														  a_device,
+														  a_gpuMemoryAllocator,
+														  a_bufferUploadCommandList,
+														  l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_bufferGPUResource),
+														  "PrimitiveIndexBuffer用BufferUploadCommandの作成に失敗しました。",
+														  false)
 
 	// メッシュレットカリングバッファー用アップロードバッファの作成
-	if (!CreateBufferUploadCommand(l_modelMeshletData.m_meshletBoundsList,
-								   a_device,
-								   a_gpuMemoryAllocator,
-								   a_bufferUploadCommandList,
-								   l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_bufferGPUResource))
-	{
-		assert(false && "MeshletBoundsBuffer用BufferUploadCommandの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateBufferUploadCommand(l_modelMeshletData.m_meshletBoundsList,
+														  a_device,
+														  a_gpuMemoryAllocator,
+														  a_bufferUploadCommandList,
+														  l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_bufferGPUResource),
+														  "MeshletBoundsBuffer用BufferUploadCommandの作成に失敗しました。",
+														  false)
 
 	// 頂点バッファー用SRVの作成
 	l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID = CreateStructuredBufferSRV(a_modelMesh.m_modelVertexList,
@@ -104,10 +89,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_vertexBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
-		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
-
-		assert(false && "ModelVertexBuffer用SRVの作成に失敗しました。");
-		return false;
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData,						   a_srvDescriptorHeap);
+		FWK_ASSERT_RETURN_VALUE					  ("ModelVertexBuffer用SRVの作成に失敗しました。", false)
 	}
 
 	// メッシュレットバッファー用SRVの作成
@@ -118,10 +101,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_meshletBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
-		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
-
-		assert(false && "MeshletBuffer用SRVの作成に失敗しました。");
-		return false;
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData,					   a_srvDescriptorHeap);
+		FWK_ASSERT_RETURN_VALUE					  ("MeshletBuffer用SRVの作成に失敗しました。", false)
 	}
 
 	// ユニーク頂点インデックスバッファー用SRVの作成
@@ -132,10 +113,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
-		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
-
-		assert(false && "UniqueVertexIndexBuffer用SRVの作成に失敗しました。");
-		return false;
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData,							     a_srvDescriptorHeap);
+		FWK_ASSERT_RETURN_VALUE					  ("UniqueVertexIndexBuffer用SRVの作成に失敗しました。", false)
 	}
 
 	// プリミティブインデックスバッファー用SRVの作成
@@ -146,10 +125,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
-		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
-
-		assert(false && "PrimitiveIndexBuffer用SRVの作成に失敗しました。");
-		return false;
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData,							  a_srvDescriptorHeap);
+		FWK_ASSERT_RETURN_VALUE					  ("PrimitiveIndexBuffer用SRVの作成に失敗しました。", false)
 	}
 
 	// メッシュレットカリング用SRVの作成
@@ -160,10 +137,8 @@ bool FWK::Graphics::StaticModelBatchUploadRecordBuilder::CreateModelBatchUploadR
 
 	if (l_modelMeshRuntimeData.m_meshletBoundsBuffer.m_srvStorageID == Constant::k_invalidStorageID)
 	{
-		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData, a_srvDescriptorHeap);
-
-		assert(false && "MeshletBoundsBuffer用SRVの作成に失敗しました。");
-		return false;
+		ReleaseCreatedModelMeshStructuredBufferSRV(l_modelMeshRuntimeData,							 a_srvDescriptorHeap);
+		FWK_ASSERT_RETURN_VALUE					  ("MeshletBoundsBuffer用SRVの作成に失敗しました。", false)
 	}
 
 	return true;
