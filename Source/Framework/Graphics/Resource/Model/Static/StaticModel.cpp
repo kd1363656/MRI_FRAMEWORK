@@ -73,8 +73,8 @@ bool FWK::Graphics::StaticModel::Load(const std::filesystem::path& a_filePath)
 																							a_filePath,
 																							l_srvDescriptorPool);
 
-	FWK_ASSERT_RETURN_VALUE_IF(l_staticModelLoadResult.m_storageID					 == Constant::k_invalidStorageID, "StaticModelの読み込みに失敗しました。",								  false)
-	FWK_ASSERT_RETURN_VALUE_IF(l_staticModelLoadResult.m_staticModelRecord.expired() == Constant::k_invalidStorageID, "StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(l_staticModelLoadResult.m_storageID == Constant::k_invalidStorageID, "StaticModelの読み込みに失敗しました。",								  false)
+	FWK_ASSERT_RETURN_VALUE_IF(l_staticModelLoadResult.m_staticModelRecord.expired(),				"StaticModelRecordが無効のため、StaticModelの読み込みに失敗しました。", false)
 
 	m_storageID         = l_staticModelLoadResult.m_storageID;
 	m_staticModelRecord = l_staticModelLoadResult.m_staticModelRecord;

@@ -9,19 +9,11 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 {
 	const auto& l_rootSignature = GetVALRootSignature().lock();
 
-	if (!l_rootSignature)
-	{
-		assert(false && "使用しようとしたルートシグネチャが無効なため、描画処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_rootSignature, "使用しようとしたルートシグネチャが無効なため、描画処理に失敗しました。")
 
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
-	if (!l_currentFrameResource)
-	{
-		assert(false && "現在のフレームリソースの取得に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_currentFrameResource, "現在のフレームリソースの取得に失敗しました。")
 
 	const auto& l_viewport = a_renderer.GetREFRenderArea().GetREFViewport();
 
@@ -44,22 +36,17 @@ void FWK::Graphics::DrawSpriteStandardCommand::Draw(Renderer& a_renderer)
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
 
 	// もし共通定数バッファの設定に失敗したらマップを解除
-	if (!SetupCommonPassConstantBuffer<SpritePassConstantBufferUploader, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
-																											l_directCommandList,
-																											*l_currentFrameResource,
-																											l_cbSpritePass))
-	{
-		assert(false && "共通パスの定数バッファが設定できず、描画処理に失敗しました。");
-		return;
-	}
+	const bool l_isSuccess = !SetupCommonPassConstantBuffer<SpritePassConstantBufferUploader, Tag::RootParameterCBSpritePassTag>(*l_rootSignature,
+																																 l_directCommandList,
+																																 *l_currentFrameResource,
+																																 l_cbSpritePass);
+
+	FWK_ASSERT_RETURN_IF(l_isSuccess, "共通パスの定数バッファが設定できず、描画処理に失敗しました。")
+
 
 	auto l_spriteObjectConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<SpriteObjectConstantBufferUploader>().lock();
 
-	if (!l_spriteObjectConstantBufferUploader)
-	{
-		assert(false && "スプライト描画用定数バッファが取得できないため、描画処理に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_spriteObjectConstantBufferUploader, "スプライト描画用定数バッファが取得できないため、描画処理に失敗しました。")
 
 	// 貯めこんでいたテクスチャ描画命令を回す
 	const auto& l_spriteStandardDrawCommandList = GetREFDrawCommandList();
