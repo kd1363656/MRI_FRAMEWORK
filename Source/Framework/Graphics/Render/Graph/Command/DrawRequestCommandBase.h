@@ -22,22 +22,14 @@ namespace FWK::Graphics
 
 		void RegisterDrawCommand(const std::shared_ptr<ObjectType>& a_drawCommand)
 		{
-			if (!a_drawCommand)
-			{
-				assert(false && "DrawCommandが無効のため、DrawCommandの登録に失敗しました。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!a_drawCommand, "DrawCommandが無効のため、DrawCommandの登録に失敗しました。")
 
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}
 	
 		void RegisterPassConstant(const std::shared_ptr<PassConstantType>& a_passConstant)
 		{
-			if (!a_passConstant) 
-			{
-				assert(false && "PassConstantが無効のため、PassConstantの登録に失敗しました。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!a_passConstant, "PassConstantが無効のため、PassConstantの登録に失敗しました。")
 
 			m_passConstant = a_passConstant;
 		}
@@ -72,11 +64,7 @@ namespace FWK::Graphics
 
 		void RegisterDrawCommand(const std::shared_ptr<ObjectType>& a_drawCommand)
 		{
-			if (!a_drawCommand)
-			{
-				assert(false && "DrawCommandが無効のため、DrawCommandの登録に失敗しました。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!a_drawCommand, "DrawCommandが無効のため、DrawCommandの登録に失敗しました。")
 
 			m_drawCommandList.emplace_back(a_drawCommand);
 		}

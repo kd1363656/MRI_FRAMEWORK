@@ -21,11 +21,7 @@ namespace FWK::Graphics
 
 		void RegisterDrawRequest(const std::shared_ptr<DrawRequestType>& a_drawRequest)
 		{
-			if (!a_drawRequest)
-			{
-				assert(false && "DrawRequestが無効のため、DrawRequestの登録に失敗しました。");
-				return;
-			}
+			FWK_ASSERT_RETURN_IF(!a_drawRequest, "DrawRequestが無効のため、DrawRequestの登録に失敗しました。")
 
 			m_drawRequestList.emplace_back(a_drawRequest);
 		}
