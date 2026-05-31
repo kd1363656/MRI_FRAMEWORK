@@ -62,6 +62,7 @@ namespace FWK::Graphics
 		static constexpr std::uint32_t k_invalidBackBufferHeight = 0U;
 
 		static constexpr UINT k_defaultBackBufferNUM = 2U;
+		static constexpr UINT k_invalidBackBufferNUM = std::numeric_limits<UINT>::max();
 
 		static constexpr UINT k_swapChainPresentFlagNone = 0U;
 		static constexpr UINT k_swapChainDescFlags	     = 0U;

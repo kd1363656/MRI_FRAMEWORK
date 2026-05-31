@@ -13,20 +13,14 @@ bool FWK::Graphics::SwapChain::Create(const HWND&							   a_hwnd,
 									  const Struct::WindowCONFIG&			   a_windowCONFIG, 
 											DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
 {
-	if (!CreateSwapChain(a_hwnd,
-						 a_factory,
-						 a_directCommandQueue,
-						 a_windowCONFIG))
-	{
-		assert(false && "スワップチェインの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateSwapChain(a_hwnd,
+												a_factory,
+												a_directCommandQueue,
+												a_windowCONFIG),
+												"スワップチェインの作成に失敗しました。",
+											    false)
 
-	if (!CreateBackBufferList(a_device, a_rtvDescriptorPool))
-	{
-		assert(false && "バックバッファリストの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateBackBufferList(a_device, a_rtvDescriptorPool), "バックバッファリストの作成に失敗しました。", false)
 
 	return true;
 }
@@ -34,11 +28,7 @@ void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hwnd, const Factory
 {
 	const auto& l_factory = a_factory.GetREFFactory();
 
-	if (!l_factory)
-	{
-		assert(false && "ファクトリーの作成に失敗しており排他スクリーン設定ができませんでした。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(!l_factory, "ファクトリーの作成に失敗しており排他スクリーン設定ができませんでした。")
 	
 	// ウィンドウとDXGIの関連設定を行う関数
 	// MakeWindowAssociation(対象のウィンドウハンドル、
@@ -51,16 +41,11 @@ void FWK::Graphics::SwapChain::PostCreateSetup(const HWND& a_hwnd, const Factory
 void FWK::Graphics::SwapChain::Present() const
 {
 	// スワップチェインが存在しなければ画面表示できないのでreturn
-	if (!m_swapChain)
-	{
-		assert(false && "スワップチェインが作成されておらず、Present処理を行えませんでした。");
-		return;
-	}
-
-	// Present(垂直同期の間隔、
-	//		   追加の表示オプション)
+	FWK_ASSERT_RETURN_IF(!m_swapChain, "ファクトリーの作成に失敗しており排他スクリーン設定ができませんでした。")
 
 	// 現在のバックバッファを前面に出して画面へ表示する
+	// Present(垂直同期の間隔、
+	//		   追加の表示オプション)
 	m_swapChain->Present(m_syncInterval, k_swapChainPresentFlagNone);
 }
 
@@ -71,23 +56,9 @@ nlohmann::json FWK::Graphics::SwapChain::Serialize() const
 
 bool FWK::Graphics::SwapChain::Resize(const Device& a_device, const Struct::ClientSize&	a_clientSize, DescriptorPool<RTVDescriptorHeap>& a_rtvDescriptorPool)
 {
-	if (!m_swapChain)
-	{
-		assert(false && "スワップチェインが作成されていないため、リサイズできません。");
-		return false;
-	}
-
-	if (!IsValidBackBufferSize(a_clientSize))
-	{
-		assert(false && "リサイズ後のバックバッファサイズが無効です。");
-		return false;
-	}
-
-	if (m_backBufferList.empty())
-	{
-		assert(false && "バックバッファリストが空のため、リサイズできません。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_swapChain,						 "スワップチェインが作成されていないため、リサイズできません。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!IsValidBackBufferSize(a_clientSize), "リサイズ後のバックバッファサイズが無効です。",					 false)
+	FWK_ASSERT_RETURN_VALUE_IF(m_backBufferList.empty(),			 "バックバッファリストが空のため、リサイズできません。",			 false)
 
 	// ResizeBuffers()は、古いBAckBufferへの参照が残っていると失敗する。
 	// そのため、先にBackBufferのComPTRとRTV用StorageIDを解放する
@@ -105,20 +76,12 @@ bool FWK::Graphics::SwapChain::Resize(const Device& a_device, const Struct::Clie
 												 Constant::k_defaultSwapChainBackBufferFormat,
 											     k_swapChainDescFlags);
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "スワップチェインのResizeBuffersに失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "スワップチェインのResizeBuffersに失敗しました。", false)
 
 	// ResizeBuffers後は、SwapChain内部のBackBuffersが新しくなっている。
 	// そのため、GetBufferで新しいBackBufferを取得し直し、RTVも作り直す。
-	if (!CreateBackBufferList(a_device, a_rtvDescriptorPool))
-	{
-		assert(false && "リサイズ後のバックバッファリスト作成に失敗しました。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(!CreateBackBufferList(a_device, a_rtvDescriptorPool), "リサイズ後のバックバッファリスト作成に失敗しました。", false)
+	
 	return true;
 }
 
@@ -129,11 +92,7 @@ void FWK::Graphics::SwapChain::ResizeBackBufferList(const std::size_t a_backBuff
 
 UINT FWK::Graphics::SwapChain::FetchVALCurrentBackBufferIndex() const
 {
-	if (!m_swapChain)
-	{
-		assert(false && "スワップチェインが作成されておらず、現在のバックバッファのインデックスを取得出来ませんでした。");
-		return 0U;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_swapChain, "スワップチェインが作成されておらず、現在のバックバッファのインデックスを取得出来ませんでした。", k_invalidBackBufferNUM)
 
 	return m_swapChain->GetCurrentBackBufferIndex();
 }
@@ -145,37 +104,21 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 {
 	const auto& l_factory = a_factory.GetREFFactory();
 
-	if (!l_factory)
-	{
-		assert(false && "ファクトリーの作成がされておらず、スワップチェインの作成が出来ません");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_factory, "ファクトリーの作成がされておらず、スワップチェインの作成が出来ません", false)
 
 	// スワップチェインは描画結果を表示するための仕組みなので、描画に使う
 	// Directタイプのコマンドキューである必要がある
 	// CopyやCompute用のコマンドキューでは画面表示用のスワップチェインを作ることはできないのでreturn
-	if (a_directCommandQueue.GetVALCreateCommandListType() != D3D12_COMMAND_LIST_TYPE_DIRECT)
-	{
-		assert(false && "コマンドキューのコマンドリストタイプは描画可能なDirectでないといけません");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(a_directCommandQueue.GetVALCreateCommandListType() != D3D12_COMMAND_LIST_TYPE_DIRECT, "コマンドキューのコマンドリストタイプは描画可能なDirectでないといけません", false)
+	
 	const auto& l_commandQueue = a_directCommandQueue.GetREFCommandQueue();
 
-	if (!l_commandQueue)
-	{
-		assert(false && "コマンドキューの作成がされていないためスワップチェインが作成できません");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_commandQueue, "コマンドキューの作成がされていないためスワップチェインが作成できません", false)
 
 	// バックバッファ枚数が0だと表示用バッファを一枚も持てないので作成できない。
 	// 通常は2枚以上にすることが多い
-	if (m_backBufferList.empty())
-	{
-		assert(false && "バックバッファリストの中身が空になっておりスワップチェインを作成できませんでした。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(m_backBufferList.empty(), "バックバッファリストの中身が空になっておりスワップチェインを作成できませんでした。", false)
+	
 	// スワップチェインの作成設定をまとめた構造体
 	// バッファサイズ、バッファ枚数、入れ替え方式などをここで指定する。
 	DXGI_SWAP_CHAIN_DESC1 l_desc = {};
@@ -252,21 +195,13 @@ bool FWK::Graphics::SwapChain::CreateSwapChain(const HWND&                 a_hwn
 												  nullptr,
 												  l_swapChain.ReleaseAndGetAddressOf());
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "スワップチェインの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "スワップチェインの作成に失敗しました。", false)
 
 	// As関数はCOMのQueryInterfaceを使って安全に型変換する。
 	// ここではIDXGISwapChain1からメンバーが持つ方へ変換している
 	l_hr = l_swapChain.As(&m_swapChain);
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "スワップチェインの型変換に失敗しました、スワップチェインの作成が行えません。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "スワップチェインの型変換に失敗しました、スワップチェインの作成が行えません。", false)
 
 	return true;
 }
@@ -275,27 +210,15 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 {
 	const auto& l_device = a_device.GetREFDevice();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスの作成が行われていないためバックバッファーを作成できません。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスの作成が行われていないためバックバッファーを作成できません。", false)
 
 	// バックバッファはスワップチェインが内部に持っており、
 	// 先にスワップチェインが作成されていないと取得できないのでreturn
-	if (!m_swapChain)
-	{
-		assert(false && "スワップチェインの作成が行われていないためバックバッファーを作成できません。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(!m_swapChain, "スワップチェインの作成が行われていないためバックバッファーを作成できません。", false)
+	
 	// ディスクリプタヒープの容量を超えてしまっていたらreturn
-	if (static_cast<UINT>(m_backBufferList.size()) > a_rtvDescriptorPool.FetchVALStorageIDCapacity())
-	{
-		assert(false && "バックバッファリストのサイズがディスクリプタヒープの容量を超えています。");
-		return false;
-	}
-
+	FWK_ASSERT_RETURN_VALUE_IF(static_cast<UINT>(m_backBufferList.size()) > a_rtvDescriptorPool.FetchVALStorageIDCapacity(), "バックバッファリストのサイズがディスクリプタヒープの容量を超えています。", false)
+	
 	// リソースを「レンダーターゲットとしてどう見るか」を指定する構造体
 	// RTVは「このリソースを描画先として扱うためのビュー情報」だと思えばよい
 	D3D12_RENDER_TARGET_VIEW_DESC l_rtvDesc = {};
@@ -315,24 +238,15 @@ bool FWK::Graphics::SwapChain::CreateBackBufferList(const Device& a_device, Desc
 		// GetBuffer(取得したいバックバッファーのインデックス、
 		//			 受け取りたいCOMインターフェース型のID、
 		//			 作成結果のポインタを書き込むアドレス);
-
 		const auto l_hr = m_swapChain->GetBuffer(l_backBufferIndex, IID_PPV_ARGS(m_backBufferList[l_backBufferIndex].m_backBufferResource.ReleaseAndGetAddressOf()));
 
-		if (FAILED(l_hr))
-		{
-			assert(false && "スワップチェインとバックバッファーの紐づけに失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "スワップチェインとバックバッファーの紐づけに失敗しました。", false)
 
 		// レンダーターゲット用アロケータを進める
 		const auto l_rtvStorageID = a_rtvDescriptorPool.Allocate();
 
-		if (l_rtvStorageID == Constant::k_invalidStorageID)
-		{
-			assert(false && "バックバッファ用RTVStorageIDの確保に失敗しました。");
-			return false;
-		}
-
+		FWK_ASSERT_RETURN_VALUE_IF(l_rtvStorageID == Constant::k_invalidStorageID, "バックバッファ用RTVStorageIDの確保に失敗しました。", false)
+		
 		// l_backBufferIndex番目のバックバッファと紐づいているRTVのStorageIDを格納
 		m_backBufferList[l_backBufferIndex].m_rtvStorageID = l_rtvStorageID;
 

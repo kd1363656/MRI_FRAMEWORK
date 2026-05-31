@@ -7,50 +7,20 @@ void FWK::Graphics::ResourceContext::Deserialize(const nlohmann::json& a_rootJso
 }
 bool FWK::Graphics::ResourceContext::Create(const Device& a_device)
 {
-	if (!m_rtvDescriptorPool.Create(a_device))
-	{
-		assert(false && "RTVDescriptorPoolの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_rtvDescriptorPool.Create(a_device),  "RTVDescriptorPoolの作成処理に失敗しました。",  false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_srvDescriptorPool.Create(a_device),  "SRVDescriptorPoolの作成処理に失敗しました。",  false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_dsvDescriptorPool.Create(a_device),  "DSVDescriptorPoolの作成処理に失敗しました。",  false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_gpuMemoryAllocator.Create(a_device), "GPUMemoryAllocatorの作成処理に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(!m_uploadSystem.Create(a_device),	   "UploadSystemの作成処理に失敗しました。",		   false)
 
-	if (!m_srvDescriptorPool.Create(a_device))
-	{
-		assert(false && "SRVDescriptorPoolの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_textureSystem.Create(a_device,
+													   m_gpuMemoryAllocator,
+													   m_srvDescriptorPool,
+													   m_uploadSystem),
+													   "TextureSystemの作成処理に失敗しました。",
+													   false)
 
-	if (!m_dsvDescriptorPool.Create(a_device))
-	{
-		assert(false && "DSVDescriptorPoolの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_gpuMemoryAllocator.Create(a_device))
-	{
-		assert(false && "GPUMemoryAllocatorの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_uploadSystem.Create(a_device))
-	{
-		assert(false && "UploadSystemの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_textureSystem.Create(a_device,
-								m_gpuMemoryAllocator,
-								m_srvDescriptorPool,
-								m_uploadSystem))
-	{
-		assert(false && "TextureSystemの作成処理に失敗しました。");
-		return false;
-	}
-
-	if (!m_staticModelSystem.Create())
-	{
-		assert(false && "StaticModelSystemの作成処理に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_staticModelSystem.Create(), "StaticModelSystemの作成処理に失敗しました。", false)
 
 	return true;
 }
