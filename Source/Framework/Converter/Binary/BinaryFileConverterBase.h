@@ -36,8 +36,8 @@ namespace FWK::Converter
 
 		template <typename Type>
 		void ReadBinaryData(const std::uint64_t& a_readDataCount,
-							const std::uint8_t*  a_readData,
-							      std::uint64_t& a_readOffset,
+							const std::uint8_t*  a_mappedData,
+							      std::uint64_t& a_memoryReadOffset,
 								  Type*          a_destinationData) const
 		{
 			// 読み込むデータの型サイズと個数から、実際にコピーするバイト数を計算する
@@ -46,22 +46,22 @@ namespace FWK::Converter
 			// 読み込むバイト数が0の場合は、何もせずに終了する
 			if (l_readDataSize == k_emptyReadDataSize) { return; }
 
+			FWK_ASSERT_RETURN_IF(!a_mappedData,		 "読み込み元データがnullptrです。")
 			FWK_ASSERT_RETURN_IF(!a_destinationData, "読み込み先データがnullptrです。")
-			FWK_ASSERT_RETURN_IF(!a_readData,		 "読み込み元データがnullptrです。")
 
 			// メモリマップされたバイナリデータの現在位置から、
 			// 指定された型と個数分のデータを読み込み先へコピーする
-			std::memcpy(a_destinationData, a_readData + a_readOffset, l_readDataSize);
+			std::memcpy(a_destinationData, a_mappedData + a_memoryReadOffset, l_readDataSize);
 
 			// 次のデータを続けて読めるように、読み込んだバイト数分だけオフセットを進める
-			a_readOffset += l_readDataSize;
+			a_memoryReadOffset += l_readDataSize;
 		}
 
 		template <typename Type>
 		void WriteBinaryData(const std::uint64_t& a_writeDataCount,
 							 const Type*		  a_sourceData,
-								   std::uint64_t& a_writeOffset,
-								   std::uint8_t*  a_writeData) const
+								   std::uint64_t& a_memoryWriteOffset,
+								   std::uint8_t*  a_mappedData) const
 		{
 			// 書き込みデータの型サイズと個数から、実際にコピーするバイト数を計算する
 			const auto l_writeDataSize = sizeof(Type) * a_writeDataCount;
@@ -70,22 +70,22 @@ namespace FWK::Converter
 			if (l_writeDataSize == k_emptyWriteDataSize) { return; }
 
 			FWK_ASSERT_RETURN_IF(!a_sourceData, "書き込み元データがnullptrです。")
-			FWK_ASSERT_RETURN_IF(!a_writeData,  "書き込み元データがnullptrです。")
+			FWK_ASSERT_RETURN_IF(!a_mappedData, "書き込み先データがnullptrです。")
 
 			// 書き込み先のメモリマップ領域の現在位置へ、
 			// 指定された型と個数分のデータを書き込む
-			std::memcpy(a_writeData + a_writeOffset, a_sourceData, l_writeDataSize);
+			std::memcpy(a_mappedData + a_memoryWriteOffset, a_sourceData, l_writeDataSize);
 
 			// 次のデータを続けて書けるように、書き込んだバイト数分だけオフセットを進める
-			a_writeOffset += l_writeDataSize;
+			a_memoryWriteOffset += l_writeDataSize;
 		}
 
 		void ReadWStringBinaryData(const std::uint64_t& a_stringBinaryFileSize,
 								   const std::uint8_t*  a_readData,
 										 std::wstring&  a_string,
-										 std::uint64_t& a_readOffset) const;
+										 std::uint64_t& a_memoryReadOffset) const;
 
-		void WriteWStringBinaryData(const std::wstring&  a_string, std::uint64_t& a_writeOffset, std::uint8_t* a_writeData) const;
+		void WriteWStringBinaryData(const std::wstring&  a_string, std::uint64_t& a_memoryWriteOffset, std::uint8_t* a_writeData) const;
 
 		template <typename Type>
 		std::uint64_t CalculateBinaryDataSize(const std::uint64_t& a_dataCount) const
@@ -95,13 +95,23 @@ namespace FWK::Converter
 
 		std::uint64_t CalculateWStringBinaryFileSize(const std::wstring& a_string) const;
 
+		static constexpr auto& GetREFInitialMemoryReadOffset () { return k_initialMemoryReadOffset; }
+		static constexpr auto& GetREFInitialMemoryWriteOffset() { return k_initialMemoryWriteOffset; }
+
+		static constexpr auto GetREFSingleBinaryElementCount() { return k_singleBinaryElementCount; }
+
 	private:
+
+		static constexpr std::uint64_t k_initialMemoryReadOffset  = 0ULL;
+		static constexpr std::uint64_t k_initialMemoryWriteOffset = 0ULL;
 
 		static constexpr std::uint64_t k_emptyMappedDataSize = 0ULL;
 		static constexpr std::uint64_t k_emptyWriteFileSize  = 0ULL;
 
 		static constexpr std::uint64_t k_emptyReadDataSize  = 0ULL;
 		static constexpr std::uint64_t k_emptyWriteDataSize = 0ULL;
+
+		static constexpr std::uint64_t k_singleBinaryElementCount = 1ULL;
 
 		static constexpr SIZE_T k_mapEntireFileSize   = 0ULL;
 		static constexpr SIZE_T k_flushEntireViewSize = 0ULL;

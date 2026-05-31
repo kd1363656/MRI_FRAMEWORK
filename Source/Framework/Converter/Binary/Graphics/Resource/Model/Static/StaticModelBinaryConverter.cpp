@@ -4,18 +4,19 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::
 {
 	auto& l_modelData = a_staticModelRecord.GetREFModelData();
 
+	// 読み込み用マッピングデータを作成
 	FWK_ASSERT_RETURN_VALUE_IF(!CreateReadMemoryMappedFile(a_filePath), "読み込むためのメモリマップドファイル作成に失敗しました。", false);
 
-	const auto* l_readData = GetPTRMappedData();
+	const auto* l_mappedData = GetPTRMappedData();
 
-	if (!l_readData)
+	if (!l_mappedData)
 	{
 		DestroyMemoryMappedFile();
 		FWK_ASSERT_RETURN_VALUE("読み込むためのメモリマップドデータの取得に失敗しました。", false)
 	}
 
-	// StaticModelAssetHeaderより小さいファイルは、Headerを安全に読み込めないため壊れたAssetとして扱う
 	// ※注意 : 簡易的なバージョンチェックなのでint型をstd::uint32_tに変えても変更に気づけない
+	// StaticModelAssetHeaderより小さいファイルは、Headerを安全に読み込めないため壊れたAssetとして扱う
 	if (GetREFMappedDataSize() < sizeof(StaticModelAssetHeader))
 	{
 
@@ -30,13 +31,13 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::
 		return false;
 	}
 
-	auto l_readOffset = k_initialReadOffset;
+	auto l_memoryReadOffset = GetREFInitialMemoryReadOffset();
 
 	StaticModelAssetHeader l_staticModelAssetHeader = {};
 
-	ReadBinaryData(k_singleBinaryElementCount,
-				   l_readData,
-				   l_readOffset,
+	ReadBinaryData(GetREFSingleBinaryElementCount(),
+		l_mappedData,
+				   l_memoryReadOffset,
 				   &l_staticModelAssetHeader);
 
 	if (l_staticModelAssetHeader.m_assetTypeID != k_staticModelAssetTypeID)
@@ -87,26 +88,27 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::
 		StaticModelAssetMeshHeader l_staticModelAssetMeshHeader = {};
 
 		// ヘッダー情報読み込み
-		ReadBinaryData(k_singleBinaryElementCount,
-					   l_readData,
-					   l_readOffset,
+		ReadBinaryData(GetREFSingleBinaryElementCount(),
+					   l_mappedData,
+					   l_memoryReadOffset,
 					   &l_staticModelAssetMeshHeader);
 
 		Struct::ModelMesh l_modelMesh = {};
 
+		// ヘッダー情報から読み込んだ、頂点数、インデックス数からリストをリサイズ
 		l_modelMesh.m_modelVertexList.resize(l_staticModelAssetMeshHeader.m_vertexCount);
 		l_modelMesh.m_indexList.resize      (l_staticModelAssetMeshHeader.m_indexCount);
 
 		// 頂点情報読み込み
 		ReadBinaryData(l_staticModelAssetMeshHeader.m_vertexCount,
-					   l_readData,
-					   l_readOffset,
+					   l_mappedData,
+					   l_memoryReadOffset,
 					   l_modelMesh.m_modelVertexList.data());
 
 		// インデックス情報読み込み
 		ReadBinaryData(l_staticModelAssetMeshHeader.m_indexCount,
-					   l_readData,
-					   l_readOffset,
+					   l_mappedData,
+					   l_memoryReadOffset,
 					   l_modelMesh.m_indexList.data());
 
 		auto& l_modelMeshletData = l_modelMesh.m_modelMeshletData;
@@ -118,26 +120,26 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::
 
 		// メッシュレット情報読み込み
 		ReadBinaryData(l_staticModelAssetMeshHeader.m_meshletCount,
-					   l_readData,	
-					   l_readOffset,
+					   l_mappedData,	
+					   l_memoryReadOffset,
 					   l_modelMeshletData.m_meshletList.data());
 
 		// メッシュレット内ユニーク頂点インデックス情報読み込み
 		ReadBinaryData(l_staticModelAssetMeshHeader.m_uniqueVertexIndexCount,
-					   l_readData,
-					   l_readOffset,
+					   l_mappedData,
+					   l_memoryReadOffset,
 					   l_modelMeshletData.m_uniqueVertexIndexList.data());
 
 		// メッシュレット内プリミティブインデックス情報読み込み
 		ReadBinaryData(l_staticModelAssetMeshHeader.m_primitiveIndexCount,
-					   l_readData,
-					   l_readOffset,
+					   l_mappedData,
+					   l_memoryReadOffset,
 					   l_modelMeshletData.m_primitiveIndexList.data());
 
 		// メッシュレット境界情報読み込み
 		ReadBinaryData(l_staticModelAssetMeshHeader.m_meshletBoundsCount,
-					   l_readData,
-					   l_readOffset,
+					   l_mappedData,
+					   l_memoryReadOffset,
 					   l_modelMeshletData.m_meshletBoundsList.data());
 
 		auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
@@ -145,23 +147,24 @@ bool FWK::Converter::StaticModelBinaryConverter::LoadStaticModelAsset(Graphics::
 		// テクスチャファイルパス情報読み込み
 		// ベースカラーテクスチャファイルパス読み込み
 		ReadWStringBinaryData(l_staticModelAssetMeshHeader.m_baseColorTexturePathSize, 
-							  l_readData,
+							  l_mappedData,
 							  l_modelMaterialAssetData.m_baseColorTextureFilePath,
-							  l_readOffset);
+							  l_memoryReadOffset);
 
 		// 法線テクスチャファイルパス読み込み
 		ReadWStringBinaryData(l_staticModelAssetMeshHeader.m_normalTexturePathSize,
-							  l_readData,
+							  l_mappedData,
 							  l_modelMaterialAssetData.m_normalTextureFilePath,
-						      l_readOffset);
+						      l_memoryReadOffset);
 
 		l_modelData.m_modelMeshList.emplace_back(std::move(l_modelMesh));
 	}
 
-	if (l_readOffset != GetREFMappedDataSize())
+	// オフセットがマッピング留守データサイズと一致しなければ何かしらのずれがあるため失敗扱い
+	if (l_memoryReadOffset != GetREFMappedDataSize())
 	{
 #if defined(_DEBUG)
-		const auto& l_debugLog = std::format("StaticModelAssetの読み込みサイズがファイルサイズと一致しないため、FBXから再生成します。ReadSize : {}, Filesize : {}\n", l_readOffset, GetREFMappedDataSize());
+		const auto& l_debugLog = std::format("StaticModelAssetの読み込みサイズがファイルサイズと一致しないため、FBXから再生成します。ReadSize : {}, FileSize : {}\n", l_memoryReadOffset, GetREFMappedDataSize());
 
 		OutputDebugStringA(l_debugLog.c_str());
 #endif
@@ -184,16 +187,18 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Grap
 	FWK_ASSERT_RETURN_VALUE_IF(l_fileSize == k_emptyStaticModelAssetFileSize,		 "StaticModelAssetのファイルサイズ計算に失敗しました。",     false)
 	FWK_ASSERT_RETURN_VALUE_IF(!CreateWriteMemoryMappedFile(a_filePath, l_fileSize), "書き込むためのメモリマップドファイル作成に失敗しました。", false)
 	
-	auto* l_writeData = GetMutablePTRMappedData();
+	// 書き込み用マッピングデータの作成
+	auto* l_mappedData = GetMutablePTRMappedData();
 
-	if (!l_writeData)
+	if (!l_mappedData)
 	{
 		DestroyMemoryMappedFile();
 		FWK_ASSERT_RETURN_VALUE("書き込むためのメモリマップドデータの取得に失敗しました。", false)
 	}
 
-	auto l_writeOffset = k_initialWriteOffset;
+	auto l_memoryWriteOffset = GetREFInitialMemoryWriteOffset();
 
+	// まずは最初にアセットヘッダー情報を書き込む
 	StaticModelAssetHeader l_staticModelAssetHeader = {};
 
 	l_staticModelAssetHeader.m_fileSize    = l_fileSize;
@@ -201,11 +206,12 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Grap
 	l_staticModelAssetHeader.m_assetTypeID = k_staticModelAssetTypeID;
 	l_staticModelAssetHeader.m_version     = k_staticModelAssetVersion;
 
-	WriteBinaryData(k_singleBinaryElementCount,
+	WriteBinaryData(GetREFSingleBinaryElementCount(),
 					&l_staticModelAssetHeader,
-					l_writeOffset,
-					l_writeData);
+					l_memoryWriteOffset,
+					l_mappedData);
 
+	// アセットメッシュヘッダー情報で頂点やインデックス、メッシュレット等の情報を保存する
 	for (const auto& l_modelMesh : l_modelData.m_modelMeshList)
 	{
 		const auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
@@ -223,54 +229,54 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Grap
 		l_staticModelAssetMeshHeader.m_normalTexturePathSize    = CalculateWStringBinaryFileSize				 (l_modelMaterialAssetData.m_normalTextureFilePath);
 
 		// ヘッダー情報保存
-		WriteBinaryData(k_singleBinaryElementCount,
+		WriteBinaryData(GetREFSingleBinaryElementCount(),
 					    &l_staticModelAssetMeshHeader,
-					    l_writeOffset,
-						l_writeData);
+					    l_memoryWriteOffset,
+						l_mappedData);
 
 		// 頂点情報保存
 		WriteBinaryData(l_modelMesh.m_modelVertexList.size(),
 						l_modelMesh.m_modelVertexList.data(),
-						l_writeOffset,
-						l_writeData);
+						l_memoryWriteOffset,
+						l_mappedData);
 
 		// インデックス情報保存
 		WriteBinaryData(l_modelMesh.m_indexList.size(),
 						l_modelMesh.m_indexList.data(),
-						l_writeOffset,
-						l_writeData);
+						l_memoryWriteOffset,
+						l_mappedData);
 
 		// メッシュレット情報保存
 		WriteBinaryData(l_modelMeshletData.m_meshletList.size(),
 						l_modelMeshletData.m_meshletList.data(), 
-					    l_writeOffset,
-						l_writeData);
+					    l_memoryWriteOffset,
+						l_mappedData);
 
 		// メッシュレット内ユニーク頂点インデックス情報保存
 		WriteBinaryData(l_modelMeshletData.m_uniqueVertexIndexList.size(),
 						l_modelMeshletData.m_uniqueVertexIndexList.data(),
-					    l_writeOffset,
-						l_writeData);
+					    l_memoryWriteOffset,
+						l_mappedData);
 
 		// メッシュレット内プリミティブインデックス情報保存
 		WriteBinaryData(l_modelMeshletData.m_primitiveIndexList.size(),
 						l_modelMeshletData.m_primitiveIndexList.data(),
-					    l_writeOffset,
-						l_writeData);
+					    l_memoryWriteOffset,
+						l_mappedData);
 
 		// メッシュレット境界情報保存
 		WriteBinaryData(l_modelMeshletData.m_meshletBoundsList.size(),
 						l_modelMeshletData.m_meshletBoundsList.data(),
-					    l_writeOffset,
-						l_writeData);
+					    l_memoryWriteOffset,
+						l_mappedData);
 
 		// テクスチャファイルパス情報保存
 		// ベースカラーテクスチャファイルパス保存
-		WriteWStringBinaryData(l_modelMaterialAssetData.m_baseColorTextureFilePath, l_writeOffset, l_writeData);
-		WriteWStringBinaryData(l_modelMaterialAssetData.m_normalTextureFilePath,    l_writeOffset, l_writeData);
+		WriteWStringBinaryData(l_modelMaterialAssetData.m_baseColorTextureFilePath, l_memoryWriteOffset, l_mappedData);
+		WriteWStringBinaryData(l_modelMaterialAssetData.m_normalTextureFilePath,    l_memoryWriteOffset, l_mappedData);
 	}
 
-	if (l_writeOffset != l_fileSize)
+	if (l_memoryWriteOffset != l_fileSize)
 	{
 		DestroyMemoryMappedFile();
 		FWK_ASSERT_RETURN_VALUE("StaticModelAssetの書き込みサイズが計算サイズと一致しません。", false)
@@ -283,13 +289,13 @@ bool FWK::Converter::StaticModelBinaryConverter::SaveStaticModelAsset(const Grap
 
 std::uint64_t FWK::Converter::StaticModelBinaryConverter::CalculateStaticModelAssetFileSize(const Struct::ModelData& a_modelData) const
 {
-	auto l_fileSize = CalculateBinaryDataSize<StaticModelAssetHeader>(k_singleBinaryElementCount);
+	auto l_fileSize = CalculateBinaryDataSize<StaticModelAssetHeader>(GetREFSingleBinaryElementCount());
 
 	for (const auto& l_modelMesh : a_modelData.m_modelMeshList)
 	{
 		const auto& l_modelMaterialAssetData = l_modelMesh.m_modelMaterial.m_modelMaterialAssetData;
 
-		l_fileSize += CalculateBinaryDataSize<StaticModelAssetMeshHeader>(k_singleBinaryElementCount);
+		l_fileSize += CalculateBinaryDataSize<StaticModelAssetMeshHeader>(GetREFSingleBinaryElementCount());
 		l_fileSize += CalculateBinaryDataSize<Struct::ModelVertex>		 (l_modelMesh.m_modelVertexList.size());
 		l_fileSize += CalculateBinaryDataSize<std::uint32_t>			 (l_modelMesh.m_indexList.size());
 

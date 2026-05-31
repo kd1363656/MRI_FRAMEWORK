@@ -53,11 +53,6 @@ namespace FWK::Converter
 
 		static constexpr std::uint64_t k_emptyTextureFilePathSize = 0ULL;
 
-		static constexpr std::uint64_t k_initialReadOffset  = 0ULL;
-		static constexpr std::uint64_t k_initialWriteOffset = 0ULL;
-
-		static constexpr std::uint64_t k_singleBinaryElementCount = 1ULL;
-
 		// 'S' = 0x53, 'T' = 0x54のため、0x5354で"ST"を表す
 		static constexpr std::uint16_t k_staticModelAssetTypeID = 0x5354U;
 
