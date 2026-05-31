@@ -9,19 +9,11 @@ void FWK::Graphics::Shader::Deserialize(const nlohmann::json& a_rootJson)
 
 bool FWK::Graphics::Shader::CreateFromFile(const ShaderCompiler& a_shaderCompiler)
 {
-	if (!Utility::File::CanLoadFilePath(m_filePath, k_lowerCSOExtension))
-	{
-		assert(false && "シェーダーファイルの拡張子が.csoではありません");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!Utility::File::CanLoadFilePath(m_filePath, k_lowerCSOExtension), "シェーダーファイルの拡張子が.csoではありません", false)
 
 	m_dxcBlob = a_shaderCompiler.LoadBinaryFromFile(m_filePath.wstring());
 
-	if (!m_dxcBlob)
-	{
-		assert(false && "シェーダーバイトコードの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_dxcBlob, "シェーダーバイトコードの作成に失敗しました。", false)
 
 	return true;
 }
