@@ -11,41 +11,21 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 {
 	const auto& l_device = a_device.GetREFDevice().Get();
 
-	if (!l_device)
-	{
-		assert(false && "デバイスが作成されておらず、パイプラインステートの作成が出来ませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_device, "デバイスが作成されておらず、パイプラインステートの作成が出来ませんでした。", false)
 
 	const auto& l_useRootSignature = a_renderer.FindVALRootSignature(m_useRootSignatureTag).lock();
 
-	if (!l_useRootSignature)
-	{
-		assert(false && "対象となるルートシグネチャの取得に失敗し、パイプラインステートの作成が出来ませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_useRootSignature, "対象となるルートシグネチャの取得に失敗し、パイプラインステートの作成が出来ませんでした。", false)
 
 	const auto& l_rootSignature = l_useRootSignature->GetREFRootSignature();
 
-	if (!l_rootSignature)
-	{
-		assert(false && "ルートシグネチャが作成されておらず、パイプラインステートの作成が出来ませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_rootSignature, "ルートシグネチャが作成されておらず、パイプラインステートの作成が出来ませんでした。", false)
 
 	// RTVFormatListが空ならreturn
-	if (m_rtvFormatList.empty())
-	{
-		assert(false && "RTVFormatListが空のため、RenderTargetFormatを設定できませんでした。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(m_rtvFormatList.empty(), "RTVFormatListが空のため、RenderTargetFormatを設定できませんでした。", false)
 
 	// RTVFormatListの要素数がレンダーターゲットの要素数を超えていたらreturn
-	if (m_rtvFormatList.size() > D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT)
-	{
-		assert(false && "RTVFormatListの要素数がDirectX12のRenderTarget上限を超えています。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(m_rtvFormatList.size() > D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT, "RTVFormatListの要素数がDirectX12のRenderTarget上限を超えています。", false)
 
 	// 使用するシェーダーをコンパイルする
 	// AmplificationShaderとPixelShaderは任意なので、
@@ -53,26 +33,14 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	// MeshShaderはこのPSOで必須なので必ずコンパイルする
 	if (m_amplificationShader)
 	{
-		if (!m_amplificationShader->CreateFromFile(a_shaderCompiler))
-		{
-			assert(false && "AmplificationShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!m_amplificationShader->CreateFromFile(a_shaderCompiler), "AmplificationShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。", false)
 	}
 
-	if (!m_meshShader.CreateFromFile(a_shaderCompiler))
-	{
-		assert(false && "MeshShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!m_meshShader.CreateFromFile(a_shaderCompiler), "MeshShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。", false)
 
 	if (m_pixelShader)
 	{
-		if (!m_pixelShader->CreateFromFile(a_shaderCompiler))
-		{	
-			assert(false && "PixelShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。");
-			return false;
-		}
+		FWK_ASSERT_RETURN_VALUE_IF(!m_pixelShader->CreateFromFile(a_shaderCompiler), "PixelShaderの作成に失敗したため、パイプラインステートの作成に失敗しました。", false)
 	}
 
 	// メッシュシェーダー用パイプラインステート設定構造体
@@ -192,14 +160,9 @@ bool FWK::Graphics::PipelineState::Create(const Device& a_device, const ShaderCo
 	// CreatePipelineState(パイプライン設定ストリーム、
 	//					   受け取りたいCOMインターフェース型のID、
 	//					   作成結果のポインタを書き込むアドレス);
-
 	auto l_hr = l_device->CreatePipelineState(&l_streamDesc, IID_PPV_ARGS(m_pipelineState.ReleaseAndGetAddressOf()));
 
-	if (FAILED(l_hr))
-	{
-		assert(false && "パイプラインステート作成に失敗しました。");
-		return false;
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(FAILED(l_hr), "パイプラインステート作成に失敗しました。", false)
 
 	return true;
 }
@@ -212,11 +175,7 @@ nlohmann::json FWK::Graphics::PipelineState::Serialize() const
 void FWK::Graphics::PipelineState::AddRTVFormat(const DXGI_FORMAT a_format)
 {
 	// もしRTVFormatの要素数を超えてしまっていたらreturn
-	if (m_rtvFormatList.size() >= D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT)
-	{
-		assert(false && "RTVFormatListの要素数がD3DX12_MESH_SHADER_PIPELINE_STATE_DESCのRTVFormatの要素数を超えています。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(m_rtvFormatList.size() >= D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT, "RTVFormatListの要素数がD3DX12_MESH_SHADER_PIPELINE_STATE_DESCのRTVFormatの要素数を超えています。")
 
 	m_rtvFormatList.emplace_back(a_format);
 }
@@ -225,11 +184,7 @@ D3D12_SHADER_BYTECODE FWK::Graphics::PipelineState::FetchShaderByteCode(const Sh
 {
 	const auto& l_blob = a_shader.GetDXCBlob();
 
-	if (!l_blob)
-	{
-		assert(false && "シェーダーバイトコードの取得に失敗しました。");
-		return {};
-	}
+	FWK_ASSERT_RETURN_VALUE_IF(!l_blob, "シェーダーバイトコードの取得に失敗しました。", {})
 
 	return { l_blob->GetBufferPointer(), l_blob->GetBufferSize() };
 }

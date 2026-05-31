@@ -32,11 +32,7 @@ void FWK::Graphics::Camera::SetProjectionMatrix(const float a_aspectRatio,
 												const float a_farClip,
 												const float a_nearClip)
 {
-	if (a_aspectRatio <= k_invalidAspectRatio)
-	{
-		assert(false && "CameraのAspectRatioが不正なため、ProjectionMatrixの作成に失敗しました。");
-		return;
-	}
+	FWK_ASSERT_RETURN_IF(a_aspectRatio <= k_invalidAspectRatio, "CameraのAspectRatioが不正なため、ProjectionMatrixの作成に失敗しました。")
 
 	// X<ConvertToRadians(度数法の角度);
 	// 度数法で指定された視野角を、DirectXMathが扱うラジアンへ変換する
