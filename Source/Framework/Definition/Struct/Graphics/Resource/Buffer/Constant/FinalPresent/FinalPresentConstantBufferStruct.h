@@ -2,7 +2,7 @@
 
 namespace FWK::Struct
 {
-	struct CBFinalPresent final
+	struct CBFinalPresentPass final
 	{
 		TypeAlias::StorageID     m_sceneColorTextureSRVIndex = 0U;
 		TypeAlias::Math::Vector3 m_padding					 = {};

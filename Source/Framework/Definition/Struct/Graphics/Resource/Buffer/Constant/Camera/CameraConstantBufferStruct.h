@@ -2,7 +2,7 @@
 
 namespace FWK::Struct
 {	
-	struct CBCamera final
+	struct CBCameraPass final
 	{
 		TypeAlias::Math::Matrix m_viewMatrix	       = TypeAlias::Math::Matrix::Identity;
 		TypeAlias::Math::Matrix m_projectionMatrix     = TypeAlias::Math::Matrix::Identity;
