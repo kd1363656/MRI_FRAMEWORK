@@ -11,6 +11,8 @@ namespace FWK::Graphics
 
 		void ApplyDefaultSettings();
 
+		void SetToConstantBuffer();
+
 	private:
 
 		std::shared_ptr<Struct::CBLightPass> m_cbLightPass = nullptr;

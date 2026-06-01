@@ -66,6 +66,9 @@ void FWK::Graphics::Renderer::PostCreateSetup(const SwapChain& a_swapChain)
 
 	m_renderGraph.PostCreateSetup(*this);
 
+	// 定数バッファにライト情報を送信する
+	m_lightSystem.SetToConstantBuffer();
+
 	FWK_ASSERT_RETURN_IF(!m_renderGraph.Compile(), "RenderGraphのCompileに失敗しました。")
 }
 

@@ -70,6 +70,20 @@ void FWK::Graphics::Camera::SetProjectionMatrix(const TypeAlias::Math::Matrix& a
 	UpdateViewProjectionMatrix();
 }
 
+void FWK::Graphics::Camera::SetToConstantBuffer()
+{
+	const auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
+	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer		   ();
+	const auto& l_renderGraph	  = l_renderer.GetREFRenderGraph();
+
+	const auto& l_cameraPassDrawRequest = l_renderGraph.FindVALDrawRequestPass<CameraPassDrawRequest>().lock();
+
+	if (!l_cameraPassDrawRequest) { return; }
+
+	// 定数バッファの変更を反映するためにカメラクラスの定数バッファデータを送信する
+	l_cameraPassDrawRequest->SetSourceConstantBuffer(m_cbCameraPass);
+}
+
 void FWK::Graphics::Camera::UpdateViewProjectionMatrix()
 {
 	if (!m_cbCameraPass) { return; }

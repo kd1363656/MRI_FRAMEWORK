@@ -865,6 +865,15 @@
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Object">
       <UniqueIdentifier>{a4e68b6f-715b-4e45-8e93-dbf9fbf1593c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model">
+      <UniqueIdentifier>{5677d721-7d65-4c32-bc94-9c25930f109c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static">
+      <UniqueIdentifier>{b47ecf16-c6bd-4eea-a404-a1c89ea2435c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard">
+      <UniqueIdentifier>{6731793d-b402-426c-bcbe-3cbaba35351f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1493,6 +1502,9 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Object\IsDerivedDrawRequestPerObjectBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\StaticModelStandardPerObjectDrawRequestBase.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1809,6 +1821,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectBase.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\StaticModelStandardPerObjectDrawRequestBase.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

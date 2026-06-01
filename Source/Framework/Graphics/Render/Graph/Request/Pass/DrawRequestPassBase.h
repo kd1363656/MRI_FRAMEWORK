@@ -22,7 +22,7 @@ namespace FWK::Graphics
 								 const FrameResource&	   a_frameResource,
 								 const ConstantBufferType& a_constantBuffer)
 		{
-			const auto& l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
+			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
 
 			FWK_ASSERT_RETURN_VALUE_IF(!l_constantBufferUploader, "共通パス定数バッファが取得できないため、描画処理に失敗しました。", false)
 

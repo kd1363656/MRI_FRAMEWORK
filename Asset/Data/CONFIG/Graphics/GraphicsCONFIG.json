@@ -1158,6 +1158,22 @@
             }
         ],
         "RenderGraph": {
+            "DrawRequestPassList": [
+                {
+                    "DrawRequestPassTypeName": "CameraPassDrawRequest"
+                },
+                {
+                    "DrawRequestPassTypeName": "LightPassDrawRequest"
+                },
+                {
+                    "DrawRequestPassTypeName": "SpritePassDrawRequest"
+                }
+            ],
+            "DrawRequestPerObjectList": [
+                {
+                    "DrawRequestPerObjectTypeName": "SpriteStandardPerObjectDrawRequest"
+                }
+            ],
             "PassList": [
                 {
                     "RenderGraphPassTypeName": "RenderGraphSceneDrawPass"
