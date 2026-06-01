@@ -292,9 +292,6 @@
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline">
       <UniqueIdentifier>{fb103923-f94e-4c51-8042-e79ab6ab34e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Command">
-      <UniqueIdentifier>{1100bbc2-39f3-4799-a2ab-f1c71bb6b598}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Factory">
       <UniqueIdentifier>{89e673fa-280f-43c2-b9f8-0b28c5179027}</UniqueIdentifier>
     </Filter>
@@ -796,6 +793,39 @@
     <Filter Include="Source\Framework\Converter\Json\Graphics\Render\Frame\RenderGraph">
       <UniqueIdentifier>{ed725d92-efac-4b83-b846-52f90d3d8a3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\Pass">
+      <UniqueIdentifier>{278e559e-042a-4a00-a588-5abfb096c3cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass">
+      <UniqueIdentifier>{070ec128-0208-415c-92e4-658a8a8b0f77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass">
+      <UniqueIdentifier>{660bf396-6874-4236-a7d2-b5caf8673467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\Pass">
+      <UniqueIdentifier>{95703ff3-b106-4834-ab59-6aa7984990a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Request">
+      <UniqueIdentifier>{19ff7ff5-2bee-4517-b0d4-7dff2979e8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Sprite">
+      <UniqueIdentifier>{a9554067-4ae5-4ab2-b506-b718ca31ab1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Model">
+      <UniqueIdentifier>{58fde4ee-432d-46b2-9dd0-fb61126e0c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Model\Static">
+      <UniqueIdentifier>{9fbd3ab9-f9a9-4e9e-be2f-b068de8a86a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request">
+      <UniqueIdentifier>{14fbb4c2-76a2-4ef5-8066-8b0b25ff8815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass">
+      <UniqueIdentifier>{080457a7-d73b-4fb9-9fbb-051e9b2af20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object">
+      <UniqueIdentifier>{5df3ae9b-7a39-4886-89b3-75fe2655d8ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1046,9 +1076,6 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline\IsDerivedPipelineStateTagBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Tag\Graphics\Render\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Command\DrawCommandStruct.h">
-      <Filter>Source\Framework\Definition\Struct\Graphics\Render\Command</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Concept\IsSmartPTR\IsSmartPTRConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsSmartPTR</Filter>
     </ClInclude>
@@ -1067,7 +1094,7 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasShaderFactoryConstantBufferUploader.h">
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasSharedFactoryConstantBufferUploader.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBufferUploader.h">
@@ -1193,10 +1220,7 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\BufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferUploader.h">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBufferUploader.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelPerObjectConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Camera\Camera.h">
@@ -1232,9 +1256,6 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferUploader.h">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h">
       <Filter>Source\Framework\Graphics\Render\Light</Filter>
     </ClInclude>
@@ -1244,7 +1265,7 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant\IsDerivedConstantBufferBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBufferUploader.h">
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpritePerObjectConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.h">
@@ -1307,26 +1328,17 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FainalPresent</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferUploader.h">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Present</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Pass\TypeAliasShaderFactoryRenderGraphPass.h">
-      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferUploader.h">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.h">
       <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
@@ -1384,6 +1396,33 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\Pass\PostEffectPassConstantBufferUploader.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass\LightPassConstantBufferUploader.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\Pass\FinalPresentPassConstantBufferUploader.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass\CameraPassConstantBufferUploader.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Sprite\SpriteDrawRequestDataStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Model\Static\StaticModelDrawRequestDataStruct.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Model\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass\TypeAliasShaderFactoryDrawRequestPass.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasShaderFactoryDrawRequestPerObject.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass\TypeAliasSharedFactoryRenderGraphPass.h">
+      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1588,10 +1627,7 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Model\Builder\Static\StaticModelBatchUploadRecordBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Model\Builder\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferUploader.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelObjectConstantBufferUploader.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelPerObjectConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Camera\Camera.cpp">
@@ -1606,13 +1642,10 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\Builder\DefaultTextureBuilder.cpp">
       <Filter>Source\Framework\Graphics\Resource\Texture\Builder</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferUploader.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp">
       <Filter>Source\Framework\Graphics\Render\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpriteObjectConstantBufferUploader.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpritePreObjectConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.cpp">
@@ -1642,9 +1675,6 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferUploader.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
     </ClCompile>
@@ -1653,9 +1683,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferUploader.cpp">
-      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.cpp">
       <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
@@ -1686,6 +1713,18 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\Pass\PostEffectPassConstantBufferUploader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass\LightPassConstantBufferUploader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\Pass\FinalPresentPassConstantBufferUploader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass\CameraPassConstantBufferUploader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

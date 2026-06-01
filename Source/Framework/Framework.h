@@ -187,13 +187,13 @@
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBufferUploader.h"
 
 // 定数バッファ
-#include "Graphics/Resource/Buffer/Constant/Sprite/Object/SpriteObjectConstantBufferUploader.h"
+#include "Graphics/Resource/Buffer/Constant/Sprite/Object/SpritePerObjectConstantBufferUploader.h"
 #include "Graphics/Resource/Buffer/Constant/Sprite/Pass/SpritePassConstantBufferUploader.h"
-#include "Graphics/Resource/Buffer/Constant/Camera/CameraConstantBufferUploader.h"
-#include "Graphics/Resource/Buffer/Constant/Model/Object/ModelObjectConstantBufferUploader.h"
-#include "Graphics/Resource/Buffer/Constant/Light/LightConstantBufferUploader.h"
-#include "Graphics/Resource/Buffer/Constant/PostEffect/PostEffectConstantBufferUploader.h"
-#include "Graphics/Resource/Buffer/Constant/FinalPresent/FinalPresentConstantBufferUploader.h"
+#include "Graphics/Resource/Buffer/Constant/Camera/Pass/CameraPassConstantBufferUploader.h"
+#include "Graphics/Resource/Buffer/Constant/Model/Object/ModelPerObjectConstantBufferUploader.h"
+#include "Graphics/Resource/Buffer/Constant/Light/Pass/LightPassConstantBufferUploader.h"
+#include "Graphics/Resource/Buffer/Constant/PostEffect/Pass/PostEffectPassConstantBufferUploader.h"
+#include "Graphics/Resource/Buffer/Constant/FinalPresent/Pass/FinalPresentPassConstantBufferUploader.h"
 
 // コマンドキュー管理クラス
 #include "Graphics/Command/Queue/Fence/Fence.h"
@@ -252,7 +252,8 @@
 #include "Graphics/Render/Light/LightSystem.h"
 
 // 描画コマンド構造体
-#include "Definition/Struct/Graphics/Render/Command/DrawCommandStruct.h"
+#include "Definition/Struct/Graphics/Render/Graph/Request/Sprite/SpriteDrawRequestDataStruct.h"
+#include "Definition/Struct/Graphics/Render/Graph/Request/Model/Static/StaticModelDrawRequestDataStruct.h"
 
 // アップロードシステム用TypeAlias
 #include "Definition/Type/Alias/Graphics/Resource/Upload/TypeAliasUploadSystem.h"

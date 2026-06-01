@@ -5,21 +5,21 @@ namespace FWK::Tag
 	struct RootParameterTagBase : public TagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterTagBase, TagBase) };
 
 	// テクスチャ
-	struct RootParameterCBSpritePassTag   final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBSpritePassTag,   RootParameterTagBase) };
-	struct RootParameterCBSpriteObjectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBSpriteObjectTag, RootParameterTagBase) };
+	struct RootParameterCBSpritePassTag      final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBSpritePassTag,   RootParameterTagBase) };
+	struct RootParameterCBSpritePerObjectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBSpritePerObjectTag, RootParameterTagBase) };
 
 	// カメラ
-	struct RootParameterCBCameraTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBCameraTag, RootParameterTagBase) };
+	struct RootParameterCBCameraPassTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBCameraPassTag, RootParameterTagBase) };
 
 	// ライト
-	struct RootParameterCBLightTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBLightTag, RootParameterTagBase) };
+	struct RootParameterCBLightPassTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBLightPassTag, RootParameterTagBase) };
 
 	// Model
-	struct RootParameterCBModelObjectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelObjectTag, RootParameterTagBase) };
+	struct RootParameterCBModelPerObjectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelPerObjectTag, RootParameterTagBase) };
 
 	// PostEffect
-	struct RootParameterCBPostEffectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBPostEffectTag, RootParameterTagBase) };
+	struct RootParameterCBPostEffectPassTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBPostEffectPassTag, RootParameterTagBase) };
 
 	// FinalPresent
-	struct RootParameterCBFinalPresentTag : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBFinalPresentTag, RootParameterTagBase) };
+	struct RootParameterCBFinalPresentPassTag : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBFinalPresentPassTag, RootParameterTagBase) };
 }
