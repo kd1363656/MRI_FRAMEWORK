@@ -799,30 +799,6 @@
     <Filter Include="Source\Framework\Definition\Constant\Utility\Math">
       <UniqueIdentifier>{73cf0862-19ab-4f01-a6cd-82fb85287775}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command">
-      <UniqueIdentifier>{e432040f-c2ea-4740-9fd3-2380f7ef2fbe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command\Sprite">
-      <UniqueIdentifier>{60cd8527-d702-4419-bfb3-819731eb37da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command\Sprite\Standard">
-      <UniqueIdentifier>{4132537e-d29d-43b5-82e0-fb227891e1cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command\Model">
-      <UniqueIdentifier>{6d3b35b1-d1c0-460d-9084-5fd503b49532}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static">
-      <UniqueIdentifier>{1c1d9cad-adc8-42c8-8f73-b343783ff470}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard">
-      <UniqueIdentifier>{405b44b2-bbb4-4d56-99e9-75073668281d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\Lit">
-      <UniqueIdentifier>{1cceb950-bf1e-4ace-a7d0-e3a56f2b77fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\UnLit">
-      <UniqueIdentifier>{b3a80886-8d04-4805-88a0-e2d22b37ef0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Render\Frame\RenderGraph">
       <UniqueIdentifier>{70c88011-4133-48dd-bf58-8723a70b3100}</UniqueIdentifier>
     </Filter>
@@ -1367,9 +1343,6 @@
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferUploader.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.h">
       <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
     </ClInclude>
@@ -1418,32 +1391,14 @@
     <ClInclude Include="Source\Framework\Definition\Constant\Utility\Math\MathUtilityConstant.h">
       <Filter>Source\Framework\Definition\Constant\Utility\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Command\DrawCommandBase.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Command\DrawRequestCommandBase.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Command\DrawRequestList.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Command\Sprite\Standard\DrawSpriteStandardCommand.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command\Sprite\Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\DrawStaticModelStandardCommandBase.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\Lit</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\UnLit</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistry.h">
       <Filter>Source\Framework\Graphics\Render\Frame\RenderGraph</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistryJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Frame\RenderGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1717,9 +1672,6 @@
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\PostEffectConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\PostEffect\RenderGraphPostEffectPass.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.cpp">
       <Filter>Source\Framework\Graphics\Resource\DeferredRelease</Filter>
     </ClCompile>
@@ -1741,23 +1693,14 @@
     <ClCompile Include="Source\Framework\Editor\Style\EditorStyle.cpp">
       <Filter>Source\Framework\Editor\Style</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Command\DrawCommandBase.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Command\Sprite\Standard\DrawSpriteStandardCommand.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command\Sprite\Standard</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\Lit\DrawStaticModelLitStandardCommand.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\Lit</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\UnLit\DrawStaticModelUnLitStandardCommand.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Command\Model\Static\Standard\UnLit</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistry.cpp">
       <Filter>Source\Framework\Graphics\Render\Frame\RenderGraph</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistryJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Frame\RenderGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
