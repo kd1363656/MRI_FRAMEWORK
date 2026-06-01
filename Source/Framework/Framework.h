@@ -311,9 +311,8 @@
 // 描画リクエストクラス(共通パス)
 #include "Graphics/Render/Graph/Request/Pass/DrawRequestPassBase.h"
 
-// 描画リクエストファクトリーの型エイリアス
+// 描画リクエストファクトリーの型エイリアス(共通パス)
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Pass/TypeAliasSharedFactoryDrawRequestPass.h"
-#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Object/TypeAliasSharedFactoryDrawRequestPerObject.h"
 
 // 描画リクエスト(共通パス)
 #include "Graphics/Render/Graph/Request/Pass/CachedPassConstantDrawRequestBase.h"
@@ -335,6 +334,11 @@
 #include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectBase.h"
 #include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectList.h"
 
+// 描画リクエストファクトリーの型エイリアス(オブジェクト)
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Object/TypeAliasSharedFactoryDrawRequestPerObject.h"
+
+// 描画リクエスト(オブジェクト)
+#include "Graphics/Render/Graph/Request/Object/Sprite/Standard/SpriteStandardPerObjectDrawRequest.h"
 
 // レンダーエリアクラス
 #include "Graphics/Render/Rasterizer/RenderArea.h"

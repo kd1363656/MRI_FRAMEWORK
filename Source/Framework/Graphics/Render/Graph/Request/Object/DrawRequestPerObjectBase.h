@@ -15,7 +15,7 @@ namespace FWK::Graphics
 
 		// 定数バッファの上書き禁止
 		template <Concept::IsDerivedConstantBufferUploaderBaseConcept ConstantBufferUploaderType, Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
+		bool SetupPerObjectConstantBuffer(const RootSignature&	     a_rootSignature,
 										   const DirectCommandList&  a_directCommandList,
 										   const FrameResource&	     a_frameResource,
 										   const ConstantBufferType& a_constantBuffer)
@@ -34,6 +34,20 @@ namespace FWK::Graphics
 
 			return true;
 		}
+
+		void SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag);
+
+		void SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const;
+
+		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Graphics::TextureRecord& a_textureRecord) const;
+
+		const auto& GetVALRootSignature() const { return m_rootSignature; }
+		const auto& GetVALPipelineState() const { return m_pipelineState; }
+
+	private:
+
+		std::weak_ptr<RootSignature> m_rootSignature = {};
+		std::weak_ptr<PipelineState> m_pipelineState = {};
 
 		FWK_DEFINE_TYPE_INFO_ROOT(DrawRequestPerObjectBase)
 	};

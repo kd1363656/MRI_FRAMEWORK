@@ -2,6 +2,11 @@
 
 namespace FWK::Graphics
 {
+	class Renderer;
+}
+
+namespace FWK::Graphics
+{
 	class SpriteStandardPerObjectDrawRequest final : public DrawRequestPerObjectBase
 	{
 	public:
@@ -11,6 +16,8 @@ namespace FWK::Graphics
 
 		void BeginFrame() override;
 		
+		void RequestDraw(Renderer& a_renderer);
+
 		void AddDrawRequestPerObject(const std::shared_ptr<Struct::SpriteStandardPerObjectDrawRequestData>& a_drawRequestData);
 		
 	private:
