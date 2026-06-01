@@ -9,14 +9,10 @@ namespace FWK::Graphics
 		 LightSystem() = default;
 		~LightSystem() = default;
 
-		void ApplyDefaultLightDirection();
-		void ApplyDefaultAmbientLight  ();
-
-		Struct::CBLight CreateCBLight() const;
+		void ApplyDefaultSettings();
 
 	private:
 
-		Struct::DirectionalLight m_directionalLight = {};
-		Struct::AmbientLight	 m_ambientLight     = {};
+		std::shared_ptr<Struct::CBLightPass> m_cbLightPass = nullptr;
 	};
 }

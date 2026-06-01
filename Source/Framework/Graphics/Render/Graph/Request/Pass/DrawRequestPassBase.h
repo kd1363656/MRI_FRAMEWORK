@@ -9,6 +9,8 @@ namespace FWK::Graphics
 				 DrawRequestPassBase() = default;
 		virtual ~DrawRequestPassBase() = default;
 
+		virtual void BeginFrame() { /*必要に応じてオーバーライドしてください*/ };
+
 		virtual bool SetupCommonPassConstantBuffer(const RootSignature& a_rootSignature, const DirectCommandList& a_directCommandList, const FrameResource& a_frameResource) = 0;
 
 	protected:
@@ -24,7 +26,7 @@ namespace FWK::Graphics
 
 			FWK_ASSERT_RETURN_VALUE_IF(!l_constantBufferUploader, "共通パス定数バッファが取得できないため、描画処理に失敗しました。", false)
 
-			const auto& l_gpuVirtualAddress = l_constantBufferUploader.WriteCommonPass(a_constantBuffer);
+			const auto& l_gpuVirtualAddress = l_constantBufferUploader->WriteCommonPass(a_constantBuffer);
 
 			// SetGraphicsRootConstantBufferView(ルートパラメータ番号、
 			//									 CBVとして参照させるGPU仮想アドレス);

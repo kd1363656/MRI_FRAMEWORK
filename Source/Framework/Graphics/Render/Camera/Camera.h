@@ -24,13 +24,8 @@ namespace FWK::Graphics
 
 		void SetProjectionMatrix(const TypeAlias::Math::Matrix& a_projectionMatrix);
 
-		Struct::CBCamera CreateCBCamera() const;
-
-		const auto& GetREFCameraMatrix		  () const { return m_cameraMatrix; }
-		const auto& GetREFViewMatrix	      () const { return m_viewMatrix; }
-		const auto& GetREFProjectionMatrix    () const { return m_projectionMatrix; }
-		const auto& GetREFViewProjectionMatrix() const { return m_viewProjectionMatrix; }
-
+		const auto& GetREFCameraMatrix() const { return m_cameraMatrix; }
+		
 	private:
 
 		void UpdateViewProjectionMatrix();
@@ -39,10 +34,9 @@ namespace FWK::Graphics
 		static constexpr float k_defaultNearClip    = 0.01F;
 		static constexpr float k_defaultFarClip     = 2000.0F;
 		static constexpr float k_invalidAspectRatio = 0.0F;
+
+		std::shared_ptr<Struct::CBCameraPass> m_cbCameraPass = nullptr;
 		
-		TypeAlias::Math::Matrix m_cameraMatrix		   = TypeAlias::Math::Matrix::Identity;
-		TypeAlias::Math::Matrix m_viewMatrix           = TypeAlias::Math::Matrix::Identity;
-		TypeAlias::Math::Matrix m_projectionMatrix     = TypeAlias::Math::Matrix::Identity;
-		TypeAlias::Math::Matrix m_viewProjectionMatrix = TypeAlias::Math::Matrix::Identity;
+		TypeAlias::Math::Matrix m_cameraMatrix = TypeAlias::Math::Matrix::Identity;
 	};
 }

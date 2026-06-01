@@ -4,6 +4,12 @@ void FWK::Graphics::RenderGraph::INIT()
 {
 	m_passList.clear		   ();
 	m_sortedPassIndexList.clear();
+
+	m_drawRequestPassList.clear();
+	m_drawRequestPassMap.clear ();
+
+	m_drawRequestPerObjectList.clear();
+	m_drawRequestPerObjectMap.clear ();
 }
 
 void FWK::Graphics::RenderGraph::Deserialize(const nlohmann::json& a_rootJson)
@@ -92,8 +98,19 @@ bool FWK::Graphics::RenderGraph::Compile()
 }
 
 
-void FWK::Graphics::RenderGraph::BeginFrame()
+void FWK::Graphics::RenderGraph::BeginFrame() const
 {
+	for (const auto& l_drawRequestPass : m_drawRequestPassList)
+	{
+		FWK_ASSERT_RETURN_IF         (!l_drawRequestPass, "DrawRequestPassが無効のため、BeginFrameを実行できませんでした。")
+		l_drawRequestPass->BeginFrame();
+	}
+
+	for (const auto& l_drawRequestPerObject : m_drawRequestPerObjectList)
+	{
+		FWK_ASSERT_RETURN_IF		      (!l_drawRequestPerObject, "DrawRequestPerObjectが無効のため、BeginFrameを実行できませんでした。")
+		l_drawRequestPerObject->BeginFrame();
+	}
 }
 
 void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 
@@ -141,6 +158,28 @@ void FWK::Graphics::RenderGraph::AddPass(std::unique_ptr<IRenderGraphPass>&& a_p
 	FWK_ASSERT_RETURN_IF(!a_pass, "RenderGraphPassが無効のため、追加できませんでした。")
 
 	m_passList.emplace_back(std::move(a_pass));
+}
+void FWK::Graphics::RenderGraph::AddDrawRequestPass(const std::shared_ptr<DrawRequestPassBase>& a_drawRequestPass)
+{
+	FWK_ASSERT_RETURN_IF(!a_drawRequestPass, "DrawRequestPassが無効のため、RenderGraphへ追加できませんでした。")
+
+	const auto l_staticTypeID = a_drawRequestPass->GetREFRuntimeTypeINFO().k_staticTypeID;
+
+	FWK_ASSERT_RETURN_IF(m_drawRequestPassMap.contains(l_staticTypeID), "同じ型のDrawRequestPassを二重登録しようとしました。")
+
+	m_drawRequestPassList.emplace_back(a_drawRequestPass);
+	m_drawRequestPassMap.try_emplace  (l_staticTypeID, a_drawRequestPass);
+}
+void FWK::Graphics::RenderGraph::AddDrawRequestPerObject(const std::shared_ptr<DrawRequestPerObjectBase>& a_drawRequestPerObject)
+{
+	FWK_ASSERT_RETURN_IF(!a_drawRequestPerObject, "DrawRequestPerObjectが無効のため、RenderGraphへ追加できませんでした。")
+
+	const auto l_staticTypeID = a_drawRequestPerObject->GetREFRuntimeTypeINFO().k_staticTypeID;
+
+	FWK_ASSERT_RETURN_IF(m_drawRequestPerObjectMap.contains(l_staticTypeID), "同じ型のDrawRequestPerObjectを二重登録しようとしました。")
+
+	m_drawRequestPerObjectList.emplace_back(a_drawRequestPerObject);
+	m_drawRequestPerObjectMap.try_emplace  (l_staticTypeID, a_drawRequestPerObject);
 }
 
 bool FWK::Graphics::RenderGraph::IsReadAccess(const Struct::RenderGraphTextureAccess& a_textureAccess) const

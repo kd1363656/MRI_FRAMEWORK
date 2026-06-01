@@ -9,4 +9,5 @@ bool FWK::Graphics::LightPassDrawRequest::SetupCommonPassConstantBuffer(const Ro
 
 	FWK_ASSERT_RETURN_VALUE_IF(!l_isSuccess, "ライト定数バッファの設定を行えませんでした。", false)
 
+	return true;
 }

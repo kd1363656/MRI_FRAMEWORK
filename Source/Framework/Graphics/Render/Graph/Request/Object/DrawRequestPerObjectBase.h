@@ -1,5 +1,10 @@
 ﻿#pragma once
 
+namespace FWK::Graphics
+{
+	class Renderer;
+}
+
 namespace FWK::Graphics	
 {
 	class DrawRequestPerObjectBase
@@ -15,10 +20,10 @@ namespace FWK::Graphics
 
 		// 定数バッファの上書き禁止
 		template <Concept::IsDerivedConstantBufferUploaderBaseConcept ConstantBufferUploaderType, Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupPerObjectConstantBuffer(const RootSignature&	     a_rootSignature,
-										   const DirectCommandList&  a_directCommandList,
-										   const FrameResource&	     a_frameResource,
-										   const ConstantBufferType& a_constantBuffer)
+		bool SetupPerObjectConstantBuffer(const RootSignature&	    a_rootSignature,
+										  const DirectCommandList&  a_directCommandList,
+										  const FrameResource&	    a_frameResource,
+										  const ConstantBufferType& a_constantBuffer)
 		{
 			const auto& l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
 

@@ -379,8 +379,8 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Editor\Window\IsDerivedEditorWindowBaseConcept.h" />
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object\IsDerivedDrawRequestPerObjectBaseConcept.h" />
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\IsDerivedDrawRequestPassBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Object\IsDerivedDrawRequestPerObjectBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Pass\IsDerivedDrawRequestPassBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant\IsDerivedConstantBufferBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />

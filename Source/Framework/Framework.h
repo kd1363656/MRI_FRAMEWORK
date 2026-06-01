@@ -308,8 +308,13 @@
 #include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
-// 描画リクエストクラス(共通パス)
+// 描画リクエストクラス
 #include "Graphics/Render/Graph/Request/Pass/DrawRequestPassBase.h"
+#include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectBase.h"
+
+// 描画リクエストクラスを継承しているかどうかを確認するコンセプト
+#include "Definition/Concept/IsDerivedBase/Graphics/Render/Graph/Request/Pass/IsDerivedDrawRequestPassBaseConcept.h"
+#include "Definition/Concept/IsDerivedBase/Graphics/Render/Graph/Request/Object/IsDerivedDrawRequestPerObjectBaseConcept.h"
 
 // 描画リクエストファクトリーの型エイリアス(共通パス)
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Pass/TypeAliasSharedFactoryDrawRequestPass.h"
@@ -331,7 +336,6 @@
 #include "Graphics/Render/Graph/RenderGraph.h"
 
 // 描画リクエスト(オブジェクト)
-#include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectBase.h"
 #include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectList.h"
 
 // 描画リクエストファクトリーの型エイリアス(オブジェクト)

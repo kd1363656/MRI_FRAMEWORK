@@ -2,8 +2,7 @@
 
 void FWK::Graphics::Renderer::INIT()
 {
-	m_lightSystem.ApplyDefaultLightDirection();
-	m_lightSystem.ApplyDefaultAmbientLight  ();
+	m_lightSystem.ApplyDefaultSettings();
 }
 void FWK::Graphics::Renderer::Deserialize(const nlohmann::json& a_rootJson)
 {

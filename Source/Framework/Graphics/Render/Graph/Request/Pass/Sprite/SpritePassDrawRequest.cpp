@@ -9,5 +9,5 @@ bool FWK::Graphics::SpritePassDrawRequest::SetupCommonPassConstantBuffer(const R
 
 	FWK_ASSERT_RETURN_VALUE_IF(!l_isSuccess, "スプライト共通定数バッファの設定を行えませんでした。", false)
 
-	return false;
+	return true;
 }

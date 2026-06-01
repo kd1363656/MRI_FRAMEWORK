@@ -1,4 +1,4 @@
-﻿{
+{
     "Renderer": {
         "FrameResourceList": [
             {
@@ -30,9 +30,90 @@
                         },
                         {
                             "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferUploaderTypeName": "FinalPresentPassConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferUploaderTypeName": "PostEffectPassConstantBufferUploader"
+                        }
+                    ],
+                    "RenderGraphFrameResourceRegistry": {
+                        "DepthStencilTextureListRecord": [
+                            {
+                                "DepthStencilTexture": {
+                                    "Format": "DXGI_FORMAT_D32_FLOAT",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "DepthStencilTextureTag": "SceneDepthStencilTextureTag"
+                            }
+                        ],
+                        "RenderTargetListRecord": [
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 1.0,
+                                        "Y": 0.800000011920929,
+                                        "Z": 1.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "SceneColorTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "PostEffectColorTextureTag"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "FrameResource": {
+                    "ConstantBufferUploaderMap": [
+                        {
+                            "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "SpritePerObjectConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 10000
+                            },
+                            "ConstantBufferUploaderTypeName": "SpritePassConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 10
+                            },
+                            "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 1
+                            },
+                            "ConstantBufferUploaderTypeName": "LightPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -123,12 +204,6 @@
                         },
                         {
                             "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 10000
-                            },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
                             "ConstantBufferUploaderTypeName": "FinalPresentPassConstantBufferUploader"
@@ -213,105 +288,6 @@
                                 "CreateConstantBufferNUM": 1
                             },
                             "ConstantBufferUploaderTypeName": "LightPassConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 10000
-                            },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 1
-                            },
-                            "ConstantBufferUploaderTypeName": "FinalPresentPassConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 1
-                            },
-                            "ConstantBufferUploaderTypeName": "PostEffectPassConstantBufferUploader"
-                        }
-                    ],
-                    "RenderGraphFrameResourceRegistry": {
-                        "DepthStencilTextureListRecord": [
-                            {
-                                "DepthStencilTexture": {
-                                    "Format": "DXGI_FORMAT_D32_FLOAT",
-                                    "Height": 720,
-                                    "IsUseWindowSize": true,
-                                    "Width": 1280
-                                },
-                                "DepthStencilTextureTag": "SceneDepthStencilTextureTag"
-                            }
-                        ],
-                        "RenderTargetListRecord": [
-                            {
-                                "RenderTargetTexture": {
-                                    "ClearColor": {
-                                        "W": 1.0,
-                                        "X": 1.0,
-                                        "Y": 0.800000011920929,
-                                        "Z": 1.0
-                                    },
-                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
-                                    "Height": 720,
-                                    "IsUseWindowSize": true,
-                                    "Width": 1280
-                                },
-                                "RenderTargetTextureTag": "SceneColorTextureTag"
-                            },
-                            {
-                                "RenderTargetTexture": {
-                                    "ClearColor": {
-                                        "W": 1.0,
-                                        "X": 0.0,
-                                        "Y": 0.0,
-                                        "Z": 0.0
-                                    },
-                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
-                                    "Height": 720,
-                                    "IsUseWindowSize": true,
-                                    "Width": 1280
-                                },
-                                "RenderTargetTextureTag": "PostEffectColorTextureTag"
-                            }
-                        ]
-                    }
-                }
-            },
-            {
-                "FrameResource": {
-                    "ConstantBufferUploaderMap": [
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 10000
-                            },
-                            "ConstantBufferUploaderTypeName": "SpritePerObjectConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 10000
-                            },
-                            "ConstantBufferUploaderTypeName": "SpritePassConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 10
-                            },
-                            "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 1
-                            },
-                            "ConstantBufferUploaderTypeName": "LightPassConstantBufferUploader"
-                        },
-                        {
-                            "ConstantBufferUploader": {
-                                "CreateConstantBufferNUM": 10000
-                            },
-                            "ConstantBufferUploaderTypeName": "ModelObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -1182,17 +1158,6 @@
             }
         ],
         "RenderGraph": {
-            "DrawCommand": [
-                {
-                    "DrawCommandTypeName": "DrawStaticModelUnLitStandardCommand"
-                },
-                {
-                    "DrawCommandTypeName": "DrawStaticModelLitStandardCommand"
-                },
-                {
-                    "DrawCommandTypeName": "DrawSpriteStandardCommand"
-                }
-            ],
             "PassList": [
                 {
                     "RenderGraphPassTypeName": "RenderGraphSceneDrawPass"

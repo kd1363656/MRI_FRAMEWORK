@@ -832,9 +832,6 @@
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request">
       <UniqueIdentifier>{33fadf3a-bcc0-4a91-ad11-832b106be22a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object">
-      <UniqueIdentifier>{a4e68b6f-715b-4e45-8e93-dbf9fbf1593c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent">
       <UniqueIdentifier>{b115db44-34dc-4827-978f-4ae26b86c2be}</UniqueIdentifier>
     </Filter>
@@ -861,6 +858,12 @@
     </Filter>
     <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard">
       <UniqueIdentifier>{ed4ad3ef-f1c9-4a56-aa97-0710e0097ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Pass">
+      <UniqueIdentifier>{6d3dc487-a065-4b37-9217-95869c8e0c83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Object">
+      <UniqueIdentifier>{a4e68b6f-715b-4e45-8e93-dbf9fbf1593c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1457,12 +1460,6 @@
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass\TypeAliasSharedFactoryRenderGraphPass.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\IsDerivedDrawRequestPassBaseConcept.h">
-      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object\IsDerivedDrawRequestPerObjectBaseConcept.h">
-      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\FinalPresent</Filter>
     </ClInclude>
@@ -1489,6 +1486,12 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard\SpriteStandardPerObjectDrawRequest.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Pass\IsDerivedDrawRequestPassBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Object\IsDerivedDrawRequestPerObjectBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
