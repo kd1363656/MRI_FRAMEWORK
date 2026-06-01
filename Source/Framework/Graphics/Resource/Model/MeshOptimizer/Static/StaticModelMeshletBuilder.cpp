@@ -1,6 +1,6 @@
 ﻿#include "StaticModelMeshletBuilder.h"
 
-bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData(Graphics::StaticModelRecord& a_staticModelRecord)
+bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData(Graphics::StaticModelRecord& a_staticModelRecord) const
 {
 	for (auto& l_modelMesh : a_staticModelRecord.GetREFModelData().m_modelMeshList)
 	{
@@ -10,14 +10,15 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildStaticModelRecordMeshletData
 	return true;
 }
 
-bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::ModelMesh& a_modelMesh)
+bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::ModelMesh& a_modelMesh) const
 {
 	FWK_ASSERT_RETURN_VALUE_IF(a_modelMesh.m_modelVertexList.size() == Constant::k_emptyModelVertexCount, "ModelMeshの頂点数が0のため、MeshletData作成に失敗しました。",			 false)
-	FWK_ASSERT_RETURN_VALUE_IF(a_modelMesh.m_indexList.size() == Constant::k_emptyModelIndexCount,		  "ModelMeshのインデックス数が0のため、MeshletData作成に失敗しました。", false)
+	FWK_ASSERT_RETURN_VALUE_IF(a_modelMesh.m_indexList.size()		== Constant::k_emptyModelIndexCount,  "ModelMeshのインデックス数が0のため、MeshletData作成に失敗しました。", false)
 
 	// インデックスリストの総数を3で割った時に余りが0でないと、三角形を構成するインデックスリストとして不適切
 	FWK_ASSERT_RETURN_VALUE_IF((a_modelMesh.m_indexList.size() % Constant::k_triangleVertexCount) != k_emptyRemainder, "ModelMeshのインデックス数が三角形単位ではないため、MeshletData作成に失敗しました。", false)
 
+	// メッシュレットデータの初期化
 	auto& l_modelMeshletData = a_modelMesh.m_modelMeshletData;
 
 	l_modelMeshletData.m_meshletList.clear          ();
@@ -25,10 +26,10 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 	l_modelMeshletData.m_primitiveIndexList.clear   ();
 	l_modelMeshletData.m_meshletBoundsList.clear    ();
 
+	// Meshlet作成に必要になる最大Meshlet数を取得する
 	// meshopt_buildMeshletsBound(インデックス数、
 	//						      Meshlet内の最大頂点数、
 	//							  Meshlet内の最大三角形数);
-	// Meshlet作成に必要になる最大Meshlet数を取得する
 	const auto l_maxMeshletCount = meshopt_buildMeshletsBound(a_modelMesh.m_indexList.size(), Constant::k_maxMeshletVertexCount, Constant::k_maxMeshletPrimitiveCount);
 
 	FWK_ASSERT_RETURN_VALUE_IF(l_maxMeshletCount == Constant::k_emptyMeshletCount, "Meshletの最大数が0のため、MeshletData作成に失敗しました。", false)
@@ -36,13 +37,23 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 	std::vector<meshopt_Meshlet> l_meshoptMeshletList		 = {};
 	std::vector<uint8_t>		 l_meshoptPrimitiveIndexList = {};
 
+	// メッシュレット情報を最大Meshlet数分確保する
 	l_meshoptMeshletList.resize(l_maxMeshletCount);
 
+	// 一つのMeshletが参照できる頂点数は最大64個、
+	// そのため、最大Meshlet数 * 1Meshlet辺りの最大頂点数分の
+	// 「元モデル頂点インデックス」を格納できるように確保する
 	l_modelMeshletData.m_uniqueVertexIndexList.resize(l_maxMeshletCount * Constant::k_maxMeshletVertexCount);
-	l_meshoptPrimitiveIndexList.resize               (l_maxMeshletCount * Constant::k_maxMeshletPrimitiveCount * Constant::k_triangleVertexCount);
 
-	// ModelVertexのm_positionは先頭メンバのため、ModelVertex配列の先頭をfloat3配列としてmeshoptimizerに渡す
-	const auto* l_vertexPositionData = reinterpret_cast<const float*>(a_modelMesh.m_modelVertexList.data());
+	// 1つのMeshletが持てる三角形数は最大128個。
+	// 三角形1つにつき頂点インデックスが3個必要なので、
+	// 最大Meshlet数 * 1Meshlet辺りの最大三角形数 * 3個分を確保する
+	l_meshoptPrimitiveIndexList.resize(l_maxMeshletCount * Constant::k_maxMeshletPrimitiveCount * Constant::k_triangleVertexCount);
+
+	// meshoptimizerは頂点座標をfloat*とstrideで受け取る
+	// reinterpret_castでModelVertex全体をfloat*に見せるより、
+	// 先頭頂点のm_position.xを直接渡す方が安全
+	const auto* l_vertexPositionData = &a_modelMesh.m_modelVertexList.front().m_position.x;
 
 	// 最適化済みの頂点とインデックスからMeshShader用のMeshletDataを作成する
 	// meshopt_buildMeshlets(出力Meshlet配列、
@@ -69,28 +80,31 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 
 	FWK_ASSERT_RETURN_VALUE_IF(l_meshletCount == Constant::k_emptyMeshletCount, "MeshletData作成結果のMeshlet数が0です。", false)
 
+	// メッシュレットに必要な分のみ要素を確保
 	l_meshoptMeshletList.resize(l_meshletCount);
 
 	const auto& l_lastMeshlet = l_meshoptMeshletList.back();
 
-	// 頂点インデックスリストの容量を再確保
+	// 頂点インデックスリストに必要な分のみ要素を確保(最後のメッシュレットのオフセットと頂点数を足した数が必要なサイズ)
 	l_modelMeshletData.m_uniqueVertexIndexList.resize(l_lastMeshlet.vertex_offset + l_lastMeshlet.vertex_count);
 
 	const auto l_lastMeshletPrimitiveIndexCount = l_lastMeshlet.triangle_count * Constant::k_triangleVertexCount;
-	
+
 	// meshoptimizerのPrimitiveIndex配列は4byte境界にそろえて扱うため、
 	// 最後のMeshletで実際に使用したPrimitiveIndex数を4byte境界へ切り上げる
-	const auto l_alignedLastMeshletPrimitiveIndexCount = Utility::Math::AlignUp(l_lastMeshletPrimitiveIndexCount, Constant::k_meshletPrimitiveIndexAlignment);
+	const auto& l_alignedLastMeshletPrimitiveIndexCount = Utility::Math::AlignUp(l_lastMeshletPrimitiveIndexCount, Constant::k_meshletPrimitiveIndexAlignment);
 
-	const auto l_usedPrimitiveIndexCount = l_lastMeshlet.triangle_offset + l_alignedLastMeshletPrimitiveIndexCount;
+	const auto& l_usedPrimitiveIndexCount = l_lastMeshlet.triangle_offset + l_alignedLastMeshletPrimitiveIndexCount;
 
-	l_meshoptPrimitiveIndexList.resize(l_usedPrimitiveIndexCount);
-
+	// プリミティブインデックスリストに必要な分のみ要素を確保
+	l_meshoptPrimitiveIndexList.resize            (l_usedPrimitiveIndexCount);
 	l_modelMeshletData.m_primitiveIndexList.resize(l_usedPrimitiveIndexCount);
 
+	// meshoptimizerが出力したPrimitiveIndexListを、
+	// プロジェクト側で保存するMeshletDataのPrimitiveIndexListへコピーする
 	for (size_t l_primitiveIndex = 0ULL; l_primitiveIndex < l_usedPrimitiveIndexCount; ++l_primitiveIndex)
 	{
-		l_modelMeshletData.m_primitiveIndexList[l_primitiveIndex] = l_meshoptPrimitiveIndexList[l_primitiveIndex];
+		l_modelMeshletData.m_primitiveIndexList[l_primitiveIndex] = static_cast<std::uint32_t>(l_meshoptPrimitiveIndexList[l_primitiveIndex]);
 	}
 
 	l_modelMeshletData.m_meshletList.resize		 (l_meshletCount);
@@ -102,6 +116,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 
 		auto& l_modelMeshlet = l_modelMeshletData.m_meshletList[l_meshletIndex];
 
+		// 頂点情報を格納
 		l_modelMeshlet.m_vertexOffset   = l_meshoptMeshlet.vertex_offset;
 		l_modelMeshlet.m_triangleOffset = l_meshoptMeshlet.triangle_offset;
 		l_modelMeshlet.m_vertexCount    = l_meshoptMeshlet.vertex_count;
@@ -114,7 +129,6 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 		//								入力頂点座標配列、
 		//								入力頂点数、
 		//								入力頂点1個分のbyteサイズ);
-
 		const auto l_meshoptBounds = meshopt_computeMeshletBounds(l_modelMeshletData.m_uniqueVertexIndexList.data() + l_meshoptMeshlet.vertex_offset,
 																  l_meshoptPrimitiveIndexList.data()				+ l_meshoptMeshlet.triangle_offset,
 																  l_meshoptMeshlet.triangle_count,
@@ -122,6 +136,7 @@ bool FWK::Graphics::StaticModelMeshletBuilder::BuildModelMeshletData(Struct::Mod
 																  a_modelMesh.m_modelVertexList.size(),
 																  sizeof(Struct::ModelVertex));
 
+		// メッシュレットカリング用情報を格納
 		auto& l_modelMeshletBounds = l_modelMeshletData.m_meshletBoundsList[l_meshletIndex];
 
 		l_modelMeshletBounds.m_center.x = l_meshoptBounds.center[k_vectorElementIndexX];

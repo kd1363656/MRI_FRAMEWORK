@@ -9,11 +9,11 @@ namespace FWK::Graphics
 		StaticModelMeshletBuilder () = default;
 		~StaticModelMeshletBuilder() = default;
 
-		bool BuildStaticModelRecordMeshletData(Graphics::StaticModelRecord& a_staticModelRecord);
+		bool BuildStaticModelRecordMeshletData(Graphics::StaticModelRecord& a_staticModelRecord) const;
 
 	private:
 
-		bool BuildModelMeshletData(Struct::ModelMesh& a_modelMesh);
+		bool BuildModelMeshletData(Struct::ModelMesh& a_modelMesh) const;
 
 		static constexpr std::size_t k_vectorElementIndexX = 0ULL;
 		static constexpr std::size_t k_vectorElementIndexY = 1ULL;
