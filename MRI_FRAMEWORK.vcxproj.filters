@@ -322,9 +322,6 @@
     <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render">
       <UniqueIdentifier>{926051ed-e587-42e0-979b-08b1ed9f9ea9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command">
-      <UniqueIdentifier>{a014c919-5503-416f-b5cd-0f7ca8b0c00a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Macros\Factory">
       <UniqueIdentifier>{5e97d169-a494-4e0a-ab69-fcb42796d440}</UniqueIdentifier>
     </Filter>
@@ -336,12 +333,6 @@
     </Filter>
     <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor">
       <UniqueIdentifier>{7f5421fb-0641-4a57-acd1-5ea37449e707}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer">
-      <UniqueIdentifier>{079c3dad-3710-4262-980d-ea1ad4d3ccc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command">
-      <UniqueIdentifier>{ec203b5b-ed7d-4d94-a7a4-96acb4c78499}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant">
       <UniqueIdentifier>{7ecc2bec-f144-4c43-911a-ec4ca9c088e6}</UniqueIdentifier>
@@ -1073,14 +1064,8 @@
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h">
       <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h">
-      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.h">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h">
-      <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasShaderFactoryConstantBufferUploader.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant</Filter>

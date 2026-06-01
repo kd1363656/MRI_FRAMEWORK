@@ -379,7 +379,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Editor\Window\IsDerivedEditorWindowBaseConcept.h" />
-    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Renderer\Command\IsDerivedIDrawCommandConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant\IsDerivedConstantBufferBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
@@ -444,7 +443,6 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\TypeINFO\TypeINFOStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Window\WindowStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Editor\Window\TypeAliasSharedFactoryEditorWindow.h" />
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Command\TypeAliasShaderFactoryDrawCommand.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Pass\TypeAliasShaderFactoryRenderGraphPass.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasShaderFactoryConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\TypeAliasUploadSystem.h" />
