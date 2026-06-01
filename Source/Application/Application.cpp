@@ -58,6 +58,8 @@ void Application::Execute()
 
 	// もしゲームデータがセーブされていなくても変更が適用されるべき項目を自動セーブする
 	SaveCONFIG(l_graphicsManager, l_editorManager);
+
+	std::weak_ptr<int> a;
 }
 
 void Application::INIT(FWK::Graphics::GraphicsManager& a_graphicsManager)

@@ -847,6 +847,21 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object">
       <UniqueIdentifier>{952d2e2f-d480-4cf6-895c-e5d7636af21a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Camera">
+      <UniqueIdentifier>{c0808a63-88d0-4ec6-895a-31533943870d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Light">
+      <UniqueIdentifier>{56674241-6942-4c8f-9f41-6cf33a7d244c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Sprite">
+      <UniqueIdentifier>{7d3c0e23-7316-425c-8741-05a584bbf434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite">
+      <UniqueIdentifier>{1a639e79-f617-436e-8c59-a445f44ef61c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard">
+      <UniqueIdentifier>{ed4ad3ef-f1c9-4a56-aa97-0710e0097ffc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1460,6 +1475,21 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\CachedPassConstantDrawRequestBase.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Camera\CameraPassDrawRequest.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Light\LightPassDrawRequest.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Sprite\SpritePassDrawRequest.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectList.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard\SpriteStandardPerObjectDrawRequest.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1761,6 +1791,18 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\FinalPresent</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Camera\CameraPassDrawRequest.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Light\LightPassDrawRequest.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Sprite\SpritePassDrawRequest.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard\SpriteStandardPerObjectDrawRequest.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

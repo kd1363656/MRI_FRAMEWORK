@@ -308,14 +308,18 @@
 #include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
-// 描画リクエストクラス
+// 描画リクエストクラス(共通パス)
 #include "Graphics/Render/Graph/Request/Pass/DrawRequestPassBase.h"
-#include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectBase.h"
 
+// 描画リクエストファクトリーの型エイリアス
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Pass/TypeAliasSharedFactoryDrawRequestPass.h"
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Object/TypeAliasSharedFactoryDrawRequestPerObject.h"
 
+// 描画リクエスト(共通パス)
 #include "Graphics/Render/Graph/Request/Pass/CachedPassConstantDrawRequestBase.h"
+#include "Graphics/Render/Graph/Request/Pass/Sprite/SpritePassDrawRequest.h"
+#include "Graphics/Render/Graph/Request/Pass/Camera/CameraPassDrawRequest.h"
+#include "Graphics/Render/Graph/Request/Pass/Light/LightPassDrawRequest.h"
 
 // レンダーパス
 #include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
@@ -326,6 +330,11 @@
 #include "Graphics/Render/Graph/Pass/PostEffect/RenderGraphPostEffectPass.h"
 #include "Converter/Json/Graphics/Render/Graph/RenderGraphJsonConverter.h"
 #include "Graphics/Render/Graph/RenderGraph.h"
+
+// 描画リクエスト(オブジェクト)
+#include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectBase.h"
+#include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectList.h"
+
 
 // レンダーエリアクラス
 #include "Graphics/Render/Rasterizer/RenderArea.h"

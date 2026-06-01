@@ -7,7 +7,7 @@ namespace FWK::Graphics
 	{
 	public:
 
-		 CachedPassConstantDrawRequestBase() = default;
+		 CachedPassConstantDrawRequestBase()		  = default;
 		~CachedPassConstantDrawRequestBase() override = default;
 
 		void SetSourceConstantBuffer(const std::shared_ptr<ConstantBufferType>& a_set) { m_sourceConstantBuffer = a_set; }

@@ -9,14 +9,16 @@ namespace FWK::Graphics
 				 DrawRequestPassBase() = default;
 		virtual ~DrawRequestPassBase() = default;
 
+		virtual bool SetupCommonPassConstantBuffer(const RootSignature& a_rootSignature, const DirectCommandList& a_directCommandList, const FrameResource& a_frameResource) = 0;
+
 	protected:
 
 		// 定数バッファの上書きを許可
 		template <Concept::IsDerivedConstantBufferUploaderBaseConcept ConstantBufferUploaderType, Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupCommonPassConstantBuffer(const RootSignature&	     a_rootSignature,
-										   const DirectCommandList&  a_directCommandList,
-										   const FrameResource&	     a_frameResource,
-										   const ConstantBufferType& a_constantBuffer)
+		bool SetupConstantBuffer(const RootSignature&	   a_rootSignature,
+								 const DirectCommandList&  a_directCommandList,
+								 const FrameResource&	   a_frameResource,
+								 const ConstantBufferType& a_constantBuffer)
 		{
 			const auto& l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
 

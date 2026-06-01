@@ -485,8 +485,13 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectList.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard\SpriteStandardPerObjectDrawRequest.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\CachedPassConstantDrawRequestBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Camera\CameraPassDrawRequest.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\DrawRequestPassBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Light\LightPassDrawRequest.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Sprite\SpritePassDrawRequest.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h" />
@@ -610,6 +615,10 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\Sprite\Standard\SpriteStandardPerObjectDrawRequest.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Camera\CameraPassDrawRequest.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Light\LightPassDrawRequest.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Pass\Sprite\SpritePassDrawRequest.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.cpp" />

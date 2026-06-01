@@ -9,6 +9,8 @@ namespace FWK::Graphics
 			     DrawRequestPerObjectBase() = default;
 		virtual ~DrawRequestPerObjectBase() = default;
 
+		virtual void BeginFrame() = 0;
+
 	protected:
 
 		// 定数バッファの上書き禁止
