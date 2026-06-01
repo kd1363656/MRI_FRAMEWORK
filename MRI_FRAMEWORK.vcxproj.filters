@@ -1457,6 +1457,9 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectBase.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\CachedPassConstantDrawRequestBase.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">

@@ -308,6 +308,15 @@
 #include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
+// 描画リクエストクラス
+#include "Graphics/Render/Graph/Request/Pass/DrawRequestPassBase.h"
+#include "Graphics/Render/Graph/Request/Object/DrawRequestPerObjectBase.h"
+
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Pass/TypeAliasSharedFactoryDrawRequestPass.h"
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Request/Object/TypeAliasSharedFactoryDrawRequestPerObject.h"
+
+#include "Graphics/Render/Graph/Request/Pass/CachedPassConstantDrawRequestBase.h"
+
 // レンダーパス
 #include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Pass/TypeAliasSharedFactoryRenderGraphPass.h"

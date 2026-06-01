@@ -485,6 +485,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\CachedPassConstantDrawRequestBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\DrawRequestPassBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h" />
