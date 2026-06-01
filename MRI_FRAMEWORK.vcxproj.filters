@@ -838,6 +838,15 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent">
       <UniqueIdentifier>{b115db44-34dc-4827-978f-4ae26b86c2be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request">
+      <UniqueIdentifier>{1e08c4cf-2bce-417c-b542-71ce1fa986f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Pass">
+      <UniqueIdentifier>{ed6f6e6a-9d9c-4fb4-9ffe-43527e7cdb15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object">
+      <UniqueIdentifier>{952d2e2f-d480-4cf6-895c-e5d7636af21a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1424,10 +1433,10 @@
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Model\Static\StaticModelDrawRequestDataStruct.h">
       <Filter>Source\Framework\Definition\Struct\Graphics\Render\Graph\Request\Model\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass\TypeAliasShaderFactoryDrawRequestPass.h">
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass\TypeAliasSharedFactoryDrawRequestPass.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasShareddFactoryDrawRequestPerObject.h">
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasSharedFactoryDrawRequestPerObject.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass\TypeAliasSharedFactoryRenderGraphPass.h">
@@ -1441,6 +1450,12 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\FinalPresent</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\DrawRequestPassBase.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectBase.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,11 +23,6 @@ void FWK::Scene::PostLoadSetup()
 	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 1.0F, -1.15F), l_aspectRatio);
 }
 
-void FWK::Scene::RegisterDrawCommand() const
-{
-
-}
-
 void FWK::Scene::Update()
 {
 	static TypeAlias::Math::Vector3 l_cameraPos = { 0.0F, 1.0F, -1.15F };

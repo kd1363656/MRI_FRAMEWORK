@@ -37,9 +37,6 @@ void Application::Execute()
 
 	FWK_ASSERT_RETURN_IF(!PostLoadCONFIG(l_graphicsManager, l_sceneManager, l_editorManager), "アプリケーションのPostLoadCONFIG処理が失敗しました。")
 
-	// 描画コマンドポインタの登録
-	RegisterDrawCommand(l_sceneManager);
-
 	while (true)
 	{
 		// 更新
@@ -93,11 +90,6 @@ bool Application::PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManag
 	a_editorManager.INIT(m_window.GetREFHWND());
 
 	return true;
-}
-
-void Application::RegisterDrawCommand(const FWK::SceneManager& a_sceneManager) const
-{
-	a_sceneManager.RegisterDrawCommand();
 }
 
 bool Application::BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager)

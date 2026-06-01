@@ -143,18 +143,6 @@ void FWK::Graphics::RenderGraph::AddPass(std::unique_ptr<IRenderGraphPass>&& a_p
 	m_passList.emplace_back(std::move(a_pass));
 }
 
-void FWK::Graphics::RenderGraph::AddDrawCommand(const std::shared_ptr<DrawCommandBase>& a_drawCommand)
-{
-	FWK_ASSERT_RETURN_IF(!a_drawCommand, "DrawCommandが無効のため、DrawCommandの登録に失敗しました。")
-
-	const auto l_staticTypeID = a_drawCommand->GetREFRuntimeTypeINFO().k_staticTypeID;
-
-	FWK_ASSERT_RETURN_IF(m_drawCommandMap.contains(l_staticTypeID), "同じStaticTypeIDのDrawCommandを追加しようとしたため、DrawCommandの登録に失敗しました。")
-
-	m_drawCommandList.emplace_back(a_drawCommand);
-	m_drawCommandMap.try_emplace  (l_staticTypeID, a_drawCommand);
-}
-
 bool FWK::Graphics::RenderGraph::IsReadAccess(const Struct::RenderGraphTextureAccess& a_textureAccess) const
 {
 	return a_textureAccess.m_accessTag == Utility::Tag::GetVALTag<Tag::RenderGraphReadAccessTag>();

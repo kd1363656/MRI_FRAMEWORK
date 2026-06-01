@@ -447,8 +447,8 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\Window\WindowStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Editor\Window\TypeAliasSharedFactoryEditorWindow.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass\TypeAliasSharedFactoryRenderGraphPass.h" />
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasShareddFactoryDrawRequestPerObject.h" />
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass\TypeAliasShaderFactoryDrawRequestPass.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasSharedFactoryDrawRequestPerObject.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass\TypeAliasSharedFactoryDrawRequestPass.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasSharedFactoryConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\TypeAliasUploadSystem.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\TypeAlias.h" />
@@ -484,6 +484,8 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\DrawRequestPerObjectBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Pass\DrawRequestPassBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Light\LightSystem.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Pipeline\PipelineState.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Rasterizer\RenderArea.h" />

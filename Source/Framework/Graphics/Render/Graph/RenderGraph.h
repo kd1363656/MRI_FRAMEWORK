@@ -6,8 +6,6 @@ namespace FWK::Graphics
 	{
 	private:
 
-		using DrawCommandMap = std::unordered_map<TypeAlias::TypeTag, std::weak_ptr<DrawCommandBase>>;
-
 		struct TextureAccessPassRecord final
 		{
 			TypeAlias::TypeTag m_textureTag = Constant::k_invalidTypeTag;
@@ -46,8 +44,6 @@ namespace FWK::Graphics
 
 		const auto& GetREFPassList() const { return m_passList; }
 
-		const auto& GetREFDrawCommandList() const { return m_drawCommandList; }
-
 	private:
 
 		bool IsReadAccess (const Struct::RenderGraphTextureAccess& a_textureAccess) const;
@@ -73,8 +69,6 @@ namespace FWK::Graphics
 		std::vector<std::unique_ptr<IRenderGraphPass>> m_passList		 = {};
 		
 		std::vector<std::uint32_t> m_sortedPassIndexList = {};
-
-		DrawCommandMap m_drawCommandMap = {};
 
 		Converter::RenderGraphJsonConverter m_renderGraphJsonConverter = {};
 	};

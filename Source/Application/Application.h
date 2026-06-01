@@ -15,8 +15,6 @@ private:
 	void LoadCONFIG    (FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::Editor::EditorManager& a_editorManager);
 	bool PostLoadCONFIG(FWK::Graphics::GraphicsManager& a_graphicsManager, FWK::SceneManager&		   a_sceneManager, FWK::Editor::EditorManager& a_editorManager);
 
-	void RegisterDrawCommand(const FWK::SceneManager& a_sceneManager) const;
-
 	bool BeginFrame(FWK::Graphics::GraphicsManager& a_graphicsManager);
 	
 	void BeginDraw(FWK::Graphics::GraphicsManager& a_graphicsManager) const;
