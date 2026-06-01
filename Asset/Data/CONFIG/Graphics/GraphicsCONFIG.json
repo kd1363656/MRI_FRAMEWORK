@@ -1,4 +1,4 @@
-{
+﻿{
     "Renderer": {
         "FrameResourceList": [
             {
@@ -8,7 +8,7 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "SpritePerObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -20,13 +20,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "LightPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -38,13 +38,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "FinalPresentPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "PostEffectPassConstantBufferUploader"
                         }
                     ],
                     "RenderGraphFrameResourceRegistry": {
@@ -101,7 +101,7 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "SpritePerObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -113,13 +113,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "LightPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -131,13 +131,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "FinalPresentPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "PostEffectPassConstantBufferUploader"
                         }
                     ],
                     "RenderGraphFrameResourceRegistry": {
@@ -194,7 +194,7 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "SpritePerObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -206,13 +206,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "LightPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -224,13 +224,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "FinalPresentPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "PostEffectPassConstantBufferUploader"
                         }
                     ],
                     "RenderGraphFrameResourceRegistry": {
@@ -287,7 +287,7 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10000
                             },
-                            "ConstantBufferUploaderTypeName": "SpriteObjectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "SpritePerObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -299,13 +299,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
-                            "ConstantBufferUploaderTypeName": "CameraConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "LightConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "LightPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -317,13 +317,13 @@
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "FinalPresentConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "FinalPresentPassConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 1
                             },
-                            "ConstantBufferUploaderTypeName": "PostEffectConstantBufferUploader"
+                            "ConstantBufferUploaderTypeName": "PostEffectPassConstantBufferUploader"
                         }
                     ],
                     "RenderGraphFrameResourceRegistry": {
@@ -1215,7 +1215,7 @@
                         },
                         {
                             "Index": 1,
-                            "RootParameterTag": "RootParameterCBSpriteObjectTag"
+                            "RootParameterTag": "RootParameterCBSpritePerObjectTag"
                         }
                     ],
                     "RootParameterList": [
@@ -1229,7 +1229,7 @@
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBSpriteObjectTag",
+                            "RootParameterTag": "RootParameterCBSpritePerObjectTag",
                             "ShaderRegister": 1,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         }
@@ -1261,25 +1261,25 @@
                     "RootParameterIndexMap": [
                         {
                             "Index": 0,
-                            "RootParameterTag": "RootParameterCBCameraTag"
+                            "RootParameterTag": "RootParameterCBCameraPassTag"
                         },
                         {
                             "Index": 1,
-                            "RootParameterTag": "RootParameterCBModelObjectTag"
+                            "RootParameterTag": "RootParameterCBModelPerObjectTag"
                         }
                     ],
                     "RootParameterList": [
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBCameraTag",
+                            "RootParameterTag": "RootParameterCBCameraPassTag",
                             "ShaderRegister": 0,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
                         },
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBModelObjectTag",
+                            "RootParameterTag": "RootParameterCBModelPerObjectTag",
                             "ShaderRegister": 1,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         }
@@ -1311,36 +1311,36 @@
                     "RootParameterIndexMap": [
                         {
                             "Index": 0,
-                            "RootParameterTag": "RootParameterCBCameraTag"
+                            "RootParameterTag": "RootParameterCBCameraPassTag"
                         },
                         {
                             "Index": 1,
-                            "RootParameterTag": "RootParameterCBModelObjectTag"
+                            "RootParameterTag": "RootParameterCBModelPerObjectTag"
                         },
                         {
                             "Index": 2,
-                            "RootParameterTag": "RootParameterCBLightTag"
+                            "RootParameterTag": "RootParameterCBLightPassTag"
                         }
                     ],
                     "RootParameterList": [
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBCameraTag",
+                            "RootParameterTag": "RootParameterCBCameraPassTag",
                             "ShaderRegister": 0,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_MESH"
                         },
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBModelObjectTag",
+                            "RootParameterTag": "RootParameterCBModelPerObjectTag",
                             "ShaderRegister": 1,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         },
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBLightTag",
+                            "RootParameterTag": "RootParameterCBLightPassTag",
                             "ShaderRegister": 2,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_PIXEL"
                         }
@@ -1372,14 +1372,14 @@
                     "RootParameterIndexMap": [
                         {
                             "Index": 0,
-                            "RootParameterTag": "RootParameterCBFinalPresentTag"
+                            "RootParameterTag": "RootParameterCBFinalPresentPassTag"
                         }
                     ],
                     "RootParameterList": [
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBFinalPresentTag",
+                            "RootParameterTag": "RootParameterCBFinalPresentPassTag",
                             "ShaderRegister": 0,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         }
@@ -1411,14 +1411,14 @@
                     "RootParameterIndexMap": [
                         {
                             "Index": 0,
-                            "RootParameterTag": "RootParameterCBPostEffectTag"
+                            "RootParameterTag": "RootParameterCBPostEffectPassTag"
                         }
                     ],
                     "RootParameterList": [
                         {
                             "ParameterType": "D3D12_ROOT_PARAMETER_TYPE_CBV",
                             "RegisterSpace": 0,
-                            "RootParameterTag": "RootParameterCBPostEffectTag",
+                            "RootParameterTag": "RootParameterCBPostEffectPassTag",
                             "ShaderRegister": 0,
                             "ShaderVisibility": "D3D12_SHADER_VISIBILITY_ALL"
                         }

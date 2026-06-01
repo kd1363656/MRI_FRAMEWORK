@@ -6,7 +6,7 @@
 
 cbuffer CBFinalPresent : register(b0)
 {
-    uint g_sceneColorTextureSRVIndex;
+    uint   g_sceneColorTextureSRVIndex;
     float3 g_padding;
 };
 

@@ -2,5 +2,5 @@
 
 namespace FWK::TypeAlias
 {
-	using Shared
+	using SharedFactoryDrawRequestPass = GenericFactory<std::shared_ptr<Graphics::DrawRequestPassBase>>;
 }

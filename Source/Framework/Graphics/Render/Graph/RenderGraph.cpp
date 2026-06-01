@@ -15,14 +15,6 @@ void FWK::Graphics::RenderGraph::Deserialize(const nlohmann::json& a_rootJson)
 
 void FWK::Graphics::RenderGraph::PostCreateSetup(Renderer& a_renderer) const
 {
-	for (const auto& l_drawCommand : m_drawCommandList)
-	{
-		if (!l_drawCommand) { continue; }
-
-		// 描画コマンドで使用するルートシグネチャやパイプラインステート設定する
-		l_drawCommand->PostCreateSetup(a_renderer);
-	}
-
 	for (const auto& l_pass : m_passList)
 	{
 		FWK_ASSERT_RETURN_IF(!l_pass, "RenderGraphPassが無効のため、PostCreateSetupを実行できませんでした。")
@@ -102,24 +94,6 @@ bool FWK::Graphics::RenderGraph::Compile()
 
 void FWK::Graphics::RenderGraph::BeginFrame()
 {
-	// 前フレームの描画申請を削除、現フレームで描画する必要のあるものだけ取り入れるようにする
-	for (const auto& l_drawCommand : m_drawCommandList)
-	{
-		if (!l_drawCommand) { continue; }
-
-		l_drawCommand->BeginFrame();
-	}
-}
-
-void FWK::Graphics::RenderGraph::Draw(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer)
-{
-	for (const auto& l_drawCommand : m_drawCommandList)
-	{
-		if (!l_drawCommand) { continue; }
-
-		l_drawCommand->SetupDraw(a_srvDescriptorPool, a_renderer);
-		l_drawCommand->Draw	    (a_renderer);
-	}
 }
 
 void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 

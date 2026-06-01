@@ -2,7 +2,7 @@
 
 float4 main(MeshOutput a_input) : SV_Target0
 {
-    Texture2D<float4> l_baseColorTexture = ResourceDescriptorHeap[g_baseColorTextureIndex];
+    Texture2D<float4> l_baseColorTexture = ResourceDescriptorHeap[g_baseColorTextureSRVIndex];
     
     float4 l_textureColor = l_baseColorTexture.Sample(g_baseColorSampler, a_input.uv);
     

@@ -7,10 +7,10 @@ void main(uint3                   a_groupID : SV_GroupID,
           out vertices MeshOutput a_vertexList   [k_maxMeshletVertexCount],
           out indices  uint3      a_primitiveList[k_maxMeshletPrimitiveCount])
 {
-    StructuredBuffer<StaticModelVertex> l_modelVertexBuffer       = ResourceDescriptorHeap[g_vertexBufferIndex];
-    StructuredBuffer<ModelMeshlet>      l_modelMeshletBuffer      = ResourceDescriptorHeap[g_meshletBufferIndex];
-    StructuredBuffer<uint>              l_uniqueVertexIndexBuffer = ResourceDescriptorHeap[g_uniqueVertexIndexBufferIndex];
-    StructuredBuffer<uint>              l_primitiveIndexBuffer    = ResourceDescriptorHeap[g_primitiveIndexBufferIndex];
+    StructuredBuffer<StaticModelVertex> l_modelVertexBuffer       = ResourceDescriptorHeap[g_vertexBufferSRVIndex];
+    StructuredBuffer<ModelMeshlet>      l_modelMeshletBuffer      = ResourceDescriptorHeap[g_meshletBufferSRVIndex];
+    StructuredBuffer<uint>              l_uniqueVertexIndexBuffer = ResourceDescriptorHeap[g_uniqueVertexIndexBufferSRVIndex];
+    StructuredBuffer<uint>              l_primitiveIndexBuffer    = ResourceDescriptorHeap[g_primitiveIndexBufferSRVIndex];
     
     const uint l_meshletIndex = a_groupID.x;
     
@@ -18,7 +18,6 @@ void main(uint3                   a_groupID : SV_GroupID,
     
     // SetMeshOutputCounts(出力頂点数、
     //                     出力三角形数);
-    
     SetMeshOutputCounts(l_modelMeshlet.vertexCount, l_modelMeshlet.triangleCount);
 
     for (uint l_vertexIndex = 0U; l_vertexIndex < l_modelMeshlet.vertexCount; ++l_vertexIndex)

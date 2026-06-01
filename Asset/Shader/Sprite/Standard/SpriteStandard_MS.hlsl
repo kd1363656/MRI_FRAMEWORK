@@ -7,17 +7,15 @@ void main(out vertices MeshOutput a_vertexList   [k_spriteVertexCount],
 {
 	// SetMeshOutputCounts(出力頂点数、
 	//					   出力プリミティブ数);
-	
 	SetMeshOutputCounts(k_spriteVertexCount, k_spritePrimitiveCount);
 
     uint l_textureWidth  = k_spriteTextureDefaultWidth;
     uint l_textureHeight = k_spriteTextureDefaultHeight;
 	
-    Texture2D<float4> l_baseColorTexture = ResourceDescriptorHeap[g_baseColorTextureIndex];
+    Texture2D<float4> l_baseColorTexture = ResourceDescriptorHeap[g_baseColorTextureSRVIndex];
 	
 	// GetDimensions(テクスチャの横幅、
 	//				 テクスチャの縦幅);
-	
     l_baseColorTexture.GetDimensions(l_textureWidth, l_textureHeight);
 	
     const float2 l_textureSize = float2((float)l_textureWidth, (float)l_textureHeight);

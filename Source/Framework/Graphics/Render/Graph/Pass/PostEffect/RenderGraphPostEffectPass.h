@@ -30,4 +30,4 @@ namespace FWK::Graphics
 	};
 }
 
-FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryRenderGraphPass, FWK::Graphics::RenderGraphPostEffectPass)
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::SharedFactoryRenderGraphPass, FWK::Graphics::RenderGraphPostEffectPass)

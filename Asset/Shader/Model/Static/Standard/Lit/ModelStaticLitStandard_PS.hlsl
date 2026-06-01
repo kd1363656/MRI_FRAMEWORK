@@ -36,8 +36,8 @@ float3 ConvertNormalMapToWorldNormal(float3 a_normalMap, float3 a_worldNormal, f
 
 float4 main(MeshOutput a_input) : SV_Target0
 {
-    Texture2D<float4> l_baseColorTexture = ResourceDescriptorHeap[g_baseColorTextureIndex];
-    Texture2D<float4> l_normalTexture    = ResourceDescriptorHeap[g_normalTextureIndex];
+    Texture2D<float4> l_baseColorTexture = ResourceDescriptorHeap[g_baseColorTextureSRVIndex];
+    Texture2D<float4> l_normalTexture    = ResourceDescriptorHeap[g_normalTextureSRVIndex];
 
     const float4 l_baseColor = l_baseColorTexture.Sample(g_sampler, a_input.uv);
     const float3 l_normalMap = l_normalTexture.Sample   (g_sampler, a_input.uv).rgb;

@@ -17,4 +17,4 @@ namespace FWK::Graphics
 	};
 }
 
-FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryConstantBufferUploader, FWK::Graphics::SpritePassConstantBufferUploader)
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::SharedFactoryConstantBufferUploader, FWK::Graphics::SpritePassConstantBufferUploader)

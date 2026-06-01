@@ -11,10 +11,10 @@ namespace FWK::Graphics
 
 	private:
 
-		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBFinalPresent);
+		static constexpr UINT64 k_bufferTypeSize = sizeof(Struct::CBFinalPresentPass);
 
 		FWK_DEFINE_TYPE_INFO(FinalPresentPassConstantBufferUploader, ConstantBufferUploaderBase)
 	};
 }
 
-FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::ShaderFactoryConstantBufferUploader, FWK::Graphics::FinalPresentPassConstantBufferUploader)
+FWK_REGISTER_FACTORY_METHOD(FWK::TypeAlias::SharedFactoryConstantBufferUploader, FWK::Graphics::FinalPresentPassConstantBufferUploader)

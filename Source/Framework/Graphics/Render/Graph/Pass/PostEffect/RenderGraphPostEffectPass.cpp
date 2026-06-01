@@ -93,19 +93,19 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 		return;
 	}
 
-	const auto& l_postEffectConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<PostEffectConstantBufferUploader>().lock();
+	const auto& l_postEffectPassConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<PostEffectPassConstantBufferUploader>().lock();
 
-	if (!l_postEffectConstantBufferUploader)
+	if (!l_postEffectPassConstantBufferUploader)
 	{
-		assert(false && "PostEffect用ConstantBufferが取得できないため、PostEffectPassを実行できませんでした。");
+		assert(false && "PostEffectPass用ConstantBufferが取得できないため、PostEffectPassを実行できませんでした。");
 		return;
 	}
 
-	Struct::CBPostEffect l_cbPostEffect = {};
+	Struct::CBPostEffectPass l_cbPostEffectPass = {};
 
-	l_cbPostEffect.m_sourceTextureSRVIndex = l_sceneColorTexture->GetVALSRVStorageID();
+	l_cbPostEffectPass.m_sourceTextureSRVIndex = l_sceneColorTexture->GetVALSRVStorageID();
 
-	const auto& l_gpuVirtualAddress = l_postEffectConstantBufferUploader->Write(l_cbPostEffect);
+	const auto& l_gpuVirtualAddress = l_postEffectPassConstantBufferUploader->Write(l_cbPostEffectPass);
 
 	// RenderGraph側でSceneColorTextureはShaderResourceへ、
 	// PostEffectColorTextureはRenderTargetへ遷移済み
@@ -128,7 +128,7 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 	// SetupConstantBufferView(設定するGPU仮想アドレス、
 	//						   ルートパラメータを探すRootSignature);
 	// PostEffect用CBを設定する
-	a_directCommandList.SetupConstantBufferView<Tag::RootParameterCBPostEffectTag>(l_gpuVirtualAddress, *l_rootSignature);
+	a_directCommandList.SetupConstantBufferView<Tag::RootParameterCBPostEffectPassTag>(l_gpuVirtualAddress, *l_rootSignature);
 
 	// SceneColorTextureを読んでPostEffectColorTextureへ書き込む
 	// DispatchMeshはMeshShaderを実行するDirectX12関数

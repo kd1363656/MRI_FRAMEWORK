@@ -39,7 +39,7 @@ void FWK::Converter::FrameResourceJsonConverter::DeserializeConstantBuffer(const
 		std::shared_ptr<Graphics::ConstantBufferUploaderBase> l_constantBufferUploader = nullptr;
 
 		// 定数バッファクラスをデシリアライズ
-		Utility::Json::DeserializeInstanceType<TypeAlias::ShaderFactoryConstantBufferUploader>(l_json, k_constantBufferUploaderTypeNameJsonKey, l_constantBufferUploader);
+		Utility::Json::DeserializeInstanceType<TypeAlias::SharedFactoryConstantBufferUploader>(l_json, k_constantBufferUploaderTypeNameJsonKey, l_constantBufferUploader);
 
 		// 作製に成功していれば中身にポインタがしっかり入っているので初期化とデシリアライズを行う
 		if (!l_constantBufferUploader) { continue; }

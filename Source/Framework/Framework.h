@@ -184,7 +184,7 @@
 #include "Graphics/Resource/Buffer/Constant/ConstantBufferUploaderBase.h"
 
 // 定数バッファファクトリーの型エイリアス
-#include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasShaderFactoryConstantBufferUploader.h"
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Resource/Buffer/Constant/TypeAliasSharedFactoryConstantBufferUploader.h"
 
 // 定数バッファ
 #include "Graphics/Resource/Buffer/Constant/Sprite/Object/SpritePerObjectConstantBufferUploader.h"
@@ -308,18 +308,13 @@
 #include "Converter/Json/Graphics/Render/Frame/FrameResourceJsonConverter.h"
 #include "Graphics/Render/Frame/FrameResource.h"
 
-// 描画コマンドクラス
-#include "Graphics/Render/Graph/Command/DrawCommandBase.h"
-
-// 描画コマンドの基底クラスを継承しているかどうかを確認するConcept
-#include "Definition/Concept/IsDerivedBase/Graphics/Renderer/Command/IsDerivedIDrawCommandConcept.h"
-
 // レンダーパス
 #include "Graphics/Render/Graph/Pass/IRenderGraphPass.h"
-#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Pass/TypeAliasShaderFactoryRenderGraphPass.h"
+#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Pass/TypeAliasSharedFactoryRenderGraphPass.h"
 #include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
 #include "Graphics/Render/Graph/Pass/Scene/RenderGraphSceneDrawPass.h"
-#include "Graphics/Render/Graph/Pass/Present/RenderGraphFinalPresentPass.h"
+#include "Graphics/Render/Graph/Pass/FinalPresent/RenderGraphFinalPresentPass.h"
+#include "Graphics/Render/Graph/Pass/PostEffect/RenderGraphPostEffectPass.h"
 #include "Converter/Json/Graphics/Render/Graph/RenderGraphJsonConverter.h"
 #include "Graphics/Render/Graph/RenderGraph.h"
 
@@ -343,19 +338,6 @@
 // レンダラー
 #include "Converter/Json/Graphics/Render/RendererJsonConverter.h"
 #include "Graphics/Render/Renderer.h"
-
-// 描画コマンドクラス
-#include "Graphics/Render/Graph/Command/DrawRequestCommandBase.h"
-#include "Graphics/Render/Graph/Command/DrawRequestList.h"
-
-// 描画コマンドクラス用ファクトリTypeAlias
-#include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Command/TypeAliasShaderFactoryDrawCommand.h"
-
-// 描画コマンドクラス
-#include "Graphics/Render/Graph/Command/Sprite/Standard/DrawSpriteStandardCommand.h"
-#include "Graphics/Render/Graph/Command/Model/Static/Standard/DrawStaticModelStandardCommandBase.h"
-#include "Graphics/Render/Graph/Command/Model/Static/Standard/UnLit/DrawStaticModelUnLitStandardCommand.h"
-#include "Graphics/Render/Graph/Command/Model/Static/Standard/Lit/DrawStaticModelLitStandardCommand.h"
 
 // グラフィックスマネージャー
 #include "Converter/Json/Graphics/GraphicsManagerJsonConverter.h"

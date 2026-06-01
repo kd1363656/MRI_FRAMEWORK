@@ -379,6 +379,8 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\SwapChain\SwapChainJsonConverter.h" />
     <ClInclude Include="Source\Framework\Converter\Json\Window\WindowJsonConverter.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Editor\Window\IsDerivedEditorWindowBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object\IsDerivedDrawRequestPerObjectBaseConcept.h" />
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\IsDerivedDrawRequestPassBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Buffer\Constant\IsDerivedConstantBufferBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Resource\Descriptor\IsDerivedDescriptorBaseConcept.h" />
     <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\IsDerivedBaseConcept.h" />
@@ -445,7 +447,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\Window\WindowStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Editor\Window\TypeAliasSharedFactoryEditorWindow.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass\TypeAliasSharedFactoryRenderGraphPass.h" />
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasShaderFactoryDrawRequestPerObject.h" />
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasShareddFactoryDrawRequestPerObject.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass\TypeAliasShaderFactoryDrawRequestPass.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Resource\Buffer\Constant\TypeAliasSharedFactoryConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Graphics\Resource\Upload\TypeAliasUploadSystem.h" />
@@ -476,9 +478,9 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistry.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\IRenderGraphPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.h" />
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\RenderGraph.h" />
@@ -600,8 +602,8 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistry.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\RenderGraph.cpp" />
@@ -616,7 +618,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass\LightPassConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelPerObjectConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\PostEffect\Pass\PostEffectPassConstantBufferUploader.cpp" />
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpritePreObjectConstantBufferUploader.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpritePerObjectConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Pass\SpritePassConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\UploadBuffer.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\DeferredRelease\DeferredResourceReleaseQueue.cpp" />

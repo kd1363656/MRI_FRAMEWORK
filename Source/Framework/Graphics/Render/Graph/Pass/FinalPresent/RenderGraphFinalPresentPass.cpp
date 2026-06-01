@@ -47,15 +47,15 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 
 	FWK_ASSERT_RETURN_IF(!l_rootSignature, "FinalPresent用RootSignatureが無効のため、FinalPresentPassを実行できませんでした。")
 
-	const auto& l_finalPresentConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<FinalPresentConstantBufferUploader>().lock();
+	const auto& l_finalPresentPassConstantBufferUploader = l_currentFrameResource->FindPTRConstantBufferUploader<FinalPresentPassConstantBufferUploader>().lock();
 
-	FWK_ASSERT_RETURN_IF(!l_finalPresentConstantBufferUploader, "FinalPresent用ConstantBufferが取得できないため、FinalPresentPassを実行できませんでした。")
+	FWK_ASSERT_RETURN_IF(!l_finalPresentPassConstantBufferUploader, "FinalPresent用ConstantBufferが取得できないため、FinalPresentPassを実行できませんでした。")
 
-	Struct::CBFinalPresent l_cbFinalPresent = {};
+	Struct::CBFinalPresentPass l_cbFinalPresentPass = {};
 
-	l_cbFinalPresent.m_sceneColorTextureSRVIndex = l_postEffectColorTexture->GetVALSRVStorageID();
+	l_cbFinalPresentPass.m_sceneColorTextureSRVIndex = l_postEffectColorTexture->GetVALSRVStorageID();
 
-	const auto& l_gpuVirtualAddress = l_finalPresentConstantBufferUploader->Write(l_cbFinalPresent);
+	const auto& l_gpuVirtualAddress = l_finalPresentPassConstantBufferUploader->Write(l_cbFinalPresentPass);
 
 	// BackBufferはRenderGraphResourceRegistry管理外のSwapChainリソースなので、
 	// FinalPresentPass内でPresent -> RenderTargetへ遷移する
@@ -80,7 +80,7 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 	// SetupConstantBufferView(設定するGPU仮想アドレス、
 	//						   ルートパラメータを探すRootSignature);
 	// FinalPresent用CBをb0へ設定する
-	a_directCommandList.SetupConstantBufferView<Tag::RootParameterCBFinalPresentTag>(l_gpuVirtualAddress, *l_rootSignature);
+	a_directCommandList.SetupConstantBufferView<Tag::RootParameterCBFinalPresentPassTag>(l_gpuVirtualAddress, *l_rootSignature);
 
 	// PostEffectColorTextureを貼ったフルスクリーン三角形を描画する
 	a_directCommandList.DispatchFullScreen();

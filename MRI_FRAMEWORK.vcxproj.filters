@@ -700,9 +700,6 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Scene">
       <UniqueIdentifier>{7e355673-0097-4ae4-802e-fb7257e08bdf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Present">
-      <UniqueIdentifier>{b115db44-34dc-4827-978f-4ae26b86c2be}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph">
       <UniqueIdentifier>{80adebba-cd3d-4407-90dd-116bf6c0b5a5}</UniqueIdentifier>
     </Filter>
@@ -825,6 +822,21 @@
     </Filter>
     <Filter Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object">
       <UniqueIdentifier>{5df3ae9b-7a39-4886-89b3-75fe2655d8ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render">
+      <UniqueIdentifier>{4671303e-0fd1-4c7d-9086-4320a730ebc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph">
+      <UniqueIdentifier>{ff33cb2f-c3e5-43b1-9654-a74f0b46df04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request">
+      <UniqueIdentifier>{33fadf3a-bcc0-4a91-ad11-832b106be22a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object">
+      <UniqueIdentifier>{a4e68b6f-715b-4e45-8e93-dbf9fbf1593c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent">
+      <UniqueIdentifier>{b115db44-34dc-4827-978f-4ae26b86c2be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1331,9 +1343,6 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.h">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Present</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.h">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
     </ClInclude>
@@ -1418,11 +1427,20 @@
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass\TypeAliasShaderFactoryDrawRequestPass.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasShaderFactoryDrawRequestPerObject.h">
+    <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object\TypeAliasShareddFactoryDrawRequestPerObject.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Request\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass\TypeAliasSharedFactoryRenderGraphPass.h">
       <Filter>Source\Framework\Definition\Type\Alias\Factory\Shared\Graphics\Render\Graph\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request\IsDerivedDrawRequestPassBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object\IsDerivedDrawRequestPerObjectBaseConcept.h">
+      <Filter>Source\Framework\Definition\Concept\IsDerivedBase\Graphics\Render\Graph\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\FinalPresent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1645,7 +1663,7 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Light\LightSystem.cpp">
       <Filter>Source\Framework\Graphics\Render\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpritePreObjectConstantBufferUploader.cpp">
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object\SpritePerObjectConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Sprite\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Texture\RenderTarget\RenderTargetTexture.cpp">
@@ -1677,9 +1695,6 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Present\RenderGraphFinalPresentPass.cpp">
-      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Present</Filter>
     </ClCompile>
     <ClCompile Include="Source\Framework\Converter\Json\Graphics\Render\Graph\RenderGraphJsonConverter.cpp">
       <Filter>Source\Framework\Converter\Json\Graphics\Render\Graph</Filter>
@@ -1725,6 +1740,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass\CameraPassConstantBufferUploader.cpp">
       <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\FinalPresent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

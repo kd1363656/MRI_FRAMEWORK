@@ -4,15 +4,14 @@
     float2 uv       : TEXCOORD0;
 };
 
-cbuffer SpritePassConstant : register(b0)
+cbuffer CBSpritePass : register(b0)
 {
     row_major matrix g_projectionMatrix;
 }
 
-cbuffer CBSpriteObject : register(b1)
+cbuffer CBSpritePerObject : register(b1)
 {
     float4 g_color;
-    
     
     float2 g_position;
     float2 g_scale;
@@ -22,7 +21,7 @@ cbuffer CBSpriteObject : register(b1)
     
     uint4 g_sourceRECT;
     
-    uint   g_baseColorTextureIndex;
+    uint   g_baseColorTextureSRVIndex;
     float3 g_secondPadding;
 }
 

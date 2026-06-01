@@ -51,7 +51,4 @@ void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&		
 	
 	// ビューポートとシザー矩形を設定する
 	a_directCommandList.SetupRenderArea(a_renderer.GetREFRenderArea());
-
-	// 通常の描画コマンドを実行する
-	a_renderGraph.Draw(a_srvDescriptorPool, a_renderer);
 }

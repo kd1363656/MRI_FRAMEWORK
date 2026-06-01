@@ -8,10 +8,10 @@ void main(uint3                   a_groupID : SV_GroupID,
           out indices  uint3      a_primitiveList[k_maxMeshletPrimitiveCount])
 {
     // バインドレスでヒープから直接バッファを取得
-    StructuredBuffer<StaticModelVertex> l_modelVertexBuffer       = ResourceDescriptorHeap[g_vertexBufferIndex];
-    StructuredBuffer<ModelMeshlet>      l_modelMeshletBuffer      = ResourceDescriptorHeap[g_meshletBufferIndex];
-    StructuredBuffer<uint>              l_uniqueVertexIndexBuffer = ResourceDescriptorHeap[g_uniqueVertexIndexBufferIndex];
-    StructuredBuffer<uint>              l_primitiveIndexBuffer    = ResourceDescriptorHeap[g_primitiveIndexBufferIndex];
+    StructuredBuffer<StaticModelVertex> l_modelVertexBuffer       = ResourceDescriptorHeap[g_vertexBufferSRVIndex];
+    StructuredBuffer<ModelMeshlet>      l_modelMeshletBuffer      = ResourceDescriptorHeap[g_meshletBufferSRVIndex];
+    StructuredBuffer<uint>              l_uniqueVertexIndexBuffer = ResourceDescriptorHeap[g_uniqueVertexIndexBufferSRVIndex];
+    StructuredBuffer<uint>              l_primitiveIndexBuffer    = ResourceDescriptorHeap[g_primitiveIndexBufferSRVIndex];
     
     const uint l_meshletIndex = a_groupID.x;
     

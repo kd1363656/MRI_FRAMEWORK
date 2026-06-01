@@ -15,28 +15,28 @@ struct ModelMeshlet
     uint triangleCount;
 };
 
-cbuffer CBCamera : register(b0)
+cbuffer CBCameraPass : register(b0)
 {
     row_major matrix g_viewMatrix;
     row_major matrix g_projectionMatrix;
     row_major matrix g_viewProjectionMatrix;
 }
 
-cbuffer CBModelObject : register(b1)
+cbuffer CBModelPerObject : register(b1)
 {
     row_major matrix g_worldMatrix;
     
-    uint g_baseColorTextureIndex;
-    uint g_normalTextureIndex;
-    uint g_vertexBufferIndex;
-    uint g_meshletBufferIndex;
+    uint g_baseColorTextureSRVIndex;
+    uint g_normalTextureSRVIndex;
+    uint g_vertexBufferSRVIndex;
+    uint g_meshletBufferSRVIndex;
     
-    uint   g_uniqueVertexIndexBufferIndex;
-    uint   g_primitiveIndexBufferIndex;
+    uint   g_uniqueVertexIndexBufferSRVIndex;
+    uint   g_primitiveIndexBufferSRVIndex;
     float2 g_padding;
 }
 
-cbuffer CBLight : register(b2)
+cbuffer CBLightPass : register(b2)
 {
     float3 g_directionalLightDirection;
     float  g_directionalLightIntensity;
