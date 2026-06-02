@@ -14,13 +14,28 @@ void FWK::Scene::PostLoadSetup()
 		m_staticModel->Load("Asset/Model/Antike.fbx");
 	}
 
-	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance       ();
-	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer	         ();
-	const auto& l_viewport        = l_renderer.GetREFRenderArea().GetREFViewport ();
+
+	if (m_staticModelDrawRequestData)
+	{
+		m_staticModelDrawRequestData->m_staticModelRecord = m_staticModel->GetREFStaticModelRecord();
+		m_staticModelDrawRequestData->m_worldMatrix       = TypeAlias::Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(180.0F));
+	}
+
+	const auto& l_graphicsManager = Graphics::GraphicsManager::GetInstance();
+	const auto& l_renderer        = l_graphicsManager.GetREFRenderer      ();
+	const auto& l_renderGraph     = l_renderer.GetREFRenderGraph          ();
+	
+	if(const auto& l_staticModelStandardDrawRequestUnLit = l_renderGraph.FindVALDrawRequestPerObject<Graphics::StaticModelStandardPerObjectDrawRequestLit>().lock())
+	{
+		l_staticModelStandardDrawRequestUnLit->AddForwardDrawRequestData(m_staticModelDrawRequestData);
+	}
+
+	const auto& l_viewport = l_renderer.GetREFRenderArea().GetREFViewport ();
 
 	const auto l_aspectRatio = l_viewport.Width / l_viewport.Height;
 
-	m_camera->SetupPerspective(TypeAlias::Math::Matrix::CreateTranslation(0.0F, 1.0F, -1.15F), l_aspectRatio);
+	m_camera->SetupPerspective         (TypeAlias::Math::Matrix::CreateTranslation(0.0F, 1.0F, -1.15F), l_aspectRatio);
+	m_camera->SyncCameraPassDrawRequest();
 }
 
 void FWK::Scene::Update()

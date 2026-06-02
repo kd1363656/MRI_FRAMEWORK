@@ -18,6 +18,12 @@
                         },
                         {
                             "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 10000
+                            },
+                            "ConstantBufferUploaderTypeName": "ModelPerObjectConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
                             "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
@@ -105,6 +111,12 @@
                         },
                         {
                             "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 10000
+                            },
+                            "ConstantBufferUploaderTypeName": "ModelPerObjectConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
                             "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
@@ -192,6 +204,12 @@
                         },
                         {
                             "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 10000
+                            },
+                            "ConstantBufferUploaderTypeName": "ModelPerObjectConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
                                 "CreateConstantBufferNUM": 10
                             },
                             "ConstantBufferUploaderTypeName": "CameraPassConstantBufferUploader"
@@ -276,6 +294,12 @@
                                 "CreateConstantBufferNUM": 10000
                             },
                             "ConstantBufferUploaderTypeName": "SpritePassConstantBufferUploader"
+                        },
+                        {
+                            "ConstantBufferUploader": {
+                                "CreateConstantBufferNUM": 10000
+                            },
+                            "ConstantBufferUploaderTypeName": "ModelPerObjectConstantBufferUploader"
                         },
                         {
                             "ConstantBufferUploader": {
@@ -1171,12 +1195,18 @@
             ],
             "DrawRequestPerObjectList": [
                 {
+                    "DrawRequestPerObjectTypeName": "StaticModelStandardPerObjectDrawRequestLit"
+                },
+                {
+                    "DrawRequestPerObjectTypeName": "StaticModelStandardPerObjectDrawRequestUnLit"
+                },
+                {
                     "DrawRequestPerObjectTypeName": "SpriteStandardPerObjectDrawRequest"
                 }
             ],
             "PassList": [
                 {
-                    "RenderGraphPassTypeName": "RenderGraphSceneDrawPass"
+                    "RenderGraphPassTypeName": "RenderGraphForwardPass"
                 },
                 {
                     "RenderGraphPassTypeName": "RenderGraphPostEffectPass"

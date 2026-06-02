@@ -31,7 +31,7 @@ void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshC
 
 		for(const auto& l_modelMesh : l_modelData.m_modelMeshList)
 		{
-			// メッシュ単位ごとに実行
+			// メッシュ単位で実行
 			const auto& l_modelMeshletData         = l_modelMesh.m_modelMeshletData;
 			const auto& l_modelMeshRuntimeData     = l_modelMesh.m_modelMeshRuntimeData;
 			const auto& l_modelMaterialRuntimeData = l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData;
@@ -40,7 +40,7 @@ void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshC
 
 			Struct::CBModelPerObject l_cbModelPerObject = {};
 
-			// モデル1体ごとの行列
+			// モデル1体ごとのワールド行列
 			l_cbModelPerObject.m_worldMatrix = l_drawRequestPerObject->m_worldMatrix;
 
 			// MeshShaderで参照するStructuredBufferのSRV番号
@@ -62,10 +62,19 @@ void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshC
 			l_cbModelPerObject.m_normalTextureSRVIndex = FetchVALTextureSRVStorageID(l_modelMaterialRuntimeData.m_normalTexture, a_textureSystem,				 Enum::DefaultTextureType::Normal);
 			FWK_ASSERT_RETURN_IF												    (l_cbModelPerObject.m_normalTextureSRVIndex == Constant::k_invalidStorageID, "NormalTextureのSRVStorageIDが無効です。")
 
+			// モデル描画用定数のセット
 			SetupPerObjectConstantBuffer<ModelPerObjectConstantBufferUploader, Tag::RootParameterCBModelPerObjectTag>(a_rootSignature, 
 																													  a_directCommandList,
 																													  a_frameResource,
 																													  l_cbModelPerObject);	
+
+			const bool l_isTransitionMaterialTextureSuccess = TransitionMaterialTexture(a_directCommandList, a_textureSystem, l_modelMesh);
+
+			FWK_ASSERT_RETURN_IF(!l_isTransitionMaterialTextureSuccess, "MaterialTextureの状態遷移に失敗しました。")
+
+			const bool l_isDispatchModelMeshSuccess = DispatchModelMesh(a_directCommandList, l_modelMesh);
+
+			FWK_ASSERT_RETURN_IF(!l_isDispatchModelMeshSuccess, "StaticModelのMeshlet描画に失敗しました。")
 		}
 	}
 }

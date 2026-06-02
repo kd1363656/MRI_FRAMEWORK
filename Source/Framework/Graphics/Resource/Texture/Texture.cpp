@@ -75,17 +75,9 @@ void FWK::Graphics::Texture::Load(const std::filesystem::path& a_filePath)
 																				a_filePath,
 																				l_srvDescriptorPool);
 
-	if (l_textureLoadResult.m_storageID == Constant::k_invalidStorageID) 
-	{
-		SetupDefaultTexture(Enum::DefaultTextureType::BaseColor);
-		return;
-	}
-
-	if (l_textureLoadResult.m_textureRecord.expired())
-	{
-		SetupDefaultTexture(Enum::DefaultTextureType::BaseColor);
-		return;
-	}
+	// テクスチャの登録がうまくいかなければreturn
+	if (l_textureLoadResult.m_storageID == Constant::k_invalidStorageID) { return; }
+	if (l_textureLoadResult.m_textureRecord.expired())					 { return; }
 
 	m_storageID     = l_textureLoadResult.m_storageID;
 	m_textureRecord = l_textureLoadResult.m_textureRecord;

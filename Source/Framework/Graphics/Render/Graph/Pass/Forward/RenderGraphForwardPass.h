@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		void Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap,
 				     const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
-					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorHeap,
+					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 					 const SwapChain&						  a_swapChain,
 					 const TextureSystem&					  a_textureSystem,
 						   DirectCommandList&			      a_directCommandList,

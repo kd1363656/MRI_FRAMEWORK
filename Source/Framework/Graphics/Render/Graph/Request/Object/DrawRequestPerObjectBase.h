@@ -16,7 +16,7 @@ namespace FWK::Graphics
 
 		virtual void PostCreateSetup(Renderer& a_renderer) = 0;
 
-				void SetupBeforeDrawRequest(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) const;
+				void SetupBeforeDrawRequest(Renderer& a_renderer) const;
 		virtual void BeginFrame			   () = 0;
 	protected:
 

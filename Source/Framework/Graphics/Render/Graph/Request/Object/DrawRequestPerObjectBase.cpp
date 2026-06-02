@@ -1,12 +1,7 @@
 ﻿#include "DrawRequestPerObjectBase.h"
 
-void FWK::Graphics::DrawRequestPerObjectBase::SetupBeforeDrawRequest(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) const
+void FWK::Graphics::DrawRequestPerObjectBase::SetupBeforeDrawRequest(Renderer& a_renderer) const
 {
-	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
-
-	// MeshShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
-	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
-
 	// StaticModel用ルートシグネチャとパイプラインステートをセット
 	SetupGraphicsPipelineStateToCommandList(a_renderer);
 }
@@ -92,10 +87,12 @@ FWK::TypeAlias::StorageID FWK::Graphics::DrawRequestPerObjectBase::FetchVALTextu
 	if (a_texture)
 	{
 		// テクスチャIDが無効でなければその値を返す
-		if (const auto l_textureStorageID = a_texture->GetVALStorageID();
-			l_textureStorageID != Constant::k_invalidStorageID) 
+		const auto& l_textureRecord = a_texture->GetREFTextureRecord().lock();
+
+		if (l_textureRecord &&
+			l_textureRecord->GetVALSRVStorageID() != Constant::k_invalidStorageID)
 		{
-			return l_textureStorageID; 
+			return l_textureRecord->GetVALSRVStorageID();
 		}
 	}
 

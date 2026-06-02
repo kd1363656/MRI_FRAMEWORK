@@ -19,5 +19,7 @@ namespace FWK
 
 		std::shared_ptr<Graphics::Texture>	   m_texture     = std::make_shared<Graphics::Texture>	  ();
 		std::shared_ptr<Graphics::StaticModel> m_staticModel = std::make_shared<Graphics::StaticModel>();
+
+		std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData> m_staticModelDrawRequestData = std::make_shared<Struct::StaticModelStandardPerObjectDrawRequestData>();
 	};
 }
