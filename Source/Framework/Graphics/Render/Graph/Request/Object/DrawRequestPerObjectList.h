@@ -49,9 +49,41 @@ namespace FWK::Graphics
 			m_registeredAddressSet.emplace				 (l_drawRequestPerObjectAddress);
 		}
 
+		bool ContainsDrawRequestPerObject(const std::shared_ptr<DrawRequestPerObjectType>& a_drawRequestPerObject) const
+		{
+			FWK_ASSERT_RETURN_VALUE_IF(!a_drawRequestPerObject, "DrawRequestPerObjectが無効のため、DrawRequestPerObjectの登録確認に失敗しました。", false)
+
+			const auto& l_drawRequestPerObjectAddress = a_drawRequestPerObject.get();
+
+			return m_registeredAddressSet.contains(l_drawRequestPerObjectAddress);
+		}
+
+		bool RemoveDrawRequestPerObject(const std::shared_ptr<DrawRequestPerObjectType>& a_drawRequestPerObject)
+		{
+			FWK_ASSERT_RETURN_VALUE_IF(!a_drawRequestPerObject, "DrawRequestPerObjectが無効のため、DrawRequestPerObjectの登録解除に失敗しました。", false)
+
+			const auto& l_drawRequestPerObjectAddress = a_drawRequestPerObject.get();
+
+			// そもそも登録されていない場合は削除不要
+			if (!m_registeredAddressSet.contains(l_drawRequestPerObjectAddress)) { return false; }
+
+			// 高速検索用のアドレス集合から削除する
+			m_registeredAddressSet.erase(l_drawRequestPerObjectAddress);
+
+			// 実際に描画時に走査するvector空も削除する
+			const auto l_removedCount = std::erase_if(m_drawRequestPerObjectRecordList, [l_drawRequestPerObjectAddress](const auto& a_drawRequestPerObjectRecord)
+			{
+				return a_drawRequestPerObjectRecord.m_drawRequestPerObjectAddress == l_drawRequestPerObjectAddress;
+			});
+
+			return l_removedCount != k_emptyElementCount;
+		}
+
 		const auto& GetREFDrawRequestPerObjectRecordList() const { return m_drawRequestPerObjectRecordList; }
 
 	private:
+
+		static  constexpr std::size_t k_emptyElementCount = 0U;
 
 		std::unordered_set<const DrawRequestPerObjectType*> m_registeredAddressSet = {};
 

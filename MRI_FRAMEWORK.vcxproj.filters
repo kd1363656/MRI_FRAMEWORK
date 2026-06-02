@@ -883,6 +883,21 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Forward">
       <UniqueIdentifier>{d9ef3753-ee9c-416f-931f-8995a670a6ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics\Render">
+      <UniqueIdentifier>{f762eae4-6cae-46cb-a914-6533a6b9708e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics\Render\Graph">
+      <UniqueIdentifier>{ac524cd6-d938-45b9-be83-295f2dc400bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics\Render\Graph\Request">
+      <UniqueIdentifier>{7b31eb7d-5ea0-431e-ac09-19aae9539e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics\Render\Graph\Request\Object">
+      <UniqueIdentifier>{1e5d164d-5cce-40d7-981a-e3bc0c0206ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Definition\Enum\Graphics\Render\Graph\Request\Object\Model">
+      <UniqueIdentifier>{a4bf7533-8d29-44c5-824b-7634f84a01aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1522,6 +1537,9 @@
     </ClInclude>
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Enum\Graphics\Render\Graph\Request\Object\Model\DrawRequestPerObjectModelEnum.h">
+      <Filter>Source\Framework\Definition\Enum\Graphics\Render\Graph\Request\Object\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

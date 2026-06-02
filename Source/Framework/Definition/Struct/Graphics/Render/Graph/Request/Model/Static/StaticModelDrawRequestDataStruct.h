@@ -8,7 +8,5 @@ namespace FWK::Struct
 		std::weak_ptr<Graphics::StaticModelRecord> m_staticModelRecord = {};
 
 		TypeAlias::Math::Matrix m_worldMatrix = TypeAlias::Math::Matrix::Identity;
-
-		bool m_useDeferredRendering = false;
 	};
 }

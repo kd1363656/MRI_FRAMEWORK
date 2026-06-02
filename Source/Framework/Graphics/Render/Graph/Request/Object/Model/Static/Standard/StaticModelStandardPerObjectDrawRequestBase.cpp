@@ -3,12 +3,19 @@
 void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::BeginFrame()
 {
 	// 参照が途切れているstd::weak_ptrを削除する
-	m_forwardPerObjectDataList.BeginFrame();
+	m_forwardPerObjectDataList.BeginFrame ();
+	m_deferredPerObjectDataList.BeginFrame();
 }
 
 void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddForwardDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData)
 {
+	FWK_ASSERT_RETURN_IF(!a_staticModelStandardPerObjectDrawRequestData, "StaticModelStandardPerObjectDrawRequestDataが無効のため、描画要求を追加できませんでした。")
+
 	m_forwardPerObjectDataList.AddDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData);
+}
+void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddDeferredDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData)
+{
+	m_deferredPerObjectDataList.AddDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData);
 }
 
 void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature, 

@@ -14,6 +14,7 @@
 // Enum
 #include "Definition/Enum/Type/Trait/PTR/TypeTraitPTREnum.h"
 #include "Definition/Enum/Graphics/Resource/Texture/DefaultTextureTypeEnum.h"
+#include "Definition/Enum/Graphics/Render/Graph/Request/Object/Model/DrawRequestPerObjectModelEnum.h"
 
 // 定数
 #include "Definition/Constant/StaticTypeID/StaticTypeIDConstant.h"

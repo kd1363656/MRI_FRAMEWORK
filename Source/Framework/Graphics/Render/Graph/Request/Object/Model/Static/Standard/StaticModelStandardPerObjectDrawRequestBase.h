@@ -11,13 +11,16 @@ namespace FWK::Graphics
 
 		void BeginFrame() override;
 
-		virtual void RequestForwardDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) = 0;
+		virtual void RequestForwardDraw (const TextureSystem& a_textureSystem, Renderer& a_renderer) = 0;
+		virtual void RequestDeferredDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) = 0;
 
-		void AddForwardDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData);
+		void AddForwardDrawRequestData (const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData);
+		void AddDeferredDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData);
 
 	protected:
 
-		const auto& GetREFForwardPerObjectDataList() const { return m_forwardPerObjectDataList; }
+		const auto& GetREFForwardPerObjectDataList () const { return m_forwardPerObjectDataList; }
+		const auto& GetREFDeferredPerObjectDataList() const { return m_deferredPerObjectDataList; }
 
 		void SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature,
 										  const DirectCommandList&															   a_directCommandList,
@@ -31,7 +34,8 @@ namespace FWK::Graphics
 
 	private:
 
-		DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData> m_forwardPerObjectDataList = {};
+		DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData> m_forwardPerObjectDataList  = {};
+		DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData> m_deferredPerObjectDataList = {};
 
 		FWK_DEFINE_TYPE_INFO(StaticModelStandardPerObjectDrawRequestBase, DrawRequestPerObjectBase)
 	};
