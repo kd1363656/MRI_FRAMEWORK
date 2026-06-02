@@ -47,3 +47,53 @@ void FWK::Graphics::DrawRequestPerObjectBase::TransitionTextureToPixelShaderReso
 
 	a_textureRecord.SetCurrentState(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
+
+bool FWK::Graphics::DrawRequestPerObjectBase::TransitionTextureToPixelShaderResource(const std::shared_ptr<Texture>& a_texture, 
+																					 const DirectCommandList&		 a_directCommandList, 
+																					 const TextureSystem&			 a_textureSystem, 
+																					 const Enum::DefaultTextureType  a_defaultTextureType) const
+{
+	if (a_texture)
+	{
+		const auto& l_textureRecord = a_texture->GetREFTextureRecord().lock();
+
+		if (l_textureRecord)
+		{
+			// MaterialやSpriteが持っているTextureをPixelShaderから読める状態へ遷移する
+			TransitionTextureToPixelShaderResource(a_directCommandList, *l_textureRecord);
+		}
+	}
+
+	// Textureが無い、またはTextureRecordが無効の場合はDefaultTextureを使う。
+	const auto& l_defaultTextureRecord = a_textureSystem.FindVALDefaultTextureRecord(a_defaultTextureType).lock();
+
+	FWK_ASSERT_RETURN_VALUE_IF(!l_defaultTextureRecord, "DefaultTextureが取得できないため、Textureの状態遷移に失敗しました。", false)
+
+	TransitionTextureToPixelShaderResource(a_directCommandList, *l_defaultTextureRecord);
+
+	return true;
+}
+
+FWK::TypeAlias::StorageID FWK::Graphics::DrawRequestPerObjectBase::FetchVALTextureSRVStorageID(const std::shared_ptr<Texture>& a_texture, const TextureSystem& a_textureSystem, const Enum::DefaultTextureType a_defaultTextureType) const 
+{
+	if (a_texture)
+	{
+		// テクスチャIDが無効でなければその値を返す
+		if (const auto l_textureStorageID = a_texture->GetVALStorageID();
+			l_textureStorageID != Constant::k_invalidStorageID) 
+		{
+			return l_textureStorageID; 
+		}
+	}
+
+	// SRVがTextureRecordから取得できない場合デフォルトテクスチャのSRVStorageIDを返す
+	const auto& l_defaultTextureRecord = a_textureSystem.FindVALDefaultTextureRecord(a_defaultTextureType).lock();
+
+	FWK_ASSERT_RETURN_VALUE_IF(!l_defaultTextureRecord, "DefaultTextureが取得できませんでした。", Constant::k_invalidStorageID)
+
+	const auto l_defaultTextureSRVStorageID = l_defaultTextureRecord->GetVALSRVStorageID();
+
+	FWK_ASSERT_RETURN_VALUE_IF(l_defaultTextureSRVStorageID == Constant::k_invalidStorageID, "DefaultTextureRecordのSRVStorageIDが無効です。", Constant::k_invalidStorageID)
+
+	return l_defaultTextureSRVStorageID;
+}

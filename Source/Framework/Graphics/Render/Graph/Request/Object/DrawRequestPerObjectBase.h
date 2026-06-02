@@ -27,7 +27,7 @@ namespace FWK::Graphics
 		{
 			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
 
-			FWK_ASSERT_RETURN_VALUE_IF(!l_constantBufferUploader, "共通パス定数バッファが取得できないため、描画処理に失敗しました。", false)
+			FWK_ASSERT_RETURN_VALUE_IF(!l_constantBufferUploader, "PerObject定数バッファが取得できないため、描画処理に失敗しました。", false)
 
 			const auto& l_gpuVirtualAddress = l_constantBufferUploader->Write(a_constantBuffer);
 
@@ -45,6 +45,13 @@ namespace FWK::Graphics
 		void SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const;
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Graphics::TextureRecord& a_textureRecord) const;
+
+		bool TransitionTextureToPixelShaderResource(const std::shared_ptr<Texture>& a_texture,
+												    const DirectCommandList&		a_directCommandList,
+													const TextureSystem&			a_textureSystem,
+													const Enum::DefaultTextureType  a_defaultTextureType) const;
+
+		TypeAlias::StorageID FetchVALTextureSRVStorageID(const std::shared_ptr<Texture>& a_texture, const TextureSystem& a_textureSystem, const Enum::DefaultTextureType a_defaultTextureType) const;
 
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountX() { return k_defaultDispatchMeshThreadGroupCountX; }
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountY() { return k_defaultDispatchMeshThreadGroupCountY; }

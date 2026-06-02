@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		void BeginFrame() override;
 
-		virtual void RequestForwardDraw(Renderer& a_renderer) = 0;
+		//virtual void RequestForwardDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) = 0;
 
 		void AddForwardDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData);
 
@@ -22,10 +22,11 @@ namespace FWK::Graphics
 		bool SetupModelMeshConstantBuffer(const RootSignature&										 a_rootSignature,
 										  const DirectCommandList&									 a_directCommandList,
 										  const FrameResource&										 a_frameResource,
-										  const Struct::StaticModelStandardPerObjectDrawRequestData& a_staticModelStandardPerObjectDrawRequestData,
+										  const Struct::StaticModelStandardPerObjectDrawRequestData& a_staticModelStandardPerObjectDrawRequestDataList,
+										  const TextureSystem&										 a_textureSystem,
 										  const Struct::ModelMesh&									 a_modelMesh);
 
-		bool TransitionMaterialTexture(const DirectCommandList& a_directCommandList, const Struct::ModelMesh& a_modelMesh, const bool a_isUseLightPass) const;
+		bool TransitionMaterialTexture(const DirectCommandList& a_directCommandList, const TextureSystem& a_textureSystem, const Struct::ModelMesh& a_modelMesh) const;
 
 		bool DispatchModelMesh(const DirectCommandList& a_directCommandList, const Struct::ModelMesh& a_modelMesh) const;
 
