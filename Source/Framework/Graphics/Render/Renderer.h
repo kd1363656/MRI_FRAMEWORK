@@ -39,7 +39,8 @@ namespace FWK::Graphics
 		void ExecuteRenderGraph(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 								const RTVDescriptorHeap&			     a_rtvDescriptorHeap,
 								const DSVDescriptorHeap&				 a_dsvDescriptorHeap,
-								const SwapChain&						 a_swapChain);
+								const SwapChain&						 a_swapChain,
+								const TextureSystem&					 a_textureSystem);
 
 		nlohmann::json Serialize() const;
 

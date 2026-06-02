@@ -880,6 +880,9 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit">
       <UniqueIdentifier>{a9997489-ae2f-49f7-a8a3-cc6ab135f75a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\Forward">
+      <UniqueIdentifier>{d9ef3753-ee9c-416f-931f-8995a670a6ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1517,6 +1520,9 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit\StaticModelStandardPerObjectDrawRequestLit.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Forward</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1842,6 +1848,9 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit\StaticModelStandardPerObjectDrawRequestLit.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\Forward</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

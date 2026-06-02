@@ -13,6 +13,7 @@ namespace FWK::Graphics
 					 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
 					 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 					 const SwapChain&,
+					 const TextureSystem&,
 						   DirectCommandList&				  a_directCommandList,
 						   Renderer&						  a_renderer,
 						   RenderGraph&						  a_renderGraph) override;

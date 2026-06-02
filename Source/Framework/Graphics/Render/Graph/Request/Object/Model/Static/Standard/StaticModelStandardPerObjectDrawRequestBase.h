@@ -19,7 +19,7 @@ namespace FWK::Graphics
 
 		const auto& GetREFForwardPerObjectDataList() const { return m_forwardPerObjectDataList; }
 
-		bool SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature,
+		void SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature,
 										  const DirectCommandList&															   a_directCommandList,
 										  const FrameResource&																   a_frameResource,
 										  const DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestDataList,

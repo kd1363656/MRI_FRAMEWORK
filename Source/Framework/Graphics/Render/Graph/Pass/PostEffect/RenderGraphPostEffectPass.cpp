@@ -32,6 +32,7 @@ void FWK::Graphics::RenderGraphPostEffectPass::Execute(const RTVDescriptorHeap&	
 													   const DSVDescriptorHeap&,
 													   const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool,
 													   const SwapChain&, 
+													   const TextureSystem&,
 															 DirectCommandList&					a_directCommandList,
 															 Renderer&							a_renderer, 
 															 RenderGraph&)

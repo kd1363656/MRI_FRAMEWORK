@@ -118,7 +118,8 @@ void FWK::Graphics::RenderGraph::BeginFrame() const
 void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 
 										 const DSVDescriptorHeap&				  a_dsvDescriptorHeap, 
 										 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
-										 const SwapChain&						  a_swapChain, 
+										 const SwapChain&						  a_swapChain,
+										 const TextureSystem&					  a_textureSystem,
 											   DirectCommandList&				  a_directCommandList,
 											   Renderer&						  a_renderer)
 {
@@ -144,6 +145,7 @@ void FWK::Graphics::RenderGraph::Execute(const RTVDescriptorHeap&				  a_rtvDesc
 						a_dsvDescriptorHeap,
 						a_srvDescriptorPool,
 						a_swapChain,	
+						a_textureSystem,
 						a_directCommandList,
 						a_renderer,
 						*this);

@@ -143,12 +143,14 @@ void FWK::Graphics::Renderer::EndFrame()
 void FWK::Graphics::Renderer::ExecuteRenderGraph(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 												 const RTVDescriptorHeap&				  a_rtvDescriptorHeap, 
 												 const DSVDescriptorHeap&				  a_dsvDescriptorHeap,
-												 const SwapChain&						  a_swapChain)
+												 const SwapChain&						  a_swapChain,
+												 const TextureSystem&					  a_textureSystem)
 {
 	m_renderGraph.Execute(a_rtvDescriptorHeap,
 						  a_dsvDescriptorHeap,
 						  a_srvDescriptorPool,
 						  a_swapChain,
+						  a_textureSystem,
 						  m_directCommandList,
 						  *this);
 }

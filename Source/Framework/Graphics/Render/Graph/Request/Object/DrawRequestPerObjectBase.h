@@ -22,14 +22,14 @@ namespace FWK::Graphics
 
 		// 定数バッファの上書き禁止
 		template <Concept::IsDerivedConstantBufferUploaderBaseConcept ConstantBufferUploaderType, Concept::IsDerivedRootParameterTagBaseConcept RootParameterTagType, typename ConstantBufferType>
-		bool SetupPerObjectConstantBuffer(const RootSignature&	    a_rootSignature,
+		void SetupPerObjectConstantBuffer(const RootSignature&	    a_rootSignature,
 										  const DirectCommandList&  a_directCommandList,
 										  const FrameResource&	    a_frameResource,
 										  const ConstantBufferType& a_constantBuffer)
 		{
 			auto l_constantBufferUploader = a_frameResource.FindPTRConstantBufferUploader<ConstantBufferUploaderType>().lock();
 
-			FWK_ASSERT_RETURN_VALUE_IF(!l_constantBufferUploader, "PerObject定数バッファが取得できないため、描画処理に失敗しました。", false)
+			FWK_ASSERT_RETURN_IF(!l_constantBufferUploader, "PerObject定数バッファが取得できないため、描画処理に失敗しました。")
 
 			const auto& l_gpuVirtualAddress = l_constantBufferUploader->Write(a_constantBuffer);
 
@@ -38,8 +38,6 @@ namespace FWK::Graphics
 			// SetupConstantBufferView内でRootParameterTagからルートパラメータ番号を取得し、
 			// 指定したRootParameterへUploadBuffer上の定数バッファを結びつける
 			a_directCommandList.SetupConstantBufferView<RootParameterTagType>(l_gpuVirtualAddress, a_rootSignature);
-
-			return true;
 		}
 
 		void SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag);

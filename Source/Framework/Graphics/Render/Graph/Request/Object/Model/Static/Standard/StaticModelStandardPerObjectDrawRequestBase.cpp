@@ -11,7 +11,7 @@ void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddForwardDrawR
 	m_forwardPerObjectDataList.AddDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData);
 }
 
-bool FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature, 
+void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature, 
 																							  const DirectCommandList&															   a_directCommandList,
 																							  const FrameResource&																   a_frameResource,
 																							  const DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestDataList,
@@ -25,7 +25,7 @@ bool FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshC
 
 		const auto& l_staticModelRecord = l_drawRequestPerObject->m_staticModelRecord.lock();
 
-		FWK_ASSERT_RETURN_VALUE_IF(!l_staticModelRecord, "StaticModelRecordのポインタが無効です。", false)
+		FWK_ASSERT_RETURN_IF(!l_staticModelRecord, "StaticModelRecordのポインタが無効です。")
 
 		const auto& l_modelData = l_staticModelRecord->GetREFModelData();
 
@@ -36,7 +36,7 @@ bool FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshC
 			const auto& l_modelMeshRuntimeData     = l_modelMesh.m_modelMeshRuntimeData;
 			const auto& l_modelMaterialRuntimeData = l_modelMesh.m_modelMaterial.m_modelMaterialRuntimeData;
 
-			FWK_ASSERT_RETURN_VALUE_IF(l_modelMeshletData.m_meshletList.size() == Constant::k_emptyMeshletCount, "Meshletが存在しないため、StaticModelのPerObject定数バッファを設定できませんでした", false)
+			FWK_ASSERT_RETURN_IF(l_modelMeshletData.m_meshletList.size() == Constant::k_emptyMeshletCount, "Meshletが存在しないため、StaticModelのPerObject定数バッファを設定できませんでした")
 
 			Struct::CBModelPerObject l_cbModelPerObject = {};
 
@@ -49,23 +49,23 @@ bool FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshC
 			l_cbModelPerObject.m_uniqueVertexIndexBufferSRVIndex = l_modelMeshRuntimeData.m_uniqueVertexIndexBuffer.m_srvStorageID;
 			l_cbModelPerObject.m_primitiveIndexBufferSRVIndex    = l_modelMeshRuntimeData.m_primitiveIndexBuffer.m_srvStorageID;
 
-			FWK_ASSERT_RETURN_VALUE_IF(l_cbModelPerObject.m_vertexBufferSRVIndex		    == Constant::k_invalidStorageID, "VertexBufferのSRVStorageIDが無効です。",			  false)
-			FWK_ASSERT_RETURN_VALUE_IF(l_cbModelPerObject.m_meshletBufferSRVIndex		    == Constant::k_invalidStorageID, "MeshletBufferのSRVStorageIDが無効です。",		      false)
-			FWK_ASSERT_RETURN_VALUE_IF(l_cbModelPerObject.m_uniqueVertexIndexBufferSRVIndex == Constant::k_invalidStorageID, "UniqueVertexIndexBufferのSRVStorageIDが無効です。", false)
-			FWK_ASSERT_RETURN_VALUE_IF(l_cbModelPerObject.m_primitiveIndexBufferSRVIndex    == Constant::k_invalidStorageID, "PrimitiveIndexBufferのSRVStorageIDが無効です。",    false)
+			FWK_ASSERT_RETURN_IF(l_cbModelPerObject.m_vertexBufferSRVIndex		      == Constant::k_invalidStorageID, "VertexBufferのSRVStorageIDが無効です。")
+			FWK_ASSERT_RETURN_IF(l_cbModelPerObject.m_meshletBufferSRVIndex		      == Constant::k_invalidStorageID, "MeshletBufferのSRVStorageIDが無効です。")
+			FWK_ASSERT_RETURN_IF(l_cbModelPerObject.m_uniqueVertexIndexBufferSRVIndex == Constant::k_invalidStorageID, "UniqueVertexIndexBufferのSRVStorageIDが無効です。")
+			FWK_ASSERT_RETURN_IF(l_cbModelPerObject.m_primitiveIndexBufferSRVIndex    == Constant::k_invalidStorageID, "PrimitiveIndexBufferのSRVStorageIDが無効です。")
 				
 			// BaseColorTextureのSRV番号。
 			// Textureがない場合はDefaultTextureを使う
 			l_cbModelPerObject.m_baseColorTextureSRVIndex = FetchVALTextureSRVStorageID(l_modelMaterialRuntimeData.m_baseColorTexture, a_textureSystem,				   Enum::DefaultTextureType::BaseColor);
-			FWK_ASSERT_RETURN_VALUE_IF												   (l_cbModelPerObject.m_baseColorTextureSRVIndex == Constant::k_invalidStorageID, "BaseColorTextureのSRVStorageIDが無効です。", false)
+			FWK_ASSERT_RETURN_IF												       (l_cbModelPerObject.m_baseColorTextureSRVIndex == Constant::k_invalidStorageID, "BaseColorTextureのSRVStorageIDが無効です。")
 
 			l_cbModelPerObject.m_normalTextureSRVIndex = FetchVALTextureSRVStorageID(l_modelMaterialRuntimeData.m_normalTexture, a_textureSystem,				 Enum::DefaultTextureType::Normal);
-			FWK_ASSERT_RETURN_VALUE_IF												(l_cbModelPerObject.m_normalTextureSRVIndex == Constant::k_invalidStorageID, "NormalTextureのSRVStorageIDが無効です。", false)
+			FWK_ASSERT_RETURN_IF												    (l_cbModelPerObject.m_normalTextureSRVIndex == Constant::k_invalidStorageID, "NormalTextureのSRVStorageIDが無効です。")
 
-			return SetupPerObjectConstantBuffer<ModelPerObjectConstantBufferUploader, Tag::RootParameterCBModelPerObjectTag>(a_rootSignature, 
-																															 a_directCommandList,
-																															 a_frameResource,
-																															 l_cbModelPerObject);	
+			SetupPerObjectConstantBuffer<ModelPerObjectConstantBufferUploader, Tag::RootParameterCBModelPerObjectTag>(a_rootSignature, 
+																													  a_directCommandList,
+																													  a_frameResource,
+																													  l_cbModelPerObject);	
 		}
 	}
 }

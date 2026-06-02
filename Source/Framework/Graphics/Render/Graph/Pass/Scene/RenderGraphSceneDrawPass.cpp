@@ -9,11 +9,12 @@ FWK::Graphics::RenderGraphSceneDrawPass::~RenderGraphSceneDrawPass() = default;
 
 void FWK::Graphics::RenderGraphSceneDrawPass::Execute(const RTVDescriptorHeap&				   a_rtvDescriptorHeap, 
 													  const DSVDescriptorHeap&				   a_dsvDescriptorHeap, 
-													  const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
+													  const DescriptorPool<SRVDescriptorHeap>&, 
 													  const SwapChain&, 
+													  const TextureSystem&,
 															DirectCommandList&				   a_directCommandList, 
 															Renderer&						   a_renderer,
-															RenderGraph&					   a_renderGraph)
+															RenderGraph&)
 {
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 

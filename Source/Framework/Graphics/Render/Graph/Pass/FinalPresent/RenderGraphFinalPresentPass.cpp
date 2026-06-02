@@ -24,6 +24,7 @@ void FWK::Graphics::RenderGraphFinalPresentPass::Execute(const RTVDescriptorHeap
 														 const DSVDescriptorHeap&, 
 														 const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, 
 													     const SwapChain&						  a_swapChain,
+														 const TextureSystem&,
 															   DirectCommandList&				  a_directCommandList,
 															   Renderer&						  a_renderer,
 															   RenderGraph&)
