@@ -481,6 +481,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\IRenderGraphPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.h" />
@@ -617,6 +618,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\PostEffect\RenderGraphPostEffectPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\RenderGraphPassBase.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Scene\RenderGraphSceneDrawPass.cpp" />
@@ -695,6 +697,12 @@ if "$(Configuration)"=="Debug" (
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
     </DXCTask>
     <DXCTask Include="Asset\Shader\FinalPresent\FinalPresent_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\GBuffer\ModelStaticLitGBuffer_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

@@ -331,6 +331,7 @@
 #include "Definition/Type/Alias/Factory/Shared/Graphics/Render/Graph/Pass/TypeAliasSharedFactoryRenderGraphPass.h"
 #include "Graphics/Render/Graph/Pass/RenderGraphPassBase.h"
 #include "Graphics/Render/Graph/Pass/Scene/RenderGraphSceneDrawPass.h"
+#include "Graphics/Render/Graph/Pass/GBuffer/RenderGraphGBufferPass.h"
 #include "Graphics/Render/Graph/Pass/Forward/RenderGraphForwardPass.h"
 #include "Graphics/Render/Graph/Pass/FinalPresent/RenderGraphFinalPresentPass.h"
 #include "Graphics/Render/Graph/Pass/PostEffect/RenderGraphPostEffectPass.h"

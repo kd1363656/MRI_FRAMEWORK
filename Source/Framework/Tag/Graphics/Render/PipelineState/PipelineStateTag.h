@@ -8,9 +8,10 @@ namespace FWK::Tag
 	struct SpriteStandardPipelineStateTag final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(SpriteStandardPipelineStateTag, PipelineStateTagBase) };
 
 	// モデル用パイプライン
-	struct ModelUnLitStandardPipelineStateTag final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelUnLitStandardPipelineStateTag, PipelineStateTagBase) };
-	struct ModelLitStandardPipelineStateTag   final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelLitStandardPipelineStateTag,   PipelineStateTagBase) };
-
+	struct ModelUnLitStandardPipelineStateTag      final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelUnLitStandardPipelineStateTag,	   PipelineStateTagBase) };
+	struct ModelLitStandardPipelineStateTag        final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelLitStandardPipelineStateTag,		   PipelineStateTagBase) };
+	struct ModelLitGBufferStandardPipelineStateTag final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelLitGBufferStandardPipelineStateTag, PipelineStateTagBase) };
+	
 	// ポストエフェクト用パイプライン
 	struct PostEffectPipelineStateTag final : public PipelineStateTagBase { FWK_DEFINE_TYPE_INFO_TAG(PostEffectPipelineStateTag, PipelineStateTagBase) };
 

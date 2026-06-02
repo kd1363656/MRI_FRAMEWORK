@@ -898,6 +898,12 @@
     <Filter Include="Source\Framework\Definition\Enum\Graphics\Render\Graph\Request\Object\Model">
       <UniqueIdentifier>{a4bf7533-8d29-44c5-824b-7634f84a01aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer">
+      <UniqueIdentifier>{08e6e197-0b65-4506-976b-690ad0d3a6a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\Model\Static\Standard\Lit\GBuffer">
+      <UniqueIdentifier>{3d2b7463-b538-4b64-b04f-f8ee9cdebbe6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1541,6 +1547,9 @@
     <ClInclude Include="Source\Framework\Definition\Enum\Graphics\Render\Graph\Request\Object\Model\DrawRequestPerObjectModelEnum.h">
       <Filter>Source\Framework\Definition\Enum\Graphics\Render\Graph\Request\Object\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\GBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1870,6 +1879,9 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\Forward</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\GBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
@@ -1901,6 +1913,9 @@
     </DXCTask>
     <DXCTask Include="Asset\Shader\PostEffect\PostEffect_PS.hlsl">
       <Filter>Asset\Shader\PostEffect</Filter>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\GBuffer\ModelStaticLitGBuffer_PS.hlsl">
+      <Filter>Asset\Shader\Model\Static\Standard\Lit\GBuffer</Filter>
     </DXCTask>
   </ItemGroup>
   <ItemGroup>
