@@ -56,10 +56,10 @@ bool FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshC
 				
 			// BaseColorTextureのSRV番号。
 			// Textureがない場合はDefaultTextureを使う
-			l_cbModelPerObject.m_baseColorTextureSRVIndex = FetchVALTextureSRVStorageID(l_modelMaterialRuntimeData.m_baseColorTexture, a_textureSystem, Enum::DefaultTextureType::BaseColor);
+			l_cbModelPerObject.m_baseColorTextureSRVIndex = FetchVALTextureSRVStorageID(l_modelMaterialRuntimeData.m_baseColorTexture, a_textureSystem,				   Enum::DefaultTextureType::BaseColor);
 			FWK_ASSERT_RETURN_VALUE_IF												   (l_cbModelPerObject.m_baseColorTextureSRVIndex == Constant::k_invalidStorageID, "BaseColorTextureのSRVStorageIDが無効です。", false)
 
-			l_cbModelPerObject.m_normalTextureSRVIndex = FetchVALTextureSRVStorageID(l_modelMaterialRuntimeData.m_normalTexture, a_textureSystem, Enum::DefaultTextureType::Normal);
+			l_cbModelPerObject.m_normalTextureSRVIndex = FetchVALTextureSRVStorageID(l_modelMaterialRuntimeData.m_normalTexture, a_textureSystem,				 Enum::DefaultTextureType::Normal);
 			FWK_ASSERT_RETURN_VALUE_IF												(l_cbModelPerObject.m_normalTextureSRVIndex == Constant::k_invalidStorageID, "NormalTextureのSRVStorageIDが無効です。", false)
 
 			return SetupPerObjectConstantBuffer<ModelPerObjectConstantBufferUploader, Tag::RootParameterCBModelPerObjectTag>(a_rootSignature, 

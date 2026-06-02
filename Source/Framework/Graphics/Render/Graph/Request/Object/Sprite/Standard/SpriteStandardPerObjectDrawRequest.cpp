@@ -11,17 +11,51 @@ void FWK::Graphics::SpriteStandardPerObjectDrawRequest::PostCreateSetup(Renderer
 	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetVALTag<Tag::SpriteStandardPipelineStateTag>());
 }
 
-void FWK::Graphics::SpriteStandardPerObjectDrawRequest::RequestDraw(Renderer& a_renderer)
+void FWK::Graphics::SpriteStandardPerObjectDrawRequest::RequestDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer)
 {
-	const auto& l_rootSignature = GetVALRootSignature().lock();
+	const auto& l_renderGraph       = a_renderer.GetMutableREFRenderGraph();
+	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList ();
+	const auto& l_rootSignature     = GetVALRootSignature			     ().lock();
 
-	FWK_ASSERT_RETURN_IF(!l_rootSignature, "使用しようとしたルートシグネチャが無効なため、描画処理に失敗しました。")
+	FWK_ASSERT_RETURN_IF(!l_rootSignature, "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。")
 
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
 	FWK_ASSERT_RETURN_IF(!l_currentFrameResource, "現在のフレームリソースの取得に失敗しました。")
 
+	const auto& l_spritePassDrawRequest = l_renderGraph.FindVALDrawRequestPass<SpritePassDrawRequest>().lock();
 
+	FWK_ASSERT_RETURN_IF(!l_spritePassDrawRequest,																								  "スプライトパスのポインタが無効です。")
+	FWK_ASSERT_RETURN_IF(!l_spritePassDrawRequest->SetupCommonPassConstantBuffer(*l_rootSignature, l_directCommandList, *l_currentFrameResource), "スプライト定数の設定が出来ませんでした。")
+
+	for (const auto& l_drawRequest : m_drawRequestPerObjectList.GetREFDrawRequestPerObjectRecordList())
+	{
+		const auto& l_drawRequestPerObject = l_drawRequest.m_drawRequestPerObject.lock();
+
+		if (!l_drawRequestPerObject) { continue; }
+
+		const auto& l_textureRecord = l_drawRequestPerObject->m_textureRecord.lock();
+
+		if (!l_textureRecord)								  { continue; }
+		if (!l_textureRecord->GetREFGPUResource().m_resource) { continue; }
+
+		Struct::CBSpritePerObject l_cbSpritePerObject = {};
+
+		l_cbSpritePerObject.m_color					   = l_drawRequestPerObject->m_color;
+		l_cbSpritePerObject.m_position				   = l_drawRequestPerObject->m_position;
+		l_cbSpritePerObject.m_scale					   = l_drawRequestPerObject->m_scale;
+		l_cbSpritePerObject.m_pivot					   = l_drawRequestPerObject->m_pivot;
+		l_cbSpritePerObject.m_sourceRECT			   = l_drawRequestPerObject->m_sourceRECT;
+
+
+		l_cbSpritePerObject.m_baseColorTextureSRVIndex = FetchVALTextureSRVStorageID(l_textureRecord, a_textureSystem,												 Enum::DefaultTextureType::BaseColor);
+		FWK_ASSERT_RETURN_IF														(l_cbSpritePerObject.m_baseColorTextureSRVIndex == Constant::k_invalidStorageID, "BaseColorTextureのSRVStorageIDが無効です。")
+
+		SetupPerObjectConstantBuffer<SpritePerObjectConstantBufferUploader, Tag::RootParameterCBSpritePerObjectTag>(*l_rootSignature,
+																												    l_directCommandList,
+																												    *l_currentFrameResource,
+																												    l_cbSpritePerObject);
+	}
 }
 
 void FWK::Graphics::SpriteStandardPerObjectDrawRequest::AddDrawRequestPerObject(const std::shared_ptr<Struct::SpriteStandardPerObjectDrawRequestData>& a_drawRequestData)

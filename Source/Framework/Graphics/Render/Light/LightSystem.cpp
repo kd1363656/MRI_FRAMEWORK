@@ -23,7 +23,7 @@ void FWK::Graphics::LightSystem::ApplyDefaultSettings()
 	l_ambientLight.m_intensity = Constant::k_defaultAmbientLightIntensity;
 }
 
-void FWK::Graphics::LightSystem::SetToConstantBuffer()
+void FWK::Graphics::LightSystem::SyncLightPassDrawRequest()
 {
 	const auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer		   ();

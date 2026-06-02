@@ -44,5 +44,29 @@ bool FWK::Graphics::RenderArea::SetupRenderArea(const SwapChain& a_swapChain)
 								  static_cast<LONG>(l_desc.Width),
 								  static_cast<LONG>(l_desc.Height) };
 	
+	if (!m_cbSpritePass)
+	{
+		m_cbSpritePass = std::make_shared<Struct::CBSpritePass>();
+	}
+
+	m_cbSpritePass->m_projectionMatrix = TypeAlias::Math::Matrix::CreateOrthographic(m_viewport.Width,
+																				     m_viewport.Height,
+																					 k_defaultNearClip,
+																					 k_defaultFarClip);
+
 	return true;
+}
+
+void FWK::Graphics::RenderArea::SyncSpritePassDrawRequest()
+{
+	const auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
+	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer		   ();
+	const auto& l_renderGraph	  = l_renderer.GetREFRenderGraph();
+
+	const auto& l_spritePassDrawRequest = l_renderGraph.FindVALDrawRequestPass<SpritePassDrawRequest>().lock();
+
+	if (!l_spritePassDrawRequest) { return; }
+
+	// 定数バッファの変更を反映するためにカメラクラスの定数バッファデータを送信する
+	l_spritePassDrawRequest->SetSourceConstantBuffer(m_cbSpritePass);
 }

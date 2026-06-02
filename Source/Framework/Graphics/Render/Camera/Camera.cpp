@@ -70,7 +70,7 @@ void FWK::Graphics::Camera::SetProjectionMatrix(const TypeAlias::Math::Matrix& a
 	UpdateViewProjectionMatrix();
 }
 
-void FWK::Graphics::Camera::SetToConstantBuffer()
+void FWK::Graphics::Camera::SyncCameraPassDrawRequest()
 {
 	const auto& l_graphicsManager = FWK::Graphics::GraphicsManager::GetInstance();
 	const auto& l_renderer		  = l_graphicsManager.GetREFRenderer		   ();

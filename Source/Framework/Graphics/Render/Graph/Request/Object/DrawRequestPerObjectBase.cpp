@@ -110,3 +110,26 @@ FWK::TypeAlias::StorageID FWK::Graphics::DrawRequestPerObjectBase::FetchVALTextu
 
 	return l_defaultTextureSRVStorageID;
 }
+FWK::TypeAlias::StorageID FWK::Graphics::DrawRequestPerObjectBase::FetchVALTextureSRVStorageID(const std::shared_ptr<TextureRecord>& a_textureRecord, const TextureSystem& a_textureSystem, const Enum::DefaultTextureType a_defaultTextureType) const 
+{
+	if (a_textureRecord)
+	{
+		// テクスチャIDが無効でなければその値を返す
+		if (const auto l_textureStorageID = a_textureRecord->GetVALSRVStorageID();
+			l_textureStorageID != Constant::k_invalidStorageID) 
+		{
+			return l_textureStorageID; 
+		}
+	}
+
+	// SRVがTextureRecordから取得できない場合デフォルトテクスチャのSRVStorageIDを返す
+	const auto& l_defaultTextureRecord = a_textureSystem.FindVALDefaultTextureRecord(a_defaultTextureType).lock();
+
+	FWK_ASSERT_RETURN_VALUE_IF(!l_defaultTextureRecord, "DefaultTextureが取得できませんでした。", Constant::k_invalidStorageID)
+
+	const auto l_defaultTextureSRVStorageID = l_defaultTextureRecord->GetVALSRVStorageID();
+
+	FWK_ASSERT_RETURN_VALUE_IF(l_defaultTextureSRVStorageID == Constant::k_invalidStorageID, "DefaultTextureRecordのSRVStorageIDが無効です。", Constant::k_invalidStorageID)
+
+	return l_defaultTextureSRVStorageID;
+}

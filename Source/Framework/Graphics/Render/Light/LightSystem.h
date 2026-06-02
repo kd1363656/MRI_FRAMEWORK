@@ -11,7 +11,7 @@ namespace FWK::Graphics
 
 		void ApplyDefaultSettings();
 
-		void SetToConstantBuffer();
+		void SyncLightPassDrawRequest();
 
 	private:
 

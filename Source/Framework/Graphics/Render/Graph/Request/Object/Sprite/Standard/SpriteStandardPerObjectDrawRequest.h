@@ -18,7 +18,7 @@ namespace FWK::Graphics
 		
 		void PostCreateSetup(Renderer& a_renderer) override;
 
-		void RequestDraw(Renderer& a_renderer);
+		void RequestDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer);
 
 		void AddDrawRequestPerObject(const std::shared_ptr<Struct::SpriteStandardPerObjectDrawRequestData>& a_drawRequestData);
 		

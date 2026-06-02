@@ -53,7 +53,8 @@ namespace FWK::Graphics
 													const TextureSystem&			a_textureSystem,
 													const Enum::DefaultTextureType  a_defaultTextureType) const;
 
-		TypeAlias::StorageID FetchVALTextureSRVStorageID(const std::shared_ptr<Texture>& a_texture, const TextureSystem& a_textureSystem, const Enum::DefaultTextureType a_defaultTextureType) const;
+		TypeAlias::StorageID FetchVALTextureSRVStorageID(const std::shared_ptr<Texture>&	   a_texture,	    const TextureSystem& a_textureSystem, const Enum::DefaultTextureType a_defaultTextureType) const;
+		TypeAlias::StorageID FetchVALTextureSRVStorageID(const std::shared_ptr<TextureRecord>& a_textureRecord, const TextureSystem& a_textureSystem, const Enum::DefaultTextureType a_defaultTextureType) const;
 
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountX() { return k_defaultDispatchMeshThreadGroupCountX; }
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountY() { return k_defaultDispatchMeshThreadGroupCountY; }
