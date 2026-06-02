@@ -6,6 +6,11 @@ void FWK::Graphics::SpriteStandardPerObjectDrawRequest::BeginFrame()
 	m_drawRequestPerObjectList.BeginFrame();
 }
 
+void FWK::Graphics::SpriteStandardPerObjectDrawRequest::PostCreateSetup(Renderer& a_renderer)
+{
+	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetVALTag<Tag::SpriteStandardPipelineStateTag>());
+}
+
 void FWK::Graphics::SpriteStandardPerObjectDrawRequest::RequestDraw(Renderer& a_renderer)
 {
 	const auto& l_rootSignature = GetVALRootSignature().lock();

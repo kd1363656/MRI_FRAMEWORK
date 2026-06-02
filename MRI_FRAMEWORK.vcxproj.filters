@@ -874,6 +874,12 @@
     <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard">
       <UniqueIdentifier>{6731793d-b402-426c-bcbe-3cbaba35351f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\UnLit">
+      <UniqueIdentifier>{17cd9d20-c51e-4304-92e7-f7ddbfd2a5dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit">
+      <UniqueIdentifier>{a9997489-ae2f-49f7-a8a3-cc6ab135f75a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1505,6 +1511,12 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\StaticModelStandardPerObjectDrawRequestBase.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\UnLit\StaticModelStandardPerObjectDrawRequestUnLit.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\UnLit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit\StaticModelStandardPerObjectDrawRequestLit.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1824,6 +1836,12 @@
     </ClCompile>
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\StaticModelStandardPerObjectDrawRequestBase.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\UnLit\StaticModelStandardPerObjectDrawRequestUnLit.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\UnLit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit\StaticModelStandardPerObjectDrawRequestLit.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Request\Object\Model\Static\Standard\Lit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

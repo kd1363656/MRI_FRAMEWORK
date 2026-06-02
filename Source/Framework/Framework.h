@@ -343,6 +343,8 @@
 
 // 描画リクエスト(オブジェクト)
 #include "Graphics/Render/Graph/Request/Object/Sprite/Standard/SpriteStandardPerObjectDrawRequest.h"
+#include "Graphics/Render/Graph/Request/Object/Model/Static/Standard/StaticModelStandardPerObjectDrawRequestBase.h"
+#include "Graphics/Render/Graph/Request/Object/Model/Static/Standard/UnLit/StaticModelStandardPerObjectDrawRequestUnLit.h"
 
 // レンダーエリアクラス
 #include "Graphics/Render/Rasterizer/RenderArea.h"

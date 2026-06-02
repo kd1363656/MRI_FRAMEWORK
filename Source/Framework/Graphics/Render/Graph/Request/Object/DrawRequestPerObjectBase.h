@@ -14,8 +14,10 @@ namespace FWK::Graphics
 			     DrawRequestPerObjectBase() = default;
 		virtual ~DrawRequestPerObjectBase() = default;
 
-		virtual void BeginFrame() = 0;
+		virtual void PostCreateSetup(Renderer& a_renderer) = 0;
 
+				void SetupBeforeDrawRequest(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) const;
+		virtual void BeginFrame			   () = 0;
 	protected:
 
 		// 定数バッファの上書き禁止

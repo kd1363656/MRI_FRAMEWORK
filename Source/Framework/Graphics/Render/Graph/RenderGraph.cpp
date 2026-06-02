@@ -102,7 +102,9 @@ void FWK::Graphics::RenderGraph::BeginFrame() const
 {
 	for (const auto& l_drawRequestPass : m_drawRequestPassList)
 	{
-		FWK_ASSERT_RETURN_IF         (!l_drawRequestPass, "DrawRequestPassが無効のため、BeginFrameを実行できませんでした。")
+		FWK_ASSERT_RETURN_IF(!l_drawRequestPass, "DrawRequestPassが無効のため、BeginFrameを実行できませんでした。")
+
+		// 共通定数バッファのパラメータを更新
 		l_drawRequestPass->BeginFrame();
 	}
 

@@ -1,5 +1,16 @@
 ﻿#include "DrawRequestPerObjectBase.h"
 
+void FWK::Graphics::DrawRequestPerObjectBase::SetupBeforeDrawRequest(const DescriptorPool<SRVDescriptorHeap>& a_srvDescriptorPool, Renderer& a_renderer) const
+{
+	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList();
+
+	// MeshShaderからSRVを読むため、ShaderVisibleのSRVDescriptorHeapを設定する
+	l_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
+
+	// StaticModel用ルートシグネチャとパイプラインステートをセット
+	SetupGraphicsPipelineStateToCommandList(a_renderer);
+}
+
 void FWK::Graphics::DrawRequestPerObjectBase::SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag)
 {
 	const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(a_typeTag);
@@ -61,6 +72,8 @@ bool FWK::Graphics::DrawRequestPerObjectBase::TransitionTextureToPixelShaderReso
 		{
 			// MaterialやSpriteが持っているTextureをPixelShaderから読める状態へ遷移する
 			TransitionTextureToPixelShaderResource(a_directCommandList, *l_textureRecord);
+
+			return true;
 		}
 	}
 
