@@ -14,7 +14,7 @@ namespace FWK::Tag
 	struct GBufferNormalTextureTag final : public SceneTextureTagBase { FWK_DEFINE_TYPE_INFO_TAG(GBufferNormalTextureTag, SceneTextureTagBase) };
 
 	// モデルのワールド座標を保持するGBuffer
-	struct GBufferWorldPositionTextureTag final : public SceneTextureTagBase { FWK_DEFINE_TYPE_INFO(GBufferWorldPositionTextureTag, SceneTextureTagBase) };
+	struct GBufferWorldPositionTextureTag final : public SceneTextureTagBase { FWK_DEFINE_TYPE_INFO_TAG(GBufferWorldPositionTextureTag, SceneTextureTagBase) };
 
 	// ポストエフェクト後の色
 	struct PostEffectColorTextureTag final : public SceneTextureTagBase { FWK_DEFINE_TYPE_INFO_TAG(PostEffectColorTextureTag, SceneTextureTagBase) };

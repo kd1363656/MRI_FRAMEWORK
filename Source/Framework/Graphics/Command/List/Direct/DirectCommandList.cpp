@@ -131,6 +131,41 @@ void FWK::Graphics::DirectCommandList::SetupRenderTargetTexture(const RenderTarg
 											&l_dsvHandle);
 }
 
+void FWK::Graphics::DirectCommandList::SetupRenderTargetTexture(const std::vector<std::reference_wrapper<const RenderTargetTexture>>& a_renderTargetTextureList, 
+																const RTVDescriptorHeap&										      a_rtvDescriptorHeap, 
+																const DSVDescriptorHeap&											  a_dsvDescriptorHeap, 
+																const DepthStencilTexture&											  a_depthStencilTexture) const
+{
+	const auto& l_directCommandList = GetREFCommandList();
+
+	FWK_ASSERT_RETURN_IF(!l_directCommandList,														 "DirectCommandListが無効のため、複数RenderTargetTextureの設定が行えませんでした。")
+	FWK_ASSERT_RETURN_IF(a_renderTargetTextureList.empty(),											 "RenderTargetTextureListが空のため、複数RenderTargetTextureの設定が行えませんでした。")
+	FWK_ASSERT_RETURN_IF(a_renderTargetTextureList.size() > D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT,  "RenderTargetTextureListがDirectX12の最大出力RenderTarget数を超えています。")
+	FWK_ASSERT_RETURN_IF(a_depthStencilTexture.GetVALDSVStorageID() == Constant::k_invalidStorageID, "DSVStorageIDが無効のため、複数RenderTargetTextureの設定が行えませんでした。")
+
+	std::array<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT> l_rtvHandleList = {};
+
+	for (std::size_t l_renderTargetTextureIndex = 0U; l_renderTargetTextureIndex < a_renderTargetTextureList.size(); ++l_renderTargetTextureIndex)
+	{
+		const auto& l_renderTargetTexture = a_renderTargetTextureList[l_renderTargetTextureIndex].get();
+
+		FWK_ASSERT_RETURN_IF(l_renderTargetTexture.GetVALRTVStorageID() == Constant::k_invalidStorageID, "RTVStorageIDが無効のため、複数RenderTargetTextureの設定が行えませんでした。")
+
+		// 各RenderTargetTextureに対応するRTVのCPUハンドルを取得する。
+		l_rtvHandleList[l_renderTargetTextureIndex] = a_rtvDescriptorHeap.FetchVALCPUOnlyCPUHandle(l_renderTargetTexture.GetVALRTVStorageID());
+	}
+
+	const auto& l_dsvHandle				 = a_dsvDescriptorHeap.FetchVALCPUOnlyCPUHandle(a_depthStencilTexture.GetVALDSVStorageID());
+	const auto  l_renderTargetTextureNUM = static_cast<UINT>(a_renderTargetTextureList.size());
+
+	// 複数RTVをOMステージに登録する。
+	// RTVがDescriptorHeap上で必ず連続している保証がないため第三引数はfalse
+	l_directCommandList->OMSetRenderTargets(l_renderTargetTextureNUM,
+											l_rtvHandleList.data(),
+											false,
+											&l_dsvHandle);
+}
+
 void FWK::Graphics::DirectCommandList::SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const
 {
 	const auto& l_directCommandList = GetREFCommandList();

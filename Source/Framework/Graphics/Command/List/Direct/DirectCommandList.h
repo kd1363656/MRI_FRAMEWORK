@@ -33,6 +33,11 @@ namespace FWK::Graphics
 									  const DSVDescriptorHeap&	 a_dsvDescriptorHeap,
 									  const DepthStencilTexture& a_depthStencilTexture) const;
 
+		void SetupRenderTargetTexture(const std::vector<std::reference_wrapper<const RenderTargetTexture>>& a_renderTargetTextureList,
+									  const RTVDescriptorHeap&												a_rtvDescriptorHeap,
+									  const DSVDescriptorHeap&												a_dsvDescriptorHeap,
+									  const DepthStencilTexture&											a_depthStencilTexture) const;
+
 		void SetupBackBufferRenderTarget(const SwapChain& a_swapChain, const RTVDescriptorHeap& a_rtvDescriptorHeap) const;
 
 		void SetupBackBufferRenderTarget(const SwapChain&		    a_swapChain, 
