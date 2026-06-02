@@ -70,13 +70,14 @@ namespace FWK::Graphics
 			// 高速検索用のアドレス集合から削除する
 			m_registeredAddressSet.erase(l_drawRequestPerObjectAddress);
 
-			// 実際に描画時に走査するvector空も削除する
+			// 実際に描画時に走査するvectorからも削除する
 			const auto l_removedCount = std::erase_if(m_drawRequestPerObjectRecordList, [l_drawRequestPerObjectAddress](const auto& a_drawRequestPerObjectRecord)
 			{
 				return a_drawRequestPerObjectRecord.m_drawRequestPerObjectAddress == l_drawRequestPerObjectAddress;
 			});
 
-			return l_removedCount != k_emptyElementCount;
+			// 削除数が1以上である必要がある
+			return l_removedCount > k_emptyElementCount;
 		}
 
 		const auto& GetREFDrawRequestPerObjectRecordList() const { return m_drawRequestPerObjectRecordList; }

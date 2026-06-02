@@ -7,18 +7,49 @@ void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::BeginFrame()
 	m_deferredPerObjectDataList.BeginFrame();
 }
 
-void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddForwardDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData)
+void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, const Enum::StaticModelRenderingPath a_staticModelRenderingPath)
+{
+	FWK_ASSERT_RETURN_IF(!a_staticModelStandardPerObjectDrawRequestData, "StaticModelStandardPerObjectDrawRequestDataが無効のため、StaticModelの描画経路を切り替えられませんでした。")
+
+	// Deferredレンダリング、Forwardレンダリングどちらか一つの描画方式のみ適用
+	// どちらか片方にしか所属できない設計
+	switch (a_staticModelRenderingPath)
+	{
+		case Enum::StaticModelRenderingPath::Forward:
+		{
+			AddDrawRequestRenderPath(a_staticModelStandardPerObjectDrawRequestData, m_forwardPerObjectDataList, m_deferredPerObjectDataList);
+		}
+		break;
+
+		case Enum::StaticModelRenderingPath::Deferred:
+		{
+			AddDrawRequestRenderPath(a_staticModelStandardPerObjectDrawRequestData, m_deferredPerObjectDataList, m_forwardPerObjectDataList);
+		}
+		break;
+
+		default:
+		{
+			FWK_ASSERT_RETURN_IF(true, "未対応のStaticModelRenderingPathが指定されました。")
+		}
+		break;
+	}
+}
+
+void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_addPerObjectDataList, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_removePerObjectDataList)
 {
 	FWK_ASSERT_RETURN_IF(!a_staticModelStandardPerObjectDrawRequestData, "StaticModelStandardPerObjectDrawRequestDataが無効のため、描画要求を追加できませんでした。")
 
-	m_forwardPerObjectDataList.AddDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData);
-}
-void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddDeferredDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData)
-{
-	m_deferredPerObjectDataList.AddDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData);
+	// Forwardへ登録する場合はDeferredリストから削除
+	// Deferredへ登録する場合はForwardリストから削除
+	a_removePerObjectDataList.RemoveDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData);
+
+	// 既に追加先リストへ登録済みなら何もしない
+	if (a_addPerObjectDataList.ContainsDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData)) { return; }
+
+	a_addPerObjectDataList.AddDrawRequestPerObject(a_staticModelStandardPerObjectDrawRequestData);
 }
 
-void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature, 
+void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature,
 																							  const DirectCommandList&															   a_directCommandList,
 																							  const FrameResource&																   a_frameResource,
 																							  const DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestDataList,

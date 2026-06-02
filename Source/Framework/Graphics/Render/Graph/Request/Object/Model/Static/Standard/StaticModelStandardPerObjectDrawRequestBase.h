@@ -12,15 +12,13 @@ namespace FWK::Graphics
 		void BeginFrame() override;
 
 		virtual void RequestForwardDraw (const TextureSystem& a_textureSystem, Renderer& a_renderer) = 0;
-		virtual void RequestDeferredDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) = 0;
+		virtual void RequestDeferredDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) { /*必要に応じてオーバーライドしてください*/ };
 
-		void AddForwardDrawRequestData (const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData);
-		void AddDeferredDrawRequestData(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData);
+		void AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, const Enum::StaticModelRenderingPath a_staticModelRenderingPath);
 
 	protected:
 
-		const auto& GetREFForwardPerObjectDataList () const { return m_forwardPerObjectDataList; }
-		const auto& GetREFDeferredPerObjectDataList() const { return m_deferredPerObjectDataList; }
+		void AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_addPerObjectDataList, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_removePerObjectDataList);
 
 		void SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature,
 										  const DirectCommandList&															   a_directCommandList,
@@ -31,6 +29,9 @@ namespace FWK::Graphics
 		bool TransitionMaterialTexture(const DirectCommandList& a_directCommandList, const TextureSystem& a_textureSystem, const Struct::ModelMesh& a_modelMesh) const;
 
 		bool DispatchModelMesh(const DirectCommandList& a_directCommandList, const Struct::ModelMesh& a_modelMesh) const;
+
+		const auto& GetREFForwardPerObjectDataList () const { return m_forwardPerObjectDataList; }
+		const auto& GetREFDeferredPerObjectDataList() const { return m_deferredPerObjectDataList; }
 
 	private:
 

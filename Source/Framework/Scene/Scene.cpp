@@ -25,9 +25,9 @@ void FWK::Scene::PostLoadSetup()
 	const auto& l_renderer        = l_graphicsManager.GetREFRenderer      ();
 	const auto& l_renderGraph     = l_renderer.GetREFRenderGraph          ();
 	
-	if(const auto& l_staticModelStandardDrawRequestUnLit = l_renderGraph.FindVALDrawRequestPerObject<Graphics::StaticModelStandardPerObjectDrawRequestLit>().lock())
+	if(const auto& l_staticModelStandardDrawRequestLit = l_renderGraph.FindVALDrawRequestPerObject<Graphics::StaticModelStandardPerObjectDrawRequestLit>().lock())
 	{
-		l_staticModelStandardDrawRequestUnLit->AddForwardDrawRequestData(m_staticModelDrawRequestData);
+		l_staticModelStandardDrawRequestLit->AddDrawRequestRenderPath(m_staticModelDrawRequestData, Enum::StaticModelRenderingPath::Forward);
 	}
 
 	const auto& l_viewport = l_renderer.GetREFRenderArea().GetREFViewport ();
@@ -61,15 +61,6 @@ void FWK::Scene::Update()
 	else if (GetAsyncKeyState('S'))
 	{
 		l_cameraPos.z -= 0.01F;
-	}
-
-	if (GetAsyncKeyState('A'))
-	{
-		l_cameraPos.x -= 0.01F;
-	}
-	else if (GetAsyncKeyState('D'))
-	{
-		l_cameraPos.x += 0.01F;
 	}
 
 	if (GetAsyncKeyState('A'))

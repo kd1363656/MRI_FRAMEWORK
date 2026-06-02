@@ -1,4 +1,4 @@
-{
+﻿{
     "Renderer": {
         "FrameResourceList": [
             {
@@ -89,6 +89,51 @@
                                     "Width": 1280
                                 },
                                 "RenderTargetTextureTag": "PostEffectColorTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferAlbedoTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.5,
+                                        "Y": 0.5,
+                                        "Z": 1.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferNormalTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R16G16B16A16_FLOAT",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferWorldPositionTextureTag"
                             }
                         ]
                     }
@@ -182,6 +227,51 @@
                                     "Width": 1280
                                 },
                                 "RenderTargetTextureTag": "PostEffectColorTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferAlbedoTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.5,
+                                        "Y": 0.5,
+                                        "Z": 1.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferNormalTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R16G16B16A16_FLOAT",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferWorldPositionTextureTag"
                             }
                         ]
                     }
@@ -275,6 +365,51 @@
                                     "Width": 1280
                                 },
                                 "RenderTargetTextureTag": "PostEffectColorTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferAlbedoTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.5,
+                                        "Y": 0.5,
+                                        "Z": 1.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferNormalTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R16G16B16A16_FLOAT",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferWorldPositionTextureTag"
                             }
                         ]
                     }
@@ -368,6 +503,51 @@
                                     "Width": 1280
                                 },
                                 "RenderTargetTextureTag": "PostEffectColorTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferAlbedoTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.5,
+                                        "Y": 0.5,
+                                        "Z": 1.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R8G8B8A8_UNORM",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferNormalTextureTag"
+                            },
+                            {
+                                "RenderTargetTexture": {
+                                    "ClearColor": {
+                                        "W": 1.0,
+                                        "X": 0.0,
+                                        "Y": 0.0,
+                                        "Z": 0.0
+                                    },
+                                    "Format": "DXGI_FORMAT_R16G16B16A16_FLOAT",
+                                    "Height": 720,
+                                    "IsUseWindowSize": true,
+                                    "Width": 1280
+                                },
+                                "RenderTargetTextureTag": "GBufferWorldPositionTextureTag"
                             }
                         ]
                     }
