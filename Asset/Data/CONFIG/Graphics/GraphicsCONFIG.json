@@ -129,7 +129,7 @@
                             {
                                 "RenderTargetTexture": {
                                     "ClearColor": {
-                                        "W": 1.0,
+                                        "W": 0.0,
                                         "X": 0.0,
                                         "Y": 0.0,
                                         "Z": 0.0
@@ -273,7 +273,7 @@
                             {
                                 "RenderTargetTexture": {
                                     "ClearColor": {
-                                        "W": 1.0,
+                                        "W": 0.0,
                                         "X": 0.0,
                                         "Y": 0.0,
                                         "Z": 0.0
@@ -417,7 +417,7 @@
                             {
                                 "RenderTargetTexture": {
                                     "ClearColor": {
-                                        "W": 1.0,
+                                        "W": 0.0,
                                         "X": 0.0,
                                         "Y": 0.0,
                                         "Z": 0.0
@@ -561,7 +561,7 @@
                             {
                                 "RenderTargetTexture": {
                                     "ClearColor": {
-                                        "W": 1.0,
+                                        "W": 0.0,
                                         "X": 0.0,
                                         "Y": 0.0,
                                         "Z": 0.0
