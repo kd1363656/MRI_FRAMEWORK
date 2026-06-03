@@ -904,6 +904,21 @@
     <Filter Include="Asset\Shader\Model\Static\Standard\Lit\GBuffer">
       <UniqueIdentifier>{3d2b7463-b538-4b64-b04f-f8ee9cdebbe6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Deferred">
+      <UniqueIdentifier>{dfbb9661-99af-4e2e-bc15-ff59cf7e33bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting">
+      <UniqueIdentifier>{925b2a96-8bec-404e-b702-2f6810a44351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting\Pass">
+      <UniqueIdentifier>{f6c84255-d21a-4afd-a33b-a6c140706f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader\DeferredLighting">
+      <UniqueIdentifier>{a32e9aae-31a9-4569-b935-69a0f7c3255f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Framework\Graphics\Render\Graph\Pass\DeferredLighting">
+      <UniqueIdentifier>{6d0537b2-eb09-402e-8903-9ad6acc3318c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documents\CodingConventions.txt">
@@ -1550,6 +1565,15 @@
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.h">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\GBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\DeferredLighting\DeferredLightingConstantBufferStruc.h">
+      <Filter>Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting\Pass\DeferredLightingPassConstantBufferUploader.h">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\DeferredLighting\RenderGraphDeferredLightingPass.h">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\DeferredLighting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\PCH.cpp">
@@ -1882,6 +1906,12 @@
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.cpp">
       <Filter>Source\Framework\Graphics\Render\Graph\Pass\GBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting\Pass\DeferredLightingPassConstantBufferUploader.cpp">
+      <Filter>Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\DeferredLighting\RenderGraphDeferredLightingPass.cpp">
+      <Filter>Source\Framework\Graphics\Render\Graph\Pass\DeferredLighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <DXCTask Include="Asset\Shader\Sprite\Standard\SpriteStandard_MS.hlsl">
@@ -1917,6 +1947,12 @@
     <DXCTask Include="Asset\Shader\Model\Static\Standard\Lit\GBuffer\ModelStaticLitGBuffer_PS.hlsl">
       <Filter>Asset\Shader\Model\Static\Standard\Lit\GBuffer</Filter>
     </DXCTask>
+    <DXCTask Include="Asset\Shader\DeferredLighting\DeferredLighting_MS.hlsl">
+      <Filter>Asset\Shader\DeferredLighting</Filter>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\DeferredLighting\DeferredLighting_PS.hlsl">
+      <Filter>Asset\Shader\DeferredLighting</Filter>
+    </DXCTask>
   </ItemGroup>
   <ItemGroup>
     <None Include="Asset\Shader\Sprite\Standard\SpriteStandardShader.hlsli">
@@ -1945,6 +1981,9 @@
     </None>
     <None Include="Asset\Data\CONFIG\Editor\EditorCONFIG.json">
       <Filter>Asset\Data\CONFIG\Editor</Filter>
+    </None>
+    <None Include="Asset\Shader\DeferredLighting\DeferredLighting.hlsli">
+      <Filter>Asset\Shader\DeferredLighting</Filter>
     </None>
   </ItemGroup>
 </Project>

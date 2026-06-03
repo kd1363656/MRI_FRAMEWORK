@@ -18,7 +18,7 @@ namespace FWK::Graphics
 
 	protected:
 
-		void AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_addPerObjectDataList, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_removePerObjectDataList);
+		void AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_addPerObjectDataList, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_removePerObjectDataList) const;
 
 		void SetupModelMeshConstantBuffer(const RootSignature&																   a_rootSignature,
 										  const DirectCommandList&															   a_directCommandList,

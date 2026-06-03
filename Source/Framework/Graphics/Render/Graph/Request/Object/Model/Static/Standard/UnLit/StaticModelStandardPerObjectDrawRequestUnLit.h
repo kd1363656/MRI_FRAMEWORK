@@ -9,8 +9,6 @@ namespace FWK::Graphics
 		 StaticModelStandardPerObjectDrawRequestUnLit()			 = default;
 		~StaticModelStandardPerObjectDrawRequestUnLit() override = default;
 
-		void PostCreateSetup(Renderer& a_renderer) override;
-
 		void RequestForwardDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) override;
 
 	private:

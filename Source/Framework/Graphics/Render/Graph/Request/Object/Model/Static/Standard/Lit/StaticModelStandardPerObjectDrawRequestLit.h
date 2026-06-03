@@ -9,9 +9,8 @@ namespace FWK::Graphics
 		 StaticModelStandardPerObjectDrawRequestLit()		   = default;
 		~StaticModelStandardPerObjectDrawRequestLit() override = default;
 
-		void PostCreateSetup(Renderer& a_renderer) override;
-
-		void RequestForwardDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) override;
+		void RequestForwardDraw (const TextureSystem& a_textureSystem, Renderer& a_renderer) override;
+		void RequestDeferredDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer) override;
 
 		FWK_DEFINE_TYPE_INFO(StaticModelStandardPerObjectDrawRequestLit, StaticModelStandardPerObjectDrawRequestBase)
 	};

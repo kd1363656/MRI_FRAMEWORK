@@ -430,6 +430,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Render\RootSignature\RootSignatureStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\BufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Camera\CameraConstantBufferStruct.h" />
+    <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\DeferredLighting\DeferredLightingConstantBufferStruc.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\FinalPresent\FinalPresentConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Light\LightConstantBufferStruct.h" />
     <ClInclude Include="Source\Framework\Definition\Struct\Graphics\Resource\Buffer\Constant\Model\ModelConstantBufferStruct.h" />
@@ -479,6 +480,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\FrameResource.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistry.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.h" />
+    <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\DeferredLighting\RenderGraphDeferredLightingPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.h" />
     <ClInclude Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.h" />
@@ -505,6 +507,7 @@ if "$(Configuration)"=="Debug" (
     <ClInclude Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass\CameraPassConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.h" />
+    <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting\Pass\DeferredLightingPassConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\Pass\FinalPresentPassConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass\LightPassConstantBufferUploader.h" />
     <ClInclude Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelPerObjectConstantBufferUploader.h" />
@@ -616,6 +619,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\FrameResource.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\RenderGraph\RenderGraphFrameResourceRegistry.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Frame\Scene\SceneTexture.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\DeferredLighting\RenderGraphDeferredLightingPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\FinalPresent\RenderGraphFinalPresentPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\Forward\RenderGraphForwardPass.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Render\Graph\Pass\GBuffer\RenderGraphGBufferPass.cpp" />
@@ -638,6 +642,7 @@ if "$(Configuration)"=="Debug" (
     <ClCompile Include="Source\Framework\Graphics\Render\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Camera\Pass\CameraPassConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\ConstantBufferUploaderBase.cpp" />
+    <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\DeferredLighting\Pass\DeferredLightingPassConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\FinalPresent\Pass\FinalPresentPassConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Light\Pass\LightPassConstantBufferUploader.cpp" />
     <ClCompile Include="Source\Framework\Graphics\Resource\Buffer\Constant\Model\Object\ModelPerObjectConstantBufferUploader.cpp" />
@@ -690,6 +695,18 @@ if "$(Configuration)"=="Debug" (
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <DXCTask Include="Asset\Shader\DeferredLighting\DeferredLighting_MS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Mesh</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Mesh</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
+    </DXCTask>
+    <DXCTask Include="Asset\Shader\DeferredLighting\DeferredLighting_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </DXCTask>
     <DXCTask Include="Asset\Shader\FinalPresent\FinalPresent_MS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -792,6 +809,7 @@ if "$(Configuration)"=="Debug" (
     <None Include="Asset\Data\CONFIG\FPS\FPSCONFIG.json" />
     <None Include="Asset\Data\CONFIG\Graphics\GraphicsCONFIG.json" />
     <None Include="Asset\Data\CONFIG\Window\WindowCONFIG.json" />
+    <None Include="Asset\Shader\DeferredLighting\DeferredLighting.hlsli" />
     <None Include="Asset\Shader\FinalPresent\FinalPresent.hlsli" />
     <None Include="Asset\Shader\Model\ModelCommon.hlsli" />
     <None Include="Asset\Shader\Model\Static\Standard\StandardModelCommon.hlsli" />

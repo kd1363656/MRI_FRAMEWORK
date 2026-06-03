@@ -1,18 +1,15 @@
 ﻿#include "StaticModelStandardPerObjectDrawRequestUnLit.h"
 
-void FWK::Graphics::StaticModelStandardPerObjectDrawRequestUnLit::PostCreateSetup(Renderer& a_renderer)
-{
-	SetupPipelineStateAndRootSignature(a_renderer, Utility::Tag::GetVALTag<Tag::ModelUnLitStandardPipelineStateTag>());
-}
-
 void FWK::Graphics::StaticModelStandardPerObjectDrawRequestUnLit::RequestForwardDraw(const TextureSystem& a_textureSystem, Renderer& a_renderer)
 {
+	const auto& l_pipelineStateTag = Utility::Tag::GetVALTag<Tag::ModelUnLitStandardPipelineStateTag>();
+	const auto& l_rootSignature    = SetGraphicsPipelineStateAndFetchRootSignature				     (a_renderer, l_pipelineStateTag).lock();
+
+	FWK_ASSERT_RETURN_IF(!l_rootSignature, "Forward描画用RootSignatureが無効なため、StaticModel描画処理に失敗しました。")
+
 	const auto& l_renderGraph       = a_renderer.GetMutableREFRenderGraph();
 	const auto& l_directCommandList = a_renderer.GetREFDirectCommandList ();
-	const auto& l_rootSignature     = GetVALRootSignature			     ().lock();
-
-	FWK_ASSERT_RETURN_IF(!l_rootSignature, "使用しようとしたルートシグネチャが無効なため、StaticModel描画処理に失敗しました。")
-
+	
 	const auto& l_currentFrameResource = a_renderer.GetREFCurrentFrameResource().lock();
 
 	FWK_ASSERT_RETURN_IF(!l_currentFrameResource, "現在のフレームリソースの取得に失敗しました。")

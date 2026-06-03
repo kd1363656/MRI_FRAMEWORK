@@ -35,7 +35,7 @@ void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddDrawRequestR
 	}
 }
 
-void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_addPerObjectDataList, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_removePerObjectDataList)
+void FWK::Graphics::StaticModelStandardPerObjectDrawRequestBase::AddDrawRequestRenderPath(const std::shared_ptr<Struct::StaticModelStandardPerObjectDrawRequestData>& a_staticModelStandardPerObjectDrawRequestData, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_addPerObjectDataList, DrawRequestPerObjectList<Struct::StaticModelStandardPerObjectDrawRequestData>& a_removePerObjectDataList) const
 {
 	FWK_ASSERT_RETURN_IF(!a_staticModelStandardPerObjectDrawRequestData, "StaticModelStandardPerObjectDrawRequestDataが無効のため、描画要求を追加できませんでした。")
 

@@ -64,7 +64,7 @@ void FWK::Graphics::RenderGraphGBufferPass::Execute(const RTVDescriptorHeap&			 
 		std::cref(*l_gBufferWorldPositionTexture),
 	};
 
-	// GBuffer3毎 + DepthStencilをOMステージに設定する
+	// GBuffer3枚 + DepthStencilをOMステージに設定する
 	a_directCommandList.SetupRenderTargetTexture(l_gBufferRenderTargetTextureList,
 												 a_rtvDescriptorHeap,
 												 a_dsvDescriptorHeap,
@@ -82,10 +82,8 @@ void FWK::Graphics::RenderGraphGBufferPass::Execute(const RTVDescriptorHeap&			 
 	// 後でGBuffer描画時にMaterialTextureやStructuredBufferをSRVとして読むため、ここで設定しておく
 	a_directCommandList.SetupDescriptorHeap(a_srvDescriptorPool.GetREFDescriptorHeap());
 
-	if (const auto& l_staticModelStandardPerObjectDrawRequestList = a_renderGraph.FindVALDrawRequestPerObject<StaticModelStandardPerObjectDrawRequestLit>().lock())
+	if (const auto& l_staticModelStandardPerObjectDrawRequestLit = a_renderGraph.FindVALDrawRequestPerObject<StaticModelStandardPerObjectDrawRequestLit>().lock())
 	{
-		l_staticModelStandardPerObjectDrawRequestList->SetupBeforeDrawRequest(a_renderer);
-
-		l_staticModelStandardPerObjectDrawRequestList->RequestDeferredDraw(a_textureSystem, a_renderer);
+		l_staticModelStandardPerObjectDrawRequestLit->RequestDeferredDraw(a_textureSystem, a_renderer);
 	}
 }

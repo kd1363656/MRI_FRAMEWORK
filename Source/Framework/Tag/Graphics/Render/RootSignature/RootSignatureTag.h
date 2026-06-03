@@ -11,6 +11,9 @@ namespace FWK::Tag
 	struct ModelUnLitStandardRootSignatureTag final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelUnLitStandardRootSignatureTag, RootSignatureTagBase) };
 	struct ModelLitStandardRootSignatureTag   final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(ModelLitStandardRootSignatureTag,   RootSignatureTagBase) };
 
+	// GBufferLighting
+	struct DeferredLightingRootSignatureTag final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(DeferredLightingRootSignatureTag, RootSignatureTagBase) };
+
 	// ポストエフェクト
 	struct PostEffectRootSignatureTag final : public RootSignatureTagBase { FWK_DEFINE_TYPE_INFO_TAG(PostEffectRootSignatureTag, RootSignatureTagBase) };
 

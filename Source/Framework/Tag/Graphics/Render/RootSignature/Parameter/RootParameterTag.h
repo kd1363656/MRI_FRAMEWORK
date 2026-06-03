@@ -17,6 +17,9 @@ namespace FWK::Tag
 	// Model
 	struct RootParameterCBModelPerObjectTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBModelPerObjectTag, RootParameterTagBase) };
 
+	// DeferredLighting
+	struct RootParameterCBDeferredLightingPassTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBDeferredLightingPassTag, RootParameterTagBase) };
+
 	// PostEffect
 	struct RootParameterCBPostEffectPassTag final : public RootParameterTagBase { FWK_DEFINE_TYPE_INFO_TAG(RootParameterCBPostEffectPassTag, RootParameterTagBase) };
 

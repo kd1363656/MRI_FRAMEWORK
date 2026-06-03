@@ -27,7 +27,7 @@ void FWK::Scene::PostLoadSetup()
 	
 	if(const auto& l_staticModelStandardDrawRequestLit = l_renderGraph.FindVALDrawRequestPerObject<Graphics::StaticModelStandardPerObjectDrawRequestLit>().lock())
 	{
-		l_staticModelStandardDrawRequestLit->AddDrawRequestRenderPath(m_staticModelDrawRequestData, Enum::StaticModelRenderingPath::Forward);
+		l_staticModelStandardDrawRequestLit->AddDrawRequestRenderPath(m_staticModelDrawRequestData, Enum::StaticModelRenderingPath::Deferred);
 	}
 
 	const auto& l_viewport = l_renderer.GetREFRenderArea().GetREFViewport ();

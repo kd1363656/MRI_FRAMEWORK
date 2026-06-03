@@ -1,39 +1,25 @@
 ﻿#include "DrawRequestPerObjectBase.h"
 
-void FWK::Graphics::DrawRequestPerObjectBase::SetupBeforeDrawRequest(Renderer& a_renderer) const
+std::weak_ptr<FWK::Graphics::RootSignature> FWK::Graphics::DrawRequestPerObjectBase::SetGraphicsPipelineStateAndFetchRootSignature(Renderer& a_renderer, const TypeAlias::TypeTag a_pipelineStateTag) const
 {
-	// StaticModel用ルートシグネチャとパイプラインステートをセット
-	SetupGraphicsPipelineStateToCommandList(a_renderer);
-}
+	const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(a_pipelineStateTag);
+	const auto& l_pipelineState     = l_pipelineStateWeak.lock       ();
 
-void FWK::Graphics::DrawRequestPerObjectBase::SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag)
-{
-	const auto& l_pipelineStateWeak = a_renderer.FindVALPipelineState(a_typeTag);
-	const auto& l_pipelineState     = l_pipelineStateWeak.lock();
+	FWK_ASSERT_RETURN_VALUE_IF(!l_pipelineState, "指定されたPipelineStateTagに対応するPipelineStateが無効です。", {})
 
-	FWK_ASSERT_RETURN_IF(!l_pipelineState, "指定したTagに対応するパイプラインステートが無効です。")
+	// PipelineStateに設定されているRootSignatureTagを取得する。
+	// 派生クラス側はRootSignatureTagを直接指定しなくてよい
+	const auto l_rootSignatureTag = l_pipelineState->GetVALUseRootSignatureTag();
 
-	// パイプラインステートが使用するルートシグネチャを取得
-	const auto& l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_pipelineState->GetVALUseRootSignatureTag());
-
-	FWK_ASSERT_RETURN_IF(l_rootSignatureWeak.expired(), "指定したルートシグネチャが無効です。")
-
-	m_pipelineState = l_pipelineStateWeak;
-	m_rootSignature = l_rootSignatureWeak;
-}
-
-void FWK::Graphics::DrawRequestPerObjectBase::SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const
-{
-	FWK_ASSERT_RETURN_IF(m_pipelineState.expired(), "使用するパイプラインステートが作成されておらず、描画を開始できませんでした。")
-	FWK_ASSERT_RETURN_IF(m_rootSignature.expired(), "使用するルートシグネチャが作成されておらず、描画を開始できませんでした。")
+	const auto& l_rootSignatureWeak = a_renderer.FindVALRootSignature(l_rootSignatureTag);
 
 	auto& l_directCommandList = a_renderer.GetMutableREFDirectCommandList();
 
-	// ルートシグネチャをセット
-	l_directCommandList.SetupRootSignature(m_rootSignature);
+	l_directCommandList.SetupRootSignature(l_rootSignatureWeak);
+	l_directCommandList.SetupPipelineState(l_pipelineStateWeak);
 
-	// パイプラインステートをセット
-	l_directCommandList.SetupPipelineState(m_pipelineState);
+	// 定数バッファ設定に使う
+	return l_rootSignatureWeak;
 }
 
 void FWK::Graphics::DrawRequestPerObjectBase::TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Graphics::TextureRecord& a_textureRecord) const

@@ -27,12 +27,6 @@ void FWK::Graphics::RenderGraph::PostCreateSetup(Renderer& a_renderer) const
 
 		l_pass->PostCreateSetup(a_renderer);
 	}
-
-	for (const auto& l_drawRequestPerObject : m_drawRequestPerObjectList)
-	{
-		FWK_ASSERT_RETURN_IF		           (!l_drawRequestPerObject, "DrawRequestPerObjectが無効のため、PostCreateSetupを実行できませんでした。")
-		l_drawRequestPerObject->PostCreateSetup(a_renderer);
-	}
 }
 
 bool FWK::Graphics::RenderGraph::Compile()

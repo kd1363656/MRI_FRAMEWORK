@@ -2,6 +2,15 @@
 
 SamplerState g_sampler : register(s0);
 
+static const float k_worldNormalEncodeScale = 0.5F;
+static const float k_worldNormalEncodeBias  = 0.5F;
+
+static const float k_gBufferDefaultAlpha = 1.0F;
+
+static const float k_worldPositionElemntW = 1.0F;
+
+static const float k_normalMapReconstructBase = 1.0F;
+
 struct PSGBufferOutput
 {
     float4 albedo        : SV_Target0;
@@ -19,7 +28,7 @@ float3 DecodeBC5NormalMap(float2 a_normalMapXY)
     l_normalXY.y *= k_normalMapGreenChannelFlip;
     
     // BC5ではZ成分を保存していないためXYからZを復元する。
-    const float l_normalZ = sqrt(saturate(1.0F - dot(l_normalXY, l_normalXY)));
+    const float l_normalZ = sqrt(saturate(k_normalMapReconstructBase - dot(l_normalXY, l_normalXY)));
 
     return normalize(float3(l_normalXY.x, l_normalXY.y, l_normalZ));
 }
@@ -30,14 +39,17 @@ float3 ConvertNormalMapToWorldNormal(float3 a_normalMap, float3 a_worldNormal, f
     
     const float3 l_normal = normalize(a_worldNormal);
 
-    float3 l_tangent = l_normal = normalize(a_wordlTangent.xyz);
+    float3 l_tangent = normalize(a_wordlTangent.xyz);
     
     // TangentがNormal方向に少し傾いている場合に備えて、
     // Normalと直行するように補正する
     l_tangent = normalize(l_tangent - (l_normal * dot(l_tangent, l_normal)));
     
+    // 従法線。
+	// a_worldTangent.w は、左右反転されたUVなどでBitangent方向を補正するための符号
     const float3 l_bitangent = normalize(cross(l_normal, l_tangent) * a_wordlTangent.w);
     
+    // Tangent空間からWorld空間へ変換する行列。
     const float3x3 l_tangentToWorldMatrix = float3x3(l_tangent, l_bitangent, l_normal);
 
     return normalize(mul(l_tangentNormal, l_tangentToWorldMatrix));
@@ -51,7 +63,7 @@ PSGBufferOutput main(MeshOutput a_input)
     Texture2D<float4> l_normalTexture    = ResourceDescriptorHeap[g_normalTextureSRVIndex];
     
     const float4 l_baseColor = l_baseColorTexture.Sample(g_sampler, a_input.uv);
-    const float4 l_normalMap = l_normalTexture.Sample   (g_sampler, a_input.uv);
+    const float3 l_normalMap = l_normalTexture.Sample   (g_sampler, a_input.uv).rgb;
 
     const float3 l_wordlNoraml = ConvertNormalMapToWorldNormal(l_normalMap, a_input.worldNormal, a_input.worldTangent);
     
@@ -61,11 +73,11 @@ PSGBufferOutput main(MeshOutput a_input)
 
     // GBuffer1;
     // 法線。R8G8B8A8_UNORMにいれるため、-1 ~ +1を0 ~ 1にエンコードする
-    l_output.normal = float4((normalize(l_wordlNoraml) * 0.5F) + 0.5F, 1.0F);
+    l_output.normal = float4((normalize(l_wordlNoraml) * k_worldNormalEncodeScale) + k_worldNormalEncodeBias, k_gBufferDefaultAlpha);
 
     // GBuffer2
     // ワールド座標。R16G16B16A16_FLOATなので、そのまま入れられる
-    l_output.worldPosition = float4(a_input.worldPosition, 1.0F);
+    l_output.worldPosition = float4(a_input.worldPosition, k_worldPositionElemntW);
 
     return l_output;
 }

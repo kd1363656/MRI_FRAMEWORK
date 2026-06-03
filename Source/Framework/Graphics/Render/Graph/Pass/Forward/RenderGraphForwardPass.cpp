@@ -56,11 +56,9 @@ void FWK::Graphics::RenderGraphForwardPass::Execute(const RTVDescriptorHeap&				
 												 a_dsvDescriptorHeap,
 												 *l_sceneDepthStencilTexture);
 
-	// ForwardPassは現段階ではSceneDrawPassの置き換えなのでクリアする。
-	// 後でDeferredLightingPassの後ろに置く場合、SceneColorはクリアせずに上書き/合成する設計に使える
-	a_directCommandList.ClearRenderTargetTexture(*l_sceneColorTexture,		  a_rtvDescriptorHeap);
-	a_directCommandList.ClearDepthStencilTexture(*l_sceneDepthStencilTexture, a_dsvDescriptorHeap);
-
+	// DeferredLightingPassがSceneColorTextureを作った後、ForwardPassはその上に描画を重ねる。
+	// ここでSceneColorTextureをClearするとDeferredLightingの結果が消えるため、Clearしない。
+	// DepthもGBufferPassで造った深度をForward描画の深度テストに使うため、ここではClearしない。
 	// ビューポートとシザー矩形を設定する
 	// これを設定しないと、描画範囲が正しくならない。
 	a_directCommandList.SetupRenderArea(a_renderer.GetREFRenderArea());
@@ -71,8 +69,6 @@ void FWK::Graphics::RenderGraphForwardPass::Execute(const RTVDescriptorHeap&				
 
 	if (const auto& l_staticModelStandardPerObjectDrawRequestLit = a_renderGraph.FindVALDrawRequestPerObject<StaticModelStandardPerObjectDrawRequestLit>().lock())
 	{
-		l_staticModelStandardPerObjectDrawRequestLit->SetupBeforeDrawRequest(a_renderer);
-
 		// LitモデルをForwardで描画する。
 		// CameraPass / LightPassの定数バッファ設定はRequestForwardDraw内部で行う。
 		l_staticModelStandardPerObjectDrawRequestLit->RequestForwardDraw(a_textureSystem, a_renderer);
@@ -80,8 +76,6 @@ void FWK::Graphics::RenderGraphForwardPass::Execute(const RTVDescriptorHeap&				
 
 	if (const auto& l_staticModelStandardPerObjectDrawRequestUnLit = a_renderGraph.FindVALDrawRequestPerObject<StaticModelStandardPerObjectDrawRequestUnLit>().lock())
 	{
-		l_staticModelStandardPerObjectDrawRequestUnLit->SetupBeforeDrawRequest(a_renderer);
-
 		// UnLitモデルをForwardで描画する。
 		// ライト計算をしないモデルや、デバッグ表示などに使う
 		l_staticModelStandardPerObjectDrawRequestUnLit->RequestForwardDraw(a_textureSystem, a_renderer);

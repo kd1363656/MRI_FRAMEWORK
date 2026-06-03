@@ -14,10 +14,8 @@ namespace FWK::Graphics
 			     DrawRequestPerObjectBase() = default;
 		virtual ~DrawRequestPerObjectBase() = default;
 
-		virtual void PostCreateSetup(Renderer& a_renderer) = 0;
+		virtual void BeginFrame() = 0;
 
-				void SetupBeforeDrawRequest(Renderer& a_renderer) const;
-		virtual void BeginFrame			   () = 0;
 	protected:
 
 		// 定数バッファの上書き禁止
@@ -40,9 +38,7 @@ namespace FWK::Graphics
 			a_directCommandList.SetupConstantBufferView<RootParameterTagType>(l_gpuVirtualAddress, a_rootSignature);
 		}
 
-		void SetupPipelineStateAndRootSignature(const Renderer& a_renderer, const TypeAlias::TypeTag a_typeTag);
-
-		void SetupGraphicsPipelineStateToCommandList(Renderer& a_renderer) const;
+		std::weak_ptr<RootSignature> SetGraphicsPipelineStateAndFetchRootSignature(Renderer& a_renderer, const TypeAlias::TypeTag a_pipelineStateTag) const;
 
 		void TransitionTextureToPixelShaderResource(const DirectCommandList& a_directCommandList, Graphics::TextureRecord& a_textureRecord) const;
 
@@ -58,17 +54,11 @@ namespace FWK::Graphics
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountY() { return k_defaultDispatchMeshThreadGroupCountY; }
 		static constexpr UINT GetVALDefaultDispatchMeshThreadGroupCountZ() { return k_defaultDispatchMeshThreadGroupCountZ; }
 
-		const auto& GetVALRootSignature() const { return m_rootSignature; }
-		const auto& GetVALPipelineState() const { return m_pipelineState; }
-
 	private:
 
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountX = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountY = 1U;
 		static constexpr UINT k_defaultDispatchMeshThreadGroupCountZ = 1U;
-
-		std::weak_ptr<RootSignature> m_rootSignature = {};
-		std::weak_ptr<PipelineState> m_pipelineState = {};
 
 		FWK_DEFINE_TYPE_INFO_ROOT(DrawRequestPerObjectBase)
 	};
